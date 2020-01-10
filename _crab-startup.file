@@ -3,7 +3,7 @@
 # **************** IMPORTANT NOTE ***************** #
 # Increament Crab Startup Revision for every change #
 #####################################################
-CRAB_STARTUP_REVISION=2
+CRAB_STARTUP_REVISION=3
 
 #Check if we have not already found CRAB
 if [ -z "${CMS_CRAB_PATH}" ] ; then
@@ -23,19 +23,10 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
   export CMS_CRAB_PATH="${crab_dir}"
   export CRAB_VERSION=$(basename ${crab_dir})
 
-  #Save CMSSW_BASE, and PYTHONPATH in case we have to set its env later
-  ORIGINAL_CMSSW_BASE="${CMSSW_BASE}"
-  CRAB_CMSSW_SITE_PACKAGES=""
-  for pyenv in PYTHONPATH PYTHON27PATH PYTHON3PATH ; do
-    for ext in DEL '' ; do
-      eval "CRAB_CMSSW_SITE_PACKAGES=\${SRT_${pyenv}_SCRAMRT${ext}}"
-      [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
-    done
-    [ -z "${CRAB_CMSSW_SITE_PACKAGES}" ] || break
-  done
-  
-  #Unset cmssw env
-  eval `scram unset -sh`
+  ## Unset cmssw env for non-submit crab commands
+  if [ $(echo "$@" | tr ' ' '\n' | grep '^sub$\|^submit$' | wc -l) -eq 0 ] ; then
+    eval `scram unset -sh`
+  fi
 
   #set crab env
   source ${CMS_CRAB_PATH}/etc/profile.d/init.sh
@@ -44,33 +35,9 @@ if [ -z "${CMS_CRAB_PATH}" ] ; then
   if ! python -c 'import cjson' >/dev/null  2>&1 ; then
     export PYTHONPATH="${CMS_CRAB_PATH}/lib/extras${PYTHONPATH:+:$PYTHONPATH}"
   fi
-
-  ## If it is a submit command run the bootstrap script
-  if [ $(echo "$@" | tr ' ' '\n' | grep 'sub\|submit' | wc -l) -gt 0 ] ; then
-    if [ -z "${ORIGINAL_CMSSW_BASE}" ] ; then
-      >&2 echo "Error: Please set SCRAM/CMSSW runtime environment before running crab"
-      exit 1
-    fi
-    ERR=0
-    BOOTSTRAP_OUT=$(eval `scram runtime -sh ${ORIGINAL_CMSSW_BASE}`; ${CMS_CRAB_PATH}/bin/crab3bootstrap $@) || ERR=$?
-    if [ $ERR -ne 0 ]; then
-      echo "$BOOTSTRAP_OUT"
-      exit $ERR
-    fi
-    ## The submit command will know what to do if this variable is set!
-    ## See TODO: add link to an hypothetical twiki
-    export CRAB3_BOOTSTRAP_DIR="$BOOTSTRAP_OUT"
-    export CRAB_CMSSW_SITE_PACKAGES
-  fi
-else
-  CRAB3_BOOTSTRAP_DIR=""
 fi
 
 ## Execute the client command in a pure COMP environment
 ERR=0
 ${CMS_CRAB_PATH}/bin/crab "$@" || ERR=$?
-
-## Remove the temporary direcotry, but only if we run the bootstrap script
-[ -z "${CRAB3_BOOTSTRAP_DIR}" ] || rm -rf "${CRAB3_BOOTSTRAP_DIR}"
-
 exit $ERR
