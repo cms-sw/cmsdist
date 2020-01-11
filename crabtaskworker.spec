@@ -13,7 +13,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 #Patch0: crabserver3-setup
 
 Requires: p5-time-hires
-Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap
+Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
 Requires: jemalloc
 BuildRequires: py2-sphinx
 
