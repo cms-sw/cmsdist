@@ -1,0 +1,19 @@
+#!/bin/bash -e
+#####################################################
+# **************** IMPORTANT NOTE ***************** #
+# Increament Crab Startup Revision for every change #
+#####################################################
+#CMSDIST_FILE_REVISION=1
+
+#Use crab-prod for default crab command
+crab_pkg=$(basename $0)
+if [ "${crab_pkg}" = "crab" ] ; then crab_pkg="crab-prod" ; fi
+
+#Search for latest crab version for cmsos
+cms_basedir="@CMS_PATH@"
+crab_dir="${cms_basedir}/share/cms/${crab_pkg}/$(cat ${cms_basedir}/share/cms/crab-common/1.0/${crab_pkg}.latest)"
+
+#Set crab runtime env and run crab
+export PATH="${crab_dir}/bin${PATH:+:$PATH}"
+export PYTHONPATH="${crab_dir}/lib${PYTHONPATH:+:$PYTHONPATH}"
+${crab_dir}/bin/crab "$@"
