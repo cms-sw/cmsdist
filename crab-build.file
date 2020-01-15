@@ -1,6 +1,10 @@
-## INITENV +PATH PYTHONPATH %{i}/lib
+## NOCOMPILER
+%define copy_revision_file() \
+  OLD_REV=0 \
+  if [ -f %1 ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
+  NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') \
+  if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %1 ; cp %2 %1 ; fi
 
-%define crab_startup _crab-startup
 %if "%{?wmcore_packages:set}" != "set"
   %define wmcore_packages PSetTweaks Utils WMCore
 %endif
@@ -11,14 +15,14 @@
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
-Requires: curl
-
 Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient&output=/CRABClient-%{realversion}.tar.gz
 Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
 Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
-Source98: cjson.py
-Source99: %{crab_startup}
+#Needed for CRAB Python API
+Source98: crab-proxy-package
+#Crab startup script which finds latest crab client, sets env and run it
+Source99: crab.sh
 
 %prep
 %setup -D -T -b 0 -n CRABClient
@@ -30,7 +34,10 @@ Source99: %{crab_startup}
 
 %install
 
-mkdir -p %{i}/bin %{i}/lib/extras %{i}/etc/profile.d
+mkdir -p %{i}/bin %{i}/lib %{i}/common
+
+#List of CRAB python pakcages for which we need to create ProxyPackage symlink
+ls %{_builddir}/CRABClient/src/python/*/__init__.py | sed 's|/__init__.py$||;s|.*/||' > %{i}/common/crab_pkgs.txt
 
 #Copy CRABClient
 rsync -a %{_builddir}/CRABClient/src/python/ %{i}/lib
@@ -64,26 +71,30 @@ for pkg in %{dbs_packages} ; do
   fi
 done
 
-#Copy crab-startup script
-cp %{_sourcedir}/%{crab_startup} %{i}/bin/%{crab_startup}
-chmod +x %{i}/bin/%{crab_startup}
-
-cp %{_sourcedir}/cjson.py %{i}/lib/extras
+#Copy scripts needed for crab startup and api
+cp %{_sourcedir}/crab-proxy-package %{i}/common/
+cp %{_sourcedir}/crab.sh            %{i}/common/
+chmod +x %{i}/common/crab.sh
+sed -i -e 's|@CMS_PATH@|%{cmsroot}|g' %{i}/common/crab.sh
+sed -i -e 's|@CMS_PATH@|%{cmsroot}|g' %{i}/common/crab-proxy-package
 
 %post
-%{relocateConfig}/bin/%{crab_startup}
-cd  ${RPM_INSTALL_PREFIX}/common
-CRAB_OLD_REV=0
-if [ -f %{crab_startup} ] ; then
-  CRAB_OLD_REV=$(grep '^\s*CRAB_STARTUP_REVISION\s*=' %{crab_startup} | sed 's|.*=||;s| ||g')
-fi
-CRAB_NEW_REV=$(grep '^\s*CRAB_STARTUP_REVISION\s*='  ${RPM_INSTALL_PREFIX}/%{pkgrel}/bin/%{crab_startup} | sed 's|.*=||;s| ||g')
-if [ ${CRAB_OLD_REV} -lt ${CRAB_NEW_REV} ] ; then
-  rm -f %{crab_startup}
-  cp ${RPM_INSTALL_PREFIX}/%{pkgrel}/bin/%{crab_startup} %{crab_startup}
-fi
+%{relocateConfig}/common/crab.sh
+%{relocateConfig}/common/crab-proxy-package
 
-symlink="%n"
-if [ "%{n}" = "crab" ] ; then symlink="%{n}-prod" ; fi
-rm -f ${symlink}
-ln -s %{crab_startup} ${symlink}
+cd ${RPM_INSTALL_PREFIX}
+mkdir -p share/%{pkgdir}
+for dir in bin lib ; do rsync -a %{pkgrel}/${dir}/ share/%{pkgdir}/${dir}/ ; done
+crab_common=share/%{pkgcategory}/crab-common/1.0
+mkdir -p ${crab_common}/bin ${crab_common}/lib
+for p in $(cat %{pkgrel}/common/crab_pkgs.txt); do
+  mkdir -p ${crab_common}/lib/${p}
+  rm -f ${crab_common}/lib/${p}/__init__.py*
+  ln -s ../crab-proxy-package ${crab_common}/lib/${p}/__init__.py
+done
+%copy_revision_file ${crab_common}/bin/crab.sh            %{pkgrel}/common/crab.sh
+%copy_revision_file ${crab_common}/lib/crab-proxy-package %{pkgrel}/common/crab-proxy-package
+ls -d share/%{pkgcategory}/%{n}/*/bin/crab | sed -e 's|/bin/crab$||;s|.*/||' | sort -n | tail -1 > ${crab_common}/%{n}.latest
+
+rm -f common/_crab-startup common/%{n}
+ln -s ../${crab_common}/bin/crab.sh common/%{n}
