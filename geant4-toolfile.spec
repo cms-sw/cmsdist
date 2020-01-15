@@ -35,7 +35,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4core.xml
   <lib name="G4tracking"/>
   <lib name="G4track"/>
   <lib name="G4analysis"/>
-  <flags CXXFLAGS="-DG4GEOM_USE_USOLIDS -ftls-model=global-dynamic -pthread"/>
+  <flags CXXFLAGS="-ftls-model=global-dynamic -pthread"/>
   <client>
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib"/>
