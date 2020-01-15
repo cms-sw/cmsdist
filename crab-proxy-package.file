@@ -1,0 +1,14 @@
+#CMSDIST_FILE_REVISION=1
+import sys
+from os import environ
+from os.path import join
+CMSPath="@CMS_PATH@"
+_crab_type="crab-prod" if not "CRABCLIENT_TYPE" in environ else "crab-%s" % environ["CRABCLIENT_TYPE"]
+_crab_ver=None
+with open(join(CMSPath,"share/cms/crab-common/1.0","%s.latest" % _crab_type)) as ref:
+  _crab_ver = ref.readlines()[0].strip()
+_crablib = join(CMSPath,"share/cms",_crab_type,_crab_ver,"lib")
+_crabpkg = join(_crablib, __name__)
+__path__.insert(0,_crabpkg)
+sys.path.insert(0,_crablib)
+exec(open(join(_crabpkg, '__init__.py')).read())
