@@ -1,3 +1,4 @@
 Requires: py2-numexpr py2-six py2-numpy hdf5 bz2lib py2-mock
-%define PipPreBuild export HDF5_DIR=${HDF5_ROOT}
+
+%define PipPreBuild export HDF5_DIR=${HDF5_ROOT}; export DISABLE_AVX2=true
 %define PipBuildOptions  --global-option="--hdf5=${HDF5_ROOT}" --global-option="--bzip2=${BZ2LIB_ROOT}"
