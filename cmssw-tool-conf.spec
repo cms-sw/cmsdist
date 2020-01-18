@@ -12,7 +12,7 @@
 %define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: python2to3
-Requires: crab-prod crab-pre crab-dev
+Requires: crab
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
