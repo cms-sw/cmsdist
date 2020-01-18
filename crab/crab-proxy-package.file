@@ -1,0 +1,15 @@
+#CMSDIST_FILE_REVISION=2
+import sys
+from os.path import join, exists
+CMSPath="@CMS_PATH@/share/cms"
+_crab_type="crab-%s" % __file__.split("/")[-3]
+_crab_ver=None
+with open(join(CMSPath,"crab/@CRAB_COMMON_VERSION@/etc","%s.latest" % _crab_type)) as ref:
+  _crab_ver = ref.readlines()[0].strip()
+_crablib = join(CMSPath,_crab_type,_crab_ver,"lib")
+sys.path.insert(0,_crablib)
+_crabpkg = join(_crablib, __name__)
+_pkg_init_file = join(_crabpkg, '__init__.py')
+if exists(_pkg_init_file):
+  __path__.insert(0,_crabpkg)
+  exec(open(_pkg_init_file).read())
