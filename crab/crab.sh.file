@@ -3,15 +3,18 @@
 # **************** IMPORTANT NOTE ***************** #
 # Increament Crab Startup Revision for every change #
 #####################################################
-#CMSDIST_FILE_REVISION=1
+#CMSDIST_FILE_REVISION=2
 
 #Use crab-prod for default crab command
 crab_pkg=$(basename $0)
-if [ "${crab_pkg}" = "crab" ] ; then crab_pkg="crab-prod" ; fi
+if [ "${crab_pkg}" = "crab" ] ; then
+  if [ "$CRABCLINET_TYPE" = "" ] ; then CRABCLINET_TYPE="prod" ; fi
+  crab_pkg="crab-${CRABCLINET_TYPE}"
+fi
 
 #Search for latest crab version for cmsos
-cms_basedir="@CMS_PATH@"
-crab_dir="${cms_basedir}/share/cms/${crab_pkg}/$(cat ${cms_basedir}/share/cms/crab-common/1.0/${crab_pkg}.latest)"
+cms_basedir="@CMS_PATH@/share/cms"
+crab_dir="${cms_basedir}/${crab_pkg}/$(cat ${cms_basedir}/crab/@CRAB_COMMON_VERSION@/etc/${crab_pkg}.latest)"
 
 #Set crab runtime env and run crab
 export PATH="${crab_dir}/bin${PATH:+:$PATH}"
