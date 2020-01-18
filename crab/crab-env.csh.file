@@ -1,0 +1,2 @@
+#!/bin/tcsh
+#CMSDIST_FILE_REVISION=1

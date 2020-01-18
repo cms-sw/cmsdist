@@ -1,0 +1,26 @@
+#!/bin/tcsh
+#CMSDIST_FILE_REVISION=1
+setenv CRABCLINET_TYPE ""
+switch ("X$1Y")
+  case XprodY:
+  case XpreY:
+  case XdevY:
+    setenv CRABCLINET_TYPE "$1"
+    breaksw
+  case XY:
+    setenv CRABCLINET_TYPE "prod"
+    breaksw
+  default:
+    echo "ERROR: Invalid CRAB type '$1' provided. Valid values are prod, pre and dev."
+    echo "Usage: $0 [prod|pre|dev]"
+    breaksw
+endsw
+if (${?CRABCLINET_TYPE}) then
+  set crab_shared_dir="@CMS_PATH@/share/cms/crab/@CRAB_COMMON_VERSION@"
+  if (${?PYTHONPATH}) then
+    setenv PYTHONPATH "${crab_shared_dir}/lib/${CRABCLINET_TYPE}:$PYTHONPATH"
+  else
+    setenv PYTHONPATH "${crab_shared_dir}/lib/${CRABCLINET_TYPE}"
+  endif
+  unset crab_shared_dir
+endif
