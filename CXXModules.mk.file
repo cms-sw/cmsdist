@@ -1,4 +1,8 @@
 ##########################################################################
+#Extra CXXMODULE Libs
+DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
+
+##########################################################################
 # Cyclic deps DataFormats/GeometrySurface <-> DataFormats/GeometryCommonDetAlgo
 DataFormatsGeometrySurface_LOC_FLAGS_IGNORE_MODULE_FILE:=LocalErrorBaseExtended.h LocalErrorExtended.h
 
