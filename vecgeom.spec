@@ -21,6 +21,10 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
+%ifarch ppc64le
+export CXXFLAGS="-mlong-double-64"
+%endif
+
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DROOT=OFF \
