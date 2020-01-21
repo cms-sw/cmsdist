@@ -1,8 +1,7 @@
-### RPM cms crabcache 3.3.1912.patch1
+### RPM cms crabcache 3.3.2002.rc1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
-
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 1.2.9
