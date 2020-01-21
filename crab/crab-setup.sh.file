@@ -1,16 +1,16 @@
 #!/bin/bash
 #CMSDIST_FILE_REVISION=1
 case "X$1Y" in
-  XprodY|XdevY|XpreY) CRABCLINET_TYPE="$1" ;;
-  XY ) CRABCLINET_TYPE="prod" ;;
+  XprodY|XdevY|XpreY) CRABCLIENT_TYPE="$1" ;;
+  XY ) CRABCLIENT_TYPE="prod" ;;
   * ) 
     echo "ERROR: Invalid CRAB type '$1' provided, valid values are prod, pre and dev."
     echo "Usage: $0 [prod|pre|dev]"
     return 1
     ;;
 esac
-export CRABCLINET_TYPE
+export CRABCLIENT_TYPE
 crab_shared_dir="@CMS_PATH@/share/cms/crab/@CRAB_COMMON_VERSION@"
-export PYTHONPATH="${crab_shared_dir}/lib/${CRABCLINET_TYPE}${PYTHONPATH:+:$PYTHONPATH}"
-complete -F _UseCrab_${CRABCLINET_TYPE} -o filenames crab
+export PYTHONPATH="${crab_shared_dir}/lib/${CRABCLIENT_TYPE}${PYTHONPATH:+:$PYTHONPATH}"
+complete -F _UseCrab_${CRABCLIENT_TYPE} -o filenames crab
 unset crab_shared_dir
