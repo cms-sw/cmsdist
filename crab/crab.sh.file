@@ -8,8 +8,8 @@
 #Use crab-prod for default crab command
 crab_pkg=$(basename $0)
 if [ "${crab_pkg}" = "crab" ] ; then
-  if [ "$CRABCLINET_TYPE" = "" ] ; then CRABCLINET_TYPE="prod" ; fi
-  crab_pkg="crab-${CRABCLINET_TYPE}"
+  if [ "$CRABCLIENT_TYPE" = "" ] ; then CRABCLIENT_TYPE="prod" ; fi
+  crab_pkg="crab-${CRABCLIENT_TYPE}"
 fi
 
 #Search for latest crab version for cmsos
