@@ -48,12 +48,12 @@ mkdir %_builddir/build %_builddir/tmp
 %ifarch aarch64
 # extract the individual .rpm archives from the repository into
 # %_builddir/tmp/var/cuda-repo-10-2-local-10.2.107-435.17.01/
-rpm2cpio %{SOURCE0} | cpio -i -d -D %_builddir/tmp
+rpm2cpio %{SOURCE0} | { cd %_builddir/tmp; cpio -i -d; }
 
 # extract the contents from the individual .rpm archives into
 # %_builddir/tmp/usr/local/cuda-10.2/...
 for FILE in %_builddir/tmp/var/cuda-repo-10-2-local-%{realversion}-%{driversversion}/*.rpm; do
-  rpm2cpio $FILE | cpio -i -d -D %_builddir/tmp
+  rpm2cpio $FILE | { cd %_builddir/tmp; cpio -i -d; }
 done
 # move the CUDA libraries to %_builddir/build/cuda-toolkit/
 mv %_builddir/tmp/usr/local/cuda-%{cudaversion} %_builddir/build/cuda-toolkit
