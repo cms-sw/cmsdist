@@ -13,7 +13,7 @@ Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{w
 Source1: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient-%{realversion}&output=/CRABClient-%{realversion}.tar.gz
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver}&export=CRABServer-%{crabserver}&output=/CRABServer-%{crabserver}.tar.gz
 
-Requires: python py2-httplib2 py2-sphinx py2-pycurl dbs3-client py2-ipython
+Requires: python py2-httplib2 py2-sphinx py2-pycurl dbs3-client py2-ipython py2-retry
 #Patch0: crabserver3-setup
 
 %prep
