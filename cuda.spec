@@ -1,27 +1,24 @@
 ### RPM external cuda %{fullversion}
 
 %ifarch x86_64 ppc64le
-%define fullversion 10.1.168
+%define fullversion 10.2.89
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 418.67
-%define cudasoversion %{driversversion}
+%define driversversion 440.33.01
 %endif
 %ifarch aarch64
-%define fullversion 10.0.326
+%define fullversion 10.2.107
 %define cudaversion %(echo %realversion | cut -d. -f 1,2)
-%define driversversion 32.2.0
-%define cudasoversion 1.1
+%define driversversion 435.17.01
 %endif
 
 %ifarch x86_64
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
+Source0: https://developer.download.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
 %endif
 %ifarch ppc64le
-Source0: https://developer.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux_ppc64le.run
+Source0: https://developer.download.nvidia.com/compute/cuda/%{cudaversion}/Prod/local_installers/%{n}_%{realversion}_%{driversversion}_linux_ppc64le.run
 %endif
 %ifarch aarch64
-Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-l4t-10-0-local-%{realversion}_1.0-1_arm64.deb
-Source1: https://patatrack.web.cern.ch/patatrack/files/Jetson_Linux_R%{driversversion}_aarch64.tbz2
+Source0: https://patatrack.web.cern.ch/patatrack/files/cuda-repo-rhel8-10-2-local-%{realversion}-%{driversversion}-1.0-1.aarch64.rpm
 %endif
 Requires: python
 AutoReq: no
@@ -36,26 +33,35 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime, tools and stubs
 %ifarch x86_64 ppc64le
-/bin/sh %{SOURCE0} --silent --override --tmpdir %_builddir/tmp --extract=%_builddir/build
+/bin/sh %{SOURCE0} --silent --override --override-driver-check --tmpdir %_builddir/tmp --extract=%_builddir/build
 # extracts:
 # %_builddir/build/EULA.txt
-# %_builddir/build/NVIDIA-Linux-%{_arch}-418.67.run     # linux drivers
+# %_builddir/build/NVIDIA-Linux-%{_arch}-440.33.01.run  # linux drivers
 # %_builddir/build/cublas/                              # standalone cuBLAS library, also included in cuda-toolkit
 # %_builddir/build/cuda-samples/                        # CUDA samples
 # %_builddir/build/cuda-toolkit/                        # CUDA runtime, tools and stubs
+# %_builddir/build/integration/                         # scripts for running Nsight Systems and Compute
+
+# extract NVIDIA libraries needed by the CUDA runtime to %_builddir/build/drivers
+/bin/sh %_builddir/build/NVIDIA-Linux-%{_arch}-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
 %endif
 %ifarch aarch64
-# extract the individual .deb archives from the repository into
-# %_builddir/tmp/var/cuda-repo-10-0-local-10.0.166/
-ar p %{SOURCE0} data.tar.xz | tar xv --xz -C %_builddir/tmp
+# extract the individual .rpm archives from the repository into
+# %_builddir/tmp/var/cuda-repo-10-2-local-10.2.107-435.17.01/
+rpm2cpio %{SOURCE0} | { cd %_builddir/tmp; cpio -i -d; }
 
-# extract the contents from the individual .deb archives into
-# %_builddir/tmp/usr/local/cuda-10.0/...
-for FILE in %_builddir/tmp/var/cuda-repo-10-0-local-%{realversion}/*.deb; do
-  ar p $FILE data.tar.xz | tar xv --xz -C %_builddir/tmp
+# extract the contents from the individual .rpm archives into
+# %_builddir/tmp/usr/local/cuda-10.2/...
+for FILE in %_builddir/tmp/var/cuda-repo-10-2-local-%{realversion}-%{driversversion}/*.rpm; do
+  rpm2cpio $FILE | { cd %_builddir/tmp; cpio -i -d; }
 done
-# mv the CUDA libraries to %_builddir/build/cuda-toolkit/
+# move the CUDA libraries to %_builddir/build/cuda-toolkit/
 mv %_builddir/tmp/usr/local/cuda-%{cudaversion} %_builddir/build/cuda-toolkit
+mv %_builddir/tmp/usr/lib64/libcublas*          %_builddir/build/cuda-toolkit/lib64/
+mv %_builddir/tmp/usr/lib64/libnvblas*          %_builddir/build/cuda-toolkit/lib64/
+mv %_builddir/tmp/usr/lib64/stubs/*             %_builddir/build/cuda-toolkit/lib64/stubs/
+# move the NVIDIA libraries to %_builddir/build/drivers
+mv %_builddir/tmp/usr/lib64                     %_builddir/build/drivers
 %endif
 
 # create target directory structure
@@ -76,9 +82,11 @@ rm -f %_builddir/build/cuda-toolkit/lib64/libcufft.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcufftw.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcurand.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusolver.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libcusolverMg.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libcusparse.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnpp*.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnvgraph.so*
+rm -f %_builddir/build/cuda-toolkit/lib64/libnvidia-ml.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnvjpeg.so*
 rm -f %_builddir/build/cuda-toolkit/lib64/libnvrtc.so*
 
@@ -88,14 +96,14 @@ chmod a+x %_builddir/build/cuda-toolkit/lib64/stubs/*.so
 mv %_builddir/build/cuda-toolkit/lib64/* %{i}/lib64/
 
 # package the includes
-rm -f %_builddir/build/cuda-toolkit/include/sobol_direction_vectors.h
 mv %_builddir/build/cuda-toolkit/include/* %{i}/include/
 
 # leave out the Nsight and NVVP graphical tools
+rm -f %_builddir/build/cuda-toolkit/bin/computeprof
 rm -f %_builddir/build/cuda-toolkit/bin/nsight
 rm -f %_builddir/build/cuda-toolkit/bin/nsight_ee_plugins_manage.sh
+rm -f %_builddir/build/cuda-toolkit/bin/nv-nsight-cu-cli
 rm -f %_builddir/build/cuda-toolkit/bin/nvvp
-rm -f %_builddir/build/cuda-toolkit/bin/computeprof
 
 # leave out the CUDA samples
 rm -f %_builddir/build/cuda-toolkit/bin/cuda-install-samples-%{cudaversion}.sh
@@ -117,29 +125,15 @@ mv %_builddir/build/cuda-toolkit/nvvm %{i}/
 # package the version file
 mv %_builddir/build/cuda-toolkit/version.txt %{i}/
 
-# extract and repackage the NVIDIA libraries needed by the CUDA runtime
-%ifarch x86_64 ppc64le
-/bin/sh %_builddir/build/NVIDIA-Linux-%{_arch}-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
-%endif
-%ifarch aarch64
-tar xaf %{SOURCE1} -C %_builddir/tmp Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2
-tar xaf %_builddir/tmp/Linux_for_Tegra/nv_tegra/nvidia_drivers.tbz2 -C %_builddir/tmp usr/lib/aarch64-linux-gnu/tegra/
-mv %_builddir/tmp/usr/lib/aarch64-linux-gnu/tegra %_builddir/build/drivers
-%endif
+# repackage the NVIDIA libraries needed by the CUDA runtime
 mkdir -p %{i}/drivers
-mv %_builddir/build/drivers/libcuda.so.%{cudasoversion}                     %{i}/drivers/
-ln -sf libcuda.so.%{cudasoversion}                                          %{i}/drivers/libcuda.so.1
+mv %_builddir/build/drivers/libcuda.so.%{driversversion}                    %{i}/drivers/
+ln -sf libcuda.so.%{driversversion}                                         %{i}/drivers/libcuda.so.1
 ln -sf libcuda.so.1                                                         %{i}/drivers/libcuda.so
 mv %_builddir/build/drivers/libnvidia-fatbinaryloader.so.%{driversversion}  %{i}/drivers/
 mv %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}   %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                        %{i}/drivers/libnvidia-ptxjitcompiler.so.1
 ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}/drivers/libnvidia-ptxjitcompiler.so
-%ifarch aarch64
-mv %_builddir/build/drivers/libnvrm.so                                      %{i}/drivers/
-mv %_builddir/build/drivers/libnvrm_gpu.so                                  %{i}/drivers/
-mv %_builddir/build/drivers/libnvrm_graphics.so                             %{i}/drivers/
-mv %_builddir/build/drivers/libnvos.so                                      %{i}/drivers/
-%endif
 
 %post
 # let nvcc find its components when invoked from the command line
