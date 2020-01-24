@@ -1,4 +1,4 @@
-### RPM cms couchskel 1.3.0.pre3
+### RPM cms couchskel 1.3.0.pre4
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 # External javascripts
