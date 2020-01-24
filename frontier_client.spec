@@ -1,13 +1,11 @@
-### RPM external frontier_client 2.8.20
+### RPM external frontier_client 2.9.0
 ## INITENV +PATH PYTHON27PATH %{i}/python/lib
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Requires: expat pacparser python zlib
 
 Patch0: frontier_client-2.8.20-add-python-dbapi
-Patch1: frontier_client-2.8.20-openssl11
 
 %prep
 %setup -n %{n}__%{realversion}__src
@@ -15,7 +13,6 @@ Patch1: frontier_client-2.8.20-openssl11
 %define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
