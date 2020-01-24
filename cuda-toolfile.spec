@@ -40,6 +40,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
 %endif
 %ifarch aarch64
+  <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
   <flags CUDA_FLAGS="-gencode arch=compute_72,code=sm_72"/>
 %endif
   <flags CUDA_FLAGS="-O3 -std=c++14 --expt-relaxed-constexpr --expt-extended-lambda"/>
@@ -58,9 +59,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cublas.xml
   <info url="https://docs.nvidia.com/cuda/cublas/index.html"/>
   <use name="cuda"/>
   <lib name="cublas"/>
-%ifarch x86_64 ppc64le
   <lib name="cublasLt"/>
-%endif
 </tool>
 EOF_TOOLFILE
 
@@ -86,6 +85,9 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-cusolver.xml
   <info url="https://docs.nvidia.com/cuda/cusolver/index.html"/>
   <use name="cuda"/>
   <lib name="cusolver"/>
+%ifarch x86_64 ppc64le
+  <lib name="cusolverMg"/>
+%endif
 </tool>
 EOF_TOOLFILE
 
