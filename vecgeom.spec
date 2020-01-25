@@ -29,6 +29,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %endif
+%ifarch ppc64le
+  -DCMAKE_CXX_FLAGS="-mlong-double-64" \
+%endif
   -DGEANT4=OFF
 
 make %{makeprocesses}
