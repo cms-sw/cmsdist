@@ -1,4 +1,4 @@
-### RPM cms llvm-gcc-toolfile 13.0
+### RPM cms llvm-gcc-toolfile 14.0
 
 Requires: llvm
 BuildRequires: python
@@ -55,6 +55,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-fno-aggressive-loop-optimizations"/>
     <flags REM_CXXFLAGS="-mlong-double-64"/>
+    <flags REM_CXXFLAGS="-Wno-c++11-narrowing"/>
+    <flags REM_CXXFLAGS="-Wno-c99-extensions"/>
+    <flags REM_CXXFLAGS="-funroll-all-loops"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>
@@ -64,6 +67,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-unknown-warning-option"/>
     <flags CXXFLAGS="-ftemplate-depth=512"/>
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
+    <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
