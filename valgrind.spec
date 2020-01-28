@@ -1,28 +1,22 @@
-### RPM external valgrind 3.13.0
+### RPM external valgrind 3.15.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
-%define tag 32da88e7dbcdc49253dfe921e0ebdebf91497d04
-%define branch v%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://sourceware.org/pub/valgrind/%{n}-%{realversion}.tar.bz2
 
-BuildRequires: autotools
+BuildRequires: autotools gmake
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
+CONF_OPTS="--enable-only64bit"
 case %{cmsplatf} in
   osx*)
     CFLAGS="-D__private_extern__=extern"
     ;;
-  *_amd64_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
-    CONF_OPTS="--enable-only64bit"
-    ;;
 esac
 
 ./autogen.sh
-./configure --prefix=%{i} --without-mpicc --disable-static \
-            ${CONF_OPTS} ${CFLAGS+CFLAGS=${CFLAGS}}
+./configure --prefix=%{i} --without-mpicc --disable-static ${CONF_OPTS}
 make %{makeprocesses}
 
 %install
