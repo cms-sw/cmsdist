@@ -5,7 +5,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Requires: python bz2lib zlib openmpi
+Requires: python bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -52,6 +52,10 @@ b2 -q \
    -sBZIP2_LIBPATH=${BZ2LIB_ROOT}/lib \
    -sZLIB_INCLUDE=${ZLIB_ROOT}/include \
    -sZLIB_LIBPATH=${ZLIB_ROOT}/lib \
+   -sLZMA_INCLUDE=${XZ_ROOT}/include \
+   -sLZMA_LIBPATH=${XZ_ROOT}/lib \
+   -sZSTD_INCLUDE=${ZSTD_ROOT}/include \
+   -sZSTD_LIBPATH=${ZSTD_ROOT}/lib \
    stage
 
 %install
