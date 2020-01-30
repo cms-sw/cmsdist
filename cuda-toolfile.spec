@@ -152,6 +152,21 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvrtc.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cupti.xml
+<tool name="cupti" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
+  <lib name="cupti"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/nvperf.xml
+<tool name="nvperf" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
+  <lib name="nvperf_host"/>
+  <lib name="nvperf_target"/>
+</tool>
+EOF_TOOLFILE
+
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/nvidia-drivers.xml
 <tool name="nvidia-drivers" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
