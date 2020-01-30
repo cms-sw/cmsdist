@@ -2,7 +2,7 @@
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 
-BuildRequires: java-env
+BuildRequires: java-env python3
 
 # For some build steps, bazel uses a process-wrapper that is executed in an empty environment.
 # Therefore, the wrapper is linked to the system library /lib64/libstdc++.so.6, and complains about
