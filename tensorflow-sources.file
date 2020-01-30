@@ -12,10 +12,9 @@
 BuildRequires: bazel swig java-env git
 Requires: eigen protobuf python py2-numpy py2-enum34 py2-mock py2-wheel py2-keras-applications py2-keras-preprocessing py2-setuptools py2-future
 
-#%define tag         1a9d6b589044172410202ebca2feb44e5efa1734
 %define tag         562d0e6627bad02109761c085c14644362bb8a15
 %define branch      cms/v%{realversion}
-%define github_user riga
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
 %if "%{?build_type:set}" != "set"
