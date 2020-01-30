@@ -64,6 +64,7 @@ Requires: data-IOPool-Input
 Requires: data-RecoHGCal-TICL
 Requires: data-SimG4CMS-HGCalTestBeam
 Requires: data-SimPPS-PPSPixelDigiProducer
+Requires: data-RecoMTD-TimingIDTools
 
 %if %isnotonline
 # extra data dependencies for standard builds
