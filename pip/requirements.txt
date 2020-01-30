@@ -232,9 +232,9 @@ tables==3.6.1 ; python_version>'3.0'
 #tensorboard: Need separate packages for py2 and py3 to properly get the correct sources
 tensorboard==2.0.0 ; python_version<'3.0'
 tensorboard==2.0.0 ; python_version>'3.0'
-tensorflow==2.0.0 ; python_version<'3.0'
-tensorflow==2.0.0 ; python_version>'3.0'
-tensorflow-estimator==2.0.1
+tensorflow==2.1.0 ; python_version<'3.0'
+tensorflow==2.1.0 ; python_version>'3.0'
+tensorflow-estimator==2.1.0
 termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4

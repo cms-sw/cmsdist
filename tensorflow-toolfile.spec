@@ -1,4 +1,4 @@
-### RPM external tensorflow-toolfile 2.0
+### RPM external tensorflow-toolfile 2.1.0
 
 Requires: tensorflow
 

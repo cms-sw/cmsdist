@@ -1,4 +1,4 @@
-### RPM external tensorflow 2.0.0
+### RPM external tensorflow 2.1.0
 
 Provides: libtensorflow_cc.so(tensorflow)(64bit)
 Source: none

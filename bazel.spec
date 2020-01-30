@@ -1,14 +1,8 @@
-### RPM external bazel 0.26.1
+### RPM external bazel 0.29.1
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
+
 BuildRequires: java-env
-%prep
-
-%define __unzip unzip -d bazel-%{realversion}
-
-%setup -q -n bazel-%{realversion}
-
-%build
 
 # For some build steps, bazel uses a process-wrapper that is executed in an empty environment.
 # Therefore, the wrapper is linked to the system library /lib64/libstdc++.so.6, and complains about
@@ -19,9 +13,23 @@ BuildRequires: java-env
 #   - https://github.com/bazelbuild/bazel/issues/4137
 #   - https://github.com/bazelbuild/bazel/issues/4510
 #   - https://github.com/tensorflow/tensorboard/issues/1611
-# The sed command below changes the line:
-# https://github.com/bazelbuild/bazel/blob/0.26.1/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java#L115
-sed -i 's/this.useProcessWrapper = useProcessWrapper;/this.useProcessWrapper = false;/g' src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java
+Patch0: bazel-0.29.1-processWrapper
+
+# configuration issue
+# https://github.com/bazelbuild/bazel/issues/9392
+Patch1: bazel-0.29.1-fixConfigure
+
+%prep
+
+%define __unzip unzip -d bazel-%{realversion}
+
+%setup -q -n bazel-%{realversion}
+
+%patch0 -p1
+%patch1 -p1
+
+%build
+
 export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk"
 bash ./compile.sh
 
