@@ -1,4 +1,4 @@
-### RPM cms comp HG2002f
+### RPM cms comp HG2002g
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
