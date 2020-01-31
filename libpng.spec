@@ -1,5 +1,5 @@
-### RPM external libpng 1.6.35
-%define tag c17d164b4467f099b4484dfd4a279da0bc1dbd4a
+### RPM external libpng 1.6.37
+%define tag a40189cf881e9f0db80511c382292a5604c3c3d1
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
