@@ -156,6 +156,11 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cupti.xml
 <tool name="cupti" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
   <lib name="cupti"/>
+  <client>
+    <environment name="CUPTI_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"     default="$CUPTI_BASE/lib64"/>
+    <environment name="INCLUDE"    default="$CUPTI_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 
@@ -164,6 +169,11 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/nvperf.xml
   <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
   <lib name="nvperf_host"/>
   <lib name="nvperf_target"/>
+  <client>
+    <environment name="NVPERF_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"      default="$NVPERF_BASE/lib64"/>
+    <environment name="INCLUDE"     default="$NVPERF_BASE/include"/>
+  </client>
 </tool>
 EOF_TOOLFILE
 
