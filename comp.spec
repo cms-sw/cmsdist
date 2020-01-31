@@ -5,7 +5,7 @@
 Requires: frontend das dbs3 filemover sitedb reqmon
 Requires: PHEDEX-combined-web dqmgui overview workqueue
 Requires: dbs3-client crabserver crabclient crabcache
-Requires: DMWMMON-datasvc alertscollector acdcserver gitweb
+Requires: DMWMMON-datasvc acdcserver gitweb
 Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics py2-geoip py2-adns py2-netaddr valgrind igprof yui3
 Requires: popdbweb victorweb confdb tfaas exporters exitcodes
