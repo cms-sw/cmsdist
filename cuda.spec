@@ -98,6 +98,16 @@ mv %_builddir/build/cuda-toolkit/lib64/* %{i}/lib64/
 # package the includes
 mv %_builddir/build/cuda-toolkit/include/* %{i}/include/
 
+# package the CUDA Profiling Tools Interface includea and libraries
+%ifarch x86_64 ppc64le
+chmod a+x %_builddir/build/cuda-toolkit/extras/CUPTI/lib64/*.so*
+mv %_builddir/build/cuda-toolkit/extras/CUPTI/lib64/*.so* %{i}/lib64/
+mv %_builddir/build/cuda-toolkit/extras/CUPTI/include/*.h %{i}/include/
+%endif
+%ifarch aarch64
+# the RPMs already have the CUPTI files under lib64/ and include/
+%endif
+
 # leave out the Nsight and NVVP graphical tools
 rm -f %_builddir/build/cuda-toolkit/bin/computeprof
 rm -f %_builddir/build/cuda-toolkit/bin/nsight
