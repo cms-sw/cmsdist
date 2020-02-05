@@ -13,11 +13,10 @@ BuildRequires: java-env python3
 #   - https://github.com/bazelbuild/bazel/issues/4137
 #   - https://github.com/bazelbuild/bazel/issues/4510
 #   - https://github.com/tensorflow/tensorboard/issues/1611
-Patch0: bazel-0.29.1-processWrapper
 
 # configuration issue
 # https://github.com/bazelbuild/bazel/issues/9392
-Patch1: bazel-0.29.1-fixConfigure
+Patch0: bazel-0.29.1-patches
 
 %prep
 
@@ -26,7 +25,6 @@ Patch1: bazel-0.29.1-fixConfigure
 %setup -q -n bazel-%{realversion}
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 
