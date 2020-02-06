@@ -10,7 +10,8 @@
 ############################################
 
 BuildRequires: bazel swig java-env git
-Requires: eigen protobuf python py2-numpy py2-enum34 py2-mock py2-wheel py2-keras-applications py2-keras-preprocessing py2-setuptools py2-future
+#Keep all requires in separate file, so that can be included in py-tensorflow too
+## INCLUDE tensorflow-requires
 
 %define tag         562d0e6627bad02109761c085c14644362bb8a15
 %define branch      cms/v%{realversion}
@@ -66,17 +67,42 @@ export TF_NEED_IGNITE=0
 export TF_NEED_ROCM=0
 export TF_NEED_TENSORRT=0
 export TEST_TMPDIR=%{_builddir}/build
+export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 
-sed -i -e "s|@EIGEN_SOURCE@|${EIGEN_SOURCE}|;s|@EIGEN_STRIP_PREFIX@|${EIGEN_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/lite/tools/make/download_dependencies.sh
-sed -i -e "s|@PROTOBUF_SOURCE@|${PROTOBUF_SOURCE}|;s|@PROTOBUF_STRIP_PREFIX@|${PROTOBUF_STRIP_PREFIX}|" tensorflow/workspace.bzl tensorflow/lite/tools/make/download_dependencies.sh
+echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
+echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
+echo "zlib_archive:${ZLIB_ROOT}"            >> ${TF_CMS_EXTERNALS}
+echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
+echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
+echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
+echo "swig:"                                >> ${TF_CMS_EXTERNALS}
+echo "cython:"                              >> ${TF_CMS_EXTERNALS}
+echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
+echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
+echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
+echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
+echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
+echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
+echo "keras_applications_archive:"          >> ${TF_CMS_EXTERNALS}
+echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
+echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
+echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
+echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
+echo "opt_einsum_archive:"                  >> ${TF_CMS_EXTERNALS}
+
+export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
 
 # clear the build dir and configure
 rm -rf ../build
 ./configure
 
 # define bazel options
-BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS --config=v2 %{makeprocesses}"
-BAZEL_OPTS="$BAZEL_OPTS --action_env=PYTHONPATH=$%{python_env} --action_env=LD_LIBRARY_PATH --distinct_host_configuration=false"
+BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
+BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB} --action_env=PYTHONPATH=$%{python_env} --action_env=LD_LIBRARY_PATH"
+BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false --incompatible_no_support_tools_in_action_inputs=false"
 
 # build tensorflow python targets
 bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package

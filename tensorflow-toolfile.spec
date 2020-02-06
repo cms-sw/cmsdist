@@ -28,6 +28,10 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-framework.xml
 <tool name="tensorflow-framework" version="@TOOL_VERSION@">
   <lib name="tensorflow_framework"/>
   <use name="tensorflow"/>
+  <use name="giflib"/>
+  <use name="zlib"/>
+  <use name="libjpeg-turbo"/>
+  <use name="protobuf"/>
 </tool>
 EOF_TOOLFILE
 
@@ -36,7 +40,8 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-cc.xml
   <lib name="tensorflow_cc"/>
   <use name="tensorflow-framework"/>
   <use name="eigen"/>
-  <use name="protobuf"/>
+  <use name="libpng"/>
+  <use name="sqlite"/>
 </tool>
 EOF_TOOLFILE
 
@@ -44,6 +49,9 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-c.xml
 <tool name="tensorflow-c" version="@TOOL_VERSION@">
   <lib name="tensorflow"/>
   <use name="tensorflow-framework"/>
+  <use name="eigen"/>
+  <use name="libpng"/>
+  <use name="sqlite"/>
 </tool>
 EOF_TOOLFILE
 
@@ -57,14 +65,14 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-executable_run_options.xml
 <tool name="tensorflow-executable_run_options" version="@TOOL_VERSION@">
   <lib name="executable_run_options"/>
-  <use name="tensorflow-cc"/>
+  <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-xla_compiled_cpu_function.xml
 <tool name="tensorflow-xla_compiled_cpu_function" version="@TOOL_VERSION@">
   <lib name="xla_compiled_cpu_function"/>
-  <use name="tensorflow-executable_run_options"/>
+  <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
 
