@@ -13,7 +13,7 @@ BuildRequires: bazel swig java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
 
-%define tag         562d0e6627bad02109761c085c14644362bb8a15
+%define tag         441193ae4b89fd8784a3ea0a5dfd8700018980da
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
