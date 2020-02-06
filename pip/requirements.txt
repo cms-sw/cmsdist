@@ -112,7 +112,8 @@ keras-preprocessing==1.1.0
 kiwisolver==1.1.0
 lazy-object-proxy==1.4.3
 lizard==1.16.6
-llvmlite==0.30.0
+#NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources
+llvmlite==0.32.0x
 lxml==4.4.1
 lz4==2.2.1
 Mako==1.1.0
