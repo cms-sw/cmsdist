@@ -1,18 +1,16 @@
 ### RPM external codechecker 0.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define tag 5248cbf0bc6e0f5a81e5f2fe75d81f55601b23b9
-%define branch master
-%define github_user gartung
+%define tag f10d1156e2295d688d6b0a80fae50df029caa1fd
+%define branch llvm9
+%define github_user cms-externals
 Source: git+https://github.com/%github_user/CMSCodeChecker.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake 
 Requires: llvm
-Patch0: codechecker-llvm8
 
 %prep
 %setup -n %n-%{realversion}
-%patch0 -p1
 
 %build
 mkdir build
