@@ -90,7 +90,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex.xml
 </tool>
 EOF_TOOLFILE
 
-# boost_toolfile
+# boost_signals_toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals.xml
 <tool name="boost_signals" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
