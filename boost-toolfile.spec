@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
 <tool name="boost" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_THREAD_LIB@"/>
-  <lib name="@BOOST_SIGNALS_LIB@"/>
   <lib name="@BOOST_DATE_TIME_LIB@"/>
   <client>
     <environment name="BOOST_BASE" default="@TOOL_ROOT@"/>
@@ -91,11 +90,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex.xml
 </tool>
 EOF_TOOLFILE
 
-# boost_signals toolfile
+# boost_toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals.xml
 <tool name="boost_signals" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
-  <lib name="@BOOST_SIGNALS_LIB@"/>
   <use name="boost"/>
 </tool>
 EOF_TOOLFILE
@@ -155,7 +153,6 @@ getLibName()
 }
 
 export BOOST_THREAD_LIB=`getLibName thread`
-export BOOST_SIGNALS_LIB=`getLibName signals`
 export BOOST_CHRONO_LIB=`getLibName chrono`
 export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
 export BOOST_DATE_TIME_LIB=`getLibName date_time`
