@@ -22,6 +22,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
+  <flags CPPDEFINES="BOOST_MATH_DISABLE_STD_FPCLASSIFY"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
 </tool>
@@ -86,14 +87,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex.xml
 <tool name="boost_regex" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_REGEX_LIB@"/>
-  <use name="boost"/>
-</tool>
-EOF_TOOLFILE
-
-# boost_signals_toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals.xml
-<tool name="boost_signals" version="@TOOL_VERSION@">
-  <info url="http://www.boost.org"/>
   <use name="boost"/>
 </tool>
 EOF_TOOLFILE
