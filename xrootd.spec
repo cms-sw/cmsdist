@@ -1,18 +1,15 @@
-### RPM external xrootd 4.10.0
+### RPM external xrootd 4.11.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-%define tag 9d3b80504a2a142723038f207c3e950347c756aa
-%define branch cms/v%{realversion}
-%define github_user cms-externals
+%define tag cdb2e6bd741ba65ded6c7f8d8e2c31ad6ff1cfa4
+%define branch stable-4.11.x
+%define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake
-Requires: zlib
-Requires: openssl
-Requires: python python3
-Requires: libxml2
+BuildRequires: cmake libuuid
+Requires: zlib openssl python python3 libxml2
 
 %prep
 %setup -n %n-%{realversion}
