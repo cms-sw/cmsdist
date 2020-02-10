@@ -16,7 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <environment name="INCLUDE" default="$RIVET_BASE/include"/>
 </client>
 <runtime name="PATH" value="$RIVET_BASE/bin" type="path"/>
-<runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib" type="path"/>
+<runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib/Rivet" type="path"/>
+<runtime name="RIVET_DATA_PATH" value="$RIVET_BASE/share/Rivet" type="path"/>
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
 <runtime name="TEXMFHOME" value="$RIVET_BASE/share/Rivet/texmf" type="path"/>
