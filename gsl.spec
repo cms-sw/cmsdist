@@ -51,7 +51,7 @@ rm -f %{i}/lib/*.la
 #We want to use the OpenBlas implementation
 #https://github.com/cms-sw/cmsdist/issues/5528
 mkdir %i/cblas
-mv  %i/lib/*gslcblas* %i/cblas
+mv  %i/lib/libgslcblas* %i/cblas/
 
 %post
 %{relocateConfig}bin/gsl-config
