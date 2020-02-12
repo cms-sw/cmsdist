@@ -151,14 +151,8 @@ ValidationRecoParticleFlow_CXXMODULES:=0
 DataFormatsEgammaCandidates_CXXMODULES:=1
 DataFormatsEgammaReco_CXXMODULES:=1
 
-###########################################################################
-# In file included from /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Geometry/Point3D.h:19:
-# /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/ThreeVector.h:41:7: error: redefinition of 'Hep3Vector'
-# class Hep3Vector {
-#       ^
-#       /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/LorentzVector.h:30:10: note: '/cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/ThreeVector.h' included multiple times, additional include site here
-#       #include "CLHEP/Vector/ThreeVector.h"
-DataFormatsJetReco_CXXMODULES:=0
+# FIXME: Remove the workarounds by creating a modulemap for CLHEP.
+DataFormatsJetReco_CXXMODULES:=1
 
 DataFormatsMuonReco_CXXMODULES:=1
 DataFormatsParticleFlowCandidate_CXXMODULES:=1
