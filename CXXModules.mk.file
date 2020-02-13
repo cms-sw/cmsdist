@@ -244,10 +244,7 @@ DataFormatsMETReco_CXXMODULES:=1
 DataFormatsMuonSeed_CXXMODULES:=1
 DataFormatsNanoAOD_CXXMODULES:=1
 
-###########################################################################
-# Will be fixed with next LLVM release
-# rootcling: /build/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/slc7_amd64_gcc820/lcg/root/6.17.01-ieknja/root-6.17.01/interpreter/llvm/src/tools/clang/include/clang/AST/Redeclarable.h:258: clang::Redeclarable<decl_type>::redecl_iterator& clang::Redeclarable<decl_type>::redecl_iterator::operator++() [with decl_type = clang::FunctionDecl]: Assertion `0 && "Passed first decl twice, invalid redecl chain!"' failed.
-DataFormatsPatCandidates_CXXMODULES:=0
+DataFormatsPatCandidates_CXXMODULES:=1
 
 DataFormatsProtonReco_CXXMODULES:=1
 DataFormatsRPCDigi_CXXMODULES:=1
