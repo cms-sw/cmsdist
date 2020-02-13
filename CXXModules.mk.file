@@ -229,10 +229,7 @@ DataFormatsHeavyIonEvent_CXXMODULES:=1
 DataFormatsHGCDigi_CXXMODULES:=1
 DataFormatsHGCRecHit_CXXMODULES:=1
 
-###########################################################################
-# Will be fixed with new LLVM upgrade
-# rootcling: /build/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/slc7_amd64_gcc820/lcg/root/6.17.01-ieknja/root-6.17.01/interpreter/llvm/src/tools/clang/include/clang/AST/Redeclarable.h:258: clang::Redeclarable<decl_type>::redecl_iterator& clang::Redeclarable<decl_type>::redecl_iterator::operator++() [with decl_type = clang::FunctionDecl]: Assertion `0 && "Passed first decl twice, invalid redecl chain!"' failed.
-DataFormatsHLTReco_CXXMODULES:=0
+DataFormatsHLTReco_CXXMODULES:=1
 
 DataFormatsL1CSCTrackFinder_CXXMODULES:=1
 DataFormatsL1TCalorimeter_CXXMODULES:=1
