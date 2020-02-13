@@ -47,5 +47,11 @@ rm -f %{i}/lib/*.la
 # Look up documentation online.
 %define drop_files %{i}/share
 
+#Move away gslcblas library to make sure that one one links against it.
+#We want to use the OpenBlas implementation
+#https://github.com/cms-sw/cmsdist/issues/5528
+mkdir %i/cblas
+mv  %i/lib/libgslcblas* %i/cblas/
+
 %post
 %{relocateConfig}bin/gsl-config
