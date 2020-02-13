@@ -40,7 +40,7 @@ fi
 
 for file in $(find . -name '*'); do
   if [ -d $file ] ; then
-    mkdir -p $file
+    mkdir -p $RPM_INSTALL_PREFIX/$file
   else
     rm -f $RPM_INSTALL_PREFIX/$file
     cp -P $file $RPM_INSTALL_PREFIX/$file
