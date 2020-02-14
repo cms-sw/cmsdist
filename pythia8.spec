@@ -7,7 +7,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: hepmc lhapdf
 
 %prep
-%setup -q -n %{n}%{realversion}
+%setup -q -n %{n}-%{realversion}
 
 ./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
 
