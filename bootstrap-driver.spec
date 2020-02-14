@@ -50,6 +50,10 @@ cc* )
     perl-Time-HiRes perl-Time-Local perl-YAML
     patch popt popt-devel python2 readline readline-devel rpm-build
     rsync tcl tcsh tk wget which zlib zsh"
+  cc8_aarch64_platformSeeds="${cc8_amd64_platformSeeds}"
+  cc8_aarch64_packagesWithProvides="${cc8_amd64_packagesWithProvides} libOpenGL.so.0()(64bit) libGLX.so.0()(64bit)"
+  cc8_ppc64le_platformSeeds="${cc8_amd64_platformSeeds}"
+  cc8_ppc64le_packagesWithProvides="${cc8_amd64_packagesWithProvides} libOpenGL.so.0()(64bit) libGLX.so.0()(64bit)"
   ;;
 slc*)
   # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
