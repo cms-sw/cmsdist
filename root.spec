@@ -80,7 +80,9 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
-  -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
+  -DGSL_ROOT_DIR="${GSL_ROOT}" \
+  -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
+  -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \ 
   -Dcxx17=ON \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
