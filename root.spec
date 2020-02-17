@@ -82,9 +82,9 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gsl=OFF \
   -Dcxx17=ON \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
-		-DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
-		-DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
-		-Dssl=ON \
+  -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
+  -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
+  -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
   -Dpython=ON \
