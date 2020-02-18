@@ -2,6 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INITENV SET ROOTSYS %{i}
+## INITENV SET CPPYY_BACKEND_LIBRARY %{i}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so
 %define tag b858bd1a058e3ab7fde9cddf8266ee4a96a2c540
 %define branch cms/master/195edc0
 %define github_user cms-sw
@@ -36,7 +37,6 @@ cd ../build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
-export CPPYY_BACKEND_LIBRARY="${ROOT_ROOT}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
