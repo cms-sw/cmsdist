@@ -151,14 +151,8 @@ ValidationRecoParticleFlow_CXXMODULES:=0
 DataFormatsEgammaCandidates_CXXMODULES:=1
 DataFormatsEgammaReco_CXXMODULES:=1
 
-###########################################################################
-# In file included from /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Geometry/Point3D.h:19:
-# /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/ThreeVector.h:41:7: error: redefinition of 'Hep3Vector'
-# class Hep3Vector {
-#       ^
-#       /cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/LorentzVector.h:30:10: note: '/cvmfs/cms-ib.cern.ch/nweek-02598/slc7_amd64_gcc820/external/clhep/2.4.0.0-nmpfii/include/CLHEP/Vector/ThreeVector.h' included multiple times, additional include site here
-#       #include "CLHEP/Vector/ThreeVector.h"
-DataFormatsJetReco_CXXMODULES:=0
+# FIXME: Remove the workarounds by creating a modulemap for CLHEP.
+DataFormatsJetReco_CXXMODULES:=1
 
 DataFormatsMuonReco_CXXMODULES:=1
 DataFormatsParticleFlowCandidate_CXXMODULES:=1
@@ -217,7 +211,7 @@ CondFormatsSiStripObjects_CXXMODULES:=0
 CondFormatsSerialization_CXXMODULES:=0
 CondToolsBTau_CXXMODULES:=0
 DataFormatsAlignment_CXXMODULES:=1
-DataFormatsBTauReco_CXXMODULES:=0
+DataFormatsBTauReco_CXXMODULES:=1
 DataFormatsCastorReco_CXXMODULES:=1
 DataFormatsCSCDigi_CXXMODULES:=1
 DataFormatsCTPPSReco_CXXMODULES:=1
@@ -229,10 +223,7 @@ DataFormatsHeavyIonEvent_CXXMODULES:=1
 DataFormatsHGCDigi_CXXMODULES:=1
 DataFormatsHGCRecHit_CXXMODULES:=1
 
-###########################################################################
-# Will be fixed with new LLVM upgrade
-# rootcling: /build/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/slc7_amd64_gcc820/lcg/root/6.17.01-ieknja/root-6.17.01/interpreter/llvm/src/tools/clang/include/clang/AST/Redeclarable.h:258: clang::Redeclarable<decl_type>::redecl_iterator& clang::Redeclarable<decl_type>::redecl_iterator::operator++() [with decl_type = clang::FunctionDecl]: Assertion `0 && "Passed first decl twice, invalid redecl chain!"' failed.
-DataFormatsHLTReco_CXXMODULES:=0
+DataFormatsHLTReco_CXXMODULES:=1
 
 DataFormatsL1CSCTrackFinder_CXXMODULES:=1
 DataFormatsL1TCalorimeter_CXXMODULES:=1
@@ -242,18 +233,12 @@ DataFormatsL1TMuon_CXXMODULES:=1
 DataFormatsL1TrackTrigger_CXXMODULES:=1
 DataFormatsLuminosity_CXXMODULES:=1
 
-###########################################################################
-# Will be fixed with new LLVM upgrade
-# rootcling: /build/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/slc7_amd64_gcc820/lcg/root/6.17.01-ieknja/root-6.17.01/interpreter/llvm/src/tools/clang/include/clang/AST/Redeclarable.h:258: clang::Redeclarable<decl_type>::redecl_iterator& clang::Redeclarable<decl_type>::redecl_iterator::operator++() [with decl_type = clang::FunctionDecl]: Assertion `0 && "Passed first decl twice, invalid redecl chain!"' failed.
-DataFormatsMETReco_CXXMODULES:=0
+DataFormatsMETReco_CXXMODULES:=1
 
 DataFormatsMuonSeed_CXXMODULES:=1
 DataFormatsNanoAOD_CXXMODULES:=1
 
-###########################################################################
-# Will be fixed with next LLVM release
-# rootcling: /build/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/slc7_amd64_gcc820/lcg/root/6.17.01-ieknja/root-6.17.01/interpreter/llvm/src/tools/clang/include/clang/AST/Redeclarable.h:258: clang::Redeclarable<decl_type>::redecl_iterator& clang::Redeclarable<decl_type>::redecl_iterator::operator++() [with decl_type = clang::FunctionDecl]: Assertion `0 && "Passed first decl twice, invalid redecl chain!"' failed.
-DataFormatsPatCandidates_CXXMODULES:=0
+DataFormatsPatCandidates_CXXMODULES:=1
 
 DataFormatsProtonReco_CXXMODULES:=1
 DataFormatsRPCDigi_CXXMODULES:=1
