@@ -1,1 +1,0 @@
-%define PipPreBuild export CPPYY_BACKEND_LIBRARY=${ROOT_ROOT}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so

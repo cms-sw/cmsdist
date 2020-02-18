@@ -36,6 +36,7 @@ cd ../build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
+export CPPYY_BACKEND_LIBRARY="${ROOT_ROOT}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
