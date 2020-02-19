@@ -1,4 +1,4 @@
-### RPM cms data-Configuration-Generator V01-01-01
+### RPM cms data-Configuration-Generator V01-02-00
 
 %prep
 
