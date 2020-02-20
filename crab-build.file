@@ -5,7 +5,7 @@
   %define wmcore_packages PSetTweaks Utils WMCore
 %endif
 %if "%{?crabserver_packages:set}" != "set"
-  %define crabserver_packages PandaServerInterface.py RESTInteractions.py ServerUtilities.py
+  %define crabserver_packages RESTInteractions.py ServerUtilities.py
 %endif
 %if "%{?dbs_packages:set}" != "set"
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
