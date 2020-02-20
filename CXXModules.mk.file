@@ -238,7 +238,11 @@ DataFormatsMETReco_CXXMODULES:=1
 DataFormatsMuonSeed_CXXMODULES:=1
 DataFormatsNanoAOD_CXXMODULES:=1
 
-DataFormatsPatCandidates_CXXMODULES:=1
+# Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
+# enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
+# ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h:38:6: note: previous declaration is here
+# enum L1GtPsbQuad {
+DataFormatsPatCandidates_CXXMODULES:=0
 
 DataFormatsProtonReco_CXXMODULES:=1
 DataFormatsRPCDigi_CXXMODULES:=1
