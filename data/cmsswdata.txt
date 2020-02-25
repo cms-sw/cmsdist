@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoJets-JetProducers=V05-11-00
 RecoMTD-TimingIDTools=V00-01-00
 Configuration-Generator=V01-02-00
 CalibPPS-ESProducers=V01-01-00
@@ -80,7 +81,6 @@ RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
 RecoEgamma-PhotonIdentification=V01-00-06
 RecoHI-HiJetAlgos=V01-00-01
-RecoJets-JetProducers=V05-10-20
 RecoMET-METPUSubtraction=V01-00-03
 RecoParticleFlow-PFProducer=V16-00-00
 RecoParticleFlow-PFTracking=V13-01-00
