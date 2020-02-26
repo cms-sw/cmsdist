@@ -1,8 +1,8 @@
-### RPM external rivet 3.0.1
+### RPM external rivet 3.1.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
-Source: http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/MCGeneratorsTarFiles/Rivet-%{realversion}.tar.bz2
+Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python py2-cython py2-setuptools
@@ -12,14 +12,9 @@ Patch1: rivet-weightnames
 
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
-%setup -n Rivet-%{realversion}
+%setup -n %{n}-%{realversion}
 %patch0 -p0
 %patch1 -p1
-
-# Install latex packages from doc directory
-# Des not fix missing SIUnits on lxplus7 yet, expected for Rivet 3.0.2
-for sty in ./doc/*.sty; do mkdir -p ./data/texmf/tex/latex/${sty:6:-4}; done
-for sty in ./doc/*.sty; do cp ${sty} ./data/texmf/tex/latex/${sty:6:-4}; done
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
@@ -41,8 +36,8 @@ done
 case %{cmsplatf} in
   slc6*) sed -i -e 's#^ *OPENMP_CXXFLAGS=.*#OPENMP_CXXFLAGS=#' configure ;;
 esac
-sed -i -e "s#if test x\$ASCIIDOC != x#if false#g" configure
-autoreconf --install
+
+autoreconf -fiv
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
