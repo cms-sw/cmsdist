@@ -1,5 +1,7 @@
-### RPM external tensorflow-toolfile 1.0
+### RPM external tensorflow-toolfile 2.1.0
+
 Requires: tensorflow
+
 %prep
 
 %build
@@ -7,7 +9,8 @@ Requires: tensorflow
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow.xml
+
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow.xml
 <tool name="tensorflow" version="@TOOL_VERSION@">
   <client>
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
@@ -21,39 +24,61 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-framework.xml
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-framework.xml
 <tool name="tensorflow-framework" version="@TOOL_VERSION@">
   <lib name="tensorflow_framework"/>
   <use name="tensorflow"/>
-</tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-cc.xml
-<tool name="tensorflow-cc" version="@TOOL_VERSION@">
-  <lib name="tensorflow_cc"/>
-  <use name="tensorflow-framework"/>
-  <use name="eigen"/>
+  <use name="giflib"/>
+  <use name="zlib"/>
+  <use name="libjpeg-turbo"/>
   <use name="protobuf"/>
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-c.xml
-<tool name="tensorflow-c" version="@TOOL_VERSION@">
-  <lib name="tensorflow"/>
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-cc.xml
+<tool name="tensorflow-cc" version="@TOOL_VERSION@">
+  <lib name="tensorflow_cc"/>
   <use name="tensorflow-framework"/>
+  <use name="eigen"/>
+  <use name="libpng"/>
+  <use name="sqlite"/>
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-runtime.xml
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-c.xml
+<tool name="tensorflow-c" version="@TOOL_VERSION@">
+  <lib name="tensorflow"/>
+  <use name="tensorflow-framework"/>
+  <use name="eigen"/>
+  <use name="libpng"/>
+  <use name="sqlite"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-runtime.xml
 <tool name="tensorflow-runtime" version="@TOOL_VERSION@">
-  <lib name="tf_aot_runtime"/>
+  <lib name="cpu_function_runtime"/>
   <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/tensorflow-xla_compiled_cpu_function.xml
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-executable_run_options.xml
+<tool name="tensorflow-executable_run_options" version="@TOOL_VERSION@">
+  <lib name="executable_run_options"/>
+  <use name="tensorflow"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-xla_compiled_cpu_function.xml
 <tool name="tensorflow-xla_compiled_cpu_function" version="@TOOL_VERSION@">
   <lib name="xla_compiled_cpu_function"/>
+  <use name="tensorflow"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow-tf2xla.xml
+<tool name="tensorflow-tf2xla" version="@TOOL_VERSION@">
+  <lib name="tf2xla"/>
   <use name="tensorflow"/>
 </tool>
 EOF_TOOLFILE
