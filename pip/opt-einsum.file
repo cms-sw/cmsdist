@@ -1,0 +1,1 @@
+%define source0 https://github.com/dgasmith/opt_einsum/archive/v%{realversion}.tar.gz
