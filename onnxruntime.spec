@@ -1,6 +1,6 @@
 ### RPM external onnxruntime 1.0.0
-%define tag eb635bfb66dae6cf414abfd1eb94c93842f1e66e
-%define branch cms/v1.0.0
+%define tag 0f048da7774428d5fb2c4c808fc5820809ab24b8
+%define branch cms/v1.0.0_pb380
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
