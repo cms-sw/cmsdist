@@ -1,0 +1,189 @@
+##Tensorflow Common build files
+############################################
+# IMPORTANT
+# - Whenever the version of tensorflow changes,
+#   update it also in tensorflow-c tensorflow-cc
+#   and py2-tensorflow version too
+# - Need to check protobuf and eigen versions
+# - Check eigen flags in third_party/eigen.BUILD
+#   and update eigen-toolfile.spec accordingly
+############################################
+
+BuildRequires: bazel swig java-env git
+#Keep all requires in separate file, so that can be included in py-tensorflow too
+## INCLUDE tensorflow-requires
+
+%define tag         441193ae4b89fd8784a3ea0a5dfd8700018980da
+%define branch      cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+
+%if "%{?build_type:set}" != "set"
+%define build_type opt
+%endif
+%if "%{?pythonOnly:set}" != "set"
+%define pythonOnly no
+%endif
+
+%define majorversion %(echo %realversion | cut -d . -f 1)
+
+%prep
+
+%setup -q -n tensorflow-%{realversion}
+
+%build
+
+export PYTHON_BIN_PATH="$(which %{python_cmd})"
+export USE_DEFAULT_PYTHON_LIB_PATH=1
+export GCC_HOST_COMPILER_PATH="$(which gcc)"
+%ifarch x86_64
+export CC_OPT_FLAGS=-march=core2
+%else
+export CC_OPT_FLAGS="-mcpu=native -mtune=native"
+%endif
+export CXX_OPT_FLAGS=-std=c++17
+export EIGEN_SOURCE=${EIGEN_SOURCE}
+export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
+export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX}
+export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
+
+export TF_NEED_JEMALLOC=0
+export TF_NEED_HDFS=0
+export TF_NEED_GCP=0
+export TF_ENABLE_XLA=0
+export TF_NEED_OPENCL=0
+export TF_NEED_CUDA=0
+export TF_NEED_VERBS=0
+export TF_NEED_MKL=0
+export TF_NEED_MPI=0
+export TF_NEED_S3=0
+export TF_NEED_GDR=0
+export TF_NEED_OPENCL_SYCL=0
+export TF_SET_ANDROID_WORKSPACE=false
+export TF_NEED_KAFKA=false
+export TF_NEED_AWS=0
+export TF_DOWNLOAD_CLANG=0
+export TF_NEED_IGNITE=0
+export TF_NEED_ROCM=0
+export TF_NEED_TENSORRT=0
+export TEST_TMPDIR=%{_builddir}/build
+export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
+
+echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
+echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
+echo "zlib_archive:${ZLIB_ROOT}"            >> ${TF_CMS_EXTERNALS}
+echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
+echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
+echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
+echo "swig:"                                >> ${TF_CMS_EXTERNALS}
+echo "cython:"                              >> ${TF_CMS_EXTERNALS}
+echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
+echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
+echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
+echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
+echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
+echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
+echo "keras_applications_archive:"          >> ${TF_CMS_EXTERNALS}
+echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
+echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
+echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
+echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
+echo "opt_einsum_archive:"                  >> ${TF_CMS_EXTERNALS}
+
+export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
+
+# clear the build dir and configure
+rm -rf ../build
+./configure
+
+# define bazel options
+BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
+BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB} --action_env=PYTHONPATH=$%{python_env} --action_env=LD_LIBRARY_PATH"
+BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false --incompatible_no_support_tools_in_action_inputs=false"
+
+# build tensorflow python targets
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
+
+%if "%{pythonOnly}" == "no"
+bazel $BAZEL_OPTS //tensorflow:tensorflow
+bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
+bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
+bazel $BAZEL_OPTS //tensorflow/compiler/xla:cpu_function_runtime
+bazel $BAZEL_OPTS //tensorflow/compiler/xla:executable_run_options
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
+bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
+bazel $BAZEL_OPTS //tensorflow/core/profiler
+bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:install_headers
+
+# rebuild *.pb.{h|cc} files using the external protobuf compiler
+chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
+for f in $(find tensorflow -name "*.proto")
+do
+    protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
+done
+%endif
+
+%install
+
+%if "%{pythonOnly}" == "no"
+
+# define and create empty target directories
+outdir="$PWD/out"
+bindir="$outdir/bin"
+incdir="$outdir/include"
+libdir="$outdir/lib"
+rm -rf $bindir $incdir $libdir
+mkdir -p $bindir $incdir $libdir
+
+# copy targets
+srcdir="$PWD/bazel-bin/tensorflow"
+
+cp -p $srcdir/libtensorflow*.so* $libdir/
+cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
+cp -p $srcdir/compiler/xla/lib*.so* $libdir/
+
+for l in tensorflow_cc tensorflow_framework tensorflow ; do
+  # check if the actual lib exists
+  [ -f $libdir/lib${l}.so.%{realversion} ] || exit 1
+
+  # link from majorversion to realversion
+  rm -f $libdir/lib${l}.so.%{majorversion}
+  ln -s lib${l}.so.%{realversion} $libdir/lib${l}.so.%{majorversion}
+
+  # link from default lib to majorversion
+  rm -f $libdir/lib${l}.so
+  ln -s lib${l}.so.%{majorversion} $libdir/lib${l}.so
+done
+
+cp -p $srcdir/compiler/aot/tfcompile $bindir
+for name in tensorflow absl re2 third_party ; do
+    cp -r -p $srcdir/include/$name $incdir
+done
+
+# copy headers from downloaded dependencies
+copy_headers() {
+  for header_file in $(find $1/$2 -name *.h | sed "s|$1/||") ; do
+    header_dir="${incdir}/$(dirname ${header_file})"
+    mkdir -p "${header_dir}"
+    cp -p "${header_file}" "${header_dir}/"
+  done
+}
+copy_headers "$PWD" tensorflow/compiler
+copy_headers "$PWD" tensorflow/core/profiler/internal
+copy_headers "$PWD" tensorflow/core/profiler/lib
+
+# do not copy the protobuf headers as we use the version in cmsdist
+# copy_headers "$PWD/tensorflow/contrib/makefile/downloads/protobuf/src" google
+
+pushd $outdir
+  tar cfz %{i}/libtensorflow_cc.tar.gz .
+popd
+
+%endif
+
+# create the wheel file that is installed in py2-tensorflow
+bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
