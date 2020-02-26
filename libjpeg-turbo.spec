@@ -1,6 +1,5 @@
 ### RPM external libjpeg-turbo 2.0.2
-## INITENV SETV LIBJPEG_TURBO_SOURCE %{source0}
-## INITENV SETV LIBJPEG_TURBO_STRIP_PREFIX %{source_prefix}
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 %define source0 https://github.com/libjpeg-turbo/libjpeg-turbo/archive/%{realversion}.tar.gz
 %define source_prefix %{n}-%{realversion}
