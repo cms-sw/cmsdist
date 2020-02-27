@@ -5,6 +5,8 @@ Requires: cuda
 %build
 
 %install
+## INCLUDE cuda-flags
+# this defines cuda_flags, used below
 
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-stubs.xml
@@ -34,18 +36,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
-%ifarch x86_64 ppc64le
-  <flags CUDA_FLAGS="-gencode arch=compute_35,code=sm_35"/>
-  <flags CUDA_FLAGS="-gencode arch=compute_60,code=sm_60"/>
-  <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
-%endif
-%ifarch aarch64
-  <flags CUDA_FLAGS="-gencode arch=compute_70,code=sm_70"/>
-  <flags CUDA_FLAGS="-gencode arch=compute_72,code=sm_72"/>
-%endif
-  <flags CUDA_FLAGS="-O3 -std=c++14 --expt-relaxed-constexpr --expt-extended-lambda"/>
-  <flags CUDA_FLAGS="--generate-line-info --source-in-ptx"/>
-  <flags CUDA_FLAGS="--cudart=shared"/>
+  <flags CUDA_FLAGS="%{cuda_flags}"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="-std=c++14"/>
