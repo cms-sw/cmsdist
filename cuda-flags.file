@@ -21,7 +21,7 @@
 %ifarch aarch64
 %define cuda_flags_3 -gencode arch=compute_70,code=sm_70
 %define cuda_flags_4 -gencode arch=compute_72,code=sm_72
-%define cuda_flags_5
+%define cuda_flags_5 %{nil}
 %endif
 
 # link the CUDA runtime shared library
