@@ -12,18 +12,18 @@ index 4426ad4c5a..7c64f42381 100644
      this.binTools = binTools;
    }
 diff --git a/tools/cpp/unix_cc_configure.bzl b/tools/cpp/unix_cc_configure.bzl
-index ccb18a431a..1858574756 100644
+index ccb18a4..46eff97 100644
 --- a/tools/cpp/unix_cc_configure.bzl
 +++ b/tools/cpp/unix_cc_configure.bzl
-@@ -200,6 +200,8 @@ def _find_gold_linker_path(repository_ctx, cc):
-         for flag in line.split(" "):
-             if flag.find("gold") == -1:
-                 continue
-+            if flag.find("enable-gold") > -1 or flag.find("with-plugin-ld") > -1:
-+                continue
+@@ -207,7 +207,7 @@ def _find_gold_linker_path(repository_ctx, cc):
  
-             # flag is '-fuse-ld=gold' for GCC or "/usr/lib/ld.gold" for Clang
-             # strip space, single quote, and double quotes
+             # remove -fuse-ld= from GCC output so we have only the flag value part
+             flag = flag.replace("-fuse-ld=", "")
+-            return flag
++            return None
+     auto_configure_warning(
+         "CC with -fuse-ld=gold returned 0, but its -v output " +
+         "didn't contain 'gold', falling back to the default linker.",
 diff --git a/src/conditions/BUILD b/src/conditions/BUILD
 index 2b28e28..faa41a4 100644
 --- a/src/conditions/BUILD
