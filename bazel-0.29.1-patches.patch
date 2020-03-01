@@ -1,0 +1,55 @@
+diff --git a/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java b/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java
+index 4426ad4c5a..7c64f42381 100644
+--- a/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java
++++ b/src/main/java/com/google/devtools/build/lib/exec/local/LocalSpawnRunner.java
+@@ -112,7 +112,7 @@ public class LocalSpawnRunner implements SpawnRunner {
+     this.localExecutionOptions = Preconditions.checkNotNull(localExecutionOptions);
+     this.hostName = NetUtil.getCachedShortHostName();
+     this.resourceManager = resourceManager;
+-    this.useProcessWrapper = useProcessWrapper;
++    this.useProcessWrapper = false;
+     this.localEnvProvider = localEnvProvider;
+     this.binTools = binTools;
+   }
+diff --git a/tools/cpp/unix_cc_configure.bzl b/tools/cpp/unix_cc_configure.bzl
+index ccb18a4..46eff97 100644
+--- a/tools/cpp/unix_cc_configure.bzl
++++ b/tools/cpp/unix_cc_configure.bzl
+@@ -207,7 +207,7 @@ def _find_gold_linker_path(repository_ctx, cc):
+ 
+             # remove -fuse-ld= from GCC output so we have only the flag value part
+             flag = flag.replace("-fuse-ld=", "")
+-            return flag
++            return None
+     auto_configure_warning(
+         "CC with -fuse-ld=gold returned 0, but its -v output " +
+         "didn't contain 'gold', falling back to the default linker.",
+diff --git a/src/conditions/BUILD b/src/conditions/BUILD
+index 2b28e28..faa41a4 100644
+--- a/src/conditions/BUILD
++++ b/src/conditions/BUILD
+@@ -11,6 +11,12 @@ filegroup(
+ )
+ 
+ config_setting(
++    name = "linux_ppc",
++    values = {"cpu": "ppc"},
++    visibility = ["//visibility:public"],
++)
++
++config_setting(
+     name = "linux_x86_64",
+     values = {"cpu": "k8"},
+     visibility = ["//visibility:public"],
+diff --git a/third_party/BUILD b/third_party/BUILD
+index 159006d..b2c0163 100644
+--- a/third_party/BUILD
++++ b/third_party/BUILD
+@@ -526,6 +526,7 @@ UNNECESSARY_DYNAMIC_LIBRARIES = select({
+     # The .so file is an x86 one, so we can just remove it if the CPU is not x86
+     "//src/conditions:arm": "*.so *.jnilib *.dll",
+     "//src/conditions:linux_aarch64": "*.so *.jnilib *.dll",
++    "//src/conditions:linux_ppc": "*.so *.jnilib *.dll",
+     # Play it safe -- better have a big binary than a slow binary
+     # zip -d does require an argument. Supply something bogus.
+     "//conditions:default": "*.bogusextension",

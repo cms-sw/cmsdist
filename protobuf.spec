@@ -1,4 +1,4 @@
-### RPM external protobuf 3.5.2
+### RPM external protobuf 3.8.0
 ## INITENV SETV PROTOBUF_SOURCE %{source0}
 ## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
 #============= IMPORTANT NOTE ========================#
@@ -24,16 +24,6 @@ BuildRequires: autotools
 
 %build
 ./autogen.sh
-# Update to detect aarch64 and ppc64le
-rm -f ./config.{sub,guess} ./gmock/gtest/build-aux/config.{sub,guess} ./gmock/build-aux/config.{sub,guess}
-%get_config_sub ./config.sub
-%get_config_guess ./config.guess
-chmod +x ./config.{sub,guess}
-
-cp ./config.sub   ./gmock/gtest/build-aux/config.sub
-cp ./config.guess ./gmock/gtest/build-aux/config.guess
-cp ./config.sub   ./gmock/build-aux/config.sub
-cp ./config.guess ./gmock/build-aux/config.guess
 
 ./configure --prefix %{i} \
     --disable-static \

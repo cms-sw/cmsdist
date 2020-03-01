@@ -1,2 +1,2 @@
-Requires: py2-numpy
+Requires: py2-numpy py2-grpcio py2-absl-py
 %define PipPostBuild cp %{i}/bin/tensorboard %{i}/bin/tensorboard2
