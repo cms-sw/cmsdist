@@ -84,7 +84,9 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Darrow=OFF \
-  -DGSL_CONFIG_EXECUTABLE="$(which gsl-config)" \
+  -DGSL_ROOT_DIR="${GSL_ROOT}" \
+  -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
+  -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
   -DCMAKE_CXX_STANDARD=17 \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
@@ -140,7 +142,6 @@ cmake ../%{n}-%{realversion} \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
   -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT};${ZSTD_ROOT}" \
   -Dpyroot_experimental=ON
-
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables

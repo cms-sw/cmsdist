@@ -1,0 +1,34 @@
+### FILE cuda-flags
+# define the CUDA compilation flags in a way that can be shared by SCRAM-based and regular tools
+
+# generate debugging information for device code
+%define cuda_flags_0 --generate-line-info --source-in-ptx
+
+# imply __host__, __device__ attributes in constexpr functions
+%define cuda_flags_1 --expt-relaxed-constexpr
+
+# allow __host__, __device__ attributes in lambda declaration
+%define cuda_flags_2 --expt-extended-lambda
+
+# on X86 and Power, build support for Kepler, Pascal and Volta/Turing
+%ifarch x86_64 ppc64le
+%define cuda_flags_3 -gencode arch=compute_35,code=sm_35
+%define cuda_flags_4 -gencode arch=compute_60,code=sm_60
+%define cuda_flags_5 -gencode arch=compute_70,code=sm_70
+%endif
+
+# on ARM, build Volta/Turing and the Xavier SoC
+%ifarch aarch64
+%define cuda_flags_3 -gencode arch=compute_70,code=sm_70
+%define cuda_flags_4 -gencode arch=compute_72,code=sm_72
+%define cuda_flags_5 %{nil}
+%endif
+
+# link the CUDA runtime shared library
+%define cuda_flags_6 --cudart shared
+
+# disable warnings about attributes on defaulted methods
+%define cuda_flags_7 -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored
+
+# collect all CUDA flags
+%define cuda_flags %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6} %{cuda_flags_7}
