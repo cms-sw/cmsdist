@@ -14,10 +14,8 @@ Requires: zlib
 
 CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
-PLATF_CONF_OPTS="--enable-shared --disable-static"
 
-./configure $PLATF_CONF_OPTS \
-            --prefix=%i \
+./configure --prefix=%i \
             --bindir=%i/bin \
             --without-gmp \
             --with-zlib=${ZLIB_ROOT} \
