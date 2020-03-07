@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoBTag-Combined=V01-03-00
 RecoTauTag-TrainingFiles=V00-02-00
 RecoJets-JetProducers=V05-11-00
 RecoMTD-TimingIDTools=V00-01-00
@@ -12,7 +13,6 @@ MagneticField-Engine=V00-01-00
 MagneticField-Interpolation=V01-01-00
 L1Trigger-L1THGCal=V01-00-15
 SimTracker-SiStripDigitizer=V01-01-00
-RecoBTag-Combined=V01-02-01
 SimPPS-PPSPixelDigiProducer=V00-00-02
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
 RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-01-00
