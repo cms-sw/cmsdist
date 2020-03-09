@@ -21,6 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom_interface.xml
   <flags CPPDEFINES="VECGEOM_INPLACE_TRANSFORMATIONS"/>
   <flags CPPDEFINES="VECGEOM_USE_INDEXEDNAVSTATES"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE/VecGeom" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
