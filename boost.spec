@@ -1,11 +1,11 @@
-### RPM external boost 1.67.0
+### RPM external boost 1.72.0
 
-%define tag 8dbeeb4f04f377fea15f64725918b75dbf6e1843
+%define tag 7b8145be536a700d6a16983fcdbd0ba7e7c9186d
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Requires: python bz2lib zlib openmpi
+Requires: python bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -52,6 +52,10 @@ b2 -q \
    -sBZIP2_LIBPATH=${BZ2LIB_ROOT}/lib \
    -sZLIB_INCLUDE=${ZLIB_ROOT}/include \
    -sZLIB_LIBPATH=${ZLIB_ROOT}/lib \
+   -sLZMA_INCLUDE=${XZ_ROOT}/include \
+   -sLZMA_LIBPATH=${XZ_ROOT}/lib \
+   -sZSTD_INCLUDE=${ZSTD_ROOT}/include \
+   -sZSTD_LIBPATH=${ZSTD_ROOT}/lib \
    stage
 
 %install
