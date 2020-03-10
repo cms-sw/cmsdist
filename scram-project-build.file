@@ -207,7 +207,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-perl %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
+python %i/config/SCRAM/findDependencies.py -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif

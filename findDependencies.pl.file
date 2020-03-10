@@ -1,236 +1,193 @@
-#!/usr/bin/env perl
-# findDependencies.pl
-#
+#!/usr/bin/env python
 
-use strict;
-use File::Find ();
-use Getopt::Long;
-Getopt::Long::config('bundling_override');
+import sys, re, os, json, gzip
+from argparse import ArgumentParser
+from glob import glob
 
-my %options;
-GetOptions(\%options,'rel=s', 'arch=s','scramroot=s');
+parser = ArgumentParser()
+parser.add_argument('-rel')
+parser.add_argument('-arch', dest = 'scramarch', default = os.environ.get("SCRAM_ARCH"))
+parser.add_argument('-scramroot', default = os.environ.get("SCRAMV1_ROOT"))
+args = parser.parse_args()
 
-my $rel=$options{'rel'};
-my $scramarch=$options{'arch'} || $ENV{SCRAM_ARCH};
-my $scramroot=$options{'scramroot'} || $ENV{SCRAMV1_ROOT};
+rel = args.rel
+scramarch = args.scramarch
+scramroot = args.scramroot
 
-if ($scramroot eq "")
-{
-  $scramroot=`sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|"||g' | sed -e "s|'||g"`;
-  chomp $scramroot;
-}
+if scramroot is None:
+  scramroot = os.popen("sh -v scram arch 2>&1 |  grep 'SCRAMV1_ROOT=' | sed 's|;.*||;s|SCRAMV1_ROOT=||;s|\"||g' | sed -e \"s|'||g\"").read()
 
-# Set the variable $File::Find::dont_use_nlink if you're using AFS,
-# since AFS cheats.
+global name, dir
+uses = {}
+usedby = {}
+directory = rel + "/tmp" # root dir for traversing
 
-# for the convenience of &wanted calls, including -eval statements:
-use vars qw/*name *dir *prune/;
-*name   = *File::Find::name;
-*dir    = *File::Find::dir;
-*prune  = *File::Find::prune;
+def doexec():
+  global uses
+  getnext = 0
+  depname = ""
+  with open(name, 'r') as file:
+    for l in file:
+      l = l.rstrip('\n')
+      if re.search(r'^[^:]+ :\s*$', l): break
+      l = re.sub(r'\s*\\$', r'', l)
+      sp1 = l.split()
+      if len(sp1) == 0: continue
+      if len(sp1[0]) < 4: continue
+      sp2 = sp1[0].split('/')
+      tsp1 = ""
+      foundsrc = 0
+      for t in sp2:
+        if foundsrc == 1: tsp1 += "%s/" % t
+        if t == "src": foundsrc = 1
+      tsp1 = tsp1[:-1]
+      if tsp1 == "": continue
+      if getnext == 1:
+        depname = tsp1
+        getnext = 0
+      else:
+        getnext = 0
+        if re.search( r'^tmp\/', sp1[0]):
+          if re.search( r'(\.o|\/a\/xr+\.cc):$', sp1[0]):
+            getnext = 1
+        else:
+          if re.search( r'^src', sp1[0]):
+            if depname not in uses.keys():
+              uses[depname] = "%s " % tsp1
+            else: 
+              uses[depname] += "%s " % tsp1
+            if tsp1 not in usedby.keys():
+              usedby[tsp1] = "%s " % depname
+            else: 
+              usedby[tsp1] += "%s " % depname
 
-sub wanted;
-sub doexec ($@);
+def write2File(path, data, type_=None):
+  with open(path, 'w') as file:
+    if type_:
+      if re.search(r'^bf', path.split("/")[-1]):
+        if not data.has_key("type_"): data["type_"] = {}
+      for x in sorted(data[type_].keys()):
+        file.write("%s %s\n" % (x, " ".join(sorted(data[type_][x].keys()))))
+    else:
+      for key, value in sorted(data.items()):
+        file.write("%s %s\n" % (key,value))
 
+def createCache(match, cache, file):
+  for x in import2CMSSWDir(match.group(1), cache):
+    if not cache.has_key("usedby"): cache["usedby"] = {}
+    if not cache.has_key("uses"): cache["uses"] = {}
+    if not cache["usedby"].has_key(x): cache["usedby"][x] = {}
+    if not cache["uses"].has_key(file): cache["uses"][file] = {}
+    if not cache["usedby"][x].has_key(file): cache["usedby"][x][file] = {}
+    if not cache["uses"][file].has_key(x): cache["uses"][file][x] = {}
+    cache["usedby"][x][file] = 1
+    cache["uses"][file][x] = 1
 
-use Cwd ();
-my $cwd = Cwd::cwd();
+def pythonDeps(rel):
+  cache = {}
+  for root, dirs, files in os.walk("%s/src/" % rel):
+    for filename in files:
+      fpath = os.path.join(root, filename)
+      if re.search(r'.py$', fpath):
+        fname = fpath
+        file = fname
+        file = re.sub(r"^%s\/+src\/+" % rel, r'', file)
+        if not re.search(r'\/python\/', fname):
+          continue
+        with open(fname, 'r') as f:
+          for line in f.readlines():
+            if 'import ' in line:
+              line = line.rstrip('\n')
+              if re.search(r'^\s*#', line):
+                continue
+              match_from_import = re.search(r'^\s*from\s+([^\s]+)\s+import\s+', line)
+              match_import = re.search(r'^\s*import\s+([^\s]+)\s*', line)
+              if match_from_import:
+                createCache(match_from_import, cache, file)
+              elif match_import:
+                createCache(match_import, cache, file)
+  for type_ in ("uses","usedby"):
+    write2File("%s/etc/dependencies/py%s.out" % (rel, type_), cache, type_)
 
-my %uses;
-my %usedby;
-my $beginning="";
+def import2CMSSWDir(str, cache):
+  pyfiles = []
+  if not cache.has_key("pymodule"): cache["pymodule"] = {}
+  if not cache.has_key("noncmsmodule"): cache["noncmsmodule"] = {}
+  for s in str.split(","):
+    s = re.sub(r'\.', r'/', s)
+    if s in cache["pymodule"]:
+      pyfiles.append(cache["pymodule"][s])
+    elif s not in cache["noncmsmodule"]:
+      if os.path.exists("%s/python/%s.py" % (rel, s)):
+        match = re.search( r'^([^\/]+\/+[^\/]+)\/+(.+)$', s)
+        if match:
+          cache["pymodule"][s] = "%s/python/%s.py" % (match.group(1), match.group(2))
+          pyfiles.append("%s/python/%s.py" % (match.group(1), match.group(2)))
+      else: cache["noncmsmodule"][s] = 1
+  return pyfiles
 
-# Traverse desired filesystems
-my $directory="${rel}/tmp";
-File::Find::find({wanted => \&wanted}, $directory);
+def data2json(infile):
+  jstr = ""
+  rebs=re.compile(',\s+"BuildSystem::[a-zA-Z0-9]+"\s+\)')
+  revar=re.compile("^\s*\$[a-zA-Z0-9]+\s*=")
+  reundef=re.compile('\s*undef,')
+  lines = [l.strip().replace(" bless(","").replace("'",'"').replace('=>',' : ')  for l in
+  gzip.open(infile).readlines()]
+  lines[0] = revar.sub("",lines[0])
+  lines[-1] = lines[-1].replace(";","")
+  for l in lines:
+    l =  reundef.sub(' "",',rebs.sub("", l.rstrip()))
+    jstr += l
+  return json.loads(jstr)
 
-open F1,">${rel}/etc/dependencies/uses.out";
-foreach my $key (keys %uses) {
-    print F1 "$key $uses{$key}\n";
-}
-close F1;
+def updateBFDeps(dir, pcache, cache):
+  bf = cache["dirs"][dir]
+  if not cache.has_key("uses"): cache["uses"] = {}
+  if bf in cache["uses"]: return 0
+  cache["uses"][bf] = {}
+  for pack in pcache["BUILDTREE"][dir]["RAWDATA"]["DEPENDENCIES"].keys():
+    if pack in cache["packs"]:
+      xdata = cache["packs"][pack]
+      updateBFDeps(xdata, pcache, cache)
+      xdata = cache["dirs"][xdata]
+      cache["uses"][bf][xdata] = 1
+      if not cache.has_key("usedby"): cache["usedby"] = {}
+      if not cache["usedby"].has_key(xdata): cache["usedby"][xdata] = {}
+      cache["usedby"][xdata][bf] = 1
+      for xdep in cache["uses"][xdata].keys():
+        cache["uses"][bf][xdep] = 1
+        cache["usedby"][xdep][bf] = 1
 
-open F1,">${rel}/etc/dependencies/usedby.out";
-foreach my $key (keys %usedby) {
-    print F1 "$key $usedby{$key}\n";
-}
-close F1;
+def buildFileDeps(rel, arch, scramroot):
+  pcache = data2json("%s/.SCRAM/%s/ProjectCache.db.gz" % (rel, arch))
+  cache = {}
+  for dir in sorted(pcache["BUILDTREE"].keys()):
+    if pcache["BUILDTREE"][dir]["SUFFIX"] != "": continue
+    if len(pcache["BUILDTREE"][dir]["METABF"]) == 0: continue
+    bf = pcache["BUILDTREE"][dir]["METABF"][0]
+    bf = re.sub(r'src\/', r'',bf)
+    if not cache.has_key("dirs"): cache["dirs"] = {}
+    if not cache["dirs"].has_key(dir): cache["dirs"][dir] = {}
+    cache["dirs"][dir] = bf
+    pack = dir
+    class_ = pcache["BUILDTREE"][dir]["CLASS"]
+    if re.search( r'^(LIBRARY|CLASSLIB)$', class_):
+      pack = pcache["BUILDTREE"][dir]["PARENT"]
+      if not cache.has_key("packs"): cache["packs"] = {}
+      if not cache["packs"].has_key(pack): cache["packs"][pack] = {}
+    cache["packs"][pack] = dir
+  for dir in cache["dirs"].keys():
+    updateBFDeps(dir, pcache, cache)
+  for type_ in ("uses","usedby"):
+    write2File("%s/etc/dependencies/bf%s.out" % (rel, type_), cache, type_)
 
-&pythonDeps($rel);
-&buildFileDeps($rel, $scramarch, $scramroot);
+for root, dirs, files in os.walk(directory):
+  for filename in files:
+    name = os.path.join(root, filename)
+    if re.search( r'^.*(\.dep|\/a\/xr+\.cc\.d)', name): doexec()
 
-exit;
-
-
-sub wanted {
-    doexec(0, 'cat','{}') if ($name=~/^.*(\.dep|\/a\/xr+\.cc\.d)\z/os);
-}
-
-
-sub doexec ($@) {
-    my $ok = shift;
-    my @command = @_; # copy so we don't try to s/// aliases to constants
-
-    my $getnext=0;
-    my $depname;
-    open F1, $name;
-    while (my $l=<F1>) {
-    	chomp($l);
-	last if ($l=~/^[^:]+ :\s*$/o);
-	$l=~s/\s*\\$//o;
-	my @sp1=split(' ',$l);
-	next if ( scalar(@sp1) == 0);
-	next if ( length($sp1[0]) < 4);
-	my @sp2=split('/',$sp1[0]);
-	my $tsp1="";
-	my $foundsrc=0;
-	foreach my $t (@sp2) {
-	    $tsp1.="$t/" if ( $foundsrc==1);
-	    $foundsrc=1 if ( $t eq "src" ); 
-	}
-	chop($tsp1);
-	next if ( $tsp1 eq "");
-	if ( $getnext==1 ) {
-	    $depname=$tsp1;
-	    $getnext=0;
-	}
-	else{
-	    $getnext=0;
-	    if ( $sp1[0] =~ /^tmp\//o ) {
-		if ( $sp1[0] =~/(\.o|\/a\/xr+\.cc):$/o) {
-		    $getnext=1;
-		}
-	    }
-	    else{
-		if ( $sp1[0] =~ /^src/o ) {
-		    $uses{$depname}.="$tsp1 ";
-		    $usedby{$tsp1}.="$depname ";
-		}
-	    }
-	}
-    }
-    close F1;
-    chdir $cwd; #sigh
-    chdir $File::Find::dir;
-    return !$?;
-}
-
-sub pythonDeps()
-{
-  my $rel=shift;
-  my %cache=();
-  foreach my $fname (`find ${rel}/src -name "*.py" -type f`)
-  {
-    chomp $fname;
-    my $file=$fname;
-    $file=~s/^${rel}\/+src\/+//o;
-    if($fname!~/\/python\//o){next;}
-    foreach my $line (`grep 'import ' $fname`)
-    {
-      chomp $line;
-      if ($line=~/^\s*#/){next;}
-      if ($line=~/^\s*from\s+([^\s]+)\s+import\s+/)
-      {
-        foreach my $x (&import2CMSSWDir($1,\%cache))
-        {
-          $cache{usedby}{$x}{$file}=1;
-  	  $cache{uses}{$file}{$x}=1;
-        }
-      }
-      elsif ($line=~/^\s*import\s+([^\s]+)\s*/)
-      {
-        foreach my $x (&import2CMSSWDir($1,\%cache))
-        {
-          $cache{usedby}{$x}{$file}=1;
-	  $cache{uses}{$file}{$x}=1;
-        }
-      }
-    }
-  }
-  foreach my $type ("uses","usedby")
-  {  
-    my $ref;
-    open $ref,">${rel}/etc/dependencies/py${type}.out";
-    foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
-    close($ref);
-  }
-}
-
-sub import2CMSSWDir()
-{
-  my ($str,$cache)=@_;
-  my @pyfiles=();
-  foreach my $s (split ',',$str)
-  {
-    $s=~s/\./\//og;
-    if (exists $cache->{pymodule}{$s}){push @pyfiles,$cache->{pymodule}{$s};}
-    elsif(!exists $cache->{noncmsmodule}{$s})
-    {
-      if (-f "${rel}/python/${s}.py")
-      {
-	$s=~/^([^\/]+\/+[^\/]+)\/+(.+)$/o;
-	$cache->{pymodule}{$s}="${1}/python/${2}.py";
-	push @pyfiles,"${1}/python/${2}.py";
-      }
-      else{$cache->{noncmsmodule}{$s}=1;}
-    }
-  }
-  return @pyfiles;
-}
-
-sub buildFileDeps()
-{
-  my $rel=shift;
-  my $arch=shift;
-  my $scramroot=shift;
-
-  unshift @INC,"$scramroot", "${scramroot}/src";
-  my $pcache={};
-  eval ("use Cache::CacheUtilities;");
-  if(!$@){$pcache=&Cache::CacheUtilities::read("${rel}/.SCRAM/${arch}/ProjectCache.db.gz");}
-  else{die "Unable to find Cache/CacheUtilities.pm PERL module.";}  
-  my %cache=();
-  foreach my $dir (sort keys %{$pcache->{BUILDTREE}})
-  {
-    if ($pcache->{BUILDTREE}{$dir}{SUFFIX} ne ""){next;}
-    if (scalar(@{$pcache->{BUILDTREE}{$dir}{METABF}}) == 0){next;}
-    my $bf=$pcache->{BUILDTREE}{$dir}{METABF}[0]; $bf=~s/src\///;
-    $cache{dirs}{$dir}=$bf;
-    my $pack=$dir;
-    my $class=$pcache->{BUILDTREE}{$dir}{CLASS};
-    if ($class=~/^(LIBRARY|CLASSLIB)$/){$pack=$pcache->{BUILDTREE}{$dir}{PARENT};}
-    $cache{packs}{$pack}=$dir;
-  }
-  foreach my $dir (keys %{$cache{dirs}}){&updateBFDeps($dir,$pcache,\%cache,"");}
-  foreach my $type ("uses","usedby")
-  {  
-    my $ref;
-    open $ref,">${rel}/etc/dependencies/bf${type}.out";
-    foreach my $x (sort keys %{$cache{$type}}){print $ref "$x ",join(" ",sort keys %{$cache{$type}{$x}}),"\n";}
-    close($ref);
-  }
-}
-
-sub updateBFDeps()
-{
-  my ($dir,$pcache,$cache)=@_;
-  my $bf=$cache->{dirs}{$dir};
-  if (exists $cache->{uses}{$bf}){return;}
-  $cache->{uses}{$bf}={};
-  foreach my $pack (keys %{$pcache->{BUILDTREE}{$dir}{RAWDATA}{DEPENDENCIES}})
-  {
-    if (exists $cache->{packs}{$pack})
-    {
-      my $xdata=$cache->{packs}{$pack};
-      &updateBFDeps($xdata,$pcache,$cache);      
-      $xdata=$cache->{dirs}{$xdata};
-      $cache->{uses}{$bf}{$xdata}=1;
-      $cache->{usedby}{$xdata}{$bf}=1;
-      foreach my $xdep (keys %{$cache->{uses}{$xdata}})
-      {
-	$cache->{uses}{$bf}{$xdep}=1;
-        $cache->{usedby}{$xdep}{$bf}=1;    
-      }
-    }
-  }
-}
+write2File(rel + "/etc/dependencies/uses.out", uses)
+write2File(rel + "/etc/dependencies/usedby.out", usedby)
+pythonDeps(rel)
+buildFileDeps(rel, scramarch, scramroot)
+sys.exit()
