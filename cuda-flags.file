@@ -13,7 +13,7 @@
 
 
 # LLVM style for listing the supported CUDA compute architectures
-%define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "sm_$ARCH"; done) | sed -e"s/ /;/g")
+%define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
 
 
 # generate debugging information for device code
