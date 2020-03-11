@@ -6,7 +6,7 @@ Requires: cuda
 
 %install
 ## INCLUDE cuda-flags
-# this defines cuda_flags, used below
+# defines cuda_flags
 
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-stubs.xml
