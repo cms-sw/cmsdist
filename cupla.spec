@@ -10,7 +10,7 @@ Requires: tbb
 
 %build
 ## INCLUDE cuda-flags
-# this defines cuda_flags, used below
+# defines cuda_flags
 
 mkdir build lib
 
