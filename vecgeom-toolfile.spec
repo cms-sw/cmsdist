@@ -13,6 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom_interface.xml
   <client>
     <environment name="VECGEOM_INTERFACE_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include"/>
+    <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include/VecGeom"/>
   </client>
   <flags CPPDEFINES="VECGEOM_SCALAR"/>
   <flags CPPDEFINES="VECGEOM_REPLACE_USOLIDS"/>
@@ -20,8 +21,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom_interface.xml
   <flags CPPDEFINES="VECGEOM_USOLIDS"/>
   <flags CPPDEFINES="VECGEOM_INPLACE_TRANSFORMATIONS"/>
   <flags CPPDEFINES="VECGEOM_USE_INDEXEDNAVSTATES"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE/VecGeom" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$VECGEOM_INTERFACE_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$VECGEOM_INTERFACE_BASE/include/VecGeom" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
