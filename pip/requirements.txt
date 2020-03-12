@@ -154,7 +154,7 @@ pandas==0.24.2 ; python_version<'3.0'
 pandas==0.25.3 ; python_version>'3.0'
 pandocfilters==1.4.2
 parsimonious==0.8.1
-parso==0.5.1
+parso==0.5.2
 pathlib2==2.3.5
 pbr==5.4.4
 pexpect==4.7.0
