@@ -173,6 +173,8 @@ Requires: gperftools-toolfile
 Requires: cuda-toolfile
 Requires: cub-toolfile
 Requires: cuda-api-wrappers-toolfile
+Requires: alpaka-toolfile
+Requires: cupla-toolfile
 
 %if %isnotppc64le_be
 Requires: libunwind-toolfile
