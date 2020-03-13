@@ -49,7 +49,9 @@ go get github.com/shirou/gopsutil/process
 go get github.com/golang/dep/cmd/dep
 go get github.com/golang/glog
 go get github.com/namsral/flag
+
 #go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
+
 go get -d github.com/gesellix/couchdb-prometheus-exporter/lib
 go get -d github.com/gesellix/couchdb-prometheus-exporter
 go get github.com/prometheus/node_exporter
