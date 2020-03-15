@@ -27,7 +27,11 @@ cmsos()
       if [ "X`uname -i`" = Xi386 ]; then
         echo slc${slc_version}_ia32
       else
-        echo slc${slc_version}_${cpuarch}
+        os="slc"
+        if egrep -q "CentOS" /etc/redhat-release 2>/dev/null; then
+          if [ ${slc_version} -gt 7 ] ; then os="cc" ; fi
+        fi
+        echo ${os}${slc_version}_${cpuarch}
       fi
     elif grep -q Scientific /etc/rocks-release 2>/dev/null; then
         slc_version=`grep DISTRIB_RELEASE rocks-release | sed 's/DISTRIB_RELEASE="\([0-9]*\).*/\1/'`
@@ -72,6 +76,9 @@ defaultCompiler()
   case `cmsos` in
     slc4* ) echo gcc345 ;;
     slc5* ) echo gcc432 ;;
+    slc6* ) echo gcc630 ;;
+    slc7* ) echo gcc820 ;;
+    cc* )   echo gcc8   ;;
     osx104* ) echo gcc400 ;;
     osx105* ) echo gcc401 ;;
     osx106* ) echo gcc421 ;;
