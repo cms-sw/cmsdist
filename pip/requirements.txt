@@ -201,7 +201,7 @@ pytools==2019.1.1
 pytz==2019.3
 PyYAML==5.3
 pyzmq==19.0.0
-qtconsole==4.7.1
+qtconsole==4.5.5
 repoze-lru==0.7
 rep==0.6.6
 requests==2.23.0
