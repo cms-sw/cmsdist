@@ -2,7 +2,6 @@
 %define tag d97a571864a119cd5408d2670d095b4410e926cc
 %define branch cms/1.0.0
 %define github_user cms-externals
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 %prep
@@ -10,7 +9,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 
 %build
 
-%if %isdarwin
+%ifarch darwin
 gcc md5.c -shared -fPIC -o libcms-md5.dylib
 %else
 gcc md5.c -shared -fPIC -o libcms-md5.so

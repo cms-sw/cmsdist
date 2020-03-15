@@ -3,8 +3,6 @@ Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.34/util-linux-%{real
 Patch0: libuuid-2.34-disable-get_uuid_via_daemon
 %define keep_archives true
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-
 %prep
 %setup -n util-linux-%{realversion}
 %patch0 -p1
@@ -51,7 +49,7 @@ make %{makeprocesses} uuidd
 # There is no make install action for the libuuid libraries only
 mkdir -p %{i}/lib64
 cp -p %{_builddir}/util-linux-%{realversion}/.libs/libuuid.a* %{i}/lib64
-%if %islinux
+%ifos linux
 cp -p %{_builddir}/util-linux-%{realversion}/.libs/libuuid.so* %{i}/lib64
 %endif
 mkdir -p %{i}/include

@@ -5,7 +5,6 @@ Patch1: meschach-1.2b-fPIC
 
 %define keep_archives true
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -c -n meschach-1.2 -a 0
@@ -14,7 +13,7 @@ Patch1: meschach-1.2b-fPIC
 
 %build
 # Just fix this by hand for MacOSX (the configure probably needs to be updated)
-%if %isdarwin
+%ifarch darwin
 perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
 %endif
 make
