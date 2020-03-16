@@ -259,7 +259,7 @@ webencodings==0.5.1
 Werkzeug==0.16.0
 wheel==0.33.6
 widgetsnbextension==3.5.1
-wrapt==1.12.1
+wrapt==1.11.2
 xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 xrootdpyfs==0.1.6
