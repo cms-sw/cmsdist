@@ -6,6 +6,8 @@
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
+
+
 Requires: expat bz2lib db6 gdbm openssl libffi
 Requires: zlib sqlite
 
