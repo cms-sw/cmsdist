@@ -1,2 +1,2 @@
 %define pip_name backports.os
-Requires: py2-future
+Requires: py2-future py2-setuptools-scm
