@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
   <client>
     <environment name="PYTHON3_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHON3_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHON3_BASE/include/python@PYTHON3V@m"/>
+    <environment name="INCLUDE" default="$PYTHON3_BASE/include/python@PYTHON3V@"/>
     <environment name="PYTHON3_COMPILE" default="$PYTHON3_BASE/lib/python@PYTHON3V@/compileall.py"/>
   </client>
   <runtime name="PATH" value="$PYTHON3_BASE/bin" type="path"/>
