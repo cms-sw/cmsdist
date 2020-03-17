@@ -23,6 +23,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
   <flags CPPDEFINES="BOOST_MATH_DISABLE_STD_FPCLASSIFY"/>
+  <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
 </tool>
