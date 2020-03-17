@@ -51,6 +51,7 @@ Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
 Requires: jemalloc-debug-toolfile
 Requires: jimmy-toolfile
+Requires: json-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
 Requires: libhepml-toolfile
