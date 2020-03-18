@@ -142,7 +142,7 @@ EOF_TOOLFILE
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 getLibName()
 {
-  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -exec basename {} \;`
+  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -follow -exec basename {} \;`
   echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
 }
 
