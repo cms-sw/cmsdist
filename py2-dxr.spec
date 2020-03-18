@@ -20,6 +20,7 @@ Patch5: py2-dxr-clang37
 Patch6: py2-dxr-clang700
 Patch7: py2-dxr-llvm801
 Patch8: py2-dxr-dxrindex-fpic
+Patch9: py2-dxr-llvm901
 %define keep_archives true
 
 %prep
@@ -36,6 +37,7 @@ cd ..
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 mv trilite-%triliteCommit/* trilite
 %setup -T -D -n dxr-%dxrCommit
 
