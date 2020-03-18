@@ -40,6 +40,7 @@ Requires: py2-thriftpy
 Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-oamap
+Requires: py3-onnxruntime
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
