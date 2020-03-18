@@ -9,7 +9,7 @@ Requires: python3
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
 <tool name="python3" version="@TOOL_VERSION@">
-  <lib name="python@PYTHON3V@m"/>
+  <lib name="python@PYTHON3V@"/>
   <client>
     <environment name="PYTHON3_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHON3_BASE/lib"/>
