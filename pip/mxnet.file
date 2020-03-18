@@ -1,0 +1,2 @@
+Requires: py2-requests py2-graphviz py2-numpy
+%define PipDownloadSourceType none
