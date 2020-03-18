@@ -23,6 +23,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
   <flags CPPDEFINES="BOOST_MATH_DISABLE_STD_FPCLASSIFY"/>
+  <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
 </tool>
@@ -141,7 +142,7 @@ EOF_TOOLFILE
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 getLibName()
 {
-  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -exec basename {} \;`
+  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -follow -exec basename {} \;`
   echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
 }
 
