@@ -75,6 +75,7 @@ GitPython==2.1.15 ; python_version<'3.0'
 GitPython==3.0.4 ; python_version>'3.0'
 google-common==0.0.1
 google-pasta==0.1.8
+graphviz==0.13.2
 grpcio==1.25.0
 h5py-cache==1.0
 h5py==2.10.0
@@ -127,6 +128,7 @@ more-itertools==5.0.0 ; python_version<'3.0'
 more-itertools==7.2.0 ; python_version>'3.0'
 mpld3==0.3
 mpmath==1.1.0
+mxnet==1.6.0
 nbconvert==5.6.1
 nbdime==1.1.0
 nbformat==4.4.0
@@ -146,6 +148,7 @@ numpy==1.15.1 ; python_version<'3.0' ; platform_machine=='aarch64'
 numpy==1.15.1 ; python_version>'3.0' ; platform_machine=='aarch64'
 oamap==0.12.4
 onnx==1.6.0
+onnxruntime==1.2.0 ; python_version>'3.0'
 opt-einsum==2.3.2 ; python_version<'3.0'
 opt-einsum==3.1.0 ; python_version>'3.0'
 ordereddict==1.1
