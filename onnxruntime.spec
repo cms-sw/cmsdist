@@ -4,7 +4,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake ninja python3
+BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-onnx zlib libpng
 
 %prep
