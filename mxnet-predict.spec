@@ -8,7 +8,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake ninja ccache
+BuildRequires: cmake ninja
 
 Requires: OpenBLAS python python3 py2-numpy py3-numpy
 
@@ -25,9 +25,6 @@ export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 export PYTHON3V=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 
 cmake ../%{n}-%{realversion} -GNinja \
-    -DCMAKE_CUDA_COMPILER_LAUNCHER=ccache \
-    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_BUILD_TYPE=Release \
     -DUSE_CUDA=OFF \
