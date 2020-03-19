@@ -1,0 +1,2 @@
+Requires: onnxruntime
+%define PipDownloadSourceType none
