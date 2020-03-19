@@ -1,9 +1,9 @@
-### RPM cms cms-git-tools 200209.0
+### RPM cms cms-git-tools 200318.0
 ## NOCOMPILER
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 6cd3f0a0c54c177740ae78586b8e9790ec688d21
+%define commit 8f24c0971435df07033f9e07a503fc6289ab1848
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when they are dependencies.
@@ -15,7 +15,6 @@ BuildRequires: gmake
 %setup -n %{n}
 
 %build
-make
 
 %install
 mkdir -p %{i}/common %{i}/share/man/man1
