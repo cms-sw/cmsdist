@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+PhysicsTools-NanoAOD=V01-01-00
 RecoBTag-Combined=V01-03-00
 RecoTauTag-TrainingFiles=V00-02-00
 RecoJets-JetProducers=V05-11-00
@@ -25,7 +26,6 @@ RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 L1Trigger-L1TMuon=V01-01-04
 CondTools-SiPhase2Tracker=V00-01-00
-PhysicsTools-NanoAOD=V01-00-05
 EgammaAnalysis-ElectronTools=V00-01-04
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
