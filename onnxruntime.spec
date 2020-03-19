@@ -4,9 +4,8 @@
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake ninja zlib python3
-Requires: protobuf
-
+BuildRequires: cmake ninja
+Requires: protobuf py3-numpy py2-onnx zlib libpng
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -41,7 +40,8 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
    -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
-   -Dprotobuf_INSTALL_PATH=${PROTOBUF_ROOT}
+   -Dprotobuf_INSTALL_PATH=${PROTOBUF_ROOT} \
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
