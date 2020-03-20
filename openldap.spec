@@ -9,8 +9,8 @@ Requires: openssl db6
 %build
 # Update for AArch64 support
 rm -f ./build/config.{sub,guess}
-curl -L -k -s -o ./build/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./build/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_sub ./build/config.sub
+%get_config_guess ./build/config.guess
 chmod +x ./build/config.{sub,guess}
 
 ./configure \
