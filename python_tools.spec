@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
  
-Requires: root curl python python3 xrootd llvm hdf5
+Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict
 Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
