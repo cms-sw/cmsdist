@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mxnet-predict.xml
   <client>
     <environment name="MXNET_PREDICT_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$MXNET_PREDICT_BASE/include"/>
-    <environment name="LIBDIR" default="$MXNET_PREDICT_BASE/lib64"/>
+    <environment name="LIBDIR" default="$MXNET_PREDICT_BASE/lib"/>
   </client>
   <use name="openblas"/>
 </tool>
