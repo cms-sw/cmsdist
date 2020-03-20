@@ -4,6 +4,7 @@
 Source: none
  
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict
+
 Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
@@ -216,6 +217,7 @@ Requires: py2-wrapt
 
 %ifnarch ppc64le
 Requires: py2-pycuda
+Requires: onnxruntime
 %endif
 
 %prep
