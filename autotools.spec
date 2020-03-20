@@ -8,6 +8,7 @@
 %define m4_version 1.4.18
 %define gettext_version 0.20.1
 %define pkgconfig_version 0.29.2
+Provides: perl(Errno)
 Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftp.gnu.org/gnu/automake/automake-%{automake_version}.tar.gz
 Source2: http://ftp.gnu.org/gnu/libtool/libtool-%{libtool_version}.tar.gz
