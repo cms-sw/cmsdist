@@ -5,8 +5,6 @@ Source: none
  
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict
 
-%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
@@ -142,7 +140,7 @@ Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
-%if %isamd64
+%ifarch x86_64
 Requires: py2-cx-Oracle
 %endif
 Requires: py2-cython
