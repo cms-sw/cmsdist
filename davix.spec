@@ -5,9 +5,8 @@
 %define github_user cern-it-sdc-id
 Source0: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define soext so
-%if %isdarwin
+%ifarch darwin
 %define soext dylib
 %endif
 

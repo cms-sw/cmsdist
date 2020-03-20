@@ -18,8 +18,8 @@ Patch1: rivet-weightnames
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
-curl -L -k -s -o %{_tmppath}/config.guess http://cmsrep.cern.ch/cmssw/download/config/config.guess
-curl -L -k -s -o %{_tmppath}/config.sub http://cmsrep.cern.ch/cmssw/download/config/config.sub
+%get_config_guess %{_tmppath}/config.guess
+%get_config_sub %{_tmppath}/config.sub
 for CONFIG_GUESS_FILE in $(find $RPM_BUILD_DIR -name 'config.guess')
 do
   rm -f $CONFIG_GUESS_FILE

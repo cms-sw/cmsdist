@@ -7,8 +7,8 @@ Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 %build
 # Update to detect aarch64 and ppc64le
 rm -f ./build-aux/config.{sub,guess}
-curl -L -k -s -o ./build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_sub ./build-aux/config.sub
+%get_config_guess ./build-aux/config.guess
 chmod +x ./build-aux/config.{sub,guess}
 
 ./configure \

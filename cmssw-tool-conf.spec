@@ -2,15 +2,6 @@
 ## NOCOMPILER
 # With cmsBuild, change the above version only when a new tool is added
 
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotppc64le %(case %{cmsplatf} in (*_ppc64le_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isnotppc64le_be %(case %{cmsplatf} in (*_ppc64*) echo 0 ;; (*) echo 1 ;; esac)
-%define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
 Requires: python2to3
 Requires: crab
 Requires: google-benchmark-toolfile
@@ -74,7 +65,6 @@ Requires: vincia-toolfile
 Requires: dire-toolfile
 Requires: python-toolfile
 Requires: python3-toolfile
-Requires: qt-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: openmpi-toolfile
@@ -92,16 +82,13 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
-%if %isnotaarch64
-Requires: pyqt-toolfile
-%endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
-%if %isnotppc64le
+%ifnarch ppc64le
 Requires: onnxruntime-toolfile
 %endif
 
@@ -166,7 +153,7 @@ Requires: mkfit-toolfile
 Requires: dablooms-toolfile
 
 # Only for Linux platform.
-%if %islinux
+%ifos linux
 Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
@@ -177,19 +164,19 @@ Requires: cuda-api-wrappers-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
 
-%if %isnotppc64le_be
+%ifnarch ppc64le
 Requires: libunwind-toolfile
 Requires: igprof-toolfile
 Requires: openloops-toolfile
 %endif
 
-%if %isamd64
+%ifarch x86_64
 Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
 
-%if %isslc
+%ifos linux
 Requires: glibc-toolfile
 %endif
 %else

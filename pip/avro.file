@@ -1,1 +1,2 @@
+Requires: py2-pycodestyle py2-isort
 %define RelocatePython %{i}/bin/*
