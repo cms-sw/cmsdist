@@ -1,7 +1,7 @@
 ### RPM external mxnet-predict 1.5.0
-## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
-## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
-## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+## INITENV +PATH PYTHON27PATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHON3PATH %{i}/$PYTHON3_LIB_SITE_PACKAGES
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 
 %define tag 337cf1b54cc02bde94f459c89863a18187b0aada
 %define branch 1.5.0-cms-mod
@@ -26,6 +26,7 @@ export PYTHON3V=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 
 cmake ../%{n}-%{realversion} -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -DCMAKE_INSTALL_LIBDIR="%{i}/lib" \
     -DCMAKE_BUILD_TYPE=Release \
     -DUSE_CUDA=OFF \
     -DUSE_OPENCV=OFF \
@@ -46,5 +47,5 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 %install
 cd ../build
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
-rm %{i}/lib64/*.a %{i}/*.so
-mv %{i}/python* %{i}/lib64
+rm %{i}/*.so
+mv %{i}/python* %{i}/lib
