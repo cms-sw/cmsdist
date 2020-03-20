@@ -1,4 +1,4 @@
-Requires: lz4 py2-future
+Requires: lz4 py2-future py2-pkgconfig py2-setuptools-scm
 
 %define PipBuildOptions  --global-option=build_ext --global-option="-L${LZ4_ROOT}/lib"  --global-option="-I${LZ4_ROOT}/include"
 

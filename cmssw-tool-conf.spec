@@ -81,9 +81,6 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
-%ifnarch aarch64
-#Requires: pyqt-toolfile
-%endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile

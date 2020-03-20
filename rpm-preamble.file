@@ -271,9 +271,8 @@ if [ -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/.autodependencies ] ; then \
   %{relocateConfig}etc/profile.d/dependencies-setup.csh \
 fi
 #Some special urls to gets config.sub/cofngi.guess
-%define get_cmsrep_cache() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/%2
-%define get_config_guess() %get_cmsrep_cache %1 config/config.guess
-%define get_config_sub()   %get_cmsrep_cache %1 config/config.sub
+%define get_config_guess() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.guess
+%define get_config_sub()   curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.sub
 
 #Some help macros to check for OS and ARCH
 %define isslc     %(case %{cmsos} in (slc*|cc*)     echo 1 ;; (*) echo 0 ;; esac)
@@ -283,4 +282,3 @@ fi
 %define is_ncmsos   %(case %{cmsos} in (%1_*) echo 0 ;; (*) echo 1 ;; esac)
 %define is_cmsarch  %(case %{cmsos} in (*_%1) echo 1 ;; (*) echo 0 ;; esac)
 %define is_ncmsarch %(case %{cmsos} in (*_%1) echo 0 ;; (*) echo 1 ;; esac)
-

@@ -2,7 +2,6 @@
 %define doxygen_release Release_%(echo %{realversion} | tr '.' '_')
 
 Source: https://github.com/doxygen/doxygen/archive/%{doxygen_release}.tar.gz
-#Source: http://ftp.stack.nl/pub/users/dimitri/%{n}-%{realversion}.src.tar.gz
 BuildRequires: flex bison graphviz autotools gmake cmake python
 
 #define drop_files %{i}/man

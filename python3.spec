@@ -1,4 +1,4 @@
-### RPM external python3 3.6.9
+### RPM external python3 3.8.2
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON3_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
@@ -7,7 +7,7 @@
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 %define python_major %(echo %realversion | cut -d. -f 1)
 Provides: python(abi)
-Requires: expat bz2lib db6 gdbm libffi zlib sqlite libuuid xz
+Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
 
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
 

@@ -64,6 +64,7 @@ pushd %_builddir/gettext-%{gettext_version}
   ./configure --prefix %i \
               --without-xz \
               --without-bzip2 \
+              --with-included-libxml \
               --disable-curses \
               --disable-openmp \
               --enable-relocatable \

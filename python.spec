@@ -190,7 +190,6 @@ echo "   import os,site" >> %i/lib/python2.7/sitecustomize.py
 echo "   for p in environ['PYTHON27PATH'].split(os.pathsep):">> %i/lib/python2.7/sitecustomize.py
 echo "       site.addsitedir(p)">> %i/lib/python2.7/sitecustomize.py
 
-
 %post
 %{relocateConfig}lib/python2.7/config/Makefile
 %{relocateConfig}lib/python2.7/_sysconfigdata.py
