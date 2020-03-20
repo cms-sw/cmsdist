@@ -140,7 +140,7 @@ Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
-%if %isamd64
+%ifarch x86_64
 Requires: py2-cx-Oracle
 %endif
 Requires: py2-cython
