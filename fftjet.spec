@@ -14,8 +14,8 @@ CXX="$(which g++) -fPIC"
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess}
-curl -L -k -s -o ./config.sub http://cmsrep.cern.ch/cmssw/download/config/config.sub
-curl -L -k -s -o ./config.guess http://cmsrep.cern.ch/cmssw/download/config/config.guess
+%get_config_sub ./config.sub
+%get_config_guess ./config.guess
 chmod +x ./config.{sub,guess}
 
 # Fake the existance of pkg-config on systems which dont have it.

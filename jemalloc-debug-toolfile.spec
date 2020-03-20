@@ -10,7 +10,7 @@ Requires: jemalloc-debug
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/jemalloc-debug.xml
 <tool name="jemalloc-debug" version="@TOOL_VERSION@">
-  <architecture name="slc.*|fc.*">
+  <architecture name="slc.*|fc.*|cc*">
     <lib name="jemalloc"/>
   </architecture>
   <client>
