@@ -113,6 +113,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
       %{?PipPreBuildPy3:%PipPreBuildPy3}
       pip3 install --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
       PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+      [ "${PKG_NAME}" = "" ] && exit 1
       DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
@@ -126,6 +127,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
       %{?PipPreBuildPy2:%PipPreBuildPy2}
       pip2 install --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
       PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+      [ "${PKG_NAME}" = "" ] && exit 1
       DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"

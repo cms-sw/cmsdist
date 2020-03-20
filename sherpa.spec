@@ -6,14 +6,11 @@ Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
 BuildRequires: mcfm swig
 
-%define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
-
-%if %islinux
+%ifos linux
 %ifnarch ppc64le
 Requires: openloops
-%endif # is not ppc64
-%endif # islinux
+%endif
+%endif
 
 %prep
 %setup -q -n SHERPA-MC-%{realversion}

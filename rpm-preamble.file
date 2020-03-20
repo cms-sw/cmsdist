@@ -15,7 +15,7 @@
 
 # Preliminarily define where things go.  These are the places we
 # know even without knowing the architecture yet.  In particular
-# we need %_specdir to find "cmsos" to determine the architecture.
+# we need _specdir to find "cmsos" to determine the architecture.
 # Note that we define the values all here, but some of them are
 # not actually usable until we've managed to defined %cmsplatf.
 #
@@ -168,7 +168,7 @@
 %define __check_files   %{nil}
 %define debug_package   %{nil}
 
-# define ARCH %{cmsplatf}?
+# define ARCH {cmsplatf}?
 # No BuildRoot
 # No %buildsubdir
 # No Distribution:
@@ -236,12 +236,12 @@
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
 %define relocatePy3SitePackages \
-  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES}) ; do \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} |  grep -v '\.pyc$') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python3" $py \
   done
 %define relocatePy2SitePackages \
-  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES}) ; do \
+  for py in $(grep -Rl -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep -v '\.pyc') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python" $py \
   done
@@ -278,3 +278,15 @@ if [ -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/.autodependencies ] ; then \
   %{relocateConfig}etc/profile.d/dependencies-setup.sh \
   %{relocateConfig}etc/profile.d/dependencies-setup.csh \
 fi
+#Some special urls to gets config.sub/cofngi.guess
+%define get_config_guess() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.guess
+%define get_config_sub()   curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.sub
+
+#Some help macros to check for OS and ARCH
+%define isslc     %(case %{cmsos} in (slc*|cc*)     echo 1 ;; (*) echo 0 ;; esac)
+
+#Use the following without {} e.g 'isos cc*' instead of '{isos} cc*'
+%define is_cmsos    %(case %{cmsos} in (%1_*) echo 1 ;; (*) echo 0 ;; esac)
+%define is_ncmsos   %(case %{cmsos} in (%1_*) echo 0 ;; (*) echo 1 ;; esac)
+%define is_cmsarch  %(case %{cmsos} in (*_%1) echo 1 ;; (*) echo 0 ;; esac)
+%define is_ncmsarch %(case %{cmsos} in (*_%1) echo 0 ;; (*) echo 1 ;; esac)
