@@ -1,4 +1,4 @@
-### RPM external classlib-toolfile 1.0
+### RPM external classlib-toolfile 2.0
 Requires: classlib
 
 %prep
@@ -22,3 +22,4 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/classlib.xml
   </tool>
 EOF_TOOLFILE
 ## IMPORT scram-tools-post
+
