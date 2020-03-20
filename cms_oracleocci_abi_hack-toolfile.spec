@@ -2,9 +2,8 @@
 Requires: cms_oracleocci_abi_hack
 
 %define cms_oracleocci_libname cms_oracleocci_abi_hack
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define soext so
-%if %isdarwin
+%ifarch darwin
 %define soext dylib
 %endif
 

@@ -12,8 +12,8 @@ Requires: pcre
 %build
 # Update to get aarch64 and ppc64le
 rm -f ./cfg/config.{sub,guess}
-curl -L -k -s -o ./cfg/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./cfg/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_guess ./cfg/config.guess
+%get_config_sub ./cfg/config.sub
 chmod +x ./cfg/config.{sub,guess}
 
 ./configure --prefix=%i           \

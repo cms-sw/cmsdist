@@ -36,7 +36,6 @@ Requires: py2-hyperopt
 Requires: py2-seaborn
 Requires: py2-h5py
 Requires: py2-h5py-cache
-Requires: py2-thriftpy
 Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-oamap
