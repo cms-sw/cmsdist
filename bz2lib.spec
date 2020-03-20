@@ -2,7 +2,6 @@
 Source: http://www.bzip.org/%{realversion}/bzip2-%{realversion}.tar.gz
 %define cpu %(echo "%{cmsplatf}" | cut -f2 -d_)
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -n bzip2-%{realversion}
@@ -12,7 +11,7 @@ sed -e 's/ -shared/ -dynamiclib/' \
     < Makefile-libbz2_so > Makefile-libbz2_dylib
 
 %build
-%if %isdarwin
+%ifarch darwin
 make %{makeprocesses} -f Makefile-libbz2_dylib
 %else
 make %{makeprocesses} -f Makefile-libbz2_so
@@ -20,7 +19,7 @@ make %{makeprocesses} -f Makefile-libbz2_so
 
 %install
 make install PREFIX=%{i}
-%if %isdarwin
+%ifarch darwin
 %define soname dylib
 %else
 %define soname so

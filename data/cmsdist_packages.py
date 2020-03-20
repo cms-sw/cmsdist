@@ -15,7 +15,7 @@ def packages(virtual_packages):
     (pkg, ver) = line.strip().split('=',1)
     data_pkg = 'data-'+pkg
     if data_pkg in virtual_packages:
-      print "ERROR: Duplicate data package definitions found in %s for package %s" % (req, pkg)
+      print ("ERROR: Duplicate data package definitions found in %s for package %s" % (req, pkg))
       exit(1)
     virtual_packages[data_pkg]='%s/package.sh "%s" "%s" "%s"' % (pkg_dir, data_pkg, ver, ptype)
   return

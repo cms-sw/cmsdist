@@ -19,7 +19,6 @@ Requires: coral-tool-conf
 %define cmsplatf_ppc64 1
 %endif
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
 
@@ -27,7 +26,7 @@ Requires: coral-tool-conf
 %define subpackageDebug yes
 
 # Disable building tests, since they bring dependency on cppunit:
-%if %isdarwin
+%ifarch darwin
 %define patchsrc2        perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
 %define patchsrc3       %patch0 -p1 
 %endif
