@@ -219,6 +219,7 @@ Requires: py2-wrapt
 
 %ifnarch ppc64le
 Requires: py2-pycuda
+Requires: onnxruntime
 %endif
 
 %prep
