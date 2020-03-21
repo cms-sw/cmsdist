@@ -35,6 +35,7 @@ done
   --prefix=%{i} \
   --enable-shared \
   --enable-ipv6 \
+  --with-openssl=${OPENSSL_ROOT} \
   --with-system-ffi \
   --without-ensurepip \
   --with-system-expat \
