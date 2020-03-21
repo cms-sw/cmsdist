@@ -290,3 +290,4 @@ fi
 %define is_ncmsos   %(case %{cmsos} in (%1_*) echo 0 ;; (*) echo 1 ;; esac)
 %define is_cmsarch  %(case %{cmsos} in (*_%1) echo 1 ;; (*) echo 0 ;; esac)
 %define is_ncmsarch %(case %{cmsos} in (*_%1) echo 0 ;; (*) echo 1 ;; esac)
+%define cuda_gcc_support touch cuda_gcc_supported.cu; if [ $(nvcc -dc cuda_gcc_supported.cu -o cuda_gcc_supported.cu.o 2>&1 | grep 'unsupported GNU version' | wc -l) -eq 0 ] ; then echo true; else echo false; fi ; rm -f cuda_gcc_supported.cu*
