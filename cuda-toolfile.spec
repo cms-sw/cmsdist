@@ -178,13 +178,11 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/nvidia-drivers.xml
 </tool>
 EOF_TOOLFILE
 
-touch cuda_gcc_supported.cu
-if [ $(nvcc -dc cuda_gcc_supported.cu -o cuda_gcc_supported.cu.o 2>&1 | grep 'unsupported GNU version' | wc -l) -eq 0 ] ; then
+if [ $(%{cuda_gcc_support}) = true ] ; then
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-gcc-support.xml
 <tool name="cuda-gcc-support" version="@TOOL_VERSION@">
 </tool>
 EOF_TOOLFILE
 fi
-rm -f cuda_gcc_supported.*
 
 ## IMPORT scram-tools-post
