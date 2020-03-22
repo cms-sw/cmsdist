@@ -228,12 +228,12 @@
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
 %define relocatePy3SitePackages \
-  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} 2>&1 | grep -v 'Binary file' |  grep -v '\.pyc$') ; do \
+  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} | grep -v '\.pyc$') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python3" $py \
   done
 %define relocatePy2SitePackages \
-  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} 2>&1 | grep -v 'Binary file' | grep -v '\.pyc') ; do \
+  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep -v '\.pyc') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
     sed -i -e "${lnum}c#!/usr/bin/env python" $py \
   done
