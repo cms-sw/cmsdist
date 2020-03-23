@@ -164,7 +164,7 @@ Requires: py2-backports_abc
 Requires: py2-colorama
 Requires: py2-lxml
 Requires: py2-beautifulsoup4
-Requires: py2-GitPython
+Requires: py2-GitPython py3-GitPython
 Requires: py2-Send2Trash
 Requires: py2-gitdb2
 Requires: py2-ipaddress
@@ -213,6 +213,14 @@ Requires: py2-lazy-object-proxy
 Requires: py2-pylint
 Requires: py2-pytest-cov
 Requires: py2-wrapt
+
+Requires: py2-distlib
+Requires: py2-filelock
+Requires: py3-gitdb
+Requires: py2-importlib-resources
+Requires: py2-smmap
+Requires: py2-zipp py3-zipp
+
 
 %ifnarch ppc64le
 Requires: py2-pycuda
