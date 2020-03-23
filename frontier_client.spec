@@ -1,15 +1,11 @@
-### RPM external frontier_client 2.8.20
-## INITENV +PATH PYTHONPATH %{i}/python/lib
+### RPM external frontier_client 2.9.1
+## INITENV +PATH PYTHON27PATH %{i}/python/lib
+## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
 Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 Requires: expat openssl pacparser python zlib
 
 Patch0: frontier_client-2.8.20-add-python-dbapi
-
-%if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x -O2
-%endif
 
 %prep
 %setup -n %{n}__%{realversion}__src
@@ -21,13 +17,13 @@ Patch0: frontier_client-2.8.20-add-python-dbapi
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
+make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
 
 %install
 mkdir -p %i/lib
 mkdir -p %i/include
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="%cms_cxxflags -ldl" distdir=%i dist
+make $MAKE_ARGS CXXFLAGS="-ldl" distdir=%i dist
 
 case $(uname) in 
   Darwin ) 
