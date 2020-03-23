@@ -1,1 +1,2 @@
+Requires: py2-appdirs py2-distlib py2-filelock py2-six py2-importlib-metadata py2-importlib-resources
 %define RelocatePython %{i}/bin/*
