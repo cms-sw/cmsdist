@@ -1,1 +1,1 @@
-Requires: py2-gitdb2 py2-smmap2
+Requires: py2-gitdb2 py2-smmap2 py3-gitdb
