@@ -266,7 +266,8 @@ webencodings==0.5.1
 Werkzeug==1.0.0
 wheel==0.33.6
 widgetsnbextension==3.5.1
-wrapt==1.11.2 #cannot update before astroid is
+#cannot wrapt update before astroid is
+wrapt==1.11.2 
 xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 xrootdpyfs==0.1.6
