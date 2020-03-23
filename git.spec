@@ -1,13 +1,9 @@
-### RPM external git 2.19.0
+### RPM external git 2.23.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
 ## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
-
-%define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isNotDarwin %(case %{cmsos} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
-%define isLinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl

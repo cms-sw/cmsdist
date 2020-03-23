@@ -3,10 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
  
-Requires: root curl python python3 xrootd llvm hdf5
+Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict
 
-%define isslc7 %(case %{cmsplatf} in (slc7_amd64*) echo 1 ;; (*) echo 0 ;; esac)
-%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
@@ -36,7 +34,6 @@ Requires: py2-hyperopt
 Requires: py2-seaborn
 Requires: py2-h5py
 Requires: py2-h5py-cache
-Requires: py2-thriftpy
 Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-oamap
@@ -143,7 +140,7 @@ Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
-%if %isamd64
+%ifarch x86_64
 Requires: py2-cx-Oracle
 %endif
 Requires: py2-cython
@@ -219,6 +216,7 @@ Requires: py2-wrapt
 
 %ifnarch ppc64le
 Requires: py2-pycuda
+Requires: onnxruntime
 %endif
 
 %prep

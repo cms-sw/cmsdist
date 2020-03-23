@@ -2,13 +2,10 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
-%define isamd64 %(case %{cmsplatf} in (*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 BuildRequires: cmake ninja
 Requires: gcc zlib python python3
-%ifarch x86_64
 Requires: cuda
-%endif
 AutoReq: no
 
 %define llvmCommit 379a43bc841451feccf78db64f2ed5c9e62c7de8
@@ -33,6 +30,9 @@ sed -ibak '/add_clang_subdirectory(libclang)/a add_subdirectory(include-what-you
 %setup -T -D -n llvm-%{realversion}-%{llvmCommit}
 
 %build
+## INCLUDE cuda-flags
+# defines llvm_cuda_arch
+
 rm -rf %{_builddir}/build
 mkdir -p %{_builddir}/build
 cd %{_builddir}/build
@@ -44,16 +44,14 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
-  -DBUILD_SHARED_LIBS:BOOL=ON \
+  -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
+  -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
-%ifarch x86_64
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
-%else
-  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64" \
-%endif
+  -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%llvm_cuda_arch" \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 

@@ -1,4 +1,4 @@
-### RPM external boost-toolfile 1.3
+### RPM external boost-toolfile 1.4
 Requires: boost
 %prep
 
@@ -12,7 +12,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
 <tool name="boost" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_THREAD_LIB@"/>
-  <lib name="@BOOST_SIGNALS_LIB@"/>
   <lib name="@BOOST_DATE_TIME_LIB@"/>
   <client>
     <environment name="BOOST_BASE" default="@TOOL_ROOT@"/>
@@ -23,6 +22,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
+  <flags CPPDEFINES="BOOST_MATH_DISABLE_STD_FPCLASSIFY"/>
+  <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="sockets"/>
 </tool>
@@ -91,15 +92,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_regex.xml
 </tool>
 EOF_TOOLFILE
 
-# boost_signals toolfile
-cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_signals.xml
-<tool name="boost_signals" version="@TOOL_VERSION@">
-  <info url="http://www.boost.org"/>
-  <lib name="@BOOST_SIGNALS_LIB@"/>
-  <use name="boost"/>
-</tool>
-EOF_TOOLFILE
-
 cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_serialization.xml
 <tool name="boost_serialization" version="@TOOL_VERSION@">
   <info url="http://www.boost.org"/>
@@ -150,12 +142,11 @@ EOF_TOOLFILE
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 getLibName()
 {
-  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -exec basename {} \;`
+  libname=`find $BOOST_ROOT/lib -name "libboost_$1.$so" -follow -exec basename {} \;`
   echo $libname | sed -e 's|[.][^-]*$||;s|^lib||'
 }
 
 export BOOST_THREAD_LIB=`getLibName thread`
-export BOOST_SIGNALS_LIB=`getLibName signals`
 export BOOST_CHRONO_LIB=`getLibName chrono`
 export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
 export BOOST_DATE_TIME_LIB=`getLibName date_time`
