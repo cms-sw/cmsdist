@@ -148,7 +148,6 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
 Requires: mxnet-predict-toolfile
-Requires: mkfit-toolfile
 Requires: dablooms-toolfile
 
 # Only for Linux platform.
