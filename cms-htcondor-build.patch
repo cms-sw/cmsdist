@@ -20,14 +20,14 @@
  		endif()
 --- a/build/cmake/CondorPackageConfig.cmake
 +++ b/build/cmake/CondorPackageConfig.cmake
-@@ -160,9 +160,9 @@ if ( ${OS_NAME} STREQUAL "LINUX" )
- 			set( PYTHON_RPATH "$ORIGIN/../:/lib:/usr/lib:$ORIGIN/../condor" )
- 		endif()
+@@ -168,9 +168,9 @@
+ 		set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib:/usr/lib:$ORIGIN/../lib/condor:/usr/lib/condor" )
+ 		set( PYTHON_RPATH "$ORIGIN/../:/lib:/usr/lib:$ORIGIN/../condor" )
  	else()
 -		set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
 -		set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
 -		set( PYTHON_RPATH "$ORIGIN/../:/lib64:/usr/lib64:$ORIGIN/../condor" )
-+		#set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor" )
++		#set( CONDOR_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
 +		#set( EXTERNALS_RPATH "$ORIGIN/../lib:/lib64:/usr/lib64:$ORIGIN/../lib/condor:/usr/lib64/condor" )
 +		#set( PYTHON_RPATH "$ORIGIN/../:/lib64:/usr/lib64:$ORIGIN/../condor" )
  	endif()
@@ -91,18 +91,3 @@
  
  	if (WINDOWS)
  	  # need to expand the configure and
---- a/src/condor_io/condor_auth_ssl.cpp
-+++ b/src/condor_io/condor_auth_ssl.cpp
-@@ -94,8 +94,12 @@
- 
- 	dlerror();
- 
-+#if defined(HAVE_EXT_KRB5)
- 	if ( Condor_Auth_Kerberos::Initialize() == false ||
- 		 (dl_hdl = dlopen(LIBSSL_SO, RTLD_LAZY)) == NULL ||
-+#else
-+	if ( (dl_hdl = dlopen(LIBSSL_SO, RTLD_LAZY)) == NULL ||
-+#endif
- 		 !(SSL_CTX_ctrl_ptr = (long (*)(SSL_CTX *, int, long, void *))dlsym(dl_hdl, "SSL_CTX_ctrl")) ||
- 		 !(SSL_CTX_free_ptr = (void (*)(SSL_CTX *))dlsym(dl_hdl, "SSL_CTX_free")) ||
- 		 !(SSL_CTX_load_verify_locations_ptr = (int (*)(SSL_CTX *, const char *, const char *))dlsym(dl_hdl, "SSL_CTX_load_verify_locations")) ||

@@ -1,11 +1,11 @@
-### RPM cms crabtaskworker 3.3.1905.rc1
+### RPM cms crabtaskworker 3.3.2003
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.1.20.cmsweb1
+%define wmcver 1.3.1.pre3
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
@@ -13,7 +13,8 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 #Patch0: crabserver3-setup
 
 Requires: p5-time-hires
-Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap
+Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
+Requires: py2-ipython
 Requires: jemalloc
 BuildRequires: py2-sphinx
 

@@ -1,10 +1,10 @@
-### RPM cms exporters 0.0.9
+### RPM cms exporters 0.1.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg cmsweb-exporters
 %define ver %realversion
 %define pkg1 glide
-%define ver1 0.13.2
+%define ver1 0.13.3
 %define dir1 linux-amd64
 %define pkg2 mongodb_exporter
 %define ver2 1.0.0
@@ -49,14 +49,18 @@ go get github.com/shirou/gopsutil/process
 go get github.com/golang/dep/cmd/dep
 go get github.com/golang/glog
 go get github.com/namsral/flag
-go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
-go get github.com/gesellix/couchdb-prometheus-exporter/lib
-go get github.com/gesellix/couchdb-prometheus-exporter
+
+#go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
+
+go get -d github.com/gesellix/couchdb-prometheus-exporter/lib
+go get -d github.com/gesellix/couchdb-prometheus-exporter
+go get github.com/prometheus/node_exporter
 
 go build process_exporter.go
 go build das2go_exporter.go
 go build reqmgr_exporter.go
 go build wmcore_exporter.go
+go build cpy_exporter.go
 
 wdir=$PWD
 
@@ -74,6 +78,11 @@ cp couchdb_exporter $wdir
 cd $GOPATH/src/github.com/dcu/mongodb_exporter
 make build
 cp mongodb_exporter $wdir
+
+# build node exporter
+cd ${GOPATH-$HOME/go}/src/github.com/prometheus/node_exporter
+make
+cp node_exporter $wdir
 
 cd $wdir
 echo "### build dir: $wdir"

@@ -1,0 +1,88 @@
+#File: with-with-pip3
+#pip_name: pip package name default is package name without starting py3
+#PipDownloadSourceType: Only override the download source type e.g. none, all etc. Default is all
+#PipDownloadOptions: override pip download sources options. Default is --no-deps%%20--no-binary%%3D:%%PipDownloadSourceType:
+#PipBuildOptions: Override pip install options
+#pkgsource: Override default source name e.g. source.tar.gz
+#source0: Override default source
+#Pip<Pre|Post><Section>: Extra macros to run extra commands for various sections e.g
+#PipPostBuild to relocate hardcoded pyton paths
+#define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+
+## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES} 
+
+%if "%{?pip_name:set}" != "set"
+%define pip_name %(echo %n | cut -f2-10 -d-)
+%endif
+%if "%{?PipDownloadSourceType:set}" != "set"
+%define PipDownloadSourceType all
+%endif
+%if "%{?PipDownloadOptions:set}" != "set"
+%define PipDownloadOptions --no-deps%%20--no-binary%%3D:%{PipDownloadSourceType}:
+%endif
+%if "%{?PipBuildOptions:set}" != "set"
+%define PipBuildOptions --no-deps
+%endif
+%if "%{?pkgsource:set}" != "set"
+%define pkgsource source.tar.gz
+%endif
+
+Requires: python3 py3-setuptools
+BuildRequires: py3-pip
+
+%if "%{?source0:set}" != "set"
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip3&output=/%{pkgsource}
+%else
+%define source_file %(echo '%{source0}' | sed 's|.*/||')
+%endif
+
+Source: %source0
+
+%prep
+
+%build
+mkdir -p %{i}
+%{?PipPrePrep:%PipPrePrep}
+%if "%{?source_file:set}" != "set"
+tar xfz %{_sourcedir}/%{pkgsource}
+%else
+cp %{_sourcedir}/%{source_file} %{source_file}
+echo %{source_file}  > files.list
+%endif
+
+%{?PipPostPrep:%PipPostPrep}
+%{?PipPreBuild:%PipPreBuild}
+
+if [ $(cat files.list | wc -l) -eq 1 ] ; then
+   export PIPFILE=`cat files.list`
+   echo ${PIPFILE}
+   export PYTHONUSERBASE=%{i}
+   pip3 list  --disable-pip-version-check
+   %{?PipPreBuildPy3:%PipPreBuildPy3}
+   pip3 install --disable-pip-version-check --user -v %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3}  $PIPFILE
+   PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+   DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py3-|' | tr '\n' ' ')
+   if [ "$DEPS" != "" ] ; then
+     echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"
+     exit 1
+   fi
+   %{?PipPostBuildPy3:%PipPostBuildPy3}
+else
+   echo "Sorry I don't know how to handle no/multiple install files yet"
+   cat %{_builddir}/files.list
+   exit 1
+fi
+
+%{?PipPostBuild:%PipPostBuild}
+
+#Install Section
+%install
+%{?PipPreInstall:%PipPreInstall}
+%{?PipPostInstall:%PipPostInstall}
+echo "OK Install"
+
+#post Section
+%post
+%{?PipPrePost:%PipPrePost}
+%{?PipPostPost:%PipPostPost}
+

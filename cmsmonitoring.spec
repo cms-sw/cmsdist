@@ -1,7 +1,7 @@
-### RPM external cmsmonitoring 0.0.6
+### RPM external cmsmonitoring 0.3.3
 ## IMPORT build-with-pip
 
-Requires: python py2-stomp py2-jsonschema py2-genson
+Requires: python py2-stomp py2-jsonschema py2-genson py2-tornado py2-nats
 
 #%define PipPostBuild \
 #   perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/*/*.py

@@ -1,7 +1,7 @@
-### RPM external erlang R15B
+### RPM external erlang R16B03-1
 Source0: http://erlang.org/download/otp_src_%{realversion}.tar.gz
-Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R15B03-1&export=./&filter=*lib/*&output=/R15libs.tar.gz
-Patch0: erlang-ssl-connection
+#Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R16B03-1&export=./&filter=*lib/*&output=/R16libs.tar.gz
+Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R16B03-1&export=./&output=/R16libs.tar.gz
 Requires: openssl zlib
 
 # 32-bit
@@ -12,7 +12,6 @@ Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %prep
 %setup -T -b 1 -n lib
 %setup -D -T -b 0 -n otp_src_%{realversion}
-%patch0 -p0
 find . -name configure | xargs perl -p -i -e 's/-no-cpp-precomp//'
 
 %build
