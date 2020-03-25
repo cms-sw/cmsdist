@@ -80,7 +80,7 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 rm -f %{i}/bin/set-xcode-analyzer
 
 # Remove all static libs except libomptarget-nvptx.a
-find %{i}/lib64 -name "*.a" -and -not -name "libomptarget-nvptx.a" | xargs rm -f
+find %{i}/lib64 -name "*.a" -and -not -name "libomptarget-*.a" -delete
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
