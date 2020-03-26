@@ -13,7 +13,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4 freetype zstd
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
 
 %if %islinux
 Requires: dcap
@@ -56,6 +56,7 @@ cmake ../%{n}-%{realversion} \
   -Dhdfs=OFF \
   -Dqt=OFF \
   -Dtmva=ON \
+  -DPython3_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -91,7 +92,7 @@ cmake ../%{n}-%{realversion} \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
-  -Dpython=ON \
+  -Dpyroot=ON \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -140,7 +141,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT};${ZSTD_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT};${ZSTD_ROOT}" \
   -Dpyroot_experimental=ON
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
