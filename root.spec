@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INITENV SET ROOTSYS %{i}
 ## INITENV SET CPPYY_BACKEND_LIBRARY %{i}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so
-%define tag 422f9dc86f327708e9f1156ab1529c5f8328d671
-%define branch cms/master/5729cdf
+%define tag b9ed9986d241a8ef8d04f930c07c232e25be8a55
+%define branch cms/master/2e17da7
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
