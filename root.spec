@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INITENV SET ROOTSYS %{i}
-## INITENV SET CPPYY_BACKEND_LIBRARY %{i}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so
+
 %define tag b9ed9986d241a8ef8d04f930c07c232e25be8a55
 %define branch cms/master/2e17da7
 %define github_user cms-sw
@@ -175,7 +175,6 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
-for libname in $(ls %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep ".so"); do ln -s python2.7/site-packages/${libname} %{i}/lib/${libname}; done
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
