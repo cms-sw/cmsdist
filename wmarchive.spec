@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.39
+### RPM cms wmarchive v00.08.40
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #%define wmcver 1.1.6
