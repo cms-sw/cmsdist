@@ -61,4 +61,4 @@ for pkg in $(echo %{directpkgreqs} | tr ' ' '\n' | grep '^cms/crab-') ; do
   rm -f common/_crab-startup common/${crab_name}
   ln -s ../${crab}/bin/crab.sh common/${crab_name}
 done
-ln -s crab-prod common/crab
+ln -sf crab-prod common/crab
