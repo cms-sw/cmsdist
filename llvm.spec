@@ -1,4 +1,4 @@
-### RPM external llvm 9.0.1
+### RPM external llvm 10.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
@@ -8,10 +8,10 @@ Requires: gcc zlib python python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 379a43bc841451feccf78db64f2ed5c9e62c7de8
-%define llvmBranch cms/release/9.x/c1a0a21
-%define iwyuCommit 06e88efada2ff6dbccee3bbb1279c10439daa4d2
-%define iwyuBranch clang_9.0
+%define llvmCommit b7fd81c2a6bd6ef0b9bc0742667ec21649b6b159
+%define llvmBranch cms/release/10.x/7899a11
+%define iwyuCommit a5a6f27dabeb7fbc59b06ea949a312201c2fbdcf
+%define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
