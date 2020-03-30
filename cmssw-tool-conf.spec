@@ -158,7 +158,6 @@ Requires: openldap-toolfile
 Requires: gperftools-toolfile
 Requires: cuda-toolfile
 Requires: cub-toolfile
-Requires: cuda-api-wrappers-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
 
