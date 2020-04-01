@@ -1,7 +1,70 @@
-##########################################################################
-#Extra CXXMODULE Libs
-DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
+#------------- Alignment
+AlignmentCocoaDaq_CXXMODULES:=0
+AlignmentCocoaFit_CXXMODULES:=0
+AlignmentLaserAlignment_CXXMODULES:=0
+AlignmentOfflineValidation_CXXMODULES:=0
+#------------- Analysis
+AnalysisDataFormatsEWK_CXXMODULES:=0
+AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=0
+AnalysisDataFormatsTopObjects_CXXMODULES:=0
+AnalysisDataFormatsTrackInfo_CXXMODULES:=0
+#------------- CalibTracker
+CalibTrackerSiPixelQuality_CXXMODULES:=0
+#------------- CalibCalorimetry
+CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=0
+CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=0
+#------------- CalibFormats
+CalibFormatsCaloObjects_CXXMODULES:=0
+#------------- Calibration
+CalibrationEcalTBTools_CXXMODULES:=0
+CalibrationHcalCalibAlgos_CXXMODULES:=0
+#------------- CondCore
+CondCoreUtilities_CXXMODULES:=0
+#------------- CondFormats 
+# CondFormatsL1TObjects was disbaled due error:
+# DataFormatsL1GlobalTrigger_xr dictionary forward declarations' payload:9:216: error: enumeration previously declared with nonfixed underlying type
+#  ...__attribute__((annotate("$clingAutoload$DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerReadoutRecord.h"))) L1GtObject :                                                                                                                      ^
+#/cvmfs/cms-ib.cern.ch/week0/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_CXXMODULE_X_2020-02-20-2300/src/DataFormats/L1GlobalTrigger/interface/L1GtObject.h:28:6: note: previous declaration is here
+#enum L1GtObject {
+CondFormatsL1TObjects_CXXMODULES:=0
+# CondFormatsAlignment needs CLHEP.modulemap
+CondFormatsAlignment_CXXMODULES:=0
+# CondFormatsSiStrip needs boost.modulemap
+CondFormatsSiStripObjects_CXXMODULES:=0
 
+CondFormatsRunInfo_CXXMODULES:=1
+CondFormatsBeamSpotObjects_CXXMODULES:=1
+CondFormatsBTauObjects_CXXMODULES:=1
+CondFormatsCalibration_CXXMODULES:=1
+CondFormatsCastorObjects_CXXMODULES:=1
+CondFormatsCommon_CXXMODULES:=1
+CondFormatsCSCObjects_CXXMODULES:=1
+CondFormatsCTPPSReadoutObjects_CXXMODULES:=1
+CondFormatsDQMObjects_CXXMODULES:=1
+CondFormatsDTObjects_CXXMODULES:=1
+CondFormatsEcalCorrections_CXXMODULES:=1
+CondFormatsEcalObjects_CXXMODULES:=1
+CondFormatsEgammaObjects_CXXMODULES:=1
+CondFormatsESObjects_CXXMODULES:=1
+CondFormatsGEMObjects_CXXMODULES:=1
+CondFormatsGeometryObjects_CXXMODULES:=1
+CondFormatsHcalObjects_CXXMODULES:=1
+CondFormatsHIObjects_CXXMODULES:=1
+CondFormatsHLTObjects_CXXMODULES:=1
+CondFormatsJetMETObjects_CXXMODULES:=1
+CondFormatsLuminosity_CXXMODULES:=1
+CondFormatsMFObjects_CXXMODULES:=1
+CondFormatsOptAlignObjects_CXXMODULES:=1
+CondFormatsPCLConfig_CXXMODULES:=1
+CondFormatsPhysicsToolsObjects_CXXMODULES:=1
+CondFormatsRecoMuonObjects_CXXMODULES:=1
+CondFormatsRPCObjects_CXXMODULES:=1
+CondFormatsSiPhase2TrackerObjects_CXXMODULES:=1
+CondFormatsSiPixelObjects_CXXMODULES:=1
+CondFormatsSerialization_CXXMODULES:=1
+#------------- CondTools
+CondToolsBTau_CXXMODULES:=0
+#------------- Dataformats exceptions
 ##########################################################################
 # Cyclic deps DataFormats/GeometrySurface <-> DataFormats/GeometryCommonDetAlgo
 DataFormatsGeometrySurface_LOC_FLAGS_IGNORE_MODULE_FILE:=LocalErrorBaseExtended.h LocalErrorExtended.h
@@ -12,12 +75,6 @@ DataFormatsGeometrySurface_LOC_FLAGS_IGNORE_MODULE_FILE:=LocalErrorBaseExtended.
 DataFormatsSiStripCluster_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripClusterTools.h
 # Cyclic dep DataFormats/SiStripDetId <-> DataFormats/TrackerCommon
 #DataFormatsSiStripDetId_LOC_FLAGS_IGNORE_MODULE_FILE+=StripSubdetector.h
-
-##########################################################################
-### To avoid ERROR:
-#  CondFormats/L1TObjects/interface/L1MuPacking.h:48:2: error: C++ requires a type specifier for all declarations
-#   COND_SERIALIZABLE;
-CondFormatsL1TObjects_LOC_FLAGS_IGNORE_MODULE_FILE:=L1MuGMTScales.h L1MuPacking.h L1MuScale.h L1TGlobalPrescalesVetos.h L1TMuonBarrelParams.h
 
 ##########################################################################
 ### Cyclic deps DataFormats/TrackReco <-> DataFormats/TrackCandidate
@@ -34,16 +91,36 @@ DataFormatsTrackerRecHit2D_LOC_FLAGS_IGNORE_MODULE_FILE+=SiPixelRecHitCollection
 
 ##########################################################################
 ### Compilation Errors
-# DataFormats/ParticleFlowReco/interface/PFSimParticleFwd.h:24:44: error: conflicting declaration 'typedef edm::RefVector<std::vector<reco::PFSimParticle> >::iterator reco::pfParticle_iterator'
+# DataFormats/ParticleFlowReco/interface/PFSimParticleFwd.h24:44: error: conflicting declaration 'typedef edm::RefVector<std::vector<reco::PFSimParticle> >::iterator reco::pfParticle_iterator'
 #    typedef PFSimParticleRefVector::iterator pfParticle_iterator;
-# DataFormats/ParticleFlowReco/interface/PFParticleFwd.h:24:41: note: previous declaration as 'typedef edm::RefVector<std::vector<reco::PFParticle> >::iterator reco::pfParticle_iterator'
+# DataFormats/ParticleFlowReco/interface/PFParticleFwd.h24:41: note: previous declaration as 'typedef edm::RefVector<std::vector<reco::PFParticle> >::iterator reco::pfParticle_iterator'
 #   typedef PFParticleRefVector::iterator pfParticle_iterator;
 DataFormatsParticleFlowReco_LOC_FLAGS_IGNORE_MODULE_FILE:=PFSimParticleFwd.h PFParticleFwd.h
 
-CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=0
-CalibFormatsCaloObjects_CXXMODULES:=0
-CalibrationEcalTBTools_CXXMODULES:=0
-CondFormatsL1TObjects_CXXMODULES:=0
+#------------- Dataformats
+DataFormatsAlignment_CXXMODULES:=1
+DataFormatsBTauReco_CXXMODULES:=1
+DataFormatsCastorReco_CXXMODULES:=1
+DataFormatsCSCDigi_CXXMODULES:=1
+DataFormatsCTPPSReco_CXXMODULES:=1
+DataFormatsEgammaTrackReco_CXXMODULES:=1
+DataFormatsFWLite_CXXMODULES:=1
+DataFormatsGEMDigi_CXXMODULES:=1
+DataFormatsHcalIsolatedTrack_CXXMODULES:=1
+DataFormatsHeavyIonEvent_CXXMODULES:=1
+DataFormatsHGCDigi_CXXMODULES:=1
+DataFormatsHGCRecHit_CXXMODULES:=1
+DataFormatsHLTReco_CXXMODULES:=1
+DataFormatsL1CSCTrackFinder_CXXMODULES:=1
+DataFormatsL1TCalorimeter_CXXMODULES:=1
+DataFormatsL1TGlobal_CXXMODULES:=1
+DataFormatsL1THGCal_CXXMODULES:=1
+DataFormatsL1TMuon_CXXMODULES:=1
+DataFormatsL1TrackTrigger_CXXMODULES:=1
+DataFormatsLuminosity_CXXMODULES:=1
+DataFormatsMETReco_CXXMODULES:=1
+DataFormatsMuonSeed_CXXMODULES:=1
+DataFormatsNanoAOD_CXXMODULES:=1
 DataFormatsBeamSpot_CXXMODULES:=1
 DataFormatsCaloRecHit_CXXMODULES:=1
 DataFormatsCaloTowers_CXXMODULES:=1
@@ -115,18 +192,89 @@ DataFormatsTrajectorySeed_CXXMODULES:=1
 DataFormatsTrajectoryState_CXXMODULES:=1
 DataFormatsVertexReco_CXXMODULES:=1
 DataFormatsWrappedStdDictionaries_CXXMODULES:=1
+DataFormatsEgammaCandidates_CXXMODULES:=1
+DataFormatsEgammaReco_CXXMODULES:=1
+# FIXME: Remove the workarounds by creating a modulemap for CLHEP.
+DataFormatsJetReco_CXXMODULES:=1
+DataFormatsMuonReco_CXXMODULES:=1
+DataFormatsParticleFlowCandidate_CXXMODULES:=1
+DataFormatsRecoCandidate_CXXMODULES:=1
+DataFormatsProtonReco_CXXMODULES:=1
+DataFormatsRPCDigi_CXXMODULES:=1
+DataFormatsRPCRecHit_CXXMODULES:=1
+DataFormatsSiStripCommon_CXXMODULES:=1
+DataFormatsTauReco_CXXMODULES:=1
+DataFormatsV0Candidate_CXXMODULES:=1
+###########################################################################
+# Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
+# (this will be fixed automatically when we upgrade llvm in root)
+DataFormatsParticleFlowReco_CXXMODULES:=0
+# Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
+# enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
+# ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
+# enum L1GtPsbQuad {
+DataFormatsPatCandidates_CXXMODULES:=0
+#------------- DPGAnalysis
+DPGAnalysisSiStripTools_CXXMODULES:=0
+#------------- EgammaAnalysis
+EgammaAnalysisElectronTools_CXXMODULES:=0
+#------------- EventFilter
+EventFilterGEMRawToDigi_CXXMODULES:=0
+#------------- FastSimDataFormats
 FastSimDataFormatsNuclearInteractions_CXXMODULES:=0
 FastSimDataFormatsPileUpEvents_CXXMODULES:=0
+FastSimDataFormatsCTPPSFastSim_CXXMODULES:=0
+FastSimDataFormatsExternal_CXXMODULES:=0
+#------------- Fireworks
+FireworksCore_CXXMODULES:=0
+FireworksEve_CXXMODULES:=0
+FireworksFWInterface_CXXMODULES:=0
+FireworksVertices_CXXMODULES:=0
 FireworksTableWidget_CXXMODULES:=0
+#------------- FWCore
 FWCoreCommon_CXXMODULES:=1
 FWCoreFWLite_CXXMODULES:=1
 FWCoreMessageLogger_CXXMODULES:=1
 FWCoreTFWLiteSelectorTest_CXXMODULES:=1
 FWCoreTFWLiteSelector_CXXMODULES:=1
+#------------- IO
 IOPoolTFileAdaptor_CXXMODULES:=0
 IORawDataHcalTBInputService_CXXMODULES:=0
+#------------- JetMETCorrections
+JetMETCorrectionsJetCorrector_CXXMODULES:=0
+JetMETCorrectionsModules_CXXMODULES:=0
+#------------- L1Trigger
+L1TriggerL1TGlobal_CXXMODULES:=0
+L1TriggerL1TNtuples_CXXMODULES:=0
+#------------- MuonAnalysis
+MuonAnalysisMomentumScaleCalibration_CXXMODULES:=0
+#------------- PhysicsTools
 PhysicsToolsKinFitter_CXXMODULES:=0
 PhysicsToolsRooStatsCms_CXXMODULES:=0
+PhysicsToolsFWLite_CXXMODULES:=0
+PhysicsToolsHeppy_CXXMODULES:=0
+PhysicsToolsIsolationUtils_CXXMODULES:=0
+PhysicsToolsMVAComputer_CXXMODULES:=0
+PhysicsToolsMVATrainer_CXXMODULES:=0
+PhysicsToolsParallelAnalysis_CXXMODULES:=0
+PhysicsToolsPatUtils_CXXMODULES:=0
+PhysicsToolsSelectorUtils_CXXMODULES:=0
+PhysicsToolsTagAndProbe_CXXMODULES:=0
+PhysicsToolsUtilities_CXXMODULES:=0
+#------------- Reco
+RecoEgammaElectronIdentification_CXXMODULES:=0
+RecoEgammaPhotonIdentification_CXXMODULES:=0
+RecoLuminosityLumiProducer_CXXMODULES:=0
+RecoMuonMuonIdentification_CXXMODULES:=0
+RecoParticleFlowBenchmark_CXXMODULES:=0
+RecoPixelVertexingPixelTrackFitting_CXXMODULES:=0
+RecoPixelVertexingPixelTriplets_CXXMODULES:=0
+RecoTrackerMeasurementDet_CXXMODULES:=0
+RecoTrackerTkHitPairs_CXXMODULES:=0
+RecoTrackerTkSeedGenerator_CXXMODULES:=0
+RecoTrackerTkSeedingLayers_CXXMODULES:=0
+RecoTrackerTkTrackingRegions_CXXMODULES:=0
+#------------- SimDataFormats
 SimDataFormatsCaloHit_CXXMODULES:=0
 SimDataFormatsDigiSimLinks_CXXMODULES:=0
 SimDataFormatsEncodedEventId_CXXMODULES:=0
@@ -144,160 +292,28 @@ SimDataFormatsTrackingHit_CXXMODULES:=0
 SimDataFormatsTrack_CXXMODULES:=0
 SimDataFormatsValidationFormats_CXXMODULES:=0
 SimDataFormatsVertex_CXXMODULES:=0
-TBDataFormatsEcalTBObjects_CXXMODULES:=0
-TBDataFormatsHcalTBObjects_CXXMODULES:=0
-ValidationRecoParticleFlow_CXXMODULES:=0
-
-DataFormatsEgammaCandidates_CXXMODULES:=1
-DataFormatsEgammaReco_CXXMODULES:=1
-
-# FIXME: Remove the workarounds by creating a modulemap for CLHEP.
-DataFormatsJetReco_CXXMODULES:=1
-
-DataFormatsMuonReco_CXXMODULES:=1
-DataFormatsParticleFlowCandidate_CXXMODULES:=1
-
-###########################################################################
-# Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
-# (this will be fixed automatically when we upgrade llvm in root)
-DataFormatsParticleFlowReco_CXXMODULES:=0
-
-DataFormatsRecoCandidate_CXXMODULES:=1
-SimDataFormatsJetMatching_CXXMODULES:=0
-
-AlignmentCocoaDaq_CXXMODULES:=0
-AlignmentCocoaFit_CXXMODULES:=0
-AlignmentLaserAlignment_CXXMODULES:=0
-AlignmentOfflineValidation_CXXMODULES:=0
-AnalysisDataFormatsEWK_CXXMODULES:=0
-AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=0
-AnalysisDataFormatsTopObjects_CXXMODULES:=0
-AnalysisDataFormatsTrackInfo_CXXMODULES:=0
-CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=0
-CalibrationHcalCalibAlgos_CXXMODULES:=0
-CalibTrackerSiPixelQuality_CXXMODULES:=0
-CondCoreUtilities_CXXMODULES:=0
-CondFormatsAlignment_CXXMODULES:=0
-CondFormatsBeamSpotObjects_CXXMODULES:=0
-CondFormatsBTauObjects_CXXMODULES:=0
-CondFormatsCalibration_CXXMODULES:=0
-CondFormatsCastorObjects_CXXMODULES:=0
-CondFormatsCommon_CXXMODULES:=0
-CondFormatsCSCObjects_CXXMODULES:=0
-CondFormatsCTPPSReadoutObjects_CXXMODULES:=0
-CondFormatsDQMObjects_CXXMODULES:=0
-CondFormatsDTObjects_CXXMODULES:=0
-CondFormatsEcalCorrections_CXXMODULES:=0
-CondFormatsEcalObjects_CXXMODULES:=0
-CondFormatsEgammaObjects_CXXMODULES:=0
-CondFormatsESObjects_CXXMODULES:=0
-CondFormatsGEMObjects_CXXMODULES:=0
-CondFormatsGeometryObjects_CXXMODULES:=0
-CondFormatsHcalObjects_CXXMODULES:=0
-CondFormatsHIObjects_CXXMODULES:=0
-CondFormatsHLTObjects_CXXMODULES:=0
-CondFormatsJetMETObjects_CXXMODULES:=0
-CondFormatsLuminosity_CXXMODULES:=0
-CondFormatsMFObjects_CXXMODULES:=0
-CondFormatsOptAlignObjects_CXXMODULES:=0
-CondFormatsPCLConfig_CXXMODULES:=0
-CondFormatsPhysicsToolsObjects_CXXMODULES:=0
-CondFormatsRecoMuonObjects_CXXMODULES:=0
-CondFormatsRPCObjects_CXXMODULES:=0
-CondFormatsRunInfo_CXXMODULES:=0
-CondFormatsSiPhase2TrackerObjects_CXXMODULES:=0
-CondFormatsSiPixelObjects_CXXMODULES:=0
-CondFormatsSiStripObjects_CXXMODULES:=0
-CondFormatsSerialization_CXXMODULES:=0
-CondToolsBTau_CXXMODULES:=0
-DataFormatsAlignment_CXXMODULES:=1
-DataFormatsBTauReco_CXXMODULES:=1
-DataFormatsCastorReco_CXXMODULES:=1
-DataFormatsCSCDigi_CXXMODULES:=1
-DataFormatsCTPPSReco_CXXMODULES:=1
-DataFormatsEgammaTrackReco_CXXMODULES:=1
-DataFormatsFWLite_CXXMODULES:=1
-DataFormatsGEMDigi_CXXMODULES:=1
-DataFormatsHcalIsolatedTrack_CXXMODULES:=1
-DataFormatsHeavyIonEvent_CXXMODULES:=1
-DataFormatsHGCDigi_CXXMODULES:=1
-DataFormatsHGCRecHit_CXXMODULES:=1
-
-DataFormatsHLTReco_CXXMODULES:=1
-
-DataFormatsL1CSCTrackFinder_CXXMODULES:=1
-DataFormatsL1TCalorimeter_CXXMODULES:=1
-DataFormatsL1TGlobal_CXXMODULES:=1
-DataFormatsL1THGCal_CXXMODULES:=1
-DataFormatsL1TMuon_CXXMODULES:=1
-DataFormatsL1TrackTrigger_CXXMODULES:=1
-DataFormatsLuminosity_CXXMODULES:=1
-
-DataFormatsMETReco_CXXMODULES:=1
-
-DataFormatsMuonSeed_CXXMODULES:=1
-DataFormatsNanoAOD_CXXMODULES:=1
-
-# Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
-# enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
-# ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h:38:6: note: previous declaration is here
-# enum L1GtPsbQuad {
-DataFormatsPatCandidates_CXXMODULES:=0
-
-DataFormatsProtonReco_CXXMODULES:=1
-DataFormatsRPCDigi_CXXMODULES:=1
-DataFormatsRPCRecHit_CXXMODULES:=1
-DataFormatsSiStripCommon_CXXMODULES:=1
-DataFormatsTauReco_CXXMODULES:=1
-DataFormatsV0Candidate_CXXMODULES:=1
-DPGAnalysisSiStripTools_CXXMODULES:=0
-EgammaAnalysisElectronTools_CXXMODULES:=0
-EventFilterGEMRawToDigi_CXXMODULES:=0
-FastSimDataFormatsCTPPSFastSim_CXXMODULES:=0
-FastSimDataFormatsExternal_CXXMODULES:=0
-FireworksCore_CXXMODULES:=0
-FireworksEve_CXXMODULES:=0
-FireworksFWInterface_CXXMODULES:=0
-FireworksVertices_CXXMODULES:=0
-JetMETCorrectionsJetCorrector_CXXMODULES:=0
-JetMETCorrectionsModules_CXXMODULES:=0
-L1TriggerL1TGlobal_CXXMODULES:=0
-L1TriggerL1TNtuples_CXXMODULES:=0
-MuonAnalysisMomentumScaleCalibration_CXXMODULES:=0
-PhysicsToolsFWLite_CXXMODULES:=0
-PhysicsToolsHeppy_CXXMODULES:=0
-PhysicsToolsIsolationUtils_CXXMODULES:=0
-PhysicsToolsMVAComputer_CXXMODULES:=0
-PhysicsToolsMVATrainer_CXXMODULES:=0
-PhysicsToolsParallelAnalysis_CXXMODULES:=0
-PhysicsToolsPatUtils_CXXMODULES:=0
-PhysicsToolsSelectorUtils_CXXMODULES:=0
-PhysicsToolsTagAndProbe_CXXMODULES:=0
-PhysicsToolsUtilities_CXXMODULES:=0
-RecoEgammaElectronIdentification_CXXMODULES:=0
-RecoEgammaPhotonIdentification_CXXMODULES:=0
-RecoLuminosityLumiProducer_CXXMODULES:=0
-RecoMuonMuonIdentification_CXXMODULES:=0
-RecoParticleFlowBenchmark_CXXMODULES:=0
-RecoPixelVertexingPixelTrackFitting_CXXMODULES:=0
-RecoPixelVertexingPixelTriplets_CXXMODULES:=0
-RecoTrackerMeasurementDet_CXXMODULES:=0
-RecoTrackerTkHitPairs_CXXMODULES:=0
-RecoTrackerTkSeedGenerator_CXXMODULES:=0
-RecoTrackerTkSeedingLayers_CXXMODULES:=0
-RecoTrackerTkTrackingRegions_CXXMODULES:=0
 SimDataFormatsAssociations_CXXMODULES:=0
 SimDataFormatsCaloAnalysis_CXXMODULES:=0
 SimDataFormatsCaloTest_CXXMODULES:=0
 SimDataFormatsCrossingFrame_CXXMODULES:=0
 SimDataFormatsEcalTestBeam_CXXMODULES:=0
 SimDataFormatsHiGenData_CXXMODULES:=0
+SimDataFormatsJetMatching_CXXMODULES:=0
+#------------- SimGeneral
 SimGeneralTrackingAnalysis_CXXMODULES:=0
+#------------- SimMuon
 SimMuonNeutron_CXXMODULES:=0
+#------------- SimTracker
 SimTrackerTrackerHitAssociation_CXXMODULES:=0
 SimTrackerTrackHistory_CXXMODULES:=0
 SimTrackerTrackTriggerAssociation_CXXMODULES:=0
+#------------- TrackingTools
 TrackingToolsGsfTracking_CXXMODULES:=0
 TrackingToolsPatternTools_CXXMODULES:=0
 TrackingToolsTrajectoryState_CXXMODULES:=0
 TrackingToolsTransientTrackingRecHit_CXXMODULES:=0
+#------------- TBDataFormats
+TBDataFormatsEcalTBObjects_CXXMODULES:=0
+TBDataFormatsHcalTBObjects_CXXMODULES:=0
+#------------- ValidationReco
+ValidationRecoParticleFlow_CXXMODULES:=0
