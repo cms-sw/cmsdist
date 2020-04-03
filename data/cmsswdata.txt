@@ -32,7 +32,7 @@ SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
 RecoHGCal-TICL=V00-01-00
 SimG4CMS-HGCalTestBeam=V01-00-00
-Fireworks-Geometry=V07-05-04
+Fireworks-Geometry=V07-06-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
