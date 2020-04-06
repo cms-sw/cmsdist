@@ -1,0 +1,2 @@
+Source1: http://cmsrep.cern.ch/cmssw/download/Fireworks-Geometry/20200401/cmsGeom2026.root?no-cmssdt-cache=1&output=/cmsGeom2026.root
+%define PostPrep cp %{_sourcedir}/cmsGeom2026.root .
