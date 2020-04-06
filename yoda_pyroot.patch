@@ -1,16 +1,3 @@
-diff --git a/pyext/setup.py.in b/pyext/setup.py.in
-index b97b412..609fbcb 100644
---- a/pyext/setup.py.in
-+++ b/pyext/setup.py.in
-@@ -57,7 +57,7 @@ if "BUILD_ROOTCOMPAT" in os.environ:
-         # TODO: Need to test for and use root-config in configure
-         root_ext = ext("rootcompat", #depends=core_depends,
-                        extra_compile_args="@ROOT_CXXFLAGS@".split(),
--                       extra_link_args= """@ROOT_LDFLAGS@ @ROOT_LIBS@ -lPyROOT""".split())
-+                       extra_link_args= """@ROOT_LDFLAGS@ @ROOT_LIBS@ -lcppyy2_7""".split())
-         extns.append(root_ext)
-     except:
-         pass
 diff --git a/pyext/yoda/pyroot_helpers.hh b/pyext/yoda/pyroot_helpers.hh
 index b299a74..3e7f4d5 100644
 --- a/pyext/yoda/pyroot_helpers.hh
