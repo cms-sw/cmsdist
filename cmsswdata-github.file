@@ -16,7 +16,7 @@
 %define source0 git+https://github.com/cms-data/%{data_repo}.git?obj=master/%{realversion}&no-cmssdt-cache=1&export=%{export_dir}&output=/%{n}-%{realversion}.tgz
 %endif
 
-Source: %{source0}
+Source0: %{source0}
 
 %prep
 %{?PrePrep:%PrePrep}
