@@ -1,10 +1,10 @@
 ### RPM lcg root 6.21.01
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
-## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON27PATH %{i}/lib
+## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-## INITENV SET CPPYY_BACKEND_LIBRARY %{i}/${PYTHON_LIB_SITE_PACKAGES}/libcppyy_backend.so
-%define tag 422f9dc86f327708e9f1156ab1529c5f8328d671
-%define branch cms/master/5729cdf
+
+%define tag b9ed9986d241a8ef8d04f930c07c232e25be8a55
+%define branch cms/master/2e17da7
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -13,7 +13,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy lz4 freetype zstd
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
 
 %if %islinux
 Requires: dcap
@@ -56,6 +56,7 @@ cmake ../%{n}-%{realversion} \
   -Dhdfs=OFF \
   -Dqt=OFF \
   -Dtmva=ON \
+  -DPython3_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -91,7 +92,7 @@ cmake ../%{n}-%{realversion} \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
-  -Dpython=ON \
+  -Dpyroot=ON \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -140,7 +141,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT/usr/local};${LIBXML2_ROOT};${ZSTD_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}" \
   -Dpyroot_experimental=ON
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
@@ -174,7 +175,6 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
-for libname in $(ls %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep ".so"); do ln -s python2.7/site-packages/${libname} %{i}/lib/${libname}; done
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.

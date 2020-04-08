@@ -1,34 +1,26 @@
-diff --git a/pyext/setup.py.in b/pyext/setup.py.in
-index b97b412..6212c69 100644
---- a/pyext/setup.py.in
-+++ b/pyext/setup.py.in
-@@ -57,7 +57,7 @@ if "BUILD_ROOTCOMPAT" in os.environ:
-         # TODO: Need to test for and use root-config in configure
-         root_ext = ext("rootcompat", #depends=core_depends,
-                        extra_compile_args="@ROOT_CXXFLAGS@".split(),
--                       extra_link_args= """@ROOT_LDFLAGS@ @ROOT_LIBS@ -lPyROOT""".split())
-+                       extra_link_args= """@ROOT_LDFLAGS@ @ROOT_LIBS@ -lROOTTPython""".split())
-         extns.append(root_ext)
-     except:
-         pass
 diff --git a/pyext/yoda/pyroot_helpers.hh b/pyext/yoda/pyroot_helpers.hh
-index b299a74..0be4e88 100644
+index b299a74..3e7f4d5 100644
 --- a/pyext/yoda/pyroot_helpers.hh
 +++ b/pyext/yoda/pyroot_helpers.hh
-@@ -6,13 +6,13 @@
+@@ -1,12 +1,12 @@
+ #include "YODA/ROOTCnv.h"
+ #include "Python.h"
+ #include "YODA/Profile1D.h"
+-#include "TPython.h"
++#include "CPyCppyy/API.h"
+ 
  
  // Get a PyROOT object from a ROOT one
  inline PyObject* root_to_py_owned(TObject* root_obj) {
 -  return TPython::ObjectProxy_FromVoidPtr(root_obj, root_obj->ClassName());
-+  return TPython::CPPInstance_FromVoidPtr(root_obj, root_obj->ClassName());
++  return CPyCppyy::Instance_FromVoidPtr(root_obj, root_obj->ClassName());
    /// @todo Different signatures in different ROOT versions?
--  //return TPython::ObjectProxy_FromVoidPtr(root_obj, root_obj->ClassName(), kFALSE);
-+  //return TPython::CPPInstance_FromVoidPtr(root_obj, root_obj->ClassName(), kFALSE);
+   //return TPython::ObjectProxy_FromVoidPtr(root_obj, root_obj->ClassName(), kFALSE);
  }
- 
+@@ -14,5 +14,5 @@ inline PyObject* root_to_py_owned(TObject* root_obj) {
  
  // Get the ROOT object in a PyROOT one
  inline TObject* py_owned_to_root(PyObject* pyroot_obj) {
 -  return (TObject*) TPython::ObjectProxy_AsVoidPtr(pyroot_obj);
-+  return (TObject*) TPython::CPPInstance_AsVoidPtr(pyroot_obj);
++  return (TObject*) CPyCppyy::Instance_AsVoidPtr(pyroot_obj);
  }
