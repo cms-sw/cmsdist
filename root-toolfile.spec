@@ -220,7 +220,6 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootpy.xml
 <tool name="rootpy" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
-  <lib name="PyROOT"/>
   <use name="rootgraphics"/>
 </tool>
 EOF_TOOLFILE
