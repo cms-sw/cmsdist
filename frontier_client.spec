@@ -1,4 +1,4 @@
-### RPM external frontier_client 2.8.20
+### RPM external frontier_client 2.9.1
 ## INITENV +PATH PYTHON27PATH %{i}/python/lib
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
