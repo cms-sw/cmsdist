@@ -13,6 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/eigen.xml
     <environment name="EIGEN_BASE"   default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"      default="$EIGEN_BASE/include/eigen3"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags CPPDEFINES="EIGEN_DONT_PARALLELIZE"/>
 </tool>
 EOF_TOOLFILE
