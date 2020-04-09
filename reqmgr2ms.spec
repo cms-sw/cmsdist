@@ -7,7 +7,7 @@
 
 Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: py2-cherrypy py2-pycurl py2-httplib2 py2-rucio-clients py2-retry py2-future
-Requires: cmsmonitoring rotatelogs jemalloc
+Requires: cmsmonitoring rotatelogs jemalloc mongo py2-pymongo
 BuildRequires: py2-sphinx
 
 %prep
