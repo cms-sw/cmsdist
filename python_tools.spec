@@ -9,7 +9,6 @@ Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
-Requires: py3-rootpy
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 
