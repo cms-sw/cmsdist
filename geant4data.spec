@@ -5,10 +5,12 @@ Requires: geant4-G4NDL
 Requires: geant4-G4EMLOW
 Requires: geant4-G4PhotonEvaporation
 Requires: geant4-G4RadioactiveDecay
-Requires: geant4-G4NEUTRONXS
+Requires: geant4-G4PARTICLEXS
 Requires: geant4-G4SAIDDATA
 Requires: geant4-G4ABLA
 Requires: geant4-G4ENSDFSTATE
+Requires: geant4-G4RealSurface
+Requires: geant4-G4INCL
 
 %prep
 %build
