@@ -1,4 +1,4 @@
-### RPM external protobuf 3.8.0
+### RPM external protobuf 3.11.4
 ## INITENV SETV PROTOBUF_SOURCE %{source0}
 ## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
 #============= IMPORTANT NOTE ========================#
