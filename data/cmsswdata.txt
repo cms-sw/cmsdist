@@ -29,6 +29,7 @@ SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
 RecoHGCal-TICL=V00-01-00
 SimG4CMS-HGCalTestBeam=V01-00-00
+Fireworks-Geometry=V07-06-00
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
@@ -68,7 +69,6 @@ DQM-PhysicsHWW=V01-00-00
 DQM-SiStripMonitorClient=V01-00-00
 EventFilter-L1TRawToDigi=V01-00-00
 FastSimulation-TrackingRecHitProducer=V01-00-03
-Fireworks-Geometry=V07-05-04
 GeneratorInterface-EvtGenInterface=V02-00-11
 HLTrigger-JetMET=V01-00-00
 L1Trigger-L1TCalorimeter=V01-00-22
