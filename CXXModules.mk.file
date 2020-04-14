@@ -200,7 +200,6 @@ DataFormatsMuonReco_CXXMODULES:=1
 DataFormatsParticleFlowCandidate_CXXMODULES:=1
 DataFormatsRecoCandidate_CXXMODULES:=1
 DataFormatsProtonReco_CXXMODULES:=1
-DataFormatsRPCDigi_CXXMODULES:=1
 DataFormatsRPCRecHit_CXXMODULES:=1
 DataFormatsSiStripCommon_CXXMODULES:=1
 DataFormatsTauReco_CXXMODULES:=1
@@ -214,6 +213,9 @@ DataFormatsParticleFlowReco_CXXMODULES:=0
 # ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
 # enum L1GtPsbQuad {
 DataFormatsPatCandidates_CXXMODULES:=0
+# Disabling module because of error in include/clang/AST/DeclTemplate.h:754: 
+# bool clang::RedeclarableTemplateDecl::LazySpecializationInfo::operator==(const clang::RedeclarableTemplateDecl::LazySpecializationInfo&) const: Assertion `(DeclID != Other.DeclID || ODRHash == Other.ODRHash) && "Hashes differ!"' failed.
+DataFormatsRPCDigi_CXXMODULES:=0
 #------------- DPGAnalysis
 DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
