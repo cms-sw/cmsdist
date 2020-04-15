@@ -1,5 +1,5 @@
-### RPM external geant4 10.4.3
-%define tag 922600305b80a2b23e97abd352b68508cf419540
+### RPM external geant4 10.6.1
+%define tag b14d73978beaee6f5b6694ddbfe0dd54c7cdcf19
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -10,6 +10,7 @@ Requires: clhep
 Requires: expat
 Requires: xerces-c
 Requires: vecgeom
+Requires: zlib
 
 %define keep_archives true
 
@@ -26,7 +27,6 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
-export Usolids_DIR=${VECGEOM_ROOT}/lib/cmake/Usolids
 export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 
 cmake ../%{n}.%{realversion} \
@@ -50,13 +50,12 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
   -DGEANT4_USE_USOLIDS="all" \
   -DBUILD_SHARED_LIBS=ON \
-  -DXERCESC_ROOT_DIR:PATH="${XERCES_C_ROOT}" \
-  -DCLHEP_ROOT_DIR:PATH="$CLHEP_ROOT" \
-  -DEXPAT_INCLUDE_DIR:PATH="$EXPAT_ROOT/include" \
-  -DEXPAT_LIBRARY:FILEPATH="$EXPAT_ROOT/lib/libexpat.$SOEXT" \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
+  -DGEANT4_USE_SYSTEM_EXPAT=ON \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${VECGEOM_ROOT};${ZLIB_ROOT}" \
+  -DGEANT4_USE_SYSTEM_ZLIB=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON
 
 make %makeprocesses VERBOSE=1
@@ -73,8 +72,7 @@ ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
 
 %post
-%{relocateConfig}lib/Geant4-*/Geant4Config.cmake
+%{relocateConfig}lib/Geant4-*/*.cmake
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4-*/geant4make/geant4make.*
-%{relocateConfig}lib/Geant4-*/Geant4LibraryDepends.cmake
