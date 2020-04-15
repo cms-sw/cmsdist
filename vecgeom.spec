@@ -1,20 +1,14 @@
-### RPM external vecgeom v00.05.00
+### RPM external vecgeom v1.1.6
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
 
 Patch0: vecgeom-fix-for-arm64
-Patch1: vecgeom-uninit-fix
-Patch2: vecgeom-add-ppc64-cmake-fix
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %patch0 -p1
-%patch1 -p1
-%ifarch ppc64le
-%patch2 -p1
-%endif
 
 %build
 rm -rf ../build
