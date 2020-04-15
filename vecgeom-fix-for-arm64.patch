@@ -11,3 +11,22 @@ index b3014e9..f10fae0 100644
      else()
        message(FATAL_ERROR "Unsupported C++ standard requested")
      endif()
+diff --git a/test/core/testVectorSafety.cpp b/test/core/testVectorSafety.cpp
+index 4ef8146..30f6d71 100644
+--- a/test/core/testVectorSafety.cpp
++++ b/test/core/testVectorSafety.cpp
+@@ -152,10 +152,10 @@ void testVectorNavigator(VPlacedVolume const *world)
+   }
+ 
+   // cleanup
+-  _mm_free(steps);
+-  _mm_free(pSteps);
+-  _mm_free(safeties);
+-  _mm_free(calcSafeties);
++  //_mm_free(steps);
++  //_mm_free(pSteps);
++  //_mm_free(safeties);
++  //_mm_free(calcSafeties);
+ }
+ 
+ int main()
