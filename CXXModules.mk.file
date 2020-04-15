@@ -32,10 +32,12 @@ CondFormatsAlignment_CXXMODULES:=0
 # CondFormatsSiStrip needs boost.modulemap
 CondFormatsSiStripObjects_CXXMODULES:=0
 
-CondFormatsRunInfo_CXXMODULES:=1
+#problems with new boost
+CondFormatsRunInfo_CXXMODULES:=0
 CondFormatsBeamSpotObjects_CXXMODULES:=1
 CondFormatsBTauObjects_CXXMODULES:=1
-CondFormatsCalibration_CXXMODULES:=1
+#problems with new boost
+CondFormatsCalibration_CXXMODULES:=0
 CondFormatsCastorObjects_CXXMODULES:=1
 CondFormatsCommon_CXXMODULES:=1
 CondFormatsCSCObjects_CXXMODULES:=1
