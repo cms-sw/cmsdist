@@ -1,12 +1,12 @@
-### RPM external onnxruntime 1.0.0
+### RPM external onnxruntime 1.2.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-%define tag 9cc0b816f299d326e75f882123d6b2c370328156
-%define branch cms/v1.2.0_plus_ppc_update
+%define tag 5bb24f105798326769fb3168ce70a2a80d4a4377
+%define branch cms/v1.2.0_plus_ppc_update_pb31130
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng
+Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -38,8 +38,8 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
-   -Dprotobuf_INSTALL_PATH=${PROTOBUF_ROOT} \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT}"
+   -Donnxruntime_PREFER_SYSTEM_LIB=ON \
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY2_PYBIND11_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 python3 ../%{n}-%{realversion}/setup.py build
