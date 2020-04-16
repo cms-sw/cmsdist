@@ -5,6 +5,7 @@
 %define pkg CMSMonitoring
 %define ver %realversion
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
+%define flags -ldflags="-s -w -extldflags -static"
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 
 Requires: go
@@ -38,14 +39,15 @@ go get github.com/gizak/termui/v3
 
 # build monit tools
 cd src/go/MONIT
-go build monit.go
+go build %flags monit.go
 cd -
 # build NATS tools
 cd src/go/NATS
-go build nats-sub.go
-go build nats-pub.go
-go build dbs_vm.go
-go build nats-exitcodes-termui.go
+for cmd in %cmsmon_commands; do
+if [ -f $cmd.go ]; then
+go build %flags $cmd.go
+fi
+done
 cd -
 
 %install
