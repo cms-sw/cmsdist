@@ -1,5 +1,6 @@
 ### RPM cms cmsmon-tools 0.3.10
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## NOCOMPILER
 
 %define pkg CMSMonitoring
 %define ver %realversion
