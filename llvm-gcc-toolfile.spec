@@ -66,6 +66,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-ftemplate-depth=512"/>
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
+    <flags CXXFLAGS="-Wweak-vtables"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
