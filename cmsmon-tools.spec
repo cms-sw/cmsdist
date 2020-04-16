@@ -1,11 +1,11 @@
-### RPM cms cmsmon-tools 0.3.8
+### RPM cms cmsmon-tools 0.3.9
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg CMSMonitoring
 %define ver %realversion
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 
-#Requires: go
+Requires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
@@ -13,6 +13,7 @@ Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 %setup -D -T -b 0 -n %pkg-%ver
 
 %build
+export GOCACHE=%{_builddir}/gocache
 cd ..
 cd %pkg-%ver
 echo "build $PWD"
@@ -46,13 +47,11 @@ cd ../%pkg-%ver
 echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
 cp src/go/NATS/nats-sub %i/
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-%addDependency
+cp src/wrappers/cms-monit %i/
+cp src/wrappers/cms-nats-sub %i/
 
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-%files
-%{installroot}/%{pkgrel}/monit
-%{installroot}/%{pkgrel}/nats-sub
+cp $RPM_INSTALL_PREFIX/%{pkgrel}/cms-monit $RPM_INSTALL_PREFIX/common
+ln -sf $RPM_INSTALL_PREFIX/common/cms-monit cms-monit
+cp $RPM_INSTALL_PREFIX/%{pkgrel}/cms-nats-sub $RPM_INSTALL_PREFIX/common
+ln -sf $RPM_INSTALL_PREFIX/common/cms-nats-sub cms-nats-sub
