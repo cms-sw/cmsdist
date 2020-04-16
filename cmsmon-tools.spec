@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.3.9
+### RPM cms cmsmon-tools 0.3.10
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg CMSMonitoring
@@ -32,6 +32,7 @@ go get github.com/shirou/gopsutil/load
 go get github.com/shirou/gopsutil/process
 go get github.com/go-stomp/stomp
 go get github.com/nats-io/nats.go
+go get github.com/gizak/termui/v3
 
 # build monit tools
 cd src/go/MONIT
@@ -40,18 +41,31 @@ cd -
 # build NATS tools
 cd src/go/NATS
 go build nats-sub.go
+go build nats-pub.go
+go build dbs_vm.go
+go build nats-exitcodes-termui.go
 cd -
 
 %install
 cd ../%pkg-%ver
 echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
-cp src/go/NATS/nats-sub %i/
-cp src/wrappers/cms-monit %i/
-cp src/wrappers/cms-nats-sub %i/
+commands="nats-sub nats-pub nats-exitcodes-termui dbs_vm"
+for cmd in $commands; do
+cp src/go/NATS/$cmd %i/
+done
 
 %post
-cp $RPM_INSTALL_PREFIX/%{pkgrel}/cms-monit $RPM_INSTALL_PREFIX/common
-ln -sf $RPM_INSTALL_PREFIX/common/cms-monit cms-monit
-cp $RPM_INSTALL_PREFIX/%{pkgrel}/cms-nats-sub $RPM_INSTALL_PREFIX/common
-ln -sf $RPM_INSTALL_PREFIX/common/cms-nats-sub cms-nats-sub
+commands="monit nats-sub nats-pub nats-exitcodes-termui dbs_vm"
+for cmd in $commands; do
+cat > $RPM_INSTALL_PREFIX/%{pkgrel}/cms-$cmd << EOF
+#!/bin/bash -e
+eval \$(scram unsetenv -sh)
+THISDIR=\$(dirname \$0)
+SHARED_ARCH=\$(cmsos)
+TOOL=\$(ls -d \${THISDIR}/../\${SHARED_ARCH}_*/cms/cmsmon-tools/*/$cmd 2>/dev/null | sort | tail -1)
+[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$cmd' for '\$SHARED_ARCH' architecture." && exit 1
+\$TOOL "\$@"
+EOF
+chmod +x $RPM_INSTALL_PREFIX/%{pkgrel}/cms-$cmd
+done
