@@ -4,6 +4,7 @@
 
 %define pkg CMSMonitoring
 %define ver %realversion
+%define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 
 Requires: go
@@ -51,22 +52,13 @@ cd -
 cd ../%pkg-%ver
 echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
-commands="nats-sub nats-pub nats-exitcodes-termui dbs_vm"
-for cmd in $commands; do
+for cmd in %cmsmon_commands; do
+if [ -f src/go/NATS/$cmd ]; then
 cp src/go/NATS/$cmd %i/
+fi
 done
 
 %post
-commands="monit nats-sub nats-pub nats-exitcodes-termui dbs_vm"
-for cmd in $commands; do
-cat > $RPM_INSTALL_PREFIX/%{pkgrel}/cms-$cmd << EOF
-#!/bin/bash -e
-eval \$(scram unsetenv -sh)
-THISDIR=\$(dirname \$0)
-SHARED_ARCH=\$(cmsos)
-TOOL=\$(ls -d \${THISDIR}/../\${SHARED_ARCH}_*/cms/cmsmon-tools/*/$cmd 2>/dev/null | sort | tail -1)
-[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$cmd' for '\$SHARED_ARCH' architecture." && exit 1
-\$TOOL "\$@"
-EOF
-chmod +x $RPM_INSTALL_PREFIX/%{pkgrel}/cms-$cmd
+for cmd in %cmsmon_commands; do
+cp $RPM_INSTALL_PREFIX/%{pkgrel}/$cmd $RPM_INSTALL_PREFIX/common
 done
