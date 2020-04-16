@@ -48,3 +48,18 @@ cd ../%pkg-%ver
 echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
 cp src/go/NATS/nats-sub %i/
+
+%post
+cat << \END_SCRIPT >$RPM_INSTALL_PREFIX/common/cms-monit
+#!/bin/bash -e
+eval $(scram unsetenv -sh)
+THISDIR=$(dirname $0)
+TOOLNAME=$(basename $0 | sed 's|^cms-||')
+SHARED_ARCH=$(cmsos)
+TOOL=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/*/$TOOLNAME 2>/dev/null | sort | tail -1)
+[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$TOOLNAME' for '$SHARED_ARCH' architecture." && exit 1
+$TOOL "$@"
+END_SCRIPT
+
+chmod +x $RPM_INSTALL_PREFIX/common/cms-monit
+ln -sf cms-monit $RPM_INSTALL_PREFIX/common/cms-nats-sub
