@@ -1,6 +1,6 @@
 ### RPM external onnxruntime 1.2.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-%define tag 5bb24f105798326769fb3168ce70a2a80d4a4377
+%define tag 5e781408ee4108e56276b7ef33ca0538e1f9ed6f
 %define branch cms/v1.2.0_plus_ppc_update_pb31130
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
