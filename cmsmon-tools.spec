@@ -1,5 +1,6 @@
 ### RPM cms cmsmon-tools 0.3.8
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
+## NOCOMPILER
 
 %define pkg CMSMonitoring
 %define ver %realversion
@@ -13,6 +14,7 @@ Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 %setup -D -T -b 0 -n %pkg-%ver
 
 %build
+export GOCACHE=%{_builddir}/gocache
 cd ..
 cd %pkg-%ver
 echo "build $PWD"
@@ -46,13 +48,3 @@ cd ../%pkg-%ver
 echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
 cp src/go/NATS/nats-sub %i/
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-%addDependency
-
-%post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
-
-%files
-%{installroot}/%{pkgrel}/monit
-%{installroot}/%{pkgrel}/nats-sub
