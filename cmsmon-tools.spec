@@ -61,6 +61,16 @@ fi
 done
 
 %post
+mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 for cmd in %cmsmon_commands; do
-cp $RPM_INSTALL_PREFIX/%{pkgrel}/$cmd $RPM_INSTALL_PREFIX/common
+cat > $RPM_INSTALL_PREFIX/cmsmon/$cmd << EOF
+#!/bin/bash -e
+eval \$(scram unsetenv -sh)
+THISDIR=\$(dirname \$0)
+SHARED_ARCH=\$(cmsos)
+TOOL=\$(ls -d \${THISDIR}/../\${SHARED_ARCH}_*/cms/cmsmon-tools/*/$cmd 2>/dev/null | sort | tail -1)
+[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$cmd' for '\$SHARED_ARCH' architecture." && exit 1
+\$TOOL "\$@"
+EOF
+chmod +x $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
