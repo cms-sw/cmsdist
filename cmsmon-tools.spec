@@ -1,14 +1,13 @@
 ### RPM cms cmsmon-tools 0.3.10
-## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## NOCOMPILER
 
 %define pkg CMSMonitoring
 %define ver %realversion
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
-%define flags -ldflags="-s -w -extldflags -static"
+%define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 
-Requires: go
+BuildRequires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
@@ -63,14 +62,15 @@ done
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 for cmd in %cmsmon_commands; do
-cat > $RPM_INSTALL_PREFIX/cmsmon/$cmd << EOF
+cat << \EOF > $RPM_INSTALL_PREFIX/cmsmon/$cmd
 #!/bin/bash -e
-eval \$(scram unsetenv -sh)
-THISDIR=\$(dirname \$0)
-SHARED_ARCH=\$(cmsos)
-TOOL=\$(ls -d \${THISDIR}/../\${SHARED_ARCH}_*/cms/cmsmon-tools/*/$cmd 2>/dev/null | sort | tail -1)
-[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$cmd' for '\$SHARED_ARCH' architecture." && exit 1
-\$TOOL "\$@"
+eval $(scram unsetenv -sh)
+THISDIR=$(dirname \$0)
+SHARED_ARCH=$(cmsos)
+cmd=$(basename $0)
+TOOL=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/cms/cmsmon-tools/*/$cmd 2>/dev/null | sort | tail -1)
+[ -z $TOOL ] && >&2 echo "ERROR: Unable to find command '$cmd' for '$SHARED_ARCH' architecture." && exit 1
+$TOOL "$@"
 EOF
 chmod +x $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
