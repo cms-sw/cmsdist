@@ -1,4 +1,4 @@
-### RPM external py2-rucio-clients 1.20.5
+### RPM external py2-rucio-clients 1.22.2
 ## IMPORT build-with-pip
 ## INITENV SET RUCIO_HOME %i/
 
