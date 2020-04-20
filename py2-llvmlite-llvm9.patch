@@ -6,7 +6,7 @@ diff -Naur a/ffi/build.py b/ffi/build.py
      print(out)
      if not (out.startswith('8.0.') or out.startswith('7.0.')
 -            or out.startswith('7.1.')):
-+            or out.startswith('7.1.') or out.startswith('9.0.') or out.startswith('11.0.')):
++            or out.startswith('7.1.') or out.startswith('9.0.') or out.startswith('10.0.')):
          msg = (
              "Building llvmlite requires LLVM 7.0.x, 7.1.x or 8.0.x Be sure to "
              "set LLVM_CONFIG to the right executable path.\n"
@@ -23,25 +23,3 @@ index 57bb80b..2cc0019 100644
  
      // link
      bool failed = LLVMLinkModules2(Dest, Src);
-diff --git a/ffi/transforms.cpp b/ffi/transforms.cpp
-index 23bfd72..8cb8830 100644
---- a/ffi/transforms.cpp
-+++ b/ffi/transforms.cpp
-@@ -6,7 +6,7 @@
- 
- extern "C" {
- 
--namespace llvm {
-+  /*namespace llvm {
-     inline PassManagerBuilder *unwrap(LLVMPassManagerBuilderRef P) {
-         return reinterpret_cast<PassManagerBuilder*>(P);
-     }
-@@ -14,7 +14,7 @@ namespace llvm {
-     inline LLVMPassManagerBuilderRef wrap(PassManagerBuilder *P) {
-         return reinterpret_cast<LLVMPassManagerBuilderRef>(P);
-     }
--}
-+    }*/
- 
- 
- API_EXPORT(LLVMPassManagerBuilderRef)
