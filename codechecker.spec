@@ -1,7 +1,7 @@
 ### RPM external codechecker 0.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define tag b27bf495772dd04843b44847302f46c522198f5e
+%define tag d0f091c40569bf5b618f3e415a9b07fa6d9044fc
 %define branch llvm10
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/CMSCodeChecker.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
