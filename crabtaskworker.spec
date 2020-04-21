@@ -14,7 +14,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 
 Requires: p5-time-hires
 Requires: python  dbs-client dls-client dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
-Requires: py2-ipython
+Requires: py2-rucio-clients py2-ipython
 Requires: jemalloc
 BuildRequires: py2-sphinx
 
