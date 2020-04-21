@@ -36,7 +36,6 @@ Requires: py2-h5py
 Requires: py2-h5py-cache
 Requires: py2-root_pandas
 Requires: py2-uproot
-Requires: py2-oamap
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
