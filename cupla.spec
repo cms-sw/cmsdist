@@ -1,6 +1,6 @@
 ### RPM external cupla 0.2.0
 
-Source: https://github.com/ComputationalRadiationPhysics/%{n}/archive/%{realversion}.tar.gz
+Source: https://github.com/alpaka-group/%{n}/archive/%{realversion}.tar.gz
 Requires: alpaka
 Requires: cuda
 Requires: tbb
