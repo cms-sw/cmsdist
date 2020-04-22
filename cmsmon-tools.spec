@@ -15,10 +15,7 @@ BuildRequires: go
 %setup -D -T -b 0 -n %pkg-%ver
 
 %build
-cd ..
-cd %pkg-%ver
-echo "build $PWD"
-ls
+cd ../%pkg-%ver
 mkdir -p gopath/bin
 export GOPATH=$PWD/gopath
 export GOCACHE=%{_builddir}/gocache
@@ -37,26 +34,22 @@ go get github.com/nats-io/nats.go
 go get github.com/gizak/termui/v3
 
 # build monit tools
-cd src/go/MONIT
-go build %flags monit.go
-cd -
+pushd src/go/MONIT
+  go build %flags monit.go
+popd
+
 # build NATS tools
-cd src/go/NATS
-for cmd in %cmsmon_commands; do
-if [ -f $cmd.go ]; then
-go build %flags $cmd.go
-fi
-done
-cd -
+pushd src/go/NATS
+  for cmd in %cmsmon_commands; do
+    go build %flags $cmd.go
+  done
+popd
 
 %install
 cd ../%pkg-%ver
-echo "### current dir: $PWD"
 cp src/go/MONIT/monit %i/
 for cmd in %cmsmon_commands; do
-if [ -f src/go/NATS/$cmd ]; then
-cp src/go/NATS/$cmd %i/
-fi
+  cp src/go/NATS/$cmd %i/
 done
 
 #####################################################
