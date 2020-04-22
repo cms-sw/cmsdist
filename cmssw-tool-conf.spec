@@ -172,10 +172,8 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
-
-%ifos linux
 Requires: glibc-toolfile
-%endif
+Requires: cmsmon-tools
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
