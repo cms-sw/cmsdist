@@ -1,4 +1,4 @@
-### RPM external thepeg 2.1.5
+### RPM external thepeg 2.2.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
@@ -23,6 +23,7 @@ BuildRequires: lhapdf
 
 %prep
 %setup -q -n ThePEG-%{realversion}
+
 # Regenerate build scripts
 autoreconf -fiv
 
