@@ -1,4 +1,4 @@
-### RPM external protobuf 3.8.0
+### RPM external protobuf 3.11.3
 ## INITENV SETV PROTOBUF_SOURCE %{source0}
 ## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
 #============= IMPORTANT NOTE ========================#
@@ -17,22 +17,31 @@
 
 Source: %{source0}
 Requires: zlib
-BuildRequires: autotools
+BuildRequires: cmake ninja
 
 %prep
 %setup -n %{source_prefix}
 
 %build
-./autogen.sh
+rm -rf ../build
+mkdir ../build
+cd ../build
 
-./configure --prefix %{i} \
-    --disable-static \
-    --disable-dependency-tracking \
-    CXXFLAGS="-I${ZLIB_ROOT}/include" \
-    CFLAGS="-I${ZLIB_ROOT}/include" \
-    LDFLAGS="-L${ZLIB_ROOT}/lib"
-make %{makeprocesses}
+cmake ../%{n}-%{realversion}/cmake \
+    -G Ninja \
+    -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -Dprotobuf_BUILD_TESTS=OFF \
+    -Dprotobuf_BUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_CXX_FLAGS="-I${ZLIB_ROOT}/include" \
+    -DCMAKE_C_FLAGS="-I${ZLIB_ROOT}/include" \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L${ZLIB_ROOT}/lib" \
+    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
+
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
 %install
-make install
+
+cd ../build
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 rm -rf %{i}/lib/pkgconfig

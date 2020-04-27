@@ -22,12 +22,12 @@
 %define extra_tools     mpfr gmp icc-cxxcompiler icc-f77compiler icc-ccompiler
 %endif
 
-%if "%(case %realversion in (*_CLANG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %realversion in (*_CLANG*) echo true ;; (*) echo false ;; esac)" == "true"
 %define scram_compiler  llvm
 %define extra_tools     llvm-cxxcompiler llvm-f77compiler llvm-ccompiler
 %endif
 
-%if "%(case %realversion in (*CXXMODULE_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %realversion in (*CXXMODULE*) echo true ;; (*) echo false ;; esac)" == "true"
 Source20: CXXModules.mk
 %define patchsrc20     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %endif
