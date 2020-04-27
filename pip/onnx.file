@@ -1,4 +1,5 @@
-Requires: cmake py2-numpy protobuf py2-protobuf py2-six py2-typing_extensions
-Requires: py3-numpy py2-pytest-runner
+Requires: cmake py2-numpy protobuf py2-protobuf py2-six py2-typing_extensions py3-numpy py2-pytest-runner
+Patch0: py2-onnx
+
 %define PipPreBuild export ONNX_ML=1
 %define RelocatePython %{i}/bin/*
