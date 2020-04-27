@@ -87,6 +87,7 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
+Requires: grpc-toolfile
 %ifnarch ppc64le
 Requires: onnxruntime-toolfile
 %endif
