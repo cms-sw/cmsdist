@@ -88,9 +88,7 @@ Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
 Requires: opencv-toolfile
-%ifnarch ppc64le
 Requires: onnxruntime-toolfile
-%endif
 
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
@@ -174,10 +172,8 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
-
-%ifos linux
 Requires: glibc-toolfile
-%endif
+Requires: cmsmon-tools
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
