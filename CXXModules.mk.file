@@ -66,6 +66,9 @@ CondFormatsSiPixelObjects_CXXMODULES:=1
 CondFormatsSerialization_CXXMODULES:=1
 #------------- CondTools
 CondToolsBTau_CXXMODULES:=0
+##########################################################################
+#Extra CXXMODULE Libs
+DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
 #------------- Dataformats exceptions
 ##########################################################################
 # Cyclic deps DataFormats/GeometrySurface <-> DataFormats/GeometryCommonDetAlgo
