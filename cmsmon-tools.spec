@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.3.10
+### RPM cms cmsmon-tools 0.4.0
 ## NOCOMPILER
 
 %define pkg CMSMonitoring
