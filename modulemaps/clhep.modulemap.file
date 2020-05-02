@@ -1,0 +1,6 @@
+module clhep {
+  export *
+  requires cplusplus
+  umbrella "CLHEP"
+  module * { export *}
+}

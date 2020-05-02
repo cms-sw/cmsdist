@@ -62,7 +62,7 @@ CondFormatsPhysicsToolsObjects_CXXMODULES:=1
 CondFormatsRecoMuonObjects_CXXMODULES:=1
 CondFormatsRPCObjects_CXXMODULES:=1
 CondFormatsSiPhase2TrackerObjects_CXXMODULES:=1
-CondFormatsSiPixelObjects_CXXMODULES:=1
+CondFormatsSiPixelObjects_CXXMODULES:=0
 CondFormatsSerialization_CXXMODULES:=1
 #------------- CondTools
 CondToolsBTau_CXXMODULES:=0
@@ -212,7 +212,7 @@ DataFormatsV0Candidate_CXXMODULES:=1
 ###########################################################################
 # Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
 # (this will be fixed automatically when we upgrade llvm in root)
-DataFormatsParticleFlowReco_CXXMODULES:=0
+DataFormatsParticleFlowReco_CXXMODULES:=1
 # Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
 # enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
 # ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
@@ -284,21 +284,21 @@ RecoTrackerTkTrackingRegions_CXXMODULES:=0
 #------------- SimDataFormats
 SimDataFormatsCaloHit_CXXMODULES:=0
 SimDataFormatsDigiSimLinks_CXXMODULES:=0
-SimDataFormatsEncodedEventId_CXXMODULES:=0
+SimDataFormatsEncodedEventId_CXXMODULES:=1
 SimDataFormatsForward_CXXMODULES:=0
 SimDataFormatsGEMDigiSimLink_CXXMODULES:=0
-SimDataFormatsGeneratorProducts_CXXMODULES:=0
+SimDataFormatsGeneratorProducts_CXXMODULES:=1
 SimDataFormatsHcalTestBeam_CXXMODULES:=0
 SimDataFormatsHTXS_CXXMODULES:=0
 SimDataFormatsPileupSummaryInfo_CXXMODULES:=0
 SimDataFormatsRandomEngine_CXXMODULES:=0
 SimDataFormatsRPCDigiSimLink_CXXMODULES:=0
 SimDataFormatsTrackerDigiSimLink_CXXMODULES:=0
-SimDataFormatsTrackingAnalysis_CXXMODULES:=0
+SimDataFormatsTrackingAnalysis_CXXMODULES:=1
 SimDataFormatsTrackingHit_CXXMODULES:=0
-SimDataFormatsTrack_CXXMODULES:=0
+SimDataFormatsTrack_CXXMODULES:=1
 SimDataFormatsValidationFormats_CXXMODULES:=0
-SimDataFormatsVertex_CXXMODULES:=0
+SimDataFormatsVertex_CXXMODULES:=1
 SimDataFormatsAssociations_CXXMODULES:=0
 SimDataFormatsCaloAnalysis_CXXMODULES:=0
 SimDataFormatsCaloTest_CXXMODULES:=0
