@@ -52,7 +52,7 @@ CondFormatsGEMObjects_CXXMODULES:=1
 CondFormatsGeometryObjects_CXXMODULES:=1
 CondFormatsHcalObjects_CXXMODULES:=1
 CondFormatsHIObjects_CXXMODULES:=1
-CondFormatsHLTObjects_CXXMODULES:=1
+CondFormatsHLTObjects_CXXMODULES:=0
 CondFormatsJetMETObjects_CXXMODULES:=1
 CondFormatsLuminosity_CXXMODULES:=1
 CondFormatsMFObjects_CXXMODULES:=1
@@ -104,7 +104,7 @@ DataFormatsParticleFlowReco_LOC_FLAGS_IGNORE_MODULE_FILE:=PFSimParticleFwd.h PFP
 
 #------------- Dataformats
 DataFormatsAlignment_CXXMODULES:=1
-DataFormatsBTauReco_CXXMODULES:=1
+DataFormatsBTauReco_CXXMODULES:=0
 DataFormatsCastorReco_CXXMODULES:=1
 DataFormatsCSCDigi_CXXMODULES:=1
 DataFormatsCTPPSReco_CXXMODULES:=1
@@ -115,7 +115,7 @@ DataFormatsHcalIsolatedTrack_CXXMODULES:=1
 DataFormatsHeavyIonEvent_CXXMODULES:=1
 DataFormatsHGCDigi_CXXMODULES:=1
 DataFormatsHGCRecHit_CXXMODULES:=1
-DataFormatsHLTReco_CXXMODULES:=1
+DataFormatsHLTReco_CXXMODULES:=0
 DataFormatsL1CSCTrackFinder_CXXMODULES:=1
 DataFormatsL1TCalorimeter_CXXMODULES:=1
 DataFormatsL1TGlobal_CXXMODULES:=1
@@ -123,7 +123,7 @@ DataFormatsL1THGCal_CXXMODULES:=1
 DataFormatsL1TMuon_CXXMODULES:=1
 DataFormatsL1TrackTrigger_CXXMODULES:=1
 DataFormatsLuminosity_CXXMODULES:=1
-DataFormatsMETReco_CXXMODULES:=1
+DataFormatsMETReco_CXXMODULES:=0
 DataFormatsMuonSeed_CXXMODULES:=1
 DataFormatsNanoAOD_CXXMODULES:=1
 DataFormatsBeamSpot_CXXMODULES:=1
@@ -200,19 +200,19 @@ DataFormatsWrappedStdDictionaries_CXXMODULES:=1
 DataFormatsEgammaCandidates_CXXMODULES:=1
 DataFormatsEgammaReco_CXXMODULES:=1
 # FIXME: Remove the workarounds by creating a modulemap for CLHEP.
-DataFormatsJetReco_CXXMODULES:=1
+DataFormatsJetReco_CXXMODULES:=0
 DataFormatsMuonReco_CXXMODULES:=1
-DataFormatsParticleFlowCandidate_CXXMODULES:=1
+DataFormatsParticleFlowCandidate_CXXMODULES:=0
 DataFormatsRecoCandidate_CXXMODULES:=1
 DataFormatsProtonReco_CXXMODULES:=1
 DataFormatsRPCRecHit_CXXMODULES:=1
 DataFormatsSiStripCommon_CXXMODULES:=1
-DataFormatsTauReco_CXXMODULES:=1
+DataFormatsTauReco_CXXMODULES:=0
 DataFormatsV0Candidate_CXXMODULES:=1
 ###########################################################################
 # Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
 # (this will be fixed automatically when we upgrade llvm in root)
-DataFormatsParticleFlowReco_CXXMODULES:=1
+DataFormatsParticleFlowReco_CXXMODULES:=0
 # Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
 # enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
 # ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
