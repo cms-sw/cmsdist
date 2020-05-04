@@ -46,8 +46,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
   <lib name="absl_utility"/>
   <lib name="absl_meta"/>
   <lib name="cares"/>
-  <lib name="ssl"/>
-  <lib name="crypto"/>
   <lib name="address_sorting"/>
   <client>
     <environment name="GRPC_BASE" default="@TOOL_ROOT@"/>
@@ -55,6 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
     <environment name="LIBDIR" default="$GRPC_BASE/lib"/>
   </client>
   <use name="protobuf"/>
+  <use name="openssl"/>
 </tool>
 EOF_TOOLFILE
 
