@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.47
+### RPM cms wmarchive v00.08.51
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 #%define wmcver 1.1.6
@@ -44,6 +44,13 @@ export GOPATH=$PWD/gopath
 go get github.com/nats-io/go-nats-examples/tools/nats-pub
 mkdir -p %i/bin
 cp $GOPATH/bin/nats-pub %i/bin
+
+# build WMArchvie Go server
+go get github.com/go-stomp/stomp
+go get github.com/google/uuid
+cd ../src/go
+go build wmarchive.go
+cp wmarchive %i/bin
 
 %install
 cd %{wmcpkg}_%n
