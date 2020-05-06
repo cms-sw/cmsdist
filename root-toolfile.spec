@@ -362,7 +362,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrgl.xml
 <tool name="rootrgl" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="RGL"/>
-  <use name="rootglew"/>
+  <use name="glew"/>
   <use name="rootgui"/>
   <use name="rootinteractive"/>
   <use name="rootgraphics"/>
@@ -458,14 +458,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootged.xml
   <info url="http://root.cern.ch/root/"/>
   <lib name="Ged"/>
   <use name="rootgui"/>
-</tool>
-EOF_TOOLFILE
-
-#Root GLEW
-cat << \EOF_TOOLFILE >%i/etc/scram.d/rootglew.xml
-<tool name="rootglew" version="@TOOL_VERSION@">
-  <info url="http://root.cern.ch/root/"/>
-  <lib name="GLEW"/>
 </tool>
 EOF_TOOLFILE
 
