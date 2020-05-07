@@ -1,6 +1,6 @@
-### RPM external gmp-static 6.1.0
+### RPM external gmp-static 6.2.0
 
-Source: http://davidlt.web.cern.ch/davidlt/vault/gmp-%{realversion}.tar.bz2
+Source: https://ftp.gnu.org/gnu/gmp/gmp-%realversion.tar.xz
 
 BuildRequires: autotools
 
