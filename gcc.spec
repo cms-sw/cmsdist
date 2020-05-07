@@ -1,37 +1,37 @@
-### RPM external gcc 8.3.0
+### RPM external gcc 8.4.0
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 9cde2018638fdc5ad3da8afcd0d89a6c92ed6694
-%define gccBranch gcc-8-branch
+%define gccTag 8cd3bffead2ed1d1998c190865694f920fbc93ab
+%define gccBranch releases/gcc-8
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
 %define keep_archives true
 
-%define gmpVersion 6.1.2
+%define gmpVersion 6.2.0
 %define mpfrVersion 4.0.2
 %define mpcVersion 1.1.0
-%define islVersion 0.18
+%define islVersion 0.21
 %define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
-Source4: ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-%{islVersion}.tar.bz2
+Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %ifos linux
-%define bisonVersion 3.3
+%define bisonVersion 3.5
 %define binutilsVersion 2.32
 %define elfutilsVersion 0.177
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: https://sourceware.org/pub/binutils/releases/binutils-%{binutilsVersion}.tar.bz2
-Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
+Source9: https://sourceware.org/pub/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Source10: http://ftp.gnu.org/gnu/m4/m4-%{m4Version}.tar.gz
 Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-%{flexVersion}.tar.gz
 %endif
