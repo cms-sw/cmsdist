@@ -1,6 +1,6 @@
 ### RPM cms cmsmon-tools 0.4.0
 ## NOCOMPILER
-
+  
 %define pkg CMSMonitoring
 %define ver %realversion
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
