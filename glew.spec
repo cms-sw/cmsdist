@@ -4,8 +4,8 @@
 
 %define source0 https://github.com/nigels-com/glew/releases/download/%{n}-%{realversion}/%{n}-%{realversion}.tgz
 %define source_prefix %{n}-%{realversion}
+Provides: libGLEW.so.2.1()(64bit)
 Source: %{source0}
-
 BuildRequires: gmake
 
 %prep

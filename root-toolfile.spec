@@ -362,7 +362,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrgl.xml
 <tool name="rootrgl" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="RGL"/>
-  <use name="glew"/>
   <use name="rootgui"/>
   <use name="rootinteractive"/>
   <use name="rootgraphics"/>
