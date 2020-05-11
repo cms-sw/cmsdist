@@ -6,6 +6,7 @@ BuildRequires: gmake
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
+Provides: perl(BuildSystem::ToolManager)
 
 %define tag %{realversion}
 %define branch master
