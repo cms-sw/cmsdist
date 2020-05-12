@@ -157,6 +157,7 @@ export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) clang
 
 %install
 cd ../build
@@ -171,6 +172,9 @@ export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+mkdir -p %{i}/etc/cling/bin
+cp -P interpreter/llvm/src/bin/clang %{i}/etc/cling/bin/.
+cp -P interpreter/llvm/src/bin/clang-5.0 %{i}/etc/cling/bin/.
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -R -l '#!.*python' %{i} | xargs chmod +x
