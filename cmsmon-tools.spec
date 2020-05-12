@@ -92,6 +92,6 @@ chmod +x %i/.cmsmon-tools
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 %common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/.cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/.cmsmon-tools
-for cmd in %monit_commands %cmsmon_commands; do
+for cmd in %monit_commands %cmsmon_commands promtool amtool prometheus; do
   ln -sf .cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
