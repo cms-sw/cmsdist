@@ -6,6 +6,7 @@
 %define amver 0.20.0
 %define pkg CMSMonitoring
 %define ver %realversion
+%define monit_commands monit ggus_parser
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
@@ -42,8 +43,9 @@ go get github.com/gizak/termui/v3
 
 # build monit tools
 pushd src/go/MONIT
-  go build %flags monit.go
-  go build %flags ggus_parser.go
+  for cmd in %monit_commands; do
+    go build %flags $cmd.go
+  done
 popd
 
 # build NATS tools
@@ -55,8 +57,9 @@ popd
 
 %install
 cd ../%pkg-%ver
-cp src/go/MONIT/monit %i/
-cp src/go/MONIT/ggus_parser %i/
+for cmd in %monit_commands; do
+  cp src/go/MONIT/$cmd %i/
+done
 for cmd in %cmsmon_commands; do
   cp src/go/NATS/$cmd %i/
 done
@@ -89,6 +92,6 @@ chmod +x %i/.cmsmon-tools
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 %common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/.cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/.cmsmon-tools
-for cmd in monit %cmsmon_commands; do
+for cmd in %monit_commands %cmsmon_commands; do
   ln -sf .cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
