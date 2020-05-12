@@ -1,7 +1,8 @@
-diff -Naur Herwig-7.0.0/m4/boost.m4 boost.m4
---- Herwig-7.0.0/m4/boost.m4	2015-07-08 13:52:11.770227514 +0100
-+++ boost.m4	2015-08-17 10:13:36.115747311 +0100
-@@ -372,8 +372,8 @@
+diff --git a/m4/boost.m4 b/m4/boost.m4
+index 96b4b54..c764665 100644
+--- a/m4/boost.m4
++++ b/m4/boost.m4
+@@ -376,8 +376,8 @@ AC_DEFUN([BOOST_FIND_LIB],
  AC_DEFUN([_BOOST_FIND_LIBS],
  [Boost_lib=no
    case "$3" in #(
@@ -12,7 +13,7 @@ diff -Naur Herwig-7.0.0/m4/boost.m4 boost.m4
      (*) boost_mt=; boost_rtopt=$3;;
    esac
    if test $enable_static_boost = yes; then
-@@ -388,7 +388,7 @@
+@@ -392,7 +392,7 @@ AC_DEFUN([_BOOST_FIND_LIBS],
    esac
    # If the PREFERRED-RT-OPT are not empty, prepend a `-'.
    test -n "$boost_rtopt" && boost_rtopt="-$boost_rtopt"
@@ -21,13 +22,12 @@ diff -Naur Herwig-7.0.0/m4/boost.m4 boost.m4
    # Look for the abs path the static archive.
    # $libext is computed by Libtool but let's make sure it's non empty.
    test -z "$libext" &&
-@@ -423,7 +423,7 @@
+@@ -428,7 +428,7 @@ dnl start the for loops).
  for boost_lib_ in $2; do
  for boost_tag_ in -$boost_cv_lib_tag ''; do
  for boost_ver_ in -$boost_cv_lib_version ''; do
 -for boost_mt_ in $boost_mt -mt ''; do
 +for boost_mt_ in $boost_mt ''; do
  for boost_rtopt_ in $boost_rtopt '' -d; do
-   for boost_lib in \
-     boost_$boost_lib_$boost_tag_$boost_mt_$boost_rtopt_$boost_ver_ \
-
+   for boost_full_suffix in \
+     $boost_last_suffix \

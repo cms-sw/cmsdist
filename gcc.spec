@@ -1,10 +1,11 @@
-### RPM external gcc 8.4.0
+### RPM external gcc 10.1.1
+## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 8cd3bffead2ed1d1998c190865694f920fbc93ab
-%define gccBranch releases/gcc-8
+%define gccTag 2653784e500eccf5d5c2518914b1d9663fe63648
+%define gccBranch releases/gcc-10
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
@@ -18,7 +19,7 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define gmpVersion 6.2.0
 %define mpfrVersion 4.0.2
 %define mpcVersion 1.1.0
-%define islVersion 0.21
+%define islVersion 0.22
 %define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
@@ -27,7 +28,7 @@ Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.5
+%define bisonVersion 3.6.1
 %define binutilsVersion 2.32
 %define elfutilsVersion 0.177
 %define m4Version 1.4.18
@@ -41,14 +42,10 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-#Patch2: gcc-remove-LWG2825-LWG2756-r245024
-#Patch3: 0001-Revert-r248245-breaks-ROOT
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-#%patch2 -p1
-#%patch3 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
