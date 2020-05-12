@@ -183,3 +183,7 @@ rm -rf build
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
+for p in $(grep -rlI -m1 '^#\!.*python' $RPM_INSTALL_PREFIX/%{pkgrel}/bin) ; do
+  lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
+  sed -i -e "${lnum}c#!/usr/bin/env python" $p
+done
