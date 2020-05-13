@@ -173,8 +173,12 @@ export ROOTSYS="%{i}"
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
-grep -R -l '#!.*python' %{i} | xargs chmod +x
+grep -rlI '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+  lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
+  sed -i -e "${lnum}c#!/usr/bin/env python" $p
+done
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
@@ -183,7 +187,3 @@ rm -rf build
 
 %post
 %{relocateConfig}etc/cling/llvm/Config/llvm-config.h
-for p in $(grep -rlI -m1 '^#\!.*python' $RPM_INSTALL_PREFIX/%{pkgrel}/bin) ; do
-  lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
-  sed -i -e "${lnum}c#!/usr/bin/env python" $p
-done
