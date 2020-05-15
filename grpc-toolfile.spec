@@ -7,12 +7,20 @@ Requires: grpc
 
 %install
 mkdir -p %i/etc/scram.d
+
 cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
 <tool name="grpc" version="@TOOL_VERSION@">
   <info url="https://github.com/grpc/grpc"/>
-  <lib name="grpc"/>
-  <lib name="grpc++"/>
-  <lib name="grpc++_reflection"/>
+  <client>
+    <environment name="GRPC_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$GRPC_BASE/include"/>
+    <environment name="LIBDIR" default="$GRPC_BASE/lib"/>
+  </client>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc-absl.xml
+<tool name="grpc-absl" version="@TOOL_VERSION@">
   <lib name="absl_algorithm"/>
   <lib name="absl_atomic_hook"/>
   <lib name="absl_bad_optional_access"/>
@@ -45,16 +53,23 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
   <lib name="absl_type_traits"/>
   <lib name="absl_utility"/>
   <lib name="absl_meta"/>
+  <use name="grpc"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc-lib.xml
+<tool name="grpc-lib" version="@TOOL_VERSION@">
+  <lib name="grpc"/>
+  <lib name="grpc++"/>
+  <lib name="grpc++_reflection"/>
   <lib name="cares"/>
   <lib name="address_sorting"/>
-  <client>
-    <environment name="GRPC_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$GRPC_BASE/include"/>
-    <environment name="LIBDIR" default="$GRPC_BASE/lib"/>
-  </client>
+  <use name="grpc"/>
+  <use name="grpc-absl"/>
   <use name="protobuf"/>
   <use name="openssl"/>
   <use name="pcre"/>
+  <use name="grpc-absl"/>
 </tool>
 EOF_TOOLFILE
 
