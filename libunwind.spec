@@ -1,6 +1,6 @@
-### RPM external libunwind 1.3.1
-%define tag 94aa304960927c130ecb5f664a642b32d9850688
-%define branch v1.3-stable
+### RPM external libunwind 1.4.0
+%define tag 9a055a43bfc955658f88d21cf66386bfdd982c94
+%define branch v1.4-stable
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
 
@@ -12,7 +12,7 @@ Patch0: libunwind-fix-comma
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3" --prefix=%{i} --disable-block-signals
+./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals
 make %{makeprocesses}
 
 %install
