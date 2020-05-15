@@ -54,6 +54,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
   </client>
   <use name="protobuf"/>
   <use name="openssl"/>
+  <use name="pcre"/>
 </tool>
 EOF_TOOLFILE
 
