@@ -1,4 +1,4 @@
-### RPM external jemalloc 5.2.0
+### RPM external jemalloc 5.2.1
 
 %define tag %{realversion}
 %define branch master
