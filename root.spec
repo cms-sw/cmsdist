@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 384e06fed3d7305d8d438c34399d6e6e327256de
-%define branch cms/master/73ae672
+%define tag 25351d7377004cf2773b40f13028f80af8801ab9
+%define branch cms/master/cebff1e
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -173,8 +173,12 @@ export ROOTSYS="%{i}"
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
-grep -R -l '#!.*python' %{i} | xargs chmod +x
+grep -rlI '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+  lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
+  sed -i -e "${lnum}c#!/usr/bin/env python" $p
+done
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
