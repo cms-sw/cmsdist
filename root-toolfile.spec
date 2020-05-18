@@ -180,9 +180,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root.xml
 <tool name="root" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <use name="rootphysics"/>
-  <ifversion name="^[6-9]\.">
-    <flags NO_CAPABILITIES="yes"/>
-  </ifversion>
+  <flags GENREFLEX_FAILES_ON_WARNS="-failOnWarnings"/>
+  <flags CXXMODULES="1"/>
 </tool>
 EOF_TOOLFILE
 
