@@ -21,6 +21,7 @@ cmake ../%{n}-%{realversion} \
     -DgRPC_INSTALL=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_LIBDIR=lib \
     -DgRPC_ABSL_PROVIDER=module \
     -DgRPC_CARES_PROVIDER=module \
     -DgRPC_PROTOBUF_PROVIDER=package \
@@ -28,7 +29,7 @@ cmake ../%{n}-%{realversion} \
     -DgRPC_ZLIB_PROVIDER=package \
     -DZLIB_ROOT=${ZLIB_ROOT} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
-    -DCMAKE_PREFIX_PATH="${LIBUNWIND_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT};${OPENSSL_ROOT}"
+    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT};${OPENSSL_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
