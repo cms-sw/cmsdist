@@ -3,7 +3,10 @@
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja go
-Requires: protobuf zlib openssl pcre
+Requires: protobuf zlib pcre
+%if 0%{?centos} == 7
+Requires: openssl
+%endif
 %define keep_archives true
 
 %prep
