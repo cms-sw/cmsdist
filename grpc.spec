@@ -4,9 +4,6 @@ Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%
 
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre
-%if 0%{?centos} == 7
-Requires: openssl
-%endif
 %define keep_archives true
 
 %prep
@@ -18,6 +15,8 @@ Requires: openssl
 rm -rf ../build
 mkdir ../build
 cd ../build
+OPENSSLROOT=""
+if [[ ! -z "$OPENSSL_ROOT" ]]; then OPENSSLROOT=";${OPENSSL_ROOT}" ; fi
 
 cmake ../%{n}-%{realversion} \
     -G Ninja \
@@ -32,7 +31,7 @@ cmake ../%{n}-%{realversion} \
     -DgRPC_ZLIB_PROVIDER=package \
     -DZLIB_ROOT=${ZLIB_ROOT} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
-    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT};${OPENSSL_ROOT}"
+    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT}${OPENSSLROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 
