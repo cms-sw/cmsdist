@@ -62,6 +62,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+%ifarch x86_64
+    <flags CXXFLAGS_VECTORIZE_AVX512F="-mavx512f -mfma"/>
+    <flags CXXFLAGS_VECTORIZE_AVX2="-mavx2"/>
+    <flags CXXFLAGS_VECTORIZE_FMA="-mfma"/>
+    <flags CXXFLAGS_VECTORIZE_SSE4_2="-msse4.2"/>
+%endif
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
