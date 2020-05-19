@@ -69,6 +69,7 @@ Requires: data-SimG4CMS-Forward
 Requires: data-Validation-Geometry
 Requires: data-Fireworks-Geometry
 Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
+Requires: data-Geometry-TestReference
 
 %prep
 
