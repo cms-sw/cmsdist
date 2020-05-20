@@ -1,7 +1,7 @@
 ### RPM external opencv 4.3.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-%define tag 01b2c5a77ca6dbef3baef24ebc0a5984579231d9
+%define tag %{realversion}
 %define branch master
 %define github_user opencv
 
