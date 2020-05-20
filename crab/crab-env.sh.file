@@ -6,7 +6,7 @@ for crab_latest in $(ls ${crab_shared_dir}/etc/crab-*.latest 2>/dev/null) ; do
   crab_type=$(basename ${crab_latest} | sed 's|.latest$||;s|^crab-||')
   crab_version=$(cat ${crab_latest})
   if [ -e ${cms_basedir}/crab-${crab_type}/${crab_version}/etc/crab-bash-completion.sh ]; then
-    if [ $(ps -p$$ -ocmd=) = "zsh" ] ; then
+    if [ "$(ps -p$$ -ocmd=)" = "zsh" ] ; then
       autoload -U +X compinit && compinit
       autoload -U +X bashcompinit && bashcompinit
     fi
