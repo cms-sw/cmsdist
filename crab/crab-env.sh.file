@@ -1,5 +1,5 @@
 #!/bin/bash
-#CMSDIST_FILE_REVISION=2
+#CMSDIST_FILE_REVISION=3
 cms_basedir="@CMS_PATH@/share/cms"
 crab_shared_dir="${cms_basedir}/crab/@CRAB_COMMON_VERSION@"
 for crab_latest in $(ls ${crab_shared_dir}/etc/crab-*.latest 2>/dev/null) ; do
