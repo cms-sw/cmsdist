@@ -1,0 +1,2 @@
+Requires: py3-numpy py2-cython
+%define source0 git+https://github.com/scipy/scipy?obj=master/2190a7427a8d10a3a506294e87ff1330c426cb63&export=scipy-%{realversion}&output=/source.tar.gz
