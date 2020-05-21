@@ -1,5 +1,5 @@
 #!/bin/tcsh
-#CMSDIST_FILE_REVISION=1
+#CMSDIST_FILE_REVISION=2
 setenv CRABCLIENT_TYPE ""
 switch ("X$1Y")
   case XprodY:
@@ -24,3 +24,4 @@ if (${?CRABCLIENT_TYPE}) then
   endif
   unset crab_shared_dir
 endif
+setenv DBS3_CLIENT_ROOT `python -c 'from CRABClient import CRABInstallationPath as p; print(p)'`
