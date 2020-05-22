@@ -87,6 +87,7 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
+Requires: opencv-toolfile
 Requires: grpc-toolfile
 Requires: onnxruntime-toolfile
 
