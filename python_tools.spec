@@ -190,6 +190,7 @@ Requires: py2-pycparser
 Requires: py2-absl-py
 Requires: py2-gast
 Requires: py2-grpcio
+Requires: py2-grpcio-tools
 Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver
