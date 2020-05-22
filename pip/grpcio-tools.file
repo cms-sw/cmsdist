@@ -1,0 +1,1 @@
+Requires: py2-protobuf py2-grpcio
