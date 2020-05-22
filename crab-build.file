@@ -34,6 +34,8 @@ rsync -a %{_builddir}/CRABClient/etc/  %{i}/etc/
 
 #List of CRAB python pakcages for which we need to create ProxyPackage symlink
 ls %{_builddir}/CRABClient/src/python/*/__init__.py | sed 's|/__init__.py$||;s|.*/||' > %{i}/etc/crab_py_pkgs.txt
+echo dbs >> %{i}/etc/crab_py_pkgs.txt
+echo RestClient >> %{i}/etc/crab_py_pkgs.txt
 
 #Copy WMCore
 for pkg in %{wmcore_packages} ; do
@@ -61,6 +63,7 @@ for pkg in %{dbs_packages} ; do
     cp %{_builddir}/DBS/${pkg} %{i}/lib/${pkg}
   fi
 done
+rsync -a %{_builddir}/DBS/Client/utils/ %{i}/examples/
 
 if [ $(grep '_UseCrab' %{i}/etc/crab-bash-completion.sh | wc -l) -gt 0 ] && [ $(grep ' filenames  *crab' %{i}/etc/crab-bash-completion.sh |wc -l) -gt 0 ] ; then
   sed -i -e 's|_UseCrab|_UseCrab_%{crab_type}|g;s| filenames  *crab| filenames crab-%{crab_type}|' %{i}/etc/crab-bash-completion.sh
@@ -72,6 +75,6 @@ fi
 %post
 cd ${RPM_INSTALL_PREFIX}
 mkdir -p share/%{pkgdir}
-for dir in bin lib etc ; do 
+for dir in bin lib etc examples; do
   rsync -a %{pkgrel}/${dir}/ share/%{pkgdir}/${dir}/
 done
