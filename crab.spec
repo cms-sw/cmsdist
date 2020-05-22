@@ -51,7 +51,7 @@ for pkg in $(echo %{directpkgreqs} | tr ' ' '\n' | grep '^cms/crab-') ; do
     ln -s ../../crab-proxy-package ${crab}/lib/${crab_type}/$p/__init__.py
   done
   #Find latest version; extra .zzzz are added so that version 3.3.2001 becomes > 3.3.2001.rcX
-  ls -d share/cms/${crab_name}/*/bin/crab | sed -e 's|/bin/crab$|.zzzz|;s|.*/||' | sort -n | sed -e 's|.zzzz$||' | tail -1 > ${crab}/etc/${crab_name}.latest
+  ls -d share/cms/${crab_name}/*/bin/crab | sed -e 's|/bin/crab$|#zzzz|;s|.*/||' | sort -n | sed -e 's|#zzzz$||' | tail -1 > ${crab}/etc/${crab_name}.latest
   ln -sf ../${crab}/bin/crab.sh common/${crab_name}
 done
 ln -sf crab-prod common/crab
