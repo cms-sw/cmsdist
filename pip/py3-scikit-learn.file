@@ -1,1 +1,1 @@
-Requires: py3-scipy py2-cython py2-joblib
+Requires: py3-scipy py2-joblib py3-threadpoolctl
