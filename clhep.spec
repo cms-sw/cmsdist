@@ -4,7 +4,6 @@
 %define branch cms/modules/v%{realversion}
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: modulemaps/clhep.modulemap
 
 BuildRequires: cmake ninja
 
@@ -26,7 +25,6 @@ ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
 %install
 cd ../build
 ninja install
-cp %{_sourcedir}/clhep.modulemap %{i}/include/
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 rm -f %i/lib/libCLHEP-[A-Z]*-%realversion.$so
