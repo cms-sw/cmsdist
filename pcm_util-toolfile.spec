@@ -11,8 +11,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pcm_util.xml
 <tool name="pcm_util" version="@TOOL_VERSION@">
   <client>
     <environment name="PCM_UTIL_BASE" default="@TOOL_ROOT@"/>
-    <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib" type="path"/>
   </client>
+  <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib" type="path"/>
 </tool>
 EOF_TOOLFILE
 
