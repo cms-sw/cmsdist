@@ -1,0 +1,5 @@
+Requires: py2-funcsigs py2-six py2-singledispatch py2-llvmlite py3-numpy python3
+Patch0: py3-numba-llvm33
+
+%define source0 git+https://github.com/numba/numba?obj=master/1ea770564cb3c0c6cb9d8ab92e7faf23cd4c4c19&export=numba-%{realversion}&output=/source.tar.gz
+%define RelocatePython %{i}/bin/*
