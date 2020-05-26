@@ -1,0 +1,175 @@
+diff --git a/src/Interface/BH_ampl_impl.h b/src/Interface/BH_ampl_impl.h
+index 457c5b6..fd62291 100644
+--- a/src/Interface/BH_ampl_impl.h
++++ b/src/Interface/BH_ampl_impl.h
+@@ -107,11 +107,11 @@ public:
+ 	virtual double get_finite_VHP();
+     void set_partial_born();
+     virtual void get_map(
+-        vector<vector<int> >& permutation,
+-        vector<vector<int> >& helicity);
++	std::vector<std::vector<int> >& permutation,
++        std::vector<std::vector<int> >& helicity);
+     virtual void get_vals(
+-        vector<double* >& re_ampl,
+-        vector<double* >& im_ampl);
++	std::vector<double* >& re_ampl,
++        std::vector<double* >& im_ampl);
+     virtual int get_order_qcd(){return d_VSM_p->get_order_qcd();};
+     virtual int get_order_qed(){return d_VSM_p->get_order_qed();};
+ 	virtual double getScaleVariationCoefficient(int logMuOrder);
+diff --git a/src/ME2_from_file.h b/src/ME2_from_file.h
+index 54ebe02..7280aa6 100644
+--- a/src/ME2_from_file.h
++++ b/src/ME2_from_file.h
+@@ -55,9 +55,9 @@ void partial_process_coupling_from_string(const std::string& process_str,
+ 		std::vector<std::string > & color_info);
+ 		//vector<size_t> & color_info);
+ 
+-bool sorted_permutation(const vector<int> perm, const vector<int> trace_begin, const vector<int> trace_end);
+-int free_orbit_size(const vector<int> trace_begin, const vector<int> trace_end);
+-void permutation_orbit(const vector< plabel>& plabels,const vector<int>& perm,vector<vector<int> >& perm_orbit, vector<std::string >& color_info);
++bool sorted_permutation(const std::vector<int> perm, const std::vector<int> trace_begin, const std::vector<int> trace_end);
++int free_orbit_size(const std::vector<int> trace_begin, const std::vector<int> trace_end);
++void permutation_orbit(const std::vector< plabel>& plabels,const std::vector<int>& perm,std::vector<std::vector<int> >& perm_orbit, std::vector<std::string >& color_info);
+ 
+ 
+ bool compr(const cross_term_entry* cte1, const cross_term_entry* cte2);
+@@ -77,7 +77,7 @@ int PA_from_file(
+ 	    Squared_ME* ME,
+ 		const std::string& filename,
+ 		std::string part_type,
+-		const vector<plabel> & pro,
++		const std::vector<plabel> & pro,
+ 		const std::vector<std::vector<pair<int,int> > >& coupling,
+ 		const std::vector<std::string >& color_info,
+ 		std::vector<kinematic_function*> prop_hel_fn);
+diff --git a/src/assembly.h b/src/assembly.h
+index 90aaf2e..06d2509 100644
+--- a/src/assembly.h
++++ b/src/assembly.h
+@@ -86,7 +86,7 @@ class prop_hel_fn : public kinematic_function {
+ 	int m_j;
+ 	int m_photonZW; //[0,1,2] corresponds to [photon,photon&Z,W]
+ 	bool m_up_down_quark; //[0,1] corresponds to [up,down]
+-	int m_leading_vect_ax; //[0,1,2] corresponds to [leading,vectorial,axial]
++	int m_leading_vect_ax; //[0,1,2] corresponds to [leading,std::vectorial,axial]
+ 	std::vector<ph_type> m_ql_ph_type;
+ public:
+ 	prop_hel_fn(bool up_down_quark,int photonZW, int leading_vect_ax, int i, int j, const std::vector<ph_type> ql_ph_type);
+@@ -288,7 +288,7 @@ struct Ampl_Info {
+     std::vector<int> m_perm, m_hels;
+     double* real;
+     double* imag;
+-    Ampl_Info(const process& pro, const vector<int>& ind,double * real, double * imag);
++  Ampl_Info(const process& pro, const std::vector<int>& ind,double * real, double * imag);
+ };
+ 
+ class Squared_ME 
+@@ -352,7 +352,7 @@ public:
+ 	//
+     virtual void set_partial_born(){return;};
+     virtual void set_couplings(R couplings){_couplings=couplings;};
+-    virtual vector<Ampl_Info* >  get_partial_born(){ return vector<Ampl_Info* >(); };
++    virtual std::vector<Ampl_Info* >  get_partial_born(){ return std::vector<Ampl_Info* >(); };
+     virtual int add(Ampl_Info* ampl_info){return 0;}
+     // 
+ 	virtual ~Squared_ME();
+@@ -392,9 +392,9 @@ class Squared_ME_Struct: public Squared_ME {
+     //vector< pair< pos-m_kin_fn_vals, pos-m_tree_vals > >
+     std::vector<std::pair<std::vector<int>,int> > m_trees; 
+     //std::map<std::pair< kn_fn, kn_fn >, std::map<tree-left  ,std::map<tree-right,pre-factor> > > m_cross_terms;
+-    std::map<std::pair<vector<int>,vector<int> >, std::map<int,std::map<int,double> > > m_cross_terms;
++    std::map<std::pair<std::vector<int>,std::vector<int> >, std::map<int,std::map<int,double> > > m_cross_terms;
+     //iterators
+-    std::map<std::pair<vector<int>,vector<int> >, std::map<int,std::map<int,double> > >::const_iterator it_ct;
++    std::map<std::pair<std::vector<int>,std::vector<int> >, std::map<int,std::map<int,double> > >::const_iterator it_ct;
+     std::map<int,std::map<int,double> >::const_iterator it_lt;
+     std::map<int,double>::const_iterator it_rtp;
+     //
+@@ -499,7 +499,7 @@ class Squared_ME_Struct: public Squared_ME {
+     //for controlling subtraction terms
+     virtual void set_partial_born();
+     virtual void set_couplings(R couplings){m_couplings=couplings;};
+-    virtual vector<Ampl_Info* >  get_partial_born(){
++    virtual std::vector<Ampl_Info* >  get_partial_born(){
+         return partial_tree_ampls ;
+     };
+     virtual int add(Ampl_Info* ampl_info){
+@@ -545,11 +545,11 @@ public:
+     virtual int get_order_qcd(){return m_order_qcd;};
+     virtual int get_order_qed(){return m_order_qed;};
+     virtual void get_partial_born_map(
+-        vector<vector<int> >& permutation,
+-        vector<vector<int> >& helicity);
++	std::vector<std::vector<int> >& permutation,
++        std::vector<std::vector<int> >& helicity);
+     virtual void get_vals_partial_born(
+-                vector<double* >& re_partial_born,
+-                vector<double* >& im_partial_born);
++	std::vector<double* >& re_partial_born,
++	std::vector<double* >& im_partial_born);
+ 	virtual ~Virtual_SME();
+ 	void dry_run();
+ //the copy and assignments are expensive, we restrict their use.
+diff --git a/src/eval_param.cpp b/src/eval_param.cpp
+index 1fbffdb..077dbc9 100644
+--- a/src/eval_param.cpp
++++ b/src/eval_param.cpp
+@@ -33,7 +33,7 @@ template <> eval_param<RGMP>::eval_param(int n){
+ 	BH_DEBUG_MESSAGE("Using new constructor");
+ }
+ 
+-template <> eval_param<RGMP>::eval_param(const vector<Cmom<RGMP> >& vec) {
++  template <> eval_param<RGMP>::eval_param(const std::vector<Cmom<RGMP> >& vec) {
+ 	_size=vec.size();
+ 	_em=new const Cmom<RGMP>*[vec.size()];
+ 	for(int i=0;i<_size;i++){_em[i]=&vec[i];} ;
+@@ -70,7 +70,7 @@ template <class T> eval_param<T>::eval_param(int n) {
+ 	_epstate=new eval_param_state(_size);
+ };
+ 
+-template <class T> eval_param<T>::eval_param(const vector<Cmom<T> >& vec) {
++  template <class T> eval_param<T>::eval_param(const std::vector<Cmom<T> >& vec) {
+ 	_size=vec.size();
+ 	_em=new const Cmom<T>*[vec.size()];
+ 	for(int i=0;i<_size;i++){_em[i]=&vec[i];} ;
+diff --git a/src/eval_param.h b/src/eval_param.h
+index 67088b4..368dc6f 100644
+--- a/src/eval_param.h
++++ b/src/eval_param.h
+@@ -297,7 +297,7 @@ template <class T> class eval_param {
+ #endif
+ public:
+ 	eval_param(int n);
+-	eval_param(const vector<Cmom<T> >& vec) ;
++	eval_param(const std::vector<Cmom<T> >& vec) ;
+ 	eval_param(momentum_configuration<T>& mc, std::vector<int>& ind);
+ 	eval_param(momentum_configuration<T>& mc, const std::vector<int>& ind);
+ 	~eval_param() {delete[] _em; delete _epstate;};
+diff --git a/src/eval_param_reader.h b/src/eval_param_reader.h
+index 62a12a0..809a208 100644
+--- a/src/eval_param_reader.h
++++ b/src/eval_param_reader.h
+@@ -23,7 +23,7 @@ protected:
+ 	size_t nbr_particles;
+ 	std::ios::pos_type start_pos;
+ 	
+-	vector<Cmom<T>* > _momenta;
++	std::vector<Cmom<T>* > _momenta;
+ public :
+ 	//! constructor
+ 	eval_param_reader(const char* path,int nbr_p);
+diff --git a/src/from_file.h b/src/from_file.h
+index 3ffa8d5..340ffc9 100644
+--- a/src/from_file.h
++++ b/src/from_file.h
+@@ -32,7 +32,7 @@ plabel plabel_from_string(const std::string& s);
+ std::string GetParentDataDirectory();
+ std::string get_worker_dir(const std::string& subdir);
+ 
+-void read_processes(const std::string& input,	vector<vector<plabel> >& labels);
++ void read_processes(const std::string& input,	std::vector<std::vector<plabel> >& labels);
+ 
+ 
+ 

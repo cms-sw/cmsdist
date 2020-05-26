@@ -6,6 +6,7 @@ Patch1: blackhat-0.9.9-armv7hl
 Patch2: blackhat-no_warnings
 Patch3: blackhat-0.9.9-default-arg-at-first-decl
 Patch4: blackhat-0.9.9-gcc600
+Patch5: blackhat_gcc10_fix
 
 Requires: qd python openssl
 %prep
@@ -16,6 +17,7 @@ Requires: qd python openssl
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 sed -i -e 's|else return Cached_OLHA_user_normal|else return new Cached_OLHA_user_normal|' src/cached_OLHA.cpp
 
 # Update to detect aarch64 and ppc64le
