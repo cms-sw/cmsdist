@@ -1,23 +1,13 @@
 ### RPM external blackhat 0.9.9
-Source: http://www.hepforge.org/archive/blackhat/blackhat-%{realversion}.tar.gz
-
-Patch0: blackhat-gcc48
-Patch1: blackhat-0.9.9-armv7hl
-Patch2: blackhat-no_warnings
-Patch3: blackhat-0.9.9-default-arg-at-first-decl
-Patch4: blackhat-0.9.9-gcc600
-Patch5: blackhat_gcc10_fix
-
+%define tag 3e8ac1f06ef3612088505de448c8e127157076a7
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: qd python openssl
-%prep
-%setup -n blackhat-%{realversion}
 
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%prep
+%setup -n %{n}-%{realversion}
+
 sed -i -e 's|else return Cached_OLHA_user_normal|else return new Cached_OLHA_user_normal|' src/cached_OLHA.cpp
 
 # Update to detect aarch64 and ppc64le
