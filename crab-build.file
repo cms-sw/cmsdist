@@ -11,12 +11,16 @@
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
-Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient&output=/CRABClient-%{realversion}.tar.gz
+Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
 Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
 Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
 
 %prep
+if [ "%{v}" != "%{realversion}" ] ; then
+  echo "ERROR: %{v} not same as %{realversion}. Please increment version suffix in %{n}.spec file."
+  exit 1
+fi
 %setup -D -T -b 0 -n CRABClient
 %setup -D -T -b 1 -n WMCore
 %setup -D -T -b 2 -n CRABServer
@@ -28,7 +32,7 @@ Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&outp
 
 #Copy CRABClient
 rsync -a %{_builddir}/CRABClient/src/python/ %{i}/lib/
-sed -i -e 's|"development"|"%{realversion}"|' %{i}/lib/CRABClient/__init__.py
+sed -i -e 's|"development"|"%{crabclient_version}"|' %{i}/lib/CRABClient/__init__.py
 rsync -a %{_builddir}/CRABClient/bin/  %{i}/bin/
 rsync -a %{_builddir}/CRABClient/etc/  %{i}/etc/
 
