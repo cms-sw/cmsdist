@@ -25,6 +25,6 @@ rootcling dummy_dict.cc -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodu
 
 %install
 
-mkdir %{i}/include
-cp clhep.pcm %{i}/include/.
-cp tinyxml2.pcm %{i}/include/.
+mkdir %{i}/lib
+cp clhep.pcm %{i}/lib/.
+cp tinyxml2.pcm %{i}/lib/.
