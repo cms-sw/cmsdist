@@ -21,7 +21,6 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-# -Wno-deprecated-declarations because of https://github.com/grpc/grpc/issues/21603
 cmake ../%{n}-%{realversion}/build/trtis-clients \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
