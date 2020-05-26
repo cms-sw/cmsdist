@@ -150,6 +150,7 @@ Requires: OpenBLAS-toolfile
 Requires: mxnet-predict-toolfile
 Requires: mkfit-toolfile
 Requires: dablooms-toolfile
+Requires: pcm_util-toolfile
 
 # Only for Linux platform.
 %ifos linux
