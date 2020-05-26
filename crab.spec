@@ -50,14 +50,8 @@ for pkg in $(echo %{directpkgreqs} | tr ' ' '\n' | grep '^cms/crab-') ; do
     rm -rf ${crab}/lib/${crab_type}/$p/__init__.py*
     ln -s ../../crab-proxy-package ${crab}/lib/${crab_type}/$p/__init__.py
   done
-  #Find latest version; extra .zzzz are added so that version 3.3.2001 becomes > 3.3.2001.rcX
-  ver=$(ls -d share/cms/${crab_name}/*/bin/crab | sed -e 's|/bin/crab$|#zzzz|;s|.*/||' | sort -n | sed -e 's/#zzzz$//;s/\.rc[0-9][0-9]*\(-.*\|\)$//' | tail -1)
-  if [ $(ls -d share/cms/${crab_name}/${ver}*/bin/crab | grep -v '\.rc[0-9][0-9]*\(-.*\|\)/' | wc -l) -gt 0 ] ; then
-    ver=$(ls -d share/cms/${crab_name}/${ver}*/bin/crab | grep -v '\.rc[0-9][0-9]*\(-.*\|\)/' | sed -e 's|/bin/crab$|#zzzz|;s|.*/||' | sort -n | sed -e 's|#zzzz$||' | tail -1)
-  else
-    ver=$(ls -d share/cms/${crab_name}/${ver}*/bin/crab | sed -e 's|/bin/crab$|#zzzz|;s|.*/||' | sort -n | sed -e 's|#zzzz$||' | tail -1)
-  fi
-  echo $ver > ${crab}/etc/${crab_name}.latest
+  #Find latest version of crab client
+  ls -d share/cms/${crab_name}/v*/bin/crab | sed 's|/bin/crab$||;s|.*/||' | sort -n | tail -1 > ${crab}/etc/${crab_name}.latest
   ln -sf ../${crab}/bin/crab.sh common/${crab_name}
 done
 ln -sf crab-prod common/crab
