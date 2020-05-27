@@ -16,7 +16,7 @@ Patch0: jimmy-4.2-configure-update
 # version of herwig picked up at link time.
 # Workaround until they fix the GENESER makefiles is to define
 # the variable and use it directly inside "Makeshared".
-make HERWIG_ROOT=$HERWIG_ROOT lib_archive
+make HERWIG_ROOT=$HERWIG_ROOT FFLAGS=-std=legacy lib_archive
 
 %install
 tar -c lib include | tar -x -C %i
