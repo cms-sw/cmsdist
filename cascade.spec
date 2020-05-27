@@ -23,7 +23,9 @@ rm -rf %{n}
 # it to the library location so that it links correctly.
 PYTHIA="$PYTHIA6_ROOT"
 LHAPDF="$LHAPDF_ROOT"
-F77="$(which gfortran) -fPIC"
+GCC10_FFLAGS=""
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then GCC10_FFLAGS="-fallow-argument-mismatch" ; fi
+F77="$(which gfortran) -fPIC $GCC10_FFLAGS"
 PLATF_CONFIG_OPTS="--enable-static --disable-shared"
 LIBS="-lstdc++ -lz"
 
