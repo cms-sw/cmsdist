@@ -13,9 +13,9 @@ Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-
 %build
 
 # remove config required in cmake
-sed -i 's/find_package(CURL CONFIG REQUIRED)/find_package(CURL REQUIRED)/' ../triton-inference-server-1.12.0/src/clients/c++/library/CMakeLists.txt
+sed -i 's/find_package(CURL CONFIG REQUIRED)/find_package(CURL REQUIRED)/' ../%{n}-%{realversion}/src/clients/c++/library/CMakeLists.txt
 # remove perf_client which requires rapidjson
-sed -i 's/add_subdirectory(perf_client)//' ../triton-inference-server-1.12.0/src/clients/c++/CMakeLists.txt
+sed -i 's/add_subdirectory(perf_client)//' ../%{n}-%{realversion}/src/clients/c++/CMakeLists.txt
 
 rm -rf ../build
 mkdir ../build
