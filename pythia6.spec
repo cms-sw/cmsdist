@@ -42,7 +42,7 @@ esac
 perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool
 
 %build
-make 
+make CFLAGS="-fPIC -fcommon"
 make install
 
 %install
