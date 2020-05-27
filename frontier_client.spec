@@ -17,7 +17,7 @@ Patch0: frontier_client-2.8.20-add-python-dbapi
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
+make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include -fcommon"
 
 %install
 mkdir -p %i/lib
