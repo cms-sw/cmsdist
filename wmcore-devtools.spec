@@ -2,7 +2,7 @@
 
 # This is a meta-package to group development tool dependencies
 Requires: yuicompressor py2-coverage py2-pylint py2-nose py2-sphinx py2-cherrypy
-Requires: py2-mox py2-future py2-mock py2-retry py2-pep8 py2-memory-profiler
+Requires: py2-mox py2-future py2-mock py2-retry py2-pep8 py2-memory-profiler py2-pymongo
 
 %prep
 %build
