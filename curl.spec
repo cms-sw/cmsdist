@@ -1,4 +1,4 @@
-### RPM external curl 7.62.0
+### RPM external curl 7.70.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: openssl
 Requires: zlib
