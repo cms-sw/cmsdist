@@ -30,6 +30,7 @@ sed -i -e "s|\${FASTJET_ROOT}|${FASTJET_ROOT}|g" input/.mg5_configuration_defaul
 sed -i -e "s|\${GOSAMCONTRIB_ROOT}|${GOSAMCONTRIB_ROOT}|g" input/.mg5_configuration_default.txt
 sed -i -e "s|\${THEPEG_ROOT}|${THEPEG_ROOT}|g" input/.mg5_configuration_default.txt
 sed -i -e "s|@MADGRAPH5AMCATNLO_ROOT@|%{i}|g" input/.mg5_configuration_default.txt
+sed -i -e "s|SHFLAG = \-fPIC|SHFLAG = \-fPIC \-fcommon|g" vendor/StdHEP/src/stdhep_arch
 
 %build
 export FC="$(which gfortran) -std=legacy"
