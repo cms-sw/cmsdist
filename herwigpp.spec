@@ -25,7 +25,11 @@ autoreconf -fiv
 CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
-
+FCFLAGS=""
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
+%ifnarch x86_64
+FCFLAGS="${FCFLAGS} -fno-range-check"
+%endif
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 ./configure --prefix=%i \
             --with-thepeg=$THEPEG_ROOT \
@@ -39,11 +43,9 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 %ifnarch ppc64le
             --with-openloops=$OPENLOOPS_ROOT \
 %endif
-%ifnarch x86_64
-            FCFLAGS="-fno-range-check" \
-%endif
             $PLATF_CONF_OPTS \
-            CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
+            CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" \
+            FCFLAGS=$FCFLAGS
 make %makeprocesses all
 
 %install
