@@ -30,7 +30,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
   <runtime name="CLHEP_PARAM_PATH" value="$CLHEP_BASE"/>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
-  <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
