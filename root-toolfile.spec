@@ -52,6 +52,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcling.xml
     <environment name="ROOTCLING_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"        default="$ROOTCLING_BASE/include"/>
   </client>
+  <flags OVERRIDABLE_FLAGS="ROOTCLING_ARGS"/>
   <use name="root_interface"/>
   <use name="sockets"/>
   <use name="pcre"/>
