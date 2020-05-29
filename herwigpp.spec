@@ -45,7 +45,7 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 %endif
             $PLATF_CONF_OPTS \
             CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" \
-            FCFLAGS=$FCFLAGS
+            FCFLAGS="$FCFLAGS"
 make %makeprocesses all
 
 %install
