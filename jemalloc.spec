@@ -1,8 +1,8 @@
-### RPM external jemalloc 5.2.1-peakmem
+### RPM external jemalloc 5.2.1
 
 %define tag %{realversion}
-%define branch 52x-peakmem
-%define github_user fwyzard
+%define branch cms/%{realversion}
+%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: autotools
