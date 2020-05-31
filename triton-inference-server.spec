@@ -4,7 +4,7 @@
 
 Source: git+https://github.com/%{github_user}/triton-inference-server.git?obj=%{branch}/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools
+Requires: opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools
 
 %prep
 
@@ -33,7 +33,6 @@ cmake ../%{n}-%{realversion}/build/trtis-clients \
     -DTRTIS_ENABLE_GRPC_V2=OFF \
     -DTRTIS_VERSION=%{realversion} \
     -DZLIB_ROOT=${ZLIB_ROOT} \
-    -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
     -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 make %{makeprocesses}
 
