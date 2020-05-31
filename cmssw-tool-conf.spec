@@ -141,7 +141,7 @@ Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
-Requires: geneva-toolfile
+#Requires: geneva-toolfile
 Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
