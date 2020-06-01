@@ -1,4 +1,4 @@
-### RPM external rpm 4.12.0.1
+### RPM external rpm 4.13.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
@@ -7,20 +7,15 @@
 %define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
-Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
+%define tag c833595dbf3016971c1987f14641f99e37539779
+%define branch cms/rpm-4.13.0.1-release
+%define github_user cms-externals
+%define github_repo rpm-upstream
+Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: bootstrap-bundle
 BuildRequires: autotools
 BuildRequires: gcc
-
-Patch0: rpm-4.11.2-0001-Workaround-empty-buildroot-message
-Patch1: rpm-4.11.2-0002-Increase-line-buffer-20x
-Patch2: rpm-4.11.2-0003-Increase-macro-buffer-size-10x
-Patch3: rpm-4.11.2-0004-Improve-file-deps-speed
-Patch4: rpm-4.11.2-0005-Disable-internal-dependency-generator-libtool
-Patch5: rpm-4.11.2-0006-Remove-chroot-checks-and-chdir-calls
-Patch8: rpm-4.11.2-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili
-Patch9: rpm-4.11.2-0010-Drop-unused-bitrotten-dependency-generator-scripts
 
 # Defaults here
 %if %ismac
@@ -29,14 +24,6 @@ Provides: Kerberos
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 
@@ -82,13 +69,11 @@ perl -p -i -e's|-O2|-O0|' ./configure
     --with-external-db --disable-python --disable-nls --with-archive \
     --disable-rpath --with-lua --localstatedir=%{i}/var \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
-    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
-            -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
-            $OS_CFLAGS" \
+    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include \
+            $OS_CFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
     LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \
-    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
-              -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
-              $OS_CPPFLAGS" \
+    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include \
+              $OS_CPPFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
           -ldb -llua -larchive $LIBS_PLATF"
 
