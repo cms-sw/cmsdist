@@ -1,6 +1,6 @@
 ### RPM external jemalloc 5.2.1
 
-%define tag %{realversion}
+%define tag 8b5961b8a2ce67f1182f13ed5ce1adad3e2e99c1
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
