@@ -1,5 +1,6 @@
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
+## NO_VERSION_SUFFIX
 %define crab_type %(echo %n | sed -e 's|crab-||')
 %if "%{?wmcore_packages:set}" != "set"
   %define wmcore_packages PSetTweaks Utils WMCore
