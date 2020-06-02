@@ -1,14 +1,24 @@
-### RPM cms crabtaskworker 3.3.2005.rc5
+############## IMPORTANT #################
+#For new crabserver tag in github, set the version_suffix to 00
+#For any other change, increment version_suffix
+##########################################
+%define version_suffix 01
+%define crabserver_tag 3.200531
+### RPM cms crabtaskworker %{crabserver_tag}.%{version_suffix}
+# note, the above line will define %{realversion}=%{crabserver_tag}.%{version_suffix}
+
+%define webdoc_files %{installroot}/%{pkgrel}/doc/
+%define wmcver 1.3.3
+
+#Now the build part
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-%define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 1.3.3
 
-Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
-Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{wmcver}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_tag}&export=CRABServer-%{crabserver_tag}&output=/CRABServer-%{crabserver_tag}.tar.gz
 
 #Patch0: crabserver3-setup
 
@@ -19,7 +29,13 @@ Requires: jemalloc
 BuildRequires: py2-sphinx
 
 %prep
-%setup -D -T -b 1 -n CRABServer-%{realversion}
+
+if [ "%{v}" != "%{realversion}" ] ; then
+  echo "ERROR: %{v} not same as %{realversion}. Please increment version suffix in %{n}.spec file."
+  exit 1
+fi
+
+%setup -D -T -b 1 -n CRABServer-%{crabserver_tag}
 %setup -T -b 0 -n WMCore-%{wmcver}
 #%patch0 -p1
 
@@ -30,14 +46,16 @@ cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabtaskworker
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
-cd ../CRABServer-%{realversion}
-perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/taskworker/conf.py
-echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
+
+cd ../CRABServer-%{crabserver_tag}
+perl -p -i -e "s{<VERSION>}{%{crabserver_tag}}g" doc/taskworker/conf.py
+echo -e "\n__version__ = \"%{crabserver_tag}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
 python setup.py build_system -s TaskWorker
 
-sed -i 's|CRAB3_VERSION=.*|CRAB3_VERSION=%{realversion}|' bin/htcondor_make_runtime.sh
-sed -i 's|CRABSERVERVER=.*|CRABSERVERVER=%{realversion}|' bin/htcondor_make_runtime.sh
+sed -i 's|CRAB3_VERSION=.*|CRAB3_VERSION=%{crabserver_tag}|' bin/htcondor_make_runtime.sh
+sed -i 's|CRABSERVERVER=.*|CRABSERVERVER=%{crabserver_tag}|' bin/htcondor_make_runtime.sh
 sed -i 's|WMCOREVER=.*|WMCOREVER=%{wmcver}|' bin/htcondor_make_runtime.sh
+sed -i 's|RPM_RELEASE|nope|' bin/htcondor_make_runtime.sh
 
 RPM_RELEASE=1 ./bin/htcondor_make_runtime.sh
 
@@ -47,10 +65,10 @@ touch $PWD/condor_config
 export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 python setup.py install_system -s  crabtaskworker --prefix=%i
-cd ../CRABServer-%{realversion}
+cd ../CRABServer-%{crabserver_tag}
 python setup.py install_system -s TaskWorker  --prefix=%i
-cp TaskManagerRun-%{realversion}.tar.gz  %i/data/TaskManagerRun.tar.gz
-cp CMSRunAnalysis-%{realversion}.tar.gz  %i/data/CMSRunAnalysis.tar.gz
+cp TaskManagerRun-%{crabserver_tag}.tar.gz  %i/data/TaskManagerRun.tar.gz
+cp CMSRunAnalysis-%{crabserver_tag}.tar.gz  %i/data/CMSRunAnalysis.tar.gz
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Generate .pyc files.
@@ -76,3 +94,4 @@ done
 %exclude %{installroot}/%{pkgrel}/doc
 
 ## SUBPACKAGE webdoc
+

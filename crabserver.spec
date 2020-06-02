@@ -1,4 +1,11 @@
-### RPM cms crabserver 3.3.2005.rc1
+############## IMPORTANT #################
+#For new crabserver tag in github, set the version_suffix to 00
+#For any other change, increment version_suffix
+##########################################
+%define version_suffix 00
+%define crabserver_tag 3.200531
+### RPM cms crabserver %{crabserver_tag}.%{version_suffix}
+# note, the above line will define %{realversion}=%{crabserver_tag}.%{version_suffix}
 
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -9,7 +16,7 @@
 %define wmcver 1.3.3
 
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
-Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_tag}&export=CRABServer-%{crabserver_tag}&output=/CRABServer-%{crabserver_tag}.tar.gz
 
 Requires: python cherrypy py2-cjson rotatelogs py2-pycurl py2-httplib2 py2-sqlalchemy py2-cx-oracle51
 Requires: py2-pyOpenSSL condor py2-mysqldb dbs3-pycurl-client dbs-client dbs3-client py2-retry
@@ -18,7 +25,13 @@ BuildRequires: py2-sphinx
 #Patch1: crabserver3-setup
 
 %prep
-%setup -D -T -b 1 -n CRABServer-%{realversion}
+
+if [ "%{v}" != "%{realversion}" ] ; then
+  echo "ERROR: %{v} not same as %{realversion}. Please increment version suffix in %{n}.spec file."
+  exit 1
+fi
+
+%setup -D -T -b 1 -n CRABServer-%{crabserver_tag}
 %setup -T -b 0 -n WMCore-%{wmcver}
 #%patch1 -p1
 
@@ -29,9 +42,9 @@ cd ../WMCore-%{wmcver}
 python setup.py build_system -s crabserver
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
-cd ../CRABServer-%{realversion}
-perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/crabserver/conf.py
-echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
+cd ../CRABServer-%{crabserver_tag}
+perl -p -i -e "s{<VERSION>}{%{crabserver_tag}}g" doc/crabserver/conf.py
+echo -e "\n__version__ = \"%{crabserver_tag}\"#Automatically added during RPM build process" >> src/python/CRABInterface/__init__.py
 python setup.py build_system -s CRABInterface
 
 %install
@@ -40,7 +53,7 @@ touch $PWD/condor_config
 export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 python setup.py install_system -s crabserver --prefix=%i
-cd ../CRABServer-%{realversion}
+cd ../CRABServer-%{crabserver_tag}
 python setup.py install_system -s CRABInterface --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
