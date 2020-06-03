@@ -43,14 +43,12 @@ Requires: jimmy-toolfile
 Requires: json-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
-Requires: libhepml-toolfile
 Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: lwtnn-toolfile
-Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
 Requires: pcre2-toolfile
