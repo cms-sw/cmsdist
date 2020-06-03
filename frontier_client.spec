@@ -2,22 +2,21 @@
 ## INITENV +PATH PYTHON27PATH %{i}/python/lib
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
-Source: http://frontier.cern.ch/dist/%{n}__%{realversion}__src.tar.gz
+%define tag 888a611d4ab15d6ce03830c63b850539460dcda9
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: expat openssl pacparser python zlib
 
-Patch0: frontier_client-2.8.20-add-python-dbapi
-
 %prep
-%setup -n %{n}__%{realversion}__src
+%setup -n %{n}-%{realversion}
 
 %define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}  OPENSSL_DIR=${OPENSSL_ROOT}"
-
-%patch0 -p1
 
 %build
 
 export MAKE_ARGS=%{makeargs}
-make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include -fcommon"
+make $MAKE_ARGS CXXFLAGS="-ldl" CFLAGS="-I${OPENSSL_ROOT}/include"
 
 %install
 mkdir -p %i/lib
