@@ -11,12 +11,17 @@ BuildRequires: cmake libunwind libatomic_ops
 %setup -T -b 0 -n igprof-%{git_commit}
 
 %build
+
 mkdir -p %i
-rsync -av $LIBUNWIND_ROOT/ %i/
-rsync -av $LIBATOMIC_OPS_ROOT/ %i/
-cmake -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_VERBOSE_MAKEFILE=TRUE -DPCRE_INCLUDE_DIR=$PCRE_ROOT/include -DPCRE_LIBRARY=$PCRE_ROOT/lib/libpcre.so -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-I%i/include -I$PCRE_ROOT/include -g -O3" .
+rm -rf ../build; mkdir ../build; cd ../build
+
+cmake ../igprof-%{git_commit} \
+   -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+   -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-g -O3" \
+   -DCMAKE_PREFIX_PATH="$LIBUNWIND_ROOT;$PCRE_ROOT"
 make %makeprocesses
 
 %install
+cd ../build
 make %makeprocesses install
 %define drop_files %i/share/man
