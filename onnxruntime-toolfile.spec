@@ -15,7 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/onnxruntime.xml
     <environment name="INCLUDE" default="$ONNXRUNTIME_BASE/include"/>
     <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib"/>
   </client>
-  <use name="eigen"/>
+  <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="0"/>
 </tool>
 EOF_TOOLFILE
 
