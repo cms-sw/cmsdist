@@ -34,7 +34,8 @@ CondFormatsSiStripObjects_CXXMODULES:=0
 
 #problems with new boost
 CondFormatsRunInfo_CXXMODULES:=0
-CondFormatsBeamSpotObjects_CXXMODULES:=1
+#problems with boost is_array
+CondFormatsBeamSpotObjects_CXXMODULES:=0
 CondFormatsBTauObjects_CXXMODULES:=1
 #problems with new boost
 CondFormatsCalibration_CXXMODULES:=0
