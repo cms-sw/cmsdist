@@ -1,42 +1,39 @@
-### RPM external gdb 8.1
-Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
+### RPM external gdb 9.2
+Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.xz
 
-Patch0: gdb-8.1-fix-PYTHONHOME
-Patch1: gdb-disable-makeinfo
-Patch2: gdb-7.11-set-autoconf-version
+Patch0: gdb-disable-makeinfo
 
-Requires: python zlib xz expat
+Requires: python3 zlib xz expat
 
 BuildRequires: autotools
 
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 pushd gdb
   autoreconf -fiv
 popd
+rm -rf ../build; mkdir ../build; cd ../build
 
-./configure --prefix=%{i} \
+../%n-%realversion/configure --prefix=%{i} \
             --disable-rpath \
             --with-system-gdbinit=%{i}/share/gdbinit \
             --with-expat=yes \
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
-            --with-python=${PYTHON_ROOT} \
+            --with-python=python3 \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
-            LDFLAGS="-L${PYTHON_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
+            LDFLAGS="-L${PYTHON3_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
+            CFLAGS="-Wno-error=strict-aliasing -L${PYTHON3_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
             MAKEINFO=true
 make %makeprocesses
 
 %install
+cd ../build
 make install
 
 cd %i/bin/
