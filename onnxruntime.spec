@@ -37,7 +37,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_CROSS_COMPILING=OFF \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
-   -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
+   -Donnxruntime_USE_PREINSTALLED_PROTOBUF=OFF \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT}"
 
