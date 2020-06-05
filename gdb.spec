@@ -1,5 +1,5 @@
 ### RPM external gdb 9.2
-Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.xz
+Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-disable-makeinfo
 
@@ -16,15 +16,15 @@ BuildRequires: autotools
 pushd gdb
   autoreconf -fiv
 popd
-rm -rf ../build; mkdir ../build; cd ../build
 
+rm -rf ../build; mkdir ../build; cd ../build
 ../%n-%realversion/configure --prefix=%{i} \
             --disable-rpath \
             --with-system-gdbinit=%{i}/share/gdbinit \
             --with-expat=yes \
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
-            --with-python=python3 \
+            --with-python=$(which python3) \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON3_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
