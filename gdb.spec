@@ -1,8 +1,7 @@
 ### RPM external gdb 9.2
 Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
-Patch0: gdb-9.2-fix-PYTHONHOME
-Patch1: gdb-disable-makeinfo
+Patch0: gdb-disable-makeinfo
 
 Requires: python zlib xz expat
 
@@ -11,7 +10,6 @@ BuildRequires: autotools
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
-%patch1 -p1
 
 %build
 
@@ -39,13 +37,18 @@ cd ../build
 make install
 
 cd %i/bin/
-ln -s gdb gdb-%{realversion}
+mv gdb gdb-%{realversion}
 cat << \EOF_GDBINIT > %{i}/share/gdbinit
 set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
+
+echo "#!/bin/bash" > gdb
+echo "PYTHONHOME=${PYTHON_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
+chmod +x gdb
 
 # To save space, clean up some things that we don't really need 
 %define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
+%{relocateConfig}/bin/gdb
