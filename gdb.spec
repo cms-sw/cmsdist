@@ -26,7 +26,7 @@ rm -rf ../build; mkdir ../build; cd ../build
             --with-expat=yes \
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
-            --with-python=${PYTHON_ROOT} \
+            --with-python=$(which python) \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
