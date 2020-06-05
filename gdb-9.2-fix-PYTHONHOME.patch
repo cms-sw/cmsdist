@@ -1,14 +1,21 @@
 diff --git a/gdb/python/python.c b/gdb/python/python.c
-index 4844c86..c1d0fc2 100644
+index bf214fa..29adb67 100644
 --- a/gdb/python/python.c
 +++ b/gdb/python/python.c
-@@ -1659,48 +1659,6 @@ finalize_python (void *ignore)
+@@ -1565,58 +1565,6 @@ init__gdb_module (void)
  static bool
  do_start_initialization ()
  {
 -#ifdef IS_PY3K
 -  size_t progsize, count;
--  wchar_t *progname_copy;
+-  /* Python documentation indicates that the memory given
+-     to Py_SetProgramName cannot be freed.  However, it seems that
+-     at least Python 3.7.4 Py_SetProgramName takes a copy of the
+-     given program_name.  Making progname_copy static and not release
+-     the memory avoids a leak report for Python versions that duplicate
+-     program_name, and respect the requirement of Py_SetProgramName
+-     for Python versions that do not duplicate program_name.  */
+-  static wchar_t *progname_copy;
 -#endif
 -
 -#ifdef WITH_PYTHON_PATH
@@ -19,13 +26,13 @@ index 4844c86..c1d0fc2 100644
 -     /foo/lib/pythonX.Y/...
 -     This must be done before calling Py_Initialize.  */
 -  gdb::unique_xmalloc_ptr<char> progname
--    (concat (ldirname (python_libdir).c_str (), SLASH_STRING, "bin",
+-    (concat (ldirname (python_libdir.c_str ()).c_str (), SLASH_STRING, "bin",
 -	      SLASH_STRING, "python", (char *) NULL));
 -#ifdef IS_PY3K
 -  std::string oldloc = setlocale (LC_ALL, NULL);
 -  setlocale (LC_ALL, "");
 -  progsize = strlen (progname.get ());
--  progname_copy = (wchar_t *) PyMem_Malloc ((progsize + 1) * sizeof (wchar_t));
+-  progname_copy = (wchar_t *) xmalloc ((progsize + 1) * sizeof (wchar_t));
 -  if (!progname_copy)
 -    {
 -      fprintf (stderr, "out of memory\n");
@@ -43,6 +50,9 @@ index 4844c86..c1d0fc2 100644
 -     remain alive for the duration of the program's execution, so
 -     it is not freed after this call.  */
 -  Py_SetProgramName (progname_copy);
+-
+-  /* Define _gdb as a built-in module.  */
+-  PyImport_AppendInittab ("_gdb", init__gdb_module);
 -#else
 -  Py_SetProgramName (progname.release ());
 -#endif

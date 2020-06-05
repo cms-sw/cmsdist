@@ -1,7 +1,8 @@
 ### RPM external gdb 9.2
 Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
-Patch0: gdb-disable-makeinfo
+Patch0: gdb-9.2-fix-PYTHONHOME
+Patch1: gdb-disable-makeinfo
 
 Requires: python zlib xz expat
 
@@ -10,6 +11,7 @@ BuildRequires: autotools
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
+%patch1 -p1
 
 %build
 
@@ -24,7 +26,7 @@ rm -rf ../build; mkdir ../build ; cd ../build
             --with-expat=yes \
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
-            --with-python=python \
+            --with-python=${PYTHON_ROOT} \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
