@@ -19,8 +19,8 @@ pushd gdb
   autoreconf -fiv
 popd
 
-rm -rf ../build; mkdir ../build ; cd ../build
-./../%n-%realversion/configure --prefix=%{i} \
+rm -rf ../build; mkdir ../build; cd ../build
+../%n-%realversion/configure --prefix=%{i} \
             --disable-rpath \
             --with-system-gdbinit=%{i}/share/gdbinit \
             --with-expat=yes \
