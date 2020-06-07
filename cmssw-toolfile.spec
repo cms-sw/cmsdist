@@ -24,6 +24,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/cmssw.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/src" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$CMSSW_BASE/include/$SCRAM_ARCH/include" type="path" handler="warn"/>
   <runtime name="CMSSW_FULL_RELEASE_BASE" value="$CMSSW_BASE"/>
+  <runtime name="CLING_PREBUILT_MODULE_PATH" value="$CMSSW_BASE/lib/$SCRAM_ARCH" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
