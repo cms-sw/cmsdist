@@ -16,6 +16,10 @@ Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-
 sed -i 's/find_package(CURL CONFIG REQUIRED)/find_package(CURL REQUIRED)/' ../%{n}-%{realversion}/src/clients/c++/library/CMakeLists.txt
 # remove perf_client which requires rapidjson
 sed -i 's/add_subdirectory(perf_client)//' ../%{n}-%{realversion}/src/clients/c++/CMakeLists.txt
+#change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
+    sed -i -e "s|Werror|Wtype-limits|g" ../%{n}-%{realversion}/build/trtis-clients/CMakeLists.txt
+fi
 
 rm -rf ../build
 mkdir ../build
@@ -34,7 +38,9 @@ cmake ../%{n}-%{realversion}/build/trtis-clients \
     -DTRTIS_VERSION=%{realversion} \
     -DZLIB_ROOT=${ZLIB_ROOT} \
     -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
+    -DCMAKE_CXX_FLAGS="-Wno-error" \
     -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
+
 make %{makeprocesses}
 
 %install
