@@ -12,6 +12,7 @@
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
+Source3: https://github.com/vkuznet/hey/archive/x509-csv-fixes.tar.gz
 
 BuildRequires: go
 
@@ -21,6 +22,7 @@ BuildRequires: go
 %setup -D -T -b 0 -n %pkg-%ver
 %setup -D -T -b 1 -n prometheus-%promv.%arch
 %setup -D -T -b 2 -n alertmanager-%amver.%arch
+%setup -D -T -b 3 -n hey-x509-csv-fixes
 
 %build
 cd ../%pkg-%ver
@@ -55,6 +57,11 @@ pushd src/go/NATS
   done
 popd
 
+# build hey tool
+cd ../hey-x509-csv-fixes
+go get github.com/vkuznet/hey/requester
+make
+
 %install
 cd ../%pkg-%ver
 for cmd in %monit_commands; do
@@ -69,6 +76,11 @@ cp promtool %i/
 cp prometheus %i/
 cd ../alertmanager-%amver.%arch
 cp amtool %i/
+
+# build hey tool
+cd ../hey-x509-csv-fixes
+cp hey %i
+cd -
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
@@ -92,6 +104,6 @@ chmod +x %i/.cmsmon-tools
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 %common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/.cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/.cmsmon-tools
-for cmd in %monit_commands %cmsmon_commands promtool amtool prometheus; do
+for cmd in %monit_commands %cmsmon_commands promtool amtool prometheus hey; do
   ln -sf .cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
