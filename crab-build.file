@@ -72,6 +72,9 @@ rsync -a %{_builddir}/DBS/Client/utils/ %{i}/examples/
 
 if [ $(grep '_UseCrab' %{i}/etc/crab-bash-completion.sh | wc -l) -gt 0 ] && [ $(grep ' filenames  *crab' %{i}/etc/crab-bash-completion.sh |wc -l) -gt 0 ] ; then
   sed -i -e 's|_UseCrab|_UseCrab_%{crab_type}|g;s| filenames  *crab| filenames crab-%{crab_type}|' %{i}/etc/crab-bash-completion.sh
+  if [ "%{crab_type}" = "prod" ] ; then
+    echo "complete -F _UseCrab_prod -o filenames crab" >> %{i}/etc/crab-bash-completion.sh
+  fi
 else
   echo "ERROR: Unable to fix crab use function _UseCrab"
   exit 1
