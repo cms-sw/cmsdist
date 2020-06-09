@@ -349,7 +349,7 @@ case %cmsplatf in
   slc6_amd64_*)
     FILE_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/file/')
     FILE_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$FILE_PKG
-    source $FILE_PATH/etc/etc/profile.d/init.sh
+    source $FILE_PATH/etc/profile.d/init.sh
     PATCHELF_PKG=$(echo "%{directpkgreqs}" | tr ' ' '\n' | grep 'external/patchelf/')
     PATCHELF_PATH=$RPM_INSTALL_PREFIX/%cmsplatf/$PATCHELF_PKG
     CMSSW_BIN_PATH="$RPM_INSTALL_PREFIX/%pkgrel/bin/%cmsplatf $RPM_INSTALL_PREFIX/%pkgrel/test/%cmsplatf"
