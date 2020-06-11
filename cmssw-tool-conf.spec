@@ -58,8 +58,6 @@ Requires: photospp-toolfile
 Requires: pyquen-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: vincia-toolfile
-Requires: dire-toolfile
 Requires: python-toolfile
 Requires: python3-toolfile
 Requires: root-toolfile
@@ -140,7 +138,7 @@ Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
-Requires: geneva-toolfile
+#Requires: geneva-toolfile
 Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
