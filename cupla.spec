@@ -18,7 +18,7 @@ mkdir build lib
 rm -rf alpaka
 
 CXXFLAGS="-DALPAKA_DEBUG=0 -I$CUDA_ROOT/include -I$TBB_ROOT/include -I$BOOST_ROOT/include -I$ALPAKA_ROOT/include -Iinclude"
-HOST_FLAGS="-std=c++14 -O2 -pthread -fPIC -Wall -Wextra"
+HOST_FLAGS="-std=c++17 -O2 -pthread -fPIC -Wall -Wextra"
 NVCC_FLAGS="%{cuda_flags}"
 FILES=$(find src -type f -name *.cpp)
 
