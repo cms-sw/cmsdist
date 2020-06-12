@@ -39,7 +39,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <flags CUDA_FLAGS="%{cuda_flags}"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
-  <flags CUDA_HOST_CXXFLAGS="-std=c++14"/>
+  <flags CUDA_HOST_CXXFLAGS="-std=c++17"/>
   <lib name="cudadevrt" type="cuda"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>

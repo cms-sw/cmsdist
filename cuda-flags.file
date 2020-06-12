@@ -17,7 +17,7 @@
 
 
 # enable C++17, and generate optimised code
-%define cuda_flags_0 -std=c++14 -O3
+%define cuda_flags_0 -std=c++17 -O3
 
 # generate debugging information for device code
 %define cuda_flags_1 --generate-line-info --source-in-ptx
