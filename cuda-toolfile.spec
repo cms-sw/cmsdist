@@ -6,7 +6,7 @@ Requires: cuda
 
 %install
 ## INCLUDE cuda-flags
-# defines cuda_flags
+# defines nvcc_cuda_flags and nvcc_stdcxx
 
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-stubs.xml
@@ -36,10 +36,10 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
-  <flags CUDA_FLAGS="%{cuda_flags}"/>
+  <flags CUDA_FLAGS="%{nvcc_cuda_flags}"/>
   <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
-  <flags CUDA_HOST_CXXFLAGS="-std=c++17"/>
+  <flags CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"/>
   <lib name="cudadevrt" type="cuda"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>

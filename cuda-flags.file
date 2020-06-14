@@ -15,9 +15,11 @@
 # LLVM style for listing the supported CUDA compute architectures
 %define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
 
+# C++ standard to use for building host and device code with nvcc
+%define nvcc_stdcxx -std=c++17
 
-# enable C++17, and generate optimised code
-%define cuda_flags_0 -std=c++17 -O3
+# generate optimised code
+%define cuda_flags_0 -O3
 
 # generate debugging information for device code
 %define cuda_flags_1 --generate-line-info --source-in-ptx
@@ -38,4 +40,4 @@
 %define cuda_flags_6 --cudart shared
 
 # collect all CUDA flags
-%define cuda_flags %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6}
+%define nvcc_cuda_flags %{nvcc_stdcxx} %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6}
