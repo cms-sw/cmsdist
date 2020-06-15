@@ -293,14 +293,14 @@ SimDataFormatsHcalTestBeam_CXXMODULES:=1
 SimDataFormatsHTXS_CXXMODULES:=1
 SimDataFormatsPileupSummaryInfo_CXXMODULES:=1
 SimDataFormatsRandomEngine_CXXMODULES:=1
-SimDataFormatsRPCDigiSimLink_CXXMODULES:=0
+SimDataFormatsRPCDigiSimLink_CXXMODULES:=1
 SimDataFormatsTrackerDigiSimLink_CXXMODULES:=1
 SimDataFormatsTrackingAnalysis_CXXMODULES:=1
 SimDataFormatsTrackingHit_CXXMODULES:=1
 SimDataFormatsTrack_CXXMODULES:=1
 SimDataFormatsValidationFormats_CXXMODULES:=1
 SimDataFormatsVertex_CXXMODULES:=1
-SimDataFormatsAssociations_CXXMODULES:=0
+SimDataFormatsAssociations_CXXMODULES:=1
 SimDataFormatsCaloAnalysis_CXXMODULES:=1
 SimDataFormatsCaloTest_CXXMODULES:=1
 SimDataFormatsCrossingFrame_CXXMODULES:=1
@@ -308,7 +308,7 @@ SimDataFormatsEcalTestBeam_CXXMODULES:=1
 SimDataFormatsHiGenData_CXXMODULES:=1
 SimDataFormatsJetMatching_CXXMODULES:=1
 #------------- SimGeneral
-SimGeneralTrackingAnalysis_CXXMODULES:=0
+SimGeneralTrackingAnalysis_CXXMODULES:=1
 #------------- SimMuon
 SimMuonNeutron_CXXMODULES:=0
 #------------- SimTracker
