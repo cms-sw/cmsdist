@@ -308,7 +308,7 @@ SimDataFormatsEcalTestBeam_CXXMODULES:=1
 SimDataFormatsHiGenData_CXXMODULES:=1
 SimDataFormatsJetMatching_CXXMODULES:=1
 #------------- SimGeneral
-SimGeneralTrackingAnalysis_CXXMODULES:=1
+SimGeneralTrackingAnalysis_CXXMODULES:=0
 #------------- SimMuon
 SimMuonNeutron_CXXMODULES:=0
 #------------- SimTracker
