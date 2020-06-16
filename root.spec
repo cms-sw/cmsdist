@@ -1,15 +1,15 @@
-### RPM lcg root 6.18.04
+### RPM lcg root 6.20.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag c31b69b812b85090946497b46da9f01ab89e00f8
-%define branch cms/v6-18-00-patches/v6-18-04
+%define tag 60ac037020707345f4c935b6f842a2506d0a067b
+%define branch cms/v6-20-00-patches/7fcce62
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py2-numpy lz4 freetype
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py2-numpy lz4 freetype zstd
 
 %ifos linux
 Requires: dcap
@@ -51,6 +51,7 @@ cmake ../%{n}-%{realversion} \
   -Dvdt=OFF \
   -Dhdfs=OFF \
   -Dqt=OFF \
+  -Dtmva=ON \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -67,13 +68,16 @@ cmake ../%{n}-%{realversion} \
   -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
-  -Dtable=OFF \
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
   -Dbuiltin_zlib=OFF \
   -Dbuiltin_lzma=OFF \
   -Dbuiltin_gsl=OFF \
+  -Dbuiltin_glew=ON \
+  -Dbuiltin_ftgl=ON \
+  -Dbuiltin_gl2ps=ON \
+  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
@@ -110,7 +114,6 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %ifarch darwin
-  -Dbuiltin_afterimage=OFF \
   -Dcocoa=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
@@ -126,11 +129,12 @@ cmake ../%{n}-%{realversion} \
   -DTIFF_LIBRARY="${LIBTIFF_ROOT}/lib/libtiff.%{soext}" \
   -DLIBLZMA_INCLUDE_DIR="${XZ_ROOT}/include" \
   -DLIBLZMA_LIBRARY="${XZ_ROOT}/lib/liblzma.%{soext}" \
-  -DLIBLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
-  -DLIBLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
+  -DLZ4_INCLUDE_DIR="${LZ4_ROOT}/include" \
+  -DLZ4_LIBRARY="${LZ4_ROOT}/lib/liblz4.%{soext}" \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${GSL_ROOT}:${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT}"
+  -DZSTD_ROOT="${ZSTD_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
