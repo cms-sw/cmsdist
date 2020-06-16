@@ -79,7 +79,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
-  <use name="python"/>
+  <use name="python3"/>
 </tool>
 EOF_TOOLFILE
 
@@ -152,7 +152,7 @@ export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
 export BOOST_DATE_TIME_LIB=`getLibName date_time`
 export BOOST_SYSTEM_LIB=`getLibName system`
 export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
-export BOOST_PYTHON_LIB=`getLibName python27`
+export BOOST_PYTHON_LIB=`getLibName python38`
 export BOOST_REGEX_LIB=`getLibName regex`
 export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostream`
