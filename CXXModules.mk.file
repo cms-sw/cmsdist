@@ -70,6 +70,8 @@ CondToolsBTau_CXXMODULES:=0
 ##########################################################################
 #Extra CXXMODULE Libs
 DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
+DataFormatsEcalRecHit_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsEgammaTrackReco.$(SHAREDSUFFIX)
+
 #------------- Dataformats exceptions
 ##########################################################################
 # Cyclic deps DataFormats/GeometrySurface <-> DataFormats/GeometryCommonDetAlgo
