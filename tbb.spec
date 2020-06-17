@@ -1,4 +1,4 @@
-### RPM external tbb v2020.0
+### RPM external tbb 2020_U2
 
 %define tag %{realversion}
 %define branch tbb_2020
