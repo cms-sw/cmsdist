@@ -4,6 +4,7 @@
 %define branch tbb_2019
 %define github_user 01org
 Source: git+https://github.com/%{github_user}/tbb.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -19,4 +20,5 @@ case %cmsplatf in
   osx*) SONAME=dylib ;;
   *) SONAME=so ;;
 esac
-find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
+find build -name "*.$SONAME*" -exec cp {} %i/lib \;
+cmake -DTBB_ROOT=%i -DTBB_OS=Linux -P cmake/tbb_config_generator.cmake 
