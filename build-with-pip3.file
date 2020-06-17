@@ -31,7 +31,7 @@ Requires: python3 py3-setuptools
 BuildRequires: py3-pip
 
 %if "%{?source0:set}" != "set"
-%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip3&output=/%{pkgsource}
+%define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=pip3&pip_package=py3-pip&output=/%{pkgsource}
 %else
 %define source_file %(echo '%{source0}' | sed 's|.*/||')
 %endif
