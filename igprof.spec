@@ -6,7 +6,7 @@
 Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 
 Requires: pcre libunwind
-BuildRequires: cmake libatomic_ops
+BuildRequires: cmake
 %prep
 %setup -T -b 0 -n igprof-%{git_commit}
 
