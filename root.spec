@@ -33,7 +33,7 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-export PYTHONV=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
+PYTHON_EXE=${PYTHON3_ROOT}/bin/python3
 export CFLAGS=-D__ROOFIT_NOBANNER
 export CXXFLAGS=-D__ROOFIT_NOBANNER
 
@@ -90,8 +90,7 @@ cmake ../%{n}-%{realversion} \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
-  -Dpython=ON \
-  -Dpython_version=${PYTHONV} \
+  -DPYTHON_EXECUTABLE="${PYTHON_EXE}" \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -140,7 +139,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
