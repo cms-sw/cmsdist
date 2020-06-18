@@ -1,9 +1,10 @@
-### RPM external tbb 2019_U9
+### RPM external tbb 2020_U2
 
 %define tag %{realversion}
-%define branch tbb_2019
-%define github_user 01org
-Source: git+https://github.com/%{github_user}/tbb.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+%define branch tbb_2020
+%define github_user oneapi-src
+Source: git+https://github.com/%{github_user}/oneTBB.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -20,3 +21,4 @@ case %cmsplatf in
   *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
+cmake -DTBB_ROOT=%i -DTBB_OS=Linux -P cmake/tbb_config_generator.cmake 
