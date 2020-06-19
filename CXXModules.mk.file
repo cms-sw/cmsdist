@@ -313,7 +313,7 @@ SimDataFormatsJetMatching_CXXMODULES:=1
 #------------- SimGeneral
 SimGeneralTrackingAnalysis_CXXMODULES:=0
 #------------- SimMuon
-SimMuonNeutron_CXXMODULES:=0
+SimMuonNeutron_CXXMODULES:=1
 #------------- SimTracker
 SimTrackerTrackerHitAssociation_CXXMODULES:=0
 SimTrackerTrackHistory_CXXMODULES:=0
