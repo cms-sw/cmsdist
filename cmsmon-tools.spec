@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.4.3
+### RPM cms cmsmon-tools 0.4.4
 ## NOCOMPILER
 
 %define arch linux-amd64
