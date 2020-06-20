@@ -1,8 +1,8 @@
 #------------- Alignment
-AlignmentCocoaDaq_CXXMODULES:=0
-AlignmentCocoaFit_CXXMODULES:=0
-AlignmentLaserAlignment_CXXMODULES:=0
-AlignmentOfflineValidation_CXXMODULES:=0
+AlignmentCocoaDaq_CXXMODULES:=1
+AlignmentCocoaFit_CXXMODULES:=1
+AlignmentLaserAlignment_CXXMODULES:=1
+AlignmentOfflineValidation_CXXMODULES:=1
 #------------- Analysis
 AnalysisDataFormatsEWK_CXXMODULES:=0
 AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=0
@@ -28,7 +28,7 @@ CondCoreUtilities_CXXMODULES:=0
 #enum L1GtObject {
 CondFormatsL1TObjects_CXXMODULES:=0
 # CondFormatsAlignment needs CLHEP.modulemap
-CondFormatsAlignment_CXXMODULES:=0
+CondFormatsAlignment_CXXMODULES:=1
 # CondFormatsSiStrip needs boost.modulemap
 CondFormatsSiStripObjects_CXXMODULES:=0
 
