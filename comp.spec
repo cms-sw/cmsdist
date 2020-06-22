@@ -1,4 +1,4 @@
-### RPM cms comp HG2007d
+### RPM cms comp HG2007e
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
