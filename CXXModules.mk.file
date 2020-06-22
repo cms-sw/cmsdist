@@ -1,6 +1,6 @@
 #------------- Alignment
 AlignmentCocoaDaq_CXXMODULES:=0
-AlignmentCocoaFit_CXXMODULES:=0
+AlignmentCocoaFit_CXXMODULES:=1
 AlignmentLaserAlignment_CXXMODULES:=0
 AlignmentOfflineValidation_CXXMODULES:=0
 #------------- Analysis
