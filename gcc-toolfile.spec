@@ -55,6 +55,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-cast-function-type -Wno-unused-but-set-parameter -Wno-ignored-qualifiers -Wno-deprecated-copy -Wno-unused-parameter"/>
     <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
+    <flags CXXFLAGS="-Werror=unused-label"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=strict-aliasing"/>
