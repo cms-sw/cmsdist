@@ -5,6 +5,7 @@
 Source: https://storage.googleapis.com/golang/go%{realversion}.linux-amd64.tar.gz
 %endif
 %ifarch ppc64le
+Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 Source: https://storage.googleapis.com/golang/go%{realversion}.linux-ppc64le.tar.gz
 %endif
 %ifarch aarch64
