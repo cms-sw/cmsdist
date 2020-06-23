@@ -231,10 +231,10 @@ EgammaAnalysisElectronTools_CXXMODULES:=0
 #------------- EventFilter
 EventFilterGEMRawToDigi_CXXMODULES:=0
 #------------- FastSimDataFormats
-FastSimDataFormatsNuclearInteractions_CXXMODULES:=0
-FastSimDataFormatsPileUpEvents_CXXMODULES:=0
-FastSimDataFormatsCTPPSFastSim_CXXMODULES:=0
-FastSimDataFormatsExternal_CXXMODULES:=0
+FastSimDataFormatsNuclearInteractions_CXXMODULES:=1
+FastSimDataFormatsPileUpEvents_CXXMODULES:=1
+FastSimDataFormatsCTPPSFastSim_CXXMODULES:=1
+FastSimDataFormatsExternal_CXXMODULES:=1
 #------------- Fireworks
 FireworksCore_CXXMODULES:=0
 FireworksEve_CXXMODULES:=0
