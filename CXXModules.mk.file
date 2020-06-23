@@ -1,5 +1,5 @@
 #------------- Alignment
-AlignmentCocoaDaq_CXXMODULES:=0
+AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
 AlignmentLaserAlignment_CXXMODULES:=0
 AlignmentOfflineValidation_CXXMODULES:=0
@@ -322,7 +322,8 @@ SimTrackerTrackTriggerAssociation_CXXMODULES:=0
 TrackingToolsGsfTracking_CXXMODULES:=0
 TrackingToolsPatternTools_CXXMODULES:=1
 TrackingToolsTrajectoryState_CXXMODULES:=1
-TrackingToolsTransientTrackingRecHit_CXXMODULES:=1
+#needs PR30337
+TrackingToolsTransientTrackingRecHit_CXXMODULES:=0
 #------------- TBDataFormats
 TBDataFormatsEcalTBObjects_CXXMODULES:=1
 TBDataFormatsHcalTBObjects_CXXMODULES:=1
