@@ -27,8 +27,7 @@ CondCoreUtilities_CXXMODULES:=0
 #/cvmfs/cms-ib.cern.ch/week0/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_CXXMODULE_X_2020-02-20-2300/src/DataFormats/L1GlobalTrigger/interface/L1GtObject.h:28:6: note: previous declaration is here
 #enum L1GtObject {
 CondFormatsL1TObjects_CXXMODULES:=0
-# CondFormatsAlignment needs CLHEP.modulemap
-CondFormatsAlignment_CXXMODULES:=0
+CondFormatsAlignment_CXXMODULES:=1
 # CondFormatsSiStrip needs boost.modulemap
 CondFormatsSiStripObjects_CXXMODULES:=0
 
