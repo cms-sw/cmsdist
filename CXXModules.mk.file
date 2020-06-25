@@ -1,6 +1,6 @@
 #------------- Alignment
-AlignmentCocoaDaq_CXXMODULES:=1
-AlignmentCocoaFit_CXXMODULES:=1
+AlignmentCocoaDaq_CXXMODULES:=0
+AlignmentCocoaFit_CXXMODULES:=0
 AlignmentLaserAlignment_CXXMODULES:=0
 AlignmentOfflineValidation_CXXMODULES:=0
 #------------- Analysis
@@ -27,7 +27,8 @@ CondCoreUtilities_CXXMODULES:=0
 #/cvmfs/cms-ib.cern.ch/week0/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_CXXMODULE_X_2020-02-20-2300/src/DataFormats/L1GlobalTrigger/interface/L1GtObject.h:28:6: note: previous declaration is here
 #enum L1GtObject {
 CondFormatsL1TObjects_CXXMODULES:=0
-CondFormatsAlignment_CXXMODULES:=1
+#misses dependencies to enable.
+CondFormatsAlignment_CXXMODULES:=0
 # CondFormatsSiStrip needs boost.modulemap
 CondFormatsSiStripObjects_CXXMODULES:=0
 
@@ -165,8 +166,6 @@ DataFormatsL1CaloTrigger_CXXMODULES:=1
 DataFormatsL1DTTrackFinder_CXXMODULES:=1
 DataFormatsL1GlobalCaloTrigger_CXXMODULES:=1
 DataFormatsL1GlobalMuonTrigger_CXXMODULES:=1
-#DL this creates and error that we do not currently understand 
-#I will disable this module for now.
 DataFormatsL1GlobalTrigger_CXXMODULES:=1
 DataFormatsL1Trigger_CXXMODULES:=1
 DataFormatsLTCDigi_CXXMODULES:=1
@@ -201,7 +200,6 @@ DataFormatsVertexReco_CXXMODULES:=1
 DataFormatsWrappedStdDictionaries_CXXMODULES:=1
 DataFormatsEgammaCandidates_CXXMODULES:=1
 DataFormatsEgammaReco_CXXMODULES:=1
-# FIXME: Remove the workarounds by creating a modulemap for CLHEP.
 DataFormatsJetReco_CXXMODULES:=1
 DataFormatsMuonReco_CXXMODULES:=1
 DataFormatsParticleFlowCandidate_CXXMODULES:=1
