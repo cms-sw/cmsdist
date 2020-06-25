@@ -5,7 +5,7 @@
 [default]
 RecoMET-METPUSubtraction=V01-01-00
 EgammaAnalysis-ElectronTools=V00-02-00
-L1Trigger-L1THGCal=V01-01-00
+L1Trigger-L1THGCal=V01-02-00
 PhysicsTools-NanoAOD=V01-01-00
 RecoBTag-Combined=V01-03-00
 RecoTauTag-TrainingFiles=V00-02-00
