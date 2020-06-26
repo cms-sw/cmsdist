@@ -1,4 +1,4 @@
-### RPM external gcc-fixincudes 1.0
+### RPM external gcc-fixincludes 1.0
 ## NO_VERSION_SUFFIX
 ## REVISION 1000
 Requires: gcc
