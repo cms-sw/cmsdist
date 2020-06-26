@@ -320,7 +320,7 @@ TrackingToolsGsfTracking_CXXMODULES:=0
 TrackingToolsPatternTools_CXXMODULES:=1
 TrackingToolsTrajectoryState_CXXMODULES:=1
 #needs PR30337
-TrackingToolsTransientTrackingRecHit_CXXMODULES:=0
+TrackingToolsTransientTrackingRecHit_CXXMODULES:=1
 #------------- TBDataFormats
 TBDataFormatsEcalTBObjects_CXXMODULES:=1
 TBDataFormatsHcalTBObjects_CXXMODULES:=1
