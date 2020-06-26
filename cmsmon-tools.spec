@@ -1,13 +1,15 @@
-### RPM cms cmsmon-tools 0.4.4
+### RPM cms cmsmon-tools 0.4.5
 ## NOCOMPILER
 
 %define arch linux-amd64
 %define promv 2.18.1
 %define amver 0.20.0
+%define sternv 1.11.0
 %define pkg CMSMonitoring
 %define ver %realversion
 %define monit_commands monit ggus_parser
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
+%define common_commands promtool amtool prometheus hey stern
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/%pkg/archive/%ver.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
@@ -82,6 +84,13 @@ cd ../hey-x509-csv-fixes
 cp hey %i
 cd -
 
+# install stern
+cd ../
+curl -ksLO https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
+chmod +x stern_linux_amd64
+cp stern_linux_amd64 %i/stern
+cd -
+
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
 # Increament cmsdist file revision for every change #
@@ -104,6 +113,6 @@ chmod +x %i/.cmsmon-tools
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
 %common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/.cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/.cmsmon-tools
-for cmd in %monit_commands %cmsmon_commands promtool amtool prometheus hey; do
+for cmd in %monit_commands %cmsmon_commands %common_commands; do
   ln -sf .cmsmon-tools $RPM_INSTALL_PREFIX/cmsmon/$cmd
 done
