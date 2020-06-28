@@ -15,6 +15,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/highfive.xml
     <environment name="INCLUDE" default="$HIGHFIVE_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="boost"/>
+  <use name="hdf5"/> 
 </tool>
 EOF_TOOLFILE
 
