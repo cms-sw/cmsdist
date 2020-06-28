@@ -3,13 +3,14 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+SimTransport-PPSProtonTransport=V00-02-00
+L1Trigger-L1THGCal=V01-02-00
 DQM-SiStripMonitorClient=V01-01-00
 L1Trigger-TrackFindingTracklet=V00-01-00
 L1Trigger-TrackFindingTMTT=V00-01-00
 Geometry-TestReference=V00-02-00
 RecoMET-METPUSubtraction=V01-01-00
 EgammaAnalysis-ElectronTools=V00-02-00
-L1Trigger-L1THGCal=V01-01-00
 PhysicsTools-NanoAOD=V01-01-00
 RecoBTag-Combined=V01-03-00
 RecoTauTag-TrainingFiles=V00-02-00
@@ -33,7 +34,6 @@ SLHCUpgradeSimulations-Geometry=V01-00-10
 L1Trigger-L1TMuon=V01-01-04
 CondTools-SiPhase2Tracker=V00-01-00
 PhysicsTools-PatUtils=V00-01-00
-SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
 RecoHGCal-TICL=V00-01-00
 SimG4CMS-HGCalTestBeam=V01-00-00
