@@ -5,7 +5,7 @@
 %define tag cd1470abca0bafc7d17a8a77ae18802a092967cd
 Source: git+https://github.com/%github_user/HighFive.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: boost hdf5 eigen xtensor
+Requires: boost hdf5
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -18,11 +18,9 @@ mkdir build && cd build
 cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DHIGHFIVE_EXAMPLES=OFF \
-    -DHIGHFIVE_USE_EIGEN=ON \
-    -DHIGHFIVE_USE_XTENSOR=ON \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DHIGHFIVE_UNIT_TESTS=OFF \
-    -DCMAKE_PREFIX_PATH="${BOOST_ROOT};${HDF5_ROOT};${EIGEN_ROOT};${XTENSOR_ROOT}"
+    -DCMAKE_PREFIX_PATH="${BOOST_ROOT};${HDF5_ROOT}"
 
 %install
 cd %{_builddir}/build
