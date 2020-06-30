@@ -1,4 +1,4 @@
-### RPM external vecgeom v1.1.6
+### RPM external vecgeom v1.1.7
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
@@ -17,6 +17,7 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
   -DROOT=OFF \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
@@ -43,7 +44,5 @@ perl -p -i -e 's|set\(VECGEOM_EXTERNAL_INCLUDES .*|set(VECGEOM_EXTERNAL_INCLUDES
   $(grep -R 'set(VECGEOM_EXTERNAL_INCLUDES ' %{i}/lib/cmake | sed 's|:.*||' | sort | uniq)
 
 %post
-%{relocateConfig}lib/cmake/USolids/*.cmake
-%{relocateConfig}lib/cmake/VecCore/*.cmake
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
 
