@@ -218,7 +218,7 @@ DataFormatsParticleFlowReco_CXXMODULES:=1
 # enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
 # ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
 # enum L1GtPsbQuad {
-DataFormatsPatCandidates_CXXMODULES:=0
+DataFormatsPatCandidates_CXXMODULES:=1
 # Disabling module because of error in include/clang/AST/DeclTemplate.h:754: 
 # bool clang::RedeclarableTemplateDecl::LazySpecializationInfo::operator==(const clang::RedeclarableTemplateDecl::LazySpecializationInfo&) const: Assertion `(DeclID != Other.DeclID || ODRHash == Other.ODRHash) && "Hashes differ!"' failed.
 DataFormatsRPCDigi_CXXMODULES:=1
