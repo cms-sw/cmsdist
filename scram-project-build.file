@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-14
+%define configtag       V05-10-15
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -127,7 +127,7 @@ rm -rf config %{srctree} poison
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
+%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
