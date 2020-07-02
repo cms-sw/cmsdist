@@ -14,7 +14,7 @@ CalibTrackerSiPixelQuality_CXXMODULES:=0
 CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=0
 CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=0
 #------------- CalibFormats
-CalibFormatsCaloObjects_CXXMODULES:=0
+CalibFormatsCaloObjects_CXXMODULES:=1
 #------------- Calibration
 CalibrationEcalTBTools_CXXMODULES:=0
 CalibrationHcalCalibAlgos_CXXMODULES:=0
