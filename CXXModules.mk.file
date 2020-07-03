@@ -266,7 +266,8 @@ PhysicsToolsMVATrainer_CXXMODULES:=0
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
 PhysicsToolsSelectorUtils_CXXMODULES:=0
-PhysicsToolsTagAndProbe_CXXMODULES:=1
+#needs 30524
+PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
 RecoEgammaElectronIdentification_CXXMODULES:=0
