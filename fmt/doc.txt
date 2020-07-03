@@ -1,0 +1,14 @@
+
+- Requested, AddedBy: 
+  @makortel
+  https://github.com/cms-sw/cmsdist/pull/6011
+
+- PR: 
+  https://github.com/cms-sw/cmsdist/pull/6023
+
+- Description:
+  {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.  
+  https://github.com/fmtlib/fmt
+
+- Documentation
+  https://fmt.dev/latest/
