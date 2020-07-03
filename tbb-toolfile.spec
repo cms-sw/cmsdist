@@ -19,6 +19,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="TBB_USE_GLIBCXX_VERSION=@GCC_GLIBCXX_VERSION@"/>
+  <flags CPPDEFINES="TBB_SUPPRESS_DEPRECATED_MESSAGES"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
 
