@@ -43,6 +43,10 @@ Requires: data-RecoBTag-CTagging
 Requires: data-L1Trigger-L1TMuon
 Requires: data-L1Trigger-L1TGlobal
 Requires: data-L1Trigger-L1THGCal
+Requires: data-L1Trigger-Phase2L1ParticleFlow
+Requires: data-L1Trigger-DTTriggerPhase2
+Requires: data-L1Trigger-TrackFindingTracklet
+Requires: data-L1Trigger-TrackFindingTMTT
 Requires: data-SLHCUpgradeSimulations-Geometry
 Requires: data-CalibTracker-SiStripDCS
 Requires: data-SimTracker-SiStripDigitizer
