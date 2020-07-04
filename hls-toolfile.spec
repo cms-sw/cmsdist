@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/hls.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
 
