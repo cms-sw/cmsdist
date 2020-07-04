@@ -313,7 +313,7 @@ SimGeneralTrackingAnalysis_CXXMODULES:=0
 #------------- SimMuon
 SimMuonNeutron_CXXMODULES:=1
 #------------- SimTracker
-SimTrackerTrackerHitAssociation_CXXMODULES:=1
+SimTrackerTrackerHitAssociation_CXXMODULES:=0
 SimTrackerTrackHistory_CXXMODULES:=0
 SimTrackerTrackTriggerAssociation_CXXMODULES:=1
 #------------- TrackingTools
