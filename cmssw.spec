@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_10_1_0_pre1
+### RPM cms cmssw CMSSW_10_6_14_Pyt8240BugFix
 
 Requires: cmssw-tool-conf python cms-git-tools cmssw-osenv
 
