@@ -236,8 +236,8 @@ FastSimDataFormatsExternal_CXXMODULES:=1
 FireworksCore_CXXMODULES:=0
 FireworksEve_CXXMODULES:=1
 FireworksFWInterface_CXXMODULES:=0
-FireworksVertices_CXXMODULES:=1
-FireworksTableWidget_CXXMODULES:=1
+FireworksVertices_CXXMODULES:=0
+FireworksTableWidget_CXXMODULES:=0
 #------------- FWCore
 FWCoreCommon_CXXMODULES:=1
 FWCoreFWLite_CXXMODULES:=1
