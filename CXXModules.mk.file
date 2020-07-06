@@ -17,7 +17,7 @@ CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=1
 CalibFormatsCaloObjects_CXXMODULES:=1
 #------------- Calibration
 CalibrationEcalTBTools_CXXMODULES:=1
-CalibrationHcalCalibAlgos_CXXMODULES:=1
+CalibrationHcalCalibAlgos_CXXMODULES:=0
 #------------- CondCore
 CondCoreUtilities_CXXMODULES:=0
 #------------- CondFormats 
