@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/mxnet-predict.xml
     <environment name="LIBDIR" default="$MXNET_PREDICT_BASE/lib"/>
   </client>
   <use name="openblas"/>
+  <flags CXXFLAGS="-DDMLC_MODERN_THREAD_LOCAL=1"/>
   <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
