@@ -22,6 +22,7 @@ Requires: evtgen-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
+Requires: fmt-toolfile
 Requires: gbl-toolfile
 Requires: gcc-toolfile
 Requires: gdbm-toolfile
