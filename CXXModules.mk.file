@@ -1,23 +1,23 @@
 #------------- Alignment
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
-AlignmentLaserAlignment_CXXMODULES:=0
-AlignmentOfflineValidation_CXXMODULES:=0
+AlignmentLaserAlignment_CXXMODULES:=1
+AlignmentOfflineValidation_CXXMODULES:=1
 #------------- Analysis
-AnalysisDataFormatsEWK_CXXMODULES:=0
-AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=0
-AnalysisDataFormatsTopObjects_CXXMODULES:=0
-AnalysisDataFormatsTrackInfo_CXXMODULES:=0
+AnalysisDataFormatsEWK_CXXMODULES:=1
+AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=1
+AnalysisDataFormatsTopObjects_CXXMODULES:=1
+AnalysisDataFormatsTrackInfo_CXXMODULES:=1
 #------------- CalibTracker
 CalibTrackerSiPixelQuality_CXXMODULES:=0
 #------------- CalibCalorimetry
-CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=0
-CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=0
+CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=1
+CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=1
 #------------- CalibFormats
 CalibFormatsCaloObjects_CXXMODULES:=1
 #------------- Calibration
-CalibrationEcalTBTools_CXXMODULES:=0
-CalibrationHcalCalibAlgos_CXXMODULES:=0
+CalibrationEcalTBTools_CXXMODULES:=1
+CalibrationHcalCalibAlgos_CXXMODULES:=1
 #------------- CondCore
 CondCoreUtilities_CXXMODULES:=0
 #------------- CondFormats 
@@ -266,7 +266,6 @@ PhysicsToolsMVATrainer_CXXMODULES:=0
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
 PhysicsToolsSelectorUtils_CXXMODULES:=0
-#needs 30524
 PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
