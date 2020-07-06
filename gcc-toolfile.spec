@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 13.0
+### RPM cms gcc-toolfile 14.0
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -113,6 +113,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-f77compiler.xml
   </tool>
 EOF_TOOLFILE
 
+# GCC tool file for explicitly linking against libstdc++fs
+cat << \EOF_TOOLFILE >%i/etc/scram.d/stdcxx-fs.xml
+  <tool name="stdcxx-fs" version="@GCC_VERSION@">
+    <lib name="stdc++fs"/>
+  </tool>
+EOF_TOOLFILE
+
 # GCC tool file for explicitly linking against libatomic
 cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-atomic.xml
   <tool name="gcc-atomic" version="@GCC_VERSION@">
@@ -187,17 +194,15 @@ COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Xassembler --compress-debug-sections"
 
-case %{cmsplatf} in
-   *_amd64_*)
+%ifarch x86_64
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3"
-   ;;
-   *_aarch64_*)
+%endif
+%ifarch aarch64
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
-   ;;
-   *_ppc64le_*|*_ppc64_*)
+%endif
+%ifarch ppc64le
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields -mlong-double-64"
-   ;;
-esac
+%endif
 
 export COMPILER_CXXFLAGS
 
