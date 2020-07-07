@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 %define gccTag 8cd3bffead2ed1d1998c190865694f920fbc93ab
 %define gccBranch releases/gcc-8
-
+#test
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
