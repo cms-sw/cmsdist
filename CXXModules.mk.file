@@ -209,24 +209,15 @@ DataFormatsRPCRecHit_CXXMODULES:=1
 DataFormatsSiStripCommon_CXXMODULES:=1
 DataFormatsTauReco_CXXMODULES:=1
 DataFormatsV0Candidate_CXXMODULES:=1
-###########################################################################
-# Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
-# (this will be fixed automatically when we upgrade llvm in root)
 DataFormatsParticleFlowReco_CXXMODULES:=1
-# Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
-# enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
-# ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
-# enum L1GtPsbQuad {
 DataFormatsPatCandidates_CXXMODULES:=1
-# Disabling module because of error in include/clang/AST/DeclTemplate.h:754: 
-# bool clang::RedeclarableTemplateDecl::LazySpecializationInfo::operator==(const clang::RedeclarableTemplateDecl::LazySpecializationInfo&) const: Assertion `(DeclID != Other.DeclID || ODRHash == Other.ODRHash) && "Hashes differ!"' failed.
 DataFormatsRPCDigi_CXXMODULES:=1
 #------------- DPGAnalysis
 DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
 EgammaAnalysisElectronTools_CXXMODULES:=1
 #------------- EventFilter
-EventFilterGEMRawToDigi_CXXMODULES:=0
+EventFilterGEMRawToDigi_CXXMODULES:=1
 #------------- FastSimDataFormats
 FastSimDataFormatsNuclearInteractions_CXXMODULES:=1
 FastSimDataFormatsPileUpEvents_CXXMODULES:=1
@@ -276,11 +267,11 @@ RecoMuonMuonIdentification_CXXMODULES:=0
 RecoParticleFlowBenchmark_CXXMODULES:=1
 RecoPixelVertexingPixelTrackFitting_CXXMODULES:=0
 RecoPixelVertexingPixelTriplets_CXXMODULES:=0
-RecoTrackerMeasurementDet_CXXMODULES:=0
-RecoTrackerTkHitPairs_CXXMODULES:=0
-RecoTrackerTkSeedGenerator_CXXMODULES:=0
+RecoTrackerMeasurementDet_CXXMODULES:=1
+RecoTrackerTkHitPairs_CXXMODULES:=1
+RecoTrackerTkSeedGenerator_CXXMODULES:=1
 RecoTrackerTkSeedingLayers_CXXMODULES:=1
-RecoTrackerTkTrackingRegions_CXXMODULES:=0
+RecoTrackerTkTrackingRegions_CXXMODULES:=1
 #------------- SimDataFormats
 SimDataFormatsCaloHit_CXXMODULES:=1
 SimDataFormatsDigiSimLinks_CXXMODULES:=1
@@ -319,7 +310,6 @@ SimTrackerTrackTriggerAssociation_CXXMODULES:=1
 TrackingToolsGsfTracking_CXXMODULES:=1
 TrackingToolsPatternTools_CXXMODULES:=1
 TrackingToolsTrajectoryState_CXXMODULES:=1
-#needs PR30337
 TrackingToolsTransientTrackingRecHit_CXXMODULES:=1
 #------------- TBDataFormats
 TBDataFormatsEcalTBObjects_CXXMODULES:=1
