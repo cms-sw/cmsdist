@@ -217,7 +217,8 @@ DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
 EgammaAnalysisElectronTools_CXXMODULES:=1
 #------------- EventFilter
-EventFilterGEMRawToDigi_CXXMODULES:=1
+#full of duplicate classes from DataFormats/GEMDigi
+EventFilterGEMRawToDigi_CXXMODULES:=0
 #------------- FastSimDataFormats
 FastSimDataFormatsNuclearInteractions_CXXMODULES:=1
 FastSimDataFormatsPileUpEvents_CXXMODULES:=1
