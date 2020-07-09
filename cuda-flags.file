@@ -39,5 +39,8 @@
 # link the CUDA runtime shared library
 %define cuda_flags_6 --cudart shared
 
+# disable nvcc check for supported host compiler versions
+%define cuda_flags_7 --allow-unsupported-compiler
+
 # collect all CUDA flags
-%define nvcc_cuda_flags %{nvcc_stdcxx} %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6}
+%define nvcc_cuda_flags %{nvcc_stdcxx} %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6} %{cuda_flags_7}
