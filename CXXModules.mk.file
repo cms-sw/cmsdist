@@ -27,10 +27,10 @@ CondCoreUtilities_CXXMODULES:=0
 #/cvmfs/cms-ib.cern.ch/week0/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_CXXMODULE_X_2020-02-20-2300/src/DataFormats/L1GlobalTrigger/interface/L1GtObject.h:28:6: note: previous declaration is here
 #enum L1GtObject {
 #we believe these are fixed - but there are missing dependencies to be fixed..
-CondFormatsL1TObjects_CXXMODULES:=0
+CondFormatsL1TObjects_CXXMODULES:=1
 CondFormatsAlignment_CXXMODULES:=1
 # CondFormatsSiStrip needs boost.modulemap
-CondFormatsSiStripObjects_CXXMODULES:=0
+CondFormatsSiStripObjects_CXXMODULES:=1
 
 #problems with new boost
 CondFormatsRunInfo_CXXMODULES:=1
@@ -63,7 +63,7 @@ CondFormatsPhysicsToolsObjects_CXXMODULES:=1
 CondFormatsRecoMuonObjects_CXXMODULES:=1
 CondFormatsRPCObjects_CXXMODULES:=1
 CondFormatsSiPhase2TrackerObjects_CXXMODULES:=1
-CondFormatsSiPixelObjects_CXXMODULES:=0
+CondFormatsSiPixelObjects_CXXMODULES:=1
 CondFormatsSerialization_CXXMODULES:=1
 #------------- CondTools
 CondToolsBTau_CXXMODULES:=1
