@@ -34,11 +34,11 @@ Source20: CXXModules.mk
   for p in ; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
-  done
-  if test -f "CondFormats/RPCObjects"; then
-    echo "<use name=\\"CondFormats/L1TObjects\\"/>"	> bf
-    cat src/CondFormats/RPCObjects/BuildFile.xml > bf
-    mv bf src/CondFormats/RPCObjects/BuildFile.xml
+  done \
+  if [ -e "CondFormats/RPCObjects" ]; then \
+    echo "<use name=\\"CondFormats/L1TObjects\\"/>"	> bf \
+    cat src/CondFormats/RPCObjects/BuildFile.xml > bf \
+    mv bf src/CondFormats/RPCObjects/BuildFile.xml \
   fi  
 %endif
 
