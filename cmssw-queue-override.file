@@ -31,9 +31,14 @@
 Source20: CXXModules.mk
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
-  for p in FWCore/Framework FWCore/ParameterSet FWCore/Reflection FWCore/Utilities ; do \
+  for p in ; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done
+  if test -f "CondFormats/RPCObjects"; then
+    echo "<use name=\\"CondFormats/L1TObjects\\"/>"	> bf
+    cat src/CondFormats/RPCObjects/BuildFile.xml > bf
+    mv bf src/CondFormats/RPCObjects/BuildFile.xml
+  fi  
 %endif
 
