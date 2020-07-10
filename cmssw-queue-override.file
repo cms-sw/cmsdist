@@ -36,7 +36,7 @@ Source20: CXXModules.mk
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done
   echo "<use name=\\"CondFormats/L1TObjects\\"/>"	> bf
-  cat CondFormats/RPCObjects/BuildFile > bf
-  mv bf CondFormats/RPCObjects/BuildFile
+  cat src/CondFormats/RPCObjects/BuildFile > bf
+  mv bf src/CondFormats/RPCObjects/BuildFile
 %endif
 
