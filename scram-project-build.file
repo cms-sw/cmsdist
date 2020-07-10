@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-22
+%define configtag       V05-10-26
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -127,7 +127,7 @@ rm -rf config %{srctree} poison
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
+%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
@@ -318,8 +318,8 @@ scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename.pl %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
 %{?buildarch:%buildarch}
 
 for lib in %{cmssw_libs} ; do

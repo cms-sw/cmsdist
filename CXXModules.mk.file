@@ -1,22 +1,22 @@
 #------------- Alignment
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
-AlignmentLaserAlignment_CXXMODULES:=0
-AlignmentOfflineValidation_CXXMODULES:=0
+AlignmentLaserAlignment_CXXMODULES:=1
+AlignmentOfflineValidation_CXXMODULES:=1
 #------------- Analysis
-AnalysisDataFormatsEWK_CXXMODULES:=0
-AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=0
-AnalysisDataFormatsTopObjects_CXXMODULES:=0
-AnalysisDataFormatsTrackInfo_CXXMODULES:=0
+AnalysisDataFormatsEWK_CXXMODULES:=1
+AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=1
+AnalysisDataFormatsTopObjects_CXXMODULES:=1
+AnalysisDataFormatsTrackInfo_CXXMODULES:=1
 #------------- CalibTracker
 CalibTrackerSiPixelQuality_CXXMODULES:=0
 #------------- CalibCalorimetry
-CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=0
-CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=0
+CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=1
+CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=1
 #------------- CalibFormats
 CalibFormatsCaloObjects_CXXMODULES:=1
 #------------- Calibration
-CalibrationEcalTBTools_CXXMODULES:=0
+CalibrationEcalTBTools_CXXMODULES:=1
 CalibrationHcalCalibAlgos_CXXMODULES:=0
 #------------- CondCore
 CondCoreUtilities_CXXMODULES:=0
@@ -27,10 +27,10 @@ CondCoreUtilities_CXXMODULES:=0
 #/cvmfs/cms-ib.cern.ch/week0/slc7_amd64_gcc820/cms/cmssw/CMSSW_11_1_CXXMODULE_X_2020-02-20-2300/src/DataFormats/L1GlobalTrigger/interface/L1GtObject.h:28:6: note: previous declaration is here
 #enum L1GtObject {
 #we believe these are fixed - but there are missing dependencies to be fixed..
-CondFormatsL1TObjects_CXXMODULES:=0
+CondFormatsL1TObjects_CXXMODULES:=1
 CondFormatsAlignment_CXXMODULES:=1
 # CondFormatsSiStrip needs boost.modulemap
-CondFormatsSiStripObjects_CXXMODULES:=0
+CondFormatsSiStripObjects_CXXMODULES:=1
 
 #problems with new boost
 CondFormatsRunInfo_CXXMODULES:=1
@@ -63,7 +63,7 @@ CondFormatsPhysicsToolsObjects_CXXMODULES:=1
 CondFormatsRecoMuonObjects_CXXMODULES:=1
 CondFormatsRPCObjects_CXXMODULES:=1
 CondFormatsSiPhase2TrackerObjects_CXXMODULES:=1
-CondFormatsSiPixelObjects_CXXMODULES:=0
+CondFormatsSiPixelObjects_CXXMODULES:=1
 CondFormatsSerialization_CXXMODULES:=1
 #------------- CondTools
 CondToolsBTau_CXXMODULES:=1
@@ -209,23 +209,15 @@ DataFormatsRPCRecHit_CXXMODULES:=1
 DataFormatsSiStripCommon_CXXMODULES:=1
 DataFormatsTauReco_CXXMODULES:=1
 DataFormatsV0Candidate_CXXMODULES:=1
-###########################################################################
-# Invalid declaration chain: clang::Redeclarable<clang::FunctionDecl>::redecl_iterator::operator++()
-# (this will be fixed automatically when we upgrade llvm in root)
 DataFormatsParticleFlowReco_CXXMODULES:=1
-# Disabling module because of error: CondFormatsL1TObjects_xr dictionary forward declarations' payload:16:192: error: enumeration previously declared with nonfixed underlying type
-# enum  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtDefinitions.h")))  __attribute__((annotate("$clingAutoload$CondFormats/L1TObjects/interface/L1GtBoard.h"))) L1GtPsbQuad : unsigned int;                                                                                                                                                                                             ^
-# ../src/CondFormats/L1TObjects/interface/L1GtDefinitions.h38:6: note: previous declaration is here
-# enum L1GtPsbQuad {
 DataFormatsPatCandidates_CXXMODULES:=1
-# Disabling module because of error in include/clang/AST/DeclTemplate.h:754: 
-# bool clang::RedeclarableTemplateDecl::LazySpecializationInfo::operator==(const clang::RedeclarableTemplateDecl::LazySpecializationInfo&) const: Assertion `(DeclID != Other.DeclID || ODRHash == Other.ODRHash) && "Hashes differ!"' failed.
 DataFormatsRPCDigi_CXXMODULES:=1
 #------------- DPGAnalysis
 DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
 EgammaAnalysisElectronTools_CXXMODULES:=1
 #------------- EventFilter
+#full of duplicate classes from DataFormats/GEMDigi
 EventFilterGEMRawToDigi_CXXMODULES:=0
 #------------- FastSimDataFormats
 FastSimDataFormatsNuclearInteractions_CXXMODULES:=1
@@ -236,8 +228,8 @@ FastSimDataFormatsExternal_CXXMODULES:=1
 FireworksCore_CXXMODULES:=0
 FireworksEve_CXXMODULES:=1
 FireworksFWInterface_CXXMODULES:=0
-FireworksVertices_CXXMODULES:=1
-FireworksTableWidget_CXXMODULES:=1
+FireworksVertices_CXXMODULES:=0
+FireworksTableWidget_CXXMODULES:=0
 #------------- FWCore
 FWCoreCommon_CXXMODULES:=1
 FWCoreFWLite_CXXMODULES:=1
@@ -266,7 +258,7 @@ PhysicsToolsMVATrainer_CXXMODULES:=0
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
 PhysicsToolsSelectorUtils_CXXMODULES:=0
-PhysicsToolsTagAndProbe_CXXMODULES:=1
+PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
 RecoEgammaElectronIdentification_CXXMODULES:=0
@@ -276,11 +268,11 @@ RecoMuonMuonIdentification_CXXMODULES:=0
 RecoParticleFlowBenchmark_CXXMODULES:=1
 RecoPixelVertexingPixelTrackFitting_CXXMODULES:=0
 RecoPixelVertexingPixelTriplets_CXXMODULES:=0
-RecoTrackerMeasurementDet_CXXMODULES:=0
-RecoTrackerTkHitPairs_CXXMODULES:=0
-RecoTrackerTkSeedGenerator_CXXMODULES:=0
+RecoTrackerMeasurementDet_CXXMODULES:=1
+RecoTrackerTkHitPairs_CXXMODULES:=1
+RecoTrackerTkSeedGenerator_CXXMODULES:=1
 RecoTrackerTkSeedingLayers_CXXMODULES:=1
-RecoTrackerTkTrackingRegions_CXXMODULES:=0
+RecoTrackerTkTrackingRegions_CXXMODULES:=1
 #------------- SimDataFormats
 SimDataFormatsCaloHit_CXXMODULES:=1
 SimDataFormatsDigiSimLinks_CXXMODULES:=1
@@ -312,14 +304,13 @@ SimGeneralTrackingAnalysis_CXXMODULES:=0
 #------------- SimMuon
 SimMuonNeutron_CXXMODULES:=1
 #------------- SimTracker
-SimTrackerTrackerHitAssociation_CXXMODULES:=1
+SimTrackerTrackerHitAssociation_CXXMODULES:=0
 SimTrackerTrackHistory_CXXMODULES:=0
 SimTrackerTrackTriggerAssociation_CXXMODULES:=1
 #------------- TrackingTools
 TrackingToolsGsfTracking_CXXMODULES:=1
 TrackingToolsPatternTools_CXXMODULES:=1
 TrackingToolsTrajectoryState_CXXMODULES:=1
-#needs PR30337
 TrackingToolsTransientTrackingRecHit_CXXMODULES:=1
 #------------- TBDataFormats
 TBDataFormatsEcalTBObjects_CXXMODULES:=1

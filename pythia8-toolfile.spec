@@ -21,6 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pythia8.xml
   <use name="cxxcompiler"/>
   <use name="hepmc"/>
   <use name="lhapdf"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
 
