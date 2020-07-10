@@ -30,5 +30,10 @@
 %if "%(case %realversion in (*CXXMODULE*) echo true ;; (*) echo false ;; esac)" == "true"
 Source20: CXXModules.mk
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
+%define patchsrc20     \
+  for p in FWCore/Framework FWCore/ParameterSet FWCore/Reflection FWCore/Utilities ; do \
+    echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
+    echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
+  done
 %endif
 
