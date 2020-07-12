@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+CalibTracker-SiPixelESProducers=V02-01-00
 L1Trigger-CSCTriggerPrimitives=V00-01-00
 RecoBTag-Combined=V01-04-00
 L1Trigger-Phase2L1ParticleFlow=V00-02-00
@@ -72,7 +73,6 @@ Geometry-TwentyFivePercentTrackerCommonData=V00-01-00
 #Never update any package here. Always move it to default section.
 [data-build-github]
 Calibration-Tools=V01-00-00
-CalibTracker-SiPixelESProducers=V02-00-00
 CalibTracker-SiStripDCS=V01-00-00
 CondFormats-JetMETObjects=V01-00-03
 DataFormats-PatCandidates=V01-00-01
