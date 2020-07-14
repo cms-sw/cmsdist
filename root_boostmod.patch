@@ -1,0 +1,44 @@
+diff -u /build/vvasilev/pcm_util/slc7_amd64_gcc820/lcg/root/6.23.01-cms/etc/cling/boost.modulemap /build/vvasilev/root/interpreter/cling/include/cling/boost.modulemap 
+--- a/interpreter/cling/include/cling/boost.modulemap
++++ b/interpreter/cling/include/cling/boost.modulemap
+@@ -1,5 +1,6 @@
+ module boost_accumulators [system] {
+   export *
++
+   module "accumulators__accumulators_fwd" { header "accumulators/accumulators_fwd.hpp" export * }
+   module "accumulators__accumulators" { header "accumulators/accumulators.hpp" export * }
+   module "accumulators__framework__accumulator_base" { header "accumulators/framework/accumulator_base.hpp" export * }
+@@ -6774,9 +6775,6 @@
+     module "spirit__home__support__detail__lexer__size_t" { header "spirit/home/support/detail/lexer/size_t.hpp" export * }
+     module "spirit__home__support__detail__make_cons" { header "spirit/home/support/detail/make_cons.hpp" export * }
+     module "spirit__home__support__detail__make_vector" { header "spirit/home/support/detail/make_vector.hpp" export * }
+-    module "spirit__home__support__detail__math__detail__fp_traits" { header "spirit/home/support/detail/math/detail/fp_traits.hpp" export * }
+-    module "spirit__home__support__detail__math__fpclassify" { header "spirit/home/support/detail/math/fpclassify.hpp" export * }
+-    module "spirit__home__support__detail__math__signbit" { header "spirit/home/support/detail/math/signbit.hpp" export * }
+ /*
+  * While building module 'boost_modules_wrapper' imported from /home/teemperor/llvm/boost-compile/cms.cpp:2:
+ In file included from <module-includes>:1023:
+@@ -6911,7 +6909,6 @@
+     module "spirit__home__x3__support__traits__has_attribute" { header "spirit/home/x3/support/traits/has_attribute.hpp" export * }
+     module "spirit__home__x3__support__traits__is_parser" { header "spirit/home/x3/support/traits/is_parser.hpp" export * }
+     module "spirit__home__x3__support__traits__is_variant" { header "spirit/home/x3/support/traits/is_variant.hpp" export * }
+-    module "spirit__home__x3__support__traits__make_attribute" { header "spirit/home/x3/support/traits/make_attribute.hpp" export * }
+     module "spirit__home__x3__support__traits__move_to" { header "spirit/home/x3/support/traits/move_to.hpp" export * }
+     module "spirit__home__x3__support__traits__numeric_traits" { header "spirit/home/x3/support/traits/numeric_traits.hpp" export * }
+     module "spirit__home__x3__support__traits__optional_traits" { header "spirit/home/x3/support/traits/optional_traits.hpp" export * }
+@@ -7427,7 +7424,6 @@
+     module "variant__detail__enable_recursive_fwd" { header "variant/detail/enable_recursive_fwd.hpp" export * }
+     module "variant__detail__enable_recursive" { header "variant/detail/enable_recursive.hpp" export * }
+     module "variant__detail__forced_return" { header "variant/detail/forced_return.hpp" export * }
+-    module "variant__detail__generic_result_type" { header "variant/detail/generic_result_type.hpp" export * }
+     module "variant__detail__hash_variant" { header "variant/detail/hash_variant.hpp" export * }
+     module "variant__detail__has_result_type" { header "variant/detail/has_result_type.hpp" export * }
+     module "variant__detail__initializer" { header "variant/detail/initializer.hpp" export * }
+@@ -7472,7 +7468,6 @@
+     module "serialization__deque" { header "serialization/deque.hpp" export * }
+     module "serialization__detail__is_default_constructible" { header "serialization/detail/is_default_constructible.hpp" export * }
+     module "serialization__detail__stack_constructor" { header "serialization/detail/stack_constructor.hpp" export * }
+-    module "serialization__ephemeral" { header "serialization/ephemeral.hpp" export * }
+     module "serialization__export" { header "serialization/export.hpp" export * }
+     module "serialization__extended_type_info" { header "serialization/extended_type_info.hpp" export * }
+     module "serialization__extended_type_info_no_rtti" { header "serialization/extended_type_info_no_rtti.hpp" export * }
