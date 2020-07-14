@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-RecoBTag-Combined=V01-03-00
+RecoBTag-Combined=V01-04-00
 RecoJets-JetProducers=V05-11-00
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
