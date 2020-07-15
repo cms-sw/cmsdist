@@ -8,6 +8,7 @@ BuildRequires: root clhep tinyxml2 boost
 
 %build
 
+rm -f *.pcm
 rm -f empty.h
 rm -f dummy.modulemap
 
@@ -26,6 +27,21 @@ rm -f dummy_dict.cc
 rm -f libDummy.so
 rootcling dummy_dict.cc -v4 -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_type_traits -mByproduct boost_type_traits  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
 
+#rm -f dummy_dict.cc
+#rm -f libDummy.so
+#rootcling dummy_dict.cc -v2 -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_INTRUSIVE_DISABLE_FORCEINLINE -DBOOST_SP_USE_STD_ALLOCATOR -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_modules_wrapper -mByproduct boost_modules_wrapper -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+
+rm -f dummy_dict.cc
+rm -f libDummy.so
+rootcling dummy_dict.cc -v2 -DBOOST_SP_USE_STD_ALLOCATOR -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_mpl -mByproduct boost_mpl -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+
+rm -f dummy_dict.cc
+rm -f libDummy.so
+rootcling dummy_dict.cc -v2 -DBOOST_SP_USE_STD_ALLOCATOR -DBOOST_INTRUSIVE_FORCEINLINE=inline -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_intrusive -mByproduct boost_intrusive -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+
+rm -f dummy_dict.cc
+rm -f libDummy.so
+rootcling dummy_dict.cc -v2 -DBOOST_SP_USE_STD_ALLOCATOR -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_functional -mByproduct boost_functional -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
 
 
 %install
