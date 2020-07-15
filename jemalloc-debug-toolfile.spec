@@ -1,4 +1,4 @@
-### RPM external jemalloc-debug-toolfile 1.0
+### RPM external jemalloc-debug-toolfile 2.0
 Requires: jemalloc-debug
 
 %prep
