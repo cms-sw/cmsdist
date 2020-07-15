@@ -1,4 +1,4 @@
-### RPM external fmt 6.2.1
+### RPM external fmt 7.0.1
 
 Source: https://github.com/fmtlib/fmt/archive/%{realversion}.tar.gz
 BuildRequires: gmake cmake
