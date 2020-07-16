@@ -17,6 +17,7 @@ CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=1
 CalibFormatsCaloObjects_CXXMODULES:=1
 #------------- Calibration
 CalibrationEcalTBTools_CXXMODULES:=1
+#july14 missing a ROOT include perhaps
 CalibrationHcalCalibAlgos_CXXMODULES:=0
 #------------- CondCore
 #tried July 15
@@ -216,6 +217,7 @@ DataFormatsParticleFlowReco_CXXMODULES:=1
 DataFormatsPatCandidates_CXXMODULES:=1
 DataFormatsRPCDigi_CXXMODULES:=1
 #------------- DPGAnalysis
+#needs PR removing ROOTCLING
 DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
 EgammaAnalysisElectronTools_CXXMODULES:=1
@@ -232,10 +234,10 @@ FireworksEve_CXXMODULES:=1
 #tried July 15
 #nderer.h:81:7: error: use of undeclared identifier 'gVirtualX'
 #      gVirtualX->FillRectangle(iID,
-FireworksCore_CXXMODULES:=0
-FireworksFWInterface_CXXMODULES:=0
-FireworksVertices_CXXMODULES:=0
-FireworksTableWidget_CXXMODULES:=0
+FireworksCore_CXXMODULES:=1
+FireworksFWInterface_CXXMODULES:=1
+FireworksVertices_CXXMODULES:=1
+FireworksTableWidget_CXXMODULES:=1
 #------------- FWCore
 FWCoreCommon_CXXMODULES:=1
 FWCoreFWLite_CXXMODULES:=1
@@ -257,15 +259,15 @@ L1TriggerL1TNtuples_CXXMODULES:=0
 MuonAnalysisMomentumScaleCalibration_CXXMODULES:=0
 #------------- PhysicsTools
 PhysicsToolsKinFitter_CXXMODULES:=1
-PhysicsToolsRooStatsCms_CXXMODULES:=0
+PhysicsToolsRooStatsCms_CXXMODULES:=1
 PhysicsToolsFWLite_CXXMODULES:=0
-PhysicsToolsHeppy_CXXMODULES:=0
+PhysicsToolsHeppy_CXXMODULES:=1
 PhysicsToolsIsolationUtils_CXXMODULES:=1
-PhysicsToolsMVAComputer_CXXMODULES:=0
-PhysicsToolsMVATrainer_CXXMODULES:=0
+PhysicsToolsMVAComputer_CXXMODULES:=1
+PhysicsToolsMVATrainer_CXXMODULES:=1
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
-PhysicsToolsSelectorUtils_CXXMODULES:=0
+PhysicsToolsSelectorUtils_CXXMODULES:=1
 PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
