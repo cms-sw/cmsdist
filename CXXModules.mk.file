@@ -9,7 +9,7 @@ AnalysisDataFormatsSUSYBSMObjects_CXXMODULES:=1
 AnalysisDataFormatsTopObjects_CXXMODULES:=1
 AnalysisDataFormatsTrackInfo_CXXMODULES:=1
 #------------- CalibTracker
-CalibTrackerSiPixelQuality_CXXMODULES:=0
+CalibTrackerSiPixelQuality_CXXMODULES:=1
 #------------- CalibCalorimetry
 CalibCalorimetryEcalCorrelatedNoiseAnalysisAlgos_CXXMODULES:=1
 CalibCalorimetryEcalLaserAnalyzer_CXXMODULES:=1
@@ -19,6 +19,9 @@ CalibFormatsCaloObjects_CXXMODULES:=1
 CalibrationEcalTBTools_CXXMODULES:=1
 CalibrationHcalCalibAlgos_CXXMODULES:=0
 #------------- CondCore
+#tried July 15
+#:34:7: error: use of undeclared identifier 'eos'
+#      eos::portable_iarchive ia(inBuffer);
 CondCoreUtilities_CXXMODULES:=0
 #------------- CondFormats 
 # CondFormatsL1TObjects was disbaled due error:
@@ -225,8 +228,11 @@ FastSimDataFormatsPileUpEvents_CXXMODULES:=1
 FastSimDataFormatsCTPPSFastSim_CXXMODULES:=1
 FastSimDataFormatsExternal_CXXMODULES:=1
 #------------- Fireworks
-FireworksCore_CXXMODULES:=0
 FireworksEve_CXXMODULES:=1
+#tried July 15
+#nderer.h:81:7: error: use of undeclared identifier 'gVirtualX'
+#      gVirtualX->FillRectangle(iID,
+FireworksCore_CXXMODULES:=0
 FireworksFWInterface_CXXMODULES:=0
 FireworksVertices_CXXMODULES:=0
 FireworksTableWidget_CXXMODULES:=0
@@ -243,7 +249,9 @@ IORawDataHcalTBInputService_CXXMODULES:=1
 JetMETCorrectionsJetCorrector_CXXMODULES:=1
 JetMETCorrectionsModules_CXXMODULES:=0
 #------------- L1Trigger
-L1TriggerL1TGlobal_CXXMODULES:=0
+L1TriggerL1TGlobal_CXXMODULES:=1
+#tried july 14 needs 
+#PhysicsToolsUtilities
 L1TriggerL1TNtuples_CXXMODULES:=0
 #------------- MuonAnalysis
 MuonAnalysisMomentumScaleCalibration_CXXMODULES:=0
@@ -261,13 +269,15 @@ PhysicsToolsSelectorUtils_CXXMODULES:=0
 PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
+# needs physicstoolsselectorutils
 RecoEgammaElectronIdentification_CXXMODULES:=0
 RecoEgammaPhotonIdentification_CXXMODULES:=0
 RecoLuminosityLumiProducer_CXXMODULES:=1
+# July  14 - misses PhysicsToolsSelectorUtils
 RecoMuonMuonIdentification_CXXMODULES:=0
 RecoParticleFlowBenchmark_CXXMODULES:=1
-RecoPixelVertexingPixelTrackFitting_CXXMODULES:=0
-RecoPixelVertexingPixelTriplets_CXXMODULES:=0
+RecoPixelVertexingPixelTrackFitting_CXXMODULES:=1
+RecoPixelVertexingPixelTriplets_CXXMODULES:=1
 RecoTrackerMeasurementDet_CXXMODULES:=1
 RecoTrackerTkHitPairs_CXXMODULES:=1
 RecoTrackerTkSeedGenerator_CXXMODULES:=1
@@ -300,11 +310,15 @@ SimDataFormatsEcalTestBeam_CXXMODULES:=1
 SimDataFormatsHiGenData_CXXMODULES:=1
 SimDataFormatsJetMatching_CXXMODULES:=1
 #------------- SimGeneral
-SimGeneralTrackingAnalysis_CXXMODULES:=0
+SimGeneralTrackingAnalysis_CXXMODULES:=1
 #------------- SimMuon
 SimMuonNeutron_CXXMODULES:=1
 #------------- SimTracker
+#tried july 14 
+#VecArray duplication errors
 SimTrackerTrackerHitAssociation_CXXMODULES:=0
+#tried july 14 
+#VecArray duplication errors
 SimTrackerTrackHistory_CXXMODULES:=0
 SimTrackerTrackTriggerAssociation_CXXMODULES:=1
 #------------- TrackingTools
