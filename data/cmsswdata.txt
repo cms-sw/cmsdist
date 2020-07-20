@@ -4,7 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 CalibPPS-ESProducers=V01-02-00
-L1Trigger-Phase2L1ParticleFlow=V00-02-00
+L1Trigger-Phase2L1ParticleFlow=V00-03-00
 L1Trigger-L1THGCal=V01-03-00
 L1Trigger-L1TMuon=V01-02-00
 L1Trigger-DTTriggerPhase2=V00-01-00
