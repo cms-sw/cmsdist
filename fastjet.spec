@@ -1,7 +1,7 @@
-### RPM external fastjet 3.3.4
+### RPM external fastjet 3.3.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 Requires: python
-%define tag f5af227227ed646d7cf41debe1b6fa0e35926416
+%define tag acfff3bf99b6c754efe3768b81393935f3b9a05d
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
