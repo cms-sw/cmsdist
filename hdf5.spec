@@ -1,5 +1,5 @@
 ### RPM external hdf5 1.10.6
-Source: https://github.com/HDFGroup/hdf5/archive/hdf5-1_10_6.tar.gz
+Source: git+https://github.com/HDFGroup/%{n}.git?obj=master/5b9cf732caab9daa6ed1e00f2df4f5a792340196&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: zlib
 
 %prep
