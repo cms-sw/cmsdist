@@ -221,9 +221,6 @@ DataFormatsRPCDigi_CXXMODULES:=1
 DPGAnalysisSiStripTools_CXXMODULES:=0
 #------------- EgammaAnalysis
 EgammaAnalysisElectronTools_CXXMODULES:=1
-#------------- EventFilter
-#full of duplicate classes from DataFormats/GEMDigi
-EventFilterGEMRawToDigi_CXXMODULES:=0
 #------------- FastSimDataFormats
 FastSimDataFormatsNuclearInteractions_CXXMODULES:=1
 FastSimDataFormatsPileUpEvents_CXXMODULES:=1
@@ -249,14 +246,14 @@ IOPoolTFileAdaptor_CXXMODULES:=1
 IORawDataHcalTBInputService_CXXMODULES:=1
 #------------- JetMETCorrections
 JetMETCorrectionsJetCorrector_CXXMODULES:=1
-JetMETCorrectionsModules_CXXMODULES:=0
+JetMETCorrectionsModules_CXXMODULES:=1
 #------------- L1Trigger
 L1TriggerL1TGlobal_CXXMODULES:=1
 #tried july 14 needs 
 #PhysicsToolsUtilities
 L1TriggerL1TNtuples_CXXMODULES:=0
 #------------- MuonAnalysis
-MuonAnalysisMomentumScaleCalibration_CXXMODULES:=0
+MuonAnalysisMomentumScaleCalibration_CXXMODULES:=1
 #------------- PhysicsTools
 PhysicsToolsKinFitter_CXXMODULES:=1
 PhysicsToolsRooStatsCms_CXXMODULES:=1
@@ -272,11 +269,11 @@ PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
 # needs physicstoolsselectorutils
-RecoEgammaElectronIdentification_CXXMODULES:=0
-RecoEgammaPhotonIdentification_CXXMODULES:=0
+RecoEgammaElectronIdentification_CXXMODULES:=1
+RecoEgammaPhotonIdentification_CXXMODULES:=1
 RecoLuminosityLumiProducer_CXXMODULES:=1
 # July  14 - misses PhysicsToolsSelectorUtils
-RecoMuonMuonIdentification_CXXMODULES:=0
+RecoMuonMuonIdentification_CXXMODULES:=1
 RecoParticleFlowBenchmark_CXXMODULES:=1
 RecoPixelVertexingPixelTrackFitting_CXXMODULES:=1
 RecoPixelVertexingPixelTriplets_CXXMODULES:=1
