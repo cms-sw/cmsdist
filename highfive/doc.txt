@@ -1,0 +1,13 @@
+
+- Requested, AddedBy: @smrenna
+
+- PR: https://github.com/cms-sw/cmsdist/pull/5996
+
+- Description:
+  HighFive is a modern header-only C++11 friendly interface for libhdf5.
+  HighFive supports STL vector/string, Boost::UBLAS, Boost::Multi-array, Eigen and Xtensor. 
+  It handles C++ from/to HDF5 with automatic type mapping. 
+  HighFive does not require additional libraries (see dependencies) and supports both 
+  HDF5 thread safety and Parallel HDF5 (contrary to the official hdf5 cpp)
+  
+  https://github.com/BlueBrain/HighFive#brief
