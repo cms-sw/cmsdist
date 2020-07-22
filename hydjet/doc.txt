@@ -1,0 +1,13 @@
+- Requested, AddedBy: 
+  @wouf
+  
+- PR:
+  https://github.com/cms-sw/cmsdist/pull/5412
+
+- Description:
+  {hydjet} is event generator to simulate jet production, jet quenching and flow effects in ultrarelativistic heavy ion AA collisions   
+  http://lokhtin.web.cern.ch/lokhtin/hydro/hydjet.html
+
+- Documentation
+  http://lokhtin.web.cern.ch/lokhtin/hydro/hydjet.txt
+  
