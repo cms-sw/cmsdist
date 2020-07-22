@@ -251,7 +251,7 @@ JetMETCorrectionsModules_CXXMODULES:=0
 L1TriggerL1TGlobal_CXXMODULES:=1
 #tried july 14 needs 
 #PhysicsToolsUtilities
-L1TriggerL1TNtuples_CXXMODULES:=0
+L1TriggerL1TNtuples_CXXMODULES:=1
 #------------- MuonAnalysis
 MuonAnalysisMomentumScaleCalibration_CXXMODULES:=1
 #------------- PhysicsTools
@@ -265,8 +265,8 @@ PhysicsToolsMVATrainer_CXXMODULES:=1
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
 PhysicsToolsSelectorUtils_CXXMODULES:=1
-PhysicsToolsTagAndProbe_CXXMODULES:=0
-PhysicsToolsUtilities_CXXMODULES:=0
+PhysicsToolsTagAndProbe_CXXMODULES:=1
+PhysicsToolsUtilities_CXXMODULES:=1
 #------------- Reco
 # needs physicstoolsselectorutils
 RecoEgammaElectronIdentification_CXXMODULES:=0
