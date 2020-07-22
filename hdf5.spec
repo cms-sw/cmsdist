@@ -1,5 +1,5 @@
-### RPM external hdf5 1.8.17
-Source: https://support.hdfgroup.org/ftp/HDF5/current/src/%{n}-%{realversion}.tar.bz2
+### RPM external hdf5 1.10.6
+Source: git+https://github.com/HDFGroup/%{n}.git?obj=master/5b9cf732caab9daa6ed1e00f2df4f5a792340196&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: zlib
 
 %prep
