@@ -1,0 +1,13 @@
+- Requested, AddedBy: 
+  @wouf
+
+- PR:
+  https://github.com/cms-sw/cmsdist/pull/4790
+
+- Description:
+  {pyquen} is event generator for simulation of rescattering, radiative and collisional energy loss of hard partons in expanding quark-gluon plasma created in ultrarelativistic heavy ion AA collisions
+  http://lokhtin.web.cern.ch/lokhtin/pyquen/
+
+- Documentation
+  http://lokhtin.web.cern.ch/lokhtin/pyquen/pyquen.txt
+
