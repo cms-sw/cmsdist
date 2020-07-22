@@ -1,8 +1,8 @@
-### RPM external pyquen 1.5.3
+### RPM external pyquen 1.5.4
 
 Source: http://lokhtin.web.cern.ch/lokhtin/%{n}/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 
 Requires: pythia6 lhapdf
 
@@ -17,4 +17,4 @@ cmake --build . --clean-first -- %{makeprocesses}
 
 %install
 
-cmake --build . --target install --clean-first -- %{makeprocesses}
+cmake --build . --target install -- %{makeprocesses}
