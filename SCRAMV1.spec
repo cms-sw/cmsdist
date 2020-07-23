@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V2_2_9_pre06
+### RPM lcg SCRAMV1 V2_2_9_pre07
 ## NOCOMPILER
 
 BuildRequires: gmake
@@ -6,6 +6,7 @@ BuildRequires: gmake
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
+Provides: perl(BuildSystem::ToolManager)
 
 %define tag %{realversion}
 %define branch master

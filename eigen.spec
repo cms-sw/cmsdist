@@ -11,9 +11,11 @@
 %define source_prefix eigen-git-mirror-%{tag}
 Source: %{source0}
 BuildRequires: cmake
+Patch0: eigen-altivec-fix
 
 %prep
 %setup -n %{source_prefix}
+%patch0 -p1
 
 %build
 mkdir build

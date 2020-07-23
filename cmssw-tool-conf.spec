@@ -23,6 +23,7 @@ Requires: evtgen-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
+Requires: fmt-toolfile
 Requires: gbl-toolfile
 Requires: gcc-toolfile
 Requires: gdbm-toolfile
@@ -32,11 +33,13 @@ Requires: vecgeom-toolfile
 Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
+Requires: highfive-toolfile
 Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
 Requires: herwigpp-toolfile
+Requires: hydjet-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
 Requires: jemalloc-debug-toolfile
@@ -44,14 +47,12 @@ Requires: jimmy-toolfile
 Requires: json-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
-Requires: libhepml-toolfile
 Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: lwtnn-toolfile
-Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
 Requires: pcre-toolfile
@@ -60,8 +61,6 @@ Requires: photospp-toolfile
 Requires: pyquen-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
-Requires: vincia-toolfile
-Requires: dire-toolfile
 Requires: python-toolfile
 Requires: python3-toolfile
 Requires: root-toolfile
@@ -87,10 +86,10 @@ Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
 Requires: zstd-toolfile
 Requires: hls-toolfile
-%ifnarch ppc64le
+Requires: opencv-toolfile
+Requires: grpc-toolfile
 Requires: onnxruntime-toolfile
-%endif
-
+Requires: triton-inference-server-toolfile
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
@@ -143,7 +142,7 @@ Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
-Requires: geneva-toolfile
+#Requires: geneva-toolfile
 Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
@@ -158,7 +157,6 @@ Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
 Requires: cuda-toolfile
-Requires: cub-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
 
@@ -173,10 +171,8 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
-
-%ifos linux
 Requires: glibc-toolfile
-%endif
+Requires: cmsmon-tools
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile

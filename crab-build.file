@@ -1,5 +1,6 @@
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
+## NO_VERSION_SUFFIX
 %define crab_type %(echo %n | sed -e 's|crab-||')
 %if "%{?wmcore_packages:set}" != "set"
   %define wmcore_packages PSetTweaks Utils WMCore
@@ -11,12 +12,16 @@
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
-Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{realversion}&export=CRABClient&output=/CRABClient-%{realversion}.tar.gz
+Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
 Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
 Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
 Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
 
 %prep
+if [ "%{v}" != "%{realversion}" ] ; then
+  echo "ERROR: %{v} not same as %{realversion}. Please increment version suffix in %{n}.spec file."
+  exit 1
+fi
 %setup -D -T -b 0 -n CRABClient
 %setup -D -T -b 1 -n WMCore
 %setup -D -T -b 2 -n CRABServer
@@ -28,12 +33,14 @@ Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&outp
 
 #Copy CRABClient
 rsync -a %{_builddir}/CRABClient/src/python/ %{i}/lib/
-sed -i -e 's|"development"|"%{realversion}"|' %{i}/lib/CRABClient/__init__.py
+sed -i -e 's|"development"|"%{crabclient_version}"|' %{i}/lib/CRABClient/__init__.py
 rsync -a %{_builddir}/CRABClient/bin/  %{i}/bin/
 rsync -a %{_builddir}/CRABClient/etc/  %{i}/etc/
 
 #List of CRAB python pakcages for which we need to create ProxyPackage symlink
 ls %{_builddir}/CRABClient/src/python/*/__init__.py | sed 's|/__init__.py$||;s|.*/||' > %{i}/etc/crab_py_pkgs.txt
+echo dbs >> %{i}/etc/crab_py_pkgs.txt
+echo RestClient >> %{i}/etc/crab_py_pkgs.txt
 
 #Copy WMCore
 for pkg in %{wmcore_packages} ; do
@@ -61,9 +68,13 @@ for pkg in %{dbs_packages} ; do
     cp %{_builddir}/DBS/${pkg} %{i}/lib/${pkg}
   fi
 done
+rsync -a %{_builddir}/DBS/Client/utils/ %{i}/examples/
 
 if [ $(grep '_UseCrab' %{i}/etc/crab-bash-completion.sh | wc -l) -gt 0 ] && [ $(grep ' filenames  *crab' %{i}/etc/crab-bash-completion.sh |wc -l) -gt 0 ] ; then
   sed -i -e 's|_UseCrab|_UseCrab_%{crab_type}|g;s| filenames  *crab| filenames crab-%{crab_type}|' %{i}/etc/crab-bash-completion.sh
+  if [ "%{crab_type}" = "prod" ] ; then
+    echo "complete -F _UseCrab_prod -o filenames crab" >> %{i}/etc/crab-bash-completion.sh
+  fi
 else
   echo "ERROR: Unable to fix crab use function _UseCrab"
   exit 1
@@ -72,6 +83,6 @@ fi
 %post
 cd ${RPM_INSTALL_PREFIX}
 mkdir -p share/%{pkgdir}
-for dir in bin lib etc ; do 
+for dir in bin lib etc examples; do
   rsync -a %{pkgrel}/${dir}/ share/%{pkgdir}/${dir}/
 done

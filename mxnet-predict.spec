@@ -1,10 +1,10 @@
-### RPM external mxnet-predict 1.5.0
+### RPM external mxnet-predict 1.6.0
 ## INITENV +PATH PYTHON27PATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHON3PATH %{i}/$PYTHON3_LIB_SITE_PACKAGES
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 
-%define tag 337cf1b54cc02bde94f459c89863a18187b0aada
-%define branch 1.5.0-cms-mod
+%define tag b4aada51b4af56a05adc4ed17f77001bfd6943d8
+%define branch 1.6.0
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}-%{tag}.tgz
 

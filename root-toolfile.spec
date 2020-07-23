@@ -32,6 +32,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
   <runtime name="ROOT_TTREECACHE_PREFILL"       value="0"/>
   <runtime name="ROOT_INCLUDE_PATH"             value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
 
@@ -48,10 +49,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcling.xml
 <tool name="rootcling" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Core"/>
-  <client>
-    <environment name="ROOTCLING_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"        default="$ROOTCLING_BASE/include"/>
-  </client>
+  <flags OVERRIDABLE_FLAGS="ROOTCLING_ARGS"/>
   <use name="root_interface"/>
   <use name="sockets"/>
   <use name="pcre"/>
@@ -180,9 +178,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root.xml
 <tool name="root" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <use name="rootphysics"/>
-  <ifversion name="^[6-9]\.">
-    <flags NO_CAPABILITIES="yes"/>
-  </ifversion>
+  <flags GENREFLEX_FAILES_ON_WARNS="--fail_on_warnings"/>
+  <flags CXXMODULES="0"/>
 </tool>
 EOF_TOOLFILE
 
@@ -397,12 +394,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/roofitcore.xml
   <lib name="RooFitCore"/>
   <client>
     <environment name="ROOFIT_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$ROOFIT_BASE/lib"/>
-    <environment name="INCLUDE" default="$ROOFIT_BASE/include"/>
   </client>
   <runtime name="ROOFITSYS" value="$ROOFIT_BASE/"/>
-  <runtime name="PATH"      value="$ROOFIT_BASE/bin" type="path"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="rootcore"/>
   <use name="roothistmatrix"/>
   <use name="rootgpad"/>

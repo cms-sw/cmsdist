@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.1.4
+### RPM external herwigpp 7.2.0
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 Requires: lhapdf
@@ -15,16 +15,8 @@ Requires: openloops
 %endif
 BuildRequires: autotools
 
-# Patch since otherwise Boost wants multithreaded lib, even though only single-threaded lib is installed
-# Problem exists since Herwig++3Beta
-Patch0: herwigpp-missingBoostMTLib
-Patch1: herwigpp-7.1.2-gcc8
-
 %prep
 %setup -q -n Herwig-%{realversion}
-
-%patch0 -p1
-%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -33,7 +25,11 @@ autoreconf -fiv
 CXX="$(which g++) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
-
+FCFLAGS=""
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
+%ifnarch x86_64
+FCFLAGS="${FCFLAGS} -fno-range-check"
+%endif
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 ./configure --prefix=%i \
             --with-thepeg=$THEPEG_ROOT \
@@ -47,33 +43,14 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 %ifnarch ppc64le
             --with-openloops=$OPENLOOPS_ROOT \
 %endif
-%ifnarch x86_64
-            FCFLAGS="-fno-range-check" \
-%endif
             $PLATF_CONF_OPTS \
-            CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
+            CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" \
+            FCFLAGS="$FCFLAGS"
 make %makeprocesses all
 
 %install
 make %makeprocesses install LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
 
-#FxFx.so needs to be build after herwigpp installation so that it can correctly pick up needed headers
-#FIX for 7.1.4: need to fix path in Makefile to build the FxFx.so library correctly
-#Maybe not needed for future versions.  Bug has been reported to the authors
-sed -i -e "s|UEBase.fh|Shower/UEBase.fh|g" Shower/UEBase.h
-sed -i -e "s|Herwig/Shower/Couplings/ShowerAlpha.h|Herwig/Shower/Core/Couplings/ShowerAlpha.h|g" Contrib/FxFx/FxFxHandler.h
-sed -i -e "s|^HERWIGINCLUDE.*|HERWIGINCLUDE = -I%{i}/include|g" Contrib/FxFx/Makefile
-sed -i -e "s|^RIVETINCLUDE.*|RIVETINCLUDE = -I${RIVET_ROOT}/include|g" Contrib/FxFx/Makefile
-sed -i -e "s|^HEPMCINCLUDE.*|HEPMCINCLUDE = -I${HEPMC_ROOT}/include|g" Contrib/FxFx/Makefile
-sed -i "/^FASTJETLIB.*/a YODAINCLUDE= -I${YODA_ROOT}/include" Contrib/FxFx/Makefile
-sed -i "/^YODAINCLUDE=.*/a BOOSTINCLUDE= -I${BOOST_ROOT}/include" Contrib/FxFx/Makefile
-sed -i -e "/^INCLUDE.*/s/$/ \$(YODAINCLUDE) \$(BOOSTINCLUDE)/" Contrib/FxFx/Makefile
-sed -i "/^FASTJETLIB.*/a HERWIGINSTALL = %{i}" Contrib/FxFx/Makefile
-sed -i -e '0,/\$(HERWIGINSTALL)\/lib\/Herwig/s//\$(HERWIGINSTALL)\/lib\/./' Contrib/FxFx/Makefile
-sed -i '/FxFxAnalysis/d' Contrib/FxFx/FxFxEventHandler.h
-
-make -C Contrib/FxFx %makeprocesses FxFx.so FxFxHandler.so
-cp Contrib/FxFx/*.so %{i}/lib/Herwig/.
 
 mv %{i}/bin/Herwig  %{i}/bin/Herwig-cms
 cat << \HERWIG_WRAPPER > %{i}/bin/Herwig

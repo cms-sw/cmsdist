@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
  
-Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict
+Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict opencv
 
 Requires: py2-scipy
 Requires: py2-Keras
@@ -24,7 +24,7 @@ Requires: py2-downhill
 Requires: py2-theanets
 Requires: py2-xgboost
 Requires: py2-llvmlite
-Requires: py2-numba
+Requires: py3-numba
 Requires: py2-hep_ml
 Requires: py2-rep
 Requires: py2-uncertainties
@@ -35,7 +35,6 @@ Requires: py2-h5py
 Requires: py2-h5py-cache
 Requires: py2-root_pandas
 Requires: py2-uproot
-Requires: py2-oamap
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
@@ -190,6 +189,7 @@ Requires: py2-pycparser
 Requires: py2-absl-py
 Requires: py2-gast
 Requires: py2-grpcio
+Requires: py2-grpcio-tools
 Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver

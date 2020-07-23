@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 13.0
+### RPM cms gcc-toolfile 14.0
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -53,6 +53,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
     <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
+    <flags CXXFLAGS="-Werror=unused-label"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=strict-aliasing"/>
@@ -62,6 +63,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+%ifarch x86_64
+    <flags CXXFLAGS_VECTORIZE_AVX512F="-mavx512f -mfma"/>
+    <flags CXXFLAGS_VECTORIZE_AVX2="-mavx2"/>
+    <flags CXXFLAGS_VECTORIZE_FMA="-mfma"/>
+    <flags CXXFLAGS_VECTORIZE_SSE4_2="-msse4.2"/>
+%endif
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
@@ -103,6 +110,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-f77compiler.xml
     <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @OS_FFLAGS@ @ARCH_FFLAGS@ @COMPILER_FFLAGS@"/>
     <flags FOPTIMISEDFLAGS="-O2 @OS_FOPTIMISEDFLAGS@ @ARCH_FOPTIMISEDFLAGS@ @COMPILER_FOPTIMISEDFLAGS@"/>
     <flags FSHAREDOBJECTFLAGS="-fPIC @OS_FSHAREDOBJECTFLAGS@ @ARCH_FSHAREDOBJECTFLAGS@ @COMPILER_FSHAREDOBJECTFLAGS@"/>
+  </tool>
+EOF_TOOLFILE
+
+# GCC tool file for explicitly linking against libstdc++fs
+cat << \EOF_TOOLFILE >%i/etc/scram.d/stdcxx-fs.xml
+  <tool name="stdcxx-fs" version="@GCC_VERSION@">
+    <lib name="stdc++fs"/>
   </tool>
 EOF_TOOLFILE
 
@@ -180,17 +194,15 @@ COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Xassembler --compress-debug-sections"
 
-case %{cmsplatf} in
-   *_amd64_*)
+%ifarch x86_64
      COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3"
-   ;;
-   *_aarch64_*)
+%endif
+%ifarch aarch64
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
-   ;;
-   *_ppc64le_*|*_ppc64_*)
+%endif
+%ifarch ppc64le
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields -mlong-double-64"
-   ;;
-esac
+%endif
 
 export COMPILER_CXXFLAGS
 

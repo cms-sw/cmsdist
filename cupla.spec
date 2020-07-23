@@ -1,6 +1,6 @@
 ### RPM external cupla 0.2.0
 
-Source: https://github.com/ComputationalRadiationPhysics/%{n}/archive/%{realversion}.tar.gz
+Source: https://github.com/alpaka-group/%{n}/archive/%{realversion}.tar.gz
 Requires: alpaka
 Requires: cuda
 Requires: tbb
@@ -10,16 +10,16 @@ Requires: tbb
 
 %build
 ## INCLUDE cuda-flags
-# defines cuda_flags
+# defines nvcc_cuda_flags and nvcc_stdcxx
 
 mkdir build lib
 
 # remove the version of Alpaka bundled with Cupla
 rm -rf alpaka
 
-CXXFLAGS="-std=c++14 -O2 -g -DALPAKA_DEBUG=0 -I$CUDA_ROOT/include -I$TBB_ROOT/include -I$BOOST_ROOT/include -I$ALPAKA_ROOT/include -Iinclude"
-HOST_FLAGS="-pthread -fPIC -Wall -Wextra"
-NVCC_FLAGS="%{cuda_flags}"
+CXXFLAGS="-DALPAKA_DEBUG=0 -I$CUDA_ROOT/include -I$TBB_ROOT/include -I$BOOST_ROOT/include -I$ALPAKA_ROOT/include -Iinclude"
+HOST_FLAGS="%{nvcc_stdcxx} -O2 -pthread -fPIC -Wall -Wextra"
+NVCC_FLAGS="%{nvcc_cuda_flags}"
 FILES=$(find src -type f -name *.cpp)
 
 # build the serial CPU backend
@@ -40,7 +40,7 @@ g++ $CXXFLAGS $HOST_FLAGS build/tbb/*.o -L$TBB_ROOT/lib -ltbb -shared -o lib/lib
 if [ $(%{cuda_gcc_support}) = true ] ; then
   mkdir build/cuda
   for FILE in $FILES; do
-    nvcc -DALPAKA_ACC_GPU_CUDA_ENABLED -DCUPLA_STREAM_ASYNC_ENABLED=1 $CXXFLAGS $NVCC_FLAGS -Xcompiler "$HOST_FLAGS" -x cu -c $FILE -o build/cuda/$(basename $FILE).o
+    $CUDA_ROOT/bin/nvcc -DALPAKA_ACC_GPU_CUDA_ENABLED -DCUPLA_STREAM_ASYNC_ENABLED=1 $CXXFLAGS $NVCC_FLAGS -Xcompiler "$HOST_FLAGS" -x cu -c $FILE -o build/cuda/$(basename $FILE).o
   done
   g++ $CXXFLAGS $HOST_FLAGS build/cuda/*.o -L$CUDA_ROOT/lib64 -lcudart -shared -o lib/libcupla-cuda.so
 fi

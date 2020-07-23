@@ -14,12 +14,6 @@ Source3: crab/crab-setup.sh
 Source4: crab/crab-env.csh
 Source5: crab/crab-env.sh
 
-%define copy_revision_file() \
-  OLD_REV=0 \
-  if [ -f %2 ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
-  NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
-  if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %2 ; cp %1 %2 ; fi
-
 %prep
 %build
 %install
@@ -40,13 +34,13 @@ cd ${RPM_INSTALL_PREFIX}
 crab=share/%{pkgcategory}/%{n}/%{realversion}
 mkdir -p ${crab}/bin ${crab}/lib ${crab}/etc share/etc/profile.d
 for f in crab-env.csh crab-env.sh ; do
-  %copy_revision_file %{pkgrel}/$f share/etc/profile.d/S99$f
+  %common_revision_script %{pkgrel}/$f share/etc/profile.d/S99$f
 done
 for f in crab-setup.csh crab-setup.sh ; do
-  %copy_revision_file %{pkgrel}/$f common/$f
+  %common_revision_script %{pkgrel}/$f common/$f
 done
-%copy_revision_file %{pkgrel}/crab.sh            ${crab}/bin/crab.sh
-%copy_revision_file %{pkgrel}/crab-proxy-package ${crab}/lib/crab-proxy-package
+%common_revision_script %{pkgrel}/crab.sh            ${crab}/bin/crab.sh
+%common_revision_script %{pkgrel}/crab-proxy-package ${crab}/lib/crab-proxy-package
 
 for pkg in $(echo %{directpkgreqs} | tr ' ' '\n' | grep '^cms/crab-') ; do
   crab_name=$(echo $pkg | cut -d/ -f2)
@@ -56,8 +50,8 @@ for pkg in $(echo %{directpkgreqs} | tr ' ' '\n' | grep '^cms/crab-') ; do
     rm -rf ${crab}/lib/${crab_type}/$p/__init__.py*
     ln -s ../../crab-proxy-package ${crab}/lib/${crab_type}/$p/__init__.py
   done
-  #Find latest version; extra .zzzz are added so that version 3.3.2001 becomes > 3.3.2001.rcX
-  ls -d share/cms/${crab_name}/*/bin/crab | sed -e 's|/bin/crab$|.zzzz|;s|.*/||' | sort -n | sed -e 's|.zzzz$||' | tail -1 > ${crab}/etc/${crab_name}.latest
+  #Find latest version of crab client
+  ls -d share/cms/${crab_name}/v*/bin/crab | sed 's|/bin/crab$||;s|.*/||' | sort -n | tail -1 > ${crab}/etc/${crab_name}.latest
   ln -sf ../${crab}/bin/crab.sh common/${crab_name}
 done
 ln -sf crab-prod common/crab

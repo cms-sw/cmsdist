@@ -15,24 +15,29 @@
 # LLVM style for listing the supported CUDA compute architectures
 %define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
 
+# C++ standard to use for building host and device code with nvcc
+%define nvcc_stdcxx -std=c++17
+
+# generate optimised code
+%define cuda_flags_0 -O3
 
 # generate debugging information for device code
-%define cuda_flags_0 --generate-line-info --source-in-ptx
+%define cuda_flags_1 --generate-line-info --source-in-ptx
 
 # imply __host__, __device__ attributes in constexpr functions
-%define cuda_flags_1 --expt-relaxed-constexpr
+%define cuda_flags_2 --expt-relaxed-constexpr
 
 # allow __host__, __device__ attributes in lambda declaration
-%define cuda_flags_2 --expt-extended-lambda
+%define cuda_flags_3 --expt-extended-lambda
 
 # build support for the various compute architectures
-%define cuda_flags_3 %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=sm_$ARCH"; done))
-
-# link the CUDA runtime shared library
-%define cuda_flags_4 --cudart shared
+%define cuda_flags_4 %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=sm_$ARCH"; done)) -Wno-deprecated-gpu-targets
 
 # disable warnings about attributes on defaulted methods
 %define cuda_flags_5 -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored
 
+# link the CUDA runtime shared library
+%define cuda_flags_6 --cudart shared
+
 # collect all CUDA flags
-%define cuda_flags %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5}
+%define nvcc_cuda_flags %{nvcc_stdcxx} %{cuda_flags_0} %{cuda_flags_1} %{cuda_flags_2} %{cuda_flags_3} %{cuda_flags_4} %{cuda_flags_5} %{cuda_flags_6}

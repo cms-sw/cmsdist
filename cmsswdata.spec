@@ -5,6 +5,12 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-L1Trigger-CSCTriggerPrimitives
+Requires: data-L1Trigger-Phase2L1ParticleFlow
+Requires: data-L1Trigger-DTTriggerPhase2
+Requires: data-L1Trigger-TrackFindingTracklet
+Requires: data-L1Trigger-TrackFindingTMTT
+Requires: data-Geometry-TestReference
 Requires: data-RecoMTD-TimingIDTools
 Requires: data-MagneticField-Engine
 Requires: data-PhysicsTools-PatUtils
