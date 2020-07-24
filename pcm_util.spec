@@ -27,6 +27,15 @@ rm -f dummy_dict.cc
 rm -f libDummy.so
 rootcling dummy_dict.cc -v4 -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_type_traits -mByproduct boost_type_traits  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
 
+rm -f dummy_dict.cc
+rm -f libDummy.so
+rootcling dummy_dict.cc -v2 -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_UBLAS_INLINE=inline -DBOOST_DATE_TIME_INCLUDE_LIMITED_HEADERS -DBOOST_SP_USE_STD_ALLOCATOR -DBOOST_INTRUSIVE_FORCEINLINE=inline -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_algorithm_and_range -mByproduct boost_algorithm_and_range  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+
+rm -f dummy_dict.cc
+rm -f libDummy.so
+rootcling dummy_dict.cc -v2 -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_UBLAS_INLINE=inline -DBOOST_DATE_TIME_INCLUDE_LIMITED_HEADERS -DBOOST_SP_USE_STD_ALLOCATOR -DBOOST_INTRUSIVE_FORCEINLINE=inline -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_any -mByproduct boost_any  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+
+
 #rm -f dummy_dict.cc
 #rm -f libDummy.so
 #rootcling dummy_dict.cc -v2 -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_INTRUSIVE_DISABLE_FORCEINLINE -DBOOST_SP_USE_STD_ALLOCATOR -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m boost_modules_wrapper -mByproduct boost_modules_wrapper -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
