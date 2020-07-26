@@ -110,9 +110,9 @@ jupyter_console==5.2.0 ; python_version<'3.0'
 jupyter_console==6.0.0 ; python_version>'3.0'
 jupyter_core==4.6.3
 jupyter==1.0.0
-Keras==2.4.3
+Keras==2.3.1
 keras-applications==1.0.8
-keras-preprocessing==1.1.2
+keras-preprocessing==1.1.0
 kiwisolver==1.1.0
 lazy-object-proxy==1.5.1
 lizard==1.17.4
