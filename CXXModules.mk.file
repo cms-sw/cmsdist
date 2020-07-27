@@ -265,7 +265,7 @@ PhysicsToolsMVATrainer_CXXMODULES:=1
 PhysicsToolsParallelAnalysis_CXXMODULES:=1
 PhysicsToolsPatUtils_CXXMODULES:=0
 PhysicsToolsSelectorUtils_CXXMODULES:=1
-PhysicsToolsTagAndProbe_CXXMODULES:=1
+PhysicsToolsTagAndProbe_CXXMODULES:=0
 PhysicsToolsUtilities_CXXMODULES:=0
 #------------- Reco
 # needs physicstoolsselectorutils
