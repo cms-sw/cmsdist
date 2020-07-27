@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-28
+%define configtag       V05-11-00
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -207,10 +207,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-case ${SCRAMV1_VERSION} in
-  V2_* ) %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT ;;
-  * )    %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf ;;
-esac
+%i/config/SCRAM/findDependencies -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
@@ -238,10 +235,7 @@ cd %i
 %{?buildarch:%buildarch}
 
 %scramcmd install -f
-case ${SCRAMV1_VERSION} in
-  V2_* ) (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true ;;
-  * )    (SCRAM_TOOL_HOME=$SCRAMV1_ROOT;            export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.py --arch %cmsplatf) || true ;;
-esac
+(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal --arch %cmsplatf) || true
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
