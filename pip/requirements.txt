@@ -117,7 +117,7 @@ kiwisolver==1.1.0
 lazy-object-proxy==1.5.1
 lizard==1.17.4
 #NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources
-llvmlite==0.33.0dev
+llvmlite==0.33.0
 lxml==4.5.2
 lz4==2.2.1
 Mako==1.1.3
@@ -142,7 +142,7 @@ nose-parameterized==0.6.0
 nose==1.3.7
 notebook==5.7.10 ; python_version<'3.0'
 notebook==6.0.2 ; python_version>'3.0'
-numba==0.50.0dev0 ; python_version>'3.0'
+numba==0.50.1 ; python_version>'3.0'
 numexpr==2.7.1
 numpy==1.16.6 ; python_version<'3.0'
 numpy==1.17.5 ; python_version>'3.0'
@@ -159,7 +159,7 @@ pandas==0.24.2 ; python_version<'3.0'
 pandas==0.25.3 ; python_version>'3.0'
 pandocfilters==1.4.2
 parsimonious==0.8.1
-parso==0.5.2
+parso==0.7.1
 pathlib2==2.3.5
 pbr==5.4.5
 pexpect==4.8.0
@@ -270,7 +270,7 @@ Werkzeug==1.0.1
 wheel==0.33.6
 widgetsnbextension==3.5.1
 #cannot wrapt update before astroid is
-wrapt==1.12.1 
+wrapt==1.11.2
 xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 #bumping this pulls in xrootd - which looks like it needs some understanding
