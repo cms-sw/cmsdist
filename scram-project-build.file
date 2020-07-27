@@ -64,7 +64,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-27
+%define configtag       V05-10-28
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -208,8 +208,8 @@ fi
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
 case ${SCRAMV1_VERSION} in
-  V2_* ) perl   %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT ;;
-  * )    python %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf ;;
+  V2_* ) %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT ;;
+  * )    %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf ;;
 esac
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
@@ -324,8 +324,8 @@ scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
+./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf
+./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
 %{?buildarch:%buildarch}
 
 for lib in %{cmssw_libs} ; do
