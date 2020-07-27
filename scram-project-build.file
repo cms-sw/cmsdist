@@ -207,7 +207,10 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-python %i/config/SCRAM/findDependencies.py -rel %i -arch %cmsplatf
+case ${SCRAMV1_VERSION} in
+  V2_* ) perl   %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT ;;
+  * )    python %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf ;;
+esac
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
@@ -235,7 +238,10 @@ cd %i
 %{?buildarch:%buildarch}
 
 %scramcmd install -f
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
+case ${SCRAMV1_VERSION} in
+  V2_* ) (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true ;;
+  * )    (SCRAM_TOOL_HOME=$SCRAMV1_ROOT;            export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.py --arch %cmsplatf) || true ;;
+esac
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
