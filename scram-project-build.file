@@ -6,6 +6,7 @@
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -64,7 +65,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-28
+%define configtag       V06-00-00
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -127,7 +128,7 @@ rm -rf config %{srctree} poison
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
+%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} --keys SCRAM_COMPILER=%{scram_compiler} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
@@ -207,10 +208,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-case ${SCRAMV1_VERSION} in
-  V2_* ) %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf -scramroot $SCRAMV1_ROOT ;;
-  * )    %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf ;;
-esac
+SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix} %i/config/SCRAM/findDependencies -rel %i -arch %cmsplatf
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
@@ -238,10 +236,7 @@ cd %i
 %{?buildarch:%buildarch}
 
 %scramcmd install -f
-case ${SCRAMV1_VERSION} in
-  V2_* ) (SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true ;;
-  * )    (SCRAM_TOOL_HOME=$SCRAMV1_ROOT;            export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.py --arch %cmsplatf) || true ;;
-esac
+rm -rf external/%cmsplatf; SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix}  ./config/SCRAM/linkexternal --arch %cmsplatf
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
