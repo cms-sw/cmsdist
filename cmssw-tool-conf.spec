@@ -40,6 +40,7 @@ Requires: vecgeom-toolfile
 Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
+Requires: highfive-toolfile
 Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
