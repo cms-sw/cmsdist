@@ -94,7 +94,6 @@ SimTransport-HectorProducer=V01-00-01
 
 #Never update any package here. Always move it to default section.
 [data-cmssw-package-build]
-SimG4CMS-Forward=V02-03-18
 GeneratorInterface-ReggeGribovPartonMCInterface=V00-00-02
 
 #Never update any package here. Always move it to default section.
@@ -105,3 +104,4 @@ L1Trigger-RPCTrigger=V00-15-00
 RecoParticleFlow-PFBlockProducer=V02-04-02
 SimG4CMS-Calo=V03-01-00
 Validation-Geometry=V00-07-00
+SimG4CMS-Forward=V02-03-19
