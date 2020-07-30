@@ -1,2 +1,2 @@
-Requires: py2-backports py2-enum34 py2-mccabe py2-pycodestyle py2-pyflakes py2-entrypoints py2-functools32 py2-typing
+Requires: py2-backports py2-enum34 py2-mccabe py2-pycodestyle py2-pyflakes py2-entrypoints py2-functools32 py2-typing py2-importlib-metadata 
 %define RelocatePython %{i}/bin/*
