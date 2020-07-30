@@ -1,0 +1,12 @@
+diff --git a/interpreter/cling/include/cling/std.modulemap b/interpreter/cling/include/cling/std.modulemap
+index 6b9acf1140..453b68f661 100644
+--- a/interpreter/cling/include/cling/std.modulemap
++++ b/interpreter/cling/include/cling/std.modulemap
+@@ -366,7 +366,6 @@ module "std" [system] {
+     header "vector"
+   }
+   module "codecvt" {
+-    requires !header_existence
+     export *
+     header "codecvt"
+   }
