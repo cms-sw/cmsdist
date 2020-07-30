@@ -10,7 +10,7 @@ rm -f ./bin/config.{sub,guess}
 %get_config_sub ./bin/config.sub
 %get_config_guess ./bin/config.guess
 chmod +x ./bin/config.{sub,guess}
-./configure --enable-shared --enable-cxx --with-zlib=${ZLIB_ROOT} --prefix %{i}
+./configure --enable-shared --enable-cxx --enable-parallel --with-zlib=${ZLIB_ROOT} --prefix %{i}
 make %{makeprocesses} VERBOSE=1
 
 %install
