@@ -152,7 +152,6 @@ Requires: dablooms-toolfile
 
 # Only for Linux platform.
 %ifos linux
-Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
 Requires: cuda-toolfile
