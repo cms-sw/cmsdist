@@ -56,6 +56,8 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) check-clang-tools
+bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
 cd ../build
