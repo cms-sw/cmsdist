@@ -1,4 +1,4 @@
-### RPM cms workqueue 1.4.0.pre3
+### RPM cms workqueue 1.4.0.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
