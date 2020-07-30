@@ -151,7 +151,6 @@ Requires: dablooms-toolfile
 
 # Only for Linux platform.
 %ifos linux
-Requires: codechecker-toolfile
 Requires: gcc-checker-plugin-toolfile
 Requires: openldap-toolfile
 Requires: gperftools-toolfile
