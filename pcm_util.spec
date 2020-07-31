@@ -17,6 +17,8 @@ echo "module Dummy{}" > dummy.modulemap
 
 CLHEP_MM_NAME="module.modulemap"
 TINYXML2_MM_NAME="tinyxml2.modulemap"
+BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_UBLAS_INLINE=inline -DBOOST_DATE_TIME_INCLUDE_LIMITED_HEADERS -DBOOST_SP_USE_STD_ALLOCATOR -DBOOST_INTRUSIVE_FORCEINLINE=inline" 
+
 
 #packages with module maps
 for mod in clhep tinyxml2
@@ -32,11 +34,11 @@ do
 done
 
 #boost is special
-for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional
+for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -v2 -DBOOST_CONTAINER_FORCEINLINE=inline -DBOOST_UBLAS_INLINE=inline -DBOOST_DATE_TIME_INCLUDE_LIMITED_HEADERS -DBOOST_SP_USE_STD_ALLOCATOR -DBOOST_INTRUSIVE_FORCEINLINE=inline -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
+    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost empty.h
 done
 
 mkdir -p boost
