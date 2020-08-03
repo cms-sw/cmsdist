@@ -1,0 +1,2 @@
+%define source0 http://cmsrep.cern.ch/cmssw/download/data/SimG4CMS-Forward.tar.gz?no-cmssdt-cache=1&output=/SimG4CMS-Forward.tar.gz
+%define export_dir SimG4CMS-Forward
