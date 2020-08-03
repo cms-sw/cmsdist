@@ -193,6 +193,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
+export SCRAMV1_ROOT
 SCRAM_TOOL_HOME=$SCRAMV1_ROOT %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
