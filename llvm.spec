@@ -8,7 +8,7 @@ Requires: gcc zlib python python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 80c6853a9ea2d6b142111a4177f94fb8b39ba2cf
+%define llvmCommit 4b3acf7d70558fefca729efe381e3900da4591dd
 %define llvmBranch cms/release/10.x/92d5c1b
 %define iwyuCommit a5a6f27dabeb7fbc59b06ea949a312201c2fbdcf
 %define iwyuBranch master
@@ -56,6 +56,8 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) check-clang-tools
+bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
 cd ../build
