@@ -1,4 +1,2 @@
 Requires: py2-numexpr py2-six hdf5 bz2lib py2-mock py3-numpy
-BuildRequires: openmpi
-%define PipPreBuild export HDF5_DIR=${HDF5_ROOT} CC="mpicc"
 %define PipPostBuildPy3 for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
