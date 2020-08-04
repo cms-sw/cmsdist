@@ -26,7 +26,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
     <environment name="CLHEPHEADER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"    default="$CLHEPHEADER_BASE/include"/>
   </client>
-  <flags ROOTCLING_ARGS="-moduleMapFile=$INCLUDE/module.modulemap"/>
+  <flags ROOTCLING_ARGS="-moduleMapFile=$(CLHEP_BASE)/include/module.modulemap"/>
   <runtime name="CLHEP_PARAM_PATH" value="$CLHEPHEADER_BASE"/>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
