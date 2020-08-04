@@ -8,7 +8,6 @@
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
-Patch1: root_boostmod2
 Patch2: root_cvt
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
@@ -34,7 +33,6 @@ Requires: dcap
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 %build
