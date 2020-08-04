@@ -6,6 +6,7 @@
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -64,7 +65,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-10-29
+%define configtag       V06-00-01
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -127,7 +128,7 @@ rm -rf config %{srctree} poison
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
+%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} --keys SCRAM_COMPILER=%{scram_compiler} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
@@ -207,8 +208,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-export SCRAMV1_ROOT
-SCRAM_TOOL_HOME=$SCRAMV1_ROOT %i/config/SCRAM/findDependencies.pl -rel %i -arch %cmsplatf
+SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix} %i/config/SCRAM/findDependencies -rel %i -arch %cmsplatf
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
@@ -236,7 +236,7 @@ cd %i
 %{?buildarch:%buildarch}
 
 %scramcmd install -f
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/%{srctree}; export SCRAM_TOOL_HOME; rm -rf external/%cmsplatf; ./config/SCRAM/linkexternal.pl --arch %cmsplatf) || true
+rm -rf external/%cmsplatf; SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix}  ./config/SCRAM/linkexternal --arch %cmsplatf
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
@@ -319,8 +319,8 @@ scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf )
-(SCRAM_TOOL_HOME=$SCRAMV1_ROOT/src; export SCRAM_TOOL_HOME; ./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf )
+./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf
+./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
 %{?buildarch:%buildarch}
 
 for lib in %{cmssw_libs} ; do
