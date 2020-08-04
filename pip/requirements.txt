@@ -165,7 +165,8 @@ pathlib2==2.3.5
 pbr==5.4.5
 pexpect==4.8.0
 pickleshare==0.7.5
-pillow==6.2.2
+pillow==6.2.2 ; python_version<'3.0'
+pillow==7.1.0 ; python_version>'3.0'
 pkgconfig==1.5.1
 plac==1.2.0
 pluggy==0.13.1
