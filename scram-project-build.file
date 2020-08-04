@@ -65,7 +65,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V06-00-01
+%define configtag       V06-00-02
 %endif
 
 %if "%{?cvssrc:set}" != "set"
