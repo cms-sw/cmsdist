@@ -80,6 +80,8 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
+# Remove all static libs except libomptarget-nvptx.a
+find %{i}/lib64 -name "*.a" -and -not -name "libomptarget-*.a" -delete
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
