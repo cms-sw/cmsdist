@@ -1,11 +1,11 @@
-### RPM cms t0 2.1.9
+### RPM cms t0 2.2.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 1.3.3.patch2
+%define wmcver 1.3.6.patch4
 %define wmcpkg WMCore
 %define pkg T0
 
