@@ -19,6 +19,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/hdf5.xml
     <environment name="LIBDIR" default="$HDF5_BASE/lib"/>
     <environment name="INCLUDE" default="$HDF5_BASE/include"/>
   </client>
+  <use name="openmpi"/>
 </tool>
 EOF_TOOLFILE
 
