@@ -1,0 +1,14 @@
+diff --git a/dxr/plugins/clang/makefile b/dxr/plugins/clang/makefile
+index 7f8fc29..60e83c3 100644
+--- a/dxr/plugins/clang/makefile
++++ b/dxr/plugins/clang/makefile
+@@ -1,8 +1,4 @@
+-CLANG_LIBS := -lclangFrontendTool -lclangFrontend -lclangDriver \
+-              -lclangSerialization -lclangCodeGen -lclangParse \
+-              -lclangSema -lclangRewriteFrontend -lclangRewrite \
+-              -lclangAnalysis -lclangEdit -lclangAST -lclangLex \
+-              -lclangBasic
++CLANG_LIBS := -lclang
+ LLVM_CONFIG ?= llvm-config
+ LLVM_LDFLAGS := $(shell ${LLVM_CONFIG} --ldflags --libs --system-libs) $(CLANG_LIBS)
+ CXXFLAGS := $(shell ${LLVM_CONFIG} --cxxflags) -Wall -Wno-strict-aliasing \
