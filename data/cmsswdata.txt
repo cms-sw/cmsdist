@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-TrackFindingTMTT=V00-02-00
 RecoJets-JetProducers=V05-12-00
 RecoBTag-Combined=V01-05-00
 L1Trigger-Phase2L1ParticleFlow=V00-03-00
@@ -16,7 +17,6 @@ L1Trigger-L1TCalorimeter=V01-01-00
 SimTransport-PPSProtonTransport=V00-02-00
 DQM-SiStripMonitorClient=V01-01-00
 L1Trigger-TrackFindingTracklet=V00-01-00
-L1Trigger-TrackFindingTMTT=V00-01-00
 Geometry-TestReference=V00-02-00
 RecoMET-METPUSubtraction=V01-01-00
 EgammaAnalysis-ElectronTools=V00-02-00
