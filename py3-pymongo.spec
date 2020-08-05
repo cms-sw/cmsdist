@@ -1,4 +1,4 @@
-### RPM external py3-pymongo 3.9.0
+### RPM external py3-pymongo 3.10.1
 ## IMPORT build-with-pip3
 
 Requires: python3

@@ -1,4 +1,4 @@
-### RPM external py2-mock 1.3.0
+### RPM external py2-mock 2.0.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source: https://pypi.python.org/packages/source/m/mock/mock-%realversion.tar.gz

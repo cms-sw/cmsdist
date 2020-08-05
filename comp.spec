@@ -1,8 +1,9 @@
-### RPM cms comp HG2004a
+### RPM cms comp HG2008d
+
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
-Requires: frontend das dbs3 filemover sitedb reqmon
+Requires: frontend das dbs3 filemover reqmon
 Requires: PHEDEX-combined-web dqmgui overview workqueue
 Requires: dbs3-client crabserver crabclient crabcache
 Requires: DMWMMON-datasvc acdcserver gitweb

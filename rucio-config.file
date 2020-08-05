@@ -10,8 +10,8 @@
 
 [common]
 [client]
-rucio_host = http://cms-rucio-testbed.cern.ch
-auth_host = https://cms-rucio-auth-testbed.cern.ch
+rucio_host = http://cms-rucio.cern.ch
+auth_host = https://cms-rucio-auth.cern.ch
 auth_type = x509
 ca_cert = /etc/grid-security/certificates/
 client_cert = $X509_USER_CERT

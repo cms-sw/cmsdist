@@ -1,4 +1,4 @@
-### RPM external py2-funcsigs 0.4
+### RPM external py2-funcsigs 1.0.2
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: https://pypi.python.org/packages/source/f/funcsigs/funcsigs-%{realversion}.tar.gz
