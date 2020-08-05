@@ -30,7 +30,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/clhepheader.xml
   <runtime name="CLHEP_PARAM_PATH" value="$CLHEPHEADER_BASE"/>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
-  <runtime name="CLING_MODULEMAP_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/module.modulemap" type="path"/>
   <use name="root_cxxdefaults"/>
   <flags SYSTEM_INCLUDE="1"/>
 </tool>
