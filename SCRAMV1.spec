@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V3_00_01
+### RPM lcg SCRAMV1 V3_00_02
 ## NOCOMPILER
 
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
@@ -6,7 +6,7 @@ Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag ee787dcffde553e14a498d942d9adc14021a3eaa
+%define tag b3e492f19cc43e3c8451b0224db38983053a1591
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
