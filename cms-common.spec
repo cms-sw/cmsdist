@@ -2,7 +2,7 @@
 ## REVISION 1211
 ## NOCOMPILER
 
-%define tag 9a4d3d1062685f93af5ffcee10443ab651108602
+%define tag 3c5f7243d143a8d05408835d9631c25dc394f528
 
 Source:  git+https://github.com/cms-sw/cms-common.git?obj=master/%{tag}&export=%{n}-%{realversion}-%{tag}&output=/%{n}-%{realversion}-%{tag}.tgz
 
