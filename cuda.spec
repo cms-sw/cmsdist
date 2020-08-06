@@ -1,6 +1,6 @@
-### RPM external cuda 11.0.1
+### RPM external cuda 11.0.2
 
-%define driversversion 450.36.06
+%define driversversion 450.51.05
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
