@@ -1,12 +1,15 @@
-### RPM external cupla 0.2.0
+### RPM external cupla 0.3.0-dev
 
-Source: https://github.com/alpaka-group/%{n}/archive/%{realversion}.tar.gz
+#%define tag %{realversion}
+%define tag ac24b2e0d906652054b1473635f9e1f98b2d31af
+
+Source: https://github.com/alpaka-group/%{n}/archive/%{tag}.tar.gz
 Requires: alpaka
 Requires: cuda
 Requires: tbb
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-%{tag}
 
 %build
 ## INCLUDE cuda-flags
