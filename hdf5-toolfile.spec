@@ -11,9 +11,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/hdf5.xml
 <tool name="hdf5" version="@TOOL_VERSION@">
   <info url="https://support.hdfgroup.org/HDF5/"/>
   <lib name="hdf5"/>
-  <lib name="hdf5_cpp"/>
   <lib name="hdf5_hl"/>
-  <lib name="hdf5_hl_cpp"/>
   <client>
     <environment name="HDF5_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$HDF5_BASE/lib"/>
