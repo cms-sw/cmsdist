@@ -2,7 +2,7 @@
 %define git_repo igprof
 %define git_user cms-externals
 %define git_branch cms/master/c6882f4
-%define git_commit 4235186fd1a9b9adb86a8a45bb7a8ece74953039
+%define git_commit bda2ed058c2a244331651d9258848935ccdfda2d
 Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Patch0: igprof-gcc8
 Requires: pcre libunwind
