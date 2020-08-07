@@ -5,7 +5,7 @@
 [default]
 CalibPPS-ESProducers=V01-02-00
 RecoMET-METPUSubtraction=V01-01-00
-RecoBTag-Combined=V01-04-00
+RecoBTag-Combined=V01-06-00
 RecoJets-JetProducers=V05-12-00
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
