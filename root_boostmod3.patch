@@ -1,0 +1,22 @@
+--- a/interpreter/cling/include/cling/boost.modulemap
++++ b/interpreter/cling/include/cling/boost.modulemap
+@@ -1,6 +1,5 @@
+ module boost_accumulators [system] {
+   export *
+-
+   module "accumulators__accumulators_fwd" { header "accumulators/accumulators_fwd.hpp" export * }
+   module "accumulators__accumulators" { header "accumulators/accumulators.hpp" export * }
+   module "accumulators__framework__accumulator_base" { header "accumulators/framework/accumulator_base.hpp" export * }
+@@ -5342,7 +5341,12 @@
+   exclude header "date_time/posix_time/time_formatters.hpp"
+   //error: too many template arguments for class template 'date_formatter'
+   //  std::basic_string<charT> s(date_time::date_formatter<date,date_time::iso_format<charT>,charT>::date_to_string(d.begin()));
++  exclude header "date_time/posix_time/posix_time_types.hpp"
++  exclude header "date_time/dst_rules.hpp"
+   exclude header "date_time/gregorian/formatters.hpp"
++  exclude header "date_time/gregorian/gregorian.hpp"
++  exclude header "date_time/date_formatting.hpp"
++  exclude header "date_time/date_formatting_limited.hpp"
+   // Disentangle from boost_serialization. Fixed by boostorg/date_time@356c5c2
+   exclude header "date_time/gregorian/greg_serialize.hpp"
+   exclude header "date_time/posix_time/time_serialize.hpp"
