@@ -75,9 +75,13 @@ exec %{i}/bin/cuda-gdb.real "\$@"
 @EOF
 chmod a+x %{i}/bin/cuda-gdb
 
-# package the other binaries and tools
-mv %_builddir/build/nvvm %{i}/
+# package the Compute Sanitizer, and replace the wrapper with a symlink
 mv %_builddir/build/Sanitizer %{i}/
+rm -f %{i}/bin/compute-sanitizer
+ln -s ../Sanitizer/compute-sanitizer %{i}/bin/compute-sanitizer
+
+# package the NVVM compiler (cicc), library (libnvvm.so), device library (libdevice.10.bc) and samples
+mv %_builddir/build/nvvm %{i}/
 
 # package the EULA and version file
 mv %_builddir/build/EULA.txt %{i}/
