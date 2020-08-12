@@ -1,0 +1,1 @@
+Requires: py2-numpy py2-awkward1 py2-uproot-methods py2-cachetools
