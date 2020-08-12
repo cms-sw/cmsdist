@@ -35,7 +35,9 @@ Requires: py2-h5py
 Requires: py2-h5py-cache
 Requires: py2-root_pandas
 Requires: py2-uproot
+Requires: py2-uproot4
 Requires: py2-opt-einsum
+
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
