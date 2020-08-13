@@ -1,4 +1,4 @@
-### RPM external davix 0.7.3
+### RPM external davix 0.7.6
 
 %define tag %(echo R_%{realversion} | tr . _)
 %define branch master
