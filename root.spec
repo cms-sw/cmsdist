@@ -16,6 +16,7 @@ Patch2: root_cvt
 Patch3: root_boostmod3
 Patch4: root_boostmod4
 Patch5: root_mmf
+Patch6: root_stl_iterator
 
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
@@ -46,6 +47,7 @@ Requires: dcap
 %patch3 -p1
 %patch4 -p1 
 %patch5 -p1 
+%patch6 -p1 
 
 %build
 rm -rf ../build
