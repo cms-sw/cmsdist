@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 65672133541d9dca445f92c3822abf36d1141ca4
-%define branch cms/master/50ec66a
+%define tag 130b75932f6c0f3a507abac34cbea2d13f129016
+%define branch cms/master/4c349a0
 
 #%define tag e84d5d5890aa667f46a16cbb25db6f5699dbfdda
 #%define branch cms/master/9053ef6
