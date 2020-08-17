@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-BuildRequires: root clhep tinyxml2 boost fftw3 cuda
+BuildRequires: root clhep tinyxml2 boost fftw3 cuda python
 
 %prep
 
@@ -48,15 +48,24 @@ do
 done
 
 #boost is special
-for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors
+
+#rm -f dummy_dict*.cc
+#rm -f libDummy*.so
+#
+#echo "boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian" | xargs -I myMod -d ' ' -n 1 -P 4 rootcling dummy_dict_myMod.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy_myMod.so -moduleMapFile=dummy.modulemap -cxxmodule -m myMod -mByproduct myMod  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include empty.h
+#rm -f dummy_dict*.cc
+#rm -f libDummy*.so
+
+for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian boost_python
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include empty.h
+    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include -I ${PYTHON_ROOT}/include/python2.7 empty.h
 done
 
 mkdir -p boost
-rm -f Dummy.pcm
+rm -f Dummy*.pcm
+rm -f libDummy*.pcm
 mv *.pcm boost/.
 
 
@@ -64,7 +73,8 @@ mv *.pcm boost/.
 %install
 
 mkdir %{i}/lib
-rm -f Dummy.pcm
+rm -f Dummy*.pcm
+rm -f libDummy*.pcm
 cp -r clhep tinyxml2 boost cuda %{i}/lib/.
 
 

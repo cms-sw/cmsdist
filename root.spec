@@ -3,20 +3,15 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 65672133541d9dca445f92c3822abf36d1141ca4
-%define branch cms/master/50ec66a
+%define tag b7a34a04434830abd61b709e55af4132ba460801
+%define branch cms/master/ee02efa
 
-#%define tag e84d5d5890aa667f46a16cbb25db6f5699dbfdda
-#%define branch cms/master/9053ef6
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
-Patch1: root_boostmod2
-Patch2: root_cvt
-Patch3: root_boostmod3
-Patch4: root_boostmod4
-Patch5: root_mmf
-Patch6: root_stl_iterator
+Patch1: root_cvt
+Patch2: root_6186
+Patch3: root_stl_iterator
 
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
@@ -45,9 +40,6 @@ Requires: dcap
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1 
-%patch5 -p1 
-%patch6 -p1 
 
 %build
 rm -rf ../build

@@ -135,7 +135,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="CLING_MODULEMAP_PATH" value="$(BOOSTHEADER_BASE)/include/boost" type="path"/>
   <runtime name="EXTRA_CLING_ARGS" value="-fmodule-map-file=$(BOOSTHEADER_BASE)/include/boost/boost.modulemap"/>
-  <runtime name="CLING_MODULEMAP_FILES" value="$(BOOSTHEADER_BASE)/include/boost/boost.modulemap" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(BOOSTHEADER_BASE)/include/boost/boost.modulemap" type="path" handler="warn"/>
   <flags ROOTCLING_ARGS="-moduleMapFile=$(BOOSTHEADER_BASE)/include/boost/boost.modulemap"/>
 </tool>
 EOF_TOOLFILE
