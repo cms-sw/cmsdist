@@ -116,7 +116,7 @@ keras-applications==1.0.8
 keras-preprocessing==1.1.0
 kiwisolver==1.1.0
 #can not go to 1.5.x in python2 due to astroid
-lazy-object-proxy==1.5.1
+lazy-object-proxy==1.4.3
 lizard==1.17.4
 #NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources
 llvmlite==0.33.0
