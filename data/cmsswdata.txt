@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEgamma-ElectronIdentification=V01-02-00
 RecoBTag-Combined=V01-06-00
 L1Trigger-TrackFindingTMTT=V00-02-00
 RecoJets-JetProducers=V05-12-00
@@ -32,7 +33,6 @@ CalibCalorimetry-EcalTrivialCondModules=V00-03-00
 RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-01-00
 FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
-RecoEgamma-ElectronIdentification=V01-01-03
 RecoCTPPS-TotemRPLocal=V00-02-00
 RecoMuon-MuonIdentification=V01-12-05
 RecoTracker-FinalTrackSelectors=V01-00-07
