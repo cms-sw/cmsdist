@@ -1,11 +1,11 @@
-### RPM external xrootd 4.10.0
+### RPM external xrootd 4.12.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-%define tag 9d3b80504a2a142723038f207c3e950347c756aa
-%define branch cms/v%{realversion}
-%define github_user cms-externals
+%define tag b122d662f80a46a570876afd32cdaa9f4370dc1d
+%define branch stable-4.12.x
+%define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
@@ -27,6 +27,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 %build
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
 # libfuse and libperl are not produced by CMSDIST.
+
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=%{i} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
