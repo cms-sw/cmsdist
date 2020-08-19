@@ -278,7 +278,7 @@ wrapt==1.11.2
 xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 #bumping this pulls in xrootd - which looks like it needs some understanding
-xrootdpyfs==0.1.6
+xrootdpyfs==0.2.1
 hepdata-lib==0.4.1
 zipp==1.2.0 ; python_version<'3.0'
 zipp==3.1.0 ; python_version>'3.0'
