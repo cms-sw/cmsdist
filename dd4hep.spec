@@ -24,6 +24,7 @@ CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DDD4HEP_USE_PYROOT=ON \
       -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
+      -DDD4HEP_USE_TBB=ON \
       -DCMAKE_PREFIX_PATH=${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
