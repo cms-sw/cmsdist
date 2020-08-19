@@ -29,6 +29,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 # libfuse and libperl are not produced by CMSDIST.
 
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_BUILD_TYPE=Release \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \
