@@ -12,6 +12,7 @@ Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_6186
 Patch3: root_stl_iterator
+Patch4: root_6212
 
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
@@ -40,6 +41,7 @@ Requires: dcap
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf ../build
