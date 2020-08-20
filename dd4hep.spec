@@ -18,14 +18,13 @@ Requires: root boost clhep xerces-c geant4
 export BOOST_ROOT
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DBoost_NO_BOOST_CMAKE=ON \
-      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT} \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
       -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
       -DDD4HEP_USE_TBB=ON \
-      -DCMAKE_PREFIX_PATH=${XERCES_C_ROOT}"
+      -DCMAKE_PREFIX_PATH=${TBB_ROOT}/cmake/TBB;${CLHEP_ROOT};${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
