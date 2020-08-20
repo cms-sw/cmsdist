@@ -1,0 +1,241 @@
+diff --git a/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc b/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc
+index 411a3e72d1995..f35b6225dc0c0 100644
+--- a/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc
++++ b/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc
+@@ -10,7 +10,7 @@
+ #include "DataFormats/MuonReco/interface/Muon.h"
+ #include "DataFormats/TrackReco/interface/Track.h"
+ #include "DataFormats/TrackReco/interface/TrackFwd.h"
+-#include "RecoMuon/MuonIdentification/plugins/ME0MuonSelector.cc"
++#include "RecoMuon/MuonIdentification/interface/ME0MuonSelector.h"
+ #include "FWCore/Framework/interface/ESHandle.h"
+ 
+ #include <sstream>
+@@ -69,7 +69,7 @@ void ME0MuonTrackCollProducer::produce(edm::Event& iEvent, const edm::EventSetup
+ 
+   for (std::vector<reco::ME0Muon>::const_iterator thismuon = OurMuons->begin(); thismuon != OurMuons->end();
+        ++thismuon) {
+-    if (!muon::isGoodMuon(*thismuon, muon::Tight))
++    if (!muon::me0::isGoodMuon(*thismuon, muon::me0::Tight))
+       continue;
+     reco::TrackRef trackref;
+ 
+diff --git a/RecoMuon/MuonIdentification/interface/ME0MuonSelector.h b/RecoMuon/MuonIdentification/interface/ME0MuonSelector.h
+index b15af27fd2f78..8931c2bb2b4c0 100644
+--- a/RecoMuon/MuonIdentification/interface/ME0MuonSelector.h
++++ b/RecoMuon/MuonIdentification/interface/ME0MuonSelector.h
+@@ -9,32 +9,34 @@
+ #include <string>
+ 
+ namespace muon {
+-  /// Selector type
+-  enum SelectionType {
+-    All = 0,        // dummy options - always true
+-    VeryLoose = 1,  //
+-    Loose = 2,      //
+-    Tight = 3,      //
+-  };
+-
+-  /// a lightweight "map" for selection type string label and enum value
+-  struct SelectionTypeStringToEnum {
+-    const char* label;
+-    SelectionType value;
+-  };
+-  SelectionType selectionTypeFromString(const std::string& label);
+-
+-  /// main GoodMuon wrapper call
+-  bool isGoodMuon(const reco::ME0Muon& me0muon, SelectionType type);
+-
+-  /// Specialized isGoodMuon function called from main wrapper
+-
+-  bool isGoodMuon(const reco::ME0Muon& me0muon,
+-                  double MaxPullX,
+-                  double MaxDiffX,
+-                  double MaxPullY,
+-                  double MaxDiffY,
+-                  double MaxDiffPhiDir);
+-
++  namespace me0 {
++    /// Selector type
++    enum SelectionType {
++      All = 0,        // dummy options - always true
++      VeryLoose = 1,  //
++      Loose = 2,      //
++      Tight = 3,      //
++    };
++
++    /// a lightweight "map" for selection type string label and enum value
++    struct SelectionTypeStringToEnum {
++      const char* label;
++      SelectionType value;
++    };
++    SelectionType selectionTypeFromString(const std::string& label);
++
++    /// main GoodMuon wrapper call
++    bool isGoodMuon(const reco::ME0Muon& me0muon, SelectionType type);
++
++    /// Specialized isGoodMuon function called from main wrapper
++
++    bool isGoodMuon(const reco::ME0Muon& me0muon,
++                    double MaxPullX,
++                    double MaxDiffX,
++                    double MaxPullY,
++                    double MaxDiffY,
++                    double MaxDiffPhiDir);
++
++  }  // namespace me0
+ }  // namespace muon
+ #endif
+diff --git a/RecoMuon/MuonIdentification/plugins/ME0MuonSelector.cc b/RecoMuon/MuonIdentification/src/ME0MuonSelector.cc
+similarity index 58%
+rename from RecoMuon/MuonIdentification/plugins/ME0MuonSelector.cc
+rename to RecoMuon/MuonIdentification/src/ME0MuonSelector.cc
+index 85a6916ad3fcf..12719b8efba27 100644
+--- a/RecoMuon/MuonIdentification/plugins/ME0MuonSelector.cc
++++ b/RecoMuon/MuonIdentification/src/ME0MuonSelector.cc
+@@ -12,37 +12,39 @@
+ #include "DataFormats/Math/interface/deltaPhi.h"
+ 
+ namespace muon {
+-  SelectionType selectionTypeFromString(const std::string& label) {
+-    const static SelectionTypeStringToEnum selectionTypeStringToEnumMap[] = {
+-        {"All", All}, {"VeryLoose", VeryLoose}, {"Loose", Loose}, {"Tight", Tight}, {nullptr, (SelectionType)-1}};
++  namespace me0 {
++    SelectionType selectionTypeFromString(const std::string& label) {
++      const static SelectionTypeStringToEnum selectionTypeStringToEnumMap[] = {
++          {"All", All}, {"VeryLoose", VeryLoose}, {"Loose", Loose}, {"Tight", Tight}, {nullptr, (SelectionType)-1}};
+ 
+-    SelectionType value = (SelectionType)-1;
+-    bool found = false;
+-    for (int i = 0; selectionTypeStringToEnumMap[i].label && (!found); ++i)
+-      if (!strcmp(label.c_str(), selectionTypeStringToEnumMap[i].label)) {
+-        found = true;
+-        value = selectionTypeStringToEnumMap[i].value;
+-      }
++      SelectionType value = (SelectionType)-1;
++      bool found = false;
++      for (int i = 0; selectionTypeStringToEnumMap[i].label && (!found); ++i)
++        if (!strcmp(label.c_str(), selectionTypeStringToEnumMap[i].label)) {
++          found = true;
++          value = selectionTypeStringToEnumMap[i].value;
++        }
+ 
+-    // in case of unrecognized selection type
+-    if (!found)
+-      throw cms::Exception("MuonSelectorError") << label << " is not a recognized SelectionType";
+-    return value;
+-  }
++      // in case of unrecognized selection type
++      if (!found)
++        throw cms::Exception("MuonSelectorError") << label << " is not a recognized SelectionType";
++      return value;
++    }
++  }  // namespace me0
+ }  // namespace muon
+ 
+-bool muon::isGoodMuon(const reco::ME0Muon& me0muon, SelectionType type) {
++bool muon::me0::isGoodMuon(const reco::ME0Muon& me0muon, SelectionType type) {
+   switch (type) {
+-    case muon::All:
++    case muon::me0::All:
+       return true;
+       break;
+-    case muon::VeryLoose:
++    case muon::me0::VeryLoose:
+       return isGoodMuon(me0muon, 3, 4, 20, 20, 3.14);
+       break;
+-    case muon::Loose:
++    case muon::me0::Loose:
+       return isGoodMuon(me0muon, 3, 2, 3, 2, 0.5);
+       break;
+-    case muon::Tight:
++    case muon::me0::Tight:
+       return isGoodMuon(me0muon, 3, 2, 3, 2, 0.15);
+       break;
+     default:
+@@ -50,12 +52,12 @@ bool muon::isGoodMuon(const reco::ME0Muon& me0muon, SelectionType type) {
+   }
+ }
+ 
+-bool muon::isGoodMuon(const reco::ME0Muon& me0muon,
+-                      double MaxPullX,
+-                      double MaxDiffX,
+-                      double MaxPullY,
+-                      double MaxDiffY,
+-                      double MaxDiffPhiDir) {
++bool muon::me0::isGoodMuon(const reco::ME0Muon& me0muon,
++                           double MaxPullX,
++                           double MaxDiffX,
++                           double MaxPullY,
++                           double MaxDiffY,
++                           double MaxDiffPhiDir) {
+   using namespace reco;
+ 
+   const ME0Segment& thisSegment = me0muon.me0segment();
+diff --git a/RecoMuon/MuonIdentification/test/ME0MuonAnalyzer.cc b/RecoMuon/MuonIdentification/test/ME0MuonAnalyzer.cc
+index 1faa8e4bda8fc..a842582178f4a 100644
+--- a/RecoMuon/MuonIdentification/test/ME0MuonAnalyzer.cc
++++ b/RecoMuon/MuonIdentification/test/ME0MuonAnalyzer.cc
+@@ -52,7 +52,7 @@
+ 
+ #include "CommonTools/CandAlgos/interface/GenParticleCustomSelector.h"
+ 
+-#include "RecoMuon/MuonIdentification/plugins/ME0MuonSelector.cc"
++#include "RecoMuon/MuonIdentification/interface/ME0MuonSelector.h"
+ 
+ #include "Fit/FitResult.h"
+ #include "TF1.h"
+@@ -766,7 +766,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+   std::vector<bool> IsMatched;
+   std::vector<int> SegIdForMatch;
+   for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end(); ++thisMuon) {
+-    if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++    if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+       continue;
+     IsMatched.push_back(false);
+     SegIdForMatch.push_back(-1);
+@@ -788,7 +788,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+       double VertexDiff = -1, PtDiff = -1, QOverPtDiff = -1, PDiff = -1;
+ 
+       for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end(); ++thisMuon) {
+-        if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++        if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+           continue;
+         TrackRef tkRef = thisMuon->innerTrack();
+         SegIdForMatch.push_back(thisMuon->me0segid());
+@@ -928,7 +928,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+       double thisDelR = 9999;
+ 
+       for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end(); ++thisMuon) {
+-        if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++        if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+           continue;
+         TrackRef tkRef = thisMuon->innerTrack();
+         thisDelR = reco::deltaR(CurrentParticle, *tkRef);
+@@ -948,7 +948,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+   //   -----Now, each time a match failed, we plot the ME0Muon pt and eta
+   int ME0MuonID = 0;
+   for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end(); ++thisMuon) {
+-    if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++    if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+       continue;
+     TrackRef tkRef = thisMuon->innerTrack();
+     //Moved resolution stuff here, only calculate resolutions for matched muons!
+@@ -998,7 +998,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+   int i_me0muon = 0;
+   for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end();
+        ++thisMuon, ++i_me0muon) {
+-    if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++    if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+       continue;
+     SkimmedIsMatched.push_back(IsMatched[i_me0muon]);
+   }
+@@ -1258,7 +1258,7 @@ void ME0MuonAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &i
+   int MuID = 0;
+ 
+   for (std::vector<ME0Muon>::const_iterator thisMuon = OurMuons->begin(); thisMuon != OurMuons->end(); ++thisMuon) {
+-    if (!muon::isGoodMuon(*thisMuon, muon::Tight))
++    if (!muon::me0::isGoodMuon(*thisMuon, muon::me0::Tight))
+       continue;
+     TrackRef tkRef = thisMuon->innerTrack();
+ 
