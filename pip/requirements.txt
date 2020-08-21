@@ -17,16 +17,16 @@
 absl-py==0.9.0
 appdirs==1.4.4
 argparse==1.4.0
-asn1crypto==1.3.0
+asn1crypto==1.4.0
 astor==0.8.1
 astroid==1.6.6 ; python_version<'3.0'
 astroid==2.3.3 ; python_version>'3.0'
 atomicwrites==1.4.0
 attrs==19.3.0
-autopep8==1.5.3
+autopep8==1.5.4
 avro==1.10.0
 awkward==0.13.0
-awkward1==0.2.27
+awkward1==0.2.31
 backcall==0.2.0
 backports_abc==0.5
 backports-functools_lru_cache==1.6.1
@@ -36,13 +36,13 @@ backports-shutil_which==3.5.2
 backports-ssl_match_hostname==3.7.0.1
 backports-weakref==1.0.post1
 backports-os==0.1.1
-beautifulsoup4==4.8.2
+beautifulsoup4==4.9.1
 bleach==3.1.5
 bokeh==1.4.0
 Bottleneck==1.3.2
 cachetools==3.1.1
 certifi==2020.6.20
-cffi==1.14.0
+cffi==1.14.2
 chardet==3.0.4
 Click==7.1.2
 #NO_AUTO_UPDATE: Source is defined in climate.file, changing version here is not going to get new sources
@@ -52,7 +52,7 @@ cloudpickle==1.3.0
 colorama==0.4.3
 configparser==4.0.2
 contextlib2==0.6.0.post1
-coverage==5.2
+coverage==5.2.1
 cryptography==3.0
 cx-Oracle==7.3.0
 cycler==0.10.0
@@ -72,15 +72,15 @@ funcsigs==1.0.2
 functools32==3.2.3-2;python_version<'3.0'
 future==0.18.2
 futures==3.3.0;python_version<'3.0'
-gast==0.3.3
+gast==0.4.0
 gitdb2==2.0.6 ; python_version<'3.0'
 gitdb==4.0.2 ; python_version>'3.0'
 GitPython==2.1.15 ; python_version<'3.0'
 GitPython==3.1.0 ; python_version>'3.0'
 google-common==0.0.1
 google-pasta==0.2.0
-grpcio==1.30.0
-grpcio-tools==1.30.0
+grpcio==1.31.0
+grpcio-tools==1.31.0
 h5py-cache==1.0
 h5py==2.10.0
 hep_ml==0.6.1
@@ -136,6 +136,7 @@ mpld3==0.5.1
 mpmath==1.1.0
 nbconvert==5.6.1
 nbdime==1.1.0
+#5.0.3 does not support python2.7 even if pip thinks so
 nbformat==4.4.0
 networkx==2.2 ; python_version<'3.0'
 networkx==2.4 ; python_version>'3.0'
@@ -151,7 +152,7 @@ numpy==1.17.5 ; python_version>'3.0'
 #NO_AUTO_UPDATE:2: numpy versions >1.15.1 fail on aarch64
 numpy==1.15.1 ; python_version<'3.0' ; platform_machine=='aarch64'
 numpy==1.15.1 ; python_version>'3.0' ; platform_machine=='aarch64'
-onnx==1.6.0
+onnx==1.7.0
 onnxruntime==1.2.0 ; python_version>'3.0'
 opt-einsum==2.3.2 ; python_version<'3.0'
 opt-einsum==3.1.0 ; python_version>'3.0'
@@ -193,7 +194,7 @@ pyflakes==2.2.0
 Pygments==2.5.2
 pylint==1.9.5 ; python_version<'3.0'
 pylint==2.4.3 ; python_version>'3.0'
-pymongo==3.10.1
+pymongo==3.11.0
 pyOpenSSL==19.1.0
 pyparsing==2.4.7
 pyrsistent==0.16.0
@@ -201,7 +202,7 @@ py==1.9.0
 pysqlite==2.8.3; python_version<'3.0'
 pytest==4.6.11 ; python_version<'3.0'
 pytest==5.2.2 ; python_version>'3.0'
-pytest-cov==2.8.1
+pytest-cov==2.10.1
 pytest-runner==5.2
 python-cjson==1.2.2;python_version<'3.0'
 python-dateutil==2.8.1
@@ -209,7 +210,7 @@ python-ldap==3.3.1
 pytools==2020.3
 pytz==2020.1
 PyYAML==5.3.1
-pyzmq==19.0.1
+pyzmq==19.0.2
 qtconsole==4.7.5
 QtPy==1.9.0
 repoze-lru==0.7
@@ -219,7 +220,7 @@ root_numpy==4.8.0;python_version>'3.0'
 root_pandas==0.7.0;python_version>'3.0'
 rootpy==1.0.1;python_version>'3.0'
 scandir==1.10.0
-schema==0.7.2
+schema==0.7.3
 scikit-learn==0.20.4 ; python_version<'3.0'
 scikit-learn==0.23.0 ; python_version>'3.0'
 scipy==1.2.3 ; python_version<'3.0'
@@ -231,7 +232,7 @@ setuptools-scm==3.5.0
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.15.0
-smmap==3.0.1
+smmap==3.0.4
 smmap2==3.0.1
 soupsieve==1.9.6
 sqlalchemy==1.3.11
@@ -251,11 +252,11 @@ termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4
 theanets==0.7.3
-Theano==1.0.4
+Theano==1.0.5
 toml==0.10.1
 tornado==5.1.1 ; python_version<'3.0'
 tornado==6.0.3 ; python_version>'3.0'
-tqdm==4.48.0
+tqdm==4.48.2
 traitlets==4.3.3
 typed-ast==1.4.1 ; python_version>'3.0'
 typing_extensions==3.7.4.2
@@ -263,10 +264,10 @@ typing==3.7.4.3
 uncertainties==3.1.4
 uproot==3.12.0
 uproot-methods==0.7.4
-uproot4==0.0.16
+uproot4==0.0.17
 urllib3==1.25.10
 virtualenv-clone==0.5.4
-virtualenv==20.0.27
+virtualenv==20.0.30
 virtualenvwrapper==4.8.4
 wcwidth==0.2.5
 webencodings==0.5.1
