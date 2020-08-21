@@ -21,4 +21,4 @@ case %cmsplatf in
   *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
-cmake -DTBB_ROOT=%i -DTBB_OS=Linux -P cmake/tbb_config_generator.cmake 
+cmake -DINSTALL_DIR=%{i}/cmake/TBB -DSYSTEM_NAME=Linux -DINC_PATH=%{i}/include -DLIB_PATH=%{i}/lib -P cmake/tbb_config_installer.cmake
