@@ -13,7 +13,7 @@ Patch1: root_cvt
 Patch2: root_6186
 Patch3: root_6212
 Patch4: root_6199
-Patch5: root_6244_v2
+Patch5: root_6244
 
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
