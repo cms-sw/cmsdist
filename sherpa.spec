@@ -5,6 +5,7 @@
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
 BuildRequires: mcfm swig
+Patch0: sherpa-2.2.10-hepmcshort
 
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
@@ -32,6 +33,8 @@ case %cmsplatf in
       AddOns/Analysis/Scripts/Makefile.in
   ;;
 esac
+
+%patch0 -p1
 
 %build
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
