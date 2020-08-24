@@ -1,3 +1,2 @@
-Requires: py2-cycler py2-kiwisolver py2-pyparsing py2-python-dateutil py2-certifi py3-pillow 
+Requires: py2-cycler py2-kiwisolver py2-pyparsing py2-python-dateutil py2-certifi
 Requires: zlib libpng freetype
-
