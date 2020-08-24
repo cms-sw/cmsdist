@@ -1,3 +1,15 @@
+diff --git a/CommonTools/RecoAlgos/BuildFile.xml b/CommonTools/RecoAlgos/BuildFile.xml
+index 4e46272484be9..135a813e761fd 100644
+--- a/CommonTools/RecoAlgos/BuildFile.xml
++++ b/CommonTools/RecoAlgos/BuildFile.xml
+@@ -10,6 +10,7 @@
+ <use name="DataFormats/RecoCandidate"/>
+ <use name="DataFormats/Candidate"/>
+ <use name="DataFormats/VertexReco"/>
++<use name="RecoMuon/MuonIdentification"/>
+ <use name="TrackingTools/IPTools"/>
+ <use name="TrackingTools/TransientTrack"/>
+ <use name="fastjet"/>
 diff --git a/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc b/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc
 index 411a3e72d1995..f35b6225dc0c0 100644
 --- a/CommonTools/RecoAlgos/plugins/ME0MuonTrackCollProducer.cc
