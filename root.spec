@@ -11,8 +11,9 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_6186
-Patch3: root_stl_iterator
-Patch4: root_6212
+Patch3: root_6212
+Patch4: root_6199
+Patch5: root_6244_v2
 
 #Needed for GMI, but creates problmes at run time (as of July 20)
 #Patch2: root_5884
@@ -42,6 +43,7 @@ Requires: dcap
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 rm -rf ../build
@@ -54,8 +56,8 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Debug \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \

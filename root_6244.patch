@@ -1,0 +1,38 @@
+diff --git a/interpreter/cling/include/cling/boost.modulemap b/interpreter/cling/include/cling/boost.modulemap
+index 0f0da3e4d3e..ea89c0d987f 100644
+--- a/interpreter/cling/include/cling/boost.modulemap
++++ b/interpreter/cling/include/cling/boost.modulemap
+@@ -82,11 +82,7 @@ module boost_accumulators [system] {
+ }
+ module boost_align {
+   export *
+-  module align_aligned_storage { export * header "aligned_storage.hpp" }
+   module align_align { export * header "align.hpp" }
+-
+-  umbrella "align"
+-  module * { export * }
+ }
+ module boost_any { export * module "any" { header "any.hpp" export * } }
+ module boost_array { export * module "array" { header "array.hpp" export * } }
+@@ -4977,8 +4973,6 @@ module boost_ptr_container {
+ module boost_python {
+   export *
+   module python_python { export * header "python.hpp" }
+-  umbrella "python"
+-  module * { export * }
+ }
+ module boost_qvm {
+   export *
+@@ -6376,6 +6370,12 @@ In file included from /home/teemperor/llvm/boost-compile/inc-cms/boost/spirit/ho
+ 
+ module boost_iostreams {
+   export *
++  // FIXME: Brings boost_random which is currently broken.
++  exclude header "iostreams/filter/test.hpp"
++  // error: unknown template name 'stream_base'
++  exclude header "iostreams/detail/broken_overload_resolution/stream.hpp"
++  // error: redefinition of 'stream_buffer'
++  exclude header "iostreams/detail/broken_overload_resolution/stream_buffer.hpp"
+   umbrella "iostreams"
+   module * { export * }
+ }

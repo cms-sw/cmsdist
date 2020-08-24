@@ -32,18 +32,16 @@ Source20: CXXModules.mk
 Source21: cmssw_31178.patch
 Source22: cmssw_31154.patch
 Source23: cmssw_31187.patch
-Source24: cmssw_31188.patch
-Source25: cmssw_31190.patch
+Source24: cmssw_31190.patch
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
   for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder ; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31178.patch; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31154.patch; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31187.patch; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31188.patch; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31190.patch; cd .. 
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31178.patch || true; cd .. \
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31154.patch || true; cd .. \
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31187.patch || true; cd .. \
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31190.patch || true; cd .. 
 %endif
 
