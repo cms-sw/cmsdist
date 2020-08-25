@@ -1,0 +1,47 @@
+diff -Naur a/SHERPA/Main/Sherpa.C b/SHERPA/Main/Sherpa.C
+--- a/SHERPA/Main/Sherpa.C	2020-08-24 10:09:46.822502996 +0200
++++ b/SHERPA/Main/Sherpa.C	2020-08-24 10:15:36.098836763 +0200
+@@ -294,21 +294,23 @@
+ }
+ 
+ #ifdef USING__HEPMC2
+-void Sherpa::FillHepMCEvent(HepMC::GenEvent& event)
++void Sherpa::FillHepMCEvent(HepMC::GenEvent& event, bool shortHepMC)
+ {
+   if (p_hepmc2==NULL) p_hepmc2 = new SHERPA::HepMC2_Interface();
+   ATOOLS::Blob_List* blobs=GetEventHandler()->GetBlobs();
+-  p_hepmc2->Sherpa2HepMC(blobs, event, blobs->Weight());
++  if (shortHepMC) p_hepmc2->Sherpa2ShortHepMC(blobs, event, blobs->Weight());
++  else p_hepmc2->Sherpa2HepMC(blobs, event, blobs->Weight());
+   p_hepmc2->AddCrossSection(event, TotalXS(), TotalErr());
+ }
+ #endif
+ 
+ #ifdef USING__HEPMC3
+-void Sherpa::FillHepMCEvent(HepMC3::GenEvent& event)
++void Sherpa::FillHepMCEvent(HepMC3::GenEvent& event, bool shortHepMC)
+ {
+   if (p_hepmc3==NULL) p_hepmc3 = new SHERPA::HepMC3_Interface();
+   ATOOLS::Blob_List* blobs=GetEventHandler()->GetBlobs();
+-  p_hepmc3->Sherpa2HepMC(blobs, event);
++  if (shortHepMC) p_hepmc3->Sherpa2ShortHepMC(blobs, event);
++  else p_hepmc3->Sherpa2HepMC(blobs, event);
+   p_hepmc3->AddCrossSection(event, TotalXS(), TotalErr());
+ }
+ #endif
+diff -Naur a/SHERPA/Main/Sherpa.H b/SHERPA/Main/Sherpa.H
+--- a/SHERPA/Main/Sherpa.H	2020-08-24 10:09:46.822502996 +0200
++++ b/SHERPA/Main/Sherpa.H	2020-08-24 10:11:27.751754145 +0200
+@@ -54,10 +54,10 @@
+ 
+     bool GenerateOneEvent(bool reset=true);
+ #ifdef USING__HEPMC2
+-    void FillHepMCEvent(HepMC::GenEvent& event);
++    void FillHepMCEvent(HepMC::GenEvent& event, bool shortHepMC=false);
+ #endif
+ #ifdef USING__HEPMC3
+-    void FillHepMCEvent(HepMC3::GenEvent& event);
++    void FillHepMCEvent(HepMC3::GenEvent& event, bool shortHepMC=false);
+ #endif
+ 
+     double TotalXS();
