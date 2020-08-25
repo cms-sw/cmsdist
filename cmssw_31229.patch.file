@@ -1,0 +1,26 @@
+diff --git a/PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h b/PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h
+index 2836fcea30e5a..93e443acb6b62 100644
+--- a/PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h
++++ b/PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h
+@@ -7,7 +7,7 @@
+ 
+ // calculate the Colins-Soper variables;
+ // everything is in the lab frame
+-void calCSVariables(TLorentzVector mu, TLorentzVector mubar, double *res, bool swap) {
++inline void calCSVariables(TLorentzVector mu, TLorentzVector mubar, double *res, bool swap) {
+   // convention. beam direction is on the positive Z direction.
+   // beam contains quark flux.
+   TLorentzVector Pbeam(0, 0, CM_ENERGY / 2.0, CM_ENERGY / 2.0);
+diff --git a/PhysicsTools/TagAndProbe/src/BaseTreeFiller.cc b/PhysicsTools/TagAndProbe/src/BaseTreeFiller.cc
+index 267c0cf39c065..fbd50c2f4504e 100644
+--- a/PhysicsTools/TagAndProbe/src/BaseTreeFiller.cc
++++ b/PhysicsTools/TagAndProbe/src/BaseTreeFiller.cc
+@@ -2,8 +2,6 @@
+ #include "FWCore/ServiceRegistry/interface/Service.h"
+ #include "CommonTools/UtilAlgos/interface/TFileService.h"
+ 
+-#include "PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h"
+-
+ #include <TList.h>
+ #include <TObjString.h>
+ 

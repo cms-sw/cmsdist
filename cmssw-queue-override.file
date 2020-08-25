@@ -35,6 +35,7 @@ Source23: cmssw_31187.patch
 Source24: cmssw_31190.patch
 Source25: cmssw_31211.patch
 Source26: cmssw_31188.patch
+Source27: cmssw_31229.patch
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
   for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry ; do \
@@ -46,6 +47,7 @@ Source26: cmssw_31188.patch
   cd src ; patch -p1 < %{_sourcedir}/cmssw_31187.patch || true; cd .. \
   cd src ; patch -p1 < %{_sourcedir}/cmssw_31190.patch || true; cd .. \
   cd src ; patch -p1 < %{_sourcedir}/cmssw_31188.patch || true; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31211.patch || true; cd .. 
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31211.patch || true; cd .. \
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31229.patch || true; cd .. 
 %endif
 
