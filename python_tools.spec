@@ -11,7 +11,6 @@ Requires: py2-Theano
 Requires: py2-scikit-learn
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
-
 Requires: py2-cloudpickle
 Requires: py2-tables
 Requires: py3-tables
@@ -38,11 +37,10 @@ Requires: py2-uproot
 Requires: py2-uproot4
 Requires: py2-opt-einsum
 
-
 #this DOES NOT depend on numpy..
-Requires: py2-xrootdpyfs
 
 Requires: root curl python openldap
+Requires: py2-xrootdpyfs
 
 Requires: py2-entrypoints
 Requires: py2-psutil
