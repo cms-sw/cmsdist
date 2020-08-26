@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Geometry-DTGeometryBuilder=V00-01-00
 RecoEgamma-ElectronIdentification=V01-02-00
 RecoBTag-Combined=V01-06-00
 L1Trigger-TrackFindingTMTT=V00-02-00
@@ -51,7 +52,6 @@ DetectorDescription-Schema=V02-02-01
 Geometry-CaloEventSetup=V03-11-02
 Geometry-CMSCommonData=V01-09-00
 Geometry-CSCGeometryBuilder=V01-08-00
-Geometry-DTGeometryBuilder=V00-05-00
 Geometry-EcalCommonData=V05-05-00
 Geometry-EcalSimData=V01-02-00
 Geometry-EcalTestBeam=V00-09-09
