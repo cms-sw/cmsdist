@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_11_2_0_pre5
+### RPM cms cmssw CMSSW_11_2_0_HGCAL1
 
 Requires: cmssw-tool-conf python cms-git-tools cmssw-osenv
 
