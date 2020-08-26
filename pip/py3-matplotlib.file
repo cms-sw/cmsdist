@@ -1,4 +1,4 @@
-Requires: py3-numpy
+Requires: py3-numpy py3-pillow
 %define PipPreBuild \
   export CFLAGS="-I${FREETYPE_ROOT}/include/freetype2 -I${LIBPNG_ROOT}/include/libpng16" \
   export LDFLAGS="-L${FREETYPE_ROOT}/lib -L${LIBPNG_ROOT}/lib" \
