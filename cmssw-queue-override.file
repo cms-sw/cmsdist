@@ -29,25 +29,19 @@
 
 %if "%(case %realversion in (*CXXMODULE*) echo true ;; (*) echo false ;; esac)" == "true"
 Source20: CXXModules.mk
-Source21: cmssw_31178.patch
-Source22: cmssw_31154.patch
-Source23: cmssw_31187.patch
-Source24: cmssw_31190.patch
-Source25: cmssw_31211.patch
-Source26: cmssw_31188.patch
-Source27: cmssw_31229.patch
+Source21: cmssw_31190.patch
+Source22: cmssw_31211.patch
+Source23: cmssw_31229.patch
+Source24: cmssw_31248.patch
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
   for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry ; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31178.patch || true; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31154.patch || true; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31187.patch || true; cd .. \
   cd src ; patch -p1 < %{_sourcedir}/cmssw_31190.patch || true; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31188.patch || true; cd .. \
   cd src ; patch -p1 < %{_sourcedir}/cmssw_31211.patch || true; cd .. \
-  cd src ; patch -p1 < %{_sourcedir}/cmssw_31229.patch || true; cd .. 
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31229.patch || true; cd .. \
+  cd src ; patch -p1 < %{_sourcedir}/cmssw_31248.patch || true; cd .. 
 %endif
 
