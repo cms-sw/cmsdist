@@ -1,0 +1,1 @@
+Requires: py2-cffi py2-six py2-enum34
