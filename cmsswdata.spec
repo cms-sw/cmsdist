@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-Geometry-DTGeometryBuilder
 Requires: data-L1Trigger-CSCTriggerPrimitives
 Requires: data-L1Trigger-Phase2L1ParticleFlow
 Requires: data-L1Trigger-DTTriggerPhase2
