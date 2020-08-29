@@ -31,12 +31,12 @@
 Source20: CXXModules.mk
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
-  for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/Version FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopoliges Geometry/CommonDetUnit ; do \
+  for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/Version FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopoliges Geometry/CommonDetUnit CommonTools/Utils  Geometry/TrackerNumberingBuilder TrackingTools/DetLayers TrackingTools/GeomPropagators TrackingTools/AnalyticalJacobians Geometry/MuonNumbering CalibTracker/Records MagneticField/Records; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
   pushd src \
-  for pr in 31190 31211 31229 31248 31257 31273 ; do \
+  for pr in 31190 31211 31229 31248 31257 31273 31274 31291; do \
     curl -s -o ${pr}.patch https://patch-diff.githubusercontent.com/raw/cms-sw/cmssw/pull/${pr}.patch \
     patch -p1 < ${pr}.patch || true \
     rm -f ${pr}.patch \
