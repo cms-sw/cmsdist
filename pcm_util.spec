@@ -56,7 +56,7 @@ done
 #rm -f dummy_dict*.cc
 #rm -f libDummy*.so
 
-for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian boost_python boost_program_options boost_thread boost_iostreams boost_spirit
+for mod in boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian boost_python boost_program_options boost_thread boost_iostreams boost_spirit boost_multi_index_container
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
