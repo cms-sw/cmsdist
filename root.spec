@@ -3,20 +3,14 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag b7a34a04434830abd61b709e55af4132ba460801
-%define branch cms/master/ee02efa
+%define tag 7604010345b74a4c0ddab0ccb7e2476cccd3b74f
+%define branch cms/master/f7b0533
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
 Patch1: root_cvt
-Patch2: root_6186
-Patch3: root_6212
-Patch4: root_6199
-Patch5: root_6244
-
-#Needed for GMI, but creates problmes at run time (as of July 20)
-#Patch2: root_5884
+Patch2: root_6244
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -41,9 +35,6 @@ Requires: dcap
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 rm -rf ../build
@@ -56,8 +47,8 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Debug \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
