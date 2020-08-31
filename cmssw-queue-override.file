@@ -31,7 +31,7 @@
 Source20: CXXModules.mk
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
-  for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/Version FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopologies Geometry/CommonDetUnit CommonTools/Utils  Geometry/TrackerNumberingBuilder TrackingTools/DetLayers TrackingTools/GeomPropagators TrackingTools/AnalyticalJacobians Geometry/MuonNumbering CalibTracker/Records MagneticField/Records CondFormats/Serialization FWCore/SOA CondCore/CondDB JetMETCorrections/Objects Geometry/EcalCommonData DataFormats/MuonData RecoTracker/Record TrackingTools/TransientTrack MagneticField/Engine TrackingTools/Record RecoMuon/Records  ; do \
+  for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/Version FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopologies Geometry/CommonDetUnit CommonTools/Utils  Geometry/TrackerNumberingBuilder TrackingTools/DetLayers TrackingTools/GeomPropagators TrackingTools/AnalyticalJacobians Geometry/MuonNumbering CalibTracker/Records MagneticField/Records CondFormats/Serialization FWCore/SOA CondCore/CondDB JetMETCorrections/Objects Geometry/EcalCommonData DataFormats/MuonData RecoTracker/Record TrackingTools/TransientTrack MagneticField/Engine TrackingTools/Record RecoMuon/Records DetectorDescription/Core Geometry/EcalAlgo  ; do \
     echo "${p}_CXXMODULES:=1" | sed 's|/||'   >> config/SCRAM/GMake/CXXModules.mk \
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
@@ -45,6 +45,4 @@ Source20: CXXModules.mk
 %endif
 # FWCore/PluginManager 
 
-# DetectorDescription/Core DataFormats Math?
 #Geometry/CaloTopology needs boost_multi_index_container
-#Geometry/EcalAlgo missing reps
