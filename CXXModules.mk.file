@@ -4,10 +4,6 @@ DataFormatsCaloRecHit_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsEgammaTrackReco.$(S
 
 #------------- Dataformats exceptions
 ##########################################################################
-# Cyclic deps DataFormats/GeometrySurface <-> DataFormats/GeometryCommonDetAlgo
-DataFormatsGeometrySurface_LOC_FLAGS_IGNORE_MODULE_FILE:=LocalErrorBaseExtended.h LocalErrorExtended.h
-
-##########################################################################
 # Cyclic dep DataFormats/SiStripCluster <-> DataFormats/SiStripDetId
 #DataFormatsSiStripDetId_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripDetId.h
 DataFormatsSiStripCluster_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripClusterTools.h
@@ -17,15 +13,6 @@ DataFormatsSiStripCluster_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripClusterTools.h
 ##########################################################################
 ### Cyclic deps DataFormats/TrackReco <-> DataFormats/TrackCandidate
 DataFormatsTrackReco_LOC_FLAGS_IGNORE_MODULE_FILE:=TrajectoryStopReasons.h
-
-###########################################################################
-### Compilation Errors
-# error: using typedef-name 'SiStripMatchedRecHit2DCollection' after 'class'
-DataFormatsTrackerRecHit2D_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripMatchedRecHit2DCollectionfwd.h
-# error: using typedef-name 'SiStripRecHit2DCollection' after 'class'
-DataFormatsTrackerRecHit2D_LOC_FLAGS_IGNORE_MODULE_FILE+=SiStripRecHit2DCollectionfwd.h
-# error: using typedef-name 'SiPixelRecHitCollection' after 'class'
-DataFormatsTrackerRecHit2D_LOC_FLAGS_IGNORE_MODULE_FILE+=SiPixelRecHitCollectionfwd.h
 
 ##########################################################################
 ### Compilation Errors
