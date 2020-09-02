@@ -36,7 +36,7 @@ Source20: CXXModules.mk
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
   pushd src \
-  for pr in 31190 31273 31291 31312 31322 31324 31327 31329 31336; do \
+  for pr in 31190 31273 31291 31322 31327 31336; do \
     curl -s -o ${pr}.patch https://patch-diff.githubusercontent.com/raw/cms-sw/cmssw/pull/${pr}.patch \
     patch -p1 < ${pr}.patch || true \
     rm -f ${pr}.patch \
