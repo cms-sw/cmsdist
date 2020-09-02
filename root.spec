@@ -3,14 +3,13 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 7604010345b74a4c0ddab0ccb7e2476cccd3b74f
-%define branch cms/master/f7b0533
+%define tag 4c35f56c4b9e4273606f4b24adfa44889760f145
+%define branch cms/master/c464388
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
 Patch1: root_cvt
-Patch2: root_6244
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -34,7 +33,6 @@ Requires: dcap
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 rm -rf ../build
