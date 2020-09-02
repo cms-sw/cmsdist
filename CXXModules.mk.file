@@ -10,18 +10,6 @@ DataFormatsSiStripCluster_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripClusterTools.h
 # Cyclic dep DataFormats/SiStripDetId <-> DataFormats/TrackerCommon
 #DataFormatsSiStripDetId_LOC_FLAGS_IGNORE_MODULE_FILE+=StripSubdetector.h
 
-##########################################################################
-### Cyclic deps DataFormats/TrackReco <-> DataFormats/TrackCandidate
-DataFormatsTrackReco_LOC_FLAGS_IGNORE_MODULE_FILE:=TrajectoryStopReasons.h
-
-##########################################################################
-### Compilation Errors
-# DataFormats/ParticleFlowReco/interface/PFSimParticleFwd.h24:44: error: conflicting declaration 'typedef edm::RefVector<std::vector<reco::PFSimParticle> >::iterator reco::pfParticle_iterator'
-#    typedef PFSimParticleRefVector::iterator pfParticle_iterator;
-# DataFormats/ParticleFlowReco/interface/PFParticleFwd.h24:41: note: previous declaration as 'typedef edm::RefVector<std::vector<reco::PFParticle> >::iterator reco::pfParticle_iterator'
-#   typedef PFParticleRefVector::iterator pfParticle_iterator;
-DataFormatsParticleFlowReco_LOC_FLAGS_IGNORE_MODULE_FILE:=PFSimParticleFwd.h PFParticleFwd.h
-
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
 AlignmentLaserAlignment_CXXMODULES:=1
