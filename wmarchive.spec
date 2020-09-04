@@ -8,11 +8,9 @@ Requires: rotatelogs cmsmonitoring go
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
 %setup -c
-%setup -T -D -a 1
 
 %build
-cd %{wmcpkg}_%n
-cd ../WMArchive
+cd WMArchive
 
 # build go publisher tool
 mkdir -p gopath
@@ -24,13 +22,12 @@ cp $GOPATH/bin/nats-pub %i/bin
 # build WMArchvie Go server
 go get github.com/go-stomp/stomp
 go get github.com/google/uuid
-cd ../src/go
+cd src/go
 go build wmarchive.go
 cp wmarchive %i/bin
 
 %install
-cd %{wmcpkg}_%n
-cd ../WMArchive
+cd WMArchive
 
 # install static files
 mkdir -p %i/data/storage
