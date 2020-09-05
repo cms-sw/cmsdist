@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.4.7
+### RPM cms cmsmon-tools 0.4.8
 ## NOCOMPILER
 
 %define arch linux-amd64
@@ -7,7 +7,7 @@
 %define sternv 1.11.0
 %define pkg CMSMonitoring
 %define ver %realversion
-%define monit_commands monit ggus_parser alert
+%define monit_commands monit ggus_parser alert annotationManager
 %define cmsmon_commands nats-sub nats-pub nats-exitcodes-termui dbs_vm
 %define common_commands promtool amtool prometheus hey stern
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
