@@ -36,7 +36,7 @@ Source20: CXXModules.mk
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
   pushd src \
-  for pr in  31345 31346  31356 31359; do \
+  for pr in  31346 31370 31380 31372; do \
     curl -s -o ${pr}.patch https://patch-diff.githubusercontent.com/raw/cms-sw/cmssw/pull/${pr}.patch \
     patch -p1 < ${pr}.patch || true \
     rm -f ${pr}.patch \
@@ -45,3 +45,4 @@ Source20: CXXModules.mk
 %endif
 # FWCore/PluginManager 
 #31343 - not needed with the revert of 31359
+
