@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.55
+### RPM cms wmarchive v00.08.57
 
 %define pkg WMArchive
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
@@ -22,6 +22,7 @@ cp $GOPATH/bin/nats-pub %i/bin
 # build WMArchvie Go server
 go get github.com/go-stomp/stomp
 go get github.com/google/uuid
+go get github.com/lestrrat-go/file-rotatelogs
 cd src/go
 go build wmarchive.go
 cp wmarchive %i/bin
