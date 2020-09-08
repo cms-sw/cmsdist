@@ -22,6 +22,7 @@ cp $GOPATH/bin/nats-pub %i/bin
 # build WMArchvie Go server
 go get github.com/go-stomp/stomp
 go get github.com/google/uuid
+go get github.com/lestrrat-go/file-rotatelogs
 cd src/go
 go build wmarchive.go
 cp wmarchive %i/bin
