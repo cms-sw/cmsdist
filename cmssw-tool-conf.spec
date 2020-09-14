@@ -101,6 +101,7 @@ Requires: pyminuit2-toolfile
 Requires: professor-toolfile
 Requires: professor2-toolfile
 Requires: xz-toolfile
+Requires: lz4-toolfile
 Requires: protobuf-toolfile
 Requires: lcov-toolfile
 Requires: llvm-gcc-toolfile
