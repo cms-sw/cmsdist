@@ -1,4 +1,4 @@
-### RPM external condor 8.8.3
+### RPM external condor 8.9.7
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")
@@ -7,7 +7,7 @@ Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=co
 Patch0: cms-htcondor-build
 Patch1: condor-vomsapi-static
 
-Requires: openssl zlib expat pcre libtool python boost p5-archive-tar curl libxml2 p5-time-hires libuuid sqlite
+Requires: openssl zlib expat pcre libtool python boost172 p5-archive-tar curl libxml2 p5-time-hires libuuid sqlite py2-setuptools
 BuildRequires: cmake gcc openssl
 
 %prep
@@ -28,22 +28,22 @@ Cflags: -I${OPENSSL_ROOT}/include -I/usr/include
 " > ${OPENSSL_ROOT}/lib/pkgconfig/openssl.pc
 
 %build
-export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include:${LIBUUID_ROOT}/include:${SQLITE_ROOT}/include
-export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib:${LIBUUID_ROOT}/lib:${SQLITE_ROOT}/lib
-export CXXFLAGS="-I${OPENSSL_ROOT}/include -I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include -I${SQLITE_ROOT}/include"
-export LDFLAGS="-L${OPENSSL_ROOT}/lib -L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib -L${SQLITE_ROOT}/lib"
+export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST172_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include:${LIBUUID_ROOT}/include:${SQLITE_ROOT}/include
+export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST172_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib:${LIBUUID_ROOT}/lib:${SQLITE_ROOT}/lib
+export CXXFLAGS="-I${OPENSSL_ROOT}/include -I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST172_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include -I${SQLITE_ROOT}/include"
+export LDFLAGS="-L${OPENSSL_ROOT}/lib -L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST172_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib -L${SQLITE_ROOT}/lib"
 export CFLAGS="$CXXFLAGS"
 export PKG_CONFIG_PATH=${OPENSSL_ROOT}/lib/pkgconfig
 cmake \
   -DCMAKE_INSTALL_PREFIX=%i \
   -DPROPER:BOOL=OFF \
   -DBUILD_TESTING:BOOL=OFF \
-  -DBoost_INCLUDE_DIR:PATH=$BOOST_ROOT/include \
-  -DBoost_LIBRARY_DIRS:FILEPATH=$BOOST_ROOT/lib \
-  -DBoost_THREAD_LIBRARY:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
-  -DBoost_THREAD_LIBRARY_DEBUG:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
-  -DBoost_THREAD_LIBRARY_RELEASE:FILEPATH=$BOOST_ROOT/lib/libboost_thread.so \
-  -DBoost_PYTHON_LIBRARY:FILEPATH=$BOOST_ROOT/$PYTHON_LIB_SITE_PACKAGES \
+  -DBoost_INCLUDE_DIR:PATH=$BOOST172_ROOT/include \
+  -DBoost_LIBRARY_DIRS:FILEPATH=$BOOST172_ROOT/lib \
+  -DBoost_THREAD_LIBRARY:FILEPATH=$BOOST172_ROOT/lib/libboost_thread.so \
+  -DBoost_THREAD_LIBRARY_DEBUG:FILEPATH=$BOOST172_ROOT/lib/libboost_thread.so \
+  -DBoost_THREAD_LIBRARY_RELEASE:FILEPATH=$BOOST172_ROOT/lib/libboost_thread.so \
+  -DBoost_PYTHON_LIBRARY:FILEPATH=$BOOST172_ROOT/$PYTHON_LIB_SITE_PACKAGES \
   -DUW_BUILD:BOOL=ON \
   -DWITH_GLOBUS:BOOL=ON \
   -DWITH_CREAM:BOOL=OFF \
@@ -67,7 +67,9 @@ cmake \
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_ROOT}/lib/libpython2.7.so \
   -DEXPAT_FOUND_SEARCH_expat:FILEPATH=${EXPAT_ROOT}/lib/libexpat.so \
   -DCLIPPED:BOOL=ON \
-  -DWITH_BOINC:BOOL=OFF
+  -DWITH_BOINC:BOOL=OFF \
+  -DWITH_SCITOKENS:BOOL=OFF \
+  -DCMAKE_SKIP_RPATH:BOOL=ON
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
