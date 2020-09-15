@@ -7,6 +7,7 @@
 %define islinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 %define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
+%define scram_script_prefix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo .pl || echo .py)
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -65,7 +66,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V06-00-07
+%define configtag       V06-01-00
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -208,7 +209,7 @@ fi
 
 %if "%{?saveDeps:set}" == "set"
 mkdir -p %i/etc/dependencies
-SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix} %i/config/SCRAM/findDependencies -rel %i -arch %cmsplatf
+SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix} %i/config/SCRAM/findDependencies%{scram_script_prefix} -rel %i -arch %cmsplatf
 %{?PatchReleaseDependencyInfo:%PatchReleaseDependencyInfo}
 gzip -f %i/etc/dependencies/*.out
 %endif
@@ -236,7 +237,7 @@ cd %i
 %{?buildarch:%buildarch}
 
 %scramcmd install -f
-rm -rf external/%cmsplatf; SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix}  ./config/SCRAM/linkexternal --arch %cmsplatf
+rm -rf external/%cmsplatf; SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix}  ./config/SCRAM/linkexternal%{scram_script_prefix} --arch %cmsplatf
 
 %{?PartialReleasePackageList:%PartialReleasePackageList}
 %{?PatchReleaseSourceSymlinks:%PatchReleaseSourceSymlinks}
@@ -319,8 +320,8 @@ scramver=`cat config/scram_version`
 SCRAMV1_ROOT=$RPM_INSTALL_PREFIX/%cmsplatf/lcg/SCRAMV1/$scramver
 
 if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); fi
-./config/SCRAM/projectAreaRename %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf
-./config/SCRAM/projectAreaRename %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
+./config/SCRAM/projectAreaRename%{scram_script_prefix} %{instroot} $CMS_INSTALL_PREFIX  %cmsplatf
+./config/SCRAM/projectAreaRename%{scram_script_prefix} %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
 %{?buildarch:%buildarch}
 
 for lib in %{cmssw_libs} ; do
