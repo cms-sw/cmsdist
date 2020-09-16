@@ -1,8 +1,8 @@
-### RPM cms wmarchive v00.08.57
+### RPM cms wmarchive v00.08.58
 
 %define pkg WMArchive
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: rotatelogs cmsmonitoring go
+Requires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
