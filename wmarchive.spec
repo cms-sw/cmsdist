@@ -1,8 +1,8 @@
-### RPM cms wmarchive v00.08.57
+### RPM cms wmarchive v00.08.58
 
 %define pkg WMArchive
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
-Requires: rotatelogs cmsmonitoring go
+Requires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
@@ -23,8 +23,9 @@ cp $GOPATH/bin/nats-pub %i/bin
 go get github.com/go-stomp/stomp
 go get github.com/google/uuid
 go get github.com/lestrrat-go/file-rotatelogs
+go get github.com/nats-io/nats.go
 cd src/go
-go build wmarchive.go
+go build -o wmarchive
 cp wmarchive %i/bin
 
 %install
