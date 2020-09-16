@@ -23,8 +23,9 @@ cp $GOPATH/bin/nats-pub %i/bin
 go get github.com/go-stomp/stomp
 go get github.com/google/uuid
 go get github.com/lestrrat-go/file-rotatelogs
+go get github.com/nats-io/nats.go
 cd src/go
-go build wmarchive.go
+go build -o wmarchive
 cp wmarchive %i/bin
 
 %install
