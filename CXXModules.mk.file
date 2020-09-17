@@ -1,14 +1,5 @@
 #Extra CXXMODULE Libs
 DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
-###DataFormatsCaloRecHit_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsEgammaTrackReco.$(SHAREDSUFFIX)
-
-#------------- Dataformats exceptions
-##########################################################################
-# Cyclic dep DataFormats/SiStripCluster <-> DataFormats/SiStripDetId
-#DataFormatsSiStripDetId_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripDetId.h
-#DataFormatsSiStripCluster_LOC_FLAGS_IGNORE_MODULE_FILE:=SiStripClusterTools.h
-# Cyclic dep DataFormats/SiStripDetId <-> DataFormats/TrackerCommon
-#DataFormatsSiStripDetId_LOC_FLAGS_IGNORE_MODULE_FILE+=StripSubdetector.h
 
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
