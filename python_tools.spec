@@ -224,12 +224,12 @@ Requires: py2-smmap
 Requires: py2-zipp py3-zipp
 
 #Needed by DQM GUI
-Requires: aiohttp
-Requires: aiosqlite
-Requires: async-lru
-Requires: async-timeout
-Requires: multidict
-Requires: yarl
+Requires: py3-aiohttp
+Requires: py3-aiosqlite
+Requires: py3-async-lru
+Requires: py3-async-timeout
+Requires: py3-multidict
+Requires: py3-yarl
 
 Requires: py2-pycuda
 Requires: onnxruntime
