@@ -223,11 +223,16 @@ Requires: py2-importlib-resources
 Requires: py2-smmap
 Requires: py2-zipp py3-zipp
 
+#Needed by DQM GUI
+Requires: aiohttp
+Requires: aiosqlite
+Requires: async-lru
+Requires: async-timeout
+Requires: multidict
+Requires: yarl
 
-%ifnarch ppc64le
 Requires: py2-pycuda
 Requires: onnxruntime
-%endif
 
 %prep
 
