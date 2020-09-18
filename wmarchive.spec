@@ -1,4 +1,4 @@
-### RPM cms wmarchive v00.08.59
+### RPM cms wmarchive v00.08.60
 
 %define pkg WMArchive
 Source0: git://github.com/dmwm/WMArchive?obj=master/%realversion&export=%pkg&output=/%pkg.tar.gz
