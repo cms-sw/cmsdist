@@ -221,11 +221,8 @@ Requires: py2-importlib-resources
 Requires: py2-smmap
 Requires: py2-zipp py3-zipp
 
-
-%ifnarch ppc64le
 Requires: py2-pycuda
 Requires: onnxruntime
-%endif
 
 %prep
 
