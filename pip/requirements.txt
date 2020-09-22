@@ -13,8 +13,9 @@
 #To customize a package build e.g. providing extra Requirements, build, install
 #flags or patching, please use either py{2,3}-package_name.file or package_name.file
 #############################################################################
-
 absl-py==0.9.0
+aiohttp==3.6.2 ;python_version>'3.0'
+aiosqlite==0.13.0 ;python_version>'3.0'
 appdirs==1.4.4
 argon2-cffi==20.1.0
 argparse==1.4.0
@@ -22,6 +23,8 @@ asn1crypto==1.4.0
 astor==0.8.1
 astroid==1.6.6 ; python_version<'3.0'
 astroid==2.3.3 ; python_version>'3.0'
+async-lru==1.0.2 ; python_version>'3.0'
+async-timeout==3.0.1 ; python_version>'3.0'
 atomicwrites==1.4.0
 attrs==19.3.0
 autopep8==1.5.4
@@ -138,6 +141,7 @@ more-itertools==5.0.0 ; python_version<'3.0'
 more-itertools==7.2.0 ; python_version>'3.0'
 mpld3==0.5.1
 mpmath==1.1.0
+multidict==4.7.6 ; python_version>'3.0'
 nbconvert==5.6.1
 nbdime==1.1.0
 #5.0.3 does not support python2.7 even if pip thinks so
@@ -285,5 +289,6 @@ xgboost==0.90 ; python_version>'3.0'
 #bumping this pulls in xrootd - which looks like it needs some understanding
 xrootdpyfs==0.2.1
 hepdata-lib==0.4.1;python_version>'3.0'
+yarl==1.5.1 ;python_version>'3.0'
 zipp==1.2.0 ; python_version<'3.0'
 zipp==3.1.0 ; python_version>'3.0'
