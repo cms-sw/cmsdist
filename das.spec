@@ -22,6 +22,14 @@ mkdir -p gopath
 export GOPATH=$PWD/gopath
 cdir=$PWD
 
+# get das2go dependencies
+go get github.com/dmwm/cmsauth
+go get github.com/vkuznet/x509proxy
+go get github.com/vkuznet/dcr
+go get gopkg.in/mgo.v2
+go get github.com/shirou/gopsutil
+go get github.com/divan/expvarmon
+
 # build das tools
 echo "start DASTools build: $PWD"
 git clone https://github.com/dmwm/DASTools.git
