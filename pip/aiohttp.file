@@ -1,0 +1,1 @@
+Requires: py2-attrs py2-chardet py3-multidict py3-yarl py3-async-timeout
