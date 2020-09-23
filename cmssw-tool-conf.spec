@@ -4,6 +4,7 @@
 
 Requires: python2to3
 Requires: crab
+Requires: cmssw-wm-tools
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
