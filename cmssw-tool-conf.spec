@@ -3,6 +3,7 @@
 # With cmsBuild, change the above version only when a new tool is added
 
 Requires: crab
+Requires: cmssw-wm-tools
 Requires: google-benchmark-toolfile
 Requires: catch2-toolfile
 Requires: starlight-toolfile
