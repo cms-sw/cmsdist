@@ -3,6 +3,7 @@
 ################################################################
 ### RPM cms cmssw-wm-tools 200923
 ## NOCOMPILER
+## NO_VERSION_SUFFIX
 
 %define commit 656b9fea7da4a596bf688785741a2abcf80c071d
 %define branch master
