@@ -1,5 +1,6 @@
 #Extra CXXMODULE Libs
 DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
+DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsStdDictionaries.$(SHAREDSUFFIX)
 
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
