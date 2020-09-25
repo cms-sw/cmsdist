@@ -4,6 +4,9 @@
 ## INITENV SET ROOTSYS %{i}
 
 %define tag 0c80f7d6dd0f7bfa9409137a3a90040695c04cd5
+#this much is ok
+#423fa660c385f49eb5223bba1eaf16a0c468a629
+#de48dee8463f1921585470e61e39bb022d5e8468
 %define branch cms/master/daf4404
 
 %define github_user cms-sw
