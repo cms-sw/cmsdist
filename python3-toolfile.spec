@@ -1,4 +1,4 @@
-### RPM external python3-toolfile 1.0
+### RPM external python3-toolfile 2.0
 Requires: python3
 %prep
 
