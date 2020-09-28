@@ -6,7 +6,7 @@ Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag 5d197555aa4d7c6b2f1dde9cef7f314170e01a11
+%define tag a1ea4a206071310f10600ccd5bf415ab307496aa
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
