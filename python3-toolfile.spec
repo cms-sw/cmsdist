@@ -16,8 +16,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
     <environment name="INCLUDE" default="$PYTHON3_BASE/include/python@PYTHON3V@"/>
     <environment name="PYTHON3_COMPILE" default="$PYTHON3_BASE/lib/python@PYTHON3V@/compileall.py"/>
   </client>
+  <runtime name="LD_LIBRARY_PATH" value="$LIBDIR" type="path"/>
   <runtime name="PATH" value="$PYTHON3_BASE/bin" type="path"/>
   <use name="sockets"/>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>
 EOF_TOOLFILE
 
