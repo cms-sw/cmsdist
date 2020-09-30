@@ -1,6 +1,8 @@
-### RPM cms cmssw-tool-conf 45.0
-## NOCOMPILER
+### RPM cms cmssw-tool-conf 46.0
 # With cmsBuild, change the above version only when a new tool is added
+
+## NOCOMPILER
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes
 
 Requires: crab
 Requires: cmssw-wm-tools
