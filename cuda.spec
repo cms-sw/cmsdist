@@ -1,6 +1,6 @@
-### RPM external cuda 11.0.3
+### RPM external cuda 11.1.0
 
-%define driversversion 450.51.06
+%define driversversion 455.23.05
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -59,7 +59,7 @@ mv %_builddir/build/extras/CUPTI/include/*.h %{i}/include/
 rm -f %_builddir/build/bin/computeprof
 rm -f %_builddir/build/bin/cuda-uninstaller
 rm -f %_builddir/build/bin/ncu*
-rm -f %_builddir/build/bin/nsyght*
+rm -f %_builddir/build/bin/nsight*
 rm -f %_builddir/build/bin/nsys*
 rm -f %_builddir/build/bin/nv-nsight*
 rm -f %_builddir/build/bin/nvvp
@@ -76,16 +76,12 @@ exec %{i}/bin/cuda-gdb.real "\$@"
 chmod a+x %{i}/bin/cuda-gdb
 
 # package the Compute Sanitizer, and replace the wrapper with a symlink
-mv %_builddir/build/Sanitizer %{i}/
+mv %_builddir/build/compute-sanitizer %{i}/
 rm -f %{i}/bin/compute-sanitizer
-ln -s ../Sanitizer/compute-sanitizer %{i}/bin/compute-sanitizer
+ln -s ../compute-sanitizer/compute-sanitizer %{i}/bin/compute-sanitizer
 
 # package the NVVM compiler (cicc), library (libnvvm.so), device library (libdevice.10.bc) and samples
 mv %_builddir/build/nvvm %{i}/
-
-# package the EULA and version file
-mv %_builddir/build/EULA.txt %{i}/
-mv %_builddir/build/version.txt %{i}/
 
 # extract and repackage the NVIDIA libraries needed by the CUDA runtime
 /bin/sh %_builddir/pkg/builds/NVIDIA-Linux-%{_arch}-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
