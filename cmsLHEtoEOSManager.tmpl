@@ -1,0 +1,30 @@
+### RPM cms cmsLHEtoEOSManager @VERSION@00
+## NOCOMPILER
+## NO_VERSION_SUFFIX
+
+%define commit @COMMIT@
+Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%{commit}/GeneratorInterface/LHEInterface/scripts/cmsLHEtoEOSManager.py
+
+%prep
+%if "%{v}" != "%{realversion}"
+  echo "ERROR: %{v} does not match %{realversion}. Please update version number for %{n}."
+  exit 1
+%endif
+
+%build
+
+%install
+cp %{_sourcedir}/cmsLHEtoEOSManager.py %{i}
+chmod +x %{i}/cmsLHEtoEOSManager.py
+
+%post
+#Check if a newer revision is already installed
+if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version ] ; then
+  if [ $(cat ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version) -ge %{realversion} ] ; then
+    exit 0
+  fi
+fi
+
+mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin ${RPM_INSTALL_PREFIX}/etc/%{pkgname}
+cp ${RPM_INSTALL_PREFIX}/%{pkgrel}/cmsLHEtoEOSManager.py $RPM_INSTALL_PREFIX/share/overrides/bin
+echo %{realversion} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version
