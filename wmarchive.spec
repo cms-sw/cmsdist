@@ -24,6 +24,7 @@ go get github.com/go-stomp/stomp
 go get github.com/google/uuid
 go get github.com/lestrrat-go/file-rotatelogs
 go get github.com/nats-io/nats.go
+go get github.com/vkuznet/lb-stomp
 cd src/go
 make
 cp wmarchive %i/bin
