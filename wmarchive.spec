@@ -25,9 +25,16 @@ go get github.com/google/uuid
 go get github.com/lestrrat-go/file-rotatelogs
 go get github.com/nats-io/nats.go
 go get github.com/vkuznet/lb-stomp
+
+mkdir build
+echo "start wmarchive build: $PWD"
+git clone https://github.com/dmwm/wmarchive.git
+cd wmarchive
+git checkout tags/%realversion -b build
 cd src/go
 make
 cp wmarchive %i/bin
+cd -
 
 %install
 cd WMArchive
