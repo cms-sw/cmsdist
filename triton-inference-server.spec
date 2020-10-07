@@ -49,3 +49,7 @@ make %{makeprocesses}
 cd ../build
 make install
 
+# extra headers needed
+cp src/core/model_config.pb.h %{i}/include/
+cp src/core/grpc_service.grpc.pb.h %{i}/include/
+cp src/core/grpc_service.pb.h %{i}/include/

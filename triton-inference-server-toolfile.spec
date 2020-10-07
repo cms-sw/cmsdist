@@ -10,7 +10,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/triton-inference-server.xml
 <tool name="triton-inference-server" version="@TOOL_VERSION@">
   <info url="https://github.com/triton-inference-server/server"/>
-  <lib name="request"/> 
+  <lib name="grpcclient"/> 
   <client>
     <environment name="TRITON_INFERENCE_SERVER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TRITON_INFERENCE_SERVER_BASE/include"/>
