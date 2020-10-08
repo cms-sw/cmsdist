@@ -12,6 +12,9 @@ Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-
 
 %build
 
+# remove rapidjson dependence
+sed -i '/RapidJSON/,+9d;' ../%{n}-%{realversion}/src/core/CMakeLists.txt
+sed -i '/triton-json-library/d' ../%{n}-%{realversion}/src/clients/c++/library/CMakeLists.txt
 # remove python client because it requires perf_client which is disabled when examples skipped
 # if this were enabled, `export PYVER=3` would be needed for build_wheel.sh
 sed -i 's~add_subdirectory(../../src/clients/python src/clients/python)~~' ../%{n}-%{realversion}/build/client/CMakeLists.txt
