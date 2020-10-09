@@ -3,7 +3,6 @@
 # tool is added
 
 ## NOCOMPILER
-## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes
 
 Requires: cmssw-toolfile
 
