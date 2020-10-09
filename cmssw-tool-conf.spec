@@ -2,6 +2,7 @@
 # With cmsBuild, change the above version only when a new tool is added
 
 ## NOCOMPILER
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes
 
 Requires: crab
 Requires: cmssw-wm-tools
