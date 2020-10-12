@@ -185,7 +185,7 @@ ply==3.11
 prettytable==1.0.0
 prometheus_client==0.8.0
 prompt_toolkit==1.0.18 ; python_version<'3.0'
-prompt_toolkit==3.0.0 ; python_version>'3.0'
+prompt_toolkit==2.0.10 ; python_version>'3.0'
 protobuf==3.10.0
 prwlock==0.4.1
 psutil==5.7.2
