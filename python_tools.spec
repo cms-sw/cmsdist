@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
  
-Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict opencv
+Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
 Requires: py2-scipy
 Requires: py2-Keras
@@ -18,7 +18,7 @@ Requires: py3-tables
 Requires: py2-numexpr
 Requires: py2-histogrammar py3-histogrammar
 Requires: py2-pandas
-Requires: py3-root_numpy
+Requires: py2-root_numpy
 Requires: py2-Bottleneck
 Requires: py2-downhill 
 Requires: py2-theanets
@@ -33,7 +33,7 @@ Requires: py2-hyperopt
 Requires: py2-seaborn
 Requires: py2-h5py
 Requires: py2-h5py-cache
-Requires: py3-root_pandas
+Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-uproot4
 Requires: py2-opt-einsum
@@ -209,7 +209,7 @@ Requires: py2-pydot
 
 Requires: py2-astroid
 Requires: py2-coverage
-Requires: py3-hepdata-lib
+Requires: py2-hepdata-lib
 Requires: py2-isort
 Requires: py2-lazy-object-proxy
 Requires: py2-pylint

@@ -225,9 +225,9 @@ QtPy==1.9.0
 repoze-lru==0.7
 rep==0.6.6
 requests==2.24.0
-root_numpy==4.8.0;python_version>'3.0'
-root_pandas==0.7.0;python_version>'3.0'
-rootpy==1.0.1;python_version>'3.0'
+root_numpy==4.8.0
+root_pandas==0.7.0
+rootpy==1.0.1
 scandir==1.10.0
 schema==0.7.3
 scikit-learn==0.20.4 ; python_version<'3.0'
@@ -289,7 +289,7 @@ xgboost==0.82 ; python_version<'3.0'
 xgboost==0.90 ; python_version>'3.0'
 #bumping this pulls in xrootd - which looks like it needs some understanding
 xrootdpyfs==0.2.1
-hepdata-lib==0.4.1;python_version>'3.0'
-yarl==1.5.1 ;python_version>'3.0'
+hepdata-lib==0.4.1
+yarl==1.5.1 ; python_version>'3.0'
 zipp==1.2.0 ; python_version<'3.0'
 zipp==3.1.0 ; python_version>'3.0'

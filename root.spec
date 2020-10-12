@@ -1,9 +1,10 @@
-### RPM lcg root 6.20.06
+### RPM lcg root 6.22.03
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag 3cca992985710d719af0a31082c589cd996f7f43
-%define branch cms/v6-20-00-patches/6877628
+
+%define tag c8fedfbe7f2179e4bcccbc20be7bcdc1f49e2a8f
+%define branch cms/v6-22-00-patches/d6156de
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -12,7 +13,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
 
 %if %islinux
 Requires: dcap
@@ -55,6 +56,7 @@ cmake ../%{n}-%{realversion} \
   -Dhdfs=OFF \
   -Dqt=OFF \
   -Dtmva=ON \
+  -DPython3_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Dqtgsi=OFF \
   -Dpgsql=OFF \
   -Dsqlite=OFF \
@@ -90,7 +92,7 @@ cmake ../%{n}-%{realversion} \
   -Dssl=ON \
   -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
   -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
-  -DPYTHON_EXECUTABLE="${PYTHON_EXE}" \
+  -Dpyroot=ON \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
@@ -139,7 +141,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT}/include;${LZ4_ROOT}/lib;${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LZ4_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
@@ -170,8 +172,12 @@ export ROOTSYS="%{i}"
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
-grep -R -l '#!.*python' %{i} | xargs chmod +x
+grep -rlI '#!.*python' %{i} | xargs chmod +x
 perl -p -i -e "s|#!/bin/perl|#!/usr/bin/env perl|" %{i}/bin/memprobe
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+  lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
+  sed -i -e "${lnum}c#!/usr/bin/env python" $p
+done
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
