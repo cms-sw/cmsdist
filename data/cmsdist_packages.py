@@ -1,4 +1,4 @@
-def packages(virtual_packages):
+def packages(virtual_packages, *args):
   from os.path import dirname,join, exists
   from sys import exit
   default_build_file = 'cmsswdata-github'
