@@ -3,8 +3,8 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoBTag-Combined=V01-08-00
 CalibPPS-ESProducers=V01-03-00
-RecoBTag-Combined=V01-07-00
 L1Trigger-L1THGCal=V01-04-00
 Geometry-TestReference=V00-03-00
 Alignment-OfflineValidation=V00-01-00
