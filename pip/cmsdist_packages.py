@@ -1,4 +1,4 @@
-def packages(virtual_packages):
+def packages(virtual_packages, *args):
   from re import match
   from os.path import dirname,join, exists
   import os, sys, platform
