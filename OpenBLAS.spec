@@ -1,4 +1,5 @@
 ### RPM external OpenBLAS 0.3.9
+## INCLUDE compilation_flags
 Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 
 # Will be part of future release

@@ -1,5 +1,6 @@
 ### RPM external fastjet 3.3.4
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INCLUDE compilation_flags
 Requires: python
 %define tag f5af227227ed646d7cf41debe1b6fa0e35926416
 %define branch cms/v%{realversion}

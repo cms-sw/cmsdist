@@ -12,6 +12,7 @@
 BuildRequires: bazel swig java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
+## INCLUDE compilation_flags
 
 %define tag         63c7b8aabb9f882ec827a15ffe80aac17e14a021
 %define branch      cms/v2.1.2
