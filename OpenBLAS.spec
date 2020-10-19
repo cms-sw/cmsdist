@@ -15,7 +15,7 @@ make FC=gfortran BINARY=64 TARGET=CORE2 NUM_THREADS=256 DYNAMIC_ARCH=0
 %ifarch aarch64
 make FC=gfortran BINARY=64 TARGET=ARMV8 NUM_THREADS=256 DYNAMIC_ARCH=0
 %else
-make FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0
+make FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0 CFLAGS="%{ppc64le_build_flags}"
 %endif # aarch64
 %endif # x86_64
 

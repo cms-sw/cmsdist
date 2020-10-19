@@ -25,12 +25,11 @@ cmake ../%{n}-%{realversion} \
   -DUSOLIDS_VECGEOM=ON \
 %ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
-%else
+%endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
-%endif
 %ifarch ppc64le
-  -DCMAKE_CXX_FLAGS="-mlong-double-64" \
+  -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags}" \
 %endif
   -DGEANT4=OFF
 

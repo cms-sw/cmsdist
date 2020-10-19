@@ -297,3 +297,7 @@ fi
   if [ -f %2 ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
   NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
   if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %2 ; cp %1 %2 ; fi
+
+%if "%{?ppc64le_build_flags:set}" != "set"
+%define ppc64le_build_flags  -mlong-double-64 -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
+%endif

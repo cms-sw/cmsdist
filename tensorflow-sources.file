@@ -41,6 +41,9 @@ export CC_OPT_FLAGS=-msse3
 %else
 export CC_OPT_FLAGS="-mcpu=native -mtune=native"
 %endif
+%ifarch ppc64le
+export CC_OPT_FLAGS="%{ppc64le_build_flags}"
+%endif
 export CXX_OPT_FLAGS=-std=c++17
 export EIGEN_SOURCE=${EIGEN_SOURCE}
 export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
