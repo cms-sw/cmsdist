@@ -41,7 +41,7 @@ export GCC_HOST_COMPILER_PATH="$(which gcc)"
 export CC_OPT_FLAGS="%{vectorize_flag}"
 %else
 %ifarch ppc64le
-export CC_OPT_FLAGS="%{ppc64le_build_flags}"
+export CC_OPT_FLAGS="$(echo %{ppc64le_build_flags} | sed 's|-mlong-double-64||')"
 %else
 export CC_OPT_FLAGS="-mcpu=native -mtune=native"
 %endif
