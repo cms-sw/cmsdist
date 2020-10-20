@@ -13,7 +13,6 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 
-
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
 
 %if %islinux
