@@ -6,6 +6,8 @@ Requires: hydjet
 
 %install
 
+
+
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/hydjet.xml
 <tool name="hydjet" version="@TOOL_VERSION@">
