@@ -3,6 +3,7 @@
 %define branch devel
 %define github_user trackreco
 
+
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: tbb
 BuildRequires: gmake
