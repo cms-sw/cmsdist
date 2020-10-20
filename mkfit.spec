@@ -27,7 +27,7 @@ BUILD_ARGS=VEC_GCC="-march=native"
 %ifarch ppc64le
 BUILD_ARGS=VEC_GCC="-mcpu=native"
 %endif
-make %{makeprocesses} TBB_PREFIX=$TBB_ROOT ${BUILD_ARGS}
+make %{makeprocesses} TBB_PREFIX=$TBB_ROOT "${BUILD_ARGS}"
 
 %install
 mkdir %{i}/include %{i}/include/mkFit %{i}/Geoms
