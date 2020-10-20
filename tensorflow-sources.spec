@@ -3,5 +3,6 @@
 %define python_env PYTHON27PATH
 %define build_type opt
 %define pythonOnly no
+%define vectorize_flag -msse3
 ## INCLUDE tensorflow-sources
 

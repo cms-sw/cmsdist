@@ -1,6 +1,8 @@
-### RPM external tensorflow-toolfile 2.1.2
-
-Requires: tensorflow
+### RPM external tensorflow-toolfile 3.0
+%define base_package %(echo %{n} | sed 's|-toolfile||')
+%define base_package_uc %(echo %{base_package} | tr '[a-z-]' '[A-Z_]')
+%{expand:%(for v in %{package_vectorization}; do echo Requires: %{base_package}_$v; done)}
+Requires: %{base_package}
 
 %prep
 
@@ -10,8 +12,8 @@ Requires: tensorflow
 
 mkdir -p %i/etc/scram.d
 
-cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow.xml
-<tool name="tensorflow" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE > %i/etc/scram.d/%{base_package}.xml
+<tool name="%{base_package}" version="@TOOL_VERSION@">
   <client>
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>
@@ -19,6 +21,12 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/tensorflow.xml
 %ifnarch ppc64le
     <environment name="TFCOMPILE" default="$TENSORFLOW_BASE/bin/tfcompile"/>
 %endif
+EOF_TOOLFILE
+for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]')  ; do
+  r=`eval echo \\$%{base_package_uc}_${v}_ROOT`
+  echo "  <runtime name=\"${v}_LIBDIR\" value=\"${r}/lib\" type=\"path\"/>" >> %i/etc/scram.d/%{base_package}.xml
+done
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/%{base_package}.xml
   </client>
   <runtime name="PATH" value="$TENSORFLOW_BASE/bin" type="path"/>
 </tool>
