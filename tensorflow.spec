@@ -1,8 +1,14 @@
 ### RPM external tensorflow 2.1.2
-
+%define source_package tensorflow-sources
+%if "%{?vectorized_package:set}" != "set"
+BuildRequires: %{source_package}
+%define tf_root %(echo %{source_package}_ROOT | tr '[a-z-]' '[A-Z_]')
+%else
+BuildRequires: %{source_package}_%{vectorized_package}
+%define tf_root %(echo %{source_package}_%{vectorized_package}_ROOT | tr '[a-z-]' '[A-Z_]')
+%endif
 Provides: libtensorflow_cc.so(tensorflow)(64bit)
 Source: none
-BuildRequires: tensorflow-sources
 
 %prep
 
@@ -10,4 +16,4 @@ BuildRequires: tensorflow-sources
 
 %install
 
-tar xfz ${TENSORFLOW_SOURCES_ROOT}/libtensorflow_cc.tar.gz -C %{i}
+tar xfz ${%{tf_root}}/libtensorflow_cc.tar.gz -C %{i}

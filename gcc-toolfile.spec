@@ -1,4 +1,4 @@
-### RPM cms gcc-toolfile 14.0
+### RPM cms gcc-toolfile 15.0
 
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
@@ -65,12 +65,14 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+EOF_TOOLFILE
 %ifarch x86_64
-    <flags CXXFLAGS_VECTORIZE_AVX512F="-mavx512f -mfma"/>
-    <flags CXXFLAGS_VECTORIZE_AVX2="-mavx2"/>
-    <flags CXXFLAGS_VECTORIZE_FMA="-mfma"/>
-    <flags CXXFLAGS_VECTORIZE_SSE4_2="-msse4.2"/>
+for v in %{package_vectorization} ; do
+  uv=$(echo $v | tr '[a-z-]' '[A-Z_]')
+  echo "    <flags CXXFLAGS_VECTORIZE_${uv}=\"$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $v)\"/>" >> %i/etc/scram.d/gcc-cxxcompiler.xml
+done
 %endif
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
     <flags LD_UNIT="@OS_LD_UNIT@ @ARCH_LD_UNIT@ @COMPILER_LD_UNIT@"/>
@@ -198,7 +200,7 @@ COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-f
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Xassembler --compress-debug-sections"
 
 %ifarch x86_64
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -msse3"
+     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS $(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
 %endif
 %ifarch aarch64
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
