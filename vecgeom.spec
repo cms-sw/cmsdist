@@ -4,11 +4,13 @@ BuildRequires: cmake gmake
 %define keep_archives true
 
 Patch0: vecgeom-fix-for-arm64
+Patch1: vecgeom-fix-vector
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build
