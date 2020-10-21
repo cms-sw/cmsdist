@@ -1,5 +1,5 @@
-### RPM cms gcc-toolfile 15.0
-
+### RPM cms gcc-toolfile 16.0
+## INCLUDE compilation_flags
 # gcc has a separate spec file for the generating a 
 # toolfile because gcc.spec could be not build because of the 
 # "--use-system-compiler" option.
