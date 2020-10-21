@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b3014e9..f10fae0 100644
+index a090c57..9726ebe 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -317,6 +317,8 @@ elseif(Intel)
+@@ -294,6 +294,8 @@ elseif(Intel)
        list(APPEND CMAKE_CXX_FLAGS -std=c++11)
      elseif(CMAKE_CXX_STANDARD STREQUAL 14)
        list(APPEND CMAKE_CXX_FLAGS -std=c++14)
