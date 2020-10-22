@@ -1,2 +1,1 @@
-Patch0: pylint-2.4.2-encoding
-Requires: py3-astroid
+Requires: py3-astroid py2-toml
