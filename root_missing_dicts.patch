@@ -1,0 +1,67 @@
+--- a/core/metacling/src/TCling.cxx	2020-10-23 17:37:28.485091848 +0200
++++ b/core/metacling/src/TCling.cxx	2020-10-23 17:37:37.584940975 +0200
+@@ -85,6 +85,7 @@
+ #include "clang/AST/GlobalDecl.h"
+ #include "clang/AST/RecordLayout.h"
+ #include "clang/AST/DeclVisitor.h"
++#include "clang/AST/Mangle.h"
+ #include "clang/AST/RecursiveASTVisitor.h"
+ #include "clang/AST/Type.h"
+ #include "clang/Basic/SourceLocation.h"
+@@ -6865,7 +6866,7 @@
+    return fSharedLibs;
+ }
+ 
+-static std::string GetClassSharedLibsForModule(const char *cls, cling::LookupHelper &LH)
++static std::string GetClassSharedLibsForModule(const char *cls, cling::LookupHelper &LH, const clang::Decl **RetD)
+ {
+    if (!cls || !*cls)
+       return {};
+@@ -6873,6 +6874,8 @@
+    using namespace clang;
+    if (const Decl *D = LH.findScope(cls, cling::LookupHelper::NoDiagnostics,
+                                     /*type*/ nullptr, /*instantiate*/ false)) {
++      *RetD = D;
++
+       if (!D->isFromASTFile()) {
+          if (gDebug > 5)
+             Warning("GetClassSharedLibsForModule", "Decl found for %s is not part of a module", cls);
+@@ -6975,7 +6978,37 @@
+       // Limit the recursion which can be induced by GetClassSharedLibsForModule.
+       SuspendAutoLoadingRAII AutoLoadingDisabled(this);
+       cling::LookupHelper &LH = fInterpreter->getLookupHelper();
+-      std::string libs = GetClassSharedLibsForModule(cls, LH);
++      const clang::Decl *RetD = nullptr;
++      std::string libs = GetClassSharedLibsForModule(cls, LH, &RetD);
++
++      /// New approach
++      clang::ASTContext& C = fInterpreter->getCI()->getASTContext();
++      std::unique_ptr<clang::MangleContext> mangleCtx(C.createMangleContext());
++      if (RetD && (isa<TypeDecl>(RetD) || isa<EnumConstantDecl>(RetD))) {
++         QualType Ty;
++         if (auto TD = dyn_cast<TypeDecl>(RetD)) {
++            Ty = QualType(TD->getTypeForDecl(), 0);
++         } else
++            Ty = cast<EnumConstantDecl>(RetD)->getType();
++
++         std::string type_str;
++         llvm::raw_string_ostream rso(type_str);
++         mangleCtx->mangleTypeName(Ty, rso);
++         std::string new_libs;
++         if (llvm::sys::DynamicLibrary::SearchForAddressOfSymbol(rso.str()))
++            new_libs = libs; // Ignore case, the library was already loaded.
++         else
++            new_libs = fInterpreter->getDynamicLibraryManager()->searchLibrariesForSymbol(rso.str(), /*searchSystem*/false);
++         if (libs != new_libs)
++            std::cout << "libs='" << libs << "'\n"
++                      << "new_libs='" << new_libs << "'\n"
++                      << "for cls='" << cls << "'\n"
++                      << "mangled_name='" << rso.str() << "'\n";
++         //std::cout << cls << " -> "<< rso.str() << "\n";
++      }
++
++      /// end.
++
+       if (!libs.empty()) {
+          fAutoLoadLibStorage.push_back(libs);
+          return fAutoLoadLibStorage.back().c_str();
