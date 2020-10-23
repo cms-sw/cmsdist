@@ -26,7 +26,7 @@
        if (!D->isFromASTFile()) {
           if (gDebug > 5)
              Warning("GetClassSharedLibsForModule", "Decl found for %s is not part of a module", cls);
-@@ -6975,7 +6978,37 @@
+@@ -6975,7 +6978,38 @@
        // Limit the recursion which can be induced by GetClassSharedLibsForModule.
        SuspendAutoLoadingRAII AutoLoadingDisabled(this);
        cling::LookupHelper &LH = fInterpreter->getLookupHelper();
@@ -53,10 +53,11 @@
 +         else
 +            new_libs = fInterpreter->getDynamicLibraryManager()->searchLibrariesForSymbol(rso.str(), /*searchSystem*/false);
 +         if (libs != new_libs)
-+            std::cout << "libs='" << libs << "'\n"
-+                      << "new_libs='" << new_libs << "'\n"
-+                      << "for cls='" << cls << "'\n"
-+                      << "mangled_name='" << rso.str() << "'\n";
++            libs = new_libs; 
++            //std::cout << "libs='" << libs << "'\n"
++            //          << "new_libs='" << new_libs << "'\n"
++            //          << "for cls='" << cls << "'\n"
++            //          << "mangled_name='" << rso.str() << "'\n";
 +         //std::cout << cls << " -> "<< rso.str() << "\n";
 +      }
 +
