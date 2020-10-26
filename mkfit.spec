@@ -1,4 +1,5 @@
 ### RPM external mkfit 2.0.1
+## INCLUDE compilation_flags
 %define tag V2.0.1-1+pr280
 %define branch devel
 %define github_user trackreco
@@ -25,7 +26,7 @@ BUILD_ARGS=VEC_GCC="-msse3"
 BUILD_ARGS=VEC_GCC="-march=native"
 %endif
 %ifarch ppc64le
-BUILD_ARGS=VEC_GCC="-mcpu=native"
+BUILD_ARGS=VEC_GCC="%{ppc64le_build_flags}"
 %endif
 make %{makeprocesses} TBB_PREFIX=$TBB_ROOT "${BUILD_ARGS}"
 
