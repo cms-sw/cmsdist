@@ -1,7 +1,6 @@
 ### RPM external vecgeom v1.1.7
 %define tag 982503b232bb2101a5257630335340fbd3eb9f78
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
 BuildRequires: cmake gmake
 %define keep_archives true
 
@@ -30,12 +29,11 @@ cmake ../%{n}-%{realversion} \
   -DUSOLIDS_VECGEOM=ON \
 %ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
-%else
+%endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
-%endif
 %ifarch ppc64le
-  -DCMAKE_CXX_FLAGS="-mlong-double-64" \
+  -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags}" \
 %endif
   -DGEANT4=OFF
 
