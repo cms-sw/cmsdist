@@ -21,8 +21,8 @@ mkdir build lib
 rm -rf alpaka
 
 CXXFLAGS="-DALPAKA_DEBUG=0 -I$CUDA_ROOT/include -I$TBB_ROOT/include -I$BOOST_ROOT/include -I$ALPAKA_ROOT/include -Iinclude"
-HOST_FLAGS="%{nvcc_stdcxx} -O2 -pthread -fPIC -Wall -Wextra"
-NVCC_FLAGS="%{nvcc_cuda_flags}"
+HOST_FLAGS="%{nvcc_stdcxx} -std=c++14 -O2 -pthread -fPIC -Wall -Wextra"
+NVCC_FLAGS="%{nvcc_cuda_flags} -std=c++14"
 FILES=$(find src -type f -name *.cpp)
 
 # build the serial CPU backend
