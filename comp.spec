@@ -1,4 +1,4 @@
-### RPM cms comp HG2011c
+### RPM cms comp HG2011d
 
 
 # This is a meta-package to group all cms comp services
