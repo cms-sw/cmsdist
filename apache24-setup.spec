@@ -1,4 +1,4 @@
-### RPM cms apache24-setup 3.7
+### RPM cms apache24-setup 3.8
 Source: git://github.com/dmwm/apache-conf?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: apache24
 
