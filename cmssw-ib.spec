@@ -1,5 +1,5 @@
 ### RPM cms cmssw-ib 1.0.0
-BuildRequires: cmssw SCRAMV1 local-cern-siteconf python
+BuildRequires: cmssw SCRAMV1 python
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
 Source: none
