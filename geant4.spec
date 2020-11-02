@@ -1,5 +1,5 @@
-### RPM external geant4 10.6.9
-%define tag e8eb2b9a2c3c1f1e76008177e65c612f27cbdba4
+### RPM external geant4 10.6.10
+%define tag 063863ea3f1f18807ab4dd51d8c03c56d80f1f41
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -9,7 +9,6 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-Requires: vecgeom
 Requires: zlib
 
 %define keep_archives true
@@ -27,7 +26,6 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
-export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -44,17 +42,17 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
-  -DGEANT4_BUILD_CXXSTD:STRING="c++14" \
+  -DGEANT4_BUILD_CXXSTD:STRING="14" \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
-  -DGEANT4_USE_USOLIDS="all" \
+  -DGEANT4_USE_USOLIDS-ADVANCED:INTERNAL=1 \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_SYSTEM_EXPAT=ON \
-  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${VECGEOM_ROOT};${ZLIB_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${ZLIB_ROOT}" \
   -DGEANT4_USE_SYSTEM_ZLIB=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON
 
