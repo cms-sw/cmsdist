@@ -1,6 +1,6 @@
 ### RPM cms cmssw CMSSW_10_1_0_pre1
 
-Requires: cmssw-tool-conf python cms-git-tools cmssw-osenv
+Requires: cmssw-tool-conf python
 
 %define runGlimpse      yes
 %define saveDeps        yes
