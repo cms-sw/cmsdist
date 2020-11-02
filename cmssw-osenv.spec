@@ -1,9 +1,10 @@
-### RPM cms cmssw-osenv 200806.0
+### RPM cms cmssw-osenv 201101.0
 ## NOCOMPILER
+## NO_VERSION_SUFFIX
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 61b990d7d7f46fe9ad63428117570065be6a5aa7
+%define commit a20c0a2bb14080d2c3c0e6c60bc52a533f6ceaff
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when there are dependencies.

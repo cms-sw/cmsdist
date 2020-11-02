@@ -1,5 +1,6 @@
-### RPM cms cms-git-tools 200727.0
+### RPM cms cms-git-tools 201101.0
 ## NOCOMPILER
+## NO_VERSION_SUFFIX
 
 # ***Do not change minor number of the above version. ***
 
