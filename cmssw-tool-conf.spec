@@ -2,7 +2,7 @@
 # With cmsBuild, change the above version only when a new tool is added
 
 ## NOCOMPILER
-## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 
 Requires: python2to3
 Requires: crab
