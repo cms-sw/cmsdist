@@ -6,6 +6,7 @@
 %define github_user andrius-k
 Source: git+https://github.com/%{github_user}/cmssw.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: root boost python3
+Requires: py3-aiohttp py3-aiosqlite py3-async-lru
 
 %prep
 %setup -n %{n}-%{realversion}
