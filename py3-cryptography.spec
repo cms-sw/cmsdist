@@ -1,4 +1,4 @@
-### RPM external py3-cryptography 2.4.2
+### RPM external py3-cryptography 3.2.1
 ## IMPORT build-with-pip3
 
 Requires: openssl py3-cffi py3-asn1crypto py3-idna py3-ipaddress py3-six

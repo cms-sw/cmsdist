@@ -1,4 +1,4 @@
-### RPM external py3-cffi 1.11.5
+### RPM external py3-cffi 1.14.3
 ## IMPORT build-with-pip3
 
 Requires: py3-pycparser libffi
