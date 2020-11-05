@@ -37,7 +37,7 @@ Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-uproot4
 Requires: py2-opt-einsum
-
+Requires: py2-joblib py3-joblib
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
