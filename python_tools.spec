@@ -37,7 +37,7 @@ Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-uproot4
 Requires: py2-opt-einsum
-
+Requires: py2-joblib py3-joblib
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
@@ -110,7 +110,7 @@ Requires: py2-functools32
 Requires: py2-mock
 Requires: py2-pbr
 Requires: py2-mpmath
-Requires: py2-sympy
+Requires: py2-sympy py3-sympy
 Requires: py2-tqdm
 Requires: py2-funcsigs
 Requires: py2-nose
@@ -197,7 +197,7 @@ Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver
 Requires: py2-pyOpenSSL
-Requires: py2-bokeh
+Requires: py2-bokeh py3-bokeh
 Requires: py2-climate
 Requires: py2-mpld3
 Requires: py2-neurolab
@@ -236,4 +236,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
 <tool name="%{n}" version="%{v}">
 </tool>
 EOF_TOOLFILE
-
+ 
