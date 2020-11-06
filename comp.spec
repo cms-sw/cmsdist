@@ -18,7 +18,8 @@ Requires: rotatelogs pystack py2-psutil wmcore-devtools
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
 Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
 Requires: DCAFPilot py2-future compsec wmarchive spacemon-client
-
+# Python3
+BuildRequires: wmcorepy3-devtools
 
 %prep
 %build
