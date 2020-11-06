@@ -1,3 +1,2 @@
-%define RelocatePython %{i}/bin/isympy
-Requires: py2-mpmath 
+Requires: py2-typing_extensions
 %define PipPostBuildPy3 for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
