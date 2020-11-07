@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pybind11.xml
 <tool name="py2-pybind11" version="@TOOL_VERSION@">
   <client>
     <environment name="PY2_PYBIND11_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$PY2_PYBIND11_BASE/include/python2.7"/>
+    <environment name="INCLUDE" default="$PY2_PYBIND11_BASE/lib/python2.7/site-packages/pybind11/include"/>
   </client>
 </tool>
 EOF_TOOLFILE
