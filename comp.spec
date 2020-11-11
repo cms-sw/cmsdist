@@ -11,18 +11,18 @@ Requires: t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics
 Requires: popdbweb victorweb confdb exporters exitcodes
 # Common
-Requires: rotatelogs pystack py2-psutil wmcore-devtools
+Requires: rotatelogs pystack wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
-Requires: lifecycle-das
 Requires: wmarchive
 # Python3
 BuildRequires: wmcorepy3-devtools
 ### List of services that are likely no longer needed
-BuildRequires: DMWMMON-datasvc gitweb spacemon-client DCAFPilot compsec
+BuildRequires: gitweb compsec
 ### List of services being deprecated (or already deprecated), do not build them anymore!
 #BuildRequires: filemover PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
-#BuildRequires: overview happyface sreadiness asyncstageout
+#BuildRequires: overview happyface sreadiness asyncstageout lifecycle-das
+#BuildRequires: DCAFPilot DMWMMON-datasvc spacemon-client webtools
 
 %prep
 %build
