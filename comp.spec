@@ -3,23 +3,26 @@
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
-Requires: frontend das dbs3 filemover reqmon
-Requires: PHEDEX-combined-web dqmgui overview workqueue
+Requires: frontend das dbs3 reqmon
+Requires: dqmgui workqueue
 Requires: dbs3-client crabserver crabclient crabcache
-Requires: DMWMMON-datasvc acdcserver gitweb
-Requires: asyncstageout t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
-Requires: cmsweb-analytics py2-geoip py2-adns py2-netaddr valgrind igprof yui3
+Requires: acdcserver
+Requires: t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
+Requires: cmsweb-analytics
 Requires: popdbweb victorweb confdb exporters exitcodes
-# CMSFOMON
-Requires: happyface sreadiness
 # Common
 Requires: rotatelogs pystack py2-psutil wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
-Requires: PHEDEX-combined-agents PHEDEX-lifecycle lifecycle-das
-Requires: DCAFPilot py2-future compsec wmarchive spacemon-client
+Requires: lifecycle-das
+Requires: wmarchive
 # Python3
 BuildRequires: wmcorepy3-devtools
+### List of services that are likely no longer needed
+BuildRequires: DMWMMON-datasvc gitweb spacemon-client DCAFPilot compsec
+### List of services being deprecated (or already deprecated), do not build them anymore!
+#BuildRequires: filemover PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
+#BuildRequires: overview happyface sreadiness asyncstageout
 
 %prep
 %build
