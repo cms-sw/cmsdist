@@ -27,8 +27,7 @@ tar -xzf %{_sourcedir}/logrus.tar.gz
 %build
 export GOPATH=`pwd`/gopath
 sed -i -e "s,TAG :=,#TAG :=,g" -e "s,\$(TAG),%{realversion},g" Makefile
-make build_linux
-#make build_all
+make build_all
 
 %install
 mkdir -p %{i}/bin
