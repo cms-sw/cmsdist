@@ -10,7 +10,7 @@
 %define isLinux %(case $(uname -s) in (Linux) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Source1: https://raw.github.com/bagder/curl/curl-7_53_1/lib/mk-ca-bundle.pl
+Source1: https://raw.github.com/bagder/curl/curl-7_70_0/lib/mk-ca-bundle.pl
 Patch1: git-2.12.0-runtime
 
 Requires: curl expat openssl zlib pcre
