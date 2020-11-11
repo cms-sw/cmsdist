@@ -28,12 +28,7 @@ EOF
 chmod +x %i/etc/dasgoclient
 
 suffix="_linux"
-case %{cmsos} in
-  *_aarch64 ) suffix="_arm64"  ;;
-  *_ppc64*  ) suffix="_power8" ;;
-  osx*      ) suffix="_osx"    ;;
-  *_amd64   ) suffix="_linux"  ;;
-esac
+
 cp -r ./opt/cmssw/%{dasgoclient_arch}/$(echo %{dasgoclient_pkg} | tr '+' '/')/bin/dasgoclient${suffix} %{i}/bin/dasgoclient
 %post
 %{relocateConfig}etc/dasgoclient
