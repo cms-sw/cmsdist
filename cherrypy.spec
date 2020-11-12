@@ -13,6 +13,9 @@ perl -p -i -e 's/import profile/import cProfile as profile/' cherrypy/lib/profil
 python setup.py build
 
 %install
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python setup.py install --prefix=%i
-find %i -name '*.egg-info' -exec rm {} \;
-for f in %i/bin/cherryd; do perl -p -i -e 's{.*}{#!/usr/bin/env python} if $. == 1 && m{#!.*/bin/python}' $f; done
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/cherryd
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post20201110-py2.7.egg/EGG-INFO/scripts/cherryd
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post20201110-py2.7.egg/cherrypy/cherryd

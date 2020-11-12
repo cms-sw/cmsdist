@@ -14,5 +14,8 @@ perl -p -i -e "s:(defines = )(.*):\1 HAVE_TLS HAVE_LIBLDAP_R:g" setup.cfg
 python setup.py build
 
 %install
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python setup.py install --prefix=%i 
 find %i -name '*.egg-info' -exec rm {} \;
+perl -p -i -e 's{^#!.*/python}{#!/usr/bin/env python}' %i/bin/*

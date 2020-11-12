@@ -12,5 +12,7 @@ export LDFLAGS="-L $ZLIB_ROOT/lib $LDFLAGS"
 python setup.py build
 
 %install
+mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
+PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
