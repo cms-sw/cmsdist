@@ -1,4 +1,4 @@
-### RPM cms dbs3-migration 3.13.1
+### RPM cms dbs3-migration 3.15.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET DBS3_MIGRATION_ROOT %i/
@@ -10,7 +10,7 @@ Source1: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&outp
 Requires: python py2-simplejson py2-sqlalchemy096 py2-httplib2 cherrypy py2-cheetah yui
 Requires: py2-cjson py2-cx-oracle dbs3-pycurl-client rotatelogs pystack
 BuildRequires: py2-sphinx
-
+#
 %prep
 %setup -T -b 0 -n WMCore
 %setup -D -T -b 1 -n DBS
