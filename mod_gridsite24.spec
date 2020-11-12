@@ -1,7 +1,7 @@
 ### RPM external mod_gridsite24 2_3_4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 Source0: https://github.com/CESNET/gridsite/archive/gridsite-core_R_%realversion.zip
-Requires: apache24 python libtool doxygen openssl libxml2
+Requires: apache24 python libtool doxygen libxml2
 
 Provides: libcanl_c.so.2()(64bit)
 
@@ -11,10 +11,9 @@ Provides: libcanl_c.so.2()(64bit)
 %build
 cd src
 sed -i \
-    -e "s,HTTPD_FLAGS=,HTTPD_FLAGS=-I${APACHE24_ROOT}/include -I${OPENSSL_ROOT}/include -I${LIBXML2_ROOT}/include/libxml2/,g" \
+    -e "s,HTTPD_FLAGS=,HTTPD_FLAGS=-I${APACHE24_ROOT}/include -I${LIBXML2_ROOT}/include/libxml2/,g" \
     -e "s,apidoc ,,g" \
     Makefile
-LDFLAGS="-L${OPENSSL_ROOT}/lib " \
 export PATH=$PATH:$DOXYGEN_ROOT/bin
 make %makeprocesses
 

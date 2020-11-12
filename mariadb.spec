@@ -3,7 +3,7 @@
 ## INITENV +PATH PATH %i/scripts
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
 Source: https://downloads.mariadb.org/f/mariadb-%realversion/source/mariadb-%realversion.tar.gz/from/http%3A//ftp.hosteurope.de/mirror/archive.mariadb.org/?serve
-Requires: zlib openssl ncurses libxml2
+Requires: zlib ncurses libxml2
 BuildRequires: cmake
 Provides: perl(GD)
 Provides: perl(List::Util)
@@ -16,9 +16,6 @@ cmake .  -DCURSES_LIBRARY=${NCURSES_ROOT}/lib/libncurses.a \
          -DCURSES_INCLUDE_PATH=${NCURSES_ROOT}/include \
          -DZLIB_LIBRARY=${ZLIB_ROOT}/lib/libz.so \
          -DZLIB_INCLUDE_DIR=${ZLIB_ROOT}/include \
-         -DOPENSSL_LIBRARIES=${OPENSSL_ROOT}/lib/libssl.so \
-         -DOPENSSL_INCLUDE_DIR=${OPENSSL_ROOT}/include \
-         -DCRYPTO_LIBRARY=${OPENSSL_ROOT}/lib/libcrypto.so \
          -DLIBXML2_LIBRARIES=${LIBXML2_ROOT}/lib/libxml2.so \
          -DLIBXML2_INCLUDE_DIR=${LIBXML2_ROOT}/include/libxml2 \
          -DHAVE_VIDATTR:INTERNAL=0 \

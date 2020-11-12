@@ -7,33 +7,20 @@ Source: git://github.com/htcondor/htcondor.git?obj=master/%{condortag}&export=co
 Patch0: cms-htcondor-build
 Patch1: condor-vomsapi-static
 
-Requires: openssl zlib expat pcre libtool python boost172 p5-archive-tar curl libxml2 p5-time-hires libuuid sqlite py2-setuptools
-BuildRequires: cmake gcc openssl
+Requires: zlib expat pcre libtool python boost172 p5-archive-tar curl libxml2 p5-time-hires libuuid sqlite py2-setuptools
+BuildRequires: cmake gcc
 
 %prep
 %setup -n %n-%{realversion}
 %patch0 -p1
 %patch1 -p1
 
-# create OpenSSL pkginfo file for build (Globus needs it)
-mkdir -p ${OPENSSL_ROOT}/lib/pkgconfig
-echo "
-Name: OpenSSL
-Description: Secure Sockets Layer and cryptography libraries and tools
-Version: 1.0.1r
-Requires:
-Libs: -L${OPENSSL_ROOT}/lib -lssl -lcrypto
-Libs.private: -Wl,-z,relro -ldl -lz -L/usr/lib -lgssapi_krb5 -lkrb5 -lcom_err -lk5crypto
-Cflags: -I${OPENSSL_ROOT}/include -I/usr/include
-" > ${OPENSSL_ROOT}/lib/pkgconfig/openssl.pc
-
 %build
-export CMAKE_INCLUDE_PATH=${OPENSSL_ROOT}/include:${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST172_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include:${LIBUUID_ROOT}/include:${SQLITE_ROOT}/include
-export CMAKE_LIBRARY_PATH=${OPENSSL_ROOT}/lib:${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST172_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib:${LIBUUID_ROOT}/lib:${SQLITE_ROOT}/lib
-export CXXFLAGS="-I${OPENSSL_ROOT}/include -I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST172_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include -I${SQLITE_ROOT}/include"
-export LDFLAGS="-L${OPENSSL_ROOT}/lib -L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST172_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib -L${SQLITE_ROOT}/lib"
+export CMAKE_INCLUDE_PATH=${LIBTOOL_ROOT}/include:${ZLIB_ROOT}/include:${PCRE_ROOT}/include:${BOOST172_ROOT}/include:${EXPAT_ROOT}/include:${CURL_ROOT}/include:${LIBXML2_ROOT}/include:${LIBUUID_ROOT}/include:${SQLITE_ROOT}/include
+export CMAKE_LIBRARY_PATH=${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:${BOOST172_ROOT}/lib:${EXPAT_ROOT}/lib:${CURL_ROOT}/lib:${LIBXML2_ROOT}/lib:${LIBUUID_ROOT}/lib:${SQLITE_ROOT}/lib
+export CXXFLAGS="-I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST172_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include -I${SQLITE_ROOT}/include"
+export LDFLAGS="-L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST172_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib -L${SQLITE_ROOT}/lib"
 export CFLAGS="$CXXFLAGS"
-export PKG_CONFIG_PATH=${OPENSSL_ROOT}/lib/pkgconfig
 cmake \
   -DCMAKE_INSTALL_PREFIX=%i \
   -DPROPER:BOOL=OFF \
@@ -55,7 +42,6 @@ cmake \
   -DWITH_GSOAP:BOOL=OFF \
   -DWITH_BLAHP:BOOL=OFF \
   -DWITH_KRB5:BOOL=OFF \
-  -DWITH_OPENSSL:BOOL=ON \
   -DWITH_LIBCGROUP:BOOL=OFF \
   -DWITH_LIBVIRT:BOOL=OFF \
   -DLDAP_FOUND_SEARCH_lber:PATH=LDAP_FOUND_SEARCH_lber-NOTFOUND \
@@ -110,5 +96,3 @@ done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
-# Remove OpenSSL pkginfo only used for build
-rm -rf ${OPENSSL_ROOT}/lib/pkgconfig

@@ -2,7 +2,7 @@
 Source0: http://erlang.org/download/otp_src_%{realversion}.tar.gz
 #Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R16B03-1&export=./&filter=*lib/*&output=/R16libs.tar.gz
 Source1: git+https://github.com/erlang/otp.git?obj=master/OTP_R16B03-1&export=./&output=/R16libs.tar.gz
-Requires: openssl zlib
+Requires: zlib
 
 # 32-bit
 Provides: libc.so.6(GLIBC_PRIVATE)
@@ -27,7 +27,7 @@ mv ../lib/{crypto,public_key} ./lib/
 
 ./configure CPPFLAGS=-I$ZLIB_ROOT/include LDFLAGS=-L$ZLIB_ROOT/lib \
   --prefix=%i %flavour --without-javac --enable-shared-zlib \
-  --with-ssl=$OPENSSL_ROOT --enable-dynamic-ssl-lib --without-termcap
+  --enable-dynamic-ssl-lib --without-termcap
 make
 
 %install

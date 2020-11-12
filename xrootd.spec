@@ -9,7 +9,6 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake
 Requires: zlib
-Requires: openssl
 Requires: python
 
 %prep
@@ -32,7 +31,6 @@ cd build
 # libfuse and libperl are not produced by CMSDIST.
 cmake ../ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \

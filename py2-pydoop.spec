@@ -3,7 +3,7 @@
 
 Source0: https://pypi.python.org/packages/source/p/pydoop/pydoop-%realversion.tar.gz
 Source1: http://www-eu.apache.org/dist/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz 
-Requires: zlib bz2lib openssl python py2-setuptools py2-avro
+Requires: zlib bz2lib python py2-setuptools py2-avro
 BuildRequires: java-jdk
 Provides: libjvm.so()(64bit)
 
