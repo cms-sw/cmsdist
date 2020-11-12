@@ -1,4 +1,4 @@
-### RPM cms dbs3-pycurl-client 3.13.1
+### RPM cms dbs3-pycurl-client 3.15.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
@@ -6,7 +6,6 @@
 Source0: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&output=/%{n}.tar.gz
 Requires: python py2-cjson py2-pycurl curl
 BuildRequires: py2-sphinx
-
 
 %prep
 %setup -D -T -b 0 -n DBS

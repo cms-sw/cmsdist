@@ -1,10 +1,10 @@
-### RPM cms dbs3 3.13.1
+### RPM cms dbs3 3.15.1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV SET DBS3_SERVER_ROOT %i/
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 %define wmcver 1.3.2
-
+#
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore&output=/WMCore4%{n}.tar.gz
 Source1: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&output=/%{n}.tar.gz
 
