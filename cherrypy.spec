@@ -17,5 +17,5 @@ mkdir -p %i/$PYTHON_LIB_SITE_PACKAGES
 PYTHONPATH=%i/$PYTHON_LIB_SITE_PACKAGES:$PYTHONPATH \
 python setup.py install --prefix=%i
 perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/cherryd
-perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post20201110-py2.7.egg/EGG-INFO/scripts/cherryd
-perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post20201110-py2.7.egg/cherrypy/cherryd
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post*/EGG-INFO/scripts/cherryd
+perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/lib/python2.7/site-packages/CherryPy-5.4.0.post*/cherrypy/cherryd
