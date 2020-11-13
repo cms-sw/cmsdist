@@ -1,8 +1,8 @@
 ### RPM cms dasgoclient v02.04.20
 ## NOCOMPILER
-Source0: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_amd64
-Source1: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_aarch64
-Source2: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_ppc64le
+Source0: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_amd64?no-cmssdt-cache=1
+Source1: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_aarch64?no-cmssdt-cache=1
+Source2: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_ppc64le?no-cmssdt-cache=1
 
 %prep
 %build
