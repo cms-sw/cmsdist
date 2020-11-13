@@ -21,6 +21,7 @@ export CMAKE_LIBRARY_PATH=${LIBTOOL_ROOT}/lib:${ZLIB_ROOT}/lib:${PCRE_ROOT}/lib:
 export CXXFLAGS="-I${LIBTOOL_ROOT}/include -I$ZLIB_ROOT/include -I$PCRE_ROOT/include -I$BOOST172_ROOT/include -I$EXPAT_ROOT/include -I$CURL_ROOT/include -I$LIBXML2_ROOT/include -I${LIBUUID_ROOT}/include -I${SQLITE_ROOT}/include"
 export LDFLAGS="-L${LIBTOOL_ROOT}/lib -L$ZLIB_ROOT/lib -L$PCRE_ROOT/lib -L$BOOST172_ROOT/lib -L$EXPAT_ROOT/lib -L$CURL_ROOT/lib -L$LIBXML2_ROOT/lib -L${LIBUUID_ROOT}/lib -L${SQLITE_ROOT}/lib"
 export CFLAGS="$CXXFLAGS"
+
 cmake \
   -DCMAKE_INSTALL_PREFIX=%i \
   -DPROPER:BOOL=OFF \
