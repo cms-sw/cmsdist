@@ -1,14 +1,11 @@
-### RPM cms dasgoclient v02.04.04
+### RPM cms dasgoclient v02.04.20
 ## NOCOMPILER
-%define dasgoclient_arch     slc7_amd64_gcc820
-%define dasgoclient_pkg      cms+%{n}-binary+%{realversion}
-%define dasgoclient_rpm      %{dasgoclient_pkg}-1-1.%{dasgoclient_arch}.rpm
-Source0: https://cern.ch/valya/dasgoclient/%{dasgoclient_rpm}
+Source0: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_amd64
+Source1: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_aarch64
+Source2: https://github.com/dmwm/dasgoclient/releases/download/%{realversion}/dasgoclient_ppc64le
 
 %prep
 %build
-rpm2cpio %{_sourcedir}/%{dasgoclient_rpm} | cpio -idmv
-
 %install
 mkdir %{i}/etc %{i}/bin
 cat << \EOF > %{i}/etc/dasgoclient
@@ -26,15 +23,9 @@ $DASGOCLIENT "$@"
 EOF
 
 chmod +x %i/etc/dasgoclient
+cp -pL %{_sourcedir}/dasgoclient_$(echo %{cmsplatf} | cut -d_ -f2) %{i}/bin/dasgoclient
+chmod +x %{i}/bin/dasgoclient
 
-suffix="_linux"
-case %{cmsos} in
-  *_aarch64 ) suffix="_arm64"  ;;
-  *_ppc64*  ) suffix="_power8" ;;
-  osx*      ) suffix="_osx"    ;;
-  *_amd64   ) suffix="_linux"  ;;
-esac
-cp -r ./opt/cmssw/%{dasgoclient_arch}/$(echo %{dasgoclient_pkg} | tr '+' '/')/bin/dasgoclient${suffix} %{i}/bin/dasgoclient
 %post
 %{relocateConfig}etc/dasgoclient
 
