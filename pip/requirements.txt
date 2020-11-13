@@ -57,6 +57,7 @@ colorama==0.4.3
 configparser==4.0.2;python_version<'3.0'
 configparser==5.0.0;python_version>'3.0'
 contextlib2==0.6.0.post1
+contextvars==2.4 ; python_version>'3.0'
 coverage==5.3
 cryptography==3.1.1
 cx-Oracle==7.3.0
@@ -97,6 +98,7 @@ html5lib==1.1
 hyperas==0.4.1
 hyperopt==0.2.5
 idna==2.10
+immutables==0.14 ; python_version>'3.0'
 importlib-metadata==2.0.0
 importlib-resources==3.0.0
 ipaddress==1.0.23
