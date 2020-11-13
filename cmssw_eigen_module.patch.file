@@ -1,0 +1,18 @@
+diff --git a/DataFormats/CaloRecHit/interface/MultifitComputations.h b/DataFormats/CaloRecHit/interface/MultifitComputations.h
+index 65dee2cc40f..1f41f49c3a3 100644
+--- a/DataFormats/CaloRecHit/interface/MultifitComputations.h
++++ b/DataFormats/CaloRecHit/interface/MultifitComputations.h
+@@ -1,11 +1,12 @@
+ #ifndef DataFormats_CaloRecHit_interface_MultifitComputations_h
+ #define DataFormats_CaloRecHit_interface_MultifitComputations_h
+ 
++#include <Eigen/Dense>
++
+ #include <cmath>
+ #include <limits>
+ #include <type_traits>
+ 
+-#include <Eigen/Dense>
+ 
+ namespace calo {
+   namespace multifit {
