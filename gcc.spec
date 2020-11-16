@@ -1,5 +1,4 @@
 ### RPM external gcc 8.4.0
-#Force rebuild; remove this after the tests
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
