@@ -22,7 +22,7 @@ Provides: libdpm.so%{libsuffix}
 
 %prep
 rm -f %_builddir/DPM-%{downloadv}.src.tar.gz
-rpm2cpio %{_sourcedir}/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
+%{rpmbuild_env} rpm2cpio %{_sourcedir}/DPM-mysql-%{downloadv}sec.%{dpmarch}.src.rpm | cpio -ivd LCG-DM-%{baseVersion}.tar.gz
 cd %_builddir ; rm -rf LCG-DM-%{baseVersion}; tar -xzvf LCG-DM-%{baseVersion}.tar.gz
 
 perl -p -i -e 's|SHLIBREQLIBS = -lc|SHLIBREQLIBS = -lc /usr/lib/dylib1.o|' LCG-DM-%{baseVersion}/config/darwin.cf
