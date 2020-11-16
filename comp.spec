@@ -10,6 +10,8 @@ Requires: acdcserver
 Requires: t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics
 Requires: confdb exporters exitcodes
+# FIXME: remove these 3 PhEDEx specs from the building list for January/2021
+Requires: PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 # Common
 Requires: rotatelogs pystack wmcore-devtools
 # Other
