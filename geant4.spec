@@ -9,7 +9,6 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-Requires: vecgeom
 Requires: zlib
 
 %define keep_archives true
@@ -27,7 +26,6 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
-export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom 
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -54,7 +52,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_SYSTEM_EXPAT=ON \
-  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${ZLIB_ROOT};${VECGEOM_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${ZLIB_ROOT}" \
   -DGEANT4_USE_SYSTEM_ZLIB=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON
 
