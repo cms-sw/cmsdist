@@ -201,13 +201,18 @@
 # packages.  This allows cross-package environment setup to work while
 # building.  See above how we determine the list by parsing the spec
 # itself.
+%{expand:%%define rpmbuild_libdir  %(echo $LD_LIBRARY_PATH | tr ':' '\n' | grep '/external/bootstrap-bundle/')}
+%define rpmbuild_env LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:%{rpmbuild_libdir}
+%define drop_bootstrap_path export             PATH=$(echo           $PATH | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
+%define drop_bootstrap_lib  export LD_LIBRARY_PATH=$(echo $LD_LIBRARY_PATH | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
+%define drop_bootstrap_env %{drop_bootstrap_path}; %{drop_bootstrap_lib}
 %if "%archfirst" == "yes"
-%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	%{drop_bootstrap_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	%{drop_bootstrap_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %define post_initenv unset %{dynamic_path_var}; for x in %{allpkgreqs} %{pkgdir} ; do i=$RPM_INSTALL_PREFIX/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all	%{drop_bootstrap_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct	%{drop_bootstrap_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %define post_initenv unset %{dynamic_path_var}; for x in %{allpkgreqs} %{pkgdir} ; do i=$RPM_INSTALL_PREFIX/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
 %define initenv		%initenv_all
