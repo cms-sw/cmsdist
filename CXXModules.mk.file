@@ -2,6 +2,10 @@
 DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
 DataFormatsCommon_EXTRA_LIBS+= $(MODULE_PREFIX)DataFormatsStdDictionaries.$(SHAREDSUFFIX)
 
+# avoid eigen related errors, eg
+# include/eigen3/Eigen/src/Geometry/Quaternion.h:81:52: error: 'Eigen::QuaternionBase::w' from module 'DataFormatsCaloRecHit.MultifitComputations.h' is not present in definition of 'QuaternionBase<Derived>' provided earlier
+DataFormatsCaloRecHit_LOC_FLAGS_IGNORE_MODULE_FILE:=MultifitComputations.h
+
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
 AlignmentLaserAlignment_CXXMODULES:=1
