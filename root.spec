@@ -1,10 +1,10 @@
-### RPM lcg root 6.22.03
+### RPM lcg root 6.22.04
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 90d4dbbeb0bfc2a562162b383dbf71e12894d78f
-%define branch cms/v6-22-00-patches/a358608
+%define tag 1f88378efc1d646a98fd465d74acc917daa79d0e
+%define branch cms/v6-22-00-patches/f683b71
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
