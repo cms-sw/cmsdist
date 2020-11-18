@@ -38,6 +38,12 @@ case %{cmsplatf} in
 esac
 
 autoreconf -fiv
+
+#disable building Rivet with OpenMP as it crash executables due to static TLS blocks
+%ifarch aarch64
+sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
+%endif
+
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
