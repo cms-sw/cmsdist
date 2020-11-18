@@ -33,7 +33,7 @@ Requires: dcap
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#remove for a test %patch2 -p1
 
 %build
 rm -rf ../build
