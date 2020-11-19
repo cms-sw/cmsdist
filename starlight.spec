@@ -20,13 +20,17 @@ mkdir ../build
 cd ../build
 
 export CLHEP_PARAM_PATH=${CLHEP_ROOT}
+CXXFLAGS="-Wno-error=deprecated-declarations"
+case %cmsplatf in
+  *_gcc9*|*_gcc1[0-9]*) CXXFLAGS="$CXXFLAGS -Wno-error=deprecated-copy";;
+esac
 
 cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
  -DCMAKE_BUILD_TYPE=Realease \
  -DENABLE_CLHEP=ON \
  -DCPP11=ON \
- -DCMAKE_CXX_FLAGS="-Wno-error=deprecated-declarations"
+ -DCMAKE_CXX_FLAGS="$CXXFLAGS"
 
 make %{makeprocesses} VERBOSE=1
 
