@@ -12,11 +12,11 @@ Requires: jemalloc cmsmonitoring
 %setup -b 0 -n %n
 
 %build
-python setup.py build_system -s workqueue
+python setup.py build_system -s global-workqueue
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s workqueue --prefix=%i
+python setup.py install_system -s global-workqueue --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
