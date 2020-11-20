@@ -25,9 +25,9 @@ mv ../lib/{crypto,public_key} ./lib/
 %define flavour --enable-m64-build --disable-m32-build
 %endif
 
-./configure CPPFLAGS=-I$ZLIB_ROOT/include LDFLAGS=-L$ZLIB_ROOT/lib \
+./configure CFLAGS="-DOPENSSL_NO_EC=1" CPPFLAGS=-I$ZLIB_ROOT/include LDFLAGS=-L$ZLIB_ROOT/lib \
   --prefix=%i %flavour --without-javac --enable-shared-zlib \
-  --enable-dynamic-ssl-lib --without-termcap
+  --with-ssl --enable-dynamic-ssl-lib --without-termcap
 make
 
 %install
