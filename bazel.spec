@@ -1,4 +1,4 @@
-### RPM external bazel 0.29.1
+### RPM external bazel 3.7.0
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 
@@ -16,7 +16,7 @@ BuildRequires: java-env python3
 
 # configuration issue
 # https://github.com/bazelbuild/bazel/issues/9392
-Patch0: bazel-0.29.1-patches
+Patch0: bazel-3.7.0-patches
 
 %prep
 
