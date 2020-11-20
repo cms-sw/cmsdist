@@ -1,4 +1,4 @@
-### RPM external pythia8 302
+### RPM external pythia8 303
 
 Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
 
