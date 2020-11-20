@@ -23,6 +23,7 @@ asn1crypto==1.4.0
 astor==0.8.1
 astroid==1.6.6 ; python_version<'3.0'
 astroid==2.4.2 ; python_version>'3.0'
+astunparse==1.6.3
 async-lru==1.0.2 ; python_version>'3.0'
 async-timeout==3.0.1 ; python_version>'3.0'
 atomicwrites==1.4.0
@@ -120,7 +121,7 @@ jupyter_console==5.2.0 ; python_version<'3.0'
 jupyter_console==6.2.0 ; python_version>'3.0'
 jupyter_core==4.6.3
 jupyter==1.0.0
-Keras==2.3.1
+Keras==2.4.3
 keras-applications==1.0.8
 keras-preprocessing==1.1.0
 kiwisolver==1.1.0
@@ -258,8 +259,8 @@ tables==3.6.1 ; python_version>'3.0'
 #tensorboard: Need separate packages for py2 and py3 to properly get the correct sources
 tensorboard==2.0.0 ; python_version<'3.0'
 tensorboard==2.0.0 ; python_version>'3.0'
-tensorflow==2.1.2 ; python_version<'3.0'
-tensorflow==2.1.2 ; python_version>'3.0'
+tensorflow==2.3.1 ; python_version<'3.0'
+tensorflow==2.3.1 ; python_version>'3.0'
 tensorflow-estimator==2.1.0
 termcolor==1.1.0
 terminado==0.8.3
