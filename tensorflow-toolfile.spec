@@ -18,9 +18,6 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/%{base_package}.xml
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>
     <environment name="INCLUDE" default="$TENSORFLOW_BASE/include"/>
-%ifnarch ppc64le
-    <environment name="TFCOMPILE" default="$TENSORFLOW_BASE/bin/tfcompile"/>
-%endif
 EOF_TOOLFILE
 for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]')  ; do
   r=`eval echo \\$%{base_package_uc}_${v}_ROOT`
