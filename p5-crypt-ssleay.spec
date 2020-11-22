@@ -21,12 +21,4 @@ find %i -type f -name .packlist -exec rm -f {} ';'
 find %i -type f -name '*.bs' -a -size 0 -exec rm -f {} ';'
 find %i -type d -depth -exec rmdir {} 2>/dev/null ';'
 
-mkdir -p %{i}/etc/profile.d
-: > %{i}/etc/profile.d/dependencies-setup.sh
-: > %{i}/etc/profile.d/dependencies-setup.csh
-
-echo " . $r/etc/profile.d/init.sh" > %i/etc/profile.d/dependencies-setup.sh
-echo " source $r/etc/profile.d/init.csh" > %i/etc/profile.d/dependencies-setup.csh
-
 %post
-%{relocateConfig}etc/profile.d/dependencies-setup.*sh
