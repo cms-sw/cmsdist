@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 1f88378efc1d646a98fd465d74acc917daa79d0e
-%define branch cms/v6-22-00-patches/f683b71
+%define tag e3772da1070fd333fe42eac4f347d7234e4080d0
+%define branch cms/v6-22-00-patches/2136589
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -42,6 +42,8 @@ cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Release \
+  -DCMAKE_C_FLAGS_DEBUG="-g -O0" \
+  -DCMAKE_CXX_FLAGS_DEBUG="-g -O0" \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
