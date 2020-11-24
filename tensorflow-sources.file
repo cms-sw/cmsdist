@@ -14,8 +14,8 @@ BuildRequires: bazel swig java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         63c7b8aabb9f882ec827a15ffe80aac17e14a021
-%define branch      cms/v2.1.2
+%define tag         77e1c215529a442d2c9268c62f010dcf30d90cc4
+%define branch      cms/v2.3.1
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -76,7 +76,7 @@ export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 
 echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
 echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
-echo "zlib_archive:${ZLIB_ROOT}"            >> ${TF_CMS_EXTERNALS}
+echo "zlib:${ZLIB_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
 echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
@@ -90,7 +90,6 @@ echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
 echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
 echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
-echo "keras_applications_archive:"          >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
 echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
 echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
@@ -103,14 +102,32 @@ export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | 
 rm -rf ../build
 ./configure
 
+#Generate Python wrappers so that we can use PYTHON*PATH env
+rm -rf %{_builddir}/cms-pytool ; mkdir %{_builddir}/cms-pytool
+echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python3
+echo "export PYTHON3PATH=\"${PYTHON3PATH}\""  >> %{_builddir}/cms-pytool/python3
+echo "$(which python3) \"\$@\""               >> %{_builddir}/cms-pytool/python3
+
+echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python2
+echo "export PYTHON27PATH=\"${PYTHON27PATH}\"" >> %{_builddir}/cms-pytool/python2
+echo "$(which python2) \"\$@\""                 >> %{_builddir}/cms-pytool/python2
+
+chmod +x %{_builddir}/cms-pytool/python2 %{_builddir}/cms-pytool/python3
+if [ "%{python_cmd}" = "python3" ] ; then
+  ln -s python3 %{_builddir}/cms-pytool/python
+else
+  ln -s python2 %{_builddir}/cms-pytool/python
+fi
+export PATH=%{_builddir}/cms-pytool:$PATH
+
 # define bazel options
 BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
-BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB} --action_env=PYTHONPATH=$%{python_env} --action_env=LD_LIBRARY_PATH"
-BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false --incompatible_no_support_tools_in_action_inputs=false"
+BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB}"
+BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false"
 
 # build tensorflow python targets
-bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow/tools/pip_package:build_pip_package
+bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
 
 %if "%{pythonOnly}" == "no"
 bazel $BAZEL_OPTS //tensorflow:tensorflow
@@ -120,9 +137,9 @@ bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
 bazel $BAZEL_OPTS //tensorflow/compiler/xla:cpu_function_runtime
 bazel $BAZEL_OPTS //tensorflow/compiler/xla:executable_run_options
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
+#bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
 bazel $BAZEL_OPTS //tensorflow/core/profiler
-bazel $BAZEL_OPTS $BAZEL_EXTRA_OPTS //tensorflow:install_headers
+bazel $BAZEL_OPTS //tensorflow:install_headers
 
 # rebuild *.pb.{h|cc} files using the external protobuf compiler
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
@@ -164,7 +181,7 @@ for l in tensorflow_cc tensorflow_framework tensorflow ; do
   ln -s lib${l}.so.%{majorversion} $libdir/lib${l}.so
 done
 
-cp -p $srcdir/compiler/aot/tfcompile $bindir
+#cp -p $srcdir/compiler/aot/tfcompile $bindir
 for name in tensorflow absl re2 third_party ; do
     cp -r -p $srcdir/include/$name $incdir
 done
