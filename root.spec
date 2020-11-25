@@ -40,10 +40,8 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_BUILD_TYPE=Release \
   -DLLVM_BUILD_TYPE=Release \
-  -DCMAKE_C_FLAGS_DEBUG="-g -O0" \
-  -DCMAKE_CXX_FLAGS_DEBUG="-g -O0" \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
