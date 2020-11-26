@@ -10,7 +10,7 @@ Requires: gsl OpenBLAS
 Requires: hepmc
 Requires: zlib
 Requires: fastjet
-Requires: rivet
+#Requires: rivet
 BuildRequires: autotools
 BuildRequires: lhapdf
 
