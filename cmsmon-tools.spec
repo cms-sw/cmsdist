@@ -20,8 +20,8 @@ BuildRequires: go
 %prep
 %setup -D -T -b 0 -n cmsmon-tools
 %setup -D -T -b 1 -n prometheus-%promv.%arch
-%setup -D -T -b 2 -n alertmanager-%amver.%arch
 %setup -D -T -b 3 -n hey-x509-csv-fixes
+%setup -D -T -b 2 -n alertmanager-%amver.%arch
 
 %build
 mkdir -p gopath/bin
@@ -31,30 +31,30 @@ go get github.com/dmwm/cmsauth
 go get github.com/vkuznet/x509proxy
 
 # build hey tool
-cd ../hey-x509-csv-fixes
+cd %{_builddir}/hey-x509-csv-fixes
 go get github.com/vkuznet/hey/requester
 make
 
 %install
-cd ../cmsmon-tools
+cd %{_builddir}/cmsmon-tools
 # copy CMS monitoring tools
 for cmd in %monit_commands; do
     cp $cmd %i/
 done
 # add prometheus, alertmanager tools to our install area
-cd ../prometheus-%promv.%arch
+cd %{_builddir}/prometheus-%promv.%arch
 cp promtool %i/
 cp prometheus %i/
-cd ../alertmanager-%amver.%arch
+cd %{_builddir}/alertmanager-%amver.%arch
 cp amtool %i/
 
 # build hey tool
-cd ../hey-x509-csv-fixes
+cd %{_builddir}/hey-x509-csv-fixes
 cp hey %i
 cd -
 
 # install stern
-cd ../
+cd %{_builddir}
 curl -ksLO https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
 chmod +x stern_linux_amd64
 cp stern_linux_amd64 %i/stern
@@ -78,6 +78,8 @@ TOOL=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_V
 $TOOL "$@"
 EOF
 chmod +x %i/.cmsmon-tools
+chmod -R u+w %{_builddir}/hey-x509-csv-fixes
+rm -rf %{_builddir}/hey-x509-csv-fixes
 
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
