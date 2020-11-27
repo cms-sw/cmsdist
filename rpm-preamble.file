@@ -201,8 +201,8 @@
 # packages.  This allows cross-package environment setup to work while
 # building.  See above how we determine the list by parsing the spec
 # itself.
-%{expand:%%define rpmbuild_libdir  %(echo $LD_LIBRARY_PATH | tr ':' '\n' | grep '/external/bootstrap-bundle/')}
-%define rpmbuild_env LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:%{rpmbuild_libdir}
+%{expand:%%define rpmbuild_libdir  :%(echo $LD_LIBRARY_PATH | tr ':' '\n' | grep '/external/bootstrap-bundle/')}
+%define rpmbuild_env LD_LIBRARY_PATH=${LD_LIBRARY_PATH}%{rpmbuild_libdir}
 %define drop_bootstrap_path export             PATH=$(echo           $PATH | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
 %define drop_bootstrap_lib  export LD_LIBRARY_PATH=$(echo $LD_LIBRARY_PATH | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
 %define drop_bootstrap_env %{drop_bootstrap_path}; %{drop_bootstrap_lib}
