@@ -24,9 +24,16 @@ born_optimisation = -O2
 loop_optimisation = -O0
 link_optimisation = -O2
 EOF
+
+%ifarch aarch64
+grep -v '^pplljj_ew$' %{_sourcedir}/openloops-user.coll > openloops-user.coll
+%else
+cp %{_sourcedir}/openloops-user.coll openloops-user.coll
+%endif
+
 export SCONSFLAGS="-j %{compiling_processes}"
 ./openloops update --processes generator=0
-./openloops libinstall %{_sourcedir}/openloops-user.coll
+./openloops libinstall openloops-user.coll
 
 %install
 mkdir %i/{lib,proclib}
