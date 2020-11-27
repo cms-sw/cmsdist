@@ -1,4 +1,4 @@
-### RPM lcg root 6.22.04
+### RPM lcg root 6.22.06
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
