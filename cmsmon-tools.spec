@@ -1,8 +1,8 @@
-### RPM cms cmsmon-tools 0.5.8
+### RPM cms cmsmon-tools 0.5.9
 ## NOCOMPILER
 
 %define arch linux-amd64
-%define promv 2.19.2
+%define promv 2.23.0
 %define amver 0.21.0
 %define sternv 1.11.0
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub nats-exitcodes-termui dbs_vm
