@@ -1,6 +1,6 @@
-### RPM external bazel 3.7.0
+### RPM external bazel 3.7.1
 
-Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
+Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-installer-linux-x86_64.sh
 
 BuildRequires: java-env python3
 
@@ -14,23 +14,14 @@ BuildRequires: java-env python3
 #   - https://github.com/bazelbuild/bazel/issues/4510
 #   - https://github.com/tensorflow/tensorboard/issues/1611
 
-# configuration issue
-# https://github.com/bazelbuild/bazel/issues/9392
-Patch0: bazel-3.7.0-patches
-
 %prep
-
-%define __unzip unzip -d bazel-%{realversion}
-
-%setup -q -n bazel-%{realversion}
-
-%patch0 -p1
+pwd
 
 %build
-
-export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk"
-bash ./compile.sh
+ls -l ${_sourcedir}
+chmod +x %{_sourcedir}/bazel-%{realversion}-installer-linux-x86_64.sh
 
 %install
-mkdir %{i}/bin
-cp output/bazel %{i}/bin/.
+%{_sourcedir}/bazel-%{realversion}-installer-linux-x86_64.sh --prefix=$PWD/install
+mkdir -p %{i}
+cp -rpv install/* %{i}
