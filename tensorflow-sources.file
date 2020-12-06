@@ -73,6 +73,7 @@ export TF_NEED_ROCM=0
 export TF_NEED_TENSORRT=0
 export TEST_TMPDIR=%{_builddir}/build
 export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
+export LD_LIBRARY_PATH
 
 echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
 echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
