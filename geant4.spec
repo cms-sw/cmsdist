@@ -1,7 +1,7 @@
-### RPM external geant4 10.7.0rc1
-%define tag a4e4079f1fe706a243a78ab2217ed28c44474700
-%define branch cms/v%{realversion}
-%define github_user cms-externals
+### RPM external geant4 10.7.0
+%define tag dab42d20185975fb0910dadfc6aa9998d9d9e06d
+%define branch master
+%define github_user Geant4
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
