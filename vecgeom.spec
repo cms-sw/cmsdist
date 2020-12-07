@@ -1,5 +1,5 @@
-### RPM external vecgeom v1.1.7
-%define tag 982503b232bb2101a5257630335340fbd3eb9f78
+### RPM external vecgeom v1.1.8
+%define tag 5a275d77ef80b12240d59fd276231ad50d5df577
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
