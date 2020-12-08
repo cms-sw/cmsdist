@@ -1,0 +1,40 @@
+From 08527ca4ac822a8d115fd6d78f0d1c1b283c79d7 Mon Sep 17 00:00:00 2001
+From: Patrick Gartung <gartung@fnal.gov>
+Date: Wed, 9 Aug 2017 16:30:34 -0500
+Subject: [PATCH] Fix type printing of array template args Apply patch to
+ interpreter/llvm/src/tools/clang/lib/AST/TemplateBase.cpp as suggested here:
+ https://reviews.llvm.org/D36368
+
+---
+ .../src/tools/clang/lib/AST/TemplateBase.cpp    | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/interpreter/llvm/src/tools/clang/lib/AST/TemplateBase.cpp b/interpreter/llvm/src/tools/clang/lib/AST/TemplateBase.cpp
+index 88a554c9852..9158f8958dc 100644
+--- a/interpreter/llvm/src/tools/clang/lib/AST/TemplateBase.cpp
++++ b/interpreter/llvm/src/tools/clang/lib/AST/TemplateBase.cpp
+@@ -398,9 +398,22 @@ void TemplateArgument::print(const PrintingPolicy &Policy,
+     
+   case Declaration: {
+     NamedDecl *ND = cast<NamedDecl>(getAsDecl());
+-    Out << '&';
++    bool needsRef = true;
++    if (auto VD = dyn_cast<ValueDecl>(ND)) {
++      const clang::Type *ArgTy = VD->getType()->getUnqualifiedDesugaredType();
++      const clang::Type *ParmTy
++        = getParamTypeForDecl()->getUnqualifiedDesugaredType();
++      clang::ASTContext& Ctx = ND->getASTContext();
++      needsRef = !Ctx.hasSameType(ArgTy, ParmTy);
++      if (needsRef && (ArgTy->isArrayType() || ArgTy->isFunctionType())) {
++        const clang::Type *decayedArgTy
++          = Ctx.getDecayedType(clang::QualType(ArgTy, 0)).getTypePtr();
++        needsRef = !Ctx.hasSameType(decayedArgTy, ParmTy);
++      }
++    }
++    if (needsRef)
++      Out << '&';
+     if (ND->getDeclName()) {
+-      // FIXME: distinguish between pointer and reference args?
+       ND->printQualifiedName(Out);
+     } else {
+       Out << "(anonymous)";

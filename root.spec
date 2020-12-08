@@ -10,6 +10,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_missing_dicts
+Patch3: revert_cms_fix
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -34,6 +35,11 @@ Requires: dcap
 %patch0 -p1
 %patch1 -p1
 #remove for a test %patch2 -p1
+%patch3 -p1 -R
+wget https://github.com/root-project/root/pull/6385.patch
+git apply --whitespace=fix 6385.patch
+rm 6385.patch
+
 
 %build
 rm -rf ../build
