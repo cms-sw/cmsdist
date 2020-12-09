@@ -32,14 +32,17 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
+#obsolete
+#%patch0 -p1
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
 wget https://github.com/root-project/root/pull/6385.patch
 git apply --whitespace=fix 6385.patch
 rm 6385.patch
-
+wget https://github.com/root-project/root/commit/4c0d5eee130.diff
+git apply --whitespace=fix 4c0d5eee130.diff
+rm 4c0d5eee130.diff
 
 %build
 rm -rf ../build
