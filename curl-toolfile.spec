@@ -5,7 +5,6 @@ Requires: curl
 %build
 
 %install
-
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/curl.xml
 <tool name="curl" version="@TOOL_VERSION@">
