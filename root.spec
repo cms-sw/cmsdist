@@ -37,12 +37,12 @@ Requires: dcap
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
-wget https://github.com/root-project/root/pull/6385.patch
-git apply --whitespace=fix 6385.patch
-rm 6385.patch
-wget https://github.com/root-project/root/commit/4c0d5eee130.diff
-git apply --whitespace=fix 4c0d5eee130.diff
-rm 4c0d5eee130.diff
+#wget https://github.com/root-project/root/pull/6385.patch
+#git apply --whitespace=fix 6385.patch
+#rm 6385.patch
+#wget https://github.com/root-project/root/commit/4c0d5eee130.diff
+#git apply --whitespace=fix 4c0d5eee130.diff
+#rm 4c0d5eee130.diff
 
 %build
 rm -rf ../build
@@ -55,8 +55,8 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DLLVM_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DLLVM_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
@@ -190,7 +190,7 @@ export ROOTSYS="%{i}"
 ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
 mkdir -p %{i}/etc/cling/bin
 cp -P interpreter/llvm/src/bin/clang %{i}/etc/cling/bin/.
-cp -P interpreter/llvm/src/bin/clang-5.0 %{i}/etc/cling/bin/.
+cp -P interpreter/llvm/src/bin/clang-* %{i}/etc/cling/bin/.
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
@@ -199,6 +199,8 @@ for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
   lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
   sed -i -e "${lnum}c#!/usr/bin/env python" $p
 done
+
+mv %{i}/include/cling %{i}/etc_cling
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
