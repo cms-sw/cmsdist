@@ -12,9 +12,9 @@ Source: https://photospp.web.cern.ch/photospp/resources/PHOTOS.%{realversion}/PH
 # Update to detect aarch64 and ppc64le
 
 rm -f ./config/config.{sub,guess}
-%get_config_sub ./config/config.sub
-%get_config_guess ./config/config.guess
-chmod +x ./config/config.{sub,guess}
+#%get_config_sub ./config/config.sub
+#%get_config_guess ./config/config.guess
+#chmod +x ./config/config.{sub,guess}
 
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}

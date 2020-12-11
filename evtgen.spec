@@ -2,10 +2,9 @@
 
 %define tag 23c973a27630e7aca86d69eecb6f91c2f49d9767
 %define branch cms/%realversion
-#define github_user cms-externals
-%define github_user alberto-sanchez
+%define github_user cms-externals
 
-Source: git+https://github.com/%{github_user}/%{n}-cms.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
 
