@@ -119,6 +119,7 @@ Geometry/CaloGeometry
 Geometry/CommonDetUnit
 Geometry/CommonTopologies
 Geometry/GEMGeometry
+L1Trigger/CSCCommonTrigger/interface/CSCConstants.h
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
