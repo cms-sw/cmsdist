@@ -7,7 +7,7 @@ Requires: libjpeg-turbo
 %install
 
 mkdir -p %{i}/etc/scram.d
-cat << \EOF_TOOLFILE >%{i}/etc/scram.d/libjpg.xml
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/libjpeg-turbo.xml
 <tool name="libjpeg-turbo" version="@TOOL_VERSION@">
   <info url="http://libjpeg-turbo.virtualgl.org"/>
   <lib name="jpeg"/>
