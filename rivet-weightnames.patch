@@ -1,8 +1,8 @@
 diff --git a/include/Rivet/AnalysisHandler.hh b/include/Rivet/AnalysisHandler.hh
-index 38c93cb5e..0d9ca9d1d 100644
+index 4add600a2..d5c6cb633 100644
 --- a/include/Rivet/AnalysisHandler.hh
 +++ b/include/Rivet/AnalysisHandler.hh
-@@ -76,6 +76,8 @@ namespace Rivet {
+@@ -68,6 +68,8 @@ namespace Rivet {
  
      /// Set the weight names from a GenEvent
      void setWeightNames(const GenEvent& ge);
@@ -11,8 +11,8 @@ index 38c93cb5e..0d9ca9d1d 100644
  
      /// Get the index of the nominal weight-stream
      size_t defaultWeightIndex() const { return _rivetDefaultWeightIdx; }
-@@ -227,7 +229,7 @@ namespace Rivet {
-     //@{
+@@ -221,7 +223,7 @@ namespace Rivet {
+     /// @{
  
      /// Initialize a run, with the run beams taken from the example event.
 -    void init(const GenEvent& event);
@@ -21,10 +21,10 @@ index 38c93cb5e..0d9ca9d1d 100644
      /// @brief Analyze the given \a event by reference.
      ///
 diff --git a/src/Core/AnalysisHandler.cc b/src/Core/AnalysisHandler.cc
-index cc0fa0ddb..a34c20023 100644
+index f8769a4ad..3c908fd2f 100644
 --- a/src/Core/AnalysisHandler.cc
 +++ b/src/Core/AnalysisHandler.cc
-@@ -69,7 +69,7 @@ namespace Rivet {
+@@ -71,7 +71,7 @@ namespace Rivet {
    }
  
  
@@ -33,7 +33,7 @@ index cc0fa0ddb..a34c20023 100644
      if (_initialised)
        throw UserError("AnalysisHandler::init has already been called: cannot re-initialize!");
  
-@@ -79,7 +79,12 @@ namespace Rivet {
+@@ -81,7 +81,12 @@ namespace Rivet {
      MSG_DEBUG("Initialising the analysis handler");
      _eventNumber = ge.event_number();
  
@@ -47,3 +47,4 @@ index cc0fa0ddb..a34c20023 100644
      if (_skipWeights)
          MSG_INFO("Only using nominal weight. Variation weights will be ignored.");
      else if (haveNamedWeights())
+
