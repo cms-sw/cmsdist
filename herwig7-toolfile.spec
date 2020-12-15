@@ -1,5 +1,5 @@
-### RPM external herwigpp-toolfile 1.0
-Requires: herwigpp
+### RPM external herwig7-toolfile 1.0
+Requires: herwig7
 %prep
 
 %build
@@ -7,8 +7,8 @@ Requires: herwigpp
 %install
 
 mkdir -p %i/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/herwigpp.xml
-<tool name="herwigpp" version="@TOOL_VERSION@">
+cat << \EOF_TOOLFILE >%i/etc/scram.d/herwig7.xml
+<tool name="herwig7" version="@TOOL_VERSION@">
   <lib name="HerwigAPI"/>
   <client>
     <environment name="HERWIGPP_BASE" default="@TOOL_ROOT@"/>
