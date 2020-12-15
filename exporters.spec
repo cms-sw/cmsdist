@@ -1,4 +1,4 @@
-### RPM cms exporters 0.1.4
+### RPM cms exporters 0.1.5
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 %define pkg cmsweb-exporters
@@ -49,12 +49,13 @@ go get github.com/shirou/gopsutil/process
 go get github.com/golang/dep/cmd/dep
 go get github.com/golang/glog
 go get github.com/namsral/flag
+go get github.com/godbus/dbus
 
 #go get github.com/gesellix/couchdb-prometheus-exporter/glogadapt
 
 go get -d github.com/gesellix/couchdb-prometheus-exporter/lib
 go get -d github.com/gesellix/couchdb-prometheus-exporter
-go get github.com/prometheus/node_exporter
+go get -d github.com/prometheus/node_exporter
 
 go build process_exporter.go
 go build das2go_exporter.go
