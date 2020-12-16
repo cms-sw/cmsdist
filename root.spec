@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-
+  
 %define tag 33c382d4bebfbc1d59b6536d36ff9f246e83e4a5
 %define branch cms/master/ec0bb25271
 %define github_user cms-sw
@@ -11,7 +11,7 @@ Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_missing_dicts
 Patch3: revert_cms_fix
-
+  
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -37,12 +37,12 @@ Requires: dcap
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
-#wget https://github.com/root-project/root/pull/6385.patch
-#git apply --whitespace=fix 6385.patch
-#rm 6385.patch
-#wget https://github.com/root-project/root/commit/4c0d5eee130.diff
-#git apply --whitespace=fix 4c0d5eee130.diff
-#rm 4c0d5eee130.diff
+wget https://github.com/root-project/root/pull/6385.patch
+git apply --whitespace=fix 6385.patch
+rm 6385.patch
+wget https://github.com/root-project/root/commit/4c0d5eee130.diff
+git apply --whitespace=fix 4c0d5eee130.diff
+rm 4c0d5eee130.diff
 
 %build
 rm -rf ../build
@@ -200,7 +200,8 @@ for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
   sed -i -e "${lnum}c#!/usr/bin/env python" $p
 done
 
-mv %{i}/include/cling %{i}/etc_cling
+#this is instaled by mistake it appears. Move it until its fixed upstream
+mv %{i}/include/cling %{i}/etc_cling || true 
 
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
