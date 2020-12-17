@@ -226,6 +226,11 @@ Requires: py2-zipp py3-zipp
 Requires: py2-pycuda
 Requires: onnxruntime
 
+Requires: py3-boost-histogram
+Requires: py3-hist
+Requires: py3-histoprint
+Requires: py3-mplhep
+
 %prep
 
 %build
