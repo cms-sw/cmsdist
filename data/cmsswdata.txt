@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-RecoTracker-TkSeedGenerator=V00-01-00
+RecoTracker-TkSeedGenerator=V00-02-00
 L1Trigger-CSCTriggerPrimitives=V00-04-00
 RecoEgamma-ElectronIdentification=V01-03-00
 GeneratorInterface-EvtGenInterface=V02-01-00
