@@ -68,6 +68,7 @@ Requires: python-toolfile
 Requires: python3-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
+Requires: libpciaccess-toolfile
 Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
