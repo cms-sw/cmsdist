@@ -70,6 +70,7 @@ Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: libpciaccess-toolfile
 Requires: numactl-toolfile
+Requires: hwloc-toolfile
 Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
