@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.2.0
+### RPM external herwigpp 7.2.1
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
@@ -18,9 +18,12 @@ Requires: openloops
 %endif
 BuildRequires: autotools
 
+Patch0: FxFxFileReader
 
 %prep
 %setup -q -n Herwig-%{realversion}
+
+%patch0 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
