@@ -71,6 +71,9 @@ Requires: sherpa-toolfile
 Requires: libpciaccess-toolfile
 Requires: numactl-toolfile
 Requires: hwloc-toolfile
+%ifnarch aarch64
+Requires: gdrcopy-toolfile
+%endif
 Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
