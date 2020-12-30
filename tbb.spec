@@ -1,24 +1,29 @@
-### RPM external tbb 2020_U3
+### RPM external tbb master-d86ed7fb
 
-%define tag %{realversion}
-%define branch tbb_2020
+%define tag    %(echo %{realversion} | cut -d- -f 2)
+%define branch %(echo %{realversion} | cut -d- -f 1)
 %define github_user oneapi-src
-Source: git+https://github.com/%{github_user}/oneTBB.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%{github_user}/oneTBB.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
+Requires: hwloc
 BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
+rm -rf %{_builddir}/build
+mkdir %{_builddir}/build
 
-make %{makeprocesses} stdver=c++17
+cd %{_builddir}/build
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_HWLOC_2_INCLUDE_PATH=$HWLOC_ROOT/include \
+  -DCMAKE_HWLOC_2_LIBRARY_PATH=$HWLOC_ROOT/lib/libhwloc.so
+
+make %{makeprocesses}
 
 %install
-install -d %i/lib
-cp -r include %i/include
-case %cmsplatf in 
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
-find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
-cmake -DINSTALL_DIR=%{i}/cmake/TBB -DSYSTEM_NAME=Linux -DINC_PATH=%{i}/include -DLIB_PATH=%{i}/lib -P cmake/tbb_config_installer.cmake
+cd %{_builddir}/build
+make install
