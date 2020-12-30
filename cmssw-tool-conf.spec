@@ -74,6 +74,7 @@ Requires: hwloc-toolfile
 %ifnarch aarch64
 Requires: gdrcopy-toolfile
 %endif
+Requires: ucx-toolfile
 Requires: openmpi-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
