@@ -36,6 +36,7 @@ DataFormats/GeometrySurface
 DataFormats/GeometryVector
 DataFormats/GsfTrackReco
 DataFormats/HGCRecHit
+DataFormats/HGCalReco
 DataFormats/HLTReco
 DataFormats/HcalDetId
 DataFormats/HcalDigi
