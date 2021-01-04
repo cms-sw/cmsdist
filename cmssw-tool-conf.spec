@@ -37,6 +37,7 @@ Requires: glimpse-toolfile
 Requires: gmake-toolfile
 Requires: gsl-toolfile
 Requires: highfive-toolfile
+Requires: h5cpp-toolfile
 Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
