@@ -25,7 +25,7 @@ esac
   --with-gssapi=${KERBEROS_ROOT}
 
 make %{makeprocesses}
-
+exit 1
 %install
 make install
 case %{cmsos} in 
