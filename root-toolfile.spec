@@ -471,6 +471,25 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootgui.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootimt.xml
+<tool name="rootimt" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="Imt"/>
+  <use name="rootthread"/>
+  <use name="tbb"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/roothistpainter.xml
+<tool name="roothistpainter" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="HistPainter"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+  <use name="rootimt"/>
+</tool>
+EOF_TOOLFILE
+
 #Root X11
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootx11.xml
 <tool name="rootx11" version="@TOOL_VERSION@">
