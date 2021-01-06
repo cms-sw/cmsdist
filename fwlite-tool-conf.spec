@@ -4,6 +4,7 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
+Requires: eigen-toolfile
 Requires: fmt-toolfile
 Requires: tbb-toolfile
 Requires: boost-toolfile
