@@ -22,13 +22,13 @@
 %define cuda_flags_0 -O3
 
 # generate debugging information for device code
-%define cuda_flags_1 --generate-line-info --source-in-ptx
+%define cuda_flags_1 --generate-line-info --source-in-ptx --display-error-number
 
 # imply __host__, __device__ attributes in constexpr functions
 %define cuda_flags_2 --expt-relaxed-constexpr
 
 # allow __host__, __device__ attributes in lambda declaration
-%define cuda_flags_3 --expt-extended-lambda
+%define cuda_flags_3 --extended-lambda
 
 # build support for the various compute architectures
 %define cuda_flags_4 %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=sm_$ARCH"; done)) -Wno-deprecated-gpu-targets
