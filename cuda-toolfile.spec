@@ -117,7 +117,7 @@ EOF_TOOLFILE
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda-nvml.xml
 <tool name="cuda-nvml" version="@TOOL_VERSION@">
   <info url="https://docs.nvidia.com/deploy/nvml-api/index.html"/>
-  <use name="cuda"/>
+  <use name="cuda-stubs"/>
   <lib name="nvidia-ml"/>
 </tool>
 EOF_TOOLFILE
