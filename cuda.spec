@@ -1,6 +1,7 @@
-### RPM external cuda 11.1.1
+### RPM external cuda 11.2.0
+## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define driversversion 455.32.00
+%define driversversion 460.27.04
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -35,8 +36,9 @@ mkdir -p %{i}/lib64/stubs
 mv %_builddir/build/lib64/libcudadevrt.a %{i}/lib64/
 rm -f %_builddir/build/lib64/lib*.a
 
-# package only the CUDA driver library stub
+# package only the CUDA driver and NVML library stub
 mv %_builddir/build/lib64/stubs/libcuda.so %{i}/lib64/stubs/
+mv %_builddir/build/lib64/stubs/libnvidia-ml.so %{i}/lib64/stubs/
 rm -rf %_builddir/build/lib64/stubs/
 
 # do not package the OpenCL libraries
