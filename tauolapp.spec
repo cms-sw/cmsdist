@@ -1,4 +1,4 @@
-### RPM external tauolapp 1.1.5
+### RPM external tauolapp 1.1.8
 Source: http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.%{realversion}/TAUOLA.%{realversion}-LHC.tar.gz
 Requires: hepmc
 Requires: pythia8
@@ -20,7 +20,7 @@ rm -f ./config/config.{sub,guess}
 %get_config_guess ./config/config.guess
 chmod +x ./config/config.{sub,guess}
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CPPFLAGS="-I${BOOST_ROOT}/include"
+./configure --prefix=%{i} --without-hepmc3 --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CPPFLAGS="-I${BOOST_ROOT}/include"
 
 %ifos darwin
 perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc

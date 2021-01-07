@@ -1,5 +1,5 @@
-### RPM external hepmc 2.06.07
-Source: http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-%realversion.tar.gz
+### RPM external hepmc 2.06.10
+Source: http://hepmc.web.cern.ch/hepmc/releases/hepmc%realversion.tgz
 Patch0: hepmc-2.03.06-reflex
 Patch1: hepmc-2.06.07-WeightContainer-fix-size_type
 Patch2: HepMC-2.06.07-nodoc
