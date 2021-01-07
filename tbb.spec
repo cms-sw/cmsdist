@@ -1,4 +1,4 @@
-### RPM external tbb 2020_U2
+### RPM external tbb 2020_U3
 
 %define tag %{realversion}
 %define branch tbb_2020
@@ -11,7 +11,7 @@ BuildRequires: cmake
 
 %build
 
-make %{makeprocesses} stdver=c++14
+make %{makeprocesses} stdver=c++17
 
 %install
 install -d %i/lib
