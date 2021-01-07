@@ -1,19 +1,20 @@
-### RPM external photospp 3.61
+### RPM external photospp 3.64
 
 Requires: hepmc
 
-Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/photos++/photos++-%{realversion}-src.tgz
+Source: https://photospp.web.cern.ch/photospp/resources/PHOTOS.%{realversion}/PHOTOS.%{realversion}.tar.gz
 
 %define keep_archives true
 
 %prep
-%setup -q -n photos++/%{realversion}
+%setup -q -n PHOTOS
 
 # Update to detect aarch64 and ppc64le
+
 rm -f ./config/config.{sub,guess}
-%get_config_sub ./config/config.sub
-%get_config_guess ./config/config.guess
-chmod +x ./config/config.{sub,guess}
+#%get_config_sub ./config/config.sub
+#%get_config_guess ./config/config.guess
+#chmod +x ./config/config.{sub,guess}
 
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
