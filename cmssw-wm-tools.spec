@@ -1,11 +1,11 @@
 ################################################################
 ####For any change, always update version number to latest date#
 ################################################################
-### RPM cms cmssw-wm-tools 201113
+### RPM cms cmssw-wm-tools 201215
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define commit bed4cf90e23e956e2cd643f08c60928643c28e2e
+%define commit ec457c56af5c629e1cb666befb719c2243f63007
 %define branch master
 Source0: git://github.com/cms-sw/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&output=/%{n}-%{commit}.tgz
 
