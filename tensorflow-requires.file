@@ -1,5 +1,7 @@
 Requires: python python3 py2-numpy py2-enum34 py2-mock py2-wheel
-Requires: py2-keras-applications py2-keras-preprocessing py2-setuptools py2-future py2-wrapt py2-gast
+# TODO: temporarily remove keras dependecies here as they trigger CUDA which is somewhat odd
+# Requires: py2-keras-applications py2-keras-preprocessing py2-setuptools py2-future py2-wrapt py2-gast
+Requires: py2-setuptools py2-future py2-wrapt py2-gast
 Requires: py2-cython py2-googlePackages py2-functools32 py2-astor py2-six py2-termcolor py2-absl-py
 Requires: py2-backports py2-opt-einsum py3-opt-einsum
-Requires: eigen protobuf zlib libpng libjpeg-turbo curl pcre giflib sqlite swig
+Requires: eigen protobuf zlib libpng libjpeg-turbo curl pcre giflib sqlite
