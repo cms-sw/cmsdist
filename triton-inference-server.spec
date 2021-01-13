@@ -20,6 +20,8 @@ sed -i '/triton-json-library/d' ../%{n}-%{realversion}/src/clients/c++/library/C
 sed -i 's~add_subdirectory(../../src/clients/python src/clients/python)~~' ../%{n}-%{realversion}/build/client/CMakeLists.txt
 # remove attempts to install external libs
 sed -i '\~../../../../..~d' ../%{n}-%{realversion}/src/clients/c++/library/CMakeLists.txt
+# keep typeinfo in .so by removing ldscript from properties
+sed -i '/set_target_properties/,+5d' ../%{n}-%{realversion}/src/clients/c++/library/CMakeLists.txt
 #change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
     sed -i -e "s|Werror|Wtype-limits|g" ../%{n}-%{realversion}/build/client/CMakeLists.txt
