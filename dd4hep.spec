@@ -1,6 +1,6 @@
-### RPM external dd4hep v01-14x
+### RPM external dd4hep v01-15x
 
-%define tag 934ce101148be15cce7725caad8c25084a272938
+%define tag 12caacb209af70835dbdd48efa7ef8d0b77b3dcd
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
@@ -24,6 +24,7 @@ CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
       -DDD4HEP_USE_TBB=ON \
+      -DDD4HEP_USE_GEANT4_UNITS=ON \
       -DCMAKE_PREFIX_PATH=${TBB_ROOT}/cmake/TBB;${CLHEP_ROOT};${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
