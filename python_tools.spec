@@ -82,6 +82,7 @@ Requires: py2-pyzmq
 Requires: py2-qtconsole
 Requires: py2-scandir
 Requires: py2-setuptools
+Requires: py3-setuptools
 Requires: py2-simplegeneric
 Requires: py2-singledispatch
 Requires: py2-six
