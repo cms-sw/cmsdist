@@ -41,7 +41,7 @@
 %endif
 
 %if "%{?doPython2:set}" != "set"
-Requires: python
+Requires: python py2-pip py2-setuptools
 %define doPython2 yes
 %define pip pip2
 %else
@@ -49,7 +49,7 @@ Requires: python
 %endif
 
 %if "%{?doPython3:set}" != "set"
-Requires: python3
+Requires: python3 py3-pip py3-setuptools
 %define doPython3 yes
 %endif
 
@@ -60,10 +60,6 @@ Requires: python3
 %endif
 
 Source: %source0
-
-Requires: py2-setuptools
-Requires: py3-setuptools
-BuildRequires: py2-pip py3-pip
 
 %prep
 
