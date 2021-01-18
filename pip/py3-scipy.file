@@ -1,4 +1,5 @@
 Requires: py3-numpy py2-cython
 BuildRequires: py2-wheel
+Provides: libtatlas.so.3()(64bit)
 %define PipPreBuild\
   if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; fi \

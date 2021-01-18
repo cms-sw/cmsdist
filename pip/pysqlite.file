@@ -1,2 +1,2 @@
-Requires: sqlite py2-setuptools py3-setuptools
+Requires: sqlite
 %define patchsrc echo "include_dirs=$SQLITE_ROOT/include">>setup.cfg

@@ -62,7 +62,8 @@ Requires: python3
 Source: %source0
 
 Requires: py2-setuptools
-BuildRequires: py2-pip
+Requires: py3-setuptools
+BuildRequires: py2-pip py3-pip
 
 %prep
 
