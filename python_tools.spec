@@ -9,6 +9,7 @@ Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
+#save for the end
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 
@@ -142,6 +143,7 @@ Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
+Requires: py3-pip
 %ifarch x86_64
 Requires: py2-cx-Oracle
 %endif
