@@ -108,6 +108,7 @@ hyperopt==0.2.5
 idna==2.10
 importlib-metadata==2.1.1
 importlib-resources==3.3.1
+iniconfig==1.1.1
 ipaddress==1.0.23
 ipykernel==4.10.1 ; python_version<'3.0'
 ipykernel==5.4.3 ; python_version>'3.0'
