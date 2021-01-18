@@ -69,10 +69,13 @@ decorator==4.4.2
 defusedxml==0.6.0
 distlib==0.3.1
 docopt==0.6.2
+docutils==0.16;python_version>'3.0'
 downhill==0.4.0
 entrypoints==0.3
 enum34==1.1.10;python_version<'3.0'
 filelock==3.0.12
+flit==3.0.0; python_version>'3.0'
+flit-core==3.0.0; python_version>'3.0'
 flake8==3.8.4
 flawfinder==2.0.15
 fs==2.4.12
@@ -226,6 +229,7 @@ pytest-runner==5.2
 python-cjson==1.2.2;python_version<'3.0'
 python-dateutil==2.8.1
 python-ldap==3.3.1
+pytoml==0.1.21;python_version>'3.0'
 pytools==2020.3
 pytz==2020.5
 PyYAML==5.3.1
