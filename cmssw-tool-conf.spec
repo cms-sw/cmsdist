@@ -3,7 +3,6 @@
 
 ## NOCOMPILER
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
-## UPLOAD_DEPENDENCIES dqmgui
 
 Requires: crab
 Requires: cmssw-wm-tools
