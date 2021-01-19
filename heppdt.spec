@@ -1,5 +1,5 @@
 ### RPM external heppdt 3.04.01
-%define tag d17b18f5865e00fb0b548485a5fb8a633b3b25eb
+%define tag 2b499cfb4302d48d1fd91911fddec88e94219a44
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/heppdt.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
