@@ -15,6 +15,7 @@ RecoMET-METPUSubtraction=V01-01-00
 EgammaAnalysis-ElectronTools=V00-02-00
 PhysicsTools-NanoAOD=V01-01-00
 RecoBTag-Combined=V01-03-00
+RecoHGCal-TICL=V00-02-00
 RecoTauTag-TrainingFiles=V00-02-00
 RecoJets-JetProducers=V05-11-00
 RecoMTD-TimingIDTools=V00-01-00
@@ -36,7 +37,6 @@ CondTools-SiPhase2Tracker=V00-01-00
 PhysicsTools-PatUtils=V00-01-00
 SimTransport-PPSProtonTransport=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
-RecoHGCal-TICL=V00-01-00
 SimG4CMS-HGCalTestBeam=V01-00-00
 Fireworks-Geometry=V07-06-00
 
