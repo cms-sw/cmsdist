@@ -45,7 +45,7 @@ Requires: python py2-pip py2-setuptools
 %define doPython2 yes
 %define pip pip2
 %else
-%define pip pip3
+%define pip pip3&package_dependency=py3-pip
 %endif
 
 %if "%{?doPython3:set}" != "set"
