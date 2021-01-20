@@ -23,7 +23,7 @@ BuildRequires: wmcorepy3-devtools
 BuildRequires: gitweb compsec
 ### List of obsolete services (or under deprecation), stop building them!
 #BuildRequires: filemover PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
-#BuildRequires: overview happyface sreadiness asyncstageout lifecycle-das webtools
+#BuildRequires: happyface sreadiness asyncstageout lifecycle-das webtools
 #BuildRequires: DCAFPilot DMWMMON-datasvc spacemon-client popdbweb victorweb
 
 %prep
