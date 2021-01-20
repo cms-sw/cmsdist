@@ -16,4 +16,5 @@ python3 setup.py build
 %install
 python3 setup.py install --single-version-externally-managed --record=/dev/null  --prefix=%{i}
 %{relocatePy3SitePackages}
-perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
+perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/bin/*
+rm -f %{i}/bin/pip
