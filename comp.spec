@@ -9,7 +9,7 @@ Requires: dbs3-client crabserver crabclient crabcache
 Requires: acdcserver
 Requires: t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics
-Requires: confdb exporters exitcodes
+Requires: exporters exitcodes
 # FIXME: remove these 3 PhEDEx specs from the building list for January/2021
 Requires: PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 # Common
