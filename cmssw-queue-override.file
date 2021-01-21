@@ -1,5 +1,5 @@
 ### FILE cmssw-queue-override
-
+## UPLOAD_DEPENDENCIES dqmgui
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define usercxxflags    -fprofile-arcs -ftest-coverage
 %endif
