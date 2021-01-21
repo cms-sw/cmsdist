@@ -4,7 +4,6 @@
 Source: https://github.com/pypa/setuptools/archive/v%{realversion}.tar.gz
 
 Requires: python
-# python3
 
 %prep
 %setup -n setuptools-%{realversion}

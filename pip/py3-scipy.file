@@ -1,5 +1,4 @@
 Requires: py3-numpy py2-cython
-%define source0 https://github.com/scipy/scipy/archive/v%{realversion}.tar.gz
 
 %define patchsrc \
 cat > site.cfg <<EOF \

@@ -5,8 +5,7 @@
 %define my_name %(echo %n | cut -f2 -d-)
 Source: https://github.com/pypa/pip/archive/%{realversion}.tar.gz
 Requires: python3 py3-setuptools
-#BuildRequires: 
-  
+
 %prep
 %setup -n %{my_name}-%{realversion}
 

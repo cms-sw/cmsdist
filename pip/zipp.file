@@ -1,2 +1,1 @@
-BuildRequires: py2-wheel
 Requires: py2-more-itertools py3-more-itertools py2-setuptools-scm  py2-contextlib2
