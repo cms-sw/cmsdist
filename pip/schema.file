@@ -1,1 +1,1 @@
-Requires: py2-contextlib2
+Requires: py2-contextlib2 py2-wheel

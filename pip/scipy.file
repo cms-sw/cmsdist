@@ -1,0 +1,1 @@
+%define PipPreBuild export NPY_NUM_BUILD_JOBS=%{compiling_processes}

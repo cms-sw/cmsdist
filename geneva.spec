@@ -4,7 +4,7 @@ Source: git+https://stash.desy.de/scm/geneva/geneva-public.git?obj=master/%{real
 
 BuildRequires: cmake gmake
 
-Requires: python py2-setuptools py2-numpy gsl OpenBLAS lhapdf hepmc pythia8
+Requires: python py2-setuptools py2-numpy gsl OpenBLAS lhapdf hepmc pythia8 py3-setuptools
 %ifnarch ppc64le
 Requires: openloops
 %endif
