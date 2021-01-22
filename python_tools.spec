@@ -185,7 +185,7 @@ Requires: py2-stevedore
 Requires: py2-typing_extensions
 Requires: py2-virtualenv-clone
 Requires: py2-asn1crypto
-Requires: py2-backcall
+Requires: py3-backcall
 Requires: py2-cffi
 Requires: py2-cryptography
 Requires: py2-google-common

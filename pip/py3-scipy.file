@@ -1,22 +1,4 @@
-Requires: py3-numpy py2-cython
-
-%define patchsrc \
-cat > site.cfg <<EOF \
-[default]\
-include_dirs = $OPENBLAS_ROOT/include\
-library_dirs = $OPENBLAS_ROOT/lib\
-[openblas]\
-openblas_libs = openblas\
-library_dirs = $OPENBLAS_ROOT/lib\
-[lapack]\
-lapack_libs = openblas\
-library_dirs = $OPENBLAS_ROOT/lib\
-[atlas]\
-atlas_libs = openblas\
-atlas_dirs = $OPENBLAS_ROOT/lib\
-[build]\
-fcompiler=gnu95\
-EOF
+Requires: py3-numpy py2-cython py2-wheel py2-pybind11
 
 %define PipPreBuild\
   if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; fi \
