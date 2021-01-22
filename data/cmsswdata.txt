@@ -4,6 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 PhysicsTools-PatUtils=V00-02-00
+RecoHGCal-TICL=V00-02-00
 RecoBTag-Combined=V01-09-00
 L1Trigger-TrackTrigger=V00-01-00
 RecoParticleFlow-PFProducer=V16-01-00
