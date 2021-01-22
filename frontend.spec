@@ -17,7 +17,7 @@ Requires: py2-flask-sqlalchemy py2-flask-login py2-rauth py2-argparse py2-rauth
 
 %build
 gcc -o %_builddir/grid-proxy-verify %_sourcedir/grid-proxy-verify.c \
-  -I$OPENSSL_ROOT/include -L$OPENSSL_ROOT/lib -lssl -lcrypto -ldl
+  -lssl -lcrypto -ldl
 
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}

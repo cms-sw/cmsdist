@@ -36,7 +36,7 @@ Patch4: couchdb15-heartbeat-timeout
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
-Requires: curl spidermonkey openssl icu4c erlang couchapp
+Requires: curl spidermonkey icu4c erlang couchapp
 BuildRequires: autotools
 
 %prep
@@ -54,7 +54,7 @@ perl -p -i -e 's{-licuuc -licudt -licuin}{-licui18n -licuuc -licudata}g;' config
 %build
 # apache 1.5.1 does not have option to specify --with-icu4c, instead
 # they used --with-win32-icu-binaries which mostly the same
-export CURL_ROOT SPIDERMONKEY_ROOT OPENSSL_ROOT ICU4C_ROOT ERLANG_ROOT AUTOTOOLS_ROOT
+export CURL_ROOT SPIDERMONKEY_ROOT ICU4C_ROOT ERLANG_ROOT AUTOTOOLS_ROOT
 export PATH=$ERLANG_ROOT/bin:$AUTOTOOLS_ROOT/bin:$PATH
 ./configure --prefix=%i --with-js-lib=$SPIDERMONKEY_ROOT/lib --with-js-include=$SPIDERMONKEY_ROOT/include/js --with-erlang=$ERLANG_ROOT/lib/erlang/usr/include --with-win32-icu-binaries=$ICU4C_ROOT
 make %makeprocesses

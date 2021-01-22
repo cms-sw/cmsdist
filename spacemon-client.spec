@@ -24,7 +24,7 @@ Provides: perl(LWP::UserAgent)
 mkdir -p %i/DMWMMON
 tar -c SpaceMon | tar -x -C %i/DMWMMON
 
-# Add p5-crypt-ssleay/openssl environment required at run time
+# Add p5-crypt-ssleay/environment required at run time
 mkdir -p %i/etc/profile.d
 : > %i/etc/profile.d/dependencies-setup.sh
 : > %i/etc/profile.d/dependencies-setup.csh

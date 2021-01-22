@@ -1,6 +1,6 @@
 ### RPM external py2-pyxml 0.8.4
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
-Source: http://switch.dl.sourceforge.net/sourceforge/pyxml/PyXML-%{realversion}.tar.gz
+Source: https://sourceforge.net/projects/pyxml/files/pyxml/%{realversion}/PyXML-%{realversion}.tar.gz/download
 Requires: python expat
 Patch0: py2-pyxml-fix-as-keyword-usage-as-variable
 

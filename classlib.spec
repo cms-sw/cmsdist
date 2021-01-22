@@ -10,7 +10,6 @@ Patch5: classlib-3.1.3-fix-obsolete-CLK_TCK
 Requires: bz2lib 
 Requires: pcre 
 Requires: xz
-Requires: openssl
 Requires: zlib 
 
 %prep
@@ -36,8 +35,6 @@ chmod +x ./cfg/config.{sub,guess}
   --with-bz2lib-libraries=$BZ2LIB_ROOT/lib      \
   --with-pcre-includes=$PCRE_ROOT/include       \
   --with-pcre-libraries=$PCRE_ROOT/lib          \
-  --with-openssl-includes=$OPENSSL_ROOT/include \
-  --with-openssl-libraries=$OPENSSL_ROOT/lib	\
   --with-lzma-includes=$XZ_ROOT/include         \
   --with-lzma-libraries=$XZ_ROOT/lib
 

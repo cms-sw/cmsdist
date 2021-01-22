@@ -1,6 +1,6 @@
 ### RPM external apache2 2.2.31gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
-Requires: openssl zlib expat libuuid sqlite pcre
+Requires: zlib expat libuuid sqlite pcre
 BuildRequires: bison
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
@@ -30,7 +30,6 @@ perl -p -i -e 's/-no-cpp-precomp//' srclib/apr/configure
                         --enable-rewrite \
                         --enable-ssl \
                         --with-pcre=$PCRE_ROOT \
-                        --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-sqlite3=$SQLITE_ROOT \
