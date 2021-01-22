@@ -32,8 +32,7 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
-#obsolete
-#%patch0 -p1
+
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
@@ -43,6 +42,9 @@ rm 6385.patch
 wget https://github.com/root-project/root/commit/4c0d5eee130.diff
 git apply --whitespace=fix 4c0d5eee130.diff
 rm 4c0d5eee130.diff
+
+%patch0 -p1
+
 
 %build
 rm -rf ../build
