@@ -89,6 +89,7 @@ Requires: py2-singledispatch
 Requires: py2-six
 Requires: py2-terminado
 Requires: py2-testpath
+Requires: py3-testpath
 Requires: py2-tornado
 Requires: py2-traitlets
 Requires: py2-wcwidth
