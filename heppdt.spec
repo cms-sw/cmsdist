@@ -1,6 +1,6 @@
-### RPM external heppdt 3.03.00
-%define tag ad5bd2d96ca39491a5c0f729c9ebbec9a36b85bf
-%define branch cms/3.03.00
+### RPM external heppdt 3.04.01
+%define tag 2b499cfb4302d48d1fd91911fddec88e94219a44
+%define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/heppdt.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -13,7 +13,7 @@ Requires: tbb
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++14
+%define cms_cxxflags -O2 -std=c++17
 %endif
 
 %prep

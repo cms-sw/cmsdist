@@ -2,7 +2,7 @@
 BuildRequires: cmssw SCRAMV1 python
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: none
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/1df3f150585134b850610df53863fd712e5fac20/buildLogAnalyzer.py
 
 %prep
 cd ..
@@ -25,7 +25,7 @@ pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
   cp -f src-logs.tgz $(echo $CMSSW_ROOT | sed 's|%cmsroot/|%cmsroot/BUILD/|')/src-logs.tgz
   tar xzf src-logs.tgz
 popd
-curl -L -k -s -o $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py
+cp %{_sourcedir}/buildLogAnalyzer.py $CMSSW_ROOT/buildLogAnalyzer.py
 $PYTHON_CMD $CMSSW_ROOT//buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
             -p $CMSSW_ROOT/src/PackageList.cmssw \
