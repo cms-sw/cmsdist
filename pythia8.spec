@@ -1,8 +1,11 @@
 ### RPM external pythia8 230
 
-Requires: hepmc lhapdf
+%define tag 450e85ff675885d0d4fe7b31d1473c1a66f5bb2b
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
+Requires: hepmc lhapdf
 
 
 %prep
