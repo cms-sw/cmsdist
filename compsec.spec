@@ -1,5 +1,5 @@
 ### RPM cms compsec 1.0
-Requires: python
+Requires: openssl python
 Requires: skipfish pcre libidn
 Requires: openldap python-ldap py2-prettytable
 Requires: nmap py2-libnmap

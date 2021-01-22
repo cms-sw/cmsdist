@@ -1,12 +1,15 @@
 ### RPM external libpq 9.4.5
 
 Source: https://ftp.postgresql.org/pub/source/v9.4.5/postgresql-%{realversion}.tar.gz
+Requires: openssl
 
 %prep
 %setup -n postgresql-%{realversion}
 
 %build
-./configure --prefix=%{i} --disable-static --without-readline
+export CFLAGS="-I${OPENSSL_ROOT}/include"
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+./configure --prefix=%{i} --disable-static --with-openssl --without-readline
 
 #Build libpq
 cd src/interfaces/libpq/

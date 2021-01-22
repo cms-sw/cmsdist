@@ -1,6 +1,6 @@
 ### RPM external apache24 2.4.18gsi
 %define apversion %(echo %realversion | sed 's/gsi.*$//')
-Requires: zlib expat libuuid sqlite pcre
+Requires: openssl zlib expat libuuid sqlite pcre
 
 Source0: http://archive.apache.org/dist/httpd/httpd-%apversion.tar.gz
 Source1: http://archive.apache.org/dist/apr/apr-1.5.2.tar.gz
@@ -21,6 +21,11 @@ Patch3: apache24-status-maxline
 cp -rp ../apr-1.5.2/ ./srclib/apr/
 cp -rp ../apr-util-1.5.4 ./srclib/apr-util/
 
+# INCLUDES is needed otherwise apache will use the system openssl
+# despite the with-ssl below.
+
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+export INCLUDES="-I${OPENSSL_ROOT}/include"
 ./configure --prefix=%i --with-mpm=prefork \
                         --enable-mods-shared=all \
                         --enable-so \
@@ -35,6 +40,7 @@ cp -rp ../apr-util-1.5.4 ./srclib/apr-util/
                         --enable-rewrite \
                         --enable-ssl \
                         --with-pcre=$PCRE_ROOT \
+                        --with-ssl=$OPENSSL_ROOT \
                         --with-z=$ZLIB_ROOT \
 			--with-expat=$EXPAT_ROOT \
 			--with-sqlite3=$SQLITE_ROOT \

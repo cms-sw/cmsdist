@@ -10,7 +10,7 @@
 Requires: expat bz2lib db4 gdbm
 
 %if "%online" != "true"
-Requires: zlib sqlite readline ncurses
+Requires: zlib openssl sqlite readline ncurses
 %endif
 
 # FIXME: crypt
@@ -49,7 +49,7 @@ done
 mkdir -p %i/include %i/lib %i/bin
 
 %if "%online" != "true"
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT}
+%define extradirs ${ZLIB_ROOT} ${OPENSSL_ROOT} ${SQLITE_ROOT}
 %else
 %define extradirs %{nil}
 %endif

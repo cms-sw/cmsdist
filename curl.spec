@@ -1,5 +1,6 @@
 ### RPM external curl 7.59.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
+Requires: openssl
 Requires: zlib
 
 %prep
@@ -18,6 +19,7 @@ esac
   --without-libidn \
   --disable-ldap \
   --with-zlib=${ZLIB_ROOT} \
+  --with-ssl=${OPENSSL_ROOT} \
   --without-nss \
   --without-libssh2 \
   --with-gssapi=${KERBEROS_ROOT}
