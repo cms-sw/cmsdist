@@ -21,6 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dd4hep-core.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="PATH" value="$DD4HEP_CORE_BASE/bin" type="path"/>
+  <flags cppdefines="DD4HEP_USE_GEANT4_UNITS=1"/>
   <use name="root_cxxdefaults"/>
   <use name="root"/>
   <use name="boost"/>
