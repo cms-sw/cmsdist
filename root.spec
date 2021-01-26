@@ -39,9 +39,9 @@ Requires: dcap
 wget https://github.com/root-project/root/pull/6385.patch
 git apply --whitespace=fix 6385.patch
 rm 6385.patch
-wget https://github.com/root-project/root/commit/4c0d5eee130.diff
-git apply --whitespace=fix 4c0d5eee130.diff
-rm 4c0d5eee130.diff
+wget https://github.com/root-project/root/commit/d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
+git apply --whitespace=fix d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
+rm d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
 
 %patch0 -p1
 
