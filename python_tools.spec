@@ -9,6 +9,7 @@ Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
+#save for the end
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 Requires: py2-cloudpickle
@@ -81,11 +82,13 @@ Requires: py2-pyzmq
 Requires: py2-qtconsole
 Requires: py2-scandir
 Requires: py2-setuptools
+Requires: py3-setuptools
 Requires: py2-simplegeneric
 Requires: py2-singledispatch
 Requires: py2-six
 Requires: py2-terminado
 Requires: py2-testpath
+Requires: py3-testpath
 Requires: py2-tornado
 Requires: py2-traitlets
 Requires: py2-wcwidth
@@ -140,6 +143,7 @@ Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py2-pylint
 Requires: py2-pip
+Requires: py3-pip
 %ifarch x86_64
 Requires: py2-cx-Oracle
 %endif
@@ -181,7 +185,7 @@ Requires: py2-stevedore
 Requires: py2-typing_extensions
 Requires: py2-virtualenv-clone
 Requires: py2-asn1crypto
-Requires: py2-backcall
+Requires: py3-backcall
 Requires: py2-cffi
 Requires: py2-cryptography
 Requires: py2-google-common
