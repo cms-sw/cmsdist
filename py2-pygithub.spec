@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/jacquev6/PyGithub/archive/v%{realversion}.zip
 Requires: python
-BuildRequires: py2-setuptools
+BuildRequires: py2-setuptools py3-setuptools
 
 %prep
 %setup -n PyGithub-%{realversion}
