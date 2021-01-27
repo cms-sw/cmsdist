@@ -19,6 +19,7 @@ fcompiler=gnu95\
 EOF
 
 %define source0 https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
+%define PipPreBuild export NPY_NUM_BUILD_JOBS=%{compiling_processes}
 
 %define PipPostBuild \
   mkdir -p %{i}/c-api \
