@@ -1,1 +1,1 @@
-%define PipDownloadSourceType none
+%define patchsrc rm -f testpath/cli-*.exe

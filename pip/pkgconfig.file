@@ -1,1 +1,2 @@
 Requires: py2-nose
+BuildRequires: py3-poetry
