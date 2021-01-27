@@ -1,1 +1,2 @@
+Requires: py2-wheel
 %define RelocatePython %{i}/bin/*
