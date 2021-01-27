@@ -1,0 +1,4 @@
+BuildRequires: py2-wheel
+Requires: py2-importlib-metadata
+
+
