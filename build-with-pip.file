@@ -31,25 +31,28 @@
 %define PipDownloadOptions --no-deps%%20--no-binary%%3D:%{PipDownloadSourceType}:
 %endif
 %if "%{?PipBuildOptions:set}" != "set"
-%define PipBuildOptions --no-deps
+%define PipBuildOptions %{nil}
 %endif
 %if "%{?pkgsource:set}" != "set"
 %define pkgsource source.tar.gz
 %endif
 %if "%{?PipInstallOptions:set}" != "set"
-%define PipInstallOptions --no-clean
+%define PipInstallOptions %{nil}
+%endif
+%if "%{?PipDepsPost:set}" != "set"
+%define PipDepsPost %{nil}
 %endif
 
 %if "%{?doPython2:set}" != "set"
-Requires: python
+Requires: python py2-pip py2-setuptools
 %define doPython2 yes
 %define pip pip2
 %else
-%define pip pip3
+%define pip pip3&package_dependency=py3-pip
 %endif
 
 %if "%{?doPython3:set}" != "set"
-Requires: python3
+Requires: python3 py3-pip py3-setuptools
 %define doPython3 yes
 %endif
 
@@ -60,9 +63,6 @@ Requires: python3
 %endif
 
 Source: %source0
-
-Requires: py2-setuptools
-BuildRequires: py2-pip
 
 %prep
 
@@ -111,10 +111,10 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    %if "%{doPython3}" == "yes"
       pip3 list --disable-pip-version-check
       %{?PipPreBuildPy3:%PipPreBuildPy3}
-      pip3 install --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
+      pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
       PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       [ "${PKG_NAME}" = "" ] && exit 1
-      DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
+      DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
         exit 1
@@ -125,10 +125,10 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    %if "%{doPython2}" == "yes"
       pip2 list  --disable-pip-version-check
       %{?PipPreBuildPy2:%PipPreBuildPy2}
-      pip2 install --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
+      pip2 install --no-clean --no-deps --no-index --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
       PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
       [ "${PKG_NAME}" = "" ] && exit 1
-      DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' | tr '\n' ' ')
+      DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
       if [ "$DEPS" != "" ] ; then
         echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"
         exit 1
