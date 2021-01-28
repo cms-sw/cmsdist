@@ -179,7 +179,8 @@ FireworksTableWidget_CXXMODULES:=1
 FireworksVertices_CXXMODULES:=1
 FWCoreCommon_CXXMODULES:=1
 FWCoreFWLite_CXXMODULES:=1
-FWCoreMessageLogger_CXXMODULES:=1
+#the need for this should be removed now..
+FWCoreMessageLogger_CXXMODULES:=0
 FWCoreSkeletons_CXXMODULES:=1
 FWCoreTFWLiteSelector_CXXMODULES:=1
 FWCoreTFWLiteSelectorTest_CXXMODULES:=1
