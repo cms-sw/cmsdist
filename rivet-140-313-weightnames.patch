@@ -1,0 +1,88 @@
+--- src/Core/AnalysisLoader.cc
++++ src/Core/AnalysisLoader.cc
+@@ -90,6 +90,7 @@ namespace Rivet {
+     // Find plugin module library files
+     const string libsuffix = ".so";
+     vector<string> pluginfiles;
++    vector<string> pluginfileNames;
+     for (const string& d : dirs) {
+       if (d.empty()) continue;
+       oslink::directory dir(d);
+@@ -103,8 +104,13 @@ namespace Rivet {
+         /// @todo Sys-dependent path separator instead of "/"
+         const string path = d + "/" + filename;
+         // Ensure no duplicate paths
+-        if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end()) {
++        // CMS PATCH: ensure also no duplicate library names. Ensures that only the first plugin library in the RIVET_ANALYIS_PATH is taken.
++        // This ensures that, when the same library is both in the developer area and in the release, only the first one is taken. 
++        // The developer area preceeds the release in the RIVET_ANALYSIS_PATH
++        if (find(pluginfiles.begin(), pluginfiles.end(), path) == pluginfiles.end() &&
++            find(pluginfileNames.begin(), pluginfileNames.end(), filename) == pluginfileNames.end()){
+           pluginfiles += path;
++          pluginfileNames += filename;
+         }
+       }
+     }
+diff --git analyses/pluginCESR/CLEOII_1997_I446031.cc analyses/pluginCESR/CLEOII_1997_I446031.cc
+index 85fc07e..ab1a2be 100644
+--- analyses/pluginCESR/CLEOII_1997_I446031.cc
++++ analyses/pluginCESR/CLEOII_1997_I446031.cc
+@@ -66,7 +66,7 @@ namespace Rivet {
+     void analyze(const Event& event) {
+       // find scattered leptons and calc Q2
+       const Beam & beams = apply<Beam>(event, "Beams");
+-      double Q12,Q22;
++      double Q12 = 0.,Q22 = 0.;
+       if(!findScattered(beams.beams().first ,Q12)) vetoEvent;
+       if(!findScattered(beams.beams().second,Q22)) vetoEvent;
+       double scale = max(Q12,Q22);
+diff --git include/Rivet/AnalysisHandler.hh include/Rivet/AnalysisHandler.hh
+index 4add600a2..d5c6cb633 100644
+--- include/Rivet/AnalysisHandler.hh
++++ include/Rivet/AnalysisHandler.hh
+@@ -68,6 +68,8 @@ namespace Rivet {
+ 
+     /// Set the weight names from a GenEvent
+     void setWeightNames(const GenEvent& ge);
++    /// Set the weight names from vector<string>
++    void setWeightNames(vector<string> weightNames) { _weightNames = weightNames; }
+ 
+     /// Get the index of the nominal weight-stream
+     size_t defaultWeightIndex() const { return _rivetDefaultWeightIdx; }
+@@ -221,7 +223,7 @@ namespace Rivet {
+     /// @{
+ 
+     /// Initialize a run, with the run beams taken from the example event.
+-    void init(const GenEvent& event);
++    void init(const GenEvent& event, const vector<string>& externalWeightNames = vector<string>());
+ 
+     /// @brief Analyze the given \a event by reference.
+     ///
+diff --git src/Core/AnalysisHandler.cc src/Core/AnalysisHandler.cc
+index f8769a4ad..3c908fd2f 100644
+--- src/Core/AnalysisHandler.cc
++++ src/Core/AnalysisHandler.cc
+@@ -71,7 +71,7 @@ namespace Rivet {
+   }
+ 
+ 
+-  void AnalysisHandler::init(const GenEvent& ge) {
++  void AnalysisHandler::init(const GenEvent& ge, const vector<string>& externalWeightNames) {
+     if (_initialised)
+       throw UserError("AnalysisHandler::init has already been called: cannot re-initialize!");
+ 
+@@ -81,7 +81,12 @@ namespace Rivet {
+     MSG_DEBUG("Initialising the analysis handler");
+     _eventNumber = ge.event_number();
+ 
+-    setWeightNames(ge);
++    if (externalWeightNames.empty()) {
++      setWeightNames(ge);
++    }
++    else {
++      setWeightNames(externalWeightNames);
++    }
+     if (_skipWeights)
+         MSG_INFO("Only using nominal weight. Variation weights will be ignored.");
+     else if (haveNamedWeights())
+
