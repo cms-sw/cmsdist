@@ -7,14 +7,12 @@ Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}
 Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python py2-cython py2-setuptools
 
-Patch0: rivet-1.4.0
-Patch1: rivet-weightnames
+Patch0: rivet-140-313-weightnames
 
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p0
-%patch1 -p1
 
 # remove analyses that do not compile
 rm analyses/pluginLEP/L3_2008_I825820.cc
