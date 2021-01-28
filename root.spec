@@ -42,6 +42,12 @@ rm 6385.patch
 wget https://github.com/root-project/root/commit/d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
 git apply --whitespace=fix d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
 rm d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
+wget https://github.com/root-project/root/commit/7aa30ce1c89c88209469641ebe6c69b49520c1d6.diff || true
+git apply --whitespace=fix 7aa30ce1c89c88209469641ebe6c69b49520c1d6.diff || true
+rm 7aa30ce1c89c88209469641ebe6c69b49520c1d6.diff || true
+wget https://github.com/root-project/root/commit/d2c0929e0d.diff || true
+git apply d2c0929e0d.diff || true
+rm d2c0929e0d.diff || true
 
 %patch0 -p1
 
