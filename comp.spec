@@ -18,7 +18,7 @@ Requires: rotatelogs pystack wmcore-devtools
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
 Requires: wmarchive
 # Python3
-BuildRequires: wmcorepy3-devtools
+BuildRequires: wmcorepy3-devtools wmagentpy3
 ### List of services that are likely no longer needed, but nobody could confirm that..
 BuildRequires: gitweb compsec
 ### List of obsolete services (or under deprecation), stop building them!
