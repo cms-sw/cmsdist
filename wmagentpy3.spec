@@ -7,8 +7,9 @@ Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore
 
 Requires: yui libuuid couchdb15 condor pystack jemalloc cmsmonitoring dbs3-client
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
-#Requires: py3-mysqldb py3-cx-oracle py3-cheetah py3-pyOpenSSL
-#Requires: py3-pyzmq py3-psutil py3-future py3-retry
+Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
+# AMR dropped: py3-cheetah
+#Requires: py3-pyzmq py3-psutil py3-future py3-retry py3-mysqldb
 
 BuildRequires: py3-sphinx couchskel
 
