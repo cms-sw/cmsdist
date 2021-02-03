@@ -1,7 +1,6 @@
 ### RPM cms cmssw-tool-conf CMSSW_5_3_23
 ## NOCOMPILER
-# with cmsBuild, change the above version only when a new
-# tool is added
+# with cmsBuild, change the above version only when a new tool is added
 
 %define isslc %(case %cmsos in (slc*) echo true;; (*) echo false;; esac)
 %define isslc6 %(case %cmsos in (slc6*) echo true ;; (*) echo false ;; esac)
