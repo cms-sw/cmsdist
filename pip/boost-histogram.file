@@ -1,1 +1,1 @@
-Requires: py3-numpy py2-typing
+Requires: py3-numpy py2-typing py2-wheel

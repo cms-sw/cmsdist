@@ -1,0 +1,1 @@
+%define PipPreBuild export SKLEARN_BUILD_PARALLEL=%{compiling_processes}
