@@ -5,7 +5,7 @@
   
 %define tag fc413ab219962aae366257826e8e73480b026fb6
 %define branch cms/master/a001679
-%define github_user cms-sw
+%define github_user cms-sw 
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
 Patch1: root_cvt
