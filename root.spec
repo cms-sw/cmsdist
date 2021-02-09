@@ -1,7 +1,7 @@
 ### RPM lcg root 6.23.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
-## INITENV SET ROOTSYS %{i}
+## INITENV SET ROOTSYS %{i} 
   
 %define tag fc413ab219962aae366257826e8e73480b026fb6
 %define branch cms/master/a001679
