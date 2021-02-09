@@ -127,7 +127,7 @@ jupyter_core==4.6.3
 jupyter==1.0.0
 Keras==2.4.3
 keras-applications==1.0.8
-keras-preprocessing==1.1.0
+keras-preprocessing==1.1.2
 kiwisolver==1.1.0
 #can not go to 1.5.x in python2 due to astroid
 lazy-object-proxy==1.4.3
@@ -262,11 +262,11 @@ tables==3.5.2 ; python_version<'3.0'
 tables==3.6.1 ; python_version>'3.0'
 #NO_AUTO_UPDATE:4: Force to use tensorflow 1.6.0; this should match the version in tensorflow-sources.spec
 #tensorboard: Need separate packages for py2 and py3 to properly get the correct sources
-tensorboard==2.0.0 ; python_version<'3.0'
-tensorboard==2.0.0 ; python_version>'3.0'
-tensorflow==2.3.1 ; python_version<'3.0'
-tensorflow==2.3.1 ; python_version>'3.0'
-tensorflow-estimator==2.1.0
+tensorboard==2.4.1 ; python_version<'3.0'
+tensorboard==2.4.1 ; python_version>'3.0'
+tensorflow==2.4.1 ; python_version<'3.0'
+tensorflow==2.4.1 ; python_version>'3.0'
+tensorflow-estimator==2.4.0
 termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4

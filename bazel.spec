@@ -1,4 +1,4 @@
-### RPM external bazel 3.7.0
+### RPM external bazel 3.7.2
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 

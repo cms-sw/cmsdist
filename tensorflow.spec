@@ -1,4 +1,4 @@
-### RPM external tensorflow 2.4.0
+### RPM external tensorflow 2.4.1
 %define source_package tensorflow-sources
 %if "%{?vectorized_package:set}" != "set"
 BuildRequires: %{source_package}

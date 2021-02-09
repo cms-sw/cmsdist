@@ -1,4 +1,4 @@
-### RPM external tensorflow-sources 2.4.0
+### RPM external tensorflow-sources 2.4.1
 %define python_cmd python
 %define python_env PYTHON27PATH
 %define build_type opt

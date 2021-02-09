@@ -14,8 +14,8 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         82e29127a712cf761ba78d8d52c12bd6759ff109
-%define branch      cms/v2.4.0
+%define tag         8e1b8c936eb07e5d2694c7fdf9388dd6c93d5043
+%define branch      cms/v2.4.1
 %define github_user riga
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -25,6 +25,9 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %if "%{?pythonOnly:set}" != "set"
 %define pythonOnly no
 %endif
+
+# test
+%define pythonOnly yes
 
 %define majorversion %(echo %realversion | cut -d . -f 1)
 
@@ -125,7 +128,7 @@ BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=n
 BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false"
 
 # build tensorflow python targets
-bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
+bazel $BAZEL_OPTS --noincompatible_do_not_split_linking_cmdline //tensorflow/tools/pip_package:build_pip_package
 
 %if "%{pythonOnly}" == "no"
 bazel $BAZEL_OPTS //tensorflow:tensorflow
