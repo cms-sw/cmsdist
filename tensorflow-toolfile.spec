@@ -26,6 +26,7 @@ done
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/%{base_package}.xml
   </client>
   <runtime name="PATH" value="$TENSORFLOW_BASE/bin" type="path"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
 
