@@ -81,16 +81,12 @@ cat << \EOF_TOOLFILE >>%i/etc/scram.d/gcc-cxxcompiler.xml
     <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
     <ifrelease name="_ASAN">
-      <runtime name="LD_PRELOAD"       value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
     <elif name="_LSAN"/>
-      <runtime name="LD_PRELOAD"       value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
       <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
     <elif name="_UBSAN"/>
-      <runtime name="LD_PRELOAD"        value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libubsan.so" type="path"/>
       <runtime name="GCC_RUNTIME_UBSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libubsan.so" type="path"/>
     <elif name="_TSAN"/>
-      <runtime name="LD_PRELOAD"       value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libtsan.so" type="path"/>
       <runtime name="GCC_RUNTIME_TSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libtsan.so" type="path"/>
     </ifrelease>
     <runtime name="COMPILER_PATH"    value="@GCC_ROOT@"/>
