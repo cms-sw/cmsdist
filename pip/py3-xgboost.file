@@ -1,1 +1,15 @@
-Requires: py3-scipy
+Requires: py3-scipy xgboost
+
+%define PipPreBuildPy3 \
+  tar xzf xgboost-%{realversion}.tar.gz && \
+  cd xgboost-%{realversion} && \
+  sed -i "220s/lib_path = .*/lib_path = \\\"${XGBOOST_ROOT\/\/\\\/\/\\\/}\\\/lib64\\\"/" setup.py && \
+  PIPFILE=.
+
+%define PipBuildOptions --install-option="--use-system-libxgboost"
+
+#%define PipPostInstall \
+  mkdir -p "%{i}/${PYTHON3_LIB_SITE_PACKAGES}/xgboost/lib" && \
+  ( cd "%{i}/${PYTHON3_LIB_SITE_PACKAGES}/xgboost/lib" && \
+    ln -s ../../../../../../../xgboost/${XGBOOST_VERSION}/lib64/libxgboost.so . \
+  )

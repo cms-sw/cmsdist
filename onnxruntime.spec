@@ -1,15 +1,15 @@
-### RPM external onnxruntime 1.3.0
+### RPM external onnxruntime 1.6.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-%define tag 9294d790219aa0d1007d918d7d736d7f5d3e82d8
-%define branch cms/v1.3.0
-%define github_user cms-externals
+%define github_user riga
+%define branch cms/v1.6.0_testing
+%define tag 89a104708d109afc7f41661be33062605b7776a3
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build

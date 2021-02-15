@@ -1,4 +1,4 @@
 %ifnarch x86_64
-Patch0: py2-xgboost-arm-and-ppc
+Patch0: xgboost-arm-and-ppc-0-82
 %endif
 Requires: py2-scipy
