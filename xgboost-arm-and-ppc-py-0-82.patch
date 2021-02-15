@@ -1,7 +1,7 @@
-diff --git a/src/common/hist_util.cc b/src/common/hist_util.cc
+diff --git a/xgboost/src/common/hist_util.cc b/xgboost/src/common/hist_util.cc
 index 8e13403..9a68e88 100644
---- a/src/common/hist_util.cc
-+++ b/src/common/hist_util.cc
+--- a/xgboost/src/common/hist_util.cc
++++ b/xgboost/src/common/hist_util.cc
 @@ -12,14 +12,7 @@
  #include "./hist_util.h"
  #include "./quantile.h"
