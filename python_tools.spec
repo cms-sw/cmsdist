@@ -13,6 +13,7 @@ Requires: py2-scikit-learn
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 Requires: py2-cmsml
+Requires: py2-law
 
 Requires: py2-cloudpickle
 Requires: py2-tables

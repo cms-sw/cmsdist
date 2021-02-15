@@ -76,7 +76,7 @@ decorator==4.4.2
 defusedxml==0.6.0
 distlib==0.3.1
 docopt==0.6.2
-docutils==0.16;python_version>'3.0'
+docutils==0.16
 downhill==0.4.0
 entrypoints==0.3
 enum34==1.1.10;python_version<'3.0'
@@ -143,11 +143,15 @@ keras-applications==1.0.8
 keras-preprocessing==1.1.0
 keyring==21.8.0 ; python_version>'3.0'
 kiwisolver==1.1.0
+law==0.1.3
 #can not go to 1.5.x in python2 due to astroid
 lazy-object-proxy==1.4.3
 lizard==1.17.7
 #NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources
 llvmlite==0.33.0
+lockfile==0.12.2
+luigi==2.8.13 ; python_version<'3.0'
+luigi==3.0.2 ; python_version>'3.0'
 lxml==4.6.2
 lz4==2.2.1 ; python_version<'3.0'
 lz4==3.1.1 ; python_version>'3.0'
@@ -240,6 +244,7 @@ pytest==6.2.1 ; python_version>'3.0'
 pytest-cov==2.10.1
 pytest-runner==5.2
 python-cjson==1.2.2;python_version<'3.0'
+python-daemon==2.2.4
 python-dateutil==2.8.1
 python-ldap==3.3.1
 pytoml==0.1.21;python_version>'3.0'
@@ -260,6 +265,7 @@ scandir==1.10.0
 schema==0.7.3
 scikit-learn==0.20.4 ; python_version<'3.0'
 scikit-learn==0.24.1 ; python_version>'3.0'
+scinum==1.1.3
 scipy==1.2.3 ; python_version<'3.0'
 scipy==1.5.4 ; python_version>'3.0'
 threadpoolctl==2.0.0 ; python_version> '3.0'
