@@ -1,7 +1,7 @@
 ### RPM external onnxruntime 1.6.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-%define github_user riga
-%define branch cms/v1.6.0_testing
+%define github_user cms-externals
+%define branch cms/v%{realversion}
 %define tag 89a104708d109afc7f41661be33062605b7776a3
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
