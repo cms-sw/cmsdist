@@ -166,6 +166,7 @@ Requires: py2-atomicwrites
 Requires: py2-attrs
 Requires: py2-nbdime
 Requires: py2-onnx
+Requires: py3-onnxmltools
 Requires: py2-backports
 Requires: py2-backports_abc
 Requires: py2-colorama
