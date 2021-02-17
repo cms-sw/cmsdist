@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
- 
+
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
 Requires: py2-scipy
@@ -12,6 +12,8 @@ Requires: py2-scikit-learn
 #save for the end
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
+Requires: py2-cmsml
+Requires: py2-law
 
 Requires: py2-cloudpickle
 Requires: py2-tables
@@ -21,9 +23,9 @@ Requires: py2-histogrammar py3-histogrammar
 Requires: py2-pandas
 Requires: py2-root_numpy
 Requires: py2-Bottleneck
-Requires: py2-downhill 
+Requires: py2-downhill
 Requires: py2-theanets
-Requires: py2-xgboost
+Requires: py2-xgboost py3-xgboost
 Requires: py2-llvmlite
 Requires: py3-numba
 Requires: py2-hep_ml
@@ -108,7 +110,7 @@ Requires: py2-schema
 #Requires: py2-Jinja
 Requires: py2-python-dateutil
 Requires: py2-python-cjson
-Requires: py2-enum34 
+Requires: py2-enum34
 Requires: py2-functools32
 Requires: py2-mock
 Requires: py2-pbr
@@ -164,6 +166,7 @@ Requires: py2-atomicwrites
 Requires: py2-attrs
 Requires: py2-nbdime
 Requires: py2-onnx
+Requires: py3-onnxmltools
 Requires: py2-backports
 Requires: py2-backports_abc
 Requires: py2-colorama
@@ -245,4 +248,4 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
 <tool name="%{n}" version="%{v}">
 </tool>
 EOF_TOOLFILE
- 
+

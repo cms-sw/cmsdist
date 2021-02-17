@@ -190,8 +190,8 @@ Requires: oracle-fake-toolfile
 Requires: tensorflow-toolfile
 Requires: xtensor-toolfile
 Requires: xtl-toolfile
+Requires: xgboost-toolfile
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 
 ## IMPORT scramv1-tool-conf
-
