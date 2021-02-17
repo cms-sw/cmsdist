@@ -1,0 +1,2 @@
+Requires: py2-six py3-numpy py3-scipy py2-protobuf py2-onnx py3-scikit-learn py3-onnxconverter-common
+%define source0 https://github.com/onnx/sklearn-onnx/archive/%{realversion}.tar.gz
