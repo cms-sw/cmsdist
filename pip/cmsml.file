@@ -1,0 +1,3 @@
+Requires: py2-six
+
+%define RelocatePython %{i}/bin/*
