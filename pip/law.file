@@ -1,0 +1,3 @@
+Requires: py2-six py2-luigi py3-luigi py2-scinum
+
+%define RelocatePython %{i}/bin/*
