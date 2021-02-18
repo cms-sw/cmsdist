@@ -1,0 +1,45 @@
+### FILE cmsswdata-github.file
+## NOCOMPILER
+%if "%{?data:set}" != "set"
+%define data          data
+%endif
+%if "%{?data_repo:set}" != "set"
+%define data_repo %(echo "%{n}" | sed "s#^data-##")
+%endif
+%if "%{?data_dir:set}" != "set"
+%define data_dir  %(echo "%{n}" | sed "s#^data-##;s#-#/#g")/%{data}
+%endif
+%if "%{?export_dir:set}" != "set"
+%define export_dir  %{n}-%{realversion}
+%endif
+%if "%{?source0:set}" != "set"
+%define source0 git+https://github.com/cms-data/%{data_repo}.git?obj=master/%{realversion}&no-cmssdt-cache=1&export=%{export_dir}&output=/%{n}-%{realversion}.tgz
+%endif
+
+Source: %{source0}
+
+%prep
+%{?PrePrep:%PrePrep}
+%setup -n %{export_dir}
+%{?PostPrep:%PostPrep}
+
+%build
+%{?PreBuild:%PreBuild}
+find . -type d -exec chmod 0755 {} \;
+find . -type f -exec chmod 0644 {} \;
+%{?PostBuild:%PostBuild}
+
+%install
+%{?PreInstall:%PreInstall}
+mkdir -p %{i}/%{data_dir}
+mv -T %{_builddir}/%{export_dir} %{i}/%{data_dir}
+#After the move, crete the build directory again so that %clean does not fail
+mkdir %{_builddir}/%{export_dir}
+%{?PostInstall:%PostInstall}
+
+%post
+%{?PrePost:%PrePost}
+%define base_tool %(echo "%{n}" | tr '[a-z-]' '[A-Z_]')
+echo "%{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{base_tool}_ROOT='${CMS_INSTALL_PREFIX}/%{pkgrel}'" > ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/profile.d/init.csh
+%{?PostPost:%PostPost}
