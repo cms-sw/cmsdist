@@ -3,6 +3,8 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoTracker-FinalTrackSelectors=V01-01-00
+Geometry-TestReference=V00-04-00
 PhysicsTools-PatUtils=V00-02-00
 HeterogeneousCore-SonicTriton=V00-01-00
 RecoHGCal-TICL=V00-02-00
@@ -18,12 +20,11 @@ EgammaAnalysis-ElectronTools=V00-03-00
 CalibTracker-SiPixelESProducers=V02-02-00
 CalibPPS-ESProducers=V01-03-00
 L1Trigger-L1THGCal=V01-04-00
-Geometry-TestReference=V00-03-00
 Alignment-OfflineValidation=V00-01-00
 Geometry-DTGeometryBuilder=V00-01-00
 L1Trigger-TrackFindingTMTT=V00-02-00
 L1Trigger-Phase2L1ParticleFlow=V00-03-00
-L1Trigger-L1TMuon=V01-02-00
+L1Trigger-L1TMuon=V01-03-00
 L1Trigger-DTTriggerPhase2=V00-01-00
 L1Trigger-L1TCalorimeter=V01-01-00
 SimTransport-PPSProtonTransport=V00-02-00
@@ -44,7 +45,6 @@ FWCore-Modules=V00-01-00
 IOPool-Input=V00-01-00
 RecoCTPPS-TotemRPLocal=V00-02-00
 RecoMuon-MuonIdentification=V01-12-05
-RecoTracker-FinalTrackSelectors=V01-00-07
 SLHCUpgradeSimulations-Geometry=V01-00-10
 CondTools-SiPhase2Tracker=V00-01-00
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
