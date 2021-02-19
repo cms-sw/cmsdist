@@ -1,7 +1,7 @@
 ### RPM external cupla 0.3.0-dev
 
 #%define tag %{realversion}
-%define tag ac24b2e0d906652054b1473635f9e1f98b2d31af
+%define tag 545702f1947feb1d46b2230b502f1f46179b3665
 
 Source: https://github.com/alpaka-group/%{n}/archive/%{tag}.tar.gz
 Requires: alpaka
