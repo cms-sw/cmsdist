@@ -1,4 +1,4 @@
-### RPM external alpaka 0.5.0
+### RPM external alpaka 0.6.0
 ## NOCOMPILER
 
 Source: https://github.com/alpaka-group/%{n}/archive/%{realversion}.tar.gz
