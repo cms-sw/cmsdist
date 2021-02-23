@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i} 
   
-%define tag fc413ab219962aae366257826e8e73480b026fb6
-%define branch cms/master/a001679
+%define tag cc0a7d4b18325cd9345ad41508f86f959160ba83
+%define branch cms/master/96719f7
 %define github_user cms-sw 
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
@@ -37,9 +37,6 @@ Requires: dcap
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
-wget https://github.com/root-project/root/pull/7100.patch
-git apply --whitespace=fix 7100.patch
-rm 7100.patch
 wget https://github.com/root-project/root/pull/6385.patch
 git apply --whitespace=fix 6385.patch
 rm 6385.patch
