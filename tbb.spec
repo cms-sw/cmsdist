@@ -11,7 +11,7 @@ BuildRequires: cmake
 
 %build
 
-make %{makeprocesses} stdver=c++17
+make %{makeprocesses} stdver=c++17 tbb_cpf=1
 
 %install
 install -d %i/lib
@@ -21,4 +21,5 @@ case %cmsplatf in
   *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
+ln -s libtbb_preview.${SONAME} %{i}/lib/libtbb.${SONAME}
 cmake -DINSTALL_DIR=%{i}/cmake/TBB -DSYSTEM_NAME=Linux -DINC_PATH=%{i}/include -DLIB_PATH=%{i}/lib -P cmake/tbb_config_installer.cmake
