@@ -237,6 +237,7 @@ Requires: py3-boost-histogram
 Requires: py3-hist
 Requires: py3-histoprint
 Requires: py3-mplhep
+Requires: py3-correctionlib
 
 %prep
 
