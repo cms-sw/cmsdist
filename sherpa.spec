@@ -1,4 +1,4 @@
-### RPM external sherpa 2.2.10
+### RPM external sherpa 2.2.11
 %define tag 600078cc741021be898f15563235cf6c809ca5ff
 %define branch cms/v%realversion
 %define github_user cms-externals
@@ -36,7 +36,6 @@ esac
 %build
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
-            --enable-mcfm=$MCFM_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
             --enable-rivet=$RIVET_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
