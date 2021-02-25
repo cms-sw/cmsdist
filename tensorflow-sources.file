@@ -9,13 +9,13 @@
 #   and update eigen-toolfile.spec accordingly
 ############################################
 
-BuildRequires: bazel swig java-env git
+BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         77e1c215529a442d2c9268c62f010dcf30d90cc4
-%define branch      cms/v2.3.1
+%define tag         4f9d5b031fafd3ffa70f580881a7bbeb01664fd0
+%define branch      cms/v2.4.1
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -79,10 +79,10 @@ echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
 echo "zlib:${ZLIB_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
+echo "com_github_grpc_grpc:${GRPC_ROOT}"    >> ${TF_CMS_EXTERNALS}
 echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
 echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
-echo "swig:"                                >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
 echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
@@ -90,6 +90,7 @@ echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
 echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
 echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
+echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
 echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
 echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
@@ -121,9 +122,8 @@ fi
 export PATH=%{_builddir}/cms-pytool:$PATH
 
 # define bazel options
-BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
+BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=%{build_type} --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
-BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB}"
 BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false"
 
 # build tensorflow python targets
@@ -145,7 +145,7 @@ bazel $BAZEL_OPTS //tensorflow:install_headers
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
 for f in $(find tensorflow -name "*.proto")
 do
-    protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
+  protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
 done
 %endif
 
