@@ -37,6 +37,7 @@ CondFormatsEcalCorrections_CXXMODULES:=1
 CondFormatsEcalObjects_CXXMODULES:=1
 CondFormatsEgammaObjects_CXXMODULES:=1
 CondFormatsESObjects_CXXMODULES:=1
+CondFormatsGBRForest_CXXMODULES:=1
 CondFormatsGEMObjects_CXXMODULES:=1
 CondFormatsGeometryObjects_CXXMODULES:=1
 CondFormatsHcalObjects_CXXMODULES:=1

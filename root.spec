@@ -11,7 +11,6 @@ Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_missing_dicts
 Patch3: revert_cms_fix
-Patch4: root_210130
   
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -40,10 +39,6 @@ Requires: dcap
 wget https://github.com/root-project/root/pull/6385.patch
 git apply --whitespace=fix 6385.patch
 rm 6385.patch
-wget https://github.com/root-project/root/commit/d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
-git apply --whitespace=fix d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
-rm d410531a7db3fcace12de990fe3f4f8509b6fdf0.diff || true
-%patch4 -p1
 
 %patch0 -p1
 
