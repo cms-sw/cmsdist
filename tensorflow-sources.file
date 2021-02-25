@@ -15,7 +15,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE compilation_flags
 
 %define tag         4f9d5b031fafd3ffa70f580881a7bbeb01664fd0
-%define branch      cms/v2.4.1
+%define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -47,10 +47,6 @@ export CC_OPT_FLAGS="-mcpu=native -mtune=native"
 %endif
 %endif
 export CXX_OPT_FLAGS="-std=c++17"
-export EIGEN_SOURCE=${EIGEN_SOURCE}
-export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
-export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX}
-export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
@@ -77,6 +73,7 @@ export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
 echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
 echo "zlib:${ZLIB_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "eigen_archive:${EIGEN_ROOT}"          >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
 echo "com_github_grpc_grpc:${GRPC_ROOT}"    >> ${TF_CMS_EXTERNALS}
