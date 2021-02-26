@@ -36,6 +36,10 @@ Requires: dcap
 %patch1 -p1
 #remove for a test %patch2 -p1
 %patch3 -p1 -R
+
+wget https://github.com/root-project/root/commit/aa956171979e1f24646147bef1c8a26e437e2289.patch
+git apply --whitespace=fix aa956171979e1f24646147bef1c8a26e437e2289.patch
+rm aa956171979e1f24646147bef1c8a26e437e2289.patch
 wget https://github.com/root-project/root/pull/6385.patch
 git apply --whitespace=fix 6385.patch
 rm 6385.patch
