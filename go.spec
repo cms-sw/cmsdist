@@ -1,4 +1,4 @@
-### RPM external go 1.13.8
+### RPM external go 1.16
 ## NOCOMPILER
 
 %ifarch x86_64                                                                                                                                                                                        
