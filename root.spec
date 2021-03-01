@@ -11,7 +11,7 @@ Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_missing_dicts
 Patch3: revert_cms_fix
-  
+   
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
