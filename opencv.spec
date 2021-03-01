@@ -21,6 +21,9 @@ cmake ../%{n}-%{realversion} \
     -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
+%ifarch ppc64le
+    -DWITH_EIGEN=OFF \
+%endif
     -DPYTHON2_EXECUTABLE:FILEPATH="${PYTHON_ROOT}/bin/python" \
     -DPYTHON2_INCLUDE_DIR:PATH="${PYTHON_ROOT}/include/python2.7" \
     -DPYTHON2_LIBRARY:FILEPATH="${PYTHON_ROOT}/lib/libpython2.7.so" \
