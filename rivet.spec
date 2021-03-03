@@ -7,7 +7,7 @@ Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}
 Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python py2-cython py2-setuptools
 
-Patch0: rivet-140-313-weightnames
+Patch0: rivet-140-313
 
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
