@@ -168,7 +168,8 @@ DataFormatsTrajectoryState_CXXMODULES:=1
 DataFormatsV0Candidate_CXXMODULES:=1
 DataFormatsVertexReco_CXXMODULES:=1
 DataFormatsWrappedStdDictionaries_CXXMODULES:=1
-DPGAnalysisSiStripTools_CXXMODULES:=1
+#problems to be debugged...
+DPGAnalysisSiStripTools_CXXMODULES:=0
 EgammaAnalysisElectronTools_CXXMODULES:=1
 FastSimDataFormatsCTPPSFastSim_CXXMODULES:=1
 FastSimDataFormatsExternal_CXXMODULES:=1
