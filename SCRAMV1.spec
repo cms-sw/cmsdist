@@ -54,6 +54,7 @@ mkdir %{i}/bin
 cp -r SCRAM %{i}/
 cp cli/scram %{i}/bin/
 cp cli/scram.py %{i}/bin/
+
 %post
 %{relocateRpmPkg}SCRAM/__init__.py
 sed -i -e "s|^BASEPATH = .*|BASEPATH = '$CMS_INSTALL_PREFIX'|" $RPM_INSTALL_PREFIX/%{pkgrel}/SCRAM/__init__.py
