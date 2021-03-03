@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V3_00_13
+### RPM lcg SCRAMV1 V3_00_14
 ## NOCOMPILER
 
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
@@ -6,7 +6,7 @@ Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag 3824e5f9889a8cfa797c72b54fbd962d531fee8d
+%define tag 373f196481c225ccc094a7889d24f7ded6d19930
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -52,7 +52,8 @@ sed -i -e "s|@CMS_PATH@|%{instroot}|g;s|@SCRAM_VERSION@|%{realversion}|g" SCRAM/
 %install
 mkdir %{i}/bin
 cp -r SCRAM %{i}/
-cp cli/scram.py %{i}/bin/scram
+cp cli/scram %{i}/bin/
+cp cli/scram.py %{i}/bin/
 
 %post
 %{relocateRpmPkg}SCRAM/__init__.py
