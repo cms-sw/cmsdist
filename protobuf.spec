@@ -1,4 +1,4 @@
-### RPM external protobuf 3.11.3
+### RPM external protobuf 3.15.1
 ## INITENV SETV PROTOBUF_SOURCE %{source0}
 ## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
 #============= IMPORTANT NOTE ========================#
@@ -21,7 +21,7 @@ BuildRequires: cmake ninja
 
 %prep
 %setup -n %{source_prefix}
-
+sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD 17|' cmake/CMakeLists.txt
 %build
 rm -rf ../build
 mkdir ../build
