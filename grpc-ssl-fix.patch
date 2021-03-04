@@ -1,0 +1,38 @@
+--- a/src/core/tsi/ssl_transport_security.cc	2021-02-24 07:48:45.470971187 +0100
++++ b/src/core/tsi/ssl_transport_security.cc	2021-02-23 13:06:20.469007951 +0100
+@@ -553,7 +553,7 @@
+   X509* certificate = nullptr;
+   BIO* pem;
+   GPR_ASSERT(pem_cert_chain_size <= INT_MAX);
+-  pem = BIO_new_mem_buf(pem_cert_chain, static_cast<int>(pem_cert_chain_size));
++  pem = BIO_new_mem_buf((void*)pem_cert_chain, static_cast<int>(pem_cert_chain_size));
+   if (pem == nullptr) return TSI_OUT_OF_RESOURCES;
+ 
+   do {
+@@ -673,7 +673,7 @@
+   EVP_PKEY* private_key = nullptr;
+   BIO* pem;
+   GPR_ASSERT(pem_key_size <= INT_MAX);
+-  pem = BIO_new_mem_buf(pem_key, static_cast<int>(pem_key_size));
++  pem = BIO_new_mem_buf((void*)pem_key, static_cast<int>(pem_key_size));
+   if (pem == nullptr) return TSI_OUT_OF_RESOURCES;
+   do {
+     private_key =
+@@ -718,7 +718,7 @@
+   X509_NAME* root_name = nullptr;
+   BIO* pem;
+   GPR_ASSERT(pem_roots_size <= INT_MAX);
+-  pem = BIO_new_mem_buf(pem_roots, static_cast<int>(pem_roots_size));
++  pem = BIO_new_mem_buf((void*)pem_roots, static_cast<int>(pem_roots_size));
+   if (cert_store == nullptr) return TSI_INVALID_ARGUMENT;
+   if (pem == nullptr) return TSI_OUT_OF_RESOURCES;
+   if (root_names != nullptr) {
+@@ -837,7 +837,7 @@
+   tsi_result result = TSI_OK;
+   X509* cert = nullptr;
+   BIO* pem;
+-  pem = BIO_new_mem_buf(pem_cert, static_cast<int>(strlen(pem_cert)));
++  pem = BIO_new_mem_buf((void*)pem_cert, static_cast<int>(strlen(pem_cert)));
+   if (pem == nullptr) return TSI_OUT_OF_RESOURCES;
+ 
+   cert = PEM_read_bio_X509(pem, nullptr, nullptr, const_cast<char*>(""));
