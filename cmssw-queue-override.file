@@ -12,6 +12,10 @@
 %define usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
 %endif
 
+%if "%(case %realversion in (*_O0_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%define usercxxflags    -O0 -DEDM_ML_DEBUG
+%endif
+
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
