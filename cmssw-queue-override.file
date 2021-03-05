@@ -1,4 +1,5 @@
 ### FILE cmssw-queue-override
+## NO_VERSION_SUFFIX
 ## UPLOAD_DEPENDENCIES dqmgui
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define usercxxflags    -fprofile-arcs -ftest-coverage
@@ -12,7 +13,7 @@
 %define usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
 %endif
 
-%if "%(case %realversion in (*_O0_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %realversion in (*_DBG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define usercxxflags    -g -O0 -DEDM_ML_DEBUG
 %endif
 
