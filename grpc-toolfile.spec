@@ -19,6 +19,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/grpc.xml
     <environment name="INCLUDE" default="$GRPC_BASE/include"/>
     <environment name="LIBDIR" default="$GRPC_BASE/lib"/>
   </client>
+  <flags SYSTEM_INCLUDE="1"/>
   <use name="protobuf"/>
   <use name="openssl"/>
   <use name="pcre"/>

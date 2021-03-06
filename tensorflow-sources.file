@@ -47,10 +47,6 @@ export CC_OPT_FLAGS="-mcpu=native -mtune=native"
 %endif
 %endif
 export CXX_OPT_FLAGS="-std=c++17"
-export EIGEN_SOURCE=${EIGEN_SOURCE}
-export PROTOBUF_SOURCE=${PROTOBUF_SOURCE}
-export EIGEN_STRIP_PREFIX=${EIGEN_STRIP_PREFIX}
-export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
