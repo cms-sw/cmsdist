@@ -9,13 +9,13 @@
 #   and update eigen-toolfile.spec accordingly
 ############################################
 
-BuildRequires: bazel swig java-env git
+BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         77e1c215529a442d2c9268c62f010dcf30d90cc4
-%define branch      cms/v2.3.1
+%define tag         050756d3ddbf0692b74451f6ba3d75d54d345d9e
+%define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -37,16 +37,21 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 export PYTHON_BIN_PATH="$(which %{python_cmd})"
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 export GCC_HOST_COMPILER_PATH="$(which gcc)"
+export CC_OPT_FLAGS="-Wno-sign-compare"
+
+BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --distinct_host_configuration=false"
 %ifarch x86_64
-export CC_OPT_FLAGS="%{vectorize_flag}"
+BAZEL_OPTS="$BAZEL_OPTS --copt=%{vectorize_flag}"
 %else
 %ifarch ppc64le
-export CC_OPT_FLAGS="-mcpu=native -mtune=native --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512"
+BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
+BAZEL_OPTS="$BAZEL_OPTS --copt=--param=l1-cache-size=64 --copt=--param=l1-cache-line-size=128 --copt=--param=l2-cache-size=512"
 %else
-export CC_OPT_FLAGS="-mcpu=native -mtune=native"
+BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 %endif
-export CXX_OPT_FLAGS="-std=c++17"
+BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
 
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
@@ -73,19 +78,22 @@ export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
 echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
 echo "zlib:${ZLIB_ROOT}"                    >> ${TF_CMS_EXTERNALS}
+echo "eigen_archive:${EIGEN_ROOT}"          >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
+echo "com_github_grpc_grpc:${GRPC_ROOT}"    >> ${TF_CMS_EXTERNALS}
 echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
 echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
-echo "swig:"                                >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
+echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
 echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
 echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
 echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
 echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
 echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
+echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
 echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
 echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
@@ -116,12 +124,6 @@ else
 fi
 export PATH=%{_builddir}/cms-pytool:$PATH
 
-# define bazel options
-BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --config=opt --cxxopt=$CXX_OPT_FLAGS %{makeprocesses}"
-BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
-BAZEL_OPTS="$BAZEL_OPTS --action_env=SWIG_LIB=${SWIG_LIB}"
-BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=false"
-
 # build tensorflow python targets
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
 
@@ -141,7 +143,7 @@ bazel $BAZEL_OPTS //tensorflow:install_headers
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
 for f in $(find tensorflow -name "*.proto")
 do
-    protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
+  protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
 done
 %endif
 

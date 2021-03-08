@@ -1,21 +1,14 @@
-### RPM external eigen d812f411c3f9
+### RPM external eigen 011e0db31d1bed8b7f73662be6d57d9f30fa457a
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
-## INITENV SETV EIGEN_SOURCE %{source0}
-## INITENV SETV EIGEN_STRIP_PREFIX %{source_prefix}
 ## NOCOMPILER
-%define tag b20a61c3a0dc9a79790cd258130a99b574662272
-
-# These are needed by Tensorflow sources
-# NOTE: Never apply any patch in the spec file, this way tensorflow gets the exact same sources
-%define source0 https://github.com/cms-externals/eigen-git-mirror/archive/%{tag}.tar.gz
-%define source_prefix eigen-git-mirror-%{tag}
-Source: %{source0}
+%define tag fd0c254c0a9adc47c094257ce6256ab4d94b956e
+%define branch cms/master/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/eigen-git-mirror.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: cmake
-Patch0: eigen-altivec-fix
 
 %prep
-%setup -n %{source_prefix}
-%patch0 -p1
+%setup -n %{n}-%{realversion}
 
 %build
 mkdir build
