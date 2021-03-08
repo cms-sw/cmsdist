@@ -12,7 +12,8 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_pure
-   
+Patch3: root_210306
+ 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -37,6 +38,7 @@ Requires: dcap
 %patch1 -p1
 %patch0 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -rf ../build

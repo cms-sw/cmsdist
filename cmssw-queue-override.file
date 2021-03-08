@@ -35,7 +35,6 @@
 %if "%(case %realversion in (*CXXMODULE*) echo true ;; (*) echo false ;; esac)" == "true"
 Source20: CXXModules.mk
 Source21: cmssw_eigen_module.patch
-Source22: p210303_diffs.diff
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
   for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopologies Geometry/CommonDetUnit CommonTools/Utils  Geometry/TrackerNumberingBuilder TrackingTools/DetLayers TrackingTools/GeomPropagators TrackingTools/AnalyticalJacobians Geometry/MuonNumbering CalibTracker/Records MagneticField/Records CondFormats/Serialization FWCore/SOA CondCore/CondDB JetMETCorrections/Objects Geometry/EcalCommonData RecoTracker/Record TrackingTools/TransientTrack MagneticField/Engine TrackingTools/Record RecoMuon/Records DetectorDescription/Core Geometry/EcalAlgo Geometry/CaloTopology FWCore/PluginManager ; do \
@@ -43,14 +42,12 @@ Source22: p210303_diffs.diff
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
   pushd src \
-  for pr in 33014 33049; do \
+  for pr in 33096 33095 33094 33093 33092; do \
     curl -s -o ${pr}.patch https://patch-diff.githubusercontent.com/raw/cms-sw/cmssw/pull/${pr}.patch \
     patch -p1 < ${pr}.patch || true \
     rm -f ${pr}.patch \
   done \
   patch -p1 < %{_sourcedir}/cmssw_eigen_module.patch || true \
-  ls \
-  patch -p1 < %{_sourcedir}/p210303_diffs.diff  \
   popd \ 
 %endif
 # FWCore/PluginManager 

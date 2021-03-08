@@ -1,0 +1,30 @@
+diff --git a/core/metacling/src/TCling.cxx b/core/metacling/src/TCling.cxx
+index 2c71b6bb65..a04c27af39 100644
+--- a/core/metacling/src/TCling.cxx
++++ b/core/metacling/src/TCling.cxx
+@@ -1049,7 +1049,6 @@ static bool LoadModule(const std::string &ModuleName, cling::Interpreter &interp
+       ::Info("TCling::__LoadModule", "Preloading module %s. \n",
+              ModuleName.c_str());
+ 
+-   cling::Interpreter::PushTransactionRAII deserRAII(&interp);
+    return interp.loadModule(ModuleName, /*Complain=*/true);
+ }
+ 
+@@ -1191,10 +1190,14 @@ static void RegisterCxxModules(cling::Interpreter &clingInterp)
+ {
+    if (!clingInterp.getCI()->getLangOpts().Modules)
+       return;
+-      // Setup core C++ modules if we have any to setup.
+ 
+-      // Load libc and stl first.
+-      // Load vcruntime module for windows
++   // Loading of a module might deserialize.
++   cling::Interpreter::PushTransactionRAII deserRAII(&clingInterp);
++
++   // Setup core C++ modules if we have any to setup.
++
++   // Load libc and stl first.
++   // Load vcruntime module for windows
+ #ifdef R__WIN32
+    LoadModule("vcruntime", clingInterp);
+    LoadModule("services", clingInterp);
