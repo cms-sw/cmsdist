@@ -1,6 +1,4 @@
-### RPM external protobuf 3.11.3
-## INITENV SETV PROTOBUF_SOURCE %{source0}
-## INITENV SETV PROTOBUF_STRIP_PREFIX %{source_prefix}
+### RPM external protobuf 3.15.1
 #============= IMPORTANT NOTE ========================#
 # When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
 # current recipe for this is:
@@ -10,18 +8,15 @@
 # protoc --cpp_out=. DQMServices/Core/src/ROOTFilePB.proto
 #######################################################
 
-#These are needed by Tensorflow sources
-#NOTE: Never apply any patch in the spec file, this way tensorflow gets the exact same sources
-%define source0 https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
-%define source_prefix %{n}-%{realversion}
-
-Source: %{source0}
+Source: https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
+Patch0: protobuf-3.15-gcc10
 Requires: zlib
 BuildRequires: cmake ninja
 
 %prep
-%setup -n %{source_prefix}
-
+%setup -n %{n}-%{realversion}
+%patch0 -p1
+sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD 17|' cmake/CMakeLists.txt
 %build
 rm -rf ../build
 mkdir ../build
