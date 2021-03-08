@@ -1,0 +1,1 @@
+Requires: py3-cachetools py3-pyasn1-modules py3-rsa py2-six
