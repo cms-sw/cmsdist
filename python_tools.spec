@@ -10,7 +10,7 @@ Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
 #save for the end
-Requires: py2-tensorflow py3-tensorflow
+Requires: py3-tensorflow
 Requires: py2-googlePackages
 Requires: py2-cmsml
 Requires: py2-law

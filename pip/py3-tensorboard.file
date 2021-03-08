@@ -1,2 +1,3 @@
 Requires: py3-numpy py2-absl-py py2-grpcio
+Requires: py3-google-auth-oauthlib py3-tensorboard-plugin-wit
 %define PipPostBuild mv %{i}/bin/tensorboard %{i}/bin/tensorboard3
