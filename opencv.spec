@@ -5,12 +5,14 @@
 %define branch master
 %define github_user opencv
 
-Source: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source1: https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/19692.patch
 BuildRequires: cmake ninja
 Requires: python python3 py2-numpy py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/19692.patch
 
 %build
 rm -rf ../build
@@ -21,9 +23,7 @@ cmake ../%{n}-%{realversion} \
     -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
-%ifarch ppc64le
-    -DWITH_EIGEN=OFF \
-%endif
+    -DWITH_EIGEN=ON \
     -DPYTHON2_EXECUTABLE:FILEPATH="${PYTHON_ROOT}/bin/python" \
     -DPYTHON2_INCLUDE_DIR:PATH="${PYTHON_ROOT}/include/python2.7" \
     -DPYTHON2_LIBRARY:FILEPATH="${PYTHON_ROOT}/lib/libpython2.7.so" \
