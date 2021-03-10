@@ -1,0 +1,17 @@
+--- ThePEG-2.2.2/LesHouches/LesHouchesFileReader.cc	2021-03-08 13:18:39.000000001 +0100
++++ LesHouchesFileReader_fix.cc	2021-03-08 13:18:30.000000001 +0100
+@@ -546,6 +546,14 @@
+        */
+       if(readingInitWeights_sc && !cfile.find("</weightgroup")) {
+ 	hs = cfile.getline();
++    //cout << "hs=" << hs << endl;
++    //cout << "weightinfo= " << weightinfo << endl;
++    //fix for potential new lines:
++    if(!cfile.find("<weight") and !cfile.find("</weightgroup")) {
++      weightinfo = weightinfo + hs;
++      //cout << "weightinfo fixed= " << weightinfo << endl;
++      continue;
++    }
+ 	istringstream isc(hs);
+ 	int ws = 0;
+ 	/* get the name that will be used to identify the scale 
