@@ -28,7 +28,6 @@ if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version ] ; then
     exit 0
   fi
 fi
-
 mkdir -p $RPM_INSTALL_PREFIX/share/overrides ${RPM_INSTALL_PREFIX}/etc/%{pkgname}
 for d in bin python ; do
   rsync -a ${RPM_INSTALL_PREFIX}/%{pkgrel}/$d/ $RPM_INSTALL_PREFIX/share/overrides/$d/
