@@ -1,4 +1,4 @@
-### RPM external thepeg 2.2.1
+### RPM external thepeg 2.2.2
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
 
@@ -20,9 +20,12 @@ BuildRequires: lhapdf
 %define cms_cxx c++
 %endif
 
+Patch0: LesHouchesFileReader
 
 %prep
 %setup -q -n ThePEG-%{realversion}
+
+%patch0 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
