@@ -1,11 +1,15 @@
 ### RPM external OpenBLAS 0.3.9
 ## INCLUDE compilation_flags
 Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
+Patch0: OpenBLAS-fix-dynamic-arch
+Patch1: OpenBLAS-disable-tests
 
 # Will be part of future release
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
+%patch1 -p1
 
 %build
 
