@@ -1,13 +1,12 @@
 ### RPM external tensorflow 2.4.1
-%define source_package tensorflow-sources
 %if "%{?vectorized_package:set}" != "set"
+%define source_package tensorflow-sources
+%else
+%define source_package tensorflow-sources_%{vectorized_package}
+%endif
 BuildRequires: %{source_package}
 %define tf_root %(echo %{source_package}_ROOT | tr '[a-z-]' '[A-Z_]')
 %define tf_version %(echo %{source_package}_VERSION | tr '[a-z-]' '[A-Z_]')
-%else
-BuildRequires: %{source_package}_%{vectorized_package}
-%define tf_root %(echo %{source_package}_%{vectorized_package}_ROOT | tr '[a-z-]' '[A-Z_]')
-%endif
 Provides: libtensorflow_cc.so(tensorflow)(64bit)
 Source: none
 
