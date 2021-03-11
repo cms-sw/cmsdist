@@ -19,12 +19,17 @@ if machine() == "x86_64":
     "nehalem":     "-march=nehalem",
     "sandybridge": "-march=sandybridge",
     "haswell":     "-march=haswell",
+    "skylake-avx512":"-march=skylake-avx512",
   }
+
+def fix_tensorflow_sources(vec, value):
+  return [(DEFAULT_VECTORIZED_FLAG,"%s %s" % (value, "--distinct_host_configuration=true"))]
 
 def fix_vecgeom(vec, value):
   return [(DEFAULT_VECTORIZED_FLAG.replace("-m", ""), value.replace("-m", ""))]
 
 def fix_OpenBLAS(vec, value):
+  if vec=="skylake-avx512": vec="SKYLAKEX"
   return [("TARGET=CORE2", "TARGET=%s" % vec.upper())]
 
 def packages(virtual_packages, *args):
@@ -39,7 +44,8 @@ def packages(virtual_packages, *args):
       vpkg = "%s_%s" % (pkg, v)
       rdata = [(DEFAULT_VECTORIZED_FLAG, VALID_VECTORIZATION[v])]
       try:
-        rdata = eval('fix_%s' % pkg)(v, rdata[0][1])
+        ndata = eval('fix_%s' % pkg.replace("-","_").replace(".","_"))(v, rdata[0][1])
+        if ndata is not None: rdata = ndata
       except:
         pass
       xregexp = ""
