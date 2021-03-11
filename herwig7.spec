@@ -1,4 +1,4 @@
-### RPM external herwigpp 7.2.1
+### RPM external herwig7 7.2.2
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 Requires: lhapdf
@@ -15,12 +15,8 @@ Requires: openloops
 %endif
 BuildRequires: autotools
 
-Patch0: FxFxFileReader
-
 %prep
 %setup -q -n Herwig-%{realversion}
-
-%patch0 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
@@ -66,7 +62,7 @@ chmod +x %{i}/bin/Herwig
 
 %post
 %{relocateConfig}bin/herwig-config
-%{relocateConfig}bin/Herwig++
+%{relocateConfig}bin/Herwig7
 %{relocateConfig}bin/Herwig-cms
 %{relocateConfig}bin/ufo2herwig
 %{relocateConfig}lib/Herwig/*.la
