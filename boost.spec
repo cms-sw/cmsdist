@@ -4,11 +4,12 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+Patch0: boost-1.75.0-disable-statx
 Requires: python bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 case %cmsos in 
