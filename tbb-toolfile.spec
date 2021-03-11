@@ -20,6 +20,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
   <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="TBB_USE_GLIBCXX_VERSION=@GCC_GLIBCXX_VERSION@"/>
   <flags CPPDEFINES="TBB_SUPPRESS_DEPRECATED_MESSAGES"/>
+  <flags CPPDEFINES="TBB_PREVIEW_RESUMABLE_TASKS=1"/>
   <flags SYSTEM_INCLUDE="1"/>
 </tool>
 EOF_TOOLFILE
