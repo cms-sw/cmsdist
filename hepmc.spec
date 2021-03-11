@@ -1,9 +1,8 @@
 ### RPM external hepmc 2.06.10
-Source: http://hepmc.web.cern.ch/hepmc/releases/hepmc%realversion.tgz
-Patch0: hepmc-2.03.06-reflex
-Patch1: hepmc-2.06.07-WeightContainer-fix-size_type
-Patch2: HepMC-2.06.07-nodoc
-Patch3: HepMC-2.06.07-pyinit
+
+%define tag d262dcafa9855927846f7b140a4bc3b31667ef03
+%define branch cms/%{realversion}
+Source: git+https://github.com/cms-externals/hepmc.git?obj=%{branch}/%{tag}&export=HepMC-%{realversion}&output=/HepMC-%{realversion}.tgz
 
 Requires: autotools
 
@@ -12,10 +11,6 @@ Requires: autotools
 
 %prep
 %setup -q -n HepMC-%{realversion}
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 F77="$(which gfortran) -fPIC"
 CXX="$(which g++) -fPIC"
