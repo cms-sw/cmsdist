@@ -30,4 +30,5 @@ make %makeprocesses
 %install
 cd ../build
 make install
+rm -rf %i/lib/*.so
 rm -rf %i/lib/*.la
