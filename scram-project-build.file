@@ -8,6 +8,11 @@
 %define isslc6_amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
 %define scram_script_prefix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo .pl || echo .py)
+%if "%{?pkgname}" != "coral"
+%if "%{?package_vectorization}" != ""
+%define vectorized_build yes
+%endif
+%endif
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -62,7 +67,7 @@ Requires: glibc
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V06-01-18
+%define configtag       V06-01-19
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -131,6 +136,10 @@ echo %{configtag} > %_builddir/config/config_tag
 %else
   --keys PROJECT_GIT_HASH=%{realversion}
 %endif
+%if "%{?vectorized_build:set}" == "set"
+sed -i -e 's| SCRAM_VECTORIZE=.*"| SCRAM_VECTORIZE="%{package_vectorization}"|' %_builddir/config/Self.xml
+sed -i -e 's|</tool>|<runtime name="USER_VECTORIZE_ALL" value="1"/></tool>|' %_builddir/config/Self.xml
+%endif
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
@@ -183,6 +192,9 @@ export SCRAM_NOSYMCHECK=true
 %endif
 
 case %n in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
+%if "%{?vectorized_build:set}" == "set"
+touch %{i}/.SCRAM/%{cmsplatf}/vectorize
+%endif
 %scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { touch ../build-errors && %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
