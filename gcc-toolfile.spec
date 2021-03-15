@@ -5,6 +5,7 @@
 # "--use-system-compiler" option.
 
 Source: none
+%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
 
 %prep
 %build
@@ -68,7 +69,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
 EOF_TOOLFILE
 %ifarch x86_64
 for v in %{package_vectorization} ; do
-  uv=$(echo $v | tr '[a-z-]' '[A-Z_]')
+  uv=$(echo $v | tr [a-z-] [A-Z_] | tr '.' '_')
   echo "    <flags CXXFLAGS_VECTORIZE_${uv}=\"$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $v)\"/>" >> %i/etc/scram.d/gcc-cxxcompiler.xml
 done
 %endif
