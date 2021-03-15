@@ -6,7 +6,7 @@
 %define amver 0.21.0
 %define sternv 1.11.0
 %define apsver 0.1.85
-%define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub nats-exitcodes-termui dbs_vm
+%define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
 %define common_commands promtool amtool prometheus hey stern
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
