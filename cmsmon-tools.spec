@@ -1,10 +1,11 @@
-### RPM cms cmsmon-tools 0.5.9
+### RPM cms cmsmon-tools 0.5.27
 ## NOCOMPILER
 
 %define arch linux-amd64
-%define promv 2.23.0
+%define promv 2.25.1
 %define amver 0.21.0
 %define sternv 1.11.0
+%define apsver 0.1.85
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub nats-exitcodes-termui dbs_vm
 %define common_commands promtool amtool prometheus hey stern
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
@@ -58,6 +59,14 @@ cd %{_builddir}
 curl -ksLO https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
 chmod +x stern_linux_amd64
 cp stern_linux_amd64 %i/stern
+cd -
+
+# install token-manager
+cd %{_builddir}
+curl -ksLO https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
+tar xfz auth-proxy-tools.tar.gz
+cp token-manager %i/
+cp auth-token %i/
 cd -
 
 #####################################################
