@@ -2,6 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INCLUDE compilation_flags
 
+BuildRequires: autotools
 Requires: python
 %define tag 65f948f075860df1fddf7b819f60c3346710ebf1
 %define branch cms/v%{realversion}
