@@ -10,7 +10,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/xrootd.xml
 <tool name="xrootd" version="@TOOL_VERSION@">
   <lib name="XrdUtils"/>
-  <lib name="XrdClient"/>
+  <lib name="XrdCl"/>
   <client>
     <environment name="XROOTD_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$XROOTD_BASE/include/xrootd"/>
