@@ -1,7 +1,7 @@
 ### RPM external hepmc 2.06.10
 
-%define tag 307d0fb0853812142f3e47f85353ba3cf95bde28
-%define branch dl210312_3
+%define tag 91c4c217572ac25669e9ad8fdc0111d1d5c82289
+%define branch cms/%{realversion}
 Source: git+https://github.com/davidlange6/hepmc.git?obj=%{branch}/%{tag}&export=HepMC-%{realversion}&output=/HepMC-%{realversion}.tgz
 
 BuildRequires: cmake
