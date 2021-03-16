@@ -5,7 +5,7 @@
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: hepmc fastjet fastjet-contrib yoda
-BuildRequires: python py2-cython py2-setuptools
+BuildRequires: python py2-cython py2-setuptools autotools
 
 Patch0: rivet-140-313
 
