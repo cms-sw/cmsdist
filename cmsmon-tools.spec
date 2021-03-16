@@ -13,6 +13,8 @@ Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/archive/x509-csv-fixes.tar.gz
+Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
+Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
 
 BuildRequires: go
 
@@ -23,6 +25,7 @@ BuildRequires: go
 %setup -D -T -b 1 -n prometheus-%promv.%arch
 %setup -D -T -b 3 -n hey-x509-csv-fixes
 %setup -D -T -b 2 -n alertmanager-%amver.%arch
+%setup -D -T -b 5 -n auth-proxy-tools
 
 %build
 mkdir -p gopath/bin
@@ -37,6 +40,10 @@ go get github.com/vkuznet/hey/requester
 make
 
 %install
+cd %{_builddir}
+echo "### builddir %{_builddir}"
+ls
+
 cd %{_builddir}/cmsmon-tools
 # copy CMS monitoring tools
 for cmd in %monit_commands; do
@@ -62,9 +69,7 @@ cp stern_linux_amd64 %i/stern
 cd -
 
 # install token-manager
-cd %{_builddir}
-curl -ksLO https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
-tar xfz auth-proxy-tools.tar.gz
+cd %{_builddir}/auth-proxy-tools
 cp token-manager %i/
 cp auth-token %i/
 cd -
