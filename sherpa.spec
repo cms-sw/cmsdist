@@ -4,7 +4,7 @@
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
-BuildRequires: mcfm swig
+BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
 
 %ifos linux
