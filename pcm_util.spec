@@ -17,25 +17,11 @@ echo "module Dummy{}" > dummy.modulemap
 
 CLHEP_MM_NAME="module.modulemap"
 TINYXML2_MM_NAME="tinyxml2.modulemap"
+CUDA_MM_NAME="cuda.modulemap"
 BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX" 
 
-
-#packages with no module maps
-for mod in cuda
-do
-    rootvar="$(echo "${mod}_ROOT" | tr [a-z] [A-Z])"
-    mm_name="$(echo "${mod}_MM_NAME" | tr [a-z] [A-Z])"
-    rm -f dummy_dict.cc
-    rm -f libDummy.so
-    rootcling dummy_dict.cc -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m $mod -mByproduct $mod  -I ${!rootvar}/include/ empty.h
-    mkdir -p $mod
-    rm -f Dummy.pcm
-    mv *.pcm $mod
-done
-
-
 #packages with module maps
-for mod in clhep tinyxml2
+for mod in clhep tinyxml2 cuda
 do
     rootvar="$(echo "${mod}_ROOT" | tr [a-z] [A-Z])"
     mm_name="$(echo "${mod}_MM_NAME" | tr [a-z] [A-Z])"
