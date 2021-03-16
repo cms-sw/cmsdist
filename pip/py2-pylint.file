@@ -1,0 +1,1 @@
+%define PipPostBuild sed -i -e "s|^#!.*python.*|#!/usr/bin/env python2|" %{i}/bin/*
