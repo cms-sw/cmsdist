@@ -2,7 +2,7 @@
 
 %define tag 91c4c217572ac25669e9ad8fdc0111d1d5c82289
 %define branch cms/%{realversion}
-Source: git+https://github.com/davidlange6/hepmc.git?obj=%{branch}/%{tag}&export=HepMC-%{realversion}&output=/HepMC-%{realversion}.tgz
+Source: git+https://github.com/cms-externals/hepmc.git?obj=%{branch}/%{tag}&export=HepMC-%{realversion}&output=/HepMC-%{realversion}.tgz
 
 BuildRequires: cmake
 
