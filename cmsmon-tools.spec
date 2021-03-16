@@ -40,10 +40,6 @@ go get github.com/vkuznet/hey/requester
 make
 
 %install
-cd %{_builddir}
-echo "### builddir %{_builddir}"
-ls
-
 cd %{_builddir}/cmsmon-tools
 # copy CMS monitoring tools
 for cmd in %monit_commands; do
@@ -62,11 +58,8 @@ cp hey %i
 cd -
 
 # install stern
-cd %{_builddir}
-curl -ksLO https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
-chmod +x stern_linux_amd64
-cp stern_linux_amd64 %i/stern
-cd -
+cp %{_sourcedir}/stern_linux_amd64 %i/stern
+chmod +x %i/stern
 
 # install token-manager
 cd %{_builddir}/auth-proxy-tools
