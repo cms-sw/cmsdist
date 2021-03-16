@@ -1,6 +1,7 @@
 Requires: llvm py2-wheel py2-enum34
 Patch0: py2-llvmlite-fpic-flag
 Patch1: py2-llvmlite-llvm9
+Patch2: py2-llvmlite-removeduplicate
 
-%define source0 git+https://github.com/numba/llvmlite?obj=master/0be433f000ddad39a43a7469ce19e0692a8b73de&export=llvmlite-%{realversion}&output=/source.tar.gz
+%define source0 git+https://github.com/numba/llvmlite?obj=release0.35/v0.35.0&export=llvmlite-%{realversion}&output=/source.tar.gz
 %define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config
