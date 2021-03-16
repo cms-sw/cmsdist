@@ -153,8 +153,8 @@ law==0.1.3
 #can not go to 1.5.x in python2 due to astroid
 lazy-object-proxy==1.4.3
 lizard==1.17.7
-#NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources
-llvmlite==0.33.0
+#NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources. Still, keep the version
+llvmlite==0.35.0 ; python_version>'3.0'
 lockfile==0.12.2
 luigi==2.8.13 ; python_version<'3.0'
 luigi==3.0.2 ; python_version>'3.0'

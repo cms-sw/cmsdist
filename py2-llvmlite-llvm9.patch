@@ -1,25 +1,13 @@
-diff -Naur a/ffi/build.py b/ffi/build.py
---- a/ffi/build.py	2020-01-10 14:51:38.000000000 +0100
-+++ b/ffi/build.py	2020-01-10 14:45:27.059843040 +0100
-@@ -110,7 +110,7 @@
-     out = out.decode('latin1')
-     print(out)
-     if not (out.startswith('8.0.') or out.startswith('7.0.')
--            or out.startswith('7.1.')):
-+            or out.startswith('7.1.') or out.startswith('9.0.') or out.startswith('10.0.')):
-         msg = (
-             "Building llvmlite requires LLVM 7.0.x, 7.1.x or 8.0.x Be sure to "
-             "set LLVM_CONFIG to the right executable path.\n"
-diff --git a/ffi/linker.cpp b/ffi/linker.cpp
-index 57bb80b..2cc0019 100644
---- a/ffi/linker.cpp
-+++ b/ffi/linker.cpp
-@@ -42,7 +42,7 @@ LLVMPY_LinkModules(LLVMModuleRef Dest, LLVMModuleRef Src, const char **Err)
-     auto OldDiagnosticHandler = Ctx.getDiagnosticHandler();
+diff --git a/ffi/build.py b/ffi/build.py
+index 09e95da..add3945 100755
+--- a/ffi/build.py
++++ b/ffi/build.py
+@@ -134,7 +134,7 @@ def main_posix(kind, library_ext):
+         print(warning + '\n')
+     else:
  
-     // set the handler to a new one
--    Ctx.setDiagnosticHandler(llvm::make_unique<ReportNotAbortDiagnosticHandler>(errstream));
-+    Ctx.setDiagnosticHandler(std::make_unique<ReportNotAbortDiagnosticHandler>(errstream));
- 
-     // link
-     bool failed = LLVMLinkModules2(Dest, Src);
+-        if not (out.startswith('10.0.') or out.startswith('9.0')):
++        if not (out.startswith('11.1.') or out.startswith('9.0')):
+             msg = ("Building llvmlite requires LLVM 10.0.x or 9.0.x, got "
+                    "{!r}. Be sure to set LLVM_CONFIG to the right executable "
+                    "path.\nRead the documentation at "
