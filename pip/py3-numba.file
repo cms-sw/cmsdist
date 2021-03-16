@@ -1,2 +1,2 @@
-Requires: py2-funcsigs py2-six py2-singledispatch py2-llvmlite py3-numpy python3
+Requires: py2-funcsigs py2-six py2-singledispatch py3-llvmlite py3-numpy python3
 %define RelocatePython %{i}/bin/*
