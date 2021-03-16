@@ -1,8 +1,10 @@
-### RPM external fastjet 3.3.4
+### RPM external fastjet 3.4.0-beta
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INCLUDE compilation_flags
+
+BuildRequires: autotools
 Requires: python
-%define tag f5af227227ed646d7cf41debe1b6fa0e35926416
+%define tag 65f948f075860df1fddf7b819f60c3346710ebf1
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -34,6 +36,7 @@ esac
   --prefix=%{i} \
   --enable-allcxxplugins \
   --enable-pyext \
+  --enable-limited-thread-safety \
   CXXFLAGS="$CXXFLAGS"
 
 %build

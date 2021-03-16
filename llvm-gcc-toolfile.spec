@@ -51,7 +51,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags REM_CXXFLAGS="-frounding-math"/>
     <flags REM_CXXFLAGS="-mrecip"/>
-    <flags REM_CXXFLAGS="-Wno-psabi"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-fno-aggressive-loop-optimizations"/>
     <flags REM_CXXFLAGS="-mlong-double-64"/>
