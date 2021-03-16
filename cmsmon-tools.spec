@@ -1,17 +1,20 @@
-### RPM cms cmsmon-tools 0.5.9
+### RPM cms cmsmon-tools 0.5.27
 ## NOCOMPILER
 
 %define arch linux-amd64
-%define promv 2.23.0
+%define promv 2.25.1
 %define amver 0.21.0
 %define sternv 1.11.0
-%define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub nats-exitcodes-termui dbs_vm
+%define apsver 0.1.85
+%define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
 %define common_commands promtool amtool prometheus hey stern
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/archive/x509-csv-fixes.tar.gz
+Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
+Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
 
 BuildRequires: go
 
@@ -22,6 +25,7 @@ BuildRequires: go
 %setup -D -T -b 1 -n prometheus-%promv.%arch
 %setup -D -T -b 3 -n hey-x509-csv-fixes
 %setup -D -T -b 2 -n alertmanager-%amver.%arch
+%setup -D -T -b 5 -n auth-proxy-tools
 
 %build
 mkdir -p gopath/bin
@@ -54,10 +58,13 @@ cp hey %i
 cd -
 
 # install stern
-cd %{_builddir}
-curl -ksLO https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
-chmod +x stern_linux_amd64
-cp stern_linux_amd64 %i/stern
+cp %{_sourcedir}/stern_linux_amd64 %i/stern
+chmod +x %i/stern
+
+# install token-manager
+cd %{_builddir}/auth-proxy-tools
+cp token-manager %i/
+cp auth-token %i/
 cd -
 
 #####################################################
