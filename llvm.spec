@@ -8,7 +8,7 @@ Requires: gcc zlib python python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 9ac43ce9cfea653af380f1ac550c1171dab9a7cf
+%define llvmCommit 6afd8d28e7729e1256cc832c60e4be6830f05dc6
 %define llvmBranch cms/release/11.x/1fdec59
 %define iwyuCommit 5db414ac448004fe019871c977905cb7c2cff23f
 %define iwyuBranch clang_11
