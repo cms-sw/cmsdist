@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-BuildRequires: root clhep tinyxml2 boost fftw3 cuda python
+BuildRequires: root clhep tinyxml2 boost fftw3 cuda python hepmc
 
 %prep
 
@@ -21,7 +21,7 @@ CUDA_MM_NAME="cuda.modulemap"
 BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX" 
 
 #packages with module maps
-for mod in clhep tinyxml2 cuda
+for mod in clhep tinyxml2 cuda HepMC
 do
     rootvar="$(echo "${mod}_ROOT" | tr [a-z] [A-Z])"
     mm_name="$(echo "${mod}_MM_NAME" | tr [a-z] [A-Z])"
@@ -61,6 +61,6 @@ mv *.pcm boost/.
 mkdir %{i}/lib
 rm -f Dummy*.pcm
 rm -f libDummy*.pcm
-cp -r clhep tinyxml2 boost cuda %{i}/lib/.
+cp -r clhep tinyxml2 boost cuda HepMC %{i}/lib/.
 
 
