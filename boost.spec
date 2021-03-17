@@ -1,4 +1,4 @@
-### RPM external boost 1.75.0
+### RPM external boost 1.72.0
 
 %define tag d83be09cf89fd59331eb00555bd00c569d2a4607
 %define branch cms/v1.72.0.modules
@@ -9,7 +9,7 @@ Requires: python bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
+#%patch0 -p1
 
 %build
 case %cmsos in 
