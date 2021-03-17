@@ -16,6 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pcm_util.xml
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/boost" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/tinyxml2" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/cuda" type="path"/>
+  <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/HepMC" type="path"/>
 </tool>
 EOF_TOOLFILE
 

@@ -27,6 +27,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/hepmc_headers.xml
     <environment name="INCLUDE" default="$HEPMC_HEADERS_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/hepmc.modulemap" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
