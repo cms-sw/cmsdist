@@ -55,13 +55,13 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) check-clang-tools
+ninja -v %{makeprocesses}
+ninja -v %{makeprocesses} check-clang-tools
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
 cd ../build
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
 
 BINDINGS_PATH=%{i}/lib64/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
 mkdir -p $BINDINGS_PATH
