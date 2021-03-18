@@ -41,11 +41,11 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY2_PYBIND11_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build
 
 %install
 cd ../build
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
 mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 mv build/lib/onnxruntime %{i}/${PYTHON3_LIB_SITE_PACKAGES}/
