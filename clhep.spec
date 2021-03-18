@@ -20,11 +20,11 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja install
+ninja %{makeprocesses} install
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 rm -f %i/lib/libCLHEP-[A-Z]*-%realversion.$so

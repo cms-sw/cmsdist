@@ -42,10 +42,10 @@ cmake ../%{n}-%{realversion} -GNinja \
     -DINSTALL_PYTHON_VERSIONS="${PYTHONV};${PYTHON3V}" \
     -DCMAKE_PREFIX_PATH="${OPENBLAS_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
 rm %{i}/*.so
 mv %{i}/python* %{i}/lib
