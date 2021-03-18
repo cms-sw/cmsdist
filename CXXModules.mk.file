@@ -1,6 +1,8 @@
 #Extra CXXMODULE Libs
 DataFormatsCommon_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
 DataFormatsCommon_EXTRA_LIBS+= $(MODULE_PREFIX)DataFormatsStdDictionaries.$(SHAREDSUFFIX)
+SimDataFormatsGeneratorProducts_EXTRA_LIBS:=$(MODULE_PREFIX)DataFormatsWrappedStdDictionaries.$(SHAREDSUFFIX)
+SimDataFormatsGeneratorProducts_EXTRA_LIBS+= $(MODULE_PREFIX)DataFormatsStdDictionaries.$(SHAREDSUFFIX)
 
 # avoid eigen related errors, eg
 # include/eigen3/Eigen/src/Geometry/Quaternion.h:81:52: error: 'Eigen::QuaternionBase::w' from module 'DataFormatsCaloRecHit.MultifitComputations.h' is not present in definition of 'QuaternionBase<Derived>' provided earlier
