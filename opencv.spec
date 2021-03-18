@@ -33,8 +33,8 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
