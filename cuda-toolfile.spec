@@ -41,6 +41,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"/>
   <lib name="cudadevrt" type="cuda"/>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
