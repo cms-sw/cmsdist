@@ -23,10 +23,10 @@ cmake ../%{n}-%{realversion} \
   -DBUILTIN_EIGEN=OFF \
   -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 
 %install
 
 cd ../build
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
