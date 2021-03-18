@@ -171,8 +171,8 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) clang
+ninja -v %{makeprocesses}
+ninja -v %{makeprocesses} clang
 
 %install
 cd ../build
@@ -186,7 +186,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
 mkdir -p %{i}/etc/cling/bin
 cp -P interpreter/llvm/src/bin/clang %{i}/etc/cling/bin/.
 cp -P interpreter/llvm/src/bin/clang-* %{i}/etc/cling/bin/.
