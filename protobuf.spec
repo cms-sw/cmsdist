@@ -33,10 +33,10 @@ cmake ../%{n}-%{realversion}/cmake \
     -DCMAKE_SHARED_LINKER_FLAGS="-L${ZLIB_ROOT}/lib" \
     -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN)
+ninja -v %{makeprocesses}
 
 %install
 
 cd ../build
-ninja -v %{makeprocesses} -l $(getconf _NPROCESSORS_ONLN) install
+ninja -v %{makeprocesses} install
 rm -rf %{i}/lib/pkgconfig
