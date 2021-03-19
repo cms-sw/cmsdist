@@ -1,4 +1,5 @@
 ### RPM external dip 8693f00cc422b4a15858fcd84249acaeb07b6316
+%define keep_archives true
 Source0: git+https://:@gitlab.cern.ch:8443/industrial-controls/services/dip-hq/dip.git?obj=develop/%{realversion}&export=%{n}&output=/%{n}-%{realversion}.tgz
 
 %define xtag f41e221f8fb95830fc001dad975b4db770f5d29d
@@ -22,3 +23,5 @@ conan create . --build=dip --build=log4cplus
 %install
 mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/include %{i}/include
 mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib     %{i}/lib
+mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/include/log4cplus %{i}/include/log4cplus
+mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/lib/* %{i}/lib/
