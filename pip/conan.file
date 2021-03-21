@@ -1,0 +1,2 @@
+Requires: py2-python-dateutil py2-requests py3-PyJWT py2-tqdm py2-PyYAML py2-Jinja2 py2-Pygments py3-patch-ng py3-pluginbase
+Requires: py3-fasteners py3-patch-ng py3-pluginbase py3-node-semver py3-distro py2-future py3-deprecation py3-bottle py2-colorama

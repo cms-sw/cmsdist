@@ -1,0 +1,1 @@
+%define source0 https://github.com/podhmo/python-semver/archive/%{realversion}.tar.gz
