@@ -184,6 +184,7 @@ Requires: oracle-toolfile
 Requires: intel-vtune
 Requires: glibc-toolfile
 Requires: cmsmon-tools
+Requires: dip-toolfile
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
