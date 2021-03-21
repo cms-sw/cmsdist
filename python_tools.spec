@@ -155,7 +155,6 @@ Requires: py2-histbook
 Requires: py2-flake8-toolfile
 Requires: py2-autopep8-toolfile
 Requires: py2-pycodestyle
-Requires: py2-lz4
 Requires: py2-ply
 Requires: py2-py
 Requires: py2-typing
