@@ -1,4 +1,5 @@
-### RPM external geant4-G4EMLOW 7.9.1
+### RPM external geant4-G4EMLOW 7.13
 %define G4RunTime G4LEDATA
+%define source0 https://geant4-data.web.cern.ch/datasets/G4EMLOW.%{realversion}.tar.gz
 
 ## IMPORT geant4-data-rpm
