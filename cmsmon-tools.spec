@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.5.27
+### RPM cms cmsmon-tools 0.5.32
 ## NOCOMPILER
 
 %define arch linux-amd64
@@ -15,6 +15,7 @@ Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/al
 Source3: https://github.com/vkuznet/hey/archive/x509-csv-fixes.tar.gz
 Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
 Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
+Source6: https://raw.githubusercontent.com/dmwm/CMSKubernetes/master/kubernetes/tools/k8s_info.go
 
 BuildRequires: go
 
@@ -66,6 +67,10 @@ cd %{_builddir}/auth-proxy-tools
 cp token-manager %i/
 cp auth-token %i/
 cd -
+
+# install k8s_info
+go build -o %i/k8s_info %{_sourcedir}/k8s_info.go
+chmod +x %i/k8s_info
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
