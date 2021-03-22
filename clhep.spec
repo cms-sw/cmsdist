@@ -1,4 +1,4 @@
-### RPM external clhep 2.4.1.3
+### RPM external clhep 2.4.4.0
 
 %define tag 31d7b3d700dcdab673c75430cc5b27edb00cabfa 
 %define branch cms/modules/v%{realversion}

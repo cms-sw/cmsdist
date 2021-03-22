@@ -1,13 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6f5833f..d4bfd51 100644
+index a090c57..7dbb121 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -80,7 +80,7 @@ option(USE_CACHED_TRANSFORMATIONS "Use cached transformations in navigation stat
- option(FAST_MATH "Enable the -ffast-math compiler option in Release builds" OFF)
- 
+@@ -85,7 +85,7 @@ endif()
+ # - ISA
+ set(VECGEOM_ISAS empty)
  if(CMAKE_SYSTEM_PROCESSOR MATCHES "(i686|x86_64)")
--  set(VECGEOM_ARCH sse2 sse3 ssse3 sse4.1 sse4.2 avx avx2 mic mic_avx512 native empty)
-+  set(VECGEOM_ARCH sse2 sse3 ssse3 sse4.1 sse4.2 avx avx2 mic mic_avx512 native empty arch=nehalem arch=sandybridge  arch=haswell arch=skylake-avx512)
- else()
-   set(VECGEOM_ARCH empty)
+-  set(VECGEOM_ISAS sse2 sse3 ssse3 sse4.1 sse4.2 avx avx2 mic mic_avx512 native empty)
++  set(VECGEOM_ISAS sse2 sse3 ssse3 sse4.1 sse4.2 avx avx2 mic mic_avx512 native empty arch=nehalem arch=sandybridge  arch=haswell arch=skylake-avx512)
  endif()
+ 
+ enum_option(VECGEOM_VECTOR DOC "Vector instruction set to be used"
