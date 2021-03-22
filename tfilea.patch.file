@@ -1,0 +1,21 @@
+diff --git a/IOPool/TFileAdaptor/src/TFileAdaptor.cc b/IOPool/TFileAdaptor/src/TFileAdaptor.cc
+index 22d04f8925f..80fff5497ef 100644
+--- a/IOPool/TFileAdaptor/src/TFileAdaptor.cc
++++ b/IOPool/TFileAdaptor/src/TFileAdaptor.cc
+@@ -12,6 +12,7 @@
+ 
+ #include <TROOT.h>
+ #include <TFile.h>
++#include <TSystem.h>
+ #include <TPluginManager.h>
+ 
+ #include <memory>
+@@ -161,7 +162,7 @@ TFileAdaptor::TFileAdaptor(edm::ParameterSet const& pset, edm::ActivityRegistry&
+ 
+   // set our own root plugins
+   TPluginManager* mgr = gROOT->GetPluginManager();
+-
++  gSystem->Load("libDataFormatsStdDictionaries.so");
+   // Make sure ROOT parses system directories first.
+   mgr->LoadHandlersFromPluginDirs("TFile");
+   mgr->LoadHandlersFromPluginDirs("TSystem");
