@@ -1,8 +1,8 @@
-### RPM external madgraph5amcatnlo 2.9.2
-%define versiontag 2_9_2
+### RPM external madgraph5amcatnlo 2.7.3
+%define versiontag 2_7_3
 Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
-Source: https://launchpad.net/mg5amcnlo/2.0/2.9.x/+download/MG5_aMC_v%{realversion}.tar.gz
+Source: https://launchpad.net/mg5amcnlo/2.0/2.7.x/+download/MG5_aMC_v%{realversion}.tar.gz
 Patch0: madgraph5amcatnlo-config
 # Compile and install internal and external packages
 Patch1: madgraph5amcatnlo-compile
