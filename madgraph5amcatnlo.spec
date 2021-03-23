@@ -17,9 +17,9 @@ Requires: gosamcontrib
 Requires: fastjet
 Requires: pythia8
 Requires: thepeg
-                   
+
 %prep
-%setup -n MG5_aMC_v%{versiontag}
+%setup -n MG5_aMC_v%{versiontag}_py3
 %patch0 -p1
 %patch1 -p1
 
@@ -61,7 +61,7 @@ find . -type f -name '*.tgz' -delete
 
 %install
 sed -i -e "s|@MADGRAPH5AMCATNLO_ROOT@|%{i}|g" input/mg5_configuration.txt
-rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}/ %{i}/
+rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}_py3/ %{i}/
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
