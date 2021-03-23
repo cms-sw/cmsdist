@@ -1,9 +1,9 @@
 ### RPM external clhep 2.4.4.0
 
-%define tag 31d7b3d700dcdab673c75430cc5b27edb00cabfa 
-%define branch cms/modules/v%{realversion}
+%define tag eb4138d955a4b923551fdd65788d9f48d8a57fbb
+%define branch cms/v%{realversion}
 %define github_user cms-externals
-Source0: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
 
