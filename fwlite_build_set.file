@@ -44,6 +44,7 @@ DataFormats/HcalIsolatedTrack
 DataFormats/HcalRecHit
 DataFormats/HepMCCandidate
 DataFormats/Histograms
+DataFormats/JetMatching
 DataFormats/JetReco
 DataFormats/L1CSCTrackFinder
 DataFormats/L1CaloTrigger
