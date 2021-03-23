@@ -2,7 +2,7 @@
 %define versiontag 2_7_3
 Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
-Source: https://launchpad.net/mg5amcnlo/2.0/2.7.x/+download/MG5_aMC_v%{realversion}.tar.gz
+Source: https://launchpad.net/mg5amcnlo/2.0/2.7.x/+download/MG5_aMC_v%{realversion}.py3.tar.gz
 Patch0: madgraph5amcatnlo-config
 # Compile and install internal and external packages
 Patch1: madgraph5amcatnlo-compile
