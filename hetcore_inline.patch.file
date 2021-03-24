@@ -1,0 +1,20 @@
+diff --git a/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h b/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
+index 8bd51d3fa79..8da9c20e98c 100644
+--- a/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
++++ b/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
+@@ -26,11 +26,11 @@ namespace cms {
+ 
+     // run serially with a single thread
+     // 1-dimensional block
+-    const dim3 threadIdx = {0, 0, 0};
+-    const dim3 blockDim = {1, 1, 1};
++    inline const dim3 threadIdx = {0, 0, 0};
++    inline const dim3 blockDim = {1, 1, 1};
+     // 1-dimensional grid
+-    const dim3 blockIdx = {0, 0, 0};
+-    const dim3 gridDim = {1, 1, 1};
++    inline const dim3 blockIdx = {0, 0, 0};
++    inline const dim3 gridDim = {1, 1, 1};
+ 
+     template <typename T1, typename T2>
+     T1 atomicCAS(T1* address, T1 compare, T2 val) {
