@@ -1,16 +1,17 @@
-diff --git a/input/mg5_configuration.txt b/input/mg5_configuration.txt
-index c089808..f6b983f 100644
+diff --git a/mg5_configuration.txt b/mg5_configuration.txt
+index c5429ae..a749941 100644
 --- a/input/mg5_configuration.txt
 +++ b/input/mg5_configuration.txt
-@@ -28,14 +28,14 @@
+@@ -28,7 +28,7 @@
  #! Prefered Fortran Compiler
  #! If None: try to find g77 or gfortran on the system
  #!
 -# fortran_compiler = None
 +fortran_compiler = gfortran
- # f2py_compiler = None 
+ # f2py_compiler_py2 = None
+ # f2py_compiler_py3 = None 
  
- 
+@@ -36,7 +36,7 @@
  #! Prefered C++ Compiler
  #! If None: try to find g++ or clang on the system
  #!
@@ -19,7 +20,7 @@ index c089808..f6b983f 100644
  
  #! Prefered Text Editor
  #!  Default: use the shell default Editor
-@@ -53,20 +53,20 @@
+@@ -54,20 +54,20 @@
  
  #! Time allowed to answer question (if no answer takes default value)
  #!  0: No time limit
@@ -43,7 +44,7 @@ index c089808..f6b983f 100644
  
  #! Herwig++/Herwig7 paths
  #!  specify here the paths also to HepMC ant ThePEG
-@@ -76,13 +76,13 @@
+@@ -77,13 +77,13 @@
  #!  then please set thepeg_path and hepmc_path to the same value as
  #!  hwpp_path
  # hwpp_path = 
@@ -60,7 +61,7 @@ index c089808..f6b983f 100644
  
  ################################################################################
  #  INFO FOR MADEVENT / aMC@NLO 
-@@ -93,21 +93,20 @@
+@@ -94,21 +94,20 @@
  
  #! Allow/Forbid the automatic opening of the web browser  (on the status page)
  #!  when launching MadEvent [True/False]
@@ -88,7 +89,7 @@ index c089808..f6b983f 100644
  
  #! Path to a node directory to avoid direct writing on the central disk
  #!  Note that condor clusters avoid direct writing by default (therefore this
-@@ -132,7 +131,7 @@
+@@ -133,7 +132,7 @@
  
  #! Nb_core to use (None = all) This is use only for multicore run
  #!  This correspond also to the number core used for code compilation for cluster mode
@@ -97,12 +98,14 @@ index c089808..f6b983f 100644
  
  #! Pythia-PGS Package
  #!  relative path start from main directory
-@@ -161,11 +160,11 @@
+@@ -162,12 +161,12 @@
  
- #! lhapdf-config
+ #! lhapdf-config --can be specify differently depending of your python version
  #!  If None: try to find one available on the system
--# lhapdf = lhapdf-config
-+lhapdf = ${LHAPDF_ROOT}/bin/lhapdf-config
+-# lhapdf_py2 = lhapdf-config
+-# lhapdf_py3 = lhapdf-config
++lhapdf_py2 = ${LHAPDF_ROOT}/bin/lhapdf-config
++lhapdf_py3 = ${LHAPDF_ROOT}/bin/lhapdf-config
  
  #! fastjet-config
  #!  If None: try to find one available on the system
@@ -111,7 +114,7 @@ index c089808..f6b983f 100644
  
  #! MCatNLO-utilities 
  #!  relative path starting from main directory
-@@ -178,14 +177,14 @@
+@@ -180,14 +179,14 @@
  #! if auto: try to find it automatically on the system (default)
  #! if '' or None: disabling pjfry
  #! if pjfry=/PATH/TO/pjfry/lib: use that specific installation path for PJFry++
@@ -128,7 +131,7 @@ index c089808..f6b983f 100644
  
  #! Set the samurai directory containing samurai's library
  #! It only supports version higher than 2.0.0
-@@ -197,19 +196,19 @@
+@@ -199,19 +198,19 @@
  #! Set the Ninja directory containing ninja's library
  #! if '' or None: disabling ninja 
  #! if ninja=/PATH/TO/ninja/lib: use that specific installation path for ninja 
@@ -151,7 +154,7 @@ index c089808..f6b983f 100644
  
  #! SysCalc PATH
  #! Path to the directory containing syscalc executables
-@@ -220,4 +219,3 @@
+@@ -222,4 +221,3 @@
  # applgrid = applgrid-config
  # amcfast = amcfast-config
  
