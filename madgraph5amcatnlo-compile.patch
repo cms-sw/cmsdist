@@ -1,8 +1,8 @@
-diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py 
---- /dev/null	2016-01-21 22:33:58.638300539 +0100
-+++ MG5_aMC_v2_5_5/bin/compile.py	2016-01-21 22:33:58.638300539 +0100
+diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
+--- /dev/null   2016-01-21 22:33:58.638300539 +0100
++++ MG5_aMC_v2_5_5/bin/compile.py       2016-01-21 22:33:58.638300539 +0100
 @@ -0,0 +1,262 @@
-+#! /usr/bin/env python
++#! /usr/bin/env python3
 +################################################################################
 +#
 +# Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
@@ -69,13 +69,13 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +        for model_path in v4_model:
 +            #remove old pkl
 +            start = time.time()
-+            print 'make pkl for %s :' % os.path.basename(model_path),
++            print('make pkl for %s :' % os.path.basename(model_path))
 +            try:
 +                os.remove(os.path.join(model_path,'model.pkl'))
 +            except:
 +                pass
 +            import_v4.import_model(model_path)
-+            print '%2fs' % (time.time() - start)
++            print('%2fs' % (time.time() - start))
 +    
 +    @staticmethod
 +    def make_UFO_pkl():
@@ -88,20 +88,20 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +        # model.pkl
 +        for model_path in ufo_model:
 +            start = time.time()
-+            print 'make model.pkl for %s :' % os.path.basename(model_path),
++            print('make model.pkl for %s :' % os.path.basename(model_path))
 +            #remove old pkl
 +            try:
 +                os.remove(os.path.join(model_path,'model.pkl'))
 +            except:
 +                pass
 +            import_ufo.import_full_model(model_path)
-+            print '%2fs' % (time.time() - start)
++            print('%2fs' % (time.time() - start))
 +        
 +        return
 +        # aloha routine 
 +        for model_path in ufo_model:
 +            start = time.time()
-+            print 'make ALOHA for %s' % os.path.basename(model_path)
++            print('make ALOHA for %s' % os.path.basename(model_path))
 +            #remove old pkl
 +            try:
 +                os.remove(os.path.join(model_path,'aloha.pkl'))
@@ -116,11 +116,11 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +            sys.path.insert(0, ufo_path)
 +            output_dir = os.path.join(model_path, 'Fortran')
 +            create_aloha.AbstractALOHAModel(ufo_name, write_dir=output_dir, format='Fortran')
-+            print 'done in %2fs' % (time.time() - start)
++            print('done in %2fs' % (time.time() - start))
 +           
 +    @staticmethod
 +    def make_stdHep():
-+        print "Compiling StdHEP in %s."%str(os.path.join(MG5DIR, 'vendor', 'StdHEP'))
++        print("Compiling StdHEP in %s."%str(os.path.join(MG5DIR, 'vendor', 'StdHEP')))
 +        # this is for 64-bit systems
 +        if sys.maxsize > 2**32:
 +            path = os.path.join(MG5DIR, 'vendor', 'StdHEP', 'src', 'make_opts')
@@ -150,7 +150,7 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +
 +    @staticmethod
 +    def make_CutTools():
-+        print "Compiling CutTools in %s."%str(os.path.join(MG5DIR, 'vendor', 'CutTools'))
++        print("Compiling CutTools in %s."%str(os.path.join(MG5DIR, 'vendor', 'CutTools')))
 +        # Set the correct fortran compiler
 +        if 'FC' not in os.environ or not os.environ['FC']:
 +            if misc.which('gfortran'):
@@ -172,7 +172,7 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +
 +    @staticmethod
 +    def make_IREGI():
-+        print "Compiling IREGI in %s."%str(os.path.join(MG5DIR, 'vendor', 'IREGI','src'))
++        print("Compiling IREGI in %s."%str(os.path.join(MG5DIR, 'vendor', 'IREGI','src')))
 +        # Set the correct fortran compiler
 +        if 'FC' not in os.environ or not os.environ['FC']:
 +            if misc.which('gfortran'):
@@ -255,7 +255,7 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +        misc.compile(cwd = os.path.join(iregi_path,'src'))        
 +
 +    def install_package(self):
-+        print "do not install any external packages"
++        print("do not install any external packages")
 +        # self.cmd.exec_cmd('install pythia-pgs')
 +        # self.cmd.exec_cmd('install Delphes')
 +        # self.cmd.exec_cmd('install ExRootAnalysis')
@@ -264,4 +264,3 @@ diff -Naur /dev/null MG5_aMC_v2_5_5/bin/compile.py
 +
 +if __name__ == '__main__':
 +    Compile_MG5()
-
