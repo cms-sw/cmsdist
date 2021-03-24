@@ -1,4 +1,4 @@
-### RPM external vecgeom-toolfile 3.0
+### RPM external vecgeom-toolfile 4.0
 %define base_package %(echo %{n} | sed 's|-toolfile||')
 %define base_package_uc %(echo %{base_package} | tr '[a-z-]' '[A-Z_]')
 %{expand:%(for v in %{package_vectorization}; do echo Requires: %{base_package}_$v; done)}
