@@ -1,4 +1,4 @@
-### RPM external vecgeom-toolfile 3.0
+### RPM external vecgeom-toolfile 4.0
 %define base_package %(echo %{n} | sed 's|-toolfile||')
 %define base_package_uc %(echo %{base_package} | tr '[a-z-]' '[A-Z_]')
 %{expand:%(for v in %{package_vectorization}; do echo Requires: %{base_package}_$v; done)}
@@ -18,12 +18,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/vecgeom_interface.xml
     <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include"/>
     <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include/VecGeom"/>
   </client>
-  <flags CPPDEFINES="VECGEOM_SCALAR"/>
-  <flags CPPDEFINES="VECGEOM_REPLACE_USOLIDS"/>
-  <flags CPPDEFINES="VECGEOM_NO_SPECIALIZATION"/>
-  <flags CPPDEFINES="VECGEOM_USOLIDS"/>
-  <flags CPPDEFINES="VECGEOM_INPLACE_TRANSFORMATIONS"/>
-  <flags CPPDEFINES="VECGEOM_USE_INDEXEDNAVSTATES"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$VECGEOM_INTERFACE_BASE/include" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$VECGEOM_INTERFACE_BASE/include/VecGeom" type="path"/>
   <use name="root_cxxdefaults"/>
