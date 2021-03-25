@@ -1,144 +1,161 @@
-diff --git a/input/.mg5_configuration_default.txt b/input/.mg5_configuration_default.txt
-index c089808..11ae192 100644
---- a/input/.mg5_configuration_default.txt
-+++ b/input/.mg5_configuration_default.txt
-@@ -30,12 +30,14 @@
+diff --git a/mg5_configuration.txt b/mg5_configuration.txt
+index c5429ae..a749941 100644
+--- a/input/mg5_configuration.txt
++++ b/input/mg5_configuration.txt
+@@ -28,7 +28,7 @@
+ #! Prefered Fortran Compiler
+ #! If None: try to find g77 or gfortran on the system
  #!
- # fortran_compiler = None
- # f2py_compiler = None 
+-# fortran_compiler = None
 +fortran_compiler = gfortran
+ # f2py_compiler_py2 = None
+ # f2py_compiler_py3 = None 
  
- 
+@@ -36,7 +36,7 @@
  #! Prefered C++ Compiler
  #! If None: try to find g++ or clang on the system
  #!
- # cpp_compiler = None
+-# cpp_compiler = None
 +cpp_compiler = g++
  
  #! Prefered Text Editor
  #!  Default: use the shell default Editor
-@@ -54,12 +56,14 @@
+@@ -54,20 +54,20 @@
+ 
  #! Time allowed to answer question (if no answer takes default value)
  #!  0: No time limit
- # timeout = 60
+-# timeout = 60
 +timeout = 0
  
  #! Pythia8 path.
  #!  Defines the path to the pythia8 installation directory (i.e. the
  #!  on containing the lib, bin and include directories) .
  #!  If using a relative path, that starts from the mg5 directory
- # pythia8_path = ./HEPTools/pythia8
+-# pythia8_path = ./HEPTools/pythia8
 +pythia8_path = ${PYTHIA8_ROOT}
  
  #! MG5aMC_PY8_interface path
  #!  Defines the path of the C++ driver file that is used by MG5_aMC to
-@@ -67,6 +71,7 @@
+ #!  steer the Pythia8 shower.
  #!  Can be installed directly from within MG5_aMC with the following command:
  #!     MG5_aMC> install mg5amc_py8_interface
- # mg5amc_py8_interface_path = ./HEPTools/MG5aMC_PY8_interface 
+-# mg5amc_py8_interface_path = ./HEPTools/MG5aMC_PY8_interface 
 +mg5amc_py8_interface_path = @MADGRAPH5AMCATNLO_ROOT@/HEPTools/MG5aMC_PY8_interface
  
  #! Herwig++/Herwig7 paths
  #!  specify here the paths also to HepMC ant ThePEG
-@@ -78,11 +83,15 @@
+@@ -77,13 +77,13 @@
+ #!  then please set thepeg_path and hepmc_path to the same value as
+ #!  hwpp_path
  # hwpp_path = 
- # thepeg_path = 
- # hepmc_path = 
+-# thepeg_path = 
+-# hepmc_path = 
 +thepeg_path = ${THEPEG_ROOT}
 +hepmc_path = ${HEPMC_ROOT}
-+
  
  #! Control when MG5 checks if he is up-to-date.
  #! Enter the number of day between two check (0 means never)
  #! A question is always asked before any update
- # auto_update = 7
+-# auto_update = 7
 +auto_update = 0
  
  ################################################################################
  #  INFO FOR MADEVENT / aMC@NLO 
-@@ -94,13 +103,15 @@
+@@ -94,21 +94,20 @@
+ 
  #! Allow/Forbid the automatic opening of the web browser  (on the status page)
  #!  when launching MadEvent [True/False]
- # automatic_html_opening = True
+-# automatic_html_opening = True
 +automatic_html_opening = False
  #! allow notification of finished job in the notification center (Mac Only)
- # notification_center = True
+-# notification_center = True
 -
 +notification_center = False
  
  #! Default Running mode 
  #!  0: single machine/ 1: cluster / 2: multicore
- # run_mode = 2
+-# run_mode = 2
 +run_mode = 1
  
  #! Cluster Type [pbs|sge|condor|lsf|ge|slurm|htcaas|htcaas2] Use for cluster run only
  #!  And cluster queue (or partition for slurm)
-@@ -108,6 +119,9 @@
- # cluster_type = condor
- # cluster_queue = madgraph
- # cluster_size = 150 
+ #!  And size of the cluster (some part of the code can adapt splitting accordingly)
+-# cluster_type = condor
+-# cluster_queue = madgraph
+-# cluster_size = 150 
 +cluster_type = lsf
 +cluster_queue = 1nh
 +cluster_size = 150
  
  #! Path to a node directory to avoid direct writing on the central disk
  #!  Note that condor clusters avoid direct writing by default (therefore this
-@@ -133,6 +147,7 @@
+@@ -133,7 +132,7 @@
+ 
  #! Nb_core to use (None = all) This is use only for multicore run
  #!  This correspond also to the number core used for code compilation for cluster mode
- # nb_core = None
+-# nb_core = None
 +nb_core = 4
  
  #! Pythia-PGS Package
  #!  relative path start from main directory
-@@ -162,10 +177,12 @@
- #! lhapdf-config
+@@ -162,12 +161,12 @@
+ 
+ #! lhapdf-config --can be specify differently depending of your python version
  #!  If None: try to find one available on the system
- # lhapdf = lhapdf-config
-+lhapdf = ${LHAPDF_ROOT}/bin/lhapdf-config
+-# lhapdf_py2 = lhapdf-config
+-# lhapdf_py3 = lhapdf-config
++lhapdf_py2 = ${LHAPDF_ROOT}/bin/lhapdf-config
++lhapdf_py3 = ${LHAPDF_ROOT}/bin/lhapdf-config
  
  #! fastjet-config
  #!  If None: try to find one available on the system
- # fastjet = fastjet-config
+-# fastjet = fastjet-config
 +fastjet = ${FASTJET_ROOT}/bin/fastjet-config
  
  #! MCatNLO-utilities 
  #!  relative path starting from main directory
-@@ -179,6 +196,7 @@
+@@ -180,14 +179,14 @@
+ #! if auto: try to find it automatically on the system (default)
  #! if '' or None: disabling pjfry
  #! if pjfry=/PATH/TO/pjfry/lib: use that specific installation path for PJFry++
- # pjfry = auto
-+pjfry = None
+-# pjfry = auto
++pjfry = None #
  
  #! Set the Golem95 directory containing golem's library
  #! It only supports version higher than 1.3.0
-@@ -186,6 +204,7 @@
+ #! if auto: try to find it automatically on the system (default)
  #! if '' or None: disabling Golem95
  #! if golem=/PATH/TO/golem/lib: use that speficif installation path for Golem95
- # golem = auto
-+golem = ${GOSAMCONTRIB_ROOT}/lib
+-# golem = auto
++golem = ${GOSAMCONTRIB_ROOT}/lib #
  
  #! Set the samurai directory containing samurai's library
  #! It only supports version higher than 2.0.0
-@@ -198,18 +217,21 @@
+@@ -199,19 +198,19 @@
+ #! Set the Ninja directory containing ninja's library
  #! if '' or None: disabling ninja 
  #! if ninja=/PATH/TO/ninja/lib: use that specific installation path for ninja 
- # ninja = ./HEPTools/lib
+-# ninja = ./HEPTools/lib
 +ninja = @MADGRAPH5AMCATNLO_ROOT@/HEPTools/lib
  
  #! Set the COLLIER directory containing COLLIER's library
  #! if '' or None: disabling COLLIER 
  #! if ninja=/PATH/TO/ninja/lib: use that specific installation path for COLLIER
  # Note that it is necessary that you have generated a static library for COLLIER
- # collier = ./HEPTools/lib 
+-# collier = ./HEPTools/lib 
 +collier = @MADGRAPH5AMCATNLO_ROOT@/HEPTools/lib
  
  #! Set how MadLoop dependencies (such as CutTools) should be handled
  #!  > external : ML5 places a link to the MG5_aMC-wide libraries
  #!  > internal : ML5 copies all dependencies in the output so that it is independent
  #!  > environment_paths : ML5 searches for the dependencies in your environment path
- # output_dependencies = external
+-# output_dependencies = external
 +output_dependencies = internal
  
  #! SysCalc PATH
  #! Path to the directory containing syscalc executables
+@@ -222,4 +221,3 @@
+ # applgrid = applgrid-config
+ # amcfast = amcfast-config
+ 
+-
