@@ -11,9 +11,9 @@
 Source0: git://github.com/dmwm/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 
-Requires: python py2-cherrypy py2-cjson rotatelogs py2-pycurl py2-cx-oracle
+Requires: python py2-ipython py2-cherrypy py2-cjson rotatelogs py2-pycurl py2-cx-oracle
 Requires: py2-pyOpenSSL condor dbs3-pycurl-client dbs3-client py2-retry py2-future
-Requires: py2-boto3
+Requires: py2-rucio-clients
 Requires: jemalloc
 BuildRequires: py2-sphinx
 #Patch1: crabserver3-setup
