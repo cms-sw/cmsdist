@@ -1,5 +1,5 @@
 diff --git a/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h b/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
-index 8bd51d3fa79..8da9c20e98c 100644
+index 8bd51d3..3191b90 100644
 --- a/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
 +++ b/HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h
 @@ -26,11 +26,11 @@ namespace cms {
@@ -8,13 +8,311 @@ index 8bd51d3fa79..8da9c20e98c 100644
      // 1-dimensional block
 -    const dim3 threadIdx = {0, 0, 0};
 -    const dim3 blockDim = {1, 1, 1};
-+    inline const dim3 threadIdx = {0, 0, 0};
-+    inline const dim3 blockDim = {1, 1, 1};
++    extern const dim3 threadIdx;
++    extern const dim3 blockDim;
      // 1-dimensional grid
 -    const dim3 blockIdx = {0, 0, 0};
 -    const dim3 gridDim = {1, 1, 1};
-+    inline const dim3 blockIdx = {0, 0, 0};
-+    inline const dim3 gridDim = {1, 1, 1};
++    extern const dim3 blockIdx;
++    extern const dim3 gridDim;
  
      template <typename T1, typename T2>
      T1 atomicCAS(T1* address, T1 compare, T2 val) {
+diff --git a/HeterogeneousCore/CUDAUtilities/src/cudaCompat.cc b/HeterogeneousCore/CUDAUtilities/src/cudaCompat.cc
+new file mode 100644
+index 0000000..27be49b
+--- /dev/null
++++ b/HeterogeneousCore/CUDAUtilities/src/cudaCompat.cc
+@@ -0,0 +1,6 @@
++#include "HeterogeneousCore/CUDAUtilities/interface/cudaCompat.h"
++
++const dim3 cms::cudacompat::threadIdx = {0, 0, 0};
++const dim3 cms::cudacompat::blockDim = {1, 1, 1};
++const dim3 cms::cudacompat::blockIdx = {0, 0, 0};
++const dim3 cms::cudacompat::gridDim = {1, 1, 1};
+diff --git a/TrackingTools/DetLayers/BuildFile.xml b/TrackingTools/DetLayers/BuildFile.xml
+index f45cc19..0f5247f 100644
+--- a/TrackingTools/DetLayers/BuildFile.xml
++++ b/TrackingTools/DetLayers/BuildFile.xml
+@@ -6,5 +6,13 @@
+ <use name="DataFormats/GeometrySurface"/>
+ <use name="TrackingTools/TrajectoryState"/>
+ <use name="TrackingTools/GeomPropagators"/>
++<use name="DataFormats/DetId"/>
++<use name="DataFormats/GeometryVector"/>
++<use name="DataFormats/TrajectorySeed"/>
++<use name="FWCore/Framework"/>
++<use name="FWCore/PluginManager"/>
++<use name="Geometry/CommonDetUnit"/>
++<use name="Utilities/BinningTools"/>
++<use name="Utilities/General"/>
+ <use name="boost"/>
+ <use name="clhep"/>
+diff --git a/TrackingTools/GeomPropagators/BuildFile.xml b/TrackingTools/GeomPropagators/BuildFile.xml
+index 75d292f..5ff9331 100644
+--- a/TrackingTools/GeomPropagators/BuildFile.xml
++++ b/TrackingTools/GeomPropagators/BuildFile.xml
+@@ -4,6 +4,11 @@
+ <use name="DataFormats/GeometrySurface"/>
+ <use name="TrackingTools/AnalyticalJacobians"/>
+ <use name="TrackingTools/TrajectoryState"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/GeometryVector"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/TrajectorySeed"/>
++<use name="MagneticField/Engine"/>
+ <use name="vdt_headers"/>
+ <export>
+   <lib name="1"/>
+diff --git a/TrackingTools/GsfTools/BuildFile.xml b/TrackingTools/GsfTools/BuildFile.xml
+index 65829a0..5c7ad72 100644
+--- a/TrackingTools/GsfTools/BuildFile.xml
++++ b/TrackingTools/GsfTools/BuildFile.xml
+@@ -13,3 +13,5 @@
+ <use name="TrackingTools/PatternTools"/>
+ <use name="DataFormats/GsfTrackReco"/>
+ <use name="DataFormats/TrackReco"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/GeometryVector"/>
+diff --git a/TrackingTools/IPTools/BuildFile.xml b/TrackingTools/IPTools/BuildFile.xml
+index fd2e8c7..20bfdf6 100644
+--- a/TrackingTools/IPTools/BuildFile.xml
++++ b/TrackingTools/IPTools/BuildFile.xml
+@@ -6,6 +6,10 @@
+ <use name="TrackingTools/PatternTools"/>
+ <use name="TrackingTools/TrajectoryState"/>
+ <use name="RecoVertex/VertexTools"/>
++<use name="DataFormats/CLHEP"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="RecoVertex/VertexPrimitives"/>
++<use name="TrackingTools/TransientTrack"/>
+ <use name="clhep"/>
+ <export>
+   <lib name="1"/>
+diff --git a/TrackingTools/KalmanUpdators/BuildFile.xml b/TrackingTools/KalmanUpdators/BuildFile.xml
+index 4f178a4..1815c54 100644
+--- a/TrackingTools/KalmanUpdators/BuildFile.xml
++++ b/TrackingTools/KalmanUpdators/BuildFile.xml
+@@ -12,3 +12,13 @@
+   <lib name="1"/>
+ </export>
+ <use name="FWCore/Utilities"/>
++<use name="DataFormats/CLHEP"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/GeometrySurface"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/TrackerRecHit2D"/>
++<use name="DataFormats/TrackingRecHit"/>
++<use name="FWCore/MessageLogger"/>
++<use name="FWCore/ParameterSet"/>
++<use name="MagneticField/Engine"/>
++<use name="TrackingTools/PatternTools"/>
+diff --git a/TrackingTools/MaterialEffects/BuildFile.xml b/TrackingTools/MaterialEffects/BuildFile.xml
+index d3c4afd..652cc55 100644
+--- a/TrackingTools/MaterialEffects/BuildFile.xml
++++ b/TrackingTools/MaterialEffects/BuildFile.xml
+@@ -4,6 +4,10 @@
+ <use name="TrackingTools/TrajectoryState"/>
+ <use name="TrackPropagation/RungeKutta"/>
+ <use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/GeometrySurface"/>
++<use name="DataFormats/GeometryVector"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/TrajectorySeed"/>
+ <export>
+   <lib name="1"/>
+ </export>
+diff --git a/TrackingTools/MeasurementDet/BuildFile.xml b/TrackingTools/MeasurementDet/BuildFile.xml
+index 0c2fef3..c718888 100644
+--- a/TrackingTools/MeasurementDet/BuildFile.xml
++++ b/TrackingTools/MeasurementDet/BuildFile.xml
+@@ -4,3 +4,10 @@
+ <use name="TrackingTools/TransientTrackingRecHit"/>
+ <use name="TrackingTools/PatternTools"/>
+ <use name="TrackingTools/DetLayers"/>
++<use name="DataFormats/DetId"/>
++<use name="DataFormats/TrackerRecHit2D"/>
++<use name="DataFormats/TrackingRecHit"/>
++<use name="FWCore/MessageLogger"/>
++<use name="FWCore/Utilities"/>
++<use name="Geometry/CommonDetUnit"/>
++<use name="TrackingTools/GeomPropagators"/>
+diff --git a/TrackingTools/PatternTools/BuildFile.xml b/TrackingTools/PatternTools/BuildFile.xml
+index 3e677bf..058e674 100644
+--- a/TrackingTools/PatternTools/BuildFile.xml
++++ b/TrackingTools/PatternTools/BuildFile.xml
+@@ -22,6 +22,7 @@
+ <use name="MagneticField/Engine"/>
+ <use name="DataFormats/GeometryCommonDetAlgo"/>
+ <use name="DataFormats/SiStripCluster"/>
++<use name="DataFormats/SiPixelCluster"/>
+ <export>
+   <lib name="1"/>
+ </export>
+diff --git a/TrackingTools/Producers/BuildFile.xml b/TrackingTools/Producers/BuildFile.xml
+index 59c67ce..64f797e 100644
+--- a/TrackingTools/Producers/BuildFile.xml
++++ b/TrackingTools/Producers/BuildFile.xml
+@@ -7,4 +7,6 @@
+ <use name="TrackingTools/GeomPropagators"/>
+ <use name="TrackingTools/Records"/>
+ <use name="TrackingTools/TrajectoryCleaning"/>
++<use name="DataFormats/Common"/>
++<use name="FWCore/MessageLogger"/>
+ <flags EDM_PLUGIN="1"/>
+diff --git a/TrackingTools/RecoGeometry/BuildFile.xml b/TrackingTools/RecoGeometry/BuildFile.xml
+index a243a30..99ffb70 100644
+--- a/TrackingTools/RecoGeometry/BuildFile.xml
++++ b/TrackingTools/RecoGeometry/BuildFile.xml
+@@ -5,6 +5,10 @@
+ <use name="RecoMTD/Records"/>
+ <use name="RecoMTD/DetLayers"/>
+ <use name="RecoTracker/TkDetLayers"/>
++<use name="DataFormats/DetId"/>
++<use name="DataFormats/ForwardDetId"/>
++<use name="FWCore/Utilities"/>
++<use name="TrackingTools/DetLayers"/>
+ <use name="boost"/>
+ <export>
+   <lib name="1"/>
+diff --git a/TrackingTools/Records/BuildFile.xml b/TrackingTools/Records/BuildFile.xml
+index 0c78469..b87b468 100644
+--- a/TrackingTools/Records/BuildFile.xml
++++ b/TrackingTools/Records/BuildFile.xml
+@@ -5,5 +5,7 @@
+ <use name="Geometry/Records"/>
+ <use name="RecoLocalTracker/Records"/>
+ <use name="MagneticField/Records"/>
++<use name="CondFormats/DataRecord"/>
++<use name="FWCore/Utilities"/>
+ <use name="clhep"/>
+ <use name="boost"/>
+diff --git a/TrackingTools/TrackAssociator/BuildFile.xml b/TrackingTools/TrackAssociator/BuildFile.xml
+index 253abc5..56381a0 100644
+--- a/TrackingTools/TrackAssociator/BuildFile.xml
++++ b/TrackingTools/TrackAssociator/BuildFile.xml
+@@ -32,6 +32,13 @@
+ <use name="TrackingTools/TrajectoryState"/>
+ <use name="TrackPropagation/SteppingHelixPropagator"/>
+ <use name="DataFormats/TrackerCommon"/>
++<use name="DataFormats/EcalRecHit"/>
++<use name="DataFormats/EgammaReco"/>
++<use name="DataFormats/HcalRecHit"/>
++<use name="SimDataFormats/CaloHit"/>
++<use name="SimDataFormats/Track"/>
++<use name="SimDataFormats/TrackingHit"/>
++<use name="SimDataFormats/Vertex"/>
+ <export>
+   <lib name="1"/>
+ </export>
+diff --git a/TrackingTools/TrackFitters/BuildFile.xml b/TrackingTools/TrackFitters/BuildFile.xml
+index f214787..2f9ea85 100644
+--- a/TrackingTools/TrackFitters/BuildFile.xml
++++ b/TrackingTools/TrackFitters/BuildFile.xml
+@@ -14,3 +14,11 @@
+ <use name="FWCore/Framework"/>
+ <use name="TrackingTools/Records"/>
+ <use name="DataFormats/SiStripDetId"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/MuonDetId"/>
++<use name="DataFormats/SiPixelDetId"/>
++<use name="DataFormats/TrackerRecHit2D"/>
++<use name="DataFormats/TrackingRecHit"/>
++<use name="DataFormats/TrajectorySeed"/>
++<use name="TrackingTools/DetLayers"/>
++<use name="TrackingTools/TrajectoryState"/>
+diff --git a/TrackingTools/TrackRefitter/BuildFile.xml b/TrackingTools/TrackRefitter/BuildFile.xml
+index 1ce0948..3f68cc5 100644
+--- a/TrackingTools/TrackRefitter/BuildFile.xml
++++ b/TrackingTools/TrackRefitter/BuildFile.xml
+@@ -8,6 +8,18 @@
+ <use name="MagneticField/Records"/>
+ <use name="DataFormats/TrackerCommon"/>
+ <use name="Geometry/Records"/>
++<use name="DataFormats/DetId"/>
++<use name="DataFormats/MuonDetId"/>
++<use name="DataFormats/TrackReco"/>
++<use name="DataFormats/TrajectorySeed"/>
++<use name="FWCore/MessageLogger"/>
++<use name="FWCore/ParameterSet"/>
++<use name="FWCore/Utilities"/>
++<use name="Geometry/CommonDetUnit"/>
++<use name="TrackingTools/GeomPropagators"/>
++<use name="TrackingTools/PatternTools"/>
++<use name="TrackingTools/Records"/>
++<use name="TrackingTools/TrajectoryState"/>
+ <use name="CLHEP"/>
+ <use name="root"/>
+ <export>
+diff --git a/TrackingTools/TrajectoryCleaning/BuildFile.xml b/TrackingTools/TrajectoryCleaning/BuildFile.xml
+index bc11437..295b65e 100644
+--- a/TrackingTools/TrajectoryCleaning/BuildFile.xml
++++ b/TrackingTools/TrajectoryCleaning/BuildFile.xml
+@@ -3,3 +3,6 @@
+ </export>
+ <use name="TrackingTools/PatternTools"/>
+ <use name="FWCore/PluginManager"/>
++<use name="FWCore/ParameterSet"/>
++<use name="FWCore/Utilities"/>
++<use name="TrackingTools/TransientTrackingRecHit"/>
+diff --git a/TrackingTools/TrajectoryFiltering/BuildFile.xml b/TrackingTools/TrajectoryFiltering/BuildFile.xml
+index 7a2449f..ec4e35e 100644
+--- a/TrackingTools/TrajectoryFiltering/BuildFile.xml
++++ b/TrackingTools/TrajectoryFiltering/BuildFile.xml
+@@ -3,6 +3,10 @@
+ <use name="TrackingTools/PatternTools"/>
+ <use name="TrackingTools/TrajectoryParametrization"/>
+ <use name="TrackingTools/TrajectoryState"/>
++<use name="FWCore/ParameterSet"/>
++<use name="RecoLocalTracker/SiStripClusterizer"/>
++<use name="RecoTracker/Record"/>
++<use name="RecoTracker/TkTrackingRegions"/>
+ <export>
+   <lib name="1"/>
+ </export>
+diff --git a/TrackingTools/TrajectoryParametrization/BuildFile.xml b/TrackingTools/TrajectoryParametrization/BuildFile.xml
+index 821cdf7..34daf5e 100644
+--- a/TrackingTools/TrajectoryParametrization/BuildFile.xml
++++ b/TrackingTools/TrajectoryParametrization/BuildFile.xml
+@@ -4,3 +4,9 @@
+ <use name="boost"/>
+ <use name="rootmath"/>
+ <use name="FWCore/Utilities"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/GeometrySurface"/>
++<use name="DataFormats/GeometryVector"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/TrajectoryState"/>
++<use name="MagneticField/Engine"/>
+diff --git a/TrackingTools/TrajectoryState/BuildFile.xml b/TrackingTools/TrajectoryState/BuildFile.xml
+index a6afb70..2415aad 100644
+--- a/TrackingTools/TrajectoryState/BuildFile.xml
++++ b/TrackingTools/TrajectoryState/BuildFile.xml
+@@ -9,6 +9,14 @@
+ <use name="TrackingTools/AnalyticalJacobians"/>
+ <use name="TrackingTools/TrajectoryParametrization"/>
+ <use name="MagneticField/Engine"/>
++<use name="DataFormats/CLHEP"/>
++<use name="DataFormats/GeometryCommonDetAlgo"/>
++<use name="DataFormats/Math"/>
++<use name="DataFormats/TrackCandidate"/>
++<use name="DataFormats/TrackingRecHit"/>
++<use name="FWCore/MessageLogger"/>
++<use name="FWCore/Utilities"/>
++<use name="Geometry/CommonDetUnit"/>
+ <use name="vdt_headers"/>
+ <export>
+   <lib name="1"/>
+diff --git a/TrackingTools/TransientTrack/BuildFile.xml b/TrackingTools/TransientTrack/BuildFile.xml
+index 3465cb0..7030319 100644
+--- a/TrackingTools/TransientTrack/BuildFile.xml
++++ b/TrackingTools/TransientTrack/BuildFile.xml
+@@ -12,6 +12,8 @@
+ <use name="DataFormats/Candidate"/>
+ <use name="DataFormats/ParticleFlowCandidate"/>
+ <use name="DataFormats/PatCandidates"/>
++<use name="DataFormats/Math"/>
++<use name="FWCore/Utilities"/>
+ <export>
+   <lib name="1"/>
+ </export>
