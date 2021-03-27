@@ -7,6 +7,7 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
+Requires: cuda cudnn
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -21,7 +22,10 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_INSTALL_LIBDIR=lib \
    -Donnxruntime_ENABLE_PYTHON=ON \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
-   -Donnxruntime_USE_CUDA=OFF \
+   -Donnxruntime_USE_CUDA=ON \
+   -Donnxruntime_CUDA_VERSION="${CUDA_VERSION}" \
+   -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
+   -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
    -Donnxruntime_BUILD_CSHARP=OFF \
    -Donnxruntime_USE_EIGEN_FOR_BLAS=ON \
    -Donnxruntime_USE_OPENBLAS=OFF \

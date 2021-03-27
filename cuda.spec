@@ -34,6 +34,7 @@ mkdir -p %{i}/lib64/stubs
 
 # package only the runtime static library
 mv %_builddir/build/lib64/libcudadevrt.a %{i}/lib64/
+mv %_builddir/build/lib64/libcudart_static.a %{i}/lib64/
 rm -f %_builddir/build/lib64/lib*.a
 
 # package only the CUDA driver and NVML library stub
@@ -101,6 +102,7 @@ ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}
 sed \
   -e"/^TOP *=/s|= .*|= $CMS_INSTALL_PREFIX/%{pkgrel}|" \
   -e's|$(_HERE_)|$(TOP)/bin|g' \
+  -e's|$(TOP)/lib|$(TOP)/lib64|g' \
   -e's|/$(_TARGET_DIR_)||g' \
   -e's|$(_TARGET_SIZE_)|64|g' \
   -i $RPM_INSTALL_PREFIX/%{pkgrel}/bin/nvcc.profile

@@ -16,6 +16,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/onnxruntime.xml
     <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib"/>
   </client>
   <use name="protobuf"/>
+  <use name="cuda"/>
+  <use name="cudnn"/>
   <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="0"/>
 </tool>
 EOF_TOOLFILE
