@@ -13,7 +13,7 @@ Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=C
 
 Requires: python py2-ipython py2-cherrypy py2-cjson rotatelogs py2-pycurl py2-cx-oracle
 Requires: py2-pyOpenSSL condor dbs3-pycurl-client dbs3-client py2-retry py2-future
-Requires: py2-rucio-clients
+Requires: py2-boto3
 Requires: jemalloc
 BuildRequires: py2-sphinx
 #Patch1: crabserver3-setup
