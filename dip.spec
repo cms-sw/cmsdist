@@ -21,7 +21,11 @@ cd %{_builddir}/dip
 conan create . --build=dip --build=log4cplus
 
 %install
+rm -rf %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib/cmake
+rm -rf %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/lib/cmake
 mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/include %{i}/include
-mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib     %{i}/lib
-mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/include/log4cplus %{i}/include/log4cplus
+mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib %{i}/lib
+mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/include/log4cplus %{i}/include/
 mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/lib/* %{i}/lib/
+mv %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/include/* %{i}/include/
+mv %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/lib/* %{i}/lib/
