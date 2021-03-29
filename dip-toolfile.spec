@@ -18,17 +18,25 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/dip_interface.xml
 </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >%i/etc/scram.d/dip.xml
-<tool name="dip" version="@TOOL_VERSION@">
-  <lib name="dip"/>
-  <use name="dip_interface"/>
-</tool>
-EOF_TOOLFILE
-
 cat << \EOF_TOOLFILE >%i/etc/scram.d/log4cplus.xml
 <tool name="log4cplus" version="@TOOL_VERSION@">
   <lib name="log4cplus"/>
   <use name="dip_interface"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/dip-platform-dependent.xml
+<tool name="dip-platform-dependent" version="@TOOL_VERSION@">
+  <lib name="platform-dependent"/>
+  <use name="dip_interface"/>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%i/etc/scram.d/dip.xml
+<tool name="dip" version="@TOOL_VERSION@">
+  <lib name="dip"/>
+  <use name="dip-platform-dependent"/>
+  <use name="log4cplus"/>
 </tool>
 EOF_TOOLFILE
 
