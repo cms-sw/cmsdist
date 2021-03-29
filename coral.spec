@@ -3,6 +3,8 @@
 %define branch cms/%{realversion}
 %define github_user cms-externals
 
+
+
 Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-gcc8
 Requires: coral-tool-conf
