@@ -1,9 +1,7 @@
 ### RPM cms coral CORAL_2_3_21
-%define tag 676ea68bc6f3e6dd52b5173000209a4f5594d335
-%define branch cms/%{realversion}
-%define github_user cms-externals
-
-
+%define tag aefd4bc1ef6df525c727a086b2cf5698321d7679
+%define branch ConnectionService_fixes_for_timeouts
+%define github_user ggovi
 
 Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-gcc8
