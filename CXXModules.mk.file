@@ -8,6 +8,17 @@ SimDataFormatsGeneratorProducts_EXTRA_LIBS+= $(MODULE_PREFIX)DataFormatsStdDicti
 # include/eigen3/Eigen/src/Geometry/Quaternion.h:81:52: error: 'Eigen::QuaternionBase::w' from module 'DataFormatsCaloRecHit.MultifitComputations.h' is not present in definition of 'QuaternionBase<Derived>' provided earlier
 DataFormatsCaloRecHit_LOC_FLAGS_IGNORE_MODULE_FILE:=MultifitComputations.h
 
+CUDADataFormatsBeamSpot_CXXMODULES:=1
+CUDADataFormatsCaloCommon_CXXMODULES:=1
+CUDADataFormatsEcalDigi_CXXMODULES:=1
+CUDADataFormatsEcalRecHitSoA_CXXMODULES:=1
+CUDADataFormatsHGCal_CXXMODULES:=1
+CUDADataFormatsHcalDigi_CXXMODULES:=1
+CUDADataFormatsHcalRecHitSoA_CXXMODULES:=1
+CUDADataFormatsSiPixelCluster_CXXMODULES:=1
+CUDADataFormatsSiPixelDigi_CXXMODULES:=1
+CUDADataFormatsStdDictionaries_CXXMODULES:=1
+CUDADataFormatsTrackingRecHit_CXXMODULES:=1
 CUDADataFormatsCommon_CXXMODULES:=1
 AlignmentCocoaDaq_CXXMODULES:=1
 AlignmentCocoaFit_CXXMODULES:=1
