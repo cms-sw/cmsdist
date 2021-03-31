@@ -1,6 +1,6 @@
 ### RPM external evtgen 2.0.0
 
-%define tag 23c973a27630e7aca86d69eecb6f91c2f49d9767
+%define tag bcb7af4d35bf66a01c08fa4f8fffb623b7e24c59
 %define branch cms/%realversion
 %define github_user cms-externals
 
