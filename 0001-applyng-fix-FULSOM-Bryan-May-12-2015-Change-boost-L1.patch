@@ -1,0 +1,13 @@
+diff --git a/1.6.0/src/EvtGenModels/EvtYmSToYnSpipiCLEO.cpp b/1.6.0/src/EvtGenModels/EvtYmSToYnSpipiCLEO.cpp
+index 1ba2b0e..401ab96 100644
+--- a/1.6.0/src/EvtGenModels/EvtYmSToYnSpipiCLEO.cpp
++++ b/1.6.0/src/EvtGenModels/EvtYmSToYnSpipiCLEO.cpp
+@@ -170,7 +170,7 @@ void EvtYmSToYnSpipiCLEO::decay( EvtParticle *p){
+       // the direction opposite the Y(mS) in the X rest frame. If the pions are pi0s, then
+       // choose the one where cos(theta) = [0:1].
+ 
+-      EvtVector4R P_YmS_X = boostTo(p->getP4(), P_X);
++      EvtVector4R P_YmS_X = boostTo(p->getP4Restframe(), P_X);
+       double costheta = - p4[0].dot(P_YmS_X)/(p4[0].d3mag()*P_YmS_X.d3mag());
+       if (EvtPDL::name(s1->getId()) == "pi0") {
+ 	if (costheta < 0) {
