@@ -10,12 +10,14 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=40267
 # libgfortranbegin.a is finally removed and was obsolete since GCC 4.5
 Patch0: evtgen-1.6.0-configure-new-gcc
+Patch1: 0001-applyng-fix-FULSOM-Bryan-May-12-2015-Change-boost-L1
 
 %define keep_archives true
 
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch0 -p2
+%patch1 -p2
 
 case %cmsplatf in
   osx*)
