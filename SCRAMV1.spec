@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V3_00_16
+### RPM lcg SCRAMV1 V3_00_18
 ## NOCOMPILER
 
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
