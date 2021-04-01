@@ -170,6 +170,7 @@ Requires: gperftools-toolfile
 Requires: cuda-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
+Requires: cudnn-toolfile
 
 %ifnarch ppc64le
 Requires: libunwind-toolfile
