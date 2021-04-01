@@ -1,4 +1,4 @@
-### RPM external cuda-toolfile 1.0
+### RPM external cudnn-toolfile 1.0
 Requires: cudnn
 %prep
 
