@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+GeneratorInterface-EvtGenInterface=V02-02-00
 L1Trigger-L1TMuon=V01-04-00
 RecoHGCal-TICL=V00-02-01
 EgammaAnalysis-ElectronTools=V00-03-01
@@ -17,7 +18,6 @@ RecoJets-JetProducers=V05-13-00
 RecoTracker-TkSeedGenerator=V00-02-00
 L1Trigger-CSCTriggerPrimitives=V00-04-00
 RecoEgamma-ElectronIdentification=V01-04-00
-GeneratorInterface-EvtGenInterface=V02-01-00
 CalibTracker-SiPixelESProducers=V02-02-00
 CalibPPS-ESProducers=V01-03-00
 L1Trigger-L1THGCal=V01-04-00
