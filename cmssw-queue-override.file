@@ -43,7 +43,7 @@ Source22: tfilea.patch
     echo "<flags LCGDICT_PACKAGE=\\"$p\\"/>"  >> config/BuildFile.xml \
   done \
   pushd src \
-  for pr in 33306 33314; do \
+  for pr in 33306 33320; do \
     curl -s -o ${pr}.patch https://patch-diff.githubusercontent.com/raw/cms-sw/cmssw/pull/${pr}.patch \
     patch -p1 < ${pr}.patch || true \
     rm -f ${pr}.patch \
