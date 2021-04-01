@@ -43,6 +43,9 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
+   -DCMAKE_CUDA_FLAGS="-cudart shared" \
+   -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
+   -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY2_PYBIND11_ROOT}"
 
 ninja -v %{makeprocesses}
