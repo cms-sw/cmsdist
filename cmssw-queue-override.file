@@ -35,7 +35,7 @@
 %if "%(case %realversion in (*CXXMODULE*) echo true ;; (*) echo false ;; esac)" == "true"
 Source20: CXXModules.mk
 Source21: cmssw_eigen_module.patch
-Source22: tfilea.patch
+Source22: irh.patch
 %define patchsrc19     cp %{_sourcedir}/CXXModules.mk config/SCRAM/GMake/CXXModules.mk
 %define patchsrc20     \
   for p in FWCore/ParameterSet FWCore/Reflection FWCore/Utilities FWCore/Concurrency Geometry/TrackerGeometryBuilder Geometry/CaloGeometry FWCore/ServiceRegistry FWCore/Framework CondFormats/External CondFormats/AlignmentRecord CondFormats/DataRecord FWCore/ServiceRegistry Geometry/Records Geometry/CommonTopologies Geometry/CommonDetUnit CommonTools/Utils  Geometry/TrackerNumberingBuilder TrackingTools/DetLayers TrackingTools/GeomPropagators TrackingTools/AnalyticalJacobians Geometry/MuonNumbering CalibTracker/Records MagneticField/Records CondFormats/Serialization FWCore/SOA CondCore/CondDB JetMETCorrections/Objects Geometry/EcalCommonData RecoTracker/Record TrackingTools/TransientTrack MagneticField/Engine TrackingTools/Record RecoMuon/Records DetectorDescription/Core Geometry/EcalAlgo Geometry/CaloTopology FWCore/PluginManager ; do \
@@ -49,7 +49,7 @@ Source22: tfilea.patch
     rm -f ${pr}.patch \
   done \
   patch -p1 < %{_sourcedir}/cmssw_eigen_module.patch || true \
-  patch -p1 < %{_sourcedir}/tfilea.patch || true \
+  patch -p1 < %{_sourcedir}/irh.patch || true \
   popd \ 
 %endif
 # FWCore/PluginManager 
