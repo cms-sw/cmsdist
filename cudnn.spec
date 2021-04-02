@@ -26,6 +26,6 @@ fi
 %build
 
 %install
-rm %_builddir/cuda/lib64/*.a
+rm -f %_builddir/cuda/lib64/*.a
 mv %_builddir/cuda/* %{i}/
 
