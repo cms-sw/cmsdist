@@ -14,6 +14,7 @@ if machine() == "x86_64":
     "tensorflow-sources",
     "tensorflow",
     "OpenBLAS",
+    "rivet",
   ]
   VALID_TARGETS = {
     "nehalem":     "-march=nehalem",
