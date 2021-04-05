@@ -1,5 +1,8 @@
 ### RPM external rivet-toolfile 1.0
-Requires: rivet
+%define base_package %(echo %{n} | sed 's|-toolfile||')
+%define base_package_uc %(echo %{base_package} | tr '[a-z-]' '[A-Z_]')
+%{expand:%(for v in %{package_vectorization}; do echo Requires: %{base_package}_$v; done)}
+Requires: %{base_package}
 
 %prep
 
@@ -14,6 +17,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <environment name="RIVET_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$RIVET_BASE/lib"/>
 <environment name="INCLUDE" default="$RIVET_BASE/include"/>
+EOF_TOOLFILE
+for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]')  ; do
+  r=`eval echo \\$%{base_package_uc}_${v}_ROOT`
+  echo "    <environment name=\"${v}_LIBDIR\" default=\"${r}/lib\" type=\"path\"/>" >> %i/etc/scram.d/rivet.xml
+done
+cat << \EOF_TOOLFILE >>%i/etc/scram.d/rivet.xml
 </client>
 <runtime name="PATH" value="$RIVET_BASE/bin" type="path"/>
 <runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib/Rivet" type="path"/>
