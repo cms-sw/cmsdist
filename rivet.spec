@@ -46,12 +46,15 @@ autoreconf -fiv
 %ifarch aarch64
 sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
 %endif
+CXXFLAGS="-std=c++17"
+%ifarch x86_64
+    CXXFLAGS="${CXXFLAGS} -msse3"
+%endif
 
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
-            CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include"
-
+            CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
