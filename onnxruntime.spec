@@ -7,13 +7,21 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
+%ifarch x86_64
 Requires: cuda cudnn
+%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
+
+%ifarch x86_64
+USE_CUDA=ON
+%else
+USE_CUDA=OFF
+%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
@@ -22,7 +30,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_INSTALL_LIBDIR=lib \
    -Donnxruntime_ENABLE_PYTHON=ON \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
-   -Donnxruntime_USE_CUDA=ON \
+   -Donnxruntime_USE_CUDA=${USE_CUDA} \
    -Donnxruntime_CUDA_VERSION="${CUDA_VERSION}" \
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
