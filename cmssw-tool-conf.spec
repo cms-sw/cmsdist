@@ -170,6 +170,7 @@ Requires: gperftools-toolfile
 Requires: cuda-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
+Requires: cudnn-toolfile
 
 %ifnarch ppc64le
 Requires: libunwind-toolfile
@@ -185,7 +186,6 @@ Requires: intel-vtune
 Requires: glibc-toolfile
 Requires: cmsmon-tools
 Requires: dip-toolfile
-Requires: cudnn-toolfile
 %else
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile

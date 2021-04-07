@@ -26,6 +26,12 @@ fi
 %build
 
 %install
+%ifarch ppc64le
+rm -f %_builddir/cuda/targets/ppc64le-linux/lib/*.a
+mv %_builddir/cuda/targets/ppc64le-linux/lib %{i}/lib64
+mv %_builddir/cuda/targets/ppc64le-linux/* %{i}/
+%else
 rm -f %_builddir/cuda/lib64/*.a
 mv %_builddir/cuda/* %{i}/
+%endif
 
