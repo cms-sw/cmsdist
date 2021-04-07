@@ -7,7 +7,9 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
+%if "%{cmsos}" != "slc7_aarch64"
 Requires: cuda cudnn
+%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -15,7 +17,11 @@ Requires: cuda cudnn
 %build
 rm -rf ../build; mkdir ../build; cd ../build
 
+%if "%{cmsos}" != "slc7_aarch64"
 USE_CUDA=ON
+%else
+USE_CUDA=OFF
+%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \

@@ -170,7 +170,10 @@ Requires: gperftools-toolfile
 Requires: cuda-toolfile
 Requires: alpaka-toolfile
 Requires: cupla-toolfile
+
+%if "%{cmsos}" != "slc7_aarch64"
 Requires: cudnn-toolfile
+%endif
 
 %ifnarch ppc64le
 Requires: libunwind-toolfile
