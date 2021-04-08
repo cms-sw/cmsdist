@@ -4,7 +4,7 @@
 
 Source: git+https://github.com/%{github_user}/server.git?obj=%{branch}/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3
+Requires: opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3
 
 %prep
 
@@ -44,7 +44,6 @@ cmake ../%{n}-%{realversion}/build/client \
     -DTRITON_ENABLE_GRPC=ON \
     -DTRITON_VERSION=%{realversion} \
     -DZLIB_ROOT=${ZLIB_ROOT} \
-    -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT} \
     -DCMAKE_CXX_FLAGS="-Wno-error" \
     -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 

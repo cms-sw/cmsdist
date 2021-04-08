@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite fastjet openssl scons python openmpi rivet
+Requires: hepmc lhapdf blackhat sqlite fastjet scons python openmpi rivet
 BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
 
@@ -50,8 +50,8 @@ esac
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$OPENSSL_ROOT/include -I$RIVET_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib -L$OPENSSL_ROOT/lib"
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
+            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
 
 make %{makeprocesses}
 

@@ -49,12 +49,6 @@ Requires: py2-pybind11-toolfile
 Requires: fwlite_python_tools
 Requires: zstd-toolfile
 
-%ifarch x86_64
-%ifos linux
-Requires: glibc-toolfile
-%endif
-%endif
-
 # Only for Darwin platform.
 %ifarch darwin
 Requires: freetype-toolfile
