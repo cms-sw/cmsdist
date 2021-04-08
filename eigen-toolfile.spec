@@ -15,6 +15,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/eigen.xml
   </client>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags CPPDEFINES="EIGEN_DONT_PARALLELIZE"/>
+  <flags CUDA_FLAGS="--diag-suppress 20014"/>
 </tool>
 EOF_TOOLFILE
 
