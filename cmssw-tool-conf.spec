@@ -58,7 +58,6 @@ Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: lwtnn-toolfile
 Requires: meschach-toolfile
-Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: photospp-toolfile
