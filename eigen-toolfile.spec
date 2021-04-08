@@ -1,4 +1,4 @@
-### RPM external eigen-toolfile 1.0
+### RPM external eigen-toolfile 2.0
 Requires: eigen
 %prep
 
