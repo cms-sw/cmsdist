@@ -5,6 +5,7 @@
 %define tag 89a104708d109afc7f41661be33062605b7776a3
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
+
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
 %if "%{cmsos}" != "slc7_aarch64"
