@@ -7,12 +7,21 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
+%if "%{cmsos}" != "slc7_aarch64"
+Requires: cuda cudnn
+%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
+
+%if "%{cmsos}" != "slc7_aarch64"
+USE_CUDA=ON
+%else
+USE_CUDA=OFF
+%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
@@ -21,7 +30,10 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_INSTALL_LIBDIR=lib \
    -Donnxruntime_ENABLE_PYTHON=ON \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
-   -Donnxruntime_USE_CUDA=OFF \
+   -Donnxruntime_USE_CUDA=${USE_CUDA} \
+   -Donnxruntime_CUDA_VERSION="${CUDA_VERSION}" \
+   -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
+   -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
    -Donnxruntime_BUILD_CSHARP=OFF \
    -Donnxruntime_USE_EIGEN_FOR_BLAS=ON \
    -Donnxruntime_USE_OPENBLAS=OFF \
@@ -39,6 +51,9 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
+   -DCMAKE_CUDA_FLAGS="-cudart shared" \
+   -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
+   -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY2_PYBIND11_ROOT}"
 
 ninja -v %{makeprocesses}
