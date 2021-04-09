@@ -16,6 +16,10 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/onnxruntime.xml
     <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib"/>
   </client>
   <use name="protobuf"/>
+%if "%{cmsos}" != "slc7_aarch64"
+  <use name="cuda"/>
+  <use name="cudnn"/>
+%endif
   <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="0"/>
 </tool>
 EOF_TOOLFILE
