@@ -69,7 +69,7 @@ Requires: py2-jupyter_client
 Requires: py2-jupyter_console
 Requires: py2-jupyter_core
 Requires: py2-mistune
-Requires: py2-nbconvert
+Requires: py3-nbconvert
 Requires: py2-nbformat
 Requires: py2-notebook
 Requires: py2-ordereddict
