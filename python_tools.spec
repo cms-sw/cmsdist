@@ -60,7 +60,7 @@ Requires: py2-certifi
 Requires: py2-decorator
 Requires: py2-html5lib
 Requires: py2-ipykernel
-Requires: py2-ipython
+Requires: py3-ipython
 Requires: py2-ipython_genutils
 Requires: py2-ipywidgets
 Requires: py2-jsonschema
