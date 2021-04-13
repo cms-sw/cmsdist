@@ -128,7 +128,7 @@ importlib-metadata==2.1.1
 importlib-resources==3.3.1
 iniconfig==1.1.1
 ipaddress==1.0.23
-ipykernel==4.10.1 ; python_version<'3.0'
+#ipykernel==4.10.1 ; python_version<'3.0'
 ipykernel==5.5.0 ; python_version>'3.0'
 ipython_genutils==0.2.0
 #ipython==5.10.0 ; python_version<'3.0'
@@ -141,12 +141,12 @@ joblib==0.14.1 ; python_version<'3.0'
 joblib==1.0.1 ; python_version>'3.0'
 jsonpickle==1.4.2
 jsonschema==3.2.0
-jupyter_client==5.3.5 ; python_version<'3.0'
+#jupyter_client==5.3.5 ; python_version<'3.0'
 jupyter_client==6.1.11 ; python_version>'3.0'
-jupyter_console==5.2.0 ; python_version<'3.0'
+#jupyter_console==5.2.0 ; python_version<'3.0'
 jupyter_console==6.2.0 ; python_version>'3.0'
-jupyter_core==4.6.3
-jupyter==1.0.0
+jupyter_core==4.6.3 ; python_version>'3.0'
+jupyter==1.0.0 ; python_version>'3.0'
 jupyterlab-widgets==1.0.0 ; python_version>'3.0'
 Keras==2.4.3
 keras-applications==1.0.8
@@ -273,7 +273,7 @@ pytools==2020.3
 pytz==2021.1
 PyYAML==5.4.1
 pyzmq==19.0.2
-qtconsole==4.7.7
+qtconsole==4.7.7 ; python_version> '3.0'
 QtPy==1.9.0
 repoze-lru==0.7
 rep==0.6.6
