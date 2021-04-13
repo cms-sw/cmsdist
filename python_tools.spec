@@ -29,9 +29,9 @@ Requires: py2-xgboost py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
 Requires: py2-hep_ml
-Requires: py2-rep
+Requires: py3-rep
 Requires: py2-uncertainties
-Requires: py2-hyperas
+Requires: py3-hyperas
 Requires: py2-hyperopt
 Requires: py2-seaborn
 Requires: py2-h5py
@@ -62,7 +62,7 @@ Requires: py2-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py2-ipython_genutils
-Requires: py2-ipywidgets
+Requires: py3-ipywidgets
 Requires: py2-jsonschema
 Requires: py3-jupyter
 Requires: py3-jupyter_client
@@ -70,8 +70,8 @@ Requires: py3-jupyter_console
 Requires: py3-jupyter_core
 Requires: py2-mistune
 Requires: py3-nbconvert
-Requires: py2-nbformat
-Requires: py2-notebook
+Requires: py3-nbformat
+Requires: py3-notebook
 Requires: py2-ordereddict
 Requires: py2-packaging
 Requires: py2-pandocfilters
@@ -96,7 +96,7 @@ Requires: py2-tornado
 Requires: py2-traitlets
 Requires: py2-wcwidth
 Requires: py2-webencodings
-Requires: py2-widgetsnbextension
+Requires: py3-widgetsnbextension
 Requires: py2-cycler
 Requires: py2-docopt
 Requires: py2-futures
@@ -164,7 +164,7 @@ Requires: py2-typing
 Requires: py2-defusedxml
 Requires: py2-atomicwrites
 Requires: py2-attrs
-Requires: py2-nbdime
+Requires: py3-nbdime
 Requires: py2-onnx
 Requires: py3-onnxmltools
 Requires: py2-backports
