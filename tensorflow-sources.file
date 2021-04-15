@@ -26,6 +26,7 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %define pythonOnly no
 %endif
 
+
 %define majorversion %(echo %realversion | cut -d . -f 1)
 
 %prep
