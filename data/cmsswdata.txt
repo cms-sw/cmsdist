@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+GeneratorInterface-EvtGenInterface=V02-03-00
 Alignment-OfflineValidation=V00-01-00
 CalibPPS-ESProducers=V01-03-00
 RecoMET-METPUSubtraction=V01-01-00
@@ -69,7 +70,6 @@ DQM-SiStripMonitorClient=V01-00-00
 EventFilter-L1TRawToDigi=V01-00-00
 FastSimulation-TrackingRecHitProducer=V01-00-03
 Fireworks-Geometry=V07-05-04
-GeneratorInterface-EvtGenInterface=V02-00-11
 HLTrigger-JetMET=V01-00-00
 L1Trigger-L1TCalorimeter=V01-00-22
 L1Trigger-L1TGlobal=V00-00-07
