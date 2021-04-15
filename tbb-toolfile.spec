@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
   <lib name="tbb"/>
   <client>
     <environment name="TBB_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$TBB_BASE/lib"/>
+    <environment name="LIBDIR" default="$TBB_BASE/lib64"/>
     <environment name="INCLUDE" default="$TBB_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
