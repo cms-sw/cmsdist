@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag a3524b823f922f1ccdc8e5c5f5960563234767fc
+%define tag 957210d46016a0814e42fc64e74ed8b0e3a7a9ff
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
