@@ -1,1 +1,1 @@
-Requires: py2-traitlets py2-pickleshare py2-Pygments py2-prompt_toolkit py2-pexpect py2-simplegeneric py2-backports
+Requires: py2-traitlets py2-pickleshare py3-Pygments py2-prompt_toolkit py2-pexpect py2-simplegeneric py2-backports
