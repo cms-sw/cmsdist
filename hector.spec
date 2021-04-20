@@ -1,5 +1,5 @@
 ### RPM external hector 1.3.4_patch1
-%define tag 7498d56fe88d7c26f7c871c55bb9f5d2f0255004
+%define tag 566e76718059fde2bf044579a2010a482b52a04a
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
