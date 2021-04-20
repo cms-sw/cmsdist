@@ -1,1 +1,1 @@
-Requires: py2-jupyter py2-Keras py2-hyperopt
+Requires: py3-jupyter py2-Keras py2-hyperopt
