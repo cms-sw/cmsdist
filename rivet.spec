@@ -14,11 +14,6 @@ Patch0: rivet-140-313
 %setup -n %{n}-%{realversion}
 %patch0 -p0
 
-# remove analyses that do not compile
-rm analyses/pluginLEP/L3_2008_I825820.cc
-rm analyses/pluginBELLE/BELLE_2019_I1762826.cc
-rm analyses/pluginBELLE/BELLE_2020_I1796822.cc
-
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
 %get_config_guess %{_tmppath}/config.guess
