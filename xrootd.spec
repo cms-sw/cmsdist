@@ -1,10 +1,10 @@
-### RPM external xrootd 4.12.3
+### RPM external xrootd 5.1.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
-%define tag b122d662f80a46a570876afd32cdaa9f4370dc1d
-%define branch stable-4.12.x
+%define tag v%{realversion}
+%define branch stable-5.1.x
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -30,7 +30,7 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 # libfuse and libperl are not produced by CMSDIST.
 
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
