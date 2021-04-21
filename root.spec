@@ -5,6 +5,7 @@
 
 %define tag 1661d87b20091e6a506196398090d310c96d8da6
 %define branch cms/v6-22-00-patches/d1d36a5f17904f7d3661c97d28da8f3954e02340
+
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
