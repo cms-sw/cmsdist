@@ -1,4 +1,4 @@
-### RPM external yoda 1.8.5
+### RPM external yoda 1.9.0
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -18,20 +18,22 @@ autoreconf -fiv
 
 sed -i -e "s|lPyROOT|lcppyyX.X|" ./pyext/setup.py.in
 
-#Build for Python3
+#Build for Python2
+export PYTHON_VERSION=$(python2 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
+sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
+./configure --prefix=%i --disable-root
+make %{makeprocesses} all
+
+#Install Py2 Only
+mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
+mv pyext/build/lib*-${PYTHON_VERSION}/yoda* %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+
+#Build & install for Python3
 export PYTHON_VERSION=$(python3 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
 sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
 ./configure --prefix=%i --enable-root
-make %{makeprocesses} all
-
-#Install Py3 Only
-mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
-mv pyext/build/lib*-${PYTHON_VERSION}/yoda* %{i}/${PYTHON3_LIB_SITE_PACKAGES}/
-
-#Build & install for Python2
-export PYTHON_VERSION=$(python2 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
-sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
-./configure --prefix=%i --enable-root
+sed -i "s|env python|env python3|" bin/yoda2root
+sed -i "s|env python|env python3|" bin/root2yoda
 make %{makeprocesses} all
 make install
 
