@@ -23,17 +23,3 @@
          }
        }
      }
-diff --git analyses/pluginCESR/CLEOII_1997_I446031.cc analyses/pluginCESR/CLEOII_1997_I446031.cc
-index 85fc07e..ab1a2be 100644
---- analyses/pluginCESR/CLEOII_1997_I446031.cc
-+++ analyses/pluginCESR/CLEOII_1997_I446031.cc
-@@ -66,7 +66,7 @@ namespace Rivet {
-     void analyze(const Event& event) {
-       // find scattered leptons and calc Q2
-       const Beam & beams = apply<Beam>(event, "Beams");
--      double Q12,Q22;
-+      double Q12 = 0.,Q22 = 0.;
-       if(!findScattered(beams.beams().first ,Q12)) vetoEvent;
-       if(!findScattered(beams.beams().second,Q22)) vetoEvent;
-       double scale = max(Q12,Q22);
-
