@@ -1,4 +1,4 @@
-### RPM external rivet 3.1.3
+### RPM external rivet 3.1.4
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
@@ -13,11 +13,6 @@ Patch0: rivet-140-313
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p0
-
-# remove analyses that do not compile
-rm analyses/pluginLEP/L3_2008_I825820.cc
-rm analyses/pluginBELLE/BELLE_2019_I1762826.cc
-rm analyses/pluginBELLE/BELLE_2020_I1796822.cc
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
