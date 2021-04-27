@@ -20,9 +20,9 @@ Requires: py3-tables
 Requires: py2-numexpr
 Requires: py3-histogrammar
 Requires: py2-pandas
-Requires: py2-root_numpy
+Requires: py3-root_numpy
 Requires: py3-Bottleneck
-Requires: py2-downhill
+Requires: py3-downhill
 Requires: py3-theanets
 Requires: py2-xgboost py3-xgboost
 Requires: py3-llvmlite
@@ -113,14 +113,14 @@ Requires: py2-enum34
 Requires: py2-functools32
 Requires: py2-mock
 Requires: py2-pbr
-Requires: py2-mpmath
+Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py2-tqdm
 Requires: py2-funcsigs
 Requires: py2-nose
 Requires: py2-pkgconfig
 Requires: py2-pysqlite
-Requires: py2-Click
+Requires: py3-Click
 Requires: py3-jsonpickle
 Requires: py3-prwlock
 Requires: py3-virtualenv
@@ -203,7 +203,7 @@ Requires: py2-subprocess32
 Requires: py2-kiwisolver
 Requires: py2-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
-Requires: py2-climate
+Requires: py3-climate
 Requires: py3-mpld3
 Requires: py2-neurolab
 Requires: py2-nose-parameterized
