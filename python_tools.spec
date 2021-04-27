@@ -10,7 +10,7 @@ Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
 #save for the end
-#Requires: py3-tensorflow
+Requires: py3-tensorflow
 Requires: py2-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
@@ -184,7 +184,7 @@ Requires: py2-pyflakes
 Requires: py2-smmap2
 Requires: py2-stevedore
 Requires: py2-typing_extensions
-Requires: py2-virtualenv-clone
+Requires: py3-virtualenv-clone
 Requires: py2-asn1crypto
 Requires: py3-backcall
 Requires: py2-cffi
