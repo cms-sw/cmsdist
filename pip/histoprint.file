@@ -1,1 +1,1 @@
-Requires: py3-numpy py2-setuptools-scm py2-toml py2-Click
+Requires: py3-numpy py2-setuptools-scm py2-toml py3-Click
