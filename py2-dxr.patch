@@ -11,4 +11,16 @@ index a095d2a..bf101ab 100644
 
  PLUGIN_NAME   = 'clang'
 
+diff --git a/dxr/mime.py b/dxr/mime.py
+index bf036f5..4648ae6 100644
+--- a/dxr/mime.py
++++ b/dxr/mime.py
+@@ -26,6 +26,7 @@ ext_map = {
+     "cpp":        'cpp',
+     "cc":         'cpp',
+     "cxx":        'cpp',
++    "icc":        'cpp',
+     "c":          'c',
+     "xul":        'ui',
+     "svg":        'svg',
 
