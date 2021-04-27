@@ -1,1 +1,2 @@
-%define RelocatePython %{i}/bin/pygmentize
+Patch0: Pygments-cpp-extension-fix
+%define PipPostBuildPy3 mv %{i}/bin/pygmentize %{i}/bin/pygmentize3
