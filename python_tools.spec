@@ -23,7 +23,7 @@ Requires: py2-pandas
 Requires: py2-root_numpy
 Requires: py3-Bottleneck
 Requires: py2-downhill
-Requires: py2-theanets
+Requires: py3-theanets
 Requires: py2-xgboost py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
@@ -183,7 +183,7 @@ Requires: py2-pyasn1-modules
 Requires: py2-pyasn1
 Requires: py2-pyflakes
 Requires: py2-smmap2
-Requires: py2-stevedore
+Requires: py3-stevedore
 Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
 Requires: py2-asn1crypto
