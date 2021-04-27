@@ -1,1 +1,2 @@
+Patch0: Pygments-cpp-extension-fix
 %define RelocatePython %{i}/bin/pygmentize
