@@ -136,7 +136,7 @@ Requires: py3-flawfinder
 Requires: py3-python-ldap
 Requires: py2-plac
 
-Requires: py2-matplotlib
+Requires: py3-matplotlib
 Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
@@ -203,7 +203,7 @@ Requires: py2-kiwisolver
 Requires: py2-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
 Requires: py2-climate
-Requires: py2-mpld3
+Requires: py3-mpld3
 Requires: py2-neurolab
 Requires: py2-nose-parameterized
 Requires: py2-pillow
