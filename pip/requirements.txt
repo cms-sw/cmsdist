@@ -159,8 +159,7 @@ lazy-object-proxy==1.4.3
 lizard==1.17.7; python_version>'3.0'
 #NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources. Still, keep the version
 llvmlite==0.35.0 ; python_version>'3.0'
-lockfile==0.12.2
-luigi==2.8.13 ; python_version<'3.0'
+lockfile==0.12.2; python_version>'3.0'
 luigi==3.0.2 ; python_version>'3.0'
 lxml==4.6.2; python_version>'3.0'
 lz4==2.2.1 ; python_version<'3.0'
@@ -262,7 +261,7 @@ pytest==4.6.11 ; python_version<'3.0'
 pytest==6.2.2 ; python_version>'3.0'
 pytest-cov==2.11.1
 pytest-runner==5.2
-python-daemon==2.3.0
+python-daemon==2.3.0; python_version>'3.0'
 python-dateutil==2.8.1
 python-ldap==3.3.1 ; python_version>'3.0'
 python-rapidjson==1.0;python_version>'3.0'
@@ -334,7 +333,7 @@ uproot-methods==0.8.0; python_version>'3.0'
 uproot4==0.1.2; python_version>'3.0'
 urllib3==1.26.3
 virtualenv-clone==0.5.4; python_version>'3.0'
-virtualenv==20.4.2
+virtualenv==20.4.2; python_version>'3.0'
 virtualenvwrapper==4.8.4; python_version>'3.0'
 wcwidth==0.2.5
 webencodings==0.5.1

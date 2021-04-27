@@ -122,7 +122,7 @@ Requires: py2-pysqlite
 Requires: py2-Click
 Requires: py3-jsonpickle
 Requires: py3-prwlock
-Requires: py2-virtualenv
+Requires: py3-virtualenv
 Requires: py3-virtualenvwrapper
 Requires: py2-urllib3
 Requires: py2-chardet
