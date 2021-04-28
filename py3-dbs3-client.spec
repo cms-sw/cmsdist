@@ -7,8 +7,8 @@
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 Source0: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&output=/%{n}.tar.gz
-Requires: python3 py3-cjson py3-dbs3-pycurl-client
-BuildRequires: py2-sphinx
+Requires: python3 py3-dbs3-pycurl-client 
+BuildRequires: py3-sphinx
 
 %prep
 %setup -D -T -b 0 -n DBS
