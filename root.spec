@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 3d485ea9925a0bcf7e7a9132aac3237ca3ffa185
-%define branch cms/master/6df3488
+%define tag 31628984dceed7c6c70928263cf82f89d7a08b5e
+%define branch cms/master/8dc8e8f
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -84,6 +84,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
