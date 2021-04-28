@@ -84,6 +84,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
