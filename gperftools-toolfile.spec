@@ -1,4 +1,4 @@
-### RPM external gperftools-toolfile 1.0
+### RPM external gperftools-toolfile 2.0
 
 Requires: gperftools
 
@@ -26,6 +26,17 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/tcmalloc.xml
     <environment name="TCMALLOC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"        default="$TCMALLOC_BASE/lib"/>
   </client>
+</tool>
+EOF_TOOLFILE
+
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/gperf.xml
+<tool name="gperf" version="@TOOL_VERSION@">
+  <lib name="profiler"/>
+  <client>
+    <environment name="GPERF_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"        default="$GPERF_BASE/lib"/>
+  </client>
+  <runtime name="PATH" value="$GPERF_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
 
