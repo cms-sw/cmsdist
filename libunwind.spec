@@ -1,6 +1,6 @@
-### RPM external libunwind 1.4.0
-%define tag 9a055a43bfc955658f88d21cf66386bfdd982c94
-%define branch v1.4-stable
+### RPM external libunwind 1.5
+%define tag 4c980e2b29cdb9d21cfc341abdec3a6ee46e0483
+%define branch v1.5-stable
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
 
