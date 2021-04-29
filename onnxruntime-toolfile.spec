@@ -20,7 +20,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/onnxruntime.xml
   <use name="cuda"/>
   <use name="cudnn"/>
 %endif
-  <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="0"/>
+  <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="2"/>
 </tool>
 EOF_TOOLFILE
 
