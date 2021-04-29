@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEgamma-PhotonIdentification=V01-01-00
 Geometry-TestReference=V00-06-00
 GeneratorInterface-EvtGenInterface=V02-03-00
 L1Trigger-CSCTriggerPrimitives=V00-05-00
@@ -92,7 +93,6 @@ L1Trigger-L1TGlobal=V00-00-07
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
-RecoEgamma-PhotonIdentification=V01-00-06
 RecoHI-HiJetAlgos=V01-00-01
 RecoParticleFlow-PFTracking=V13-01-00
 SimTransport-HectorProducer=V01-00-01
