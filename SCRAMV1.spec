@@ -1,15 +1,13 @@
-### RPM lcg SCRAMV1 V2_2_9_pre13
+### RPM lcg SCRAMV1 V3_00_18
 ## NOCOMPILER
-
-BuildRequires: gmake
 
 Provides: perl(BuildSystem::Template::Plugins::PluginCore)
 Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag %{realversion}
-%define branch master
+%define tag bf9d60c30eaa004e769f0b9f1222f216f45bcd78
+%define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -49,14 +47,17 @@ fi
 
 %setup -n %{n}-%{realversion}
 %build
-gmake %{makeprocesses} all INSTALL_BASE=%{instroot} VERSION=%{realversion} PREFIX=%{i}
+sed -i -e "s|@CMS_PATH@|%{instroot}|g;s|@SCRAM_VERSION@|%{realversion}|g" SCRAM/__init__.py
 
 %install
-gmake %{makeprocesses} install INSTALL_BASE=%{instroot} VERSION=%{realversion} PREFIX=%{i}
+mkdir %{i}/bin
+cp -r SCRAM %{i}/
+cp cli/scram %{i}/bin/
+cp cli/scram.py %{i}/bin/
 
 %post
-%{relocateRpmPkg}bin/scram
-sed -i -e "s|dbPath = '$RPM_INSTALL_PREFIX';|dbPath = '$CMS_INSTALL_PREFIX';|" $RPM_INSTALL_PREFIX/%{pkgrel}/bin/scram
+%{relocateRpmPkg}SCRAM/__init__.py
+sed -i -e "s|^BASEPATH = .*|BASEPATH = '$CMS_INSTALL_PREFIX'|" $RPM_INSTALL_PREFIX/%{pkgrel}/SCRAM/__init__.py
 echo "SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
