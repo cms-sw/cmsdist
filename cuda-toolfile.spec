@@ -43,7 +43,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/cuda.xml
   <lib name="cudadevrt" type="cuda"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
-  <runtime name="CLING_MODULEMAP_FILES" value="$(CUDA_BASE)/include/cuda.modulemap" type="path" handler="warn"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$CUDA_BASE/include/cuda.modulemap" type="path" handler="warn"/>
 </tool>
 EOF_TOOLFILE
 

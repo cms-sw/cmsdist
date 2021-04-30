@@ -133,7 +133,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
   <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <flags SYSTEM_INCLUDE="1"/>
-  <runtime name="CLING_MODULEMAP_FILES" value="$(BOOSTHEADER_BASE)/include/boost/boost.modulemap" type="path" handler="warn"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$BOOSTHEADER_BASE/include/boost/boost.modulemap" type="path" handler="warn"/>
   <flags ROOTCLING_ARGS="-moduleMapFile=$(BOOSTHEADER_BASE)/include/boost/boost.modulemap"/>
 </tool>
 EOF_TOOLFILE
