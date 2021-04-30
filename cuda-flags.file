@@ -31,7 +31,7 @@
 %define cuda_flags_3 --extended-lambda
 
 # build support for the various compute architectures
-%define cuda_flags_4 %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=sm_$ARCH"; done)) -Wno-deprecated-gpu-targets
+%define cuda_flags_4 %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=[sm_$ARCH,compute_$ARCH]"; done)) -Wno-deprecated-gpu-targets
 
 # disable warnings about attributes on defaulted methods
 %define cuda_flags_5 -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored
