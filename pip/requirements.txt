@@ -87,7 +87,7 @@ entrypoints==0.3
 enum34==1.1.10;python_version<'3.0'
 fasteners==0.16 ; python_version>'3.0'
 filelock==3.0.12
-fire==0.4.0
+fire==0.4.0; python_version>'3.0'
 flit==3.1.0; python_version>'3.0'
 flit-core==3.1.0; python_version>'3.0'
 flake8==3.8.4 ; python_version>'3.0'
@@ -139,7 +139,7 @@ Jinja2==2.11.3
 joblib==0.14.1 ; python_version<'3.0'
 joblib==1.0.1 ; python_version>'3.0'
 jsonpickle==1.4.2; python_version>'3.0'
-jsonschema==3.2.0
+jsonschema==3.2.0; python_version>'3.0'
 #jupyter_client==5.3.5 ; python_version<'3.0'
 jupyter_client==6.1.11 ; python_version>'3.0'
 #jupyter_console==5.2.0 ; python_version<'3.0'
@@ -180,7 +180,6 @@ multidict==5.1.0 ; python_version>'3.0'
 nbconvert==5.6.1; python_version>'3.0'
 nbdime==1.1.0 ; python_version> '3.0'
 #5.0.3 does not support python2.7 even if pip thinks so
-#nbformat==4.4.0 ; python_version<'3.0'
 nbformat==5.1.2 ; python_version>'3.0'
 networkx==2.2 ; python_version<'3.0'
 networkx==2.5 ; python_version>'3.0'
@@ -245,7 +244,6 @@ pydot==1.4.2; python_version>'3.0'
 pyflakes==2.2.0
 Pygments==2.8.1 ; python_version>'3.0'
 PyJWT==2.0.1 ; python_version>'3.0'
-pylint==1.9.5 ; python_version<'3.0'
 pylint==2.7.2 ; python_version>'3.0'
 pymongo==3.11.3
 pyOpenSSL==20.0.1; python_version>'3.0'
@@ -336,7 +334,7 @@ virtualenv==20.4.2; python_version>'3.0'
 virtualenvwrapper==4.8.4; python_version>'3.0'
 wcwidth==0.2.5
 webencodings==0.5.1; python_version>'3.0'
-Werkzeug==1.0.1
+Werkzeug==1.0.1; python_version>'3.0'
 wheel==0.33.6
 widgetsnbextension==3.5.1 ; python_version>'3.0'
 #cannot wrapt update before astroid is

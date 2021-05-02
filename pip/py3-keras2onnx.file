@@ -1,2 +1,2 @@
-Requires:  py3-numpy py2-protobuf py2-requests py2-onnx py3-onnxconverter-common py2-fire
+Requires:  py3-numpy py2-protobuf py2-requests py2-onnx py3-onnxconverter-common py3-fire
 %define source0 https://github.com/onnx/keras-onnx/archive/v%{realversion}.tar.gz

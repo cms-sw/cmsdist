@@ -62,7 +62,7 @@ Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py2-ipython_genutils
 Requires: py3-ipywidgets
-Requires: py2-jsonschema
+Requires: py3-jsonschema
 Requires: py3-jupyter
 Requires: py3-jupyter_client
 Requires: py3-jupyter_console
@@ -127,7 +127,7 @@ Requires: py3-virtualenvwrapper
 Requires: py2-urllib3
 Requires: py2-chardet
 Requires: py2-idna
-Requires: py2-Werkzeug
+Requires: py3-Werkzeug
 Requires: py2-pytest
 Requires: py3-avro
 Requires: py2-fs
@@ -142,7 +142,7 @@ Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
-Requires: py2-pylint
+Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
 %ifarch x86_64
@@ -216,7 +216,6 @@ Requires: py2-coverage
 Requires: py3-hepdata-lib
 Requires: py2-isort
 Requires: py2-lazy-object-proxy
-Requires: py2-pylint
 Requires: py3-pytest-cov
 Requires: py2-wrapt
 
