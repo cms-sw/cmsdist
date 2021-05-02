@@ -54,10 +54,10 @@ Requires: py2-MarkupSafe
 Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse
-Requires: py2-bleach
+Requires: py3-bleach
 Requires: py2-certifi
 Requires: py2-decorator
-Requires: py2-html5lib
+Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py2-ipython_genutils
@@ -94,9 +94,9 @@ Requires: py3-testpath
 Requires: py2-tornado
 Requires: py2-traitlets
 Requires: py2-wcwidth
-Requires: py2-webencodings
+Requires: py3-webencodings
 Requires: py3-widgetsnbextension
-Requires: py2-cycler
+Requires: py3-cycler
 Requires: py3-docopt
 Requires: py2-futures
 Requires: py2-networkx
@@ -185,10 +185,10 @@ Requires: py2-smmap2
 Requires: py3-stevedore
 Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
-Requires: py2-asn1crypto
+Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py2-cffi
-Requires: py2-cryptography
+Requires: py3-cryptography
 Requires: py2-google-common
 Requires: py2-jedi
 Requires: py2-parso
@@ -200,7 +200,7 @@ Requires: py2-grpcio-tools
 Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver
-Requires: py2-pyOpenSSL
+Requires: py3-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
@@ -217,7 +217,7 @@ Requires: py3-hepdata-lib
 Requires: py2-isort
 Requires: py2-lazy-object-proxy
 Requires: py2-pylint
-Requires: py2-pytest-cov
+Requires: py3-pytest-cov
 Requires: py2-wrapt
 
 Requires: py2-distlib

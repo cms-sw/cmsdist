@@ -1,3 +1,3 @@
-Requires: py2-Jinja2 py3-Pygments py2-bleach py2-backports py2-defusedxml py2-entrypoints py2-mistune py2-pandocfilters py3-nbformat
+Requires: py2-Jinja2 py3-Pygments py3-bleach py2-backports py2-defusedxml py2-entrypoints py2-mistune py2-pandocfilters py3-nbformat
 Requires: py3-testpath py2-testpath
 %define RelocatePython %{i}/bin/jupyter-nbconvert
