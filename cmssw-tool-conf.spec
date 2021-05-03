@@ -44,7 +44,7 @@ Requires: hector-toolfile
 Requires: hepmc-toolfile
 Requires: heppdt-toolfile
 Requires: herwig-toolfile
-Requires: herwigpp-toolfile
+Requires: herwig7-toolfile
 Requires: ittnotify-toolfile
 Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
@@ -149,6 +149,8 @@ Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml-toolfile
 Requires: scons-toolfile
 Requires: md5-toolfile
+Requires: gosamcontrib-toolfile
+Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
 Requires: py2-pippkgs-toolfile
 Requires: py2-pippkgs_depscipy-toolfile
