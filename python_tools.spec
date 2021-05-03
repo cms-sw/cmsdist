@@ -17,7 +17,7 @@ Requires: py3-law
 
 Requires: py3-cloudpickle
 Requires: py3-tables
-Requires: py2-numexpr
+Requires: py3-numexpr
 Requires: py3-histogrammar
 Requires: py3-pandas
 Requires: py3-root_numpy
@@ -49,8 +49,8 @@ Requires: root curl python openldap
 Requires: py2-entrypoints
 Requires: py3-psutil
 Requires: py2-repoze-lru
-Requires: py2-Jinja2
-Requires: py2-MarkupSafe
+Requires: py3-Jinja2
+Requires: py3-MarkupSafe
 Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse
@@ -67,7 +67,7 @@ Requires: py3-jupyter
 Requires: py3-jupyter_client
 Requires: py3-jupyter_console
 Requires: py3-jupyter_core
-Requires: py2-mistune
+Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
 Requires: py3-notebook
@@ -134,7 +134,7 @@ Requires: py2-fs
 Requires: py3-lizard
 Requires: py3-flawfinder
 Requires: py3-python-ldap
-Requires: py2-plac
+Requires: py3-plac
 
 Requires: py3-matplotlib
 Requires: py2-numpy-toolfile
@@ -191,17 +191,17 @@ Requires: py2-cffi
 Requires: py3-cryptography
 Requires: py2-google-common
 Requires: py3-jedi
-Requires: py2-parso
+Requires: py3-parso
 Requires: py2-pycparser
 Requires: py2-absl-py
 Requires: py3-gast
 Requires: py2-grpcio
 Requires: py2-grpcio-tools
-Requires: py2-Markdown
+Requires: py3-Markdown
 Requires: py2-subprocess32
-Requires: py2-kiwisolver
+Requires: py3-kiwisolver
 Requires: py3-pyOpenSSL
-Requires: py2-bokeh py3-bokeh
+Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
 Requires: py3-neurolab
@@ -214,13 +214,13 @@ Requires: py3-pydot
 Requires: py2-astroid
 Requires: py2-coverage
 Requires: py3-hepdata-lib
-Requires: py2-isort
+Requires: py3-isort
 Requires: py2-lazy-object-proxy
 Requires: py3-pytest-cov
 Requires: py2-wrapt
 
 Requires: py2-distlib
-Requires: py2-filelock
+Requires: py3-filelock
 Requires: py3-gitdb
 Requires: py2-importlib-resources
 Requires: py2-smmap
