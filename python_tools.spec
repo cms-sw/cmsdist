@@ -6,7 +6,7 @@ Source: none
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
 Requires: py2-scipy
-Requires: py2-Keras
+Requires: py3-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
 #save for the end
@@ -31,7 +31,7 @@ Requires: py2-hep_ml
 Requires: py3-rep
 Requires: py3-uncertainties
 Requires: py3-hyperas
-Requires: py2-hyperopt
+Requires: py3-hyperopt
 Requires: py3-seaborn
 Requires: py2-h5py
 Requires: py3-h5py-cache
@@ -75,9 +75,9 @@ Requires: py2-ordereddict
 Requires: py2-packaging
 Requires: py2-pandocfilters
 Requires: py2-pathlib2
-Requires: py2-pexpect
+Requires: py3-pexpect
 Requires: py2-pickleshare
-Requires: py2-prompt_toolkit
+Requires: py3-prompt_toolkit
 Requires: py2-ptyprocess
 Requires: py2-pyparsing
 Requires: py2-pyzmq
@@ -92,7 +92,7 @@ Requires: py2-terminado
 Requires: py2-testpath
 Requires: py3-testpath
 Requires: py2-tornado
-Requires: py2-traitlets
+Requires: py3-traitlets
 Requires: py2-wcwidth
 Requires: py3-webencodings
 Requires: py3-widgetsnbextension
