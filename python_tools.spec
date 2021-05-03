@@ -51,6 +51,7 @@ Requires: py3-psutil
 Requires: py3-repoze-lru
 Requires: py3-Jinja2
 Requires: py3-MarkupSafe
+Requires: py2-Pygments
 Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse

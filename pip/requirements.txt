@@ -229,6 +229,7 @@ pycuda==2019.1.2; python_version>'3.0'
 pycurl==7.43.0.5
 pydot==1.4.2; python_version>'3.0'
 pyflakes==2.2.0
+Pygments==2.5.2 ; python_version<'3.0'
 Pygments==2.8.1 ; python_version>'3.0'
 PyJWT==2.0.1 ; python_version>'3.0'
 pylint==2.7.2 ; python_version>'3.0'
