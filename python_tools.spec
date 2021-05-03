@@ -15,11 +15,11 @@ Requires: py2-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
 
-Requires: py2-cloudpickle
+Requires: py3-cloudpickle
 Requires: py3-tables
 Requires: py2-numexpr
 Requires: py3-histogrammar
-Requires: py2-pandas
+Requires: py3-pandas
 Requires: py3-root_numpy
 Requires: py3-Bottleneck
 Requires: py3-downhill
@@ -27,7 +27,7 @@ Requires: py3-theanets
 Requires: py2-xgboost py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
-Requires: py2-hep_ml
+Requires: py3-hep_ml
 Requires: py3-rep
 Requires: py3-uncertainties
 Requires: py3-hyperas
@@ -88,7 +88,7 @@ Requires: py3-setuptools
 Requires: py2-simplegeneric
 Requires: py2-singledispatch
 Requires: py2-six
-Requires: py2-terminado
+Requires: py3-terminado
 Requires: py2-testpath
 Requires: py3-testpath
 Requires: py2-tornado
@@ -114,7 +114,7 @@ Requires: py2-mock
 Requires: py2-pbr
 Requires: py3-mpmath
 Requires: py3-sympy
-Requires: py2-tqdm
+Requires: py3-tqdm
 Requires: py2-funcsigs
 Requires: py2-nose
 Requires: py2-pkgconfig
@@ -171,13 +171,13 @@ Requires: py2-colorama
 Requires: py3-lxml
 Requires: py3-beautifulsoup4
 Requires: py2-GitPython py3-GitPython
-Requires: py2-Send2Trash
+Requires: py3-Send2Trash
 Requires: py2-gitdb2
-Requires: py2-ipaddress
+Requires: py3-ipaddress
 Requires: py2-mccabe
 Requires: py2-more-itertools
 Requires: py2-pluggy
-Requires: py2-prometheus_client
+Requires: py3-prometheus_client
 Requires: py2-pyasn1-modules
 Requires: py2-pyasn1
 Requires: py2-pyflakes
@@ -208,7 +208,7 @@ Requires: py2-neurolab
 Requires: py2-nose-parameterized
 Requires: py2-pillow
 Requires: py2-pybrain
-Requires: py2-pymongo
+Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py2-astroid

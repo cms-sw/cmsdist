@@ -1,3 +1,3 @@
-Requires: openssl py2-cffi py3-asn1crypto py2-enum34 py2-idna py2-ipaddress py2-six py2-wheel
+Requires: openssl py2-cffi py3-asn1crypto py2-enum34 py2-idna py3-ipaddress py2-six py2-wheel
 %define PipPreBuild export LDFLAGS="-L${OPENSSL_ROOT}/lib"; \
                     export CFLAGS="-I${OPENSSL_ROOT}/include"
