@@ -1,2 +1,2 @@
-Requires: py2-pycodestyle py2-toml
+Requires: py3-pycodestyle py2-toml
 %define RelocatePython %{i}/bin/*

@@ -55,9 +55,9 @@ clikit==0.6.2 ; python_version>'3.0'
 cmsml==0.1.1 ; python_version>'3.0'
 correctionlib==1.1.0 ; python_version>'3.0'
 crashtest==0.3.1 ; python_version>'3.0'
-certifi==2020.12.5
-cffi==1.14.5
-chardet==3.0.4
+certifi==2020.12.5; python_version>'3.0'
+cffi==1.14.5; python_version>'3.0'
+chardet==3.0.4; python_version>'3.0'
 Click==7.1.2; python_version>'3.0'
 #NO_AUTO_UPDATE: Source is defined in climate.file, changing version here is not going to get new sources
 #Looks like package version in PyPi is very old
@@ -74,14 +74,14 @@ cx-Oracle==7.3.0
 cycler==0.10.0; python_version>'3.0'
 cython==0.29.22
 decorator==4.4.2
-defusedxml==0.6.0
+defusedxml==0.6.0; python_version>'3.0'
 deprecation==2.1.0 ; python_version>'3.0'
-distlib==0.3.1
+distlib==0.3.1; python_version>'3.0'
 distro==1.5.0 ; python_version>'3.0'
 docopt==0.6.2 ; python_version>'3.0'
-docutils==0.16
+docutils==0.16; python_version>'3.0'
 downhill==0.4.0; python_version>'3.0'
-entrypoints==0.3
+entrypoints==0.3; python_version>'3.0'
 enum34==1.1.10;python_version<'3.0'
 fasteners==0.16 ; python_version>'3.0'
 filelock==3.0.12; python_version>'3.0'
@@ -93,7 +93,6 @@ flatbuffers==1.12.0 ; python_version>'3.0'
 flawfinder==2.0.15; python_version>'3.0'
 fs==2.4.12
 funcsigs==1.0.2
-functools32==3.2.3-2;python_version<'3.0'
 future==0.18.2
 futures==3.3.0;python_version<'3.0'
 gast==0.4.0; python_version>'3.0'
@@ -102,7 +101,7 @@ GitPython==3.1.14 ; python_version>'3.0'
 google-auth==1.27.0 ; python_version>'3.0'
 google-auth-oauthlib==0.4.2 ; python_version>'3.0'
 google-common==0.0.1
-google-pasta==0.2.0
+google-pasta==0.2.0; python_version>'3.0'
 grpcio==1.36.0
 grpcio-tools==1.36.0 
 #1.0.1 doesn't download (wheel only?)
@@ -195,13 +194,13 @@ ordereddict==1.1
 pkginfo==1.7.0 ; python_version>'3.0'
 packaging==20.9
 pandas==1.2.2 ; python_version>'3.0'
-pandocfilters==1.4.3
+pandocfilters==1.4.3; python_version>'3.0'
 parsimonious==0.8.1; python_version>'3.0'
 parso==0.7.1; python_version>'3.0'
 pastel==0.2.1 ; python_version>'3.0'
 patch-ng==1.17.4 ; python_version>'3.0'
 pathlib2==2.3.5
-pbr==5.5.1
+pbr==5.5.1; python_version>'3.0'
 pexpect==4.8.0; python_version>'3.0'
 pickleshare==0.7.5; python_version>'3.0'
 pillow==6.2.2 ; python_version<'3.0'
@@ -224,7 +223,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8 ; python_version>'3.0'
 pybind11==2.6.2
 pybrain==0.3.3; python_version>'3.0'
-pycodestyle==2.6.0
+pycodestyle==2.6.0; python_version>'3.0'
 pycparser==2.20
 pycuda==2019.1.2; python_version>'3.0'
 pycurl==7.43.0.5
@@ -296,7 +295,7 @@ tensorboard==2.4.1 ; python_version>'3.0'
 tensorboard-plugin-wit==1.8.0 ; python_version>'3.0'
 tensorflow==2.4.1 ; python_version>'3.0'
 tensorflow-estimator==2.4.0; python_version>'3.0'
-termcolor==1.1.0
+termcolor==1.1.0; python_version>'3.0'
 terminado==0.8.3; python_version>'3.0'
 testpath==0.4.4 ; python_version<'3.0'
 testpath==0.4.4 ; python_version>'3.0'

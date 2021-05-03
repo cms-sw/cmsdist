@@ -1,1 +1,1 @@
-Requires: py2-wheel py2-docutils py3-lockfile
+Requires: py2-wheel py3-docutils py3-lockfile

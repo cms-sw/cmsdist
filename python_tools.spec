@@ -46,7 +46,7 @@ Requires: py3-xrootdpyfs
 
 Requires: root curl python openldap
 
-Requires: py2-entrypoints
+Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
 Requires: py3-Jinja2
@@ -55,7 +55,7 @@ Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse
 Requires: py3-bleach
-Requires: py2-certifi
+Requires: py3-certifi
 Requires: py2-decorator
 Requires: py3-html5lib
 Requires: py3-ipykernel
@@ -73,7 +73,7 @@ Requires: py3-nbformat
 Requires: py3-notebook
 Requires: py2-ordereddict
 Requires: py2-packaging
-Requires: py2-pandocfilters
+Requires: py3-pandocfilters
 Requires: py2-pathlib2
 Requires: py3-pexpect
 Requires: py3-pickleshare
@@ -109,9 +109,8 @@ Requires: py3-schema
 #Requires: py2-Jinja
 Requires: py2-python-dateutil
 Requires: py2-enum34
-Requires: py2-functools32
 Requires: py3-mock
-Requires: py2-pbr
+Requires: py3-pbr
 Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
@@ -125,7 +124,7 @@ Requires: py3-prwlock
 Requires: py3-virtualenv
 Requires: py3-virtualenvwrapper
 Requires: py3-urllib3
-Requires: py2-chardet
+Requires: py3-chardet
 Requires: py3-idna
 Requires: py3-Werkzeug
 Requires: py2-pytest
@@ -154,12 +153,12 @@ Requires: py2-pybind11-toolfile
 Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8
-Requires: py2-pycodestyle
+Requires: py3-pycodestyle
 Requires: py2-lz4
 Requires: py3-ply
 Requires: py2-py
 Requires: py2-typing
-Requires: py2-defusedxml
+Requires: py3-defusedxml
 Requires: py2-atomicwrites
 Requires: py2-attrs
 Requires: py3-nbdime
@@ -186,7 +185,7 @@ Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
-Requires: py2-cffi
+Requires: py3-cffi
 Requires: py3-cryptography
 Requires: py2-google-common
 Requires: py3-jedi
@@ -218,7 +217,7 @@ Requires: py3-lazy-object-proxy
 Requires: py3-pytest-cov
 Requires: py3-wrapt
 
-Requires: py2-distlib
+Requires: py3-distlib
 Requires: py3-filelock
 Requires: py3-gitdb
 Requires: py3-importlib-resources

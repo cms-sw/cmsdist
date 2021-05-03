@@ -1,1 +1,1 @@
-Requires: py2-cffi py2-six py2-enum34 py2-wheel
+Requires: py3-cffi py2-six py2-enum34 py2-wheel
