@@ -48,7 +48,7 @@ Requires: root curl python openldap
 
 Requires: py2-entrypoints
 Requires: py3-psutil
-Requires: py2-repoze-lru
+Requires: py3-repoze-lru
 Requires: py3-Jinja2
 Requires: py3-MarkupSafe
 Requires: py3-Pygments
@@ -60,7 +60,7 @@ Requires: py2-decorator
 Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
-Requires: py2-ipython_genutils
+Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
 Requires: py3-jupyter
@@ -76,16 +76,16 @@ Requires: py2-packaging
 Requires: py2-pandocfilters
 Requires: py2-pathlib2
 Requires: py3-pexpect
-Requires: py2-pickleshare
+Requires: py3-pickleshare
 Requires: py3-prompt_toolkit
-Requires: py2-ptyprocess
+Requires: py3-ptyprocess
 Requires: py2-pyparsing
-Requires: py2-pyzmq
+Requires: py3-pyzmq
 Requires: py3-qtconsole
 Requires: py2-scandir
 Requires: py2-setuptools
 Requires: py3-setuptools
-Requires: py2-simplegeneric
+Requires: py3-simplegeneric
 Requires: py2-singledispatch
 Requires: py2-six
 Requires: py3-terminado
@@ -104,13 +104,13 @@ Requires: py3-parsimonious
 Requires: py2-prettytable
 Requires: py2-pycurl
 Requires: py2-pytz
-Requires: py2-requests
+Requires: py3-requests
 Requires: py3-schema
 #Requires: py2-Jinja
 Requires: py2-python-dateutil
 Requires: py2-enum34
 Requires: py2-functools32
-Requires: py2-mock
+Requires: py3-mock
 Requires: py2-pbr
 Requires: py3-mpmath
 Requires: py3-sympy
@@ -124,9 +124,9 @@ Requires: py3-jsonpickle
 Requires: py3-prwlock
 Requires: py3-virtualenv
 Requires: py3-virtualenvwrapper
-Requires: py2-urllib3
+Requires: py3-urllib3
 Requires: py2-chardet
-Requires: py2-idna
+Requires: py3-idna
 Requires: py3-Werkzeug
 Requires: py2-pytest
 Requires: py3-avro
@@ -170,18 +170,17 @@ Requires: py2-backports_abc
 Requires: py2-colorama
 Requires: py3-lxml
 Requires: py3-beautifulsoup4
-Requires: py2-GitPython py3-GitPython
+Requires: py3-GitPython
 Requires: py3-Send2Trash
-Requires: py2-gitdb2
 Requires: py3-ipaddress
-Requires: py2-mccabe
+Requires: py3-mccabe
 Requires: py2-more-itertools
 Requires: py2-pluggy
 Requires: py3-prometheus_client
-Requires: py2-pyasn1-modules
+Requires: py3-pyasn1-modules
 Requires: py2-pyasn1
 Requires: py2-pyflakes
-Requires: py2-smmap2
+Requires: py3-smmap2
 Requires: py3-stevedore
 Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
@@ -198,7 +197,7 @@ Requires: py3-gast
 Requires: py2-grpcio
 Requires: py2-grpcio-tools
 Requires: py3-Markdown
-Requires: py2-subprocess32
+Requires: py3-subprocess32
 Requires: py3-kiwisolver
 Requires: py3-pyOpenSSL
 Requires: py3-bokeh py3-bokeh
@@ -211,19 +210,19 @@ Requires: py3-pybrain
 Requires: py3-pymongo
 Requires: py3-pydot
 
-Requires: py2-astroid
+Requires: py3-astroid
 Requires: py2-coverage
 Requires: py3-hepdata-lib
 Requires: py3-isort
-Requires: py2-lazy-object-proxy
+Requires: py3-lazy-object-proxy
 Requires: py3-pytest-cov
-Requires: py2-wrapt
+Requires: py3-wrapt
 
 Requires: py2-distlib
 Requires: py3-filelock
 Requires: py3-gitdb
-Requires: py2-importlib-resources
-Requires: py2-smmap
+Requires: py3-importlib-resources
+Requires: py3-smmap
 Requires: py2-zipp py3-zipp
 
 Requires: py3-pycuda

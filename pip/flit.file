@@ -1,1 +1,1 @@
-Requires: py2-docutils py3-flit-core py3-pytoml py2-requests
+Requires: py2-docutils py3-flit-core py3-pytoml py3-requests

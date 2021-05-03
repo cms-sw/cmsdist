@@ -1,4 +1,4 @@
-Requires: py2-pytz py2-backports py2-subprocess32 py2-numpy
+Requires: py2-pytz py2-backports py3-subprocess32 py2-numpy
 
 %define patchsrc \
 cat >> setup.cfg <<- EOF\
