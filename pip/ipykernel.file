@@ -1,1 +1,1 @@
-Requires: py3-ipython py3-jupyter_client py2-jedi py3-backcall
+Requires: py3-ipython py3-jupyter_client py3-jedi py3-backcall

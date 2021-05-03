@@ -7,7 +7,7 @@ Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
 Requires: py2-scipy
 Requires: py3-Keras
-Requires: py2-Theano
+Requires: py3-Theano
 Requires: py2-scikit-learn
 #save for the end
 Requires: py3-tensorflow
@@ -190,7 +190,7 @@ Requires: py3-backcall
 Requires: py2-cffi
 Requires: py3-cryptography
 Requires: py2-google-common
-Requires: py2-jedi
+Requires: py3-jedi
 Requires: py2-parso
 Requires: py2-pycparser
 Requires: py2-absl-py
@@ -204,10 +204,10 @@ Requires: py3-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
-Requires: py2-neurolab
+Requires: py3-neurolab
 Requires: py2-nose-parameterized
 Requires: py2-pillow
-Requires: py2-pybrain
+Requires: py3-pybrain
 Requires: py3-pymongo
 Requires: py3-pydot
 
