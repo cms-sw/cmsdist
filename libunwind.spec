@@ -13,7 +13,7 @@ Patch0: libunwind-fix-comma
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals
+./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo
 make %{makeprocesses}
 
 %install
