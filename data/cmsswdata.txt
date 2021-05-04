@@ -4,10 +4,10 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 RecoEgamma-ElectronIdentification=V01-05-00
+GeneratorInterface-EvtGenInterface=V02-04-00
 RecoBTag-Combined=V01-11-00
 RecoEgamma-PhotonIdentification=V01-01-00
 Geometry-TestReference=V00-06-00
-GeneratorInterface-EvtGenInterface=V02-03-00
 L1Trigger-CSCTriggerPrimitives=V00-05-00
 L1Trigger-L1TMuon=V01-04-00
 RecoHGCal-TICL=V00-02-01
