@@ -3,6 +3,7 @@
 %define branch v1.5-stable
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
+Requires: zlib
 
 Patch0: libunwind-fix-comma
 
