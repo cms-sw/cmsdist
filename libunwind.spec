@@ -3,6 +3,7 @@
 %define branch v1.5-stable
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
+Requires: zlib
 
 Patch0: libunwind-fix-comma
 
@@ -12,7 +13,7 @@ Patch0: libunwind-fix-comma
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals
+./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo
 make %{makeprocesses}
 
 %install
