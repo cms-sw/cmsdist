@@ -17,6 +17,8 @@ Requires: rotatelogs pystack wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
 Requires: wmarchive
+# FIXME: remove it once everything is tested
+BuildRequires: py2-cmscouchapp
 # Python3
 BuildRequires: wmcorepy3-devtools wmagentpy3-dev
 ### List of services that are likely no longer needed, but nobody could confirm that..
