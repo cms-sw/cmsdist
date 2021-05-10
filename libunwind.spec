@@ -13,10 +13,10 @@ Patch0: libunwind-fix-comma
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo
+./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --libdir=%{i}/lib --disable-block-signals --enable-zlibdebuginfo
 make %{makeprocesses}
 
 %install
 make %{makeprocesses} install
 
-%define drop_files %{i}/share/man
+%define drop_files %{i}/share/man %{i}/lib/pkgconfig %{i}/lib/*.a
