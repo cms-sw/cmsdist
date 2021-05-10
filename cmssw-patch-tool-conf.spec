@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch-tool-conf 3.0
+### RPM cms cmssw-patch-tool-conf CMSSW_11_3_0
 # with cmsBuild, change the above version only when a new
 # tool is added
 
