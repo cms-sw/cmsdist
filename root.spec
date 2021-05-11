@@ -10,8 +10,7 @@
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
 Patch1: root_cvt
-Patch2: root_boost_mm
-Patch3: root_cuda
+Patch2: root_cuda
  
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -37,13 +36,6 @@ Requires: dcap
 %patch1 -p1
 %patch0 -p1
 %patch2 -p1
-%patch3 -p1
-
-wget https://github.com/root-project/root/pull/7398.patch
-git apply --whitespace=fix 7398.patch
-rm 7398.patch
-
-
 
 %build
 rm -rf ../build
