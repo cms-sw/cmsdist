@@ -1,5 +1,5 @@
 diff --git a/ffi/build.py b/ffi/build.py
-index 09e95da..add3945 100755
+index add3945..9bf6a3a 100755
 --- a/ffi/build.py
 +++ b/ffi/build.py
 @@ -134,7 +134,7 @@ def main_posix(kind, library_ext):
@@ -7,7 +7,7 @@ index 09e95da..add3945 100755
      else:
  
 -        if not (out.startswith('10.0.') or out.startswith('9.0')):
-+        if not (out.startswith('11.1.') or out.startswith('9.0')):
++        if not (out.startswith('12.0.') or out.startswith('9.0')):
              msg = ("Building llvmlite requires LLVM 10.0.x or 9.0.x, got "
                     "{!r}. Be sure to set LLVM_CONFIG to the right executable "
                     "path.\nRead the documentation at "
