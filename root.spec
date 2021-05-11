@@ -4,8 +4,8 @@
 ## INITENV SET ROOTSYS %{i} 
 
 
-%define tag f8334acc744f9534f0a9655bb89a73b2a1f07246
-%define branch cms/master/296fad2
+%define tag c2787e6eacb0ffe0113ff35d91febedb08d5433e
+%define branch cms/master/f0e77a6ac8
 %define github_user cms-sw 
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
@@ -56,8 +56,8 @@ export CXXFLAGS=-D__ROOFIT_NOBANNER
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DLLVM_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DLLVM_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
@@ -102,6 +102,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
@@ -173,7 +174,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses}
+ninja -v %{makeprocesses} 
 ninja -v %{makeprocesses} clang
 
 %install
