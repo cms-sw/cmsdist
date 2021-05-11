@@ -36,7 +36,7 @@ Patch4: couchdb15-heartbeat-timeout
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
-Requires: curl spidermonkey icu4c erlang couchapp
+Requires: curl spidermonkey icu4c erlang py2-cmscouchapp
 BuildRequires: autotools
 
 %prep
