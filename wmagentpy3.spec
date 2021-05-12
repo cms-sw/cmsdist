@@ -10,9 +10,10 @@ Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
 Requires: py3-pyzmq py3-psutil py3-future py3-retry
 Requires: py3-cmsmonitoring py3-cmscouchapp
+Requires: py3-cheetah3
 Requires: mariadb
 
-# Alan Malta dropped on 2/Feb/2021: Requires: py3-cheetah py3-mysqldb
+# Alan Malta dropped on 2/Feb/2021: Requires: py3-mysqldb
 BuildRequires: py3-sphinx couchskel
 
 %prep
