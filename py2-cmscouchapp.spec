@@ -1,4 +1,4 @@
-### RPM external py2-cmscouchapp 1.2.9
+### RPM external py2-cmscouchapp 1.2.10
 ## IMPORT build-with-pip
 
 %define pip_name CMSCouchapp
