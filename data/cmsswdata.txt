@@ -4,7 +4,7 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 L1Trigger-DTTriggerPhase2=V00-02-00
-L1Trigger-CSCTriggerPrimitives=V00-06-00
+L1Trigger-CSCTriggerPrimitives=V00-08-00
 RecoEgamma-ElectronIdentification=V01-05-00
 GeneratorInterface-EvtGenInterface=V02-04-00
 RecoBTag-Combined=V01-11-00
