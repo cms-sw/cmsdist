@@ -14,7 +14,7 @@
 %endif
 
 %if "%(case %realversion in (*_DBG_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -g -O0 -DEDM_ML_DEBUG
+%define usercxxflags    -g -O3 -DEDM_ML_DEBUG
 %endif
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
