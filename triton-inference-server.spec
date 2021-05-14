@@ -4,7 +4,7 @@
 
 Source: git+https://github.com/%{github_user}/server.git?obj=%{branch}/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3
+Requires: openssl opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3 cuda
 
 %prep
 
@@ -35,7 +35,7 @@ cmake ../%{n}-%{realversion}/build/client \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
-    -DTRITON_ENABLE_GPU=OFF \
+    -DTRITON_ENABLE_GPU=ON \
     -DTRITON_CLIENT_SKIP_EXAMPLES=ON \
     -DTRITON_CURL_WITHOUT_CONFIG=ON \
     -DCURL_LIBRARY=${CURL_ROOT}/lib/libcurl.so \
