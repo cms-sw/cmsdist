@@ -37,3 +37,16 @@ index edb0bbd..c902ccd 100644
                                             table entries are considered
                                             relative to di->start_ip, rather
                                             than di->segbase */
+diff --git a/configure.ac b/configure.ac
+index c8d68f7..6f7e9dc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -207,7 +207,7 @@ AM_CONDITIONAL(USE_DWARF, [test x$use_dwarf = xyes])
+ AC_MSG_RESULT([$use_dwarf])
+ 
+ if test x$target_arch = xppc64; then
+-        libdir='${exec_prefix}/lib64'
++        libdir='${exec_prefix}/lib'
+         AC_MSG_NOTICE([PowerPC64 detected, lib will be installed ${libdir}]);
+         AC_SUBST([libdir])
+ fi
