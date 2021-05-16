@@ -17,6 +17,7 @@ autoreconf -fiv
 make %{makeprocesses}
 
 %install
+
 make %{makeprocesses} install
 
 %define drop_files %{i}/share/man %{i}/lib/pkgconfig %{i}/lib/*.a
