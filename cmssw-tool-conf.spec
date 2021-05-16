@@ -174,8 +174,8 @@ Requires: cupla-toolfile
 Requires: cudnn-toolfile
 %endif
 
-%ifnarch ppc64le
 Requires: libunwind-toolfile
+%ifnarch ppc64le
 Requires: igprof-toolfile
 Requires: openloops-toolfile
 %endif
