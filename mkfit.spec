@@ -20,7 +20,7 @@ sed -i -e 's|-std=c++14|-std=c++1z|' Makefile.config
 
 %build
 %ifarch x86_64
-BUILD_ARGS=VEC_GCC="-msse3"
+BUILD_ARGS=SSE3="1"
 %endif
 %ifarch aarch64
 BUILD_ARGS=VEC_GCC="-march=native"
