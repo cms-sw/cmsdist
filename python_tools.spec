@@ -21,6 +21,7 @@ Requires: py3-tables
 Requires: py2-numexpr
 Requires: py2-histogrammar py3-histogrammar
 Requires: py2-pandas
+Requires: py2-root_numpy
 Requires: py2-Bottleneck
 Requires: py2-downhill
 Requires: py2-theanets
@@ -35,6 +36,7 @@ Requires: py2-hyperopt
 Requires: py2-seaborn
 Requires: py2-h5py
 Requires: py2-h5py-cache
+Requires: py2-root_pandas
 Requires: py2-uproot
 Requires: py2-uproot4
 Requires: py2-opt-einsum
