@@ -5,7 +5,7 @@
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 
-Requires: yui libuuid couchdb15 condor jemalloc dbs3-client
+Requires: yui libuuid couchdb15 condor jemalloc py3-dbs3-client
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
 Requires: py3-pyzmq py3-psutil py3-future py3-retry
