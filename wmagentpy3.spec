@@ -7,7 +7,7 @@ Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore
 
 # Alan on 19/05/2021: commenting out condor for now, otherwise it will bring in some python2 dependencies
 # Requires: condor
-Requires: yui libuuid couchdb15 jemalloc py3-dbs3-client
+Requires: yui libuuid couchdb16 jemalloc py3-dbs3-client
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
 Requires: py3-pyzmq py3-psutil py3-future py3-retry
