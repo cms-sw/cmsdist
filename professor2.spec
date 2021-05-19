@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 
 Source: http://www.hepforge.org/archive/professor/Professor-%{realversion}.tar.gz
-Requires: py2-numpy py2-matplotlib root yoda eigen
+Requires: py2-numpy py3-matplotlib root yoda eigen
 BuildRequires: py2-cython
 
 Patch0: professor2-ppc64-flag-change
