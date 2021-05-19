@@ -1,11 +1,13 @@
-### RPM cms wmagentpy3 1.4.7.patch2
+### RPM cms wmagentpy3 1.4.9.pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 
-Requires: yui libuuid couchdb15 condor jemalloc py3-dbs3-client
+# Alan on 19/05/2021: commenting out condor for now, otherwise it will bring in some python2 dependencies
+# Requires: condor
+Requires: yui libuuid couchdb15 jemalloc py3-dbs3-client
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
 Requires: py3-pyzmq py3-psutil py3-future py3-retry
@@ -20,12 +22,12 @@ BuildRequires: py3-sphinx couchskel
 %setup -b 0 -n WMCore-%{realversion}
 
 %build
-python setup.py build
+python3 setup.py build
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install --prefix=%i
-egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python}'
+python3 setup.py install --prefix=%i
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 find %i -name '*.egg-info' -exec rm {} \;
 
 # Pick external dependencies from couchskel
