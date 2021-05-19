@@ -1,1 +1,1 @@
-Requires: py2-Theano py2-downhill py2-climate
+Requires: py2-Theano py3-downhill py3-climate
