@@ -1,1 +1,1 @@
-Requires: py2-Theano py2-Click
+Requires: py2-Theano py3-Click
