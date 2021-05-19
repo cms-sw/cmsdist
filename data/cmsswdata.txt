@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-Geometry-TestReference=V00-07-00
+Geometry-TestReference=V00-08-00
 L1Trigger-DTTriggerPhase2=V00-02-00
 L1Trigger-CSCTriggerPrimitives=V00-08-00
 RecoEgamma-ElectronIdentification=V01-05-00
