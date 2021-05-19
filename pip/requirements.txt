@@ -20,16 +20,16 @@ appdirs==1.4.4
 argon2-cffi==20.1.0
 argparse==1.4.0
 asn1crypto==1.4.0
-astor==0.8.1
+astor==0.8.1; python_version>'3.0'
 astroid==1.6.6 ; python_version<'3.0'
 astroid==2.5.1 ; python_version>'3.0'
-astunparse==1.6.3
+astunparse==1.6.3; python_version>'3.0'
 async-lru==1.0.2 ; python_version>'3.0'
 async-timeout==3.0.1 ; python_version>'3.0'
 atomicwrites==1.4.0
 attrs==20.3.0
-autopep8==1.5.5
-avro==1.10.1
+autopep8==1.5.5; python_version>'3.0'
+avro==1.10.1; python_version>'3.0'
 awkward==0.14.0
 awkward1==0.4.4
 backcall==0.2.0 ; python_version>'3.0'
@@ -41,29 +41,29 @@ backports-shutil_which==3.5.2
 backports-ssl_match_hostname==3.7.0.1
 backports-weakref==1.0.post1
 backports-os==0.1.1
-beautifulsoup4==4.9.3
+beautifulsoup4==4.9.3; python_version>'3.0'
 bleach==3.3.0
 bokeh==1.4.0 ; python_version<'3.0'
 bokeh==2.3.0 ; python_version>'3.0'
 boost-histogram==0.13 ; python_version>'3.0'
 bottle==0.12.19 ; python_version>'3.0'
-Bottleneck==1.3.2
+Bottleneck==1.3.2; python_version>'3.0'
 cachecontrol==0.12.6 ; python_version>'3.0'
 cachetools==3.1.1 ; python_version<'3.0'
 cachetools==4.2.1 ; python_version>'3.0'
 cachy==0.3.0 ; python_version>'3.0'
 cleo==0.8.1 ; python_version>'3.0'
 clikit==0.6.2 ; python_version>'3.0'
-cmsml==0.1.1
+cmsml==0.1.1 ; python_version>'3.0'
 correctionlib==1.1.0 ; python_version>'3.0'
 crashtest==0.3.1 ; python_version>'3.0'
 certifi==2020.12.5
 cffi==1.14.5
 chardet==3.0.4
-Click==7.1.2
+Click==7.1.2; python_version>'3.0'
 #NO_AUTO_UPDATE: Source is defined in climate.file, changing version here is not going to get new sources
 #Looks like package version in PyPi is very old
-climate==0.4.6
+climate==0.4.6; python_version>'3.0'
 cloudpickle==1.3.0
 colorama==0.4.4
 conan==1.34.1 ; python_version>'3.0'
@@ -80,9 +80,9 @@ defusedxml==0.6.0
 deprecation==2.1.0 ; python_version>'3.0'
 distlib==0.3.1
 distro==1.5.0 ; python_version>'3.0'
-docopt==0.6.2
+docopt==0.6.2 ; python_version>'3.0'
 docutils==0.16
-downhill==0.4.0
+downhill==0.4.0; python_version>'3.0'
 entrypoints==0.3
 enum34==1.1.10;python_version<'3.0'
 fasteners==0.16 ; python_version>'3.0'
@@ -90,15 +90,15 @@ filelock==3.0.12
 fire==0.4.0
 flit==3.1.0; python_version>'3.0'
 flit-core==3.1.0; python_version>'3.0'
-flake8==3.8.4
+flake8==3.8.4 ; python_version>'3.0'
 flatbuffers==1.12.0 ; python_version>'3.0'
-flawfinder==2.0.15
+flawfinder==2.0.15; python_version>'3.0'
 fs==2.4.12
 funcsigs==1.0.2
 functools32==3.2.3-2;python_version<'3.0'
 future==0.18.2
 futures==3.3.0;python_version<'3.0'
-gast==0.4.0
+gast==0.4.0; python_version>'3.0'
 gitdb2==2.0.6 ; python_version<'3.0'
 gitdb==4.0.5 ; python_version>'3.0'
 GitPython==2.1.15 ; python_version<'3.0'
@@ -108,16 +108,15 @@ google-auth-oauthlib==0.4.2 ; python_version>'3.0'
 google-common==0.0.1
 google-pasta==0.2.0
 grpcio==1.36.0
-grpcio-tools==1.36.0
+grpcio-tools==1.36.0 
 #1.0.1 doesn't download (wheel only?)
-h5py-cache==1.0
+h5py-cache==1.0 ; python_version>'3.0'
 h5py==2.10.0
-hepdata-lib==0.4.1
+hepdata-lib==0.4.1 ; python_version>'3.0'
 hep_ml==0.6.2
 hist==2.0.1 ; python_version>'3.0'
-histbook==1.2.5
+histbook==1.2.5 ; python_version>'3.0'
 histoprint==1.6.0 ; python_version>'3.0'
-histogrammar==1.0.9 ; python_version<'3.0'
 histogrammar==1.0.10 ; python_version>'3.0'
 html5lib==1.1
 hyperas==0.4.1 ; python_version>'3.0'
@@ -139,7 +138,7 @@ jedi==0.17.2
 Jinja2==2.11.3
 joblib==0.14.1 ; python_version<'3.0'
 joblib==1.0.1 ; python_version>'3.0'
-jsonpickle==1.4.2
+jsonpickle==1.4.2; python_version>'3.0'
 jsonschema==3.2.0
 #jupyter_client==5.3.5 ; python_version<'3.0'
 jupyter_client==6.1.11 ; python_version>'3.0'
@@ -154,31 +153,29 @@ keras-preprocessing==1.1.2
 keras2onnx==1.7.0 ; python_version>'3.0'
 keyring==22.3.0 ; python_version>'3.0'
 kiwisolver==1.1.0
-law==0.1.3
+law==0.1.3; python_version>'3.0'
 #can not go to 1.5.x in python2 due to astroid
 lazy-object-proxy==1.4.3
-lizard==1.17.7
+lizard==1.17.7; python_version>'3.0'
 #NO_AUTO_UPDATE: Source is defined in llvmlite.file, changing version here is not going to get new sources. Still, keep the version
 llvmlite==0.35.0 ; python_version>'3.0'
-lockfile==0.12.2
-luigi==2.8.13 ; python_version<'3.0'
+lockfile==0.12.2; python_version>'3.0'
 luigi==3.0.2 ; python_version>'3.0'
-lxml==4.6.2
+lxml==4.6.2; python_version>'3.0'
 lz4==2.2.1 ; python_version<'3.0'
 lz4==3.1.3 ; python_version>'3.0'
-Mako==1.1.4
+Mako==1.1.4; python_version>'3.0'
 Markdown==3.1.1
 MarkupSafe==1.1.1
-matplotlib==2.2.5 ; python_version<'3.0'
 matplotlib==3.3.4 ; python_version>'3.0'
 mccabe==0.6.1
 mistune==0.8.4
 mock==3.0.5
 more-itertools==5.0.0 ; python_version<'3.0'
 more-itertools==8.7.0 ; python_version>'3.0'
-mpld3==0.5.2
+mpld3==0.5.2; python_version>'3.0'
 mplhep==0.2.16 ; python_version>'3.0'
-mpmath==1.2.1
+mpmath==1.2.1; python_version>'3.0'
 multidict==5.1.0 ; python_version>'3.0'
 nbconvert==5.6.1; python_version>'3.0'
 nbdime==1.1.0 ; python_version> '3.0'
@@ -210,7 +207,7 @@ packaging==20.9
 pandas==0.24.2 ; python_version<'3.0'
 pandas==1.2.2 ; python_version>'3.0'
 pandocfilters==1.4.3
-parsimonious==0.8.1
+parsimonious==0.8.1; python_version>'3.0'
 parso==0.7.1
 pastel==0.2.1 ; python_version>'3.0'
 patch-ng==1.17.4 ; python_version>'3.0'
@@ -224,7 +221,7 @@ pkgconfig==1.5.2
 plac==1.3.2
 pluginbase==1.0.0 ; python_version>'3.0'
 pluggy==0.13.1
-ply==3.11
+ply==3.11; python_version>'3.0'
 poetry==1.1.4 ; python_version>'3.0'
 poetry-core==1.0.2 ; python_version>'3.0'
 prettytable==1.0.1
@@ -232,8 +229,8 @@ prometheus_client==0.9.0
 prompt_toolkit==1.0.18 ; python_version<'3.0'
 prompt_toolkit==3.0.16 ; python_version>'3.0'
 protobuf==3.15.1
-prwlock==0.4.1
-psutil==5.8.0
+prwlock==0.4.1; python_version>'3.0'
+psutil==5.8.0; python_version>'3.0'
 ptyprocess==0.7.0
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
@@ -242,9 +239,9 @@ pybind11==2.6.2
 pybrain==0.3.3
 pycodestyle==2.6.0
 pycparser==2.20
-pycuda==2019.1.2
+pycuda==2019.1.2; python_version>'3.0'
 pycurl==7.43.0.5
-pydot==1.4.2
+pydot==1.4.2; python_version>'3.0'
 pyflakes==2.2.0
 Pygments==2.5.2 ; python_version<'3.0'
 Pygments==2.8.1 ; python_version>'3.0'
@@ -264,10 +261,9 @@ pytest==4.6.11 ; python_version<'3.0'
 pytest==6.2.2 ; python_version>'3.0'
 pytest-cov==2.11.1
 pytest-runner==5.2
-python-cjson==1.2.2;python_version<'3.0'
-python-daemon==2.3.0
+python-daemon==2.3.0; python_version>'3.0'
 python-dateutil==2.8.1
-python-ldap==3.3.1
+python-ldap==3.3.1 ; python_version>'3.0'
 python-rapidjson==1.0;python_version>'3.0'
 pytoml==0.1.21;python_version>'3.0'
 pytools==2020.3
@@ -281,19 +277,19 @@ rep==0.6.6 ; python_version> '3.0'
 requests==2.25.1
 requests-toolbelt==0.9.1 ; python_version> '3.0'
 requests-oauthlib==1.3.0 ; python_version> '3.0'
-root_numpy==4.8.0
-root_pandas==0.7.0
-rootpy==1.0.1
+root_numpy==4.8.0; python_version>'3.0'
+root_pandas==0.7.0 ; python_version>'3.0'
+rootpy==1.0.1; python_version>'3.0'
 rsa==4.7.2 ; python_version>'3.0'
 scandir==1.10.0
-schema==0.7.4
+schema==0.7.4; python_version>'3.0'
 scikit-learn==0.20.4 ; python_version<'3.0'
 scikit-learn==0.24.1 ; python_version>'3.0'
-scinum==1.1.3
+scinum==1.1.3; python_version>'3.0'
 scipy==1.2.3 ; python_version<'3.0'
 scipy==1.6.1 ; python_version>'3.0'
 threadpoolctl==2.0.0 ; python_version> '3.0'
-seaborn==0.9.1
+seaborn==0.9.1; python_version>'3.0'
 Send2Trash==1.5.0
 setuptools-scm==3.5.0
 shellingham==1.4.0 ; python_version> '3.0'
@@ -306,11 +302,9 @@ smmap2==3.0.1
 soupsieve==1.9.6
 #to update the patch needs to be fixed...
 sqlalchemy==1.3.11
-stevedore==1.32.0
+stevedore==1.32.0; python_version>'3.0'
 subprocess32==3.5.4
-sympy==1.5.1 ; python_version<'3.0'
 sympy==1.7.1 ; python_version>'3.0'
-tables==3.5.2 ; python_version<'3.0'
 tables==3.6.1 ; python_version>'3.0'
 #NO_AUTO_UPDATE:2: Force to use tensorflow 2.4.1; this should match the version in tensorflow-sources.spec
 tensorboard==2.4.1 ; python_version>'3.0'
@@ -321,7 +315,7 @@ termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4 ; python_version<'3.0'
 testpath==0.4.4 ; python_version>'3.0'
-theanets==0.7.3
+theanets==0.7.3; python_version>'3.0'
 Theano==1.0.5
 toml==0.10.2
 tomlkit==0.7.0 ; python_version>'3.0'
@@ -333,14 +327,14 @@ traitlets==4.3.3
 typed-ast==1.4.2 ; python_version>'3.0'
 typing_extensions==3.7.4.3
 typing==3.7.4.3
-uncertainties==3.1.5
-uproot==3.13.0
-uproot-methods==0.8.0
-uproot4==0.1.2
+uncertainties==3.1.5; python_version>'3.0'
+uproot==3.13.0; python_version>'3.0'
+uproot-methods==0.8.0; python_version>'3.0'
+uproot4==0.1.2; python_version>'3.0'
 urllib3==1.26.3
-virtualenv-clone==0.5.4
-virtualenv==20.4.2
-virtualenvwrapper==4.8.4
+virtualenv-clone==0.5.4; python_version>'3.0'
+virtualenv==20.4.2; python_version>'3.0'
+virtualenvwrapper==4.8.4; python_version>'3.0'
 wcwidth==0.2.5
 webencodings==0.5.1
 Werkzeug==1.0.1
@@ -351,7 +345,7 @@ wrapt==1.11.2
 xgboost==0.82 ; python_version<'3.0'
 xgboost==1.3.3 ; python_version>'3.0'
 #bumping this pulls in xrootd - which looks like it needs some understanding
-xrootdpyfs==0.2.1
+xrootdpyfs==0.2.1; python_version>'3.0'
 yarl==1.6.3 ;python_version>'3.0'
 zipp==1.2.0 ; python_version<'3.0'
 zipp==3.4.0 ; python_version>'3.0'
