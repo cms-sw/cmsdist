@@ -1,4 +1,4 @@
-Requires: py2-tornado py3-tornado py2-python-daemon py2-python-dateutil py2-enum34
+Requires: py2-tornado py3-tornado py3-python-daemon py2-python-dateutil py2-enum34
 
 %define PipPostBuildPy2 (cd "%{i}/bin" && for f in *; do cp ${f} ${f}2; done)
 %define PipPostBuildPy3 (cd "%{i}/bin" && for f in *; do mv ${f} ${f}3; done)
