@@ -13,6 +13,7 @@ Requires: py3-cx-oracle py3-jinja2 py3-pyOpenSSL
 Requires: py3-pyzmq py3-psutil py3-future py3-retry
 Requires: py3-cmsmonitoring py3-cmscouchapp
 Requires: py3-cheetah3
+Requires: py3-mysqlclient
 Requires: mariadb
 
 # Alan Malta dropped on 2/Feb/2021: Requires: py3-mysqldb
