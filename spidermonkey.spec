@@ -2,7 +2,9 @@
 Source: http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz
 Patch0: spidermonkey-osx-va-copy
 Patch1: spidermonkey-js-1.8.5-c++11
-Requires: python
+# Alan on 19/05/2021: python seems not to be required in this spec.
+# Besides, it breaks our Python3 stack
+# Requires: python
 
 %prep
 %setup -n js-%realversion
