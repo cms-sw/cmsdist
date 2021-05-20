@@ -20,9 +20,9 @@ Requires: py3-tables
 Requires: py2-numexpr
 Requires: py3-histogrammar
 Requires: py2-pandas
-Requires: py2-Bottleneck
-Requires: py2-downhill
-Requires: py2-theanets
+Requires: py3-Bottleneck
+Requires: py3-downhill
+Requires: py3-theanets
 Requires: py2-xgboost py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
@@ -33,9 +33,9 @@ Requires: py3-hyperas
 Requires: py2-hyperopt
 Requires: py3-seaborn
 Requires: py2-h5py
-Requires: py2-h5py-cache
-Requires: py2-uproot
-Requires: py2-uproot4
+Requires: py3-h5py-cache
+Requires: py3-uproot
+Requires: py3-uproot4
 Requires: py2-opt-einsum
 Requires: py2-joblib py3-joblib
 
