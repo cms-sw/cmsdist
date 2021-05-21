@@ -101,7 +101,7 @@ Requires: py2-cycler
 Requires: py3-docopt
 Requires: py2-futures
 Requires: py2-networkx
-Requires: py3-parsimonious
+Requires: py2-parsimonious
 Requires: py2-prettytable
 Requires: py2-pycurl
 Requires: py2-pytz
