@@ -54,6 +54,9 @@ make %{makeprocesses}
 cd ../build
 make install
 
+# modify header for consistent definition of GPU support
+sed -i '/^#ifdef TRITON_ENABLE_GPU/i #define TRITON_ENABLE_GPU' %{i}/include/ipc.h
+
 # extra headers needed
 cp src/core/model_config.pb.h %{i}/include/
 cp src/core/grpc_service.grpc.pb.h %{i}/include/
