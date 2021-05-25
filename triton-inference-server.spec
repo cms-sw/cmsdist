@@ -31,11 +31,17 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
+if [ $(%{cuda_gcc_support}) = true ]; then
+    TRITON_ENABLE_GPU_VALUE=ON
+else
+    TRITON_ENABLE_GPU_VALUE=OFF
+fi
+
 cmake ../%{n}-%{realversion}/build/client \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
-    -DTRITON_ENABLE_GPU=ON \
+    -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_CLIENT_SKIP_EXAMPLES=ON \
     -DTRITON_CURL_WITHOUT_CONFIG=ON \
     -DCURL_LIBRARY=${CURL_ROOT}/lib/libcurl.so \
@@ -54,8 +60,10 @@ make %{makeprocesses}
 cd ../build
 make install
 
-# modify header for consistent definition of GPU support
-sed -i '/^#ifdef TRITON_ENABLE_GPU/i #define TRITON_ENABLE_GPU' %{i}/include/ipc.h
+if [ $(%{cuda_gcc_support}) = true ] ; then
+    # modify header for consistent definition of GPU support
+    sed -i '/^#ifdef TRITON_ENABLE_GPU/i #define TRITON_ENABLE_GPU' %{i}/include/ipc.h
+fi
 
 # extra headers needed
 cp src/core/model_config.pb.h %{i}/include/
