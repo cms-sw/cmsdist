@@ -12,10 +12,10 @@
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
-Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
-Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
-Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
-Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
+Source0: git+https://github.com/dmwm/CRABClient?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tgz
+Source1: git+https://github.com/dmwm/WMCore?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tgz
+Source2: git+https://github.com/dmwm/CRABServer?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tgz
+Source3: git+https://github.com/dmwm/DBS?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tgz
 
 %prep
 if [ "%{v}" != "%{realversion}" ] ; then
