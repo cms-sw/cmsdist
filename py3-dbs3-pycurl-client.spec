@@ -1,10 +1,10 @@
-### RPM cms py3-dbs3-pycurl-client 3.16.0
+### RPM cms py3-dbs3-pycurl-client 3.16.0.2000
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 #%define webdoc_files %{installroot}/%{pkgrel}/doc/
 # Source0: git://github.com/dmwm/DBS.git?obj=master/%{realversion}&export=DBS&output=/%{n}.tar.gz
-Source0: git://github.com/dmwm/DBS.git?obj=py3-4-wm&export=DBS&output=/%{n}.tar.gz
+Source0: git://github.com/dmwm/DBS.git?obj=py3-4-wm/%{realversion}&export=DBS&output=/%{n}.tar.gz
 Requires: python3 py3-pycurl curl
 # BuildRequires: py3-sphinx
 
