@@ -14,7 +14,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/professor2.xml
 <environment name="LIBDIR" default="$PROFESSOR2_BASE/lib"/>
 </client>
 <use name="py2-numpy"/>
-<use name="py2-sympy"/>
 <use name="root"/>
 <use name="yoda"/>
 <use name="eigen"/>
