@@ -9,7 +9,7 @@ Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
-Requires: curl expat openssl zlib pcre
+Requires: curl expat zlib pcre
 BuildRequires: autotools
 
 # Fake provides for git add --interactive
@@ -33,12 +33,11 @@ Provides: perl(Scalar::Util)
 %patch1 -p1
 
 %build
-export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+export LDFLAGS=""
 export NO_LIBPCRE1_JIT=1
 make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
-   --with-openssl=${OPENSSL_ROOT} \
    --with-expat=${EXPAT_ROOT} \
    --with-libpcre=${PCRE_ROOT} \
    --without-python \
