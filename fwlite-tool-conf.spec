@@ -25,7 +25,6 @@ Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: python-toolfile
 Requires: root-toolfile

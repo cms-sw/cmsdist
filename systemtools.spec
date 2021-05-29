@@ -24,6 +24,14 @@ Source: none
 %install
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
+#OpenSSL
+cat << \EOF_TOOLFILE >%i/etc/scram.d/openssl.xml
+  <tool name="openssl" version="system">
+    <lib name="ssl"/>
+    <lib name="crypto"/>
+  </tool>
+EOF_TOOLFILE
+
 # Sockets
 cat << \EOF_TOOLFILE >%i/etc/scram.d/sockets.xml
   <tool name="sockets" version="%sockets_version">
