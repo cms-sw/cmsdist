@@ -1,2 +1,2 @@
-Requires: python openssl openldap py2-pyasn1-modules
-%define PipBuildOptions --global-option=build_ext --global-option="-L${OPENSSL_ROOT}/lib" --global-option="-L${PYTHON_ROOT}/lib" --global-option="-L${OPENLDAP_ROOT}/lib"  --global-option="-I${OPENSSL_ROOT}/include" --global-option="-I${PYTHON_ROOT}/include" --global-option="-I${OPENLDAP_ROOT}/include"  --global-option="-UHAVE_SASL"
+Requires: python openldap py2-pyasn1-modules
+%define PipBuildOptions --global-option=build_ext --global-option="-L${PYTHON_ROOT}/lib" --global-option="-L${OPENLDAP_ROOT}/lib" --global-option="-I${PYTHON_ROOT}/include" --global-option="-I${OPENLDAP_ROOT}/include"  --global-option="-UHAVE_SASL"
