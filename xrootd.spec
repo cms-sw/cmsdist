@@ -10,7 +10,6 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&expo
 
 BuildRequires: cmake
 Requires: zlib
-Requires: openssl
 Requires: python python3
 Requires: libxml2
 
@@ -31,7 +30,6 @@ perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareS
 
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_PYTHON=FALSE \
   -DENABLE_FUSE=FALSE \

@@ -6,7 +6,7 @@
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.6
 %define m4_version 1.4.18
-%define gettext_version 0.19.8.1
+%define gettext_version 0.20.1
 %define pkgconfig_version 0.29.2
 Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftp.gnu.org/gnu/automake/automake-%{automake_version}.tar.gz
