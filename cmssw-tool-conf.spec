@@ -21,7 +21,6 @@ Requires: cppunit-toolfile
 Requires: curl-toolfile
 Requires: das_client-toolfile
 Requires: db6-toolfile
-Requires: dpm-toolfile
 Requires: davix-toolfile
 Requires: evtgen-toolfile
 Requires: expat-toolfile
@@ -59,7 +58,6 @@ Requires: libungif-toolfile
 Requires: libxml2-toolfile
 Requires: lwtnn-toolfile
 Requires: meschach-toolfile
-Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: photos-toolfile
 Requires: photospp-toolfile
@@ -121,7 +119,6 @@ Requires: mctester-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
 Requires: ccache-gcc-toolfile
-Requires: distcc-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
@@ -186,7 +183,6 @@ Requires: dmtcp-toolfile
 Requires: tkonlinesw-toolfile
 Requires: oracle-toolfile
 Requires: intel-vtune
-Requires: glibc-toolfile
 Requires: cmsmon-tools
 Requires: dip-toolfile
 %else
