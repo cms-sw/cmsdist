@@ -25,7 +25,6 @@ Requires: libjpeg-turbo-toolfile
 Requires: libpng-toolfile
 Requires: libtiff-toolfile
 Requires: libungif-toolfile
-Requires: openssl-toolfile
 Requires: pcre-toolfile
 Requires: python-toolfile
 Requires: root-toolfile
@@ -48,12 +47,6 @@ Requires: OpenBLAS-toolfile
 Requires: py2-pybind11-toolfile
 Requires: fwlite_python_tools
 Requires: zstd-toolfile
-
-%ifarch x86_64
-%ifos linux
-Requires: glibc-toolfile
-%endif
-%endif
 
 # Only for Darwin platform.
 %ifarch darwin
