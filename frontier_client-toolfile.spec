@@ -19,7 +19,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/frontier_client.xml
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="zlib"/>
-  <use name="openssl"/>
   <use name="expat"/>
   <use name="python"/>
 </tool>
