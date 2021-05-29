@@ -212,7 +212,7 @@ COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Xassembler --compress-debug-sections"
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
 %endif
 %ifarch ppc64le
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields %{ppc64le_build_flags}"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields %{ppc64le_build_flags_default_longdouble}"
 %endif
 
 export COMPILER_CXXFLAGS

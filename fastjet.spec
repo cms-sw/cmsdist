@@ -25,7 +25,7 @@ CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
 
 case %{cmsplatf} in
     *_amd64_*) CXXFLAGS="${CXXFLAGS} -msse3" ;;
-    *_ppc64le_*) CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags}" ;;
+    *_ppc64le_*) CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags_default_longdouble}" ;;
 esac
 
 ./configure \

@@ -26,7 +26,7 @@ BUILD_ARGS=VEC_GCC="-msse3"
 BUILD_ARGS=VEC_GCC="-march=native"
 %endif
 %ifarch ppc64le
-BUILD_ARGS=VEC_GCC="%{ppc64le_build_flags}"
+BUILD_ARGS=VEC_GCC="%{ppc64le_build_flags_default_longdouble}"
 %endif
 make %{makeprocesses} TBB_PREFIX=$TBB_ROOT "${BUILD_ARGS}"
 
