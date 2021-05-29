@@ -1,7 +1,7 @@
 ### RPM external openldap 2.4.45
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
-Requires: openssl db6
+Requires: db6
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -19,8 +19,8 @@ chmod +x ./build/config.{sub,guess}
   --with-tls=openssl \
   --disable-static \
   --disable-slapd \
-  CPPFLAGS="-I${OPENSSL_ROOT}/include -I${DB6_ROOT}/include" \
-  LDFLAGS="-L${OPENSSL_ROOT}/lib -L${DB6_ROOT}/lib"
+  CPPFLAGS="-I${DB6_ROOT}/include" \
+  LDFLAGS="-L${DB6_ROOT}/lib"
 make depend
 make
 

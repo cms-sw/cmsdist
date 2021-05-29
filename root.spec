@@ -9,19 +9,16 @@
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 openssl zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py2-numpy py3-numpy lz4 freetype zstd
 
-%if %islinux
+%ifos linux
 Requires: dcap
 %endif
 
 %define soext so
-%if %isdarwin
+%ifarch darwin
 %define soext dylib
 %endif
 
@@ -91,14 +88,12 @@ cmake ../%{n}-%{realversion} \
   -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
   -DCMAKE_CXX_STANDARD=17 \
   -Dssl=ON \
-  -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
-  -DOPENSSL_INCLUDE_DIR="${OPENSSL_ROOT}/include" \
   -Dpyroot=ON \
   -Dxrootd=ON \
   -Dbuiltin_xrootd=OFF \
   -DXROOTD_INCLUDE_DIR="${XROOTD_ROOT}/include/xrootd" \
   -DXROOTD_ROOT_DIR="${XROOTD_ROOT}" \
-%if %islinux
+%ifos linux
   -Drfio=OFF \
   -Dcastor=OFF \
   -Ddcache=ON \
@@ -121,7 +116,8 @@ cmake ../%{n}-%{realversion} \
   -Dsapdb=OFF \
   -Dalien=OFF \
   -Dmonalisa=OFF \
-%if %isdarwin
+%ifarch darwin
+  -Dbuiltin_afterimage=OFF \
   -Dcocoa=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
@@ -142,7 +138,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${OPENSSL_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
