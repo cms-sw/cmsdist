@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE > %i/etc/scram.d/davix.xml
     </client>
     <runtime name="PATH" value="$DAVIX_BASE/bin" type="path"/>
     <use name="boost_system"/>
-    <use name="openssl"/>
     <use name="libxml2"/>
   </tool>
 EOF_TOOLFILE

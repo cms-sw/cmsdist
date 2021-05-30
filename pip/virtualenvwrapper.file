@@ -1,1 +1,1 @@
-Requires: py2-stevedore py2-virtualenv py2-virtualenv-clone
+Requires: py3-stevedore py3-virtualenv py3-virtualenv-clone
