@@ -17,7 +17,7 @@ Requires: photospp
 # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=40267
 # libgfortranbegin.a is finally removed and was obsolete since GCC 4.5
 #Patch0: evtgen-1.6.0-configure-new-gcc
-Patch0: evtgen-2.0.0.patch
+Patch0: evtgen-2.0.0
 
 %define keep_archives true
 
