@@ -27,8 +27,8 @@
              _aliasPythiaGen->particleData.particleDataEntryPtr( PDGCode );
  
          // Check that the PDG code is not zero/null and exclude other
---- EvtGenBase/EvtMatrix.hh.orig	2021-04-13 23:20:29.588804900 +0200
-+++ EvtGenBase/EvtMatrix.hh	2021-04-13 23:20:36.663547400 +0200
+--- a/EvtGenBase/EvtMatrix.hh.orig	2021-04-13 23:20:29.588804900 +0200
++++ b/EvtGenBase/EvtMatrix.hh	2021-04-13 23:20:36.663547400 +0200
 @@ -23,6 +23,7 @@
  
  #include <sstream>
