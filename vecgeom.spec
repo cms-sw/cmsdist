@@ -34,7 +34,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %ifarch ppc64le
-  -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags_default_longdouble}" \
+  -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags}" \
 %endif
   -DGEANT4=OFF
 
