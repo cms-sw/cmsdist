@@ -27,9 +27,9 @@ touch pkg-config ; chmod +x pkg-config
 %ifarch ppc64le
             CXXFLAGS="-O2 %{ppc64le_build_flags}" \
 %else
-	    CXXFLAGS="-O2" \
+            CXXFLAGS="-O2" \
 %endif
-	    DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
+            DEPS_LIBS="-L$FFTW3_ROOT/lib -lfftw3" PKG_CONFIG=$PWD/pkg-config
 make %makeprocesses
 
 %install
