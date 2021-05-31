@@ -1,4 +1,4 @@
-### RPM external libarchive-bootstrap 3.3.2
+### RPM external libarchive-bootstrap 3.5.1
 Source0: http://www.libarchive.org/downloads/libarchive-%{realversion}.tar.gz
 
 Requires: xz-bootstrap

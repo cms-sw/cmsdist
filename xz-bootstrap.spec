@@ -1,4 +1,4 @@
-### RPM external xz-bootstrap 5.2.4
+### RPM external xz-bootstrap 5.2.5
 Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 
 %prep

@@ -1,21 +1,25 @@
-### RPM external gcc 9.3.0
+### RPM external gcc 11.1.0
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 4212a6a3e44f870412d9025eeb323fd4f50a61da
-%define gccBranch releases/gcc-9
+%define gccTag ef397f64ffe4c451369b99115ae362465d9c9d4e
+%define gccBranch releases/gcc-11
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+
 %define keep_archives true
 
-%define gmpVersion 6.2.0
-%define mpfrVersion 4.0.2
-%define mpcVersion 1.1.0
-%define islVersion 0.21
+%define gmpVersion 6.2.1
+%define mpfrVersion 4.1.0
+%define mpcVersion 1.2.1
+%define islVersion 0.24
 %define zlibVersion 1.2.11
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
@@ -23,10 +27,10 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
-%ifos linux
-%define bisonVersion 3.5
-%define binutilsVersion 2.32
-%define elfutilsVersion 0.177
+%if %islinux
+%define bisonVersion 3.7.6
+%define binutilsVersion 2.36.1
+%define elfutilsVersion 0.183
 %define m4Version 1.4.18
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -38,7 +42,6 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: m4-centos8
 
 %prep
 
@@ -54,8 +57,8 @@ EOF
 %global __find_requires %{_builddir}/%{moduleName}/%{name}-req
 chmod +x %{__find_requires}
 
-%ifos linux
-%ifarch x86_64
+%if %islinux
+%if %isamd64
 # Hack needed to align sections to 4096 bytes rather than 2MB on 64bit linux
 # architectures.  This is done to reduce the amount of address space wasted by
 # relocating many libraries. This was done with a linker script before, but
@@ -96,19 +99,18 @@ EOF_CMS_H
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 12 -n zlib-%{zlibVersion}
 
-%ifos linux
+%if %islinux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %setup -D -T -b 10 -n m4-%{m4Version}
-%patch2 -p1
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %patch0 -p1
 %patch1 -p1
 %endif
 
 %build
-%ifarch darwin
+%if %isdarwin
   CC='clang'
   CXX='clang++'
   CPP='clang -E'
@@ -147,7 +149,7 @@ esac
 make %{makeprocesses}
 make install
 
-%ifos linux
+%if %islinux
   CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
 
@@ -197,6 +199,7 @@ esac
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
+              --disable-libdebuginfod --enable-libdebuginfod=dummy --disable-debuginfod \
               --build=%{_build} --host=%{_host} --program-prefix='eu-' --disable-silent-rules \
               --prefix=%{i} CC="gcc" \
               CPPFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"

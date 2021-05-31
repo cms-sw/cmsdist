@@ -1,12 +1,12 @@
-### RPM external autotools 1.4
+### RPM external autotools 1.5
 ## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
-%define autoconf_version 2.69
-%define automake_version 1.16.1
+%define autoconf_version 2.71
+%define automake_version 1.16.3
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.6
 %define m4_version 1.4.18
-%define gettext_version 0.20.1
+%define gettext_version 0.21
 %define pkgconfig_version 0.29.2
 Provides: perl(Errno)
 Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
