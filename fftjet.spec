@@ -1,4 +1,5 @@
 ### RPM external fftjet 1.5.0
+## INCLUDE compilation_flags
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
 

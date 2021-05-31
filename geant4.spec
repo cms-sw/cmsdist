@@ -1,4 +1,5 @@
 ### RPM external geant4 10.7.1
+## INCLUDE compilation_flags
 %define tag %{realversion}
 %define branch geant4-10.7-release
 %define github_user Geant4
