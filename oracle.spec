@@ -65,8 +65,8 @@ rm -rf instantclient_*
 %build
 chmod a-x sdk/include/*.h *.sql
 %ifarch x86_64
-mv -f libocci_gcc53.so.%{occi_lib} libocci.so.%{occi_lib}
-chmod +x libocci.so.%{occi_lib}
+chmod +x libocci_gcc53.so.%{occi_lib}
+ln -sf libocci_gcc53.so.%{occi_lib} libocci.so.%{occi_lib}
 %endif
 
 %install
