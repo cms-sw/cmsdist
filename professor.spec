@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 Source: http://www.hepforge.org/archive/professor/professor-%{realversion}.tar.gz
 
-Requires: py2-numpy py2-scipy pyminuit2 py2-matplotlib
+Requires: py2-numpy py2-scipy pyminuit2 py3-matplotlib
 %prep
 %setup -n professor-%{realversion}
 

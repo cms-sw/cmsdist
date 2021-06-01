@@ -11,7 +11,7 @@ Source0: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&exp
 %endif
 
 BuildRequires: cmake gmake git
-Requires: openssl libxml2 libuuid
+Requires: libxml2 libuuid
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -27,7 +27,6 @@ cmake -DCMAKE_INSTALL_PREFIX="%{i}" \
  -DLIBXML2_LIBRARY="${LIBXML2_ROOT}/lib/libxml2.%{soext}" \
  -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
- -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
  ../
 
 make VERBOSE=1 %{makeprocesses}
