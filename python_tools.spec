@@ -201,7 +201,6 @@ Requires: py2-grpcio-tools
 Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver
-Requires: py3-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
