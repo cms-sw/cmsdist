@@ -1,2 +1,2 @@
-Requires: py2-numpy py2-awkward py3-uproot-methods py2-cachetools
+Requires: py2-numpy py3-awkward py3-uproot-methods py2-cachetools
 Requires: py3-cachetools

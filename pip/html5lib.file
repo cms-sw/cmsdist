@@ -1,1 +1,1 @@
-Requires: py2-ordereddict py2-six py2-packaging py2-webencodings py2-pyparsing py2-appdirs
+Requires: py2-ordereddict py2-six py2-packaging py3-webencodings py2-pyparsing py2-appdirs
