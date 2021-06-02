@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-BuildRequires: root clhep tinyxml2 boost fftw3 cuda python hepmc
+BuildRequires: root clhep tinyxml2 boost fftw3 cuda python hepmc tbb gcc
 
 %prep
 
@@ -19,16 +19,25 @@ CLHEP_MM_NAME="module.modulemap"
 TINYXML2_MM_NAME="tinyxml2.modulemap"
 CUDA_MM_NAME="cuda.modulemap"
 HEPMC_MM_NAME="hepmc.modulemap"
+TBB_MM_NAME="module.modulemap"
+
+GCC_GLIBCXX_VERSION=$(gcc -dumpversion | tr '.' '0')
 BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX" 
+TBB_FLAGS="-DTBB_USE_GLIBCXX_VERSION=${GCC_GLIBCXX_VERSION} -DTBB_SUPPRESS_DEPRECATED_MESSAGES -DTBB_PREVIEW_RESUMABLE_TASKS=1"
+CLHEP_FLAGS=""
+TINYXML2_FLAGS=""
+HEPMC_FLAGS=""
+
 
 #packages with module maps
-for mod in clhep tinyxml2 cuda HepMC
+for mod in clhep tinyxml2 cuda HepMC tbb
 do
     rootvar="$(echo "${mod}_ROOT" | tr [a-z] [A-Z])"
     mm_name="$(echo "${mod}_MM_NAME" | tr [a-z] [A-Z])"
+    mm_flags="$(echo "${mod}_FLAGS" | tr [a-z] [A-Z])"
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -moduleMapFile=${!rootvar}/include/${!mm_name} -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m $mod -mByproduct $mod  -I ${!rootvar}/include/ empty.h
+    rootcling dummy_dict.cc -v2 ${!mm_flags} -moduleMapFile=${!rootvar}/include/${!mm_name} -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m $mod -mByproduct $mod  -I ${!rootvar}/include/ empty.h
     mkdir -p $mod
     rm -f Dummy.pcm
     mv *.pcm $mod

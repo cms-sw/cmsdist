@@ -22,6 +22,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/tbb.xml
   <flags CPPDEFINES="TBB_SUPPRESS_DEPRECATED_MESSAGES"/>
   <flags CPPDEFINES="TBB_PREVIEW_RESUMABLE_TASKS=1"/>
   <flags SYSTEM_INCLUDE="1"/>
+  <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$TBB_BASE/include/module.modulemap" type="path" handler="warn"/>
+  <flags ROOTCLING_ARGS="-moduleMapFile=$(TBB_BASE)/include/module.modulemap"/>
 </tool>
 EOF_TOOLFILE
 

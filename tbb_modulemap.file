@@ -1,0 +1,10 @@
+module tbb {
+  export *
+  requires cplusplus
+  exclude header "tbb/blocked_rangeNd.h"
+  exclude header "tbb/concurrent_lru_cache.h"
+  exclude header "tbb/info.h"
+  exclude header "tbb/memory_pool.h"
+  umbrella "tbb"
+  module * { export *}
+}
