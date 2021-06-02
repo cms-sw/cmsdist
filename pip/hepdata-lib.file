@@ -1,1 +1,1 @@
-Requires: root py2-pytest py2-pytest-cov py2-PyYAML py2-future py2-pylint py3-pylint
+Requires: root py2-pytest py3-pytest-cov py2-PyYAML py2-future py3-pylint
