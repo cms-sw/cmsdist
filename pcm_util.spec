@@ -71,6 +71,6 @@ mv *.pcm boost/.
 mkdir %{i}/lib
 rm -f Dummy*.pcm
 rm -f libDummy*.pcm
-cp -r clhep tinyxml2 boost cuda HepMC %{i}/lib/.
+cp -r clhep tinyxml2 boost cuda HepMC tbb  %{i}/lib/.
 
 
