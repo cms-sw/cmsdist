@@ -6,7 +6,7 @@ Source: none
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
 Requires: py2-scipy
-Requires: py2-Keras
+Requires: py3-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
 #save for the end
@@ -31,7 +31,7 @@ Requires: py2-hep_ml
 Requires: py3-rep
 Requires: py3-uncertainties
 Requires: py3-hyperas
-Requires: py2-hyperopt
+Requires: py3-hyperopt
 Requires: py3-seaborn
 Requires: py2-h5py
 Requires: py3-h5py-cache
@@ -55,15 +55,15 @@ Requires: py2-Pygments
 Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse
-Requires: py2-bleach
+Requires: py3-bleach
 Requires: py2-certifi
 Requires: py2-decorator
-Requires: py2-html5lib
+Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py2-ipython_genutils
 Requires: py3-ipywidgets
-Requires: py2-jsonschema
+Requires: py3-jsonschema
 Requires: py3-jupyter
 Requires: py3-jupyter_client
 Requires: py3-jupyter_console
@@ -76,9 +76,9 @@ Requires: py2-ordereddict
 Requires: py2-packaging
 Requires: py2-pandocfilters
 Requires: py2-pathlib2
-Requires: py2-pexpect
+Requires: py3-pexpect
 Requires: py2-pickleshare
-Requires: py2-prompt_toolkit
+Requires: py3-prompt_toolkit
 Requires: py2-ptyprocess
 Requires: py2-pyparsing
 Requires: py2-pyzmq
@@ -93,11 +93,11 @@ Requires: py2-terminado
 Requires: py2-testpath
 Requires: py3-testpath
 Requires: py2-tornado
-Requires: py2-traitlets
+Requires: py3-traitlets
 Requires: py2-wcwidth
-Requires: py2-webencodings
+Requires: py3-webencodings
 Requires: py3-widgetsnbextension
-Requires: py2-cycler
+Requires: py3-cycler
 Requires: py3-docopt
 Requires: py2-futures
 Requires: py2-networkx
@@ -128,7 +128,7 @@ Requires: py3-virtualenvwrapper
 Requires: py2-urllib3
 Requires: py2-chardet
 Requires: py2-idna
-Requires: py2-Werkzeug
+Requires: py3-Werkzeug
 Requires: py2-pytest
 Requires: py3-avro
 Requires: py2-fs
@@ -143,7 +143,7 @@ Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py2-dxr-toolfile
 Requires: py2-PyYAML
-Requires: py2-pylint
+Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
 %ifarch x86_64
@@ -186,10 +186,10 @@ Requires: py2-smmap2
 Requires: py3-stevedore
 Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
-Requires: py2-asn1crypto
+Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py2-cffi
-Requires: py2-cryptography
+Requires: py3-cryptography
 Requires: py2-google-common
 Requires: py2-jedi
 Requires: py2-parso
@@ -201,7 +201,6 @@ Requires: py2-grpcio-tools
 Requires: py2-Markdown
 Requires: py2-subprocess32
 Requires: py2-kiwisolver
-Requires: py2-pyOpenSSL
 Requires: py2-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
@@ -217,8 +216,7 @@ Requires: py2-coverage
 Requires: py3-hepdata-lib
 Requires: py2-isort
 Requires: py2-lazy-object-proxy
-Requires: py2-pylint
-Requires: py2-pytest-cov
+Requires: py3-pytest-cov
 Requires: py2-wrapt
 
 Requires: py2-distlib
