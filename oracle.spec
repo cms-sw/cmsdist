@@ -59,7 +59,7 @@ rm -rf instantclient_*
 
 %ifarch x86_64
 #OCCI lib with new C++ ABI (GCC 5 and above)
-%setup -D -T -c -b 7 -n %{client_dir} %(echo %{source7} | sed 's|.*/||)
+%setup -D -T -c -a 7 -n %{client_dir} %(echo %{source7} | sed 's|.*/||)
 %endif
 
 %build
