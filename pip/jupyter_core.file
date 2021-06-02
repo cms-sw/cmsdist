@@ -1,3 +1,3 @@
-Requires: py2-traitlets
+Requires: py3-traitlets
 %define PipPostBuild  rm %{i}/lib/*/site-packages/jupyter.py*
 %define RelocatePython %{i}/bin/jupyter-migrate %{i}/bin/jupyter-troubleshoot %{i}/bin/jupyter
