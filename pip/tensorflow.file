@@ -1,5 +1,5 @@
 ## INCLUDE tensorflow-requires
-Requires: py2-funcsigs py2-pbr py2-packaging py2-appdirs py2-pyparsing py2-mock py2-Werkzeug
+Requires: py2-funcsigs py2-pbr py2-packaging py2-appdirs py2-pyparsing py2-mock py3-Werkzeug
 Requires: py2-grpcio py3-astunparse
 %define source0 none
 %define source_file none
