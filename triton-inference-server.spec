@@ -4,7 +4,7 @@
 
 Source: git+https://github.com/%{github_user}/server.git?obj=%{branch}/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3
+Requires: opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3 cuda
 
 %prep
 
@@ -31,11 +31,17 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
+if [ $(%{cuda_gcc_support}) = true ]; then
+    TRITON_ENABLE_GPU_VALUE=ON
+else
+    TRITON_ENABLE_GPU_VALUE=OFF
+fi
+
 cmake ../%{n}-%{realversion}/build/client \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
-    -DTRITON_ENABLE_GPU=OFF \
+    -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_CLIENT_SKIP_EXAMPLES=ON \
     -DTRITON_CURL_WITHOUT_CONFIG=ON \
     -DCURL_LIBRARY=${CURL_ROOT}/lib/libcurl.so \
@@ -52,6 +58,11 @@ make %{makeprocesses}
 %install
 cd ../build
 make install
+
+if [ $(%{cuda_gcc_support}) = true ] ; then
+    # modify header for consistent definition of GPU support
+    sed -i '/^#ifdef TRITON_ENABLE_GPU/i #define TRITON_ENABLE_GPU' %{i}/include/ipc.h
+fi
 
 # extra headers needed
 cp src/core/model_config.pb.h %{i}/include/
