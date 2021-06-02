@@ -19,6 +19,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/triton-inference-server.xml
   <use name="protobuf"/>
   <use name="opencv"/>
   <use name="grpc"/>
+  <use name="cuda"/>
 </tool>
 EOF_TOOLFILE
 
