@@ -1,1 +1,0 @@
-Requires: py2-cffi py3-asn1crypto py2-enum34 py3-idna py3-ipaddress py2-six py2-wheel

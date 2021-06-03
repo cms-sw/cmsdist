@@ -188,7 +188,6 @@ Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py2-cffi
-Requires: py3-cryptography
 Requires: py2-google-common
 Requires: py3-jedi
 Requires: py3-parso
