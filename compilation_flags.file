@@ -1,4 +1,4 @@
 %if "%{?ppc64le_build_flags:set}" != "set"
-%define ppc64le_build_flags  -mlong-double-64 -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
+%define ppc64le_build_flags  -mcpu=powerpc64le -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
 %endif
 
