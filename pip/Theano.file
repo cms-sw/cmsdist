@@ -1,3 +1,4 @@
 Requires: py2-scipy py2-six
 Requires: py3-scipy
-%define RelocatePython %{i}/bin/theano-nose %{i}/bin/theano-cache %{i}/bin/theano-test
+%define RelocatePython %{i}/bin/theano-*
+%define PipPostBuildPy3 sed -i -e 's| %{cmsroot}/.*python3 | python3 |' %{i}/bin/theano-*
