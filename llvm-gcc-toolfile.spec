@@ -53,7 +53,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/llvm-cxxcompiler.xml
     <flags REM_CXXFLAGS="-mrecip"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-fno-aggressive-loop-optimizations"/>
-    <flags REM_CXXFLAGS="-mlong-double-64"/>
     <flags REM_CXXFLAGS="-funroll-all-loops"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>

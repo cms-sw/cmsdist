@@ -1,4 +1,5 @@
 ### RPM external fftjet 1.5.0
+## INCLUDE compilation_flags
 Source: http://www.hepforge.org/archive/fftjet/%n-%realversion.tar.gz
 Requires: fftw3
 
@@ -25,7 +26,7 @@ touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
 %ifarch ppc64le
-            CXXFLAGS="-O2 -mlong-double-64" \
+            CXXFLAGS="-O2 %{ppc64le_build_flags}" \
 %else
             CXXFLAGS="-O2" \
 %endif
