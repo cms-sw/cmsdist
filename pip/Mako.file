@@ -1,2 +1,2 @@
-Requires: py2-MarkupSafe
+Requires: py3-MarkupSafe
 %define RelocatePython %{i}/bin/*
