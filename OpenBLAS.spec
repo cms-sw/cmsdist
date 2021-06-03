@@ -1,4 +1,4 @@
-### RPM external OpenBLAS 0.3.9
+### RPM external OpenBLAS 0.3.15
 ## INCLUDE compilation_flags
 Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
 Patch0: OpenBLAS-fix-dynamic-arch
