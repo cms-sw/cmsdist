@@ -1,22 +1,13 @@
 diff --git a/Makefile.x86_64 b/Makefile.x86_64
-index f2de51e..e1c348a 100644
+index f62ab9e..f23a65b 100644
 --- a/Makefile.x86_64
 +++ b/Makefile.x86_64
 @@ -9,7 +9,7 @@ endif
  endif
  
- ifeq ($(CORE), SKYLAKEX)
--ifndef DYNAMIC_ARCH
-+ifneq ($(DYNAMIC_ARCH), 1)
- ifndef NO_AVX512
- CCOMMON_OPT += -march=skylake-avx512
- FCOMMON_OPT += -march=skylake-avx512
-@@ -28,7 +28,7 @@ endif
- endif
  
- ifeq ($(CORE), HASWELL)
 -ifndef DYNAMIC_ARCH
 +ifneq ($(DYNAMIC_ARCH), 1)
- ifndef NO_AVX2
- ifeq ($(C_COMPILER), GCC)
- CCOMMON_OPT += -mavx2
+ ADD_CPUFLAGS = 1
+ else
+ ifdef TARGET_CORE
