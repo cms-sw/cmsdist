@@ -1,2 +1,2 @@
-Requires: py2-jedi py3-prompt_toolkit py3-backcall
+Requires: py3-jedi py3-prompt_toolkit py3-backcall
 %define PipPostBuildPy3 rm -f %{i}/bin/iptest %{i}/bin/ipython ; sed -i -e 's| %{cmsroot}/.*python3 | python3 |' %{i}/bin/*3
