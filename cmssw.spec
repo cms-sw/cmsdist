@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0_pre2
+### RPM cms cmssw CMSSW_12_0_0_pre2_PYTHON3
 
 Requires: cmssw-tool-conf python
 
