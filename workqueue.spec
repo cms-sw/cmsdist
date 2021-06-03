@@ -4,24 +4,26 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python py2-httplib2 rotatelogs couchdb15 yui py2-sphinx dbs3-client py2-cherrypy py2-pycurl
-Requires: py2-future py2-retry py2-psutil py2-rucio-clients
-Requires: jemalloc cmsmonitoring
+Requires: python3 py3-httplib2 py3-dbs3-client py3-cherrypy py3-pycurl
+Requires: py3-future py3-retry py3-psutil py3-rucio-clients py3-cmsmonitoring
+Requires: jemalloc rotatelogs couchdb16 yui
+BuildRequires: py3-sphinx
 
 %prep
 %setup -b 0 -n %n
 
 %build
-python setup.py build_system -s global-workqueue
+python3 setup.py build_system -s global-workqueue --skip-docs
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s global-workqueue --prefix=%i
+python3 setup.py install_system -s global-workqueue --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
 cp -pf %_builddir/%n/bin/*workqueue* %i/bin
 cp -pf %_builddir/%n/bin/wmagent-couchapp-init %i/bin
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d

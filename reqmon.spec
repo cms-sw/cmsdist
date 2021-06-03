@@ -6,20 +6,19 @@ Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/
 #from private repository
 #Source: git://github.com/ticoann/WMCore?obj=wmstats_task_summary/%realversion&export=%n&output=/%n.tar.gz
 
-Requires: python rotatelogs py2-httplib2 py2-cherrypy py2-cheetah py2-pycurl dbs3-client
-Requires: py2-future py2-retry py2-psutil
-Requires: jemalloc cmsmonitoring
-
-BuildRequires: py2-setuptools py2-sphinx couchskel
+Requires: python3 py3-httplib2 py3-cherrypy py3-cheetah3 py3-pycurl py3-dbs3-client
+Requires: py3-future py3-retry py3-psutil py3-cmsmonitoring
+Requires: jemalloc rotatelogs
+BuildRequires: py3-setuptools py3-sphinx couchskel
 
 %prep
 %setup -b 0 -n %n
 
 %build
-python setup.py build_system -s reqmon
+python3 setup.py build_system -s reqmon --skip-docs
 
 %install
-python setup.py install_system -s reqmon --prefix=%i
+python3 setup.py install_system -s reqmon --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 #%define drop_files %i/data/couchapps/WMStats/views/{requestByCampaignAndDate,\
 #requestByDate,requestByInputDataset,agentInfo,tier0Requests,\
@@ -29,6 +28,7 @@ find %i -name '*.egg-info' -exec rm {} \;
 mkdir %i/data/couchapps/WMStats/vendor/
 cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
   %i/data/couchapps/WMStats/vendor/
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d
