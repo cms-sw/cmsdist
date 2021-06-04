@@ -1,4 +1,4 @@
-### RPM external llvm 11.1.0
+### RPM external llvm 12.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON27PATH %{i}/lib64/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
@@ -8,8 +8,8 @@ Requires: gcc zlib python python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 78a28e50771b942539061987e51a1a5b39554454
-%define llvmBranch cms/release/11.x/1fdec59
+%define llvmCommit 3c4c9e19d48816ffecc35cae4a410683746f7a48
+%define llvmBranch cms/release/12.x/d28af7c
 %define iwyuCommit 5db414ac448004fe019871c977905cb7c2cff23f
 %define iwyuBranch clang_11
 
