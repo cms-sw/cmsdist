@@ -6,7 +6,7 @@
 GeneratorInterface-EvtGenInterface=V02-03-00
 L1Trigger-CSCTriggerPrimitives=V00-05-00
 Geometry-TestReference=V00-08-00
-L1Trigger-L1TMuon=V01-04-00
+L1Trigger-L1TMuon=V01-05-00
 RecoHGCal-TICL=V00-02-01
 EgammaAnalysis-ElectronTools=V00-03-01
 RecoBTag-Combined=V01-10-00
