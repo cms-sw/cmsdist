@@ -1,1 +1,1 @@
-Requires: py2-Jinja2 py3-matplotlib
+Requires: py3-Jinja2 py3-matplotlib
