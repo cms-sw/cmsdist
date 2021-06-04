@@ -1,1 +1,1 @@
-Requires: py2-ptyprocess
+Requires: py3-ptyprocess
