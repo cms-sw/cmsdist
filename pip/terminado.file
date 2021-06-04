@@ -1,2 +1,2 @@
-Requires: py2-tornado py2-ptyprocess
+Requires: py2-tornado py3-ptyprocess
 Requires: py3-tornado py3-flit
