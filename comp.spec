@@ -13,7 +13,7 @@ Requires: exporters exitcodes
 # FIXME: remove these 3 PhEDEx specs from the building list for January/2021
 Requires: PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 # Common
-Requires: rotatelogs pystack wmcore-devtools
+Requires: rotatelogs wmcore-devtools
 # Other
 Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
 Requires: wmarchive
@@ -24,7 +24,7 @@ BuildRequires: gitweb compsec
 ### List of obsolete services (or under deprecation), stop building them!
 #BuildRequires: filemover PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 #BuildRequires: overview happyface sreadiness lifecycle-das webtools
-#BuildRequires: DCAFPilot DMWMMON-datasvc spacemon-client
+#BuildRequires: DCAFPilot DMWMMON-datasvc spacemon-client pystack
 
 %prep
 %build
