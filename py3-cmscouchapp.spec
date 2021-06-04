@@ -1,4 +1,4 @@
-### RPM external py3-cmscouchapp 1.3.2
+### RPM external py3-cmscouchapp 1.3.4
 ## IMPORT build-with-pip3
 
 %define pip_name CMSCouchapp
