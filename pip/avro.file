@@ -1,2 +1,2 @@
-Requires: py2-pycodestyle py3-isort
+Requires: py3-pycodestyle py3-isort
 %define RelocatePython %{i}/bin/*
