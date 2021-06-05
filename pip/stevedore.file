@@ -1,1 +1,1 @@
-Requires: py2-pbr py2-six
+Requires: py3-pbr py2-six
