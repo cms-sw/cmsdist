@@ -1,1 +1,1 @@
-Requires: py2-six py2-termcolor py2-enum34
+Requires: py2-six py3-termcolor py2-enum34
