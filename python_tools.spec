@@ -36,7 +36,7 @@ Requires: py2-h5py
 Requires: py3-h5py-cache
 Requires: py3-uproot
 Requires: py3-uproot4
-Requires: py2-opt-einsum
+Requires: py3-opt-einsum
 Requires: py2-joblib py3-joblib
 
 #this DOES NOT depend on numpy..
@@ -44,7 +44,7 @@ Requires: py3-xrootdpyfs
 
 Requires: root curl python openldap
 
-Requires: py2-entrypoints
+Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
 Requires: py3-Jinja2
@@ -54,8 +54,8 @@ Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py2-argparse
 Requires: py3-bleach
-Requires: py2-certifi
-Requires: py2-decorator
+Requires: py3-certifi
+Requires: py3-decorator
 Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
@@ -72,7 +72,7 @@ Requires: py3-nbformat
 Requires: py3-notebook
 Requires: py2-ordereddict
 Requires: py2-packaging
-Requires: py2-pandocfilters
+Requires: py3-pandocfilters
 Requires: py2-pathlib2
 Requires: py3-pexpect
 Requires: py3-pickleshare
@@ -85,12 +85,11 @@ Requires: py2-scandir
 Requires: py2-setuptools
 Requires: py3-setuptools
 Requires: py3-simplegeneric
-Requires: py2-singledispatch
+Requires: py3-singledispatch
 Requires: py2-six
 Requires: py3-terminado
-Requires: py2-testpath
 Requires: py3-testpath
-Requires: py2-tornado
+Requires: py3-tornado
 Requires: py3-traitlets
 Requires: py2-wcwidth
 Requires: py3-webencodings
@@ -98,19 +97,18 @@ Requires: py3-widgetsnbextension
 Requires: py3-cycler
 Requires: py3-docopt
 Requires: py2-futures
-Requires: py2-networkx
+Requires: py3-networkx
 Requires: py2-parsimonious
 Requires: py2-prettytable
 Requires: py2-pycurl
-Requires: py2-pytz
+Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
 #Requires: py2-Jinja
-Requires: py2-python-dateutil
+Requires: py3-python-dateutil
 Requires: py2-enum34
-Requires: py2-functools32
 Requires: py3-mock
-Requires: py2-pbr
+Requires: py3-pbr
 Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
@@ -124,12 +122,12 @@ Requires: py3-prwlock
 Requires: py3-virtualenv
 Requires: py3-virtualenvwrapper
 Requires: py2-urllib3
-Requires: py2-chardet
+Requires: py3-chardet
 Requires: py3-idna
 Requires: py3-Werkzeug
 Requires: py2-pytest
 Requires: py3-avro
-Requires: py2-fs
+Requires: py3-fs
 Requires: py3-lizard
 Requires: py3-flawfinder
 Requires: py3-python-ldap
@@ -153,12 +151,12 @@ Requires: py2-pybind11-toolfile
 Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8
-Requires: py2-pycodestyle
+Requires: py3-pycodestyle
 Requires: py2-lz4
 Requires: py3-ply
 Requires: py2-py
 Requires: py2-typing
-Requires: py2-defusedxml
+Requires: py3-defusedxml
 Requires: py2-atomicwrites
 Requires: py2-attrs
 Requires: py3-nbdime
@@ -185,7 +183,7 @@ Requires: py2-typing_extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
-Requires: py2-cffi
+Requires: py3-cffi
 Requires: py2-google-common
 Requires: py3-jedi
 Requires: py3-parso
@@ -213,12 +211,12 @@ Requires: py3-hepdata-lib
 Requires: py3-isort
 Requires: py3-lazy-object-proxy
 Requires: py3-pytest-cov
-Requires: py2-wrapt
+Requires: py3-wrapt
 
-Requires: py2-distlib
+Requires: py3-distlib
 Requires: py3-filelock
 Requires: py3-gitdb
-Requires: py2-importlib-resources
+Requires: py3-importlib-resources
 Requires: py3-smmap
 Requires: py2-zipp py3-zipp
 
