@@ -2,6 +2,7 @@
 ## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: python python3 zlib py2-parsimonious py2-setuptools py2-pysqlite llvm sqlite py3-setuptools
+Requires: py2-Jinja2 py2-parsimonious
 %define dxrCommit 6ea764102a
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
