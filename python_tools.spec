@@ -47,8 +47,6 @@ Requires: root curl python openldap
 Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
-Requires: py3-Jinja2
-Requires: py3-MarkupSafe
 Requires: py2-Pygments
 Requires: py3-Pygments
 Requires: py2-appdirs
@@ -98,13 +96,11 @@ Requires: py3-cycler
 Requires: py3-docopt
 Requires: py2-futures
 Requires: py3-networkx
-Requires: py2-parsimonious
 Requires: py2-prettytable
 Requires: py2-pycurl
 Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
-#Requires: py2-Jinja
 Requires: py3-python-dateutil
 Requires: py2-enum34
 Requires: py3-mock
@@ -137,7 +133,7 @@ Requires: py3-matplotlib
 Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
-Requires: py2-dxr-toolfile
+Requires: py3-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py3-pylint
 Requires: py2-pip
