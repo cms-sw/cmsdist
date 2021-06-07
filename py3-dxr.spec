@@ -1,12 +1,11 @@
-### RPM external py2-dxr 1.0.x
-## INITENV +PATH PYTHON27PATH %i/${PYTHON_LIB_SITE_PACKAGES}
+### RPM external py3-dxr 1.0.x
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
-Requires: python python3 zlib py2-setuptools py2-pysqlite llvm sqlite py3-setuptools
-Requires: py2-Jinja2 py2-parsimonious
-%define dxrCommit c540b2b322d57045633d2b60c581586520082402
+Requires: zlib llvm sqlite
+Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3
+%define dxrCommit bb37dc32315cf5fef8cbe42ed6172ed11e1c5711
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
-%define branch cms/master/6ea764102a
+%define branch cms/6ea764102a/py3
 
 Source0: git+https://github.com/cms-externals/dxr.git?obj=%{branch}/%{dxrCommit}&export=dxr-%{dxrCommit}&module=dxr-%dxrCommit&output=/dxr-%{dxrCommit}.tgz
 Source1: git+https://github.com/jonasfj/trilite.git?obj=master/%{triliteCommit}&export=trilite-%{triliteCommit}&module=trilite-%triliteCommit&output=/trilite-%{triliteCommit}.tgz
@@ -31,13 +30,11 @@ make release
 cd re2
 make
 cd ../../
-python2 setup.py build
 python3 setup.py build
 
 %install
 mkdir %i/lib
 cp -p trilite/libtrilite.so %i/lib
 cp -p trilite/re2/obj/libre2.a %i/lib
-python2 setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
 python3 setup.py install --prefix=%i  --single-version-externally-managed --record=/dev/null
-perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python|" %{i}/bin/*.py
+perl -p -i -e "s|^#!%{cmsroot}/.*|#!/usr/bin/env python3|" %{i}/bin/*.py
