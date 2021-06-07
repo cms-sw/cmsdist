@@ -1,18 +1,16 @@
-### RPM external vecgeom v1.1.8
+### RPM external vecgeom v1.1.16
 ## INCLUDE compilation_flags
-%define tag 5a275d77ef80b12240d59fd276231ad50d5df577
+%define tag ed9a40412c354652262ec80af449f5531206e52c
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
 
-Patch0: vecgeom-fix-for-arm64
-Patch1: vecgeom-fix-vector
+Patch0: vecgeom-fix-vector
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %patch0 -p1
-%patch1 -p1
 
 %build
 rm -rf ../build
