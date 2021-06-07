@@ -1,5 +1,5 @@
-### RPM external py2-dxr-toolfile 1.0
-Requires: py2-dxr
+### RPM external py3-dxr-toolfile 1.0
+Requires: py3-dxr
 
 %prep
 
@@ -17,9 +17,5 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dxr.xml
   <runtime name="PATH" value="$PY2_DXR_BASE/bin" type="path"/>
 </tool>
 EOF_TOOLFILE
-
-
-export PYTHON_LIB_SITE_PACKAGES
-export PYTHON3_LIB_SITE_PACKAGES
 
 ## IMPORT scram-tools-post
