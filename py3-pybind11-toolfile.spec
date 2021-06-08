@@ -8,7 +8,7 @@ Requires: py3-pybind11
 %install
 
 mkdir -p %{i}/etc/scram.d
-cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pybind11.xml
+cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py3-pybind11.xml
 <tool name="py3-pybind11" version="@TOOL_VERSION@">
   <client>
     <environment name="PY3_PYBIND11_BASE" default="@TOOL_ROOT@"/>
