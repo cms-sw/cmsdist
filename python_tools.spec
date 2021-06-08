@@ -47,7 +47,6 @@ Requires: root curl python openldap
 Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
-Requires: py2-Pygments
 Requires: py3-Pygments
 Requires: py2-appdirs
 Requires: py3-argparse
