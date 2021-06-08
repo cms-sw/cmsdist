@@ -14,7 +14,11 @@
 %endif
 
 %if "%(case %realversion in (*_DBG_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%ifarch ppc64le
+%define usercxxflags    -g
+%else
 %define usercxxflags    -g -O3 -DEDM_ML_DEBUG
+%endif
 %endif
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
