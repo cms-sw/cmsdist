@@ -11,8 +11,8 @@ mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pybind11.xml
 <tool name="py2-pybind11" version="@TOOL_VERSION@">
   <client>
-    <environment name="PY2_PYBIND11_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$PY2_PYBIND11_BASE/lib/python3.8/site-packages/pybind11/include"/>
+    <environment name="PY3_PYBIND11_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PY3_PYBIND11_BASE/lib/python3.8/site-packages/pybind11/include"/>
   </client>
 </tool>
 EOF_TOOLFILE
