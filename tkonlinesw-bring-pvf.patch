@@ -1,0 +1,24 @@
+diff --git a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
+index ca2f0eb..c7a6b45 100644
+--- a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
++++ b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
+@@ -4789,7 +4789,8 @@ namespace Fed9U {
+      *
+      * \todo check numbering scheme (internal or external).
+      */
+-    virtual u32 getAllApvDisables(const Fed9UAddress&) { ICUTILS_VERIFY(0).msg("Method unimplemented in base class. Implement in derived class").error(); return 0;}
++    virtual u32 getAllApvDisables(const Fed9UAddress&) const = 0;
++    //virtual u32 getAllApvDisables(const Fed9UAddress&) { ICUTILS_VERIFY(0).msg("Method unimplemented in base class. Implement in derived class").error(); return 0;}
+ 
+     /**
+      * \brief  Returns the maximum buffer size that could be required by the Fed9UVmeDevice::getCompleteEvent method.
+@@ -4850,7 +4851,8 @@ namespace Fed9U {
+      * \brief  Returns the base of the FED in the crate.
+      * \return u32 Contains the value of the FED base address.
+      */
+-    virtual u32 getBaseAddress() { ICUTILS_VERIFY(0).msg("Method unimplemented in base class. Implement in derived class").error();  return 0;}
++    virtual u32 getBaseAddress() const = 0;
++    //virtual u32 getBaseAddress() { ICUTILS_VERIFY(0).msg("Method unimplemented in base class. Implement in derived class").error();  return 0;}
+ 
+     /**
+      * \brief  Number of the crate that the FED is located in.
