@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: zlib llvm sqlite
 Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3
-%define dxrCommit bb37dc32315cf5fef8cbe42ed6172ed11e1c5711
+%define dxrCommit 4d24ba871f9f0df418c02fbbc7b949cb4371a4c5
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
 %define branch cms/6ea764102a/py3
