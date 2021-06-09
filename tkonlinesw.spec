@@ -4,7 +4,7 @@
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-4.0-clang-hash_map
-
+Patch2: tkonlinesw-bring-pvf
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
 #       The 4 libraries we need can be built with the
@@ -24,6 +24,7 @@ Requires: root
 %prep
 %setup -q -n %releasename
 %patch1 -p1
+%patch2 -p1
 case %cmsos in 
   osx*)
 %patch0 -p1
