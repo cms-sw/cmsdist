@@ -1,13 +1,13 @@
-### RPM cms cmssw CMSSW_12_0_X_2021-06-09-2300
+### RPM cms cmssw CMSSW_12_0_0
 
 Requires: cmssw-tool-conf python
 
-#%define runGlimpse      yes
-#%define saveDeps        yes
+%define runGlimpse      yes
+%define saveDeps        yes
 %define branch          master
 %define gitcommit       %{realversion}
 # build with debug symbols, and package them in a separate rpm
-#%define subpackageDebug yes
+%define subpackageDebug yes
 
 ## INCLUDE cmssw-queue-override
 
