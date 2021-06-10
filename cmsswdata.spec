@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-Validation-HGCalValidation
 Requires: data-HeterogeneousCore-SonicTriton
 Requires: data-L1Trigger-TrackTrigger
 Requires: data-RecoTracker-TkSeedGenerator
