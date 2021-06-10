@@ -32,12 +32,12 @@ Requires: py3-uncertainties
 Requires: py3-hyperas
 Requires: py3-hyperopt
 Requires: py3-seaborn
-Requires: py2-h5py
+Requires: py3-h5py
 Requires: py3-h5py-cache
 Requires: py3-uproot
 Requires: py3-uproot4
 Requires: py3-opt-einsum
-Requires: py2-joblib py3-joblib
+Requires: py3-joblib
 
 #this DOES NOT depend on numpy..
 Requires: py3-xrootdpyfs
@@ -47,10 +47,9 @@ Requires: root curl python openldap
 Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
-Requires: py2-Pygments
 Requires: py3-Pygments
 Requires: py2-appdirs
-Requires: py2-argparse
+Requires: py3-argparse
 Requires: py3-bleach
 Requires: py3-certifi
 Requires: py3-decorator
@@ -68,7 +67,7 @@ Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
 Requires: py3-notebook
-Requires: py2-ordereddict
+Requires: py3-ordereddict
 Requires: py2-packaging
 Requires: py3-pandocfilters
 Requires: py2-pathlib2
@@ -109,8 +108,8 @@ Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
 Requires: py2-funcsigs
-Requires: py2-nose
-Requires: py2-pkgconfig
+Requires: py3-nose
+Requires: py3-pkgconfig
 Requires: py2-pysqlite
 Requires: py3-Click
 Requires: py3-jsonpickle
@@ -134,7 +133,7 @@ Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py3-dxr-toolfile
-Requires: py2-PyYAML
+Requires: py3-PyYAML
 Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
@@ -148,7 +147,7 @@ Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8
 Requires: py3-pycodestyle
-Requires: py2-lz4
+Requires: py3-lz4
 Requires: py3-ply
 Requires: py2-py
 Requires: py2-typing
@@ -159,8 +158,7 @@ Requires: py3-nbdime
 Requires: py2-onnx
 Requires: py3-onnxmltools
 Requires: py2-backports
-Requires: py2-backports_abc
-Requires: py2-colorama
+Requires: py3-colorama
 Requires: py3-lxml
 Requires: py3-beautifulsoup4
 Requires: py3-GitPython py3-GitPython
@@ -172,7 +170,7 @@ Requires: py2-pluggy
 Requires: py3-prometheus_client
 Requires: py3-pyasn1-modules
 Requires: py2-pyasn1
-Requires: py2-pyflakes
+Requires: py3-pyflakes
 Requires: py3-smmap2
 Requires: py3-stevedore
 Requires: py2-typing_extensions
@@ -183,7 +181,7 @@ Requires: py3-cffi
 Requires: py2-google-common
 Requires: py3-jedi
 Requires: py3-parso
-Requires: py2-pycparser
+Requires: py3-pycparser
 Requires: py2-absl-py
 Requires: py3-gast
 Requires: py2-grpcio
@@ -195,14 +193,13 @@ Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
 Requires: py3-mpld3
 Requires: py3-neurolab
-Requires: py2-nose-parameterized
+Requires: py3-nose-parameterized
 Requires: py2-pillow
 Requires: py3-pybrain
 Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py3-astroid
-Requires: py2-coverage
 Requires: py3-hepdata-lib
 Requires: py3-isort
 Requires: py3-lazy-object-proxy
@@ -214,7 +211,7 @@ Requires: py3-filelock
 Requires: py3-gitdb
 Requires: py3-importlib-resources
 Requires: py3-smmap
-Requires: py2-zipp py3-zipp
+Requires: py3-zipp
 
 Requires: py3-pycuda
 Requires: onnxruntime
