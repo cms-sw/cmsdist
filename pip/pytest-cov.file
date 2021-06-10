@@ -1,2 +1,1 @@
-Requires: py2-pytest py2-coverage
-Requires: py3-pytest
+Requires: py3-pytest py3-coverage
