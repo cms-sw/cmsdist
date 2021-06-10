@@ -1,7 +1,7 @@
 ### RPM external py3-dxr 1.0.x
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: zlib llvm sqlite
-Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3
+Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3 py3-Pygments
 %define dxrCommit 4d24ba871f9f0df418c02fbbc7b949cb4371a4c5
 %define triliteCommit e64a2a1 
 %define re2Version 20140304
