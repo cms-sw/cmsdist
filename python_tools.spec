@@ -92,7 +92,6 @@ Requires: py3-webencodings
 Requires: py3-widgetsnbextension
 Requires: py3-cycler
 Requires: py3-docopt
-Requires: py2-futures
 Requires: py3-networkx
 Requires: py2-prettytable
 Requires: py2-pycurl
@@ -100,7 +99,6 @@ Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
 Requires: py3-python-dateutil
-Requires: py2-enum34
 Requires: py3-mock
 Requires: py3-pbr
 Requires: py3-mpmath
