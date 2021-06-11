@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_10_2_16_UL_FWLITE
+### RPM cms fwlite CMSSW_10_2_16_UL2_FWLITE
 
 Requires: fwlite-tool-conf python
 
