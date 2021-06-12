@@ -10,7 +10,7 @@ Requires: py3-Keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
-#Requires: py3-tensorflow
+Requires: py3-tensorflow
 Requires: py2-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
@@ -99,6 +99,7 @@ Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
 Requires: py3-python-dateutil
+Requires: py2-enum34
 Requires: py3-mock
 Requires: py3-pbr
 Requires: py3-mpmath
