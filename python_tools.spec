@@ -5,6 +5,10 @@ Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
+#needed for cmssw until python2-> python3 switch of framework
+Requires: py2-configparser
+Requires: py2-enum34
+
 Requires: py2-scipy
 Requires: py3-Keras
 Requires: py3-Theano
@@ -99,7 +103,6 @@ Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
 Requires: py3-python-dateutil
-Requires: py2-enum34
 Requires: py3-mock
 Requires: py3-pbr
 Requires: py3-mpmath
