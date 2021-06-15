@@ -6,6 +6,7 @@ Source: none
 
 Requires: data-CondTools-SiPhase2Tracker
 Requires: data-RecoTracker-DisplacedRegionalTracking
+Requires: data-RecoTracker-MkFit
 Requires: data-RecoMuon-TrackerSeedGenerator
 Requires: data-Validation-HGCalValidation
 Requires: data-HeterogeneousCore-SonicTriton
