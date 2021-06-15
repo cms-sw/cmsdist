@@ -1,2 +1,2 @@
-Requires: py2-six py3-typing py3-appdirs py3-pytz py2-backports py2-enum34
+Requires: py2-six py3-typing py3-appdirs py3-pytz py2-backports
 %define RelocatePython %{i}/bin/*

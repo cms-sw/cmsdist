@@ -5,11 +5,7 @@ Source: none
 
 Requires: python python3
 
-BuildRequires: py2-backports-functools_lru_cache py2-backports-lzma
-BuildRequires: py2-backports-shutil_which py2-backports-ssl_match_hostname
-BuildRequires: py2-backports-shutil_get_terminal_size 
-BuildRequires: py2-backports-weakref
-
+BuildRequires: py2-backports-functools_lru_cache
 
 %prep
 
