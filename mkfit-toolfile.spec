@@ -26,6 +26,7 @@ done
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/%{base_package}.xml
   </client>
   <use name="tbb"/>
+  <use name="json"/>
   <runtime name="MKFIT_BASE" value="$MKFITBASE"/>
 </tool>
 EOF_TOOLFILE
