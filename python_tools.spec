@@ -9,7 +9,7 @@ Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: py2-configparser
 Requires: py2-enum34
 
-Requires: py2-scipy
+Requires: py3-scipy
 Requires: py3-Keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
