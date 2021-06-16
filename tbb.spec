@@ -1,7 +1,7 @@
 ### RPM external tbb v2021.2.0
 
-%define tag %{realversion}
-%define branch onetbb_2021
+%define tag 478de5b1887c928e52f029d706af6ea640a877be
+%define branch master
 %define github_user oneapi-src
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
