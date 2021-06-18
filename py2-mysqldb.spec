@@ -9,6 +9,9 @@ Patch0: py2-mysqldb-setup
 %prep
 %setup -n %downloadn-%realversion
 %patch0 -p0
+# Patch the converters module to avoid getting long data type back in the client
+sed -i 's|LONG: long|LONG: int|' MySQLdb/converters.py
+
 cat >> setup.cfg <<- EOF
 include_dirs = $MARIADB_ROOT/include
 library_dirs = $MARIADB_ROOT/lib
