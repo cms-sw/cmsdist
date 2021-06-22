@@ -133,7 +133,7 @@ Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py3-dxr-toolfile
-Requires: py3-PyYAML
+Requires: py2-PyYAML
 Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
@@ -142,7 +142,7 @@ Requires: py2-cx-Oracle
 %endif
 Requires: py2-cython
 Requires: py2-future
-Requires: py2-pybind11-toolfile
+Requires: py3-pybind11-toolfile
 Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8

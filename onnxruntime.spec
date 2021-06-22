@@ -6,7 +6,7 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py2-pybind11
+Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py3-pybind11
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cuda cudnn
 %endif
@@ -54,7 +54,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_CUDA_FLAGS="-cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY2_PYBIND11_ROOT}"
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT}"
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build
