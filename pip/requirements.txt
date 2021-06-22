@@ -248,7 +248,8 @@ python-rapidjson==1.0;python_version>'3.0'
 pytoml==0.1.21;python_version>'3.0'
 pytools==2020.3;python_version>'3.0'
 pytz==2021.1; python_version>'3.0'
-PyYAML==5.4.1; python_version>'3.0'
+#needed by getPayloadData.py which needs python2 until boost-python changes 
+PyYAML==5.4.1
 pyzmq==19.0.2; python_version>'3.0'
 qtconsole==4.7.7 ; python_version> '3.0'
 QtPy==1.9.0; python_version>'3.0'
