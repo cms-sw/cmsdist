@@ -1,8 +1,14 @@
 ### RPM external tbb v2021.2.0
 
+%ifarch x86_64
 %define tag %{realversion}
 %define branch onetbb_2021
 %define github_user oneapi-src
+%else
+%define tag b5b7f777b26124d67554171763d891d27aa0749a
+%define branch master+fix
+%define github_user mrodozov
+%endif
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
 Source1: tbb_modulemap
