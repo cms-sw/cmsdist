@@ -133,7 +133,7 @@ Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
 Requires: py2-pygithub
 Requires: py3-dxr-toolfile
-Requires: py3-PyYAML
+Requires: py2-PyYAML
 Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
