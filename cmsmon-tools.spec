@@ -1,44 +1,44 @@
-### RPM cms cmsmon-tools 0.5.32
+### RPM cms cmsmon-tools 0.5.35
 ## NOCOMPILER
 
 %define arch linux-amd64
-%define promv 2.25.1
-%define amver 0.21.0
+%define promv 2.28.0
+%define amver 0.22.2
 %define sternv 1.11.0
-%define apsver 0.1.85
+%define apsver 0.1.106
+%define trivyver 0.18.3
+%define gover 0.16.5
+%define heyver 0.0.2
+%define k8s_info_ver 0.0.1
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
-%define common_commands promtool amtool prometheus hey stern
+%define common_commands promtool amtool prometheus hey stern trivy k8s_info
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
-Source3: https://github.com/vkuznet/hey/archive/x509-csv-fixes.tar.gz
+Source3: https://github.com/vkuznet/hey/releases/download/%heyver/hey-tools.tar.gz
 Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
 Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
-Source6: https://raw.githubusercontent.com/dmwm/CMSKubernetes/master/kubernetes/tools/k8s_info.go
+Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
+Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
 
 BuildRequires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
+# http://ftp.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
 %setup -D -T -b 0 -n cmsmon-tools
 %setup -D -T -b 1 -n prometheus-%promv.%arch
-%setup -D -T -b 3 -n hey-x509-csv-fixes
+%setup -D -T -b 3 -n hey-tools
 %setup -D -T -b 2 -n alertmanager-%amver.%arch
 %setup -D -T -b 5 -n auth-proxy-tools
+%setup -D -T -b 6 -n k8s_info-tools
+%setup -D -T -b 7 -n trivy-%trivyver -c trivy-%trivyver
 
 %build
-mkdir -p gopath/bin
-export GOPATH=$PWD/gopath
+export CGO_ENABLED=0
 export GOCACHE=%{_builddir}/gocache
-go get github.com/dmwm/cmsauth
-go get github.com/vkuznet/x509proxy
-
-# build hey tool
-cd %{_builddir}/hey-x509-csv-fixes
-go get github.com/vkuznet/hey/requester
-make
 
 %install
 cd %{_builddir}/cmsmon-tools
@@ -54,8 +54,9 @@ cd %{_builddir}/alertmanager-%amver.%arch
 cp amtool %i/
 
 # build hey tool
-cd %{_builddir}/hey-x509-csv-fixes
-cp hey %i
+cd %{_builddir}/hey-tools
+cp hey_amd64 %i/hey
+chmod +x %i/hey
 cd -
 
 # install stern
@@ -69,8 +70,15 @@ cp auth-token %i/
 cd -
 
 # install k8s_info
-go build -o %i/k8s_info %{_sourcedir}/k8s_info.go
-chmod +x %i/k8s_info
+cd %{_builddir}/k8s_info-tools
+cp k8s_info_amd64 %i/k8s_info
+chmod +x %i/hey
+cd -
+
+# install stern
+cd %{_builddir}/trivy-%trivyver
+cp trivy %i/
+chmod +x %i/trivy
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
@@ -90,8 +98,6 @@ TOOL=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_V
 $TOOL "$@"
 EOF
 chmod +x %i/.cmsmon-tools
-chmod -R u+w %{_builddir}/hey-x509-csv-fixes
-rm -rf %{_builddir}/hey-x509-csv-fixes
 
 %post
 mkdir -p $RPM_INSTALL_PREFIX/cmsmon
