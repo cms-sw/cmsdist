@@ -1,4 +1,4 @@
-Requires: py2-futures py2-backports-functools_lru_cache
+Requires:  py2-backports-functools_lru_cache
 
 %define patchsrc sed -i -e '/.*futures.*/d' isort.egg-info/requires.txt setup.py
 %define RelocatePython %{i}/bin/*
