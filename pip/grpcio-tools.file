@@ -1,1 +1,1 @@
-Requires: py2-protobuf py2-grpcio
+Requires: py3-protobuf py3-grpcio
