@@ -1,4 +1,4 @@
-Requires: llvm py2-wheel py2-enum34
+Requires: llvm py2-wheel 
 Patch0: py2-llvmlite-fpic-flag
 Patch1: py2-llvmlite-llvm9
 Patch2: py2-llvmlite-removeduplicate

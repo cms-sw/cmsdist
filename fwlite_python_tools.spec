@@ -4,7 +4,7 @@
 Source: none
  
 Requires: py2-six
-Requires: py2-scipy
+Requires: py3-scipy
 Requires: py2-numpy
 
 %prep

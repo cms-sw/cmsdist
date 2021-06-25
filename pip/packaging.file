@@ -1,1 +1,1 @@
-Requires: py2-pyparsing py2-six py2-attrs
+Requires: py3-pyparsing py2-six py3-attrs
