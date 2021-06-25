@@ -4,7 +4,7 @@
 
 Source: git+https://github.com/%{github_user}/server.git?obj=%{branch}/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: opencv protobuf grpc curl python py2-wheel py2-setuptools py2-grpcio-tools python3 cuda
+Requires: opencv protobuf grpc curl cuda 
 
 %prep
 

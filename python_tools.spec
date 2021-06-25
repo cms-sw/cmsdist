@@ -5,10 +5,14 @@ Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 
-Requires: py2-scipy
+#needed for cmssw until python2-> python3 switch of framework
+Requires: py2-configparser
+Requires: py2-enum34
+
+Requires: py3-scipy
 Requires: py3-Keras
 Requires: py3-Theano
-Requires: py2-scikit-learn
+Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
 Requires: py2-googlePackages
@@ -23,7 +27,7 @@ Requires: py3-pandas
 Requires: py3-Bottleneck
 Requires: py3-downhill
 Requires: py3-theanets
-Requires: py2-xgboost py3-xgboost
+Requires: py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
 Requires: py3-hep_ml
@@ -48,7 +52,7 @@ Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
 Requires: py3-Pygments
-Requires: py2-appdirs
+Requires: py3-appdirs
 Requires: py3-argparse
 Requires: py3-bleach
 Requires: py3-certifi
@@ -67,18 +71,17 @@ Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
 Requires: py3-notebook
-Requires: py3-ordereddict
-Requires: py2-packaging
+Requires: py3-packaging
 Requires: py3-pandocfilters
-Requires: py2-pathlib2
+Requires: py3-pathlib2
 Requires: py3-pexpect
 Requires: py3-pickleshare
 Requires: py3-prompt_toolkit
 Requires: py3-ptyprocess
-Requires: py2-pyparsing
+Requires: py3-pyparsing
 Requires: py3-pyzmq
 Requires: py3-qtconsole
-Requires: py2-scandir
+Requires: py3-scandir
 Requires: py2-setuptools
 Requires: py3-setuptools
 Requires: py3-simplegeneric
@@ -93,7 +96,6 @@ Requires: py3-webencodings
 Requires: py3-widgetsnbextension
 Requires: py3-cycler
 Requires: py3-docopt
-Requires: py2-futures
 Requires: py3-networkx
 Requires: py2-prettytable
 Requires: py2-pycurl
@@ -101,26 +103,24 @@ Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
 Requires: py3-python-dateutil
-Requires: py2-enum34
 Requires: py3-mock
 Requires: py3-pbr
 Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
-Requires: py2-funcsigs
+Requires: py3-funcsigs
 Requires: py3-nose
 Requires: py3-pkgconfig
-Requires: py2-pysqlite
 Requires: py3-Click
 Requires: py3-jsonpickle
 Requires: py3-prwlock
 Requires: py3-virtualenv
 Requires: py3-virtualenvwrapper
-Requires: py2-urllib3
+Requires: py3-urllib3
 Requires: py3-chardet
 Requires: py3-idna
 Requires: py3-Werkzeug
-Requires: py2-pytest
+Requires: py3-pytest
 Requires: py3-avro
 Requires: py3-fs
 Requires: py3-lizard
@@ -138,7 +138,7 @@ Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip
 %ifarch x86_64
-Requires: py2-cx-Oracle
+Requires: py3-cx-Oracle
 %endif
 Requires: py2-cython
 Requires: py2-future
@@ -149,13 +149,13 @@ Requires: py3-autopep8
 Requires: py3-pycodestyle
 Requires: py3-lz4
 Requires: py3-ply
-Requires: py2-py
-Requires: py2-typing
+Requires: py3-py
+Requires: py3-typing
 Requires: py3-defusedxml
-Requires: py2-atomicwrites
-Requires: py2-attrs
+Requires: py3-atomicwrites
+Requires: py3-attrs
 Requires: py3-nbdime
-Requires: py2-onnx
+Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py2-backports
 Requires: py3-colorama
@@ -165,27 +165,27 @@ Requires: py3-GitPython py3-GitPython
 Requires: py3-Send2Trash
 Requires: py3-ipaddress
 Requires: py3-mccabe
-Requires: py2-more-itertools
-Requires: py2-pluggy
+Requires: py3-more-itertools
+Requires: py3-pluggy
 Requires: py3-prometheus_client
 Requires: py3-pyasn1-modules
-Requires: py2-pyasn1
+Requires: py3-pyasn1
 Requires: py3-pyflakes
 Requires: py3-smmap2
 Requires: py3-stevedore
-Requires: py2-typing_extensions
+Requires: py3-typing_extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py3-cffi
-Requires: py2-google-common
+Requires: py3-google-common
 Requires: py3-jedi
 Requires: py3-parso
 Requires: py3-pycparser
-Requires: py2-absl-py
+Requires: py3-absl-py
 Requires: py3-gast
-Requires: py2-grpcio
-Requires: py2-grpcio-tools
+Requires: py3-grpcio
+Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
@@ -194,7 +194,7 @@ Requires: py3-climate
 Requires: py3-mpld3
 Requires: py3-neurolab
 Requires: py3-nose-parameterized
-Requires: py2-pillow
+Requires: py3-pillow
 Requires: py3-pybrain
 Requires: py3-pymongo
 Requires: py3-pydot
