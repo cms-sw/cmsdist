@@ -1,1 +1,1 @@
-Requires: py2-pytest-runner
+Requires: py3-pytest-runner

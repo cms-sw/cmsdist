@@ -6,7 +6,7 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py2-wheel py2-onnx zlib libpng py3-pybind11
+Requires: protobuf py3-numpy py2-wheel py3-onnx zlib libpng py3-pybind11
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cuda cudnn
 %endif
