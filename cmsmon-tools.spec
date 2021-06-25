@@ -34,7 +34,7 @@ BuildRequires: go
 %setup -D -T -b 2 -n alertmanager-%amver.%arch
 %setup -D -T -b 5 -n auth-proxy-tools
 %setup -D -T -b 6 -n k8s_info-tools
-%setup -D -T -b 7 -n trivy-%trivyver -c trivy-%trivyver
+%setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
 
 %build
 export CGO_ENABLED=0
