@@ -53,7 +53,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V06-02-15
+%define configtag       V06-02-16
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -216,7 +216,7 @@ for cmd in edmPluginRefresh ; do
     for lib in %{cmssw_libs} ; do
       if [ -d %i/$lib ] ; then
         rm -f %i/$lib/.edmplugincache
-        $cmd %i/$lib || true
+        $cmd %i/$lib
       fi
     done
   fi
