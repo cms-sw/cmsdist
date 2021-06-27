@@ -4,12 +4,14 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source1: openloops-user.coll
+Patch0: openloops-urlopen2curl
 BuildRequires: python scons
 
 %define keep_archives true
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 gcc10_extra_flag=""
