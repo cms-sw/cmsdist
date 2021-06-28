@@ -16,7 +16,7 @@ sed -i -e 's|^ *process_download_script *=.*|process_download_script = download_
 %ifarch aarch64
 %define drop_process pplljj_ew
 %else
-%define drop_process pplljj_ew
+%define drop_process %{nil}
 %endif
 
 #Fix for GCC 10
