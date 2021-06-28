@@ -17,17 +17,6 @@ autoreconf -fiv
 
 sed -i -e "s|lPyROOT|lcppyyX.X|" ./pyext/setup.py.in
 
-#Build for Python2
-#export PYTHON_VERSION=$(python2 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
-#sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
-#./configure --prefix=%i --disable-root
-#make %{makeprocesses} all
-
-##Install Py2 Only
-#mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
-#mv pyext/build/lib*-${PYTHON_VERSION}/yoda* %{i}/${PYTHON_LIB_SITE_PACKAGES}/
-
-#Build & install for Python3
 export PYTHON_VERSION=$(python3 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
 sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
 ./configure --prefix=%i --enable-root
