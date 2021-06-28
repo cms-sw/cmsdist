@@ -1,17 +1,25 @@
-### RPM external openloops 2.1.1
-%define tag 5284f172973c666ef7e58b56b180b8703d9fba13
-%define branch cms/v2.1.1
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/openloops.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Source1: openloops-user.coll
-BuildRequires: python scons
+## INCLUDE openloops-common
+### RPM external openloops %{openloop_version}
+
+BuildRequires: scons openloops-process
 
 %define keep_archives true
 
 %prep
 %setup -n %{n}-%{realversion}
 
-%build
+#process_src should be available via $OPENLOOPS_PROCESS_ROOT
+echo 'import sys;print(sys.argv)' > download_dummy.py
+sed -i -e 's|^ *process_download_script *=.*|process_download_script = download_dummy.py|' pyol/config/default.cfg
+
+#Remove conditional processes
+%ifarch aarch64
+%define drop_process pplljj_ew
+%else
+%define drop_process pplljj_ew
+%endif
+
+#Fix for GCC 10
 gcc10_extra_flag=""
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export gcc10_extra_flag=-fallow-invalid-boz ; fi
 
@@ -25,14 +33,19 @@ loop_optimisation = -O0
 link_optimisation = -O2
 EOF
 
-%ifarch aarch64
-grep -v '^pplljj_ew$' %{_sourcedir}/openloops-user.coll > openloops-user.coll
-%else
-cp %{_sourcedir}/openloops-user.coll openloops-user.coll
-%endif
-
+%build
 export SCONSFLAGS="-j %{compiling_processes}"
+cp %{_sourcedir}/openloops-user.coll openloops-user.coll
 ./openloops update --processes generator=0
+
+#create process_src and delete any un-needed processes
+rm -rf process_src
+tar -xzf $OPENLOOPS_PROCESS_ROOT/process_src.tgz
+for xproc in %{drop_process} ; do
+  sed -i -e "/^${xproc}$/d" openloops-user.coll
+  rm -rf process_src/${xproc}
+done
+
 ./openloops libinstall openloops-user.coll
 
 %install
