@@ -1,5 +1,5 @@
 ### RPM external scons-toolfile 2.0
-Requires: scons
+Requires: py3-scons
 
 %prep
 %build
