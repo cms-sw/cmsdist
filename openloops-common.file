@@ -1,5 +1,5 @@
-%define openloop_version 2.1.1
-%define tag 5284f172973c666ef7e58b56b180b8703d9fba13
+%define openloop_version 2.1.2
+%define tag 4247179369144b0134c7b8014a5d38a90dc9b6ba
 %define branch cms/v%{openloop_version}
 %define github_user cms-externals
 

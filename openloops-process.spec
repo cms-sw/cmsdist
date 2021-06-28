@@ -19,7 +19,7 @@ chksum_source2="SOURCES/cache/$(echo %{cmsdist_chksum_source2} | cut -c1-2)/%{cm
 if [ ! -e %{cmsroot}/${chksum_source2}/%{process_src} ] ; then
   cp %{_sourcedir}/openloops-user.coll openloops-user.coll
   pyol/bin/download_process.py $(cat %{_sourcedir}/openloops-user.coll | tr '\n' ' ')
-  tar -czf %{process_src} process_src
+  tar -czf %{process_src} process_src proclib
   mkdir -p %{cmsroot}/${chksum_source2}
   mv %{process_src} %{cmsroot}/${chksum_source2}/
 fi
