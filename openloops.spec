@@ -43,6 +43,7 @@ rm -rf process_src
 tar -xzf $OPENLOOPS_PROCESS_ROOT/process_src.tgz
 for xproc in %{drop_process} ; do
   sed -i -e "/^${xproc}$/d" openloops-user.coll
+  sed -i -e "/^${xproc} .*/d" process_src/downloaded.dat
   rm -rf process_src/${xproc}
 done
 
