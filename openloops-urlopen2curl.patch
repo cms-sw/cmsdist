@@ -1,5 +1,5 @@
 diff --git a/pyol/bin/download_process.py b/pyol/bin/download_process.py
-index 4cecfb9..4f6c1b1 100755
+index 4cecfb9..c65b99b 100755
 --- a/pyol/bin/download_process.py
 +++ b/pyol/bin/download_process.py
 @@ -36,10 +36,9 @@ import OLBaseConfig
@@ -15,7 +15,7 @@ index 4cecfb9..4f6c1b1 100755
  
  commandline_options = [arg.split('=',1) for arg in sys.argv[1:] if ('=' in arg and not arg.startswith('-'))]
  config = OLBaseConfig.get_config(commandline_options)
-@@ -112,23 +111,25 @@ def update_channel_db(repo):
+@@ -112,24 +111,26 @@ def update_channel_db(repo):
          fh.close()
      else:
          local_hash = None
@@ -48,10 +48,12 @@ index 4cecfb9..4f6c1b1 100755
          lfh.write(hash_line.strip() + '  ' +
                    time.strftime(OLToolbox.timeformat) + '\n')
 -        for line in rfh:
+-            lfh.write(line.decode())
 +        for line in lines[1:]:
-             lfh.write(line.decode())
++            lfh.write(line.decode()+"\n")
              local_hash.update(line.strip())
          lfh.close()
+         local_hash = local_hash.hexdigest()
 @@ -140,7 +141,6 @@ def update_channel_db(repo):
              print('ERROR: downloaded channel database inconsistent ' +
                    'for repository ' + repo_name)
