@@ -146,7 +146,6 @@ Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml2-toolfile
-Requires: py3-scons-toolfile
 Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
