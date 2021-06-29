@@ -1,0 +1,8 @@
+%define openloop_version 2.1.1
+%define tag 5284f172973c666ef7e58b56b180b8703d9fba13
+%define branch cms/v%{openloop_version}
+%define github_user cms-externals
+
+Source: git+https://github.com/%{github_user}/openloops.git?obj=%{branch}/%{tag}&export=openloops-%{openloop_version}&output=/openloops-%{openloop_version}-%{tag}.tgz
+Source1: openloops-user.coll
+BuildRequires: python
