@@ -5,7 +5,7 @@
 ## NO_AUTO_DEPENDENCY
 
 %define process_src process_src.tgz
-Source2: https://cmsrep.cern.ch/cmssw/download/openloops/%{realversion}/%{cmsdist_chksum_source2}?cmdist-generated=1&output=/%{process_src}
+Source2: https://cmsrep.cern.ch/cmssw/download/openloops/%{realversion}/%{cmsdist_chksum_source1}?cmdist-generated=1&output=/%{process_src}
 Patch0: openloops-urlopen2curl
 
 %prep
