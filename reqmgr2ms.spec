@@ -1,28 +1,29 @@
-### RPM cms reqmgr2ms 0.4.9.pre8
+### RPM cms reqmgr2ms 0.5.0.pre5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-%define wmcorever 1.4.9.pre8
+%define wmcorever 1.5.0.pre5
 
 Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
-Requires: py2-cherrypy py2-pycurl py2-httplib2 py2-rucio-clients py2-retry py2-future
-Requires: cmsmonitoring rotatelogs jemalloc mongo py2-pymongo
-BuildRequires: py2-sphinx
+Requires: py3-cherrypy py3-pycurl py3-httplib2 py3-rucio-clients py3-retry py3-future
+Requires: py3-cmsmonitoring py3-pymongo rotatelogs jemalloc mongo
+BuildRequires: py3-sphinx
 
 %prep
 %setup -b 0 -n %n 
 
 %build
-python setup.py build_system -s reqmgr2ms
+python3 setup.py build_system -s reqmgr2ms --skip-docs
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s reqmgr2ms --prefix=%i
+python3 setup.py install_system -s reqmgr2ms --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
 cp -pfr %_builddir/%n/bin/[[:lower:]]* %i/bin
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 mkdir -p %i/etc/profile.d

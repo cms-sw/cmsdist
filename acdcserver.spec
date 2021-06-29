@@ -1,24 +1,26 @@
-### RPM cms acdcserver 1.4.9.pre8
+### RPM cms acdcserver 1.5.0.pre5
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python py2-httplib2 rotatelogs couchdb15 py2-sphinx py2-future
+Requires: python3 py3-future py3-httplib2 rotatelogs couchdb16
+BuildRequires: py3-sphinx
 
 %prep
 %setup -b 0 -n %n
 
 %build
-python setup.py build_system -s acdcserver
+python3 setup.py build_system -s acdcserver --skip-docs
 
 %install
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-python setup.py install_system -s acdcserver --prefix=%i
+python3 setup.py install_system -s acdcserver --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 mkdir -p %i/bin
 cp -pf %_builddir/%n/bin/acdcserver-tools %i/bin
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 rm -rf %i/etc/profile.d
