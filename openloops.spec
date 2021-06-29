@@ -15,7 +15,7 @@ sed -i -e 's|^ *process_download_script *=.*|process_download_script = download_
 #Remove conditional processes
 %ifarch aarch64
 %define drop_process pplljj_ew
-sed -i e 's|^ *cmodel *=.*|cmodel = small|' pyol/config/default.cfg
+sed -i -e 's|^ *cmodel *=.*|cmodel = small|' pyol/config/default.cfg
 %else
 %define drop_process %{nil}
 %endif
