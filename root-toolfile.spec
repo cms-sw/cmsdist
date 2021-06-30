@@ -155,6 +155,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootvecops.xml
 </tool>
 EOF_TOOLFILE
 
+# rootntuple toolfile
+cat << \EOF_TOOLFILE >%i/etc/scram.d/rootntuple.xml
+<tool name="rootntuple" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="ROOTNTuple"/>
+  <use name="rootvecops"/>
+  <use name="rootthread"/>
+</tool>
+EOF_TOOLFILE
+
 # rootspectrum toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootspectrum.xml
 <tool name="rootspectrum" version="@TOOL_VERSION@">
