@@ -120,7 +120,6 @@ Requires: ccache-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
-Requires: cvs2git-toolfile
 Requires: pacparser-toolfile
 Requires: git-toolfile
 Requires: cgal-toolfile
@@ -149,7 +148,6 @@ Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
 Requires: madgraph5amcatnlo-toolfile
-#Requires: geneva-toolfile
 Requires: python_tools
 Requires: dasgoclient
 Requires: OpenBLAS-toolfile
