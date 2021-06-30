@@ -178,25 +178,6 @@
 # No Provides:
 # FIXME need %make -> gmake/make as appropriate?
 
-# This little magic incantation figures out "Requires" from this
-# spec itself.  This allows us to handle (see below) those and
-# only those packages the build on this platform actually needs.
-# We protect against recursive expansion of "pkgreqs", otherwise
-# this is pretty obvious -- it works because of strict control
-# over directories so we always know where our spec file is.
-
-%if "%{?use_ccache:set}" == "set"
-%define ccache_define --define "use_ccache true"
-%else
-%define ccache_define %{nil}
-%endif
-
-%if "%{?use_distcc:set}" == "set"
-%define distcc_define --define "use_distcc true"
-%else
-%define distcc_define %{nil}
-%endif
-
 # Define a little helper scriptlet to source package inits from other
 # packages.  This allows cross-package environment setup to work while
 # building.  See above how we determine the list by parsing the spec
