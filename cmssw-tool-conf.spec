@@ -89,7 +89,6 @@ Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
 Requires: dd4hep-toolfile
-Requires: sip-toolfile
 Requires: graphviz-toolfile
 Requires: valgrind-toolfile
 Requires: cmsswdata-toolfile
@@ -146,7 +145,6 @@ Requires: utm-toolfile
 Requires: libffi-toolfile
 Requires: CSCTrackFinderEmulation-toolfile
 Requires: tinyxml2-toolfile
-Requires: scons-toolfile
 Requires: md5-toolfile
 Requires: gosamcontrib-toolfile
 Requires: gosam-toolfile
