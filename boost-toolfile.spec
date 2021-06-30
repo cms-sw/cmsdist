@@ -69,7 +69,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
     <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
   </client>
   <use name="boost_header"/>
-  <use name="python"/>
+  <use name="python3"/>
 </tool>
 EOF_TOOLFILE
 
