@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite fastjet py3-scons python3 openmpi rivet
+Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi rivet
 BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
 
@@ -34,6 +34,7 @@ esac
 %patch0 -p1
 
 %build
+export PYTHON=$(which python3)
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
@@ -58,12 +59,13 @@ make %{makeprocesses}
 %install
 make install
 find %{i}/lib -name '*.la' -delete
-sed -i -e 's|^#!/.*|#!/usr/bin/env python|' %{i}/bin/Sherpa-generate-model
+sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa-generate-model
 
 %post
-%{relocateConfig}lib/python2.7/site-packages/ufo_interface/sconstruct_template
+%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/ufo_interface/sconstruct_template
 %{relocateConfig}bin/make2scons
 %{relocateConfig}share/SHERPA-MC/makelibs
+%{relocateConfig}share/SHERPA-MC/sherpa-completion
 %{relocateConfig}bin/Sherpa-config
 %{relocateConfig}bin/Sherpa-generate-model
 %{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
