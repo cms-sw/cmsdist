@@ -131,7 +131,7 @@ Requires: py3-plac
 Requires: py3-matplotlib
 Requires: py2-numpy-toolfile
 Requires: py2-sqlalchemy
-Requires: py2-pygithub
+Requires: py3-pygithub
 Requires: py3-dxr-toolfile
 Requires: py2-PyYAML
 Requires: py3-pylint
