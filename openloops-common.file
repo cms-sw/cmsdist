@@ -5,4 +5,4 @@
 
 Source: git+https://github.com/%{github_user}/openloops.git?obj=%{branch}/%{tag}&export=openloops-%{openloop_version}&output=/openloops-%{openloop_version}-%{tag}.tgz
 Source1: openloops-user.coll
-BuildRequires: python
+BuildRequires: python3
