@@ -106,8 +106,6 @@ Requires: cascade-toolfile
 Requires: yoda-toolfile
 Requires: fftw3-toolfile
 Requires: fftjet-toolfile
-Requires: pyminuit2-toolfile
-Requires: professor-toolfile
 Requires: professor2-toolfile
 Requires: xz-toolfile
 Requires: lz4-toolfile
