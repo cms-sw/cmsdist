@@ -21,7 +21,7 @@ export PYTHON_VERSION=$(python3 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
 sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
 ./configure --prefix=%i --enable-root
 sed -i "s|env python|env python3|" bin/*
-make %{makeprocesses} all
+make %{makeprocesses} all CYTHON=$(which cython3)
 make install
 
 %install

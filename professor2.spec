@@ -17,7 +17,7 @@ Patch1: professor2_py39
 %patch1 -p1
 
 %build
-make CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) CYTHON=$(which cython3)
+make %{makeprocesses} CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) CYTHON=$(which cython3)
 
 %install
 make install PREFIX=%{i}
