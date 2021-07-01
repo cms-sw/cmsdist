@@ -116,7 +116,6 @@ Requires: tbb-toolfile
 Requires: mctester-toolfile
 Requires: vdt-toolfile
 Requires: icc-gcc-toolfile
-Requires: ccache-gcc-toolfile
 Requires: gnuplot-toolfile
 Requires: sloccount-toolfile
 Requires: millepede-toolfile
