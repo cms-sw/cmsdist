@@ -1,12 +1,11 @@
-### RPM external gosamcontrib 2.0-20200904
-Source: https://github.com/gudrunhe/gosam-contrib/archive/gosam-contrib-%{realversion}.tar.gz
+### RPM external gosamcontrib 2.0-20150803
+Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.gz
 
 Requires: qgraf
 Requires: form
-BuildRequires: autotools
 
 %prep
-%setup -q -n gosam-contrib-gosam-contrib-%{realversion}
+%setup -q -n gosam-contrib-2.0
 
 %build
 CXX="$(which c++) -fPIC"
@@ -14,7 +13,7 @@ CC="$(which gcc) -fPIC"
 FC="$(which gfortran) -std=legacy"
 PLATF_CONF_OPTS="--enable-shared --enable-static"
 
-./autogen.sh $PLATF_CONF_OPTS \
+./configure $PLATF_CONF_OPTS \
             --prefix=%i \
             --bindir=%i/bin \
             --libdir=%i/lib \
