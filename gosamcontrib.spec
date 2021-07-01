@@ -3,6 +3,7 @@ Source: https://github.com/gudrunhe/gosam-contrib/archive/gosam-contrib-%{realve
 
 Requires: qgraf
 Requires: form
+BuildRequires: autotools
 
 %prep
 %setup -q -n gosam-contrib-gosam-contrib-%{realversion}
