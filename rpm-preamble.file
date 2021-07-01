@@ -276,5 +276,7 @@ fi
   NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
   if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %2 ; cp %1 %2 ; fi
 
-%define cms_python3_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python3/ | cut -d/ -f3 | cut -f1,2 -d.)
 %define cms_python2_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python/ | cut -d/ -f3 | cut -f1,2 -d.)
+%define cms_python2_major_minor $(echo %{cms_python2_major_minor_version} | sed 's|[.]||')
+%define cms_python3_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python3/ | cut -d/ -f3 | cut -f1,2 -d.)
+%define cms_python3_major_minor $(echo %{cms_python3_major_minor_version} | sed 's|[.]||')
