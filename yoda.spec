@@ -5,7 +5,7 @@ Source: git+https://gitlab.com/hepcedar/yoda.git?obj=master/%{n}-%{realversion}&
 Patch0: yoda_pyroot
 
 Requires: python3 root
-BuildRequires: py2-cython autotools
+BuildRequires: py3-cython autotools
 
 %prep
 %setup -q -n %{n}-%{realversion}

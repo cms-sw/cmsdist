@@ -1,0 +1,23 @@
+diff -Naur Professor-2.3.2/pyext/professor2/core.cpp Professor-2.3.2.fix/pyext/professor2/core.cpp
+--- Professor-2.3.2/pyext/professor2/core.cpp	2021-07-01 15:17:17.603321178 +0200
++++ Professor-2.3.2.fix/pyext/professor2/core.cpp	2021-07-01 15:18:53.958702606 +0200
+@@ -7135,7 +7135,9 @@
+   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
+   /*--- Type init code ---*/
+   if (PyType_Ready(&__pyx_type_10professor2_4core_ParamPoints) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
++#if PY_VERSION_HEX < 0x03030000
+   __pyx_type_10professor2_4core_ParamPoints.tp_print = 0;
++#endif
+   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10professor2_4core_ParamPoints.tp_dictoffset && __pyx_type_10professor2_4core_ParamPoints.tp_getattro == PyObject_GenericGetAttr)) {
+     __pyx_type_10professor2_4core_ParamPoints.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+   }
+@@ -7143,7 +7145,9 @@
+   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10professor2_4core_ParamPoints) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+   __pyx_ptype_10professor2_4core_ParamPoints = &__pyx_type_10professor2_4core_ParamPoints;
+   if (PyType_Ready(&__pyx_type_10professor2_4core_Ipol) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
++#if PY_VERSION_HEX < 0x03030000
+   __pyx_type_10professor2_4core_Ipol.tp_print = 0;
++#endif
+   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10professor2_4core_Ipol.tp_dictoffset && __pyx_type_10professor2_4core_Ipol.tp_getattro == PyObject_GenericGetAttr)) {
+     __pyx_type_10professor2_4core_Ipol.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+   }
