@@ -3,7 +3,7 @@
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: qd python
+Requires: qd python3
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -16,11 +16,15 @@ rm -f ./config.{sub,guess}
 %get_config_guess ./config.guess
 chmod +x ./config.{sub,guess}
 
-./configure --prefix=%i --with-QDpath=$QD_ROOT CXXFLAGS="-Wno-deprecated"
-# The following hack insures that the bins with the library linked explicitly
-# rather than indirectly, as required by the gold linker
 %build
+PYTHON=$(which python3) ./configure --prefix=%i \
+  --with-QDpath=$QD_ROOT \
+  --enable-pythoninterface=no \
+  CXXFLAGS="-Wno-deprecated" \
+  LDFLAGS="-L${PYTHON3_ROOT}/lib"
+
 make %{makeprocesses}
+
 %install
 make install
 
