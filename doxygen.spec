@@ -2,9 +2,7 @@
 %define doxygen_release Release_%(echo %{realversion} | tr '.' '_')
 
 Source: https://github.com/doxygen/doxygen/archive/%{doxygen_release}.tar.gz
-BuildRequires: flex bison graphviz autotools gmake cmake python
-
-#define drop_files %{i}/man
+BuildRequires: flex bison graphviz autotools gmake cmake python3
 
 %prep
 %setup -n %{n}-%{doxygen_release}
@@ -18,6 +16,7 @@ cmake ../%{n}-%{doxygen_release} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -DPYTHON_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Dbuild_doc=OFF \
   -Denglish_only=ON
 
