@@ -3,7 +3,7 @@
 ## INCLUDE compilation_flags
 
 BuildRequires: autotools
-Requires: python
+Requires: python3
 %define tag 65f948f075860df1fddf7b819f60c3346710ebf1
 %define branch cms/v%{realversion}
 %define github_user cms-externals
@@ -28,7 +28,8 @@ case %{cmsplatf} in
     *_ppc64le_*) CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags}" ;;
 esac
 
-./configure \
+PYTHON=$(which python3) \
+  ./configure \
   --enable-shared \
   --enable-atlascone \
   --enable-cmsiterativecone \
