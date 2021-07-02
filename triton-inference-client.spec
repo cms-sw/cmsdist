@@ -5,7 +5,7 @@
 
 Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_11_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: protobuf grpc cuda 
+Requires: triton-inference-common protobuf grpc cuda 
 
 %prep
 
@@ -14,21 +14,20 @@ Requires: protobuf grpc cuda
 %build
 
 # locations of CMakeLists.txt
-CML_TOP=../%{n}-%{realversion}/CMakeLists.txt
-CML_CPP=../%{n}-%{realversion}/src/c++/CMakeLists.txt
-CML_LIB=../%{n}-%{realversion}/src/c++/library/CMakeLists.txt
+PROJ_DIR=../%{n}-%{realversion}/src/c++
+CML_CPP=${PROJ_DIR}/CMakeLists.txt
+CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
 
 # remove rapidjson dependence
 sed -i '/RapidJSON CONFIG REQUIRED/,+13d;' ${CML_LIB}
 sed -i '/triton-common-json/d' ${CML_LIB}
-# remove common repo: depends on rapidjson, grpc client doesn't need it
-sed -i '/FetchContent_MakeAvailable(repo-common)/d' ${CML_CPP}
+# common repo installed separately: don't fetch, but instead find existing package
+sed -i 's/FetchContent_MakeAvailable(repo-common)/find_package(TritonCommon REQUIRED)/' ${CML_CPP}
+# core repo not needed for grpc-client-only install
+sed -i '/FetchContent_MakeAvailable(repo-core)/d' ${CML_CPP}
 # remove attempts to install external libs
 sed -i '\~/../../_deps/repo-third-party-build/~d' ${CML_LIB}
 sed -i '\~/../../third-party/~d' ${CML_LIB}
-sed -i '/-DCURL_DIR:PATH/d' ${CML_TOP}
-sed -i 's~-DProtobuf_DIR:PATH~-DProtobuf_DIR:PATH='${PROTOBUF_ROOT}/lib/cmake/protobuf'~' ${CML_TOP}
-sed -i 's~-DgRPC_DIR:PATH~-DProtobuf_DIR:PATH='${GRPC_ROOT}/lib/cmake/protobuf'~' ${CML_TOP}
 # keep typeinfo in .so by removing ldscript from properties
 sed -i '/set_target_properties/,+5d' ${CML_LIB}
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
@@ -46,7 +45,7 @@ else
     TRITON_ENABLE_GPU_VALUE=OFF
 fi
 
-cmake ../%{n}-%{realversion} \
+cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
@@ -59,6 +58,7 @@ cmake ../%{n}-%{realversion} \
     -DTRITON_ENABLE_TESTS=OFF \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
+    -DTritonCommon_DIR=${TRITON_INFERENCE_COMMON_ROOT}/lib/cmake/TritonCommon \
     -DCMAKE_CXX_FLAGS="-Wno-error" \
 
 make %{makeprocesses}
