@@ -5,7 +5,7 @@
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: hepmc fastjet fastjet-contrib yoda
-BuildRequires: python py3-cython py2-setuptools autotools
+BuildRequires: python3 py3-cython autotools
 
 Patch0: rivet-140-313
 
@@ -46,6 +46,7 @@ CXXFLAGS="-std=c++17"
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
 
+PYTHON=$(which python3) \
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
