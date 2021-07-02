@@ -13,7 +13,7 @@ Source6: https://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MMHT2014nlo68cl.tar
 
 Source7: lhapdf_pdfsetsindex
 
-Requires: python
+Requires: python3
 BuildRequires: py2-cython
 
 %define keep_archives true
@@ -21,7 +21,9 @@ BuildRequires: py2-cython
 %prep
 %setup -q -n LHAPDF-%{realversion}
 
-./configure --prefix=%{i} 
+PYTHON=$(which python3) \
+  ./configure --prefix=%{i} \
+  --enable-python
 
 %build
 make all %makeprocesses 

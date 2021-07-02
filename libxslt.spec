@@ -5,7 +5,7 @@
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Requires: libxml2 python
+Requires: libxml2
 BuildRequires: autotools
 %prep
 %setup -n %{n}-%{realversion}
@@ -16,7 +16,7 @@ BuildRequires: autotools
   --with-libxml-prefix=$LIBXML2_ROOT \
   --with-libxml-include-prefix=$LIBXML2_ROOT/include \
   --with-libxml-libs-prefix=$LIBXML2_ROOT/lib \
-  --without-crypto
+  --without-crypto --without-python
 make
 
 %install
