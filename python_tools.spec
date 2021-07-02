@@ -157,7 +157,6 @@ Requires: py3-attrs
 Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
-Requires: py2-backports
 Requires: py3-colorama
 Requires: py3-lxml
 Requires: py3-beautifulsoup4
