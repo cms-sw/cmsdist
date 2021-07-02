@@ -1,5 +1,4 @@
 ### RPM external mxnet-predict 1.6.0
-## INITENV +PATH PYTHON27PATH %{i}/$PYTHON_LIB_SITE_PACKAGES
 ## INITENV +PATH PYTHON3PATH %{i}/$PYTHON3_LIB_SITE_PACKAGES
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 
@@ -10,7 +9,7 @@ Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/
 
 BuildRequires: cmake ninja
 
-Requires: OpenBLAS python python3 py2-numpy py3-numpy
+Requires: OpenBLAS python3 py2-numpy py3-numpy
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -21,8 +20,6 @@ rm -rf ../build; mkdir ../build; cd ../build
 # use LAPACK functions in OpenBLAS:
 # manually set MXNET_USE_LAPACK=1 and turn off USE_LAPACK in cmake
 export CFLAGS="-DMXNET_USE_LAPACK=1 -DMXNET_THREAD_LOCAL_ENGINE=1"
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
-export PYTHON3V=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 
 cmake ../%{n}-%{realversion} -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
@@ -39,7 +36,8 @@ cmake ../%{n}-%{realversion} -GNinja \
     -DUSE_CPP_PACKAGE=ON \
     -DBUILD_CPP_EXAMPLES=OFF \
     -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="%{i}" \
-    -DINSTALL_PYTHON_VERSIONS="${PYTHONV};${PYTHON3V}" \
+    -DPYTHON_EXECUTABLE=$(which python3) \
+    -DINSTALL_PYTHON_VERSIONS="%{cms_python3_major_minor_version}" \
     -DCMAKE_PREFIX_PATH="${OPENBLAS_ROOT}"
 
 ninja -v %{makeprocesses}
