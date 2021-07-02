@@ -1,2 +1,2 @@
-Requires: py2-backports py3-flit
+Requires: py3-flit
 %define PipDownloadSourceType none
