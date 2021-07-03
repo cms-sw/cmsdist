@@ -25,11 +25,11 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_EIGEN=ON \
     -DPYTHON2_EXECUTABLE:FILEPATH="${PYTHON_ROOT}/bin/python" \
-    -DPYTHON2_INCLUDE_DIR:PATH="${PYTHON_ROOT}/include/python2.7" \
-    -DPYTHON2_LIBRARY:FILEPATH="${PYTHON_ROOT}/lib/libpython2.7.so" \
+    -DPYTHON2_INCLUDE_DIR:PATH="${PYTHON_ROOT}/include/python%{cms_python2_major_minor_version}" \
+    -DPYTHON2_LIBRARY:FILEPATH="${PYTHON_ROOT}/lib/libpython%{cms_python2_major_minor_version}.so" \
     -DPYTHON3_EXECUTABLE:FILEPATH="${PYTHON3_ROOT}/bin/python3" \
-    -DPYTHON3_INCLUDE_DIR:PATH="${PYTHON3_ROOT}/include/python3.8" \
-    -DPYTHON3_LIBRARY:FILEPATH="${PYTHON3_ROOT}/lib/libpython3.8.so" \
+    -DPYTHON3_INCLUDE_DIR:PATH="${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version}" \
+    -DPYTHON3_LIBRARY:FILEPATH="${PYTHON3_ROOT}/lib/libpython%{cms_python3_major_minor_version}.so" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}"
 
