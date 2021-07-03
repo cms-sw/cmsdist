@@ -5,7 +5,7 @@ Source: git+https://gitlab.com/hepcedar/yoda.git?obj=master/%{n}-%{realversion}&
 Patch0: yoda_pyroot
 
 Requires: python3 root
-BuildRequires: py2-cython autotools
+BuildRequires: py3-cython autotools
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -17,9 +17,8 @@ autoreconf -fiv
 
 sed -i -e "s|lPyROOT|lcppyyX.X|" ./pyext/setup.py.in
 
-export PYTHON_VERSION=$(python3 --version 2>&1 | sed 's|.* ||' | cut -d. -f1,2)
-sed -i -e "s|lcppyy...|lcppyy$(echo ${PYTHON_VERSION} | tr . _)|" ./pyext/setup.py.in
-./configure --prefix=%i --enable-root
+sed -i -e "s|lcppyy...|lcppyy$(echo %{cms_python3_major_minor_version} | tr . _)|" ./pyext/setup.py.in
+PYTHON=$(which python3) ./configure --prefix=%i --enable-root
 sed -i "s|env python|env python3|" bin/*
 make %{makeprocesses} all
 make install
