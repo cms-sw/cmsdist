@@ -58,6 +58,7 @@ perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
 make %{makeprocesses} all 
 %install
 make install 
+sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*
 
 %post
 %{relocateConfig}bin/rivet-config
