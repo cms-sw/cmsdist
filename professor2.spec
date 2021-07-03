@@ -3,7 +3,7 @@
 
 Source: http://www.hepforge.org/archive/professor/Professor-%{realversion}.tar.gz
 Requires: py2-numpy py3-matplotlib root yoda eigen
-BuildRequires: py2-cython
+BuildRequires: py3-cython
 
 Patch0: professor2-ppc64-flag-change
 

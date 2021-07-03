@@ -140,7 +140,7 @@ Requires: py3-pip
 %ifarch x86_64
 Requires: py3-cx-Oracle
 %endif
-Requires: py2-cython
+Requires: py3-cython
 Requires: py2-future
 Requires: py3-pybind11-toolfile
 Requires: py3-histbook

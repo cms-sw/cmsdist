@@ -6,7 +6,7 @@
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Requires: expat pacparser python zlib
+Requires: expat pacparser zlib
 
 %prep
 %setup -n %{n}-%{realversion}
