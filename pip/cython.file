@@ -1,2 +1,1 @@
 %define pip_name Cython
-%define RelocatePython %{i}/bin/*

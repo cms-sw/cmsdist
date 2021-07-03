@@ -7,7 +7,7 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 Requires: qgraf
 Requires: form
 Requires: gosamcontrib
-Requires: python3 py2-cython
+Requires: python3 py3-cython
 
 %prep
 %setup -q -n %{n}-%{realversion}
