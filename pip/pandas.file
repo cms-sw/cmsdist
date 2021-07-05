@@ -1,1 +1,1 @@
-Requires: py2-six py3-python-dateutil py3-pytz py2-numpy py3-numpy py3-cython
+Requires: py3-six py3-python-dateutil py3-pytz py3-numpy py3-cython

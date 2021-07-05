@@ -1,1 +1,1 @@
-Requires: py2-numpy py3-numpy py2-future
+Requires: py3-numpy py3-future

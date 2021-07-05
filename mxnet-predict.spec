@@ -9,7 +9,7 @@ Source: git+https://github.com/%{github_user}/incubator-mxnet.git?obj=%{branch}/
 
 BuildRequires: cmake ninja
 
-Requires: OpenBLAS python3 py2-numpy py3-numpy
+Requires: OpenBLAS python3 py3-numpy
 
 %prep
 %setup -q -n %{n}-%{realversion}
