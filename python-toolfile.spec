@@ -13,8 +13,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
   <client>
     <environment name="PYTHON_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHON_BASE/include/python@PYTHONV@"/>
-    <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python@PYTHONV@/compileall.py"/>
+    <environment name="INCLUDE" default="$PYTHON_BASE/include/python%{cms_python2_major_minor_version}"/>
+    <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python%{cms_python2_major_minor_version}/compileall.py"/>
   </client>
   <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
@@ -23,7 +23,5 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post

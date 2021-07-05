@@ -1,5 +1,5 @@
 ### RPM external professor2 2.3.2
-## INITENV +PATH PYTHON27PATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHON3PATH %i/lib/python%{cms_python3_major_minor_version}/site-packages
 
 Source: http://www.hepforge.org/archive/professor/Professor-%{realversion}.tar.gz
 Requires: py3-matplotlib root yoda eigen
@@ -15,10 +15,10 @@ Patch0: professor2-ppc64-flag-change
 %endif
 
 %build
-make CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3
+make CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3)
 
 %install
 make install PREFIX=%{i}
 
-find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python|#!/usr/bin/env python| }' {} \;
+find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python.*|#!/usr/bin/env python3| }' {} \;
 find %{i} -name '*deleteme' -delete

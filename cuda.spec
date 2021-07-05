@@ -12,7 +12,7 @@ Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local
 %ifarch aarch64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
 %endif
-Requires: python
+Requires: python3
 AutoReq: no
 
 %prep
@@ -72,7 +72,7 @@ mv %_builddir/build/share/ %{i}/
 mv %{i}/bin/cuda-gdb %{i}/bin/cuda-gdb.real
 cat > %{i}/bin/cuda-gdb << @EOF
 #! /bin/bash
-export PYTHONHOME=$PYTHON_ROOT
+export PYTHONHOME=$PYTHON3_ROOT
 exec %{i}/bin/cuda-gdb.real "\$@"
 @EOF
 chmod a+x %{i}/bin/cuda-gdb
