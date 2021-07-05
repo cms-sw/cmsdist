@@ -7,7 +7,7 @@ Patch0: madgraph5amcatnlo-config
 # Compile and install internal and external packages
 #Patch1: madgraph5amcatnlo-compile
 
-Requires: python3 py2-six
+Requires: python3 py3-six
 Requires: hepmc
 # Needed for ExRoot analysis package
 Requires: root   

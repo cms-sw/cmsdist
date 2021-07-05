@@ -1,3 +1,0 @@
-Requires: py2-numpy py3-cython
-%define PipPreBuild\
-  if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; fi \

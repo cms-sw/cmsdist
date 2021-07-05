@@ -1,1 +1,1 @@
-Requires: py2-six py2-wcwidth
+Requires: py3-six py3-wcwidth py3-wheel
