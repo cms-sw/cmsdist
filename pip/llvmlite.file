@@ -1,4 +1,4 @@
-Requires: llvm py2-wheel 
+Requires: llvm py3-wheel 
 Patch0: py2-llvmlite-fpic-flag
 Patch1: py2-llvmlite-llvm9
 Patch2: py2-llvmlite-removeduplicate

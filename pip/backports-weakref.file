@@ -1,2 +1,0 @@
-Requires: py2-setuptools-scm
-%define pip_name backports.weakref
