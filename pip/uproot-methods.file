@@ -1,2 +1,2 @@
 Requires: py3-awkward
-Requires: py2-numpy
+Requires: py3-numpy

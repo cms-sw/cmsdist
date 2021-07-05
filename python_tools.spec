@@ -15,7 +15,7 @@ Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
-Requires: py2-googlePackages
+Requires: py3-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
 
@@ -87,6 +87,7 @@ Requires: py3-setuptools
 Requires: py3-simplegeneric
 Requires: py3-singledispatch
 Requires: py2-six
+Requires: py3-six
 Requires: py3-terminado
 Requires: py3-testpath
 Requires: py3-tornado
@@ -98,7 +99,9 @@ Requires: py3-cycler
 Requires: py3-docopt
 Requires: py3-networkx
 Requires: py2-prettytable
+Requires: py3-prettytable
 Requires: py2-pycurl
+Requires: py3-pycurl
 Requires: py3-pytz
 Requires: py3-requests
 Requires: py3-schema
@@ -129,11 +132,13 @@ Requires: py3-python-ldap
 Requires: py3-plac
 
 Requires: py3-matplotlib
-Requires: py2-numpy-toolfile
+Requires: py3-numpy-toolfile
 Requires: py2-sqlalchemy
+Requires: py3-sqlalchemy
 Requires: py3-pygithub
 Requires: py3-dxr-toolfile
 Requires: py2-PyYAML
+Requires: py3-PyYAML
 Requires: py3-pylint
 Requires: py2-pip
 Requires: py3-pip

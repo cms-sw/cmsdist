@@ -1,1 +1,1 @@
-Requires: py2-six py3-scandir
+Requires: py3-six py3-scandir
