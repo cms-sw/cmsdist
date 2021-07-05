@@ -1,1 +1,1 @@
-Requires: py2-wheel py2-six
+Requires: py3-wheel py3-six
