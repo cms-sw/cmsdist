@@ -1,1 +1,1 @@
-Requires: py2-six py2-setuptools-scm
+Requires: py3-six py3-setuptools-scm

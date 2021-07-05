@@ -1,1 +1,1 @@
-Requires: py2-six py3-termcolor
+Requires: py3-six py3-termcolor
