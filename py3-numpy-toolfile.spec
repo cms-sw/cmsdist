@@ -1,5 +1,5 @@
-### RPM external py2-numpy-toolfile 3.0
-Requires: py2-numpy
+### RPM external py3-numpy-toolfile 1.0
+Requires: py3-numpy
 
 %prep
 
@@ -29,9 +29,5 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/numpy-c-api.xml
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
-
-
-export PYTHON_LIB_SITE_PACKAGES
-export PYTHON3_LIB_SITE_PACKAGES
 
 ## IMPORT scram-tools-post
