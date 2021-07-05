@@ -27,6 +27,7 @@ Requires: libtiff-toolfile
 Requires: libungif-toolfile
 Requires: pcre-toolfile
 Requires: python-toolfile
+Requires: python3-toolfile
 Requires: root-toolfile
 Requires: sigcpp-toolfile
 Requires: sqlite-toolfile
