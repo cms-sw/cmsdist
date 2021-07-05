@@ -4,8 +4,9 @@
 Source: none
  
 Requires: py2-six
+Requires: py3-six
 Requires: py3-scipy
-Requires: py2-numpy
+Requires: py3-numpy
 
 %prep
 
