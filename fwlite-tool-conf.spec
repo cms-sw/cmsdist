@@ -43,7 +43,7 @@ Requires: vdt-toolfile
 Requires: tinyxml2-toolfile
 Requires: md5-toolfile
 Requires: davix-toolfile
-Requires: py2-numpy-toolfile
+Requires: py3-numpy-toolfile
 Requires: OpenBLAS-toolfile
 Requires: py3-pybind11-toolfile
 Requires: fwlite_python_tools

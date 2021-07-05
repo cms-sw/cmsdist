@@ -13,7 +13,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py3-pybind11.xml
 <tool name="py3-pybind11" version="@TOOL_VERSION@">
   <client>
     <environment name="PY3_PYBIND11_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$PY3_PYBIND11_BASE/lib/python@PYTHONV@/site-packages/pybind11/include"/>
+    <environment name="INCLUDE" default="$PY3_PYBIND11_BASE/@PYTHON3_LIB_SITE_PACKAGES@/pybind11/include"/>
   </client>
 </tool>
 EOF_TOOLFILE
