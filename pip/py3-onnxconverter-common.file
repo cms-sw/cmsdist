@@ -1,2 +1,2 @@
-Requires: py2-numpy py3-numpy py3-onnx py3-protobuf py2-six
+Requires: py3-numpy py3-onnx py3-protobuf py3-six
 %define source0 https://github.com/microsoft/onnxconverter-common/archive/v%{realversion}.tar.gz

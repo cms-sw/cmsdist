@@ -1,1 +1,1 @@
-Requires: py2-numpy py3-numpy cuda py3-pytools py3-pytest py3-decorator py3-appdirs py3-Mako
+Requires: py3-numpy cuda py3-pytools py3-pytest py3-decorator py3-appdirs py3-Mako
