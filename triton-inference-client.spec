@@ -75,8 +75,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_ENABLE_TESTS=OFF \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
-    -DTritonCommon_DIR=${TRITON_INFERENCE_COMMON_ROOT}/lib/cmake/TritonCommon \
-    -DCMAKE_CXX_FLAGS="-Wno-error" \
+    -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
 
 make %{makeprocesses}
