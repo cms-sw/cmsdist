@@ -21,4 +21,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
 </tool>
 EOF_TOOLFILE
 
+export PYTHON3V=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
+
 ## IMPORT scram-tools-post

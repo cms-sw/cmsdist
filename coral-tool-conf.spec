@@ -2,7 +2,7 @@
 ## NOCOMPILER
 
 Requires: pcre-toolfile
-Requires: python-toolfile
+Requires: python3-toolfile
 Requires: expat-toolfile
 Requires: boost-toolfile
 Requires: frontier_client-toolfile
