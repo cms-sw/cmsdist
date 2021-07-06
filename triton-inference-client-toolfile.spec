@@ -16,7 +16,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/triton-inference-client.xml
     <environment name="INCLUDE" default="$TRITON_INFERENCE_CLIENT_BASE/include"/>
     <environment name="LIBDIR"  default="$TRITON_INFERENCE_CLIENT_BASE/lib"/>
   </client>
-  <use name="triton-inference-common"/>
   <use name="protobuf"/>
   <use name="grpc"/>
   <use name="cuda"/>

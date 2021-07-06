@@ -4,8 +4,8 @@
 %define tag_2_11_0 36cd3b3c839288c85b15e4df82cfe8fca3fff21b
 
 Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_11_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-BuildRequires: cmake
-Requires: triton-inference-common protobuf grpc cuda 
+BuildRequires: cmake git
+Requires: protobuf grpc cuda 
 
 %prep
 
@@ -21,8 +21,6 @@ CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
 # remove rapidjson dependence
 sed -i '/RapidJSON CONFIG REQUIRED/,+13d;' ${CML_LIB}
 sed -i '/triton-common-json/d' ${CML_LIB}
-# common repo installed separately: don't fetch, but instead find existing package
-sed -i 's/FetchContent_MakeAvailable(repo-common)/find_package(TritonCommon REQUIRED)/' ${CML_CPP}
 # core repo not needed for grpc-client-only install
 sed -i '/FetchContent_MakeAvailable(repo-core)/d' ${CML_CPP}
 # remove attempts to install external libs
@@ -38,6 +36,25 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
+
+common_tag_2_11_0=249232758855cc764c78a12964c2a5c09c388d87
+mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_11_0}.tar.gz | tar -xz --strip=1 && popd
+
+# modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
+COMMON_DIR=$PWD/repo-common
+CML_TOP=${COMMON_DIR}/CMakeLists.txt
+CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
+
+# remove rapidjson dependence
+sed -i '/RapidJSON CONFIG REQUIRED/,+1d;' ${CML_TOP}
+sed -i '/JSON utilities/,+17d' ${CML_TOP}
+sed -i '/triton-common-json/d' ${CML_TOP}
+# remove python dependence
+sed -i '/Python REQUIRED COMPONENTS Interpreter/,+10d;' ${CML_PRB}
+# change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
+    sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
+fi
 
 if [ $(%{cuda_gcc_support}) = true ]; then
     TRITON_ENABLE_GPU_VALUE=ON
@@ -60,6 +77,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_VERSION=%{realversion} \
     -DTritonCommon_DIR=${TRITON_INFERENCE_COMMON_ROOT}/lib/cmake/TritonCommon \
     -DCMAKE_CXX_FLAGS="-Wno-error" \
+    -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
 
 make %{makeprocesses}
 
