@@ -14,11 +14,13 @@ Patch0: professor2-ppc64-flag-change
 %patch0 -p1
 %endif
 
+%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3)
+
 %build
-make CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3)
+make %{build_flags}
 
 %install
-make install PREFIX=%{i}
+make install PREFIX=%{i} %{build_flags}
 
 find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python.*|#!/usr/bin/env python3| }' {} \;
 find %{i} -name '*deleteme' -delete
