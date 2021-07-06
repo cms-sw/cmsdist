@@ -5,7 +5,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: boost-1.75.0-disable-statx
-Requires: python bz2lib zlib openmpi xz zstd
+Requires: python3 bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -24,8 +24,11 @@ pushd tools/build
   export PATH=${PWD}/tmp-boost-build/bin:${PATH}
 popd
 
+PYTHONV3=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
+
 # enable boost::mpi
 echo "using mpi ;" > user-config.jam
+echo "using python : ${PYTHONV3} : ${PYTHON3_ROOT}/bin/python3 : ${PYTHON3_ROOT}/include/python${PYTHONV3} : ${PYTHON3_ROOT}/lib ;" >> user-config.jam
 
 b2 -q \
    -d2 \
@@ -49,6 +52,7 @@ b2 -q \
    link=shared \
    threading=multi \
    variant=release \
+   python=${PYTHONV3} \
    -sBZIP2_INCLUDE=${BZ2LIB_ROOT}/include \
    -sBZIP2_LIBPATH=${BZ2LIB_ROOT}/lib \
    -sZLIB_INCLUDE=${ZLIB_ROOT}/include \
