@@ -40,7 +40,7 @@ cc* )
     libglvnd-opengl mesa-libGL mesa-libGLU mesa-libGLU-devel
     make ncurses ncurses-libs openssl openssl-libs
     perl perl-interpreter perl-libs
-    perl-Carp perl-CGI perl-constant perl-Data-Dumper
+    perl-Carp perl-CGI perl-constant perl-Data-Dumper perl-DBI
     perl-Digest-MD5 perl-Encode perl-Env perl-Exporter perl-ExtUtils-Embed
     perl-File-Path perl-File-Temp perl-Getopt-Long perl-IO perl-libnet
     perl-Memoize perl-PathTools perl-Scalar-List-Utils perl-Socket perl-Storable
