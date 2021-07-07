@@ -3,7 +3,7 @@ Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-disable-makeinfo
 
-Requires: python zlib xz expat
+Requires: python3 zlib xz expat
 
 BuildRequires: autotools
 
@@ -24,11 +24,11 @@ rm -rf ../build; mkdir ../build; cd ../build
             --with-expat=yes \
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
-            --with-python=$(which python) \
+            --with-python=$(which python3) \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
-            LDFLAGS="-L${PYTHON_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
+            LDFLAGS="-L${PYTHON3_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
+            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON3_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
             MAKEINFO=true
 make %makeprocesses
 
@@ -43,7 +43,7 @@ set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
 
 echo "#!/bin/bash" > gdb
-echo "PYTHONHOME=${PYTHON_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
+echo "PYTHONHOME=${PYTHON3_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
 chmod +x gdb
 
 # To save space, clean up some things that we don't really need 
