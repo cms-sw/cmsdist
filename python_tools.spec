@@ -4,17 +4,14 @@
 Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
-
-#needed for cmssw until python2-> python3 switch of framework
-Requires: py2-configparser
-Requires: py2-enum34
+Requires: py2-future
 
 Requires: py3-scipy
 Requires: py3-Keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
-Requires: py3-tensorflow
+#Requires: py3-tensorflow
 Requires: py3-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
@@ -82,25 +79,20 @@ Requires: py3-pyparsing
 Requires: py3-pyzmq
 Requires: py3-qtconsole
 Requires: py3-scandir
-Requires: py2-setuptools
 Requires: py3-setuptools
 Requires: py3-simplegeneric
 Requires: py3-singledispatch
-Requires: py2-six
 Requires: py3-six
 Requires: py3-terminado
 Requires: py3-testpath
 Requires: py3-tornado
 Requires: py3-traitlets
-Requires: py2-wcwidth
 Requires: py3-webencodings
 Requires: py3-widgetsnbextension
 Requires: py3-cycler
 Requires: py3-docopt
 Requires: py3-networkx
-Requires: py2-prettytable
 Requires: py3-prettytable
-Requires: py2-pycurl
 Requires: py3-pycurl
 Requires: py3-pytz
 Requires: py3-requests
@@ -133,20 +125,16 @@ Requires: py3-plac
 
 Requires: py3-matplotlib
 Requires: py3-numpy-toolfile
-Requires: py2-sqlalchemy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
 Requires: py3-dxr-toolfile
-Requires: py2-PyYAML
 Requires: py3-PyYAML
 Requires: py3-pylint
-Requires: py2-pip
 Requires: py3-pip
 %ifarch x86_64
 Requires: py3-cx-Oracle
 %endif
 Requires: py3-cython
-Requires: py2-future
 Requires: py3-pybind11-toolfile
 Requires: py3-histbook
 Requires: py3-flake8
