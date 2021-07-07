@@ -8,18 +8,22 @@ Source: none
 %define CheckScramTools \
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
   toolbase=`eval echo \\\\$${uctool}_ROOT` \
-  [ -d $toolbase/etc/scram.d ] || continue
+  [ -d ${SCRAM_TOOLS_ROOT}/scram-tools/$tool ] || continue
 
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
-  for xml in $(find $toolbase/etc/scram.d -type f) ; do \
+  for xml in $(find ${SCRAM_TOOLS_ROOT}/scram-tools/$tool -type f -name "*.xml") ; do \
     bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
     [ -f %i/tools/selected/$bxml ] && continue \
     [ -f %i/tools/available/$bxml ] && continue \
     cp $xml %i/tools/selected/${bxml} \
+    T_VERSION=`eval echo \\\\$${uctool}_VERSION` \
+    sed -i -e 's|@TOOL_ROOT@|'"$toolbase"'|g' %i/tools/selected/${bxml} \
+    sed -i -e 's|@TOOL_VERSION@|'"$T_VERSION"'|g' %i/tools/selected/${bxml} \
     echo "  Copied $bxml" \
-  done
-
+  done \
+  tool_script=${SCRAM_TOOLS_ROOT}/scram-tools/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
+  if [ -f $tool_script ]; then ($tool_script %i/tools/selected); fi
 %prep
 %build
 
@@ -41,6 +45,23 @@ mkdir -p %i/tools/selected %i/tools/available
 %if "%{?skipreqtools:set}" != "set"
 %define skipreqtools %{nil}
 %endif
+
+%if "%{?package_vectorization}" != ""
+PKG_VECTORIZATION=`echo %package_vectorization`
+export PKG_VECTORIZATION
+%endif
+
+COMP_ARCH_SPECIFIC_FLAGS=""
+%ifarch x86_64
+COMP_ARCH_SPECIFIC_FLAGS=$(for v in %package_vectorization ; do %{cmsdist_directory}/vectorization/cmsdist_packages.py ${v} ; done)
+%endif
+%ifarch aarch64
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
+%endif
+%ifarch ppc64le
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields %ppc64le_build_flags"
+%endif
+export COMP_ARCH_SPECIFIC_FLAGS
 
 DoneTools=" "
 SkipTools=
@@ -69,23 +90,11 @@ for tool in $SkipTools ; do
   %{CopyScramTools}
 done
 
-# Fixes logic in above loop in case of online release:
-# the descriptions of explicitly defined systemtools should 
-# take precedence over those from cms-rebuilt rpms
-%if "%online" == "true"
-for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  lc_tool=$(echo $tool | tr '[A-Z]' '[a-z]')
-  rm -f %i/tools/selected/${lc_tool} %i/tools/selected/${lc_tool}.xml
-  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/${tool}.xml %i/tools/selected/${lc_tool}.xml
-done
-# For now copy all systemtools files. If needed, this can be done more selectively.
-%endif
-
 for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   [ -f %i/tools/selected/${stool}.xml ] || continue
   mv %i/tools/selected/${stool}.xml %i/tools/available
 done
-
+  
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
   ToolErrors=`cat %i/errors.log | wc -l | awk '{print $1}'`
@@ -141,6 +150,10 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
   echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
 done
 DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
+
+echo "echoing the install path"
+echo %i
+
 set +x
 if [ "${DUP_BIN}" != "" ] ; then
   for p in ${DUP_BIN} ; do
@@ -150,7 +163,26 @@ if [ "${DUP_BIN}" != "" ] ; then
   exit 1
 fi
 set -x
+
+#vectorized packages
+%if "%{?vectorized_packages}" != ""
+for vect_package in  %vectorized_packages; do
+    echo $vect_package
+    package_uc=$(echo $vect_package | tr '[a-z-]' '[A-Z_]')
+    r=""
+    #echo $package_uc
+    for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]'); do
+    	r=$r"    <environment name=\"${v}_LIBDIR\" default=\""
+	r=$r'\$'
+	r=$r${package_uc}_${v}_ROOT/lib"\" type=\"path\"/>\n"
+    	#echo $v
+    done
+    r=$r'</client>'
+    perl -p -i -e "s|</client>|${r}|g" %i/tools/selected/$(echo $vect_package | tr '[A-Z]' '[a-z]').xml
+done
+%endif
+
 %post
+
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
-
