@@ -31,8 +31,7 @@ BUILD_ARGS=VEC_GCC="%{ppc64le_build_flags}"
 make %{makeprocesses} TBB_PREFIX=$TBB_ROOT "${BUILD_ARGS}"
 
 %install
-mkdir %{i}/include %{i}/include/mkFit %{i}/Geoms
+mkdir %{i}/include %{i}/include/mkFit
 cp -a *.h %{i}/include
 cp -a mkFit/*.h %{i}/include/mkFit
-cp -a Geoms/*.so %{i}/Geoms
 cp -ar lib %{i}/lib
