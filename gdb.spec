@@ -28,7 +28,7 @@ rm -rf ../build; mkdir ../build; cd ../build
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON3_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -L${PYTHON3_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
+            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON3_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
             MAKEINFO=true
 make %makeprocesses
 
