@@ -18,6 +18,8 @@ Requires: intel-vtune
 Requires: das_client
 Requires: llvm
 Requires: boost
+Requires: cmsswdata
+Requires: geant4
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 

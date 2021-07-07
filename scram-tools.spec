@@ -1,7 +1,8 @@
 ### RPM cms scram-tools 1.0
+## NOCOMPILER
 
-%define branch main
-%define tag 33e20671985a2b7774681adcdfce655c0186b650
+%define branch IB/CMSSW_12_0_X/master
+%define tag HEAD
 %define github_user cms-sw
 %define github_repo %{n}
 
