@@ -1,6 +1,6 @@
 ### RPM cms fwlite CMSSW_10_1_0_pre1_FWLITE
 
-Requires: fwlite-tool-conf python
+Requires: fwlite-tool-conf
 
 %define saveDeps        yes
 %define branch          CMSSW_7_0_X
