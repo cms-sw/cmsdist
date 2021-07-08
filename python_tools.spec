@@ -11,7 +11,7 @@ Requires: py3-Keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
-#Requires: py3-tensorflow
+Requires: py3-tensorflow
 Requires: py3-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
