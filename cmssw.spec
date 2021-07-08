@@ -1,6 +1,6 @@
 ### RPM cms cmssw CMSSW_12_0_0
 
-Requires: cmssw-tool-conf python
+Requires: cmssw-tool-conf
 
 %define runGlimpse      yes
 %define saveDeps        yes
