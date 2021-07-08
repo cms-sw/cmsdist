@@ -13,22 +13,10 @@ Source: none
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
   T_VERSION=`eval echo \\\\$${uctool}_VERSION` \
-  PYTV=`eval echo $PYTHON_VERSION | cut -f1,2 -d.`
-  PYTV3=`eval echo $PYTHON3_VERSION | cut -f1,2 -d.`
-  ${SCRAM_TOOLS_ROOT}/get_tools "$toolbase" "$T_VERSION" %i "${tool}" "${PYTV}" "${PYTV3}"\
+  PYTV=`eval echo $PYTHON_VERSION | cut -f1,2 -d.` \
+  PYTV3=`eval echo $PYTHON3_VERSION | cut -f1,2 -d.` \
+  ${SCRAM_TOOLS_ROOT}/scram-tools/get_tools "$toolbase" "$T_VERSION" %i "${tool}" "${PYTV}" "${PYTV3}"
 
-  #for xml in $(find ${SCRAM_TOOLS_ROOT}/scram-tools/$tool -type f -name "*.xml") ; do \
-  #  bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
-  #  [ -f %i/tools/selected/$bxml ] && continue \
-  #  [ -f %i/tools/available/$bxml ] && continue \
-  #  cp $xml %i/tools/selected/${bxml} \
-  #  T_VERSION=`eval echo \\\\$${uctool}_VERSION` \
-  #  sed -i -e 's|@TOOL_ROOT@|'"$toolbase"'|g' %i/tools/selected/${bxml} \
-  #  sed -i -e 's|@TOOL_VERSION@|'"$T_VERSION"'|g' %i/tools/selected/${bxml} \
-  #  echo "  Copied $bxml" \
-  #done \
-  #tool_script=${SCRAM_TOOLS_ROOT}/scram-tools/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
-  #if [ -f $tool_script ]; then ($tool_script %i/tools/selected); fi
 %prep
 %build
 
