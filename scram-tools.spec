@@ -2,7 +2,7 @@
 ## NOCOMPILER
 
 %define branch IB/CMSSW_12_0_X/master
-%define tag f32993e0e9d084f0ec4b0bae9756f705efb0827d
+%define tag e56e5c726a3de02de67c3e9231e0ce8f760bd04f
 %define github_user cms-sw
 %define github_repo %{n}
 

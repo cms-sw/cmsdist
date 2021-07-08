@@ -4,54 +4,54 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-Requires: eigen-toolfile
-Requires: fmt-toolfile
-Requires: tbb-toolfile
-Requires: boost-toolfile
-Requires: bz2lib-toolfile
-Requires: clhep-toolfile
-Requires: db6-toolfile
-Requires: dcap-toolfile
-Requires: expat-toolfile
+Requires: eigen
+Requires: fmt
+Requires: tbb
+Requires: boost
+Requires: bz2lib
+Requires: clhep
+Requires: db6
+Requires: dcap
+Requires: expat
 Requires: fakesystem
-Requires: fftw3-toolfile
-Requires: fwlitedata-toolfile
-Requires: gcc-toolfile
-Requires: gdbm-toolfile
-Requires: gmake-toolfile
-Requires: gsl-toolfile
-Requires: hepmc-toolfile
-Requires: libjpeg-turbo-toolfile
-Requires: libpng-toolfile
-Requires: libtiff-toolfile
-Requires: libungif-toolfile
-Requires: pcre-toolfile
-Requires: python-toolfile
-Requires: python3-toolfile
-Requires: root-toolfile
-Requires: sigcpp-toolfile
-Requires: sqlite-toolfile
+Requires: fftw3
+Requires: fwlitedata
+Requires: gcc
+Requires: gdbm
+Requires: gmake
+Requires: gsl
+Requires: hepmc
+Requires: libjpeg-turbo
+Requires: libpng
+Requires: libtiff
+Requires: libungif
+Requires: pcre
+Requires: python
+Requires: python3
+Requires: root
+Requires: sigcpp
+Requires: sqlite
 Requires: systemtools
-Requires: libuuid-toolfile
-Requires: xerces-c-toolfile
-Requires: xrootd-toolfile
-Requires: xz-toolfile
-Requires: zlib-toolfile
-Requires: libxml2-toolfile
-Requires: llvm-gcc-toolfile
-Requires: vdt-toolfile
-Requires: tinyxml2-toolfile
-Requires: md5-toolfile
-Requires: davix-toolfile
-Requires: py3-numpy-toolfile
-Requires: OpenBLAS-toolfile
-Requires: py3-pybind11-toolfile
+Requires: libuuid
+Requires: xerces-c
+Requires: xrootd
+Requires: xz
+Requires: zlib
+Requires: libxml2
+Requires: llvm
+Requires: vdt
+Requires: tinyxml2
+Requires: md5
+Requires: davix
+Requires: py3-numpy
+Requires: OpenBLAS
+Requires: py3-pybind11
 Requires: fwlite_python_tools
-Requires: zstd-toolfile
+Requires: zstd
 
 # Only for Darwin platform.
 %ifarch darwin
-Requires: freetype-toolfile
+Requires: freetype
 %endif
 
 %define skipreqtools jcompiler db6 expat fftw3 sqlite
