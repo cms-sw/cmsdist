@@ -5,24 +5,190 @@
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
 
-BuildRequires: scram-tools
-Requires: gcc
-Requires: herwig
-Requires: libpng
-Requires: OpenBLAS
-Requires: root
-Requires: tbb
-Requires: zlib
-Requires: zstd
-Requires: intel-vtune
-Requires: das_client
-Requires: llvm
+Requires: crab
+Requires: cmssw-wm-tools
+Requires: google-benchmark
+Requires: catch2
+Requires: starlight
+Requires: alpgen
 Requires: boost
-Requires: cmsswdata
+Requires: bz2lib
+Requires: charybdis
+Requires: classlib
+Requires: clhep
+Requires: coral
+Requires: cppunit
+Requires: curl
+Requires: das_client
+Requires: db6
+Requires: davix
+Requires: evtgen
+Requires: expat
+Requires: fakesystem
+Requires: fastjet
+Requires: flatbuffers
+Requires: fmt
+Requires: gbl
+Requires: gcc
+Requires: gdbm
 Requires: geant4
+Requires: geant4data
+Requires: vecgeom
+Requires: glimpse
+Requires: gmake
+Requires: gsl
+Requires: highfive
+Requires: hector
+Requires: hepmc
+Requires: heppdt
+Requires: herwig
+Requires: herwig7
+Requires: hydjet
+Requires: ittnotify
+Requires: jemalloc
+Requires: jemalloc-debug
+Requires: jimmy
+Requires: json
+Requires: ktjet
+Requires: lhapdf
+Requires: libjpeg-turbo
+Requires: libpng
+Requires: libtiff
+Requires: libungif
+Requires: libxml2
+Requires: lwtnn
+Requires: meschach
+Requires: pcre
+Requires: photos
+Requires: photospp
+Requires: pyquen
+Requires: pythia6
+Requires: pythia8
+Requires: python
+Requires: python3
+Requires: root
+Requires: sherpa
+Requires: libpciaccess
+Requires: numactl
+Requires: hwloc
+%ifnarch aarch64
+Requires: gdrcopy
+%endif
+Requires: ucx
+Requires: openmpi
+Requires: sigcpp
+Requires: sqlite
+Requires: systemtools
+Requires: tauola
+Requires: tauolapp
+Requires: thepeg
+Requires: toprex
+Requires: libuuid
+Requires: xerces-c
+Requires: zlib
+Requires: dcap
+Requires: frontier_client
+Requires: xrootd
+Requires: dd4hep
+Requires: graphviz
+Requires: valgrind
+Requires: cmsswdata
+Requires: zstd
+Requires: hls
+Requires: opencv
+Requires: grpc
+Requires: onnxruntime
+Requires: triton-inference-server
+Requires: hdf5
+Requires: rivet
+Requires: cascade
+Requires: yoda
+Requires: fftw3
+Requires: fftjet
+Requires: professor2
+Requires: xz
+Requires: lz4
+Requires: protobuf
+Requires: lcov
+Requires: llvm
+Requires: tbb
+Requires: mctester
+Requires: vdt
+Requires: icc
+Requires: gnuplot
+Requires: sloccount
+Requires: millepede
+Requires: pacparser
+Requires: git
+Requires: cgal
+Requires: doxygen
+Requires: yaml-cpp
+Requires: gmp-static
+Requires: mpfr-static
+Requires: fastjet-contrib
+Requires: opencl
+Requires: opencl-cpp
+Requires: qd
+Requires: blackhat
+Requires: sherpa
+Requires: geant4-parfullcms
+Requires: fasthadd
+Requires: eigen
+Requires: gdb
+Requires: libxslt
+Requires: giflib
+Requires: freetype
+Requires: utm
+Requires: libffi
+Requires: CSCTrackFinderEmulation
+Requires: tinyxml2
+Requires: md5
+Requires: gosamcontrib
+Requires: gosam
+Requires: madgraph5amcatnlo
+Requires: python_tools
+Requires: dasgoclient
+Requires: OpenBLAS
+Requires: mxnet-predict
+Requires: mkfit
+Requires: dablooms
+
+# Only for Linux platform.
+%ifos linux
+Requires: openldap
+Requires: gperftools
+Requires: cuda
+Requires: alpaka
+Requires: cupla
+
+%if "%{cmsos}" != "slc7_aarch64"
+Requires: cudnn
+%endif
+
+Requires: libunwind
+%ifnarch ppc64le
+Requires: igprof
+Requires: openloops
+%endif
+
+%ifarch x86_64
+Requires: dmtcp
+Requires: tkonlinesw
+Requires: oracle
+Requires: intel-vtune
+Requires: cmsmon-tools
+Requires: dip
+%else
+Requires: tkonlinesw-fake
+Requires: oracle-fake
+%endif
+%endif
+
+Requires: tensorflow
+Requires: xtensor
+Requires: xtl
+Requires: xgboost
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
-
-# the vectorization flags/macroses will be available
 
 ## IMPORT scramv1-tool-conf

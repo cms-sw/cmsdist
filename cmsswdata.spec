@@ -93,8 +93,6 @@ Requires: data-GeneratorInterface-ReggeGribovPartonMCInterface
 %post
 echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-echo "export %{BaseTool}_PKGREQUIRED='%{pkgreqs}'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
-echo "set %{BaseTool}_PKGREQUIRED='%{pkgreqs}'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 
 for DATA_PATH in %directpkgreqs; do
   PKG_DIR=$(echo $DATA_PATH | cut -d/ -f2)
@@ -116,3 +114,5 @@ for DATA_PATH in %directpkgreqs; do
     rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
+
+export %{BaseTool}_PKGREQUIRED='%{pkgreqs}'
