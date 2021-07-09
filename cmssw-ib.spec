@@ -13,14 +13,8 @@ mkdir -p %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION
 du -sh $CMSSW_ROOT/lib/%cmsplatf > %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/library_size.txt
 eval `%scram runtime -sh`
 PYTHON_CMD="python"
-if python3 -V >/dev/null 2>&1 ; then
-  PYTHON_CMD="python3"
-  DOW=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower())"`
-  HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower())"`
-else
-  DOW=`$PYTHON_CMD -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower()"`
-  HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower()"`
-fi
+DOW=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower())"`
+HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower())"`
 
 CMSSW_MAJOR_MINOR=`echo $CMSSW_VERSION | sed -e 's/CMSSW_\([0-9]*\)_\([0-9]*\).*/\1.\2/g'`
 pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
