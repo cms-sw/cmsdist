@@ -161,6 +161,5 @@ export BOOST_REGEX_LIB=`getLibName regex`
 export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostream`
 export BOOST_MPI_LIB=`getLibName mpi`
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post

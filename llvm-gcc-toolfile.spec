@@ -145,7 +145,6 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/pyclang.xml
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 # NON-empty defaults
 # First of all handle OS specific options.
