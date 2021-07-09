@@ -13,17 +13,13 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python3.xml
   <client>
     <environment name="PYTHON3_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHON3_BASE/lib"/>
-    <environment name="INCLUDE" default="$PYTHON3_BASE/include/python@PYTHON3V@"/>
-    <environment name="PYTHON3_COMPILE" default="$PYTHON3_BASE/lib/python@PYTHON3V@/compileall.py"/>
+    <environment name="INCLUDE" default="$PYTHON3_BASE/include/python%{cms_python3_major_minor_version}"/>
+    <environment name="PYTHON3_COMPILE" default="$PYTHON3_BASE/lib/python%{cms_python3_major_minor_version}/compileall.py"/>
   </client>
   <runtime name="PATH" value="$PYTHON3_BASE/bin" type="path"/>
   <use name="sockets"/>
 </tool>
 EOF_TOOLFILE
-
-
-#  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-#  <use name="root_cxxdefaults"/>
 
 export PYTHON3V=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 

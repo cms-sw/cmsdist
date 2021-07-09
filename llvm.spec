@@ -1,6 +1,6 @@
 ### RPM external llvm 12.0.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-## INITENV +PATH PYTHON3PATH %{i}/lib64/python`echo $PYTHON3_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
 BuildRequires: cmake ninja
 Requires: gcc zlib python3
@@ -62,7 +62,7 @@ bin/clang-tidy --checks=* --list-checks | grep cms-handle
 cd ../build
 ninja -v %{makeprocesses} install
 
-BINDINGS_PATH=%{i}/lib64/python$(echo $PYTHON3_VERSION | cut -d. -f 1,2)/site-packages
+BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 mkdir -p $BINDINGS_PATH
 cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
 
