@@ -1,5 +1,5 @@
 ### RPM external fastjet 3.4.0-beta
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE compilation_flags
 
 BuildRequires: autotools

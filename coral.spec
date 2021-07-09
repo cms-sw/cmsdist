@@ -1,6 +1,6 @@
 ### RPM cms coral CORAL_2_3_21
-%define tag 03471dd59bed93d6e20ad6c4b6258d3f65821066
-%define branch cms/%{realversion}
+%define tag c5ddd97499d6a76f24cba6800e5cb88887764bcb
+%define branch cms/%{realversion}py3
 %define github_user cms-externals
 
 Patch0: coral-2_3_20-macosx
