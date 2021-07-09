@@ -30,7 +30,6 @@ done
 cat << \EOF_TOOLFILE >>%i/etc/scram.d/%{base_package}.xml
     </client>
     <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-    <runtime name="PYTHON3PATH" value="$FASTJET_BASE/lib/python%{cms_python3_major_minor_version}/site-packages" type="path"/>
     <use name="root_cxxdefaults"/>
   </tool>
 EOF_TOOLFILE

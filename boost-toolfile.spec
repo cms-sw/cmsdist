@@ -149,11 +149,10 @@ export BOOST_FILESYSTEM_LIB=`getLibName filesystem`
 export BOOST_DATE_TIME_LIB=`getLibName date_time`
 export BOOST_SYSTEM_LIB=`getLibName system`
 export BOOST_PROGRAM_OPTIONS_LIB=`getLibName program_options`
-export BOOST_PYTHON_LIB=`getLibName python38`
+export BOOST_PYTHON_LIB=`getLibName python%{cms_python3_major_minor}`
 export BOOST_REGEX_LIB=`getLibName regex`
 export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostream`
 export BOOST_MPI_LIB=`getLibName mpi`
-export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
 ## IMPORT scram-tools-post

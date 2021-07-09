@@ -1,9 +1,10 @@
-### RPM external python_tools 2.0
+### RPM external python_tools 3.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: professor2 rivet frontier_client onnxruntime openldap
 Requires: py2-future
 
 Requires: py3-scipy
@@ -42,8 +43,6 @@ Requires: py3-joblib
 
 #this DOES NOT depend on numpy..
 Requires: py3-xrootdpyfs
-
-Requires: root curl python openldap
 
 Requires: py3-entrypoints
 Requires: py3-psutil
@@ -206,7 +205,6 @@ Requires: py3-smmap
 Requires: py3-zipp
 
 Requires: py3-pycuda
-Requires: onnxruntime
 
 Requires: py3-boost-histogram
 Requires: py3-hist
