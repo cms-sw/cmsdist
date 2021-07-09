@@ -1,5 +1,4 @@
 ### RPM external frontier_client 2.9.1
-## INITENV +PATH PYTHON27PATH %{i}/python/lib
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
 %define tag 888a611d4ab15d6ce03830c63b850539460dcda9
