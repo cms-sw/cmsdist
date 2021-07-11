@@ -1,6 +1,6 @@
-### RPM external pythia8 303
+### RPM external pythia8 306
 
-Source: http://home.thep.lu.se/~torbjorn/pythia8/%{n}%{realversion}.tgz
+Source: https://pythia.org/download/pythia83/%{n}%{realversion}.tgz
 
 Requires: hepmc lhapdf
 
