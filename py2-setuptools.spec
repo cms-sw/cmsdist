@@ -1,7 +1,7 @@
-### RPM external py2-setuptools 39.2.0
+### RPM external py2-setuptools 40.5.0
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
-Source: https://files.pythonhosted.org/packages/1a/04/d6f1159feaccdfc508517dba1929eb93a2854de729fa68da9d5c6b48fa00/setuptools-%realversion.zip
+Source: https://files.pythonhosted.org/packages/26/e5/9897eee1100b166a61f91b68528cb692e8887300d9cbdaa1a349f6304b79/setuptools-%realversion.zip
 Requires: python
 
 %prep
