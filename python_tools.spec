@@ -4,6 +4,7 @@
 Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: professor2 rivet frontier_client onnxruntime
 
 #needed for cmssw until python2-> python3 switch of framework
 Requires: py2-configparser
@@ -218,7 +219,6 @@ Requires: py3-smmap
 Requires: py3-zipp
 
 Requires: py3-pycuda
-Requires: onnxruntime
 
 Requires: py3-boost-histogram
 Requires: py3-hist

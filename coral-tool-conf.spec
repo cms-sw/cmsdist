@@ -8,7 +8,6 @@ Requires: expat
 Requires: boost
 Requires: frontier_client
 Requires: gcc
-
 Requires: sqlite
 Requires: libuuid
 Requires: zlib
