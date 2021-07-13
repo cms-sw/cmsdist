@@ -16,7 +16,7 @@ Requires: bz2lib
 Requires: charybdis
 Requires: classlib
 Requires: clhep
-#Requires: coral
+Requires: coral
 Requires: cppunit
 Requires: curl
 Requires: das_client
