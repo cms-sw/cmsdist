@@ -5,6 +5,7 @@
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
 
+BuildRequires: scram-tools
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: google-benchmark
@@ -152,6 +153,7 @@ Requires: OpenBLAS
 Requires: mxnet-predict
 Requires: mkfit
 Requires: dablooms
+Requires: py3-numpy
 
 # Only for Linux platform.
 %ifos linux

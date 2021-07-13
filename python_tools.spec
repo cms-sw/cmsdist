@@ -132,7 +132,7 @@ Requires: py3-python-ldap
 Requires: py3-plac
 
 Requires: py3-matplotlib
-Requires: py3-numpy-toolfile
+Requires: py3-numpy
 Requires: py2-sqlalchemy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
@@ -231,9 +231,4 @@ Requires: py3-correctionlib
 %build
 
 %install
-mkdir -p %{i}/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
-<tool name="%{n}" version="%{v}">
-</tool>
-EOF_TOOLFILE
 
