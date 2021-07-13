@@ -143,9 +143,6 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
 done
 DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
 
-echo "echoing the install path"
-echo %i
-
 set +x
 if [ "${DUP_BIN}" != "" ] ; then
   for p in ${DUP_BIN} ; do

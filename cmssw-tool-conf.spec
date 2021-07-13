@@ -153,7 +153,6 @@ Requires: OpenBLAS
 Requires: mxnet-predict
 Requires: mkfit
 Requires: dablooms
-Requires: py3-numpy
 
 # Only for Linux platform.
 %ifos linux
