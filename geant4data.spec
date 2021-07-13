@@ -20,7 +20,7 @@ mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4data.xml
 <tool name="geant4data" version="%v">
   <client>
-    <environment name="GEANT4DATA_BASE" default="%{instroot}/%{cmsplatf}/%{pkgcategory}"/>
+    <environment name="GEANT4DATA_BASE" default="%{cmsroot}/%{cmsplatf}/%{pkgcategory}"/>
   </client>
 EOF_TOOLFILE
 

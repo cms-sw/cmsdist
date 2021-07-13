@@ -1,7 +1,7 @@
 ### FILE scramv1-tool-conf
 ## NOCOMPILER
 ## BUILDREQUIRE-TOOLFILE
-Requires: gmake-toolfile
+Requires: gmake
 BuildRequires: SCRAMV1
 Source: none
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
