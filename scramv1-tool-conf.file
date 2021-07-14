@@ -38,13 +38,13 @@ mkdir -p %i/tools/selected %i/tools/available
 %endif
 
 %if "%{?package_vectorization}" != ""
-PKG_VECTORIZATION=`echo %package_vectorization`
-export PKG_VECTORIZATION
+export PKG_VECTORIZATION=`echo %package_vectorization`
+export CMSDIST_DIR=%cmsdist_directory
 %endif
 
 COMP_ARCH_SPECIFIC_FLAGS=""
 %ifarch x86_64
-COMP_ARCH_SPECIFIC_FLAGS=$(for v in %package_vectorization ; do %{cmsdist_directory}/vectorization/cmsdist_packages.py ${v} ; done)
+COMP_ARCH_SPECIFIC_FLAGS=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)
 %endif
 %ifarch aarch64
 COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"

@@ -1,4 +1,4 @@
-### RPM cms fwlite-tool-conf 11.0
+### RPM cms fwlite-tool-conf 20.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added

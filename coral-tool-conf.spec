@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf 2.1
+### RPM cms coral-tool-conf 10.0
 ## NOCOMPILER
 
 BuildRequires: scram-tools
