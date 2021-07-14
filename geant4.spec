@@ -1,9 +1,9 @@
 ### RPM external geant4 10.7.2
 ## INCLUDE compilation_flags
-%define tag %{realversion}
-%define branch geant4-10.7-release
-%define github_user Geant4
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+%define tag e32b281b7aa29720d42455f61eb6ec79c8670775
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
