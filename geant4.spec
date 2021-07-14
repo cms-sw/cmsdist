@@ -3,7 +3,7 @@
 %define tag e32b281b7aa29720d42455f61eb6ec79c8670775
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
