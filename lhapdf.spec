@@ -19,7 +19,7 @@ BuildRequires: py3-cython
 
 PYTHON=$(which python3) \
   ./configure --prefix=%{i} \
-  --disable-python
+  --enable-python
 
 %build
 sed -i -e 's| wrappers | |' Makefile
