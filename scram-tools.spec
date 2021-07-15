@@ -2,7 +2,7 @@
 ## NOCOMPILER
 
 %define branch main
-%define tag 8c5f3b616bf4b52d1d7d857e6b179d21239ee022
+%define tag 8af690460dcfe869aa9505f3e4ecbdbccea66f96
 %define github_user cms-sw
 %define github_repo %{n}
 

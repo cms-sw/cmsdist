@@ -39,8 +39,8 @@ mkdir -p %i/tools/selected %i/tools/available
 
 %if "%{?package_vectorization}" != ""
 export PKG_VECTORIZATION=`echo %package_vectorization`
-export CMSDIST_DIR=%cmsdist_directory
 %endif
+export CMSDIST_DIR=%cmsdist_directory
 
 COMP_ARCH_SPECIFIC_FLAGS=""
 %ifarch x86_64
@@ -50,7 +50,7 @@ COMP_ARCH_SPECIFIC_FLAGS=$(%{cmsdist_directory}/vectorization/cmsdist_packages.p
 COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
 %endif
 %ifarch ppc64le
-COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields %ppc64le_build_flags"
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
 %endif
 export COMP_ARCH_SPECIFIC_FLAGS
 export ORACLE_ENV_ROOT
