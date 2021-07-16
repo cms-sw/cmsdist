@@ -22,7 +22,6 @@ PYTHON=$(which python3) \
   --enable-python
 
 %build
-sed -i -e 's| wrappers | |' Makefile
 make all %makeprocesses 
 
 %install

@@ -7,7 +7,6 @@ Requires: py3-pybind11
 
 %install
 
-
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py3-pybind11.xml
 <tool name="py3-pybind11" version="@TOOL_VERSION@">
@@ -17,8 +16,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py3-pybind11.xml
   </client>
 </tool>
 EOF_TOOLFILE
-
-export PYTHONV=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 
 export PYTHON3_LIB_SITE_PACKAGES
 
