@@ -3,7 +3,6 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
  
-Requires: py2-six
 Requires: py3-six
 Requires: py3-scipy
 Requires: py3-numpy
