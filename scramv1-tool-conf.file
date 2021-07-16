@@ -3,6 +3,7 @@
 ## BUILDREQUIRE-TOOLFILE
 Requires: gmake
 BuildRequires: SCRAMV1
+## INCLUDE compilation_flags
 Source: none
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 %define CheckScramTools \
@@ -50,7 +51,7 @@ COMP_ARCH_SPECIFIC_FLAGS=$(%{cmsdist_directory}/vectorization/cmsdist_packages.p
 COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
 %endif
 %ifarch ppc64le
-COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields %ppc64le_build_flags"
 %endif
 export COMP_ARCH_SPECIFIC_FLAGS
 export ORACLE_ENV_ROOT

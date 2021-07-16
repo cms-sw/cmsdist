@@ -192,4 +192,4 @@ Requires: xgboost
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 
-## IMPORT scramv1-tool-conf
+## INCLUDE scramv1-tool-conf

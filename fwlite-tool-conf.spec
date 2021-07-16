@@ -57,4 +57,4 @@ Requires: freetype
 
 %define skipreqtools jcompiler db6 expat fftw3 sqlite
 
-## IMPORT scramv1-tool-conf
+## INCLUDE scramv1-tool-conf

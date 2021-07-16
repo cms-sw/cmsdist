@@ -21,4 +21,4 @@ Requires: oracle
 
 %define skipreqtools jcompiler
 
-## IMPORT scramv1-tool-conf
+## INCLUDE scramv1-tool-conf

@@ -10,4 +10,4 @@ Requires: cmssw-toolfile
 # still need this (from the non-patch tool-conf spec ...
 %define skipreqtools jcompiler
 
-## IMPORT scramv1-tool-conf
+## INCLUDE scramv1-tool-conf
