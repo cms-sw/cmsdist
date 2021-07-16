@@ -1,14 +1,11 @@
-### RPM external python_tools 2.0
+### RPM external python_tools 3.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
 Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
-Requires: professor2 rivet frontier_client onnxruntime
-
-#needed for cmssw until python2-> python3 switch of framework
-Requires: py2-configparser
-Requires: py2-enum34
+Requires: professor2 rivet frontier_client onnxruntime openldap
+Requires: py2-future
 
 Requires: py3-scipy
 Requires: py3-Keras
@@ -47,8 +44,6 @@ Requires: py3-joblib
 #this DOES NOT depend on numpy..
 Requires: py3-xrootdpyfs
 
-Requires: root curl python openldap
-
 Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
@@ -83,25 +78,20 @@ Requires: py3-pyparsing
 Requires: py3-pyzmq
 Requires: py3-qtconsole
 Requires: py3-scandir
-Requires: py2-setuptools
 Requires: py3-setuptools
 Requires: py3-simplegeneric
 Requires: py3-singledispatch
-Requires: py2-six
 Requires: py3-six
 Requires: py3-terminado
 Requires: py3-testpath
 Requires: py3-tornado
 Requires: py3-traitlets
-Requires: py2-wcwidth
 Requires: py3-webencodings
 Requires: py3-widgetsnbextension
 Requires: py3-cycler
 Requires: py3-docopt
 Requires: py3-networkx
-Requires: py2-prettytable
 Requires: py3-prettytable
-Requires: py2-pycurl
 Requires: py3-pycurl
 Requires: py3-pytz
 Requires: py3-requests
@@ -134,20 +124,16 @@ Requires: py3-plac
 
 Requires: py3-matplotlib
 Requires: py3-numpy-toolfile
-Requires: py2-sqlalchemy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
 Requires: py3-dxr-toolfile
-Requires: py2-PyYAML
 Requires: py3-PyYAML
 Requires: py3-pylint
-Requires: py2-pip
 Requires: py3-pip
 %ifarch x86_64
 Requires: py3-cx-Oracle
 %endif
 Requires: py3-cython
-Requires: py2-future
 Requires: py3-pybind11-toolfile
 Requires: py3-histbook
 Requires: py3-flake8
