@@ -1,31 +1,14 @@
-### FILE scramv1-tool-conf
+### FILE scram-tool-conf
 ## NOCOMPILER
 ## BUILDREQUIRE-TOOLFILE
-Requires: gmake-toolfile
+Requires: gmake
 BuildRequires: SCRAMV1
+## INCLUDE compilation_flags
 Source: none
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-%define CheckScramTools \
-  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
-  toolbase=`eval echo \\\\$${uctool}_ROOT` \
-  [ -d $toolbase/etc/scram.d ] || continue
-
-%define CopyScramTools \
-  echo ">> Copying tool files from: $tool" \
-  for xml in $(find $toolbase/etc/scram.d -type f) ; do \
-    bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
-    [ -f %i/tools/selected/$bxml ] && continue \
-    [ -f %i/tools/available/$bxml ] && continue \
-    cp $xml %i/tools/selected/${bxml} \
-    echo "  Copied $bxml" \
-  done
 
 %prep
 %build
 
-# This is a generic template to collect SCRAMToolBox toolfiles of all the tools
-# and generate CMSconfiguration, tools-STANDALONE.conf and requirements file
-#
 #   requiredtools	Tools for which we need to collect the SCRAMToolBox toolfiles
 #                  	(This is automatically set by install.sh script)
 #   skipreqtools	Do not add these tools in selected directory
@@ -34,62 +17,42 @@ Source: none
 rm -rf %i
 mkdir -p %i/tools/selected %i/tools/available
 
-%if "%{?systemtools:set}" != "set"
-%define systemtools %{nil}
-%endif
-
 %if "%{?skipreqtools:set}" != "set"
 %define skipreqtools %{nil}
 %endif
 
-DoneTools=" "
-SkipTools=
+%if "%{?package_vectorization}" != ""
+export PKG_VECTORIZATION=`echo %package_vectorization`
+%endif
+export CMSDIST_DIR=%cmsdist_directory
+
+%ifarch x86_64
+export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
+%endif
+%ifarch ppc64le
+export COMPILER_CXXFLAGS="%{ppc64le_build_flags}"
+%endif
+export ORACLE_ENV_ROOT=""
+if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
+if [ $(echo ' %requiredtools ' | grep ' python ' |wc -l) -gt 0 ] ;  then export PYTHON_LIB_SITE_PACKAGES ; fi
+
 for tool in %requiredtools; do
-  wot=`echo $tool | sed 's|-tool-conf$||'`
-  [ "X$tool" == "X$wot" ] && continue
+  echo ">> Copying tool files from: $tool"
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
-  [ -d $toolbase/tools/selected ] || continue
-  [ -d $toolbase/tools/available ] || continue
-  DoneTools="$DoneTools $tool "
-  echo ">> Copying tool files from: $tool"
-  find $toolbase/tools/selected -type f -exec cp {} %i/tools/selected \;
-  find $toolbase/tools/available -type f -exec cp {} %i/tools/available \;
+  toolver=`eval echo \\$${uctool}_VERSION`
+  ${SCRAM_TOOLS_ROOT}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
 done
-for tool in %requiredtools %buildrequiredtools %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  wot=`echo $tool | sed 's|-toolfile$||'`
-  [ "X$tool" == "X$wot" ] && SkipTools="${SkipTools}${tool} " && continue
-  %{CheckScramTools}
-  DoneTools="$DoneTools $wot "
-  %{CopyScramTools}
-done
-for tool in $SkipTools ; do
-  [ "X`echo $DoneTools | tr ' ' '\n' | grep ^$tool$`" == "X" ] || continue
-  %{CheckScramTools}
-  %{CopyScramTools}
-done
-
-# Fixes logic in above loop in case of online release:
-# the descriptions of explicitly defined systemtools should 
-# take precedence over those from cms-rebuilt rpms
-%if "%online" == "true"
-for tool in %systemtools ${PKGTOOLS_SYSTEM_TOOLS} ; do
-  lc_tool=$(echo $tool | tr '[A-Z]' '[a-z]')
-  rm -f %i/tools/selected/${lc_tool} %i/tools/selected/${lc_tool}.xml
-  cp -rf %{onlinesystemtoolsroot}/etc/scram.d/${tool}.xml %i/tools/selected/${lc_tool}.xml
-done
-# For now copy all systemtools files. If needed, this can be done more selectively.
-%endif
 
 for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   [ -f %i/tools/selected/${stool}.xml ] || continue
   mv %i/tools/selected/${stool}.xml %i/tools/available
 done
-
+  
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
-  find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
-  ToolErrors=`cat %i/errors.log | wc -l | awk '{print $1}'`
-  if [ "X$ToolErrors" != "X0" ] ; then
+  touch %i/errors.log
+  find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool >> %i/errors.log 2>&1 || true)
+  if [ $(grep 'ERROR:' %i/errors.log | wc -l) -gt 0 ] ; then
     cat %i/errors.log
     exit 1
   fi
@@ -123,7 +86,7 @@ echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
 ALL_PY_BIN=""
 ALL_PY_BIN_PKGS=""
-for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/py[23]-') ; do
+for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep '/py[23]-') ; do
   pk_name=$(echo $pkg | cut -d/ -f2 | tr '[A-Z]' '[a-z]')
   if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
   pk_ver=$(echo $pkg | cut -d/ -f3)
@@ -142,6 +105,7 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep -v '\-toolfile/' | grep '/
   echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
 done
 DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
+
 set +x
 if [ "${DUP_BIN}" != "" ] ; then
   for p in ${DUP_BIN} ; do
@@ -151,7 +115,26 @@ if [ "${DUP_BIN}" != "" ] ; then
   exit 1
 fi
 set -x
+
+#vectorized packages
+%if "%{?vectorized_packages}" != ""
+for vect_package in  %vectorized_packages; do
+    echo $vect_package
+    package_uc=$(echo $vect_package | tr '[a-z-]' '[A-Z_]')
+    r=""
+    #echo $package_uc
+    for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]'); do
+    	r=$r"    <environment name=\"${v}_LIBDIR\" default=\""
+	r=$r'\$'
+	r=$r${package_uc}_${v}_ROOT/lib"\"/>\n"
+    	#echo $v
+    done
+    r=$r'</client>'
+    perl -p -i -e "s|</client>|${r}|g" %i/tools/selected/$(echo $vect_package | tr '[A-Z]' '[a-z]').xml
+done
+%endif
+
 %post
+
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
-
