@@ -96,16 +96,17 @@ if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   rm -f %i/errors.log
 fi
 
-py27List=`echo ${PYTHON27PATH} | tr ':' '\n'`
-
-mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
-touch %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
-for pkg in ${py27List} ; do
-   echo "adding $pkg"
-   echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
-done
 echo '<tool name="python-paths" version="1.0">' > %{i}/tools/selected/python-paths.xml
-echo '  <runtime name="PYTHON27PATH"  value="%{i}/'${PYTHON_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+if [ "${PYTHON27PATH}" != "" ] ; then
+  py27List=`echo ${PYTHON27PATH} | tr ':' '\n'`
+  mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
+  touch %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
+  for pkg in ${py27List} ; do
+     echo "adding $pkg"
+     echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
+  done
+  echo '  <runtime name="PYTHON27PATH"  value="%{i}/'${PYTHON_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+fi
 
 if [ "${PYTHON3PATH}" != "" ] ; then
   py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
