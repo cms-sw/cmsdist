@@ -99,7 +99,7 @@ Requires: hls-toolfile
 Requires: opencv-toolfile
 Requires: grpc-toolfile
 Requires: onnxruntime-toolfile
-Requires: triton-inference-server-toolfile
+Requires: triton-inference-client-toolfile
 Requires: hdf5-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
