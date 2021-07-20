@@ -14,7 +14,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         050756d3ddbf0692b74451f6ba3d75d54d345d9e
+%define tag         9b69eda15062cfec1b9c2d6f78c0fecbf9e67a34
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
@@ -87,6 +87,7 @@ echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
 echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
+echo "pybind11:${PY3_PYBIND11_ROOT}"        >> ${TF_CMS_EXTERNALS}
 echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
 echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
 echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}

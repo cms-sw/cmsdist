@@ -1,4 +1,4 @@
-### RPM external bazel 3.7.0
+### RPM external bazel 3.7.2
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 
@@ -28,7 +28,7 @@ Patch0: bazel-3.7.0-patches
 
 %build
 
-export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk"
+export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
 bash ./compile.sh
 
 %install
