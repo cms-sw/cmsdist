@@ -1,5 +1,5 @@
 diff --git a/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java b/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
-index 0ea30a9..8df189f 100644
+index 0ea30a9..8df189f 100755
 --- a/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
 +++ b/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
 @@ -359,7 +359,7 @@ public interface StarlarkActionFactoryApi extends StarlarkValue {
