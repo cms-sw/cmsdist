@@ -1,14 +1,4 @@
 ##Tensorflow Common build files
-############################################
-# IMPORTANT
-# - Whenever the version of tensorflow changes,
-#   update it also in tensorflow-c tensorflow-cc
-#   and py2-tensorflow version too
-# - Need to check protobuf and eigen versions
-# - Check eigen flags in third_party/eigen.BUILD
-#   and update eigen-toolfile.spec accordingly
-############################################
-
 BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
