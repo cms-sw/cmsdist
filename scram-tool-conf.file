@@ -8,6 +8,10 @@ Source99: scram-tools
 ## INCLUDE cuda-flags
 Source: none
 
+%if "%{?vec_tools:set}" != "set"
+%define vec_tools %{nil}
+%endif
+
 %prep
 %build
 
