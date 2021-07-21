@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 36
+### RPM cms cmsswdata 40.0
 ## NOCOMPILER
 Source: none
 
@@ -106,7 +106,7 @@ EOF_TOOLFILE
 for toolbase in `echo %pkgreqs | tr ' ' '\n' | grep 'cms/data-'` ; do
   toolver=`basename $toolbase`
   pack=`echo $toolbase | cut -d/ -f2 | sed 's|data-||;s|-|/|'`
-  echo "      <flags CMSSW_DATA_PACKAGE=\"$pack=$toolver\"/>" >> %i/etc/scram.d/cmsswdata.xml
+  echo "    <flags CMSSW_DATA_PACKAGE=\"$pack=$toolver\"/>" >> %i/etc/scram.d/cmsswdata.xml
   echo "    <runtime name=\"CMSSW_SEARCH_PATH\" default=\"%{cmsroot}/%{cmsplatf}/$toolbase\" type=\"path\"/>" >> %i/searchpath.xml
 done
 
@@ -115,6 +115,7 @@ echo "  </tool>"      >> %i/etc/scram.d/cmsswdata.xml
 rm -f %i/searchpath.xml
 
 %post
+%{relocateConfig}etc/scram.d/*.xml
 echo "%{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set %{BaseTool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "%{BaseTool}_PKGREQUIRED='%pkgreqs'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh

@@ -1,4 +1,4 @@
-### RPM external geant4data 2.0
+### RPM external geant4data 10.0
 ## NOCOMPILER
 
 Requires: geant4-G4NDL
@@ -38,6 +38,7 @@ echo "</tool>" >> %i/etc/scram.d/geant4data.xml
 
 %post
 if [ "X$CMS_INSTALL_PREFIX" = "X" ] ; then CMS_INSTALL_PREFIX=$RPM_INSTALL_PREFIX; export CMS_INSTALL_PREFIX; fi
+%{relocateConfig}etc/scram.d/*.xml
 echo "GEANT4DATA_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set GEANT4DATA_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "GEANT4DATA_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
