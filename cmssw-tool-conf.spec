@@ -5,6 +5,9 @@
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
 
+%define vectorized_packages OpenBLAS fastjet mkfit rivet tensorflow vecgeom zlib
+%{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
+
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: google-benchmark
@@ -25,7 +28,6 @@ Requires: davix
 Requires: evtgen
 Requires: expat
 Requires: fakesystem
-Requires: fastjet
 Requires: flatbuffers
 Requires: fmt
 Requires: gbl
@@ -33,7 +35,6 @@ Requires: gcc
 Requires: gdbm
 Requires: geant4
 Requires: geant4data
-Requires: vecgeom
 Requires: glimpse
 Requires: gmake
 Requires: gsl
@@ -85,7 +86,6 @@ Requires: thepeg
 Requires: toprex
 Requires: libuuid
 Requires: xerces-c
-Requires: zlib
 Requires: dcap
 Requires: frontier_client
 Requires: xrootd
@@ -100,7 +100,6 @@ Requires: grpc
 Requires: onnxruntime
 Requires: triton-inference-client
 Requires: hdf5
-Requires: rivet
 Requires: cascade
 Requires: yoda
 Requires: fftw3
@@ -148,9 +147,7 @@ Requires: gosam
 Requires: madgraph5amcatnlo
 Requires: python_tools
 Requires: dasgoclient
-Requires: OpenBLAS
 Requires: mxnet-predict
-Requires: mkfit
 Requires: dablooms
 
 # Only for Linux platform.
@@ -184,7 +181,6 @@ Requires: oracle-fake
 %endif
 %endif
 
-Requires: tensorflow
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
