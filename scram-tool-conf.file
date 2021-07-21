@@ -48,6 +48,20 @@ for tool in %requiredtools; do
   %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
 done
 
+for vec in %{package_vectorization}; do \
+  ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
+  for tool in %{vec_tools}; do \
+    uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
+    toolbase=`eval echo \\$${uctool}_${ucvec}_ROOT`
+    toolver=`eval echo \\$${uctool}_${ucvec}_VERSION`
+    %{_sourcedir}/scram-tools/bin/get_vectorized_tools "$toolbase" "$toolver" %i "${tool}" "${vec}"
+  done
+  if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
+    f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
+    sed -i -e "s#</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n</tool>#" %i/tools/selected/gcc-cxxcompiler.xml
+  fi
+done
+
 for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   [ -f %i/tools/selected/${stool}.xml ] || continue
   mv %i/tools/selected/${stool}.xml %i/tools/available
