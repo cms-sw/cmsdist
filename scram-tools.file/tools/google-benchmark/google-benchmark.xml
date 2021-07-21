@@ -1,0 +1,10 @@
+<tool name="google-benchmark" version="@TOOL_VERSION@">
+  <info url="https://github.com/google/benchmark"/>
+  <lib name="benchmark"/>
+  <client>
+    <environment name="GOOGLE_BENCHMARK_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"       default="$GOOGLE_BENCHMARK_BASE/lib"/>
+    <environment name="INCLUDE"      default="$GOOGLE_BENCHMARK_BASE/include"/>
+  </client>
+  <use name="sockets"/>
+</tool>

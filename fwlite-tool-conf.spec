@@ -4,7 +4,6 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-BuildRequires: scram-tools
 Requires: eigen
 Requires: fmt
 Requires: tbb

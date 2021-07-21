@@ -1,7 +1,6 @@
 ### RPM cms coral-tool-conf 10.0
 ## NOCOMPILER
 
-BuildRequires: scram-tools
 Requires: pcre
 Requires: python
 Requires: expat

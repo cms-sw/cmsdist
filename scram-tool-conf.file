@@ -3,6 +3,7 @@
 ## BUILDREQUIRE-TOOLFILE
 Requires: gmake
 BuildRequires: SCRAMV1
+Source99: scram-tools
 ## INCLUDE compilation_flags
 ## INCLUDE cuda-flags
 Source: none
@@ -44,7 +45,7 @@ for tool in %requiredtools; do
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
   toolver=`eval echo \\$${uctool}_VERSION`
-  ${SCRAM_TOOLS_ROOT}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
+  %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
 done
 
 for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do

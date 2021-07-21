@@ -1,0 +1,7 @@
+<tool name="xtl" version="@TOOL_VERSION@">
+  <info url="https://github.com/QuantStack/xtl"/>
+  <client>
+    <environment name="XTL_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$XTL_BASE/include"/>
+  </client>
+</tool>
