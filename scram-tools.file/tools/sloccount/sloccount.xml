@@ -1,0 +1,7 @@
+  <tool name="sloccount" version="@TOOL_VERSION@">
+    <info url="http://www.dwheeler.com/sloccount/"/>
+    <client>
+      <environment name="SLOCCOUNT_BASE" default="@TOOL_ROOT@"/>
+    </client>
+    <runtime name="PATH" value="$SLOCCOUNT_BASE/bin" type="path"/>
+  </tool>

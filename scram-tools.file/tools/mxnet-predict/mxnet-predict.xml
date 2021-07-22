@@ -1,0 +1,10 @@
+<tool name="mxnet-predict" version="@TOOL_VERSION@">
+  <lib name="mxnet"/>
+  <client>
+    <environment name="MXNET_PREDICT_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$MXNET_PREDICT_BASE/include"/>
+    <environment name="LIBDIR" default="$MXNET_PREDICT_BASE/lib"/>
+  </client>
+  <use name="openblas"/>
+  <flags SYSTEM_INCLUDE="1"/>
+</tool>

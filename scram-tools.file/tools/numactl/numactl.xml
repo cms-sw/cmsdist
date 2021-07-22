@@ -1,0 +1,10 @@
+<tool name="numactl" version="@TOOL_VERSION@">
+  <lib name="numa"/>
+  <client>
+    <environment name="NUMACTL_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"      default="$NUMACTL_BASE/include"/>
+    <environment name="LIBDIR"       default="$NUMACTL_BASE/lib"/>
+  </client>
+  <runtime name="PATH" value="$NUMACTL_BASE/bin" type="path"/>
+  <runtime name="MANPATH" value="$NUMACTL_BASE/share/man" type="path"/>
+</tool>

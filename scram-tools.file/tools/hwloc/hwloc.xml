@@ -1,0 +1,9 @@
+<tool name="hwloc" version="@TOOL_VERSION@">
+  <lib name="hwloc"/>
+  <client>
+    <environment name="HWLOC_BASE"  default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"     default="$HWLOC_BASE/include/hwloc"/>
+    <environment name="LIBDIR"      default="$HWLOC_BASE/lib"/>
+  </client>
+  <runtime name="PATH" value="$HWLOC_BASE/bin" type="path"/>
+</tool>

@@ -1,0 +1,5 @@
+<tool name="boost_program_options" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_PROGRAM_OPTIONS_LIB@"/>
+  <use name="boost"/>
+</tool>
