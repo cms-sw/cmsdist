@@ -1,0 +1,10 @@
+<tool name="boost" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_THREAD_LIB@"/>
+  <lib name="@BOOST_DATE_TIME_LIB@"/>
+  <client>
+    <environment name="BOOST_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$BOOST_BASE/lib"/>
+  </client>
+  <use name="boost_header"/>
+</tool>

@@ -1,0 +1,7 @@
+<tool name="openldap" version="@TOOL_VERSION@">
+  <client>
+    <environment name="OPENLDAP_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$OPENLDAP_BASE/lib"/>
+  </client>
+  <use name="db6"/>
+</tool>
