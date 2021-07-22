@@ -1,0 +1,162 @@
+### FILE scram-tool-conf
+## NOCOMPILER
+## BUILDREQUIRE-TOOLFILE
+Requires: gmake
+BuildRequires: SCRAMV1
+Source99: scram-tools
+## INCLUDE compilation_flags
+## INCLUDE cuda-flags
+Source: none
+
+%if "%{?vec_tools:set}" != "set"
+%define vec_tools %{nil}
+%endif
+
+%prep
+%build
+
+#   requiredtools	Tools for which we need to collect the SCRAMToolBox toolfiles
+#                  	(This is automatically set by install.sh script)
+#   skipreqtools	Do not add these tools in selected directory
+
+%install
+rm -rf %i
+mkdir -p %i/tools/selected %i/tools/available
+
+%if "%{?skipreqtools:set}" != "set"
+%define skipreqtools %{nil}
+%endif
+
+%if "%{?package_vectorization}" != ""
+export PKG_VECTORIZATION=`echo %package_vectorization`
+%endif
+export CMSDIST_DIR=%cmsdist_directory
+
+%ifarch x86_64
+export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
+%endif
+%ifarch ppc64le
+export COMPILER_CXXFLAGS="%{ppc64le_build_flags}"
+%endif
+export ORACLE_ENV_ROOT=""
+export CUDA_FLAGS="%{nvcc_cuda_flags}"
+export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
+if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
+if [ $(echo ' %requiredtools ' | grep ' python ' |wc -l) -gt 0 ] ;  then export PYTHON_LIB_SITE_PACKAGES ; fi
+
+for tool in %requiredtools; do
+  echo ">> Copying tool files from: $tool"
+  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
+  toolbase=`eval echo \\$${uctool}_ROOT`
+  toolver=`eval echo \\$${uctool}_VERSION`
+  %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
+done
+
+for vec in %{package_vectorization}; do \
+  ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
+  for tool in %{vec_tools}; do \
+    uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
+    toolbase=`eval echo \\$${uctool}_${ucvec}_ROOT`
+    toolver=`eval echo \\$${uctool}_${ucvec}_VERSION`
+    %{_sourcedir}/scram-tools/bin/get_vectorized_tools "$toolbase" "$toolver" %i "${tool}" "${vec}"
+  done
+  if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
+    f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
+    sed -i -e "s#</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n</tool>#" %i/tools/selected/gcc-cxxcompiler.xml
+  fi
+done
+
+for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
+  [ -f %i/tools/selected/${stool}.xml ] || continue
+  mv %i/tools/selected/${stool}.xml %i/tools/available
+done
+  
+if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
+  touch %i/errors.log
+  find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool >> %i/errors.log 2>&1 || true)
+  if [ $(grep 'ERROR:' %i/errors.log | wc -l) -gt 0 ] ; then
+    cat %i/errors.log
+    exit 1
+  fi
+  rm -f %i/errors.log
+fi
+
+echo '<tool name="python-paths" version="1.0">' > %{i}/tools/selected/python-paths.xml
+if [ "${PYTHON27PATH}" != "" ] ; then
+  py27List=`echo ${PYTHON27PATH} | tr ':' '\n'`
+  mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
+  touch %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
+  for pkg in ${py27List} ; do
+     echo "adding $pkg"
+     echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
+  done
+  echo '  <runtime name="PYTHON27PATH"  value="%{i}/'${PYTHON_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+fi
+
+if [ "${PYTHON3PATH}" != "" ] ; then
+  py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
+  mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+  touch %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+  for pkg in ${py3List} ; do
+     echo "adding $pkg"
+     echo "$pkg" >> %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+  done
+  echo '  <runtime name="PYTHON3PATH"  value="%{i}/'${PYTHON3_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+fi
+
+echo '</tool>' >> %{i}/tools/selected/python-paths.xml
+
+ALL_PY_BIN=""
+ALL_PY_BIN_PKGS=""
+for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep '/py[23]-') ; do
+  pk_name=$(echo $pkg | cut -d/ -f2 | tr '[A-Z]' '[a-z]')
+  if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
+  pk_ver=$(echo $pkg | cut -d/ -f3)
+  uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
+  echo "<tool name=\"$pk_name\" version=\"$pk_ver\">" > %{i}/tools/selected/${pk_name}.xml
+  if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
+    for b in $(ls %{cmsroot}/%{cmsplatf}/$pkg/bin) ; do
+      ALL_PY_BIN="${ALL_PY_BIN} ${b}"
+      ALL_PY_BIN_PKGS="${ALL_PY_BIN_PKGS} ${b}:${pk_name}"
+    done
+    echo "  <client>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "  </client>" >> %{i}/tools/selected/${pk_name}.xml
+    echo "  <runtime name=\"PATH\" value=\"\$${uctool}_BASE/bin\" type=\"path\"/>" >> %{i}/tools/selected/${pk_name}.xml
+  fi
+  echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
+done
+DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
+
+set +x
+if [ "${DUP_BIN}" != "" ] ; then
+  for p in ${DUP_BIN} ; do
+    echo ${ALL_PY_BIN_PKGS} | tr ' ' '\n' | grep "^${p}:"
+  done
+  echo "ERROR: Duplicate python binaries found. Please cleanup and make sure only one binary is available."
+  exit 1
+fi
+set -x
+
+#vectorized packages
+%if "%{?vectorized_packages}" != ""
+for vect_package in  %vectorized_packages; do
+    echo $vect_package
+    package_uc=$(echo $vect_package | tr '[a-z-]' '[A-Z_]')
+    r=""
+    #echo $package_uc
+    for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]'); do
+    	r=$r"    <environment name=\"${v}_LIBDIR\" default=\""
+	r=$r'\$'
+	r=$r${package_uc}_${v}_ROOT/lib"\"/>\n"
+    	#echo $v
+    done
+    r=$r'</client>'
+    perl -p -i -e "s|</client>|${r}|g" %i/tools/selected/$(echo $vect_package | tr '[A-Z]' '[a-z]').xml
+done
+%endif
+
+%post
+
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)

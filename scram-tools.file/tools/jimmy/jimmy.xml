@@ -1,0 +1,10 @@
+<tool name="jimmy" version="@TOOL_VERSION@">
+  <lib name="jimmy"/>
+  <client>
+    <environment name="JIMMY_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$JIMMY_BASE/lib"/>
+  </client>
+  <use name="f77compiler"/>
+  <use name="herwig"/>
+  <use name="jimmy_headers"/>
+</tool>

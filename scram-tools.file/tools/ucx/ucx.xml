@@ -1,0 +1,12 @@
+<tool name="ucx" version="@TOOL_VERSION@">
+  <lib name="ucp"/>
+  <lib name="uct"/>
+  <lib name="ucs"/>
+  <lib name="ucm"/>
+  <client>
+    <environment name="UCX_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"  default="$UCX_BASE/include"/>
+    <environment name="LIBDIR"   default="$UCX_BASE/lib"/>
+  </client>
+  <runtime name="PATH" value="$UCX_BASE/bin" type="path"/>
+</tool>

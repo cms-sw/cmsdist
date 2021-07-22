@@ -1,0 +1,7 @@
+<tool name="alpaka" version="@TOOL_VERSION@">
+  <use name="boost"/>
+  <client>
+    <environment name="ALPAKA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"     default="$ALPAKA_BASE/include"/>
+  </client>
+</tool>

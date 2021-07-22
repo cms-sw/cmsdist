@@ -1,0 +1,8 @@
+<tool name="libpciaccess" version="@TOOL_VERSION@">
+  <lib name="libpciaccess"/>
+  <client>
+    <environment name="LIBPCIACCESS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"            default="$LIBPCIACCESS_BASE/lib"/>
+    <environment name="INCLUDE"           default="$LIBPCIACCESS_BASE/include"/>
+  </client>
+</tool>

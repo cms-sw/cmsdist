@@ -1,0 +1,7 @@
+<tool name="das_client" version="@TOOL_VERSION@">
+  <client>
+    <environment name="DAS_CLIENT_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH"       value="$DAS_CLIENT_BASE/bin" type="path"/>
+  <use name="python"/>
+</tool>

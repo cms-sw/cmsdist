@@ -1,0 +1,10 @@
+<tool name="gdbm" version="@TOOL_VERSION@">
+  <lib name="gdbm"/>
+  <client>
+    <environment name="GDBM_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$GDBM_BASE/lib"/>
+    <environment name="INCLUDE" default="$GDBM_BASE/include"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
+</tool>

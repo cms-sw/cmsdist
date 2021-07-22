@@ -1,0 +1,8 @@
+<tool name="vdt" version="@TOOL_VERSION@">
+  <lib name="vdt"/>
+  <use name="vdt_headers"/>
+  <client>
+    <environment name="VDT_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$VDT_BASE/lib"/>
+  </client>
+</tool>

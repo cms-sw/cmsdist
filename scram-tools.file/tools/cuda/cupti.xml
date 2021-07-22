@@ -1,0 +1,9 @@
+<tool name="cupti" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
+  <lib name="cupti"/>
+  <client>
+    <environment name="CUPTI_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"     default="$CUPTI_BASE/lib64"/>
+    <environment name="INCLUDE"    default="$CUPTI_BASE/include"/>
+  </client>
+</tool>
