@@ -16,9 +16,12 @@ Requires: openloops
 BuildRequires: autotools
 
 
+Patch0: herwig_Matchbox_mg_py3
+
 %prep
 %setup -q -n Herwig-%{realversion}
 
+%patch0 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
