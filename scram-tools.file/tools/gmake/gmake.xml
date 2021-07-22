@@ -1,0 +1,6 @@
+<tool name="gmake" version="@TOOL_VERSION@">
+  <client>
+    <environment name="MAKE_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$MAKE_BASE/bin" type="path"/>
+</tool>

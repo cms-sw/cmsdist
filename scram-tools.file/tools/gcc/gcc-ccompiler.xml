@@ -1,0 +1,8 @@
+  <tool name="gcc-ccompiler" version="@TOOL_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
+    </client>
+    <flags CSHAREDOBJECTFLAGS="-fPIC @GCC_CSHAREDOBJECTFLAGS@"/>
+    <flags CFLAGS="-O2 -pthread @GCC_CFLAGS@"/>
+  </tool>

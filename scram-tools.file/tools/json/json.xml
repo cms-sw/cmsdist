@@ -1,0 +1,6 @@
+<tool name="json" version="@TOOL_VERSION@">
+  <client>
+    <environment name="JSON_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"   default="$JSON_BASE/include"/>
+  </client>
+</tool>

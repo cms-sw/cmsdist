@@ -1,0 +1,10 @@
+<tool name="tauola" version="@TOOL_VERSION@">
+  <lib name="pretauola"/>
+  <lib name="tauola"/>
+  <client>
+    <environment name="TAUOLA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$TAUOLA_BASE/lib"/>
+  </client>
+  <use name="f77compiler"/>
+  <use name="tauola_headers"/>
+</tool>
