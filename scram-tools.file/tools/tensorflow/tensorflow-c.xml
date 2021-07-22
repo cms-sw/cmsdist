@@ -1,0 +1,7 @@
+<tool name="tensorflow-c" version="@TOOL_VERSION@">
+  <lib name="tensorflow"/>
+  <use name="tensorflow-framework"/>
+  <use name="eigen"/>
+  <use name="libpng"/>
+  <use name="sqlite"/>
+</tool>

@@ -123,10 +123,10 @@ Requires: py3-python-ldap
 Requires: py3-plac
 
 Requires: py3-matplotlib
-Requires: py3-numpy-toolfile
+Requires: py3-numpy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
-Requires: py3-dxr-toolfile
+Requires: py3-dxr
 Requires: py3-PyYAML
 Requires: py3-pylint
 Requires: py3-pip
@@ -134,7 +134,7 @@ Requires: py3-pip
 Requires: py3-cx-Oracle
 %endif
 Requires: py3-cython
-Requires: py3-pybind11-toolfile
+Requires: py3-pybind11
 Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8
@@ -217,9 +217,4 @@ Requires: py3-correctionlib
 %build
 
 %install
-mkdir -p %{i}/etc/scram.d
-cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
-<tool name="%{n}" version="%{v}">
-</tool>
-EOF_TOOLFILE
 

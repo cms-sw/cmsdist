@@ -1,0 +1,22 @@
+#!/bin/bash -ex
+#Usage: get_tool <tool-install-dir> <tool-version> <directory-to-install-toolfiles> <toolname> <vectorization>
+
+export TOOL_ROOT=$1
+export TOOL_VERSION=$2
+export TOOLFILES_INSTALL_DIR=$3
+export SCRAM_TOOLS_BIN_DIR=$(dirname $(realpath ${0}))
+export SCRAM_TOOL_SOURCE_DIR=$(realpath ${SCRAM_TOOLS_BIN_DIR}/../tools)/$4
+export TOOL_VECTORIZATION=$5
+
+#exit if no tool directory found. Not all tools have scram toolfiles
+[ -d $SCRAM_TOOL_SOURCE_DIR ] || exit 0
+
+xml="$SCRAM_TOOL_SOURCE_DIR/vectorized.tmpl"
+if [ -f $xml ] ; then
+  bxml="${4}_${5}.xml"
+  [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
+  [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
+  cp ${xml} ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
+  export TOOL_VECTORIZATION_KEY=$(echo $5 | tr '[a-z-]' '[A-Z_]')
+  perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
+fi
