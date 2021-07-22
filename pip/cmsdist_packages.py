@@ -21,5 +21,5 @@ def packages(virtual_packages, *args):
         if m.group(2)=='==' and extra_match[m.group(1)]!=m.group(3): matched=False
         if m.group(2)=='!=' and extra_match[m.group(1)]==m.group(3): matched=False
     if matched:
-      virtual_packages['py3-'+pkg]='%s/package.sh "%s-%s" "%s" "%s"' % (pkg_dir, py, pkg, ver, py)
+      virtual_packages['py3-'+pkg]='%s/package.sh "py3-%s" "%s" "py3"' % (pkg_dir, pkg, ver)
   return
