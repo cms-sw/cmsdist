@@ -1,0 +1,11 @@
+--- Herwig-7.2.2/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in	2021-07-21 03:10:26.000000001 +0200
++++ mg2herwig_patched	2021-07-21 13:33:43.000000001 +0200
+@@ -224,7 +224,7 @@
+   sys.stderr.write("*** MadGraph build failed, check logfile for details ***")
+   exit(1)
+ 
+-os.system("python "+options.madgraph+"/mg5_aMC proc.dat")
++os.system("python3 "+options.madgraph+"/mg5_aMC proc.dat")
+ 
+ 
+ 
