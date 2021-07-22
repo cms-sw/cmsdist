@@ -1,3 +1,6 @@
+%define source0  https://github.com/tensorflow/tensorboard/archive/refs/tags/data-server-v%{realversion}.tar.gz
+%define patchsrc pushd .. ; \
+                   mkdir data-server ; mv tensorboard-data-server-v%{realversion}/tensorboard/data/server/pip_package/* data-server/ ; \
+                   rm -rf tensorboard-data-server-v%{realversion} ; mv data-server tensorboard-data-server-v%{realversion}; \
+                 popd
 BuildRequires: py3-wheel
-Provides: libc.so.6(GLIBC_2.18)(64bit)
-%define PipDownloadSourceType none
