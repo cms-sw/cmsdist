@@ -1,0 +1,43 @@
+  <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
+    <client>
+      <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
+    </client>
+    <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @GCC_CPPDEFINES@"/>
+    <flags CXXSHAREDOBJECTFLAGS="-fPIC @GCC_CXXSHAREDOBJECTFLAGS@"/>
+    <flags CXXFLAGS="-O2 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
+    <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @GCC_CXXFLAGS@"/>
+    <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
+    <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
+    <flags CXXFLAGS="-Wextra -Wpessimizing-move -Wclass-memaccess"/>
+    <flags CXXFLAGS="-Wno-cast-function-type -Wno-unused-but-set-parameter -Wno-ignored-qualifiers -Wno-deprecated-copy -Wno-unused-parameter"/>
+    <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
+    <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
+    <flags CXXFLAGS="-Werror=unused-label"/>
+    <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
+    <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
+    <flags CXXFLAGS="-Werror=strict-aliasing"/>
+    <flags CXXFLAGS="-Werror=narrowing"/>
+    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
+    <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
+    <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
+    <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
+    <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+    <flags LDFLAGS="@GCC_LDFLAGS@"/>
+    <flags CXXSHAREDFLAGS="@GCC_SHAREDFLAGS@"/>
+    <flags LD_UNIT="@GCC_LD_UNIT@"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
+    <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
+    <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
+    <ifrelease name="_ASAN">
+      <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libasan.so" type="path"/>
+    <elif name="_LSAN"/>
+      <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libasan.so" type="path"/>
+    <elif name="_UBSAN"/>
+      <runtime name="GCC_RUNTIME_UBSAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libubsan.so" type="path"/>
+    <elif name="_TSAN"/>
+      <runtime name="GCC_RUNTIME_TSAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libtsan.so" type="path"/>
+    </ifrelease>
+    <runtime name="COMPILER_PATH"    value="@TOOL_ROOT@"/>
+  </tool>

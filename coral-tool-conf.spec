@@ -1,24 +1,23 @@
-### RPM cms coral-tool-conf 2.1
+### RPM cms coral-tool-conf 10.0
 ## NOCOMPILER
 
-Requires: pcre-toolfile
-Requires: python3-toolfile
-Requires: expat-toolfile
-Requires: boost-toolfile
-Requires: frontier_client-toolfile
-Requires: gcc-toolfile
-
-Requires: sqlite-toolfile
-Requires: libuuid-toolfile
-Requires: zlib-toolfile
-Requires: bz2lib-toolfile
-Requires: cppunit-toolfile
-Requires: xerces-c-toolfile
+Requires: pcre
+Requires: python
+Requires: expat
+Requires: boost
+Requires: frontier_client
+Requires: gcc
+Requires: sqlite
+Requires: libuuid
+Requires: zlib
+Requires: bz2lib
+Requires: cppunit
+Requires: xerces-c
 Requires: systemtools
 %ifarch x86_64
-Requires: oracle-toolfile
+Requires: oracle
 %endif
 
 %define skipreqtools jcompiler
 
-## IMPORT scramv1-tool-conf
+## INCLUDE scram-tool-conf

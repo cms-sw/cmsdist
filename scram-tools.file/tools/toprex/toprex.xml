@@ -1,0 +1,9 @@
+<tool name="toprex" version="@TOOL_VERSION@">
+  <lib name="toprex"/>
+  <client>
+    <environment name="TOPREX_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$TOPREX_BASE/lib"/>
+  </client>
+  <use name="toprex_headers"/>
+  <use name="f77compiler"/>
+</tool>

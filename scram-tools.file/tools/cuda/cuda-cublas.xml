@@ -1,0 +1,6 @@
+<tool name="cuda-cublas" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/cublas/index.html"/>
+  <use name="cuda"/>
+  <lib name="cublas"/>
+  <lib name="cublasLt"/>
+</tool>

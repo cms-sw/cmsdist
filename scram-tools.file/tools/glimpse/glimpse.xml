@@ -1,0 +1,6 @@
+<tool name="glimpse" version="@TOOL_VERSION@">
+  <client>
+    <environment name="GLIMPSE_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$GLIMPSE_BASE/bin" type="path"/>
+</tool>

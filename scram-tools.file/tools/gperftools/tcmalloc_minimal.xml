@@ -1,0 +1,7 @@
+<tool name="tcmalloc_minimal" version="@TOOL_VERSION@">
+  <lib name="tcmalloc_minimal"/>
+  <client>
+    <environment name="TCMALLOC_MINIMAL_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"                default="$TCMALLOC_MINIMAL_BASE/lib"/>
+  </client>
+</tool>

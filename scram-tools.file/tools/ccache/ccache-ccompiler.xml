@@ -1,0 +1,6 @@
+  <tool name="ccache-ccompiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="gcc-ccompiler"/>
+    <client>
+      <environment name="CC" value="@TOOL_ROOT@/bin/gcc"/>
+    </client>
+  </tool>

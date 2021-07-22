@@ -1,0 +1,7 @@
+  <tool name="llvm-analyzer-ccompiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="llvm-ccompiler"/>
+    <client>
+      <environment name="LLVM_ANALYZER_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="CC" value="$LLVM_ANALYZER_CCOMPILER_BASE/bin/ccc-analyzer"/>
+    </client>
+  </tool>

@@ -1,0 +1,8 @@
+<tool name="xtensor" version="@TOOL_VERSION@">
+  <info url="https://github.com/QuantStack/xtensor"/>
+  <client>
+    <environment name="XTENSOR_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$XTENSOR_BASE/include"/>
+  </client>
+  <use name="xtl"/>
+</tool>

@@ -1,0 +1,10 @@
+<tool name="gosamcontrib" version="@TOOL_VERSION@">
+  <client>
+    <environment name="GOSAMCONTRIB_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$GOSAMCONTRIB_BASE/lib"/>
+    <environment name="INCLUDE" default="$GOSAMCONTRIB_BASE/include"/>
+  </client>
+  <runtime name="GOSAMCONTRIB_PATH" value="$GOSAMCONTRIB_BASE" type="path"/>
+  <runtime name="ROOT_PATH" value="$GOSAMCONTRIB_BASE" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+</tool>
