@@ -1,0 +1,6 @@
+<tool name="cupla-tbb" version="@TOOL_VERSION@">
+  <use name="cupla"/>
+  <use name="tbb"/>
+  <lib name="cupla-tbb"/>
+  <flags CXXFLAGS="-DALPAKA_ACC_CPU_B_TBB_T_SEQ_ENABLED -DCUPLA_STREAM_ASYNC_ENABLED=1"/>
+</tool>

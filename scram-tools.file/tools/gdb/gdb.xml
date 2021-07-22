@@ -1,0 +1,6 @@
+<tool name="gdb" version="@TOOL_VERSION@">
+  <client>
+    <environment name="GDB_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$GDB_BASE/bin" type="path"/>
+</tool>

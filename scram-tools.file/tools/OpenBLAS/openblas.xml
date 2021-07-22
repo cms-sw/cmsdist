@@ -1,0 +1,10 @@
+<tool name="OpenBLAS" version="@TOOL_VERSION@">
+  <lib name="openblas"/>
+  <client>
+    <environment name="OPENBLAS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$OPENBLAS_BASE/include"/>
+    <environment name="LIBDIR" default="$OPENBLAS_BASE/lib"/>
+    <environment name="BINDIR" default="$OPENBLAS_BASE/bin"/>
+  </client>
+  <runtime name="OPENBLAS_NUM_THREADS" value="1"/>
+</tool>

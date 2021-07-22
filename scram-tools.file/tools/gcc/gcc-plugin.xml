@@ -1,0 +1,8 @@
+  <tool name="gcc-plugin" version="@TOOL_VERSION@">
+    <lib name="cc1plugin cp1plugin"/>
+    <client>
+      <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>
+      <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
+      <environment name="LIBDIR"    default="$GCC_PLUGIN_BASE"/>
+    </client>
+  </tool>

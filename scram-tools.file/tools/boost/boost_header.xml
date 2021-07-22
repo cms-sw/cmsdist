@@ -1,0 +1,16 @@
+<tool name="boost_header" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <client>
+    <environment name="BOOSTHEADER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$BOOSTHEADER_BASE/include"/>
+  </client>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="sockets"/>
+  <use name="root_cxxdefaults"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
+  <flags CPPDEFINES="BOOST_MATH_DISABLE_STD_FPCLASSIFY"/>
+  <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
+  <flags CXXFLAGS="-Wno-error=unused-variable"/>
+  <flags SYSTEM_INCLUDE="1"/>
+</tool>

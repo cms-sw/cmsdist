@@ -1,0 +1,8 @@
+<tool name="gperf" version="@TOOL_VERSION@">
+  <lib name="profiler"/>
+  <client>
+    <environment name="GPERF_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"        default="$GPERF_BASE/lib"/>
+  </client>
+  <runtime name="PATH" value="$GPERF_BASE/bin" type="path"/>
+</tool>

@@ -1,0 +1,10 @@
+<tool name="boost_python" version="@TOOL_VERSION@">
+  <info url="http://www.boost.org"/>
+  <lib name="@BOOST_PYTHON_LIB@"/>
+  <client>
+    <environment name="BOOST_PYTHON_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
+  </client>
+  <use name="boost_header"/>
+  <use name="python3"/>
+</tool>
