@@ -1,0 +1,11 @@
+<tool name="xerces-c" version="@TOOL_VERSION@">
+  <info url="http://xml.apache.org/xerces-c/"/>
+  <lib name="xerces-c"/>
+  <client>
+    <environment name="XERCES_C_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$XERCES_C_BASE/include"/>
+    <environment name="LIBDIR" default="$XERCES_C_BASE/lib"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
+</tool>

@@ -1,0 +1,11 @@
+<tool name="python3" version="@TOOL_VERSION@">
+  <lib name="python@PYTHON3V@"/>
+  <client>
+    <environment name="PYTHON3_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PYTHON3_BASE/lib"/>
+    <environment name="INCLUDE" default="$PYTHON3_BASE/include/python@PYTHON3V@"/>
+    <environment name="PYTHON3_COMPILE" default="$PYTHON3_BASE/lib/python@PYTHON3V@/compileall.py"/>
+  </client>
+  <runtime name="PATH" value="$PYTHON3_BASE/bin" type="path"/>
+  <use name="sockets"/>
+</tool>

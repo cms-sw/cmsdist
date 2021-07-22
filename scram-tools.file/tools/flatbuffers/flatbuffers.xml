@@ -1,0 +1,9 @@
+<tool name="flatbuffers" version="@TOOL_VERSION@">
+  <lib name="flatbuffers"/>
+  <client>
+    <environment name="FLATBUFFERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"          default="$FLATBUFFERS_BASE/include"/>
+    <environment name="LIBDIR"           default="$FLATBUFFERS_BASE/lib64"/>
+  </client>
+  <runtime name="PATH" value="$FLATBUFFERS_BASE/bin" type="path"/>
+</tool>
