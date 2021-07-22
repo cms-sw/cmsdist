@@ -23,8 +23,4 @@ if [ ! -e %{cmsroot}/${chksum_source2}/%{process_src} ] ; then
   mkdir -p %{cmsroot}/${chksum_source2}
   mv %{process_src} %{cmsroot}/${chksum_source2}/
 fi
-if [ ! -e %{_sourcedir}/%{process_src} ] ; then
-  mkdir -p %{_sourcedir}
-  ln -s %{cmsroot}/${chksum_source2}/%{process_src} %{_sourcedir}/%{process_src}
-fi
-ln -s %{cmsroot}/${chksum_source2}/%{process_src} %{pkginstroot}/
+cp %{cmsroot}/${chksum_source2}/%{process_src} %{i}/%{process_src}
