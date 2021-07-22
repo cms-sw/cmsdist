@@ -1,0 +1,5 @@
+<tool name="alpaka-cuda" version="@TOOL_VERSION@">
+  <use name="alpaka"/>
+  <use name="cuda"/>
+  <flags CXXFLAGS="-DALPAKA_ACC_GPU_CUDA_ENABLED"/>
+</tool>

@@ -1,0 +1,16 @@
+  <tool name="fastjet-contrib-archive" version="@TOOL_VERSION@">
+    <info url="http://fastjet.hepforge.org/contrib/"/>
+    <lib name="EnergyCorrelator"/>
+    <lib name="GenericSubtractor"/>
+    <lib name="JetCleanser"/>
+    <lib name="JetFFMoments"/>
+    <lib name="Nsubjettiness"/>
+    <lib name="ScJet"/>
+    <lib name="SubjetCounting"/>
+    <lib name="VariableR"/>
+    <client>
+      <environment name="FASTJET_CONTRIB_BASE" default="@TOOL_ROOT@"/>
+      <environment name="LIBDIR" default="$FASTJET_CONTRIB_BASE/lib"/>
+      <environment name="INCLUDE" default="$FASTJET_CONTRIB_BASE/include"/>
+    </client>
+  </tool>

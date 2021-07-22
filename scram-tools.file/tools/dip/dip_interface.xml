@@ -1,0 +1,7 @@
+<tool name="dip_interface" version="@TOOL_VERSION@">
+  <client>
+    <environment name="DIP_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"            default="$DIP_INTERFACE_BASE/include"/>
+    <environment name="LIBDIR"             default="$DIP_INTERFACE_BASE/lib"/>
+  </client>
+</tool>

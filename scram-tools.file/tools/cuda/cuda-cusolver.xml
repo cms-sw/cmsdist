@@ -1,0 +1,6 @@
+<tool name="cuda-cusolver" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/cusolver/index.html"/>
+  <use name="cuda"/>
+  <lib name="cusolver"/>
+  <lib name="cusolverMg"/>
+</tool>

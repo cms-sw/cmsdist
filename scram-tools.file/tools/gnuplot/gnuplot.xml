@@ -1,0 +1,7 @@
+  <tool name="gnuplot" version="@TOOL_VERSION@">
+    <info url="http://gnuplot.sourceforge.net"/>
+    <client>
+      <environment name="GNUPLOT_BASE" default="@TOOL_ROOT@"/>
+    </client>
+    <runtime name="PATH" value="$GNUPLOT_BASE/bin" type="path"/>
+  </tool>

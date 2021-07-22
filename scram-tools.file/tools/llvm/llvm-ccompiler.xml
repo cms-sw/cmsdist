@@ -1,0 +1,7 @@
+  <tool name="llvm-ccompiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="gcc-ccompiler"/>
+    <client>
+      <environment name="LLVM_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="CC" value="$LLVM_CCOMPILER_BASE/bin/clang"/>
+    </client>
+  </tool>

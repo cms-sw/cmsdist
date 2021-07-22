@@ -1,0 +1,13 @@
+<tool name="roofitcore" version="@TOOL_VERSION@">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="RooFitCore"/>
+  <client>
+    <environment name="ROOFIT_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="ROOFITSYS" value="$ROOFIT_BASE/"/>
+  <use name="rootcore"/>
+  <use name="roothistmatrix"/>
+  <use name="rootgpad"/>
+  <use name="rootminuit"/>
+  <use name="root_cxxdefaults"/>
+</tool>

@@ -6,6 +6,10 @@ DEFAULT_TARGET_FLAG="-msse3"
 MULTI_TARGET_PACKAGES = []
 VALID_TARGETS = {}
 if machine() == "x86_64":
+############ IMPORTANT NOTE #############
+# For any newly added vecrtorized packages here,
+# please also add scram-tools.file/tools/package/vectorized.tmpl file
+#########################################
   MULTI_TARGET_PACKAGES = [
     "zlib",
     "fastjet",

@@ -1,0 +1,9 @@
+<tool name="photos" version="@TOOL_VERSION@">
+  <lib name="photos"/>
+  <client>
+    <environment name="PHOTOS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$PHOTOS_BASE/lib"/>
+  </client>
+  <use name="photos_headers"/>
+  <use name="f77compiler"/>
+</tool>
