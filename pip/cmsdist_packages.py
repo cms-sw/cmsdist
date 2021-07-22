@@ -14,7 +14,6 @@ def packages(virtual_packages, *args):
     if not '==' in line: continue
     items = line.strip().split(';')
     (pkg, ver) = items[0].strip().split('==',1)
-    py = "py3"
     matched=True
     for item in items[1:]:
       m = match("^("+"|".join(list(extra_match.keys()))+")(==|!=)'([^']+)'$", item)
