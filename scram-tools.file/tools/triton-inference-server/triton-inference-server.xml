@@ -1,0 +1,13 @@
+<tool name="triton-inference-server" version="@TOOL_VERSION@">
+  <info url="https://github.com/triton-inference-server/server"/>
+  <lib name="grpcclient"/> 
+  <client>
+    <environment name="TRITON_INFERENCE_SERVER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$TRITON_INFERENCE_SERVER_BASE/include"/>
+    <environment name="LIBDIR"  default="$TRITON_INFERENCE_SERVER_BASE/lib"/>
+  </client>
+  <use name="protobuf"/>
+  <use name="opencv"/>
+  <use name="grpc"/>
+  <use name="cuda"/>
+</tool>

@@ -1,0 +1,6 @@
+  <tool name="llvm-f77compiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="gcc-f77compiler"/>
+    <client>
+      <environment name="FC" default="@GCC_ROOT@/bin/gfortran"/>
+    </client>
+  </tool>
