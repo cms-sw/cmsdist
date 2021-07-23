@@ -1,4 +1,3 @@
-### RPM cms data-FastSimulation-MaterialEffects V05-00-00
 
 %prep
 
@@ -9,4 +8,3 @@ cat << CMS_EOF >> ./sources
 FastSimulation/MaterialEffects/data/NuclearInteractions.root
 CMS_EOF
 
-## IMPORT data-package-build
