@@ -51,6 +51,7 @@ for tool in %requiredtools; do
   toolver=`eval echo \\$${uctool}_VERSION`
   %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
 done
+%{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
 
 for vec in %{package_vectorization}; do \
   ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
