@@ -1,4 +1,3 @@
-### RPM cms data-L1Trigger-RPCTrigger V00-15-00
 
 %prep
 
@@ -458,4 +457,3 @@ L1Trigger/RPCTrigger/data/D_20091204NewMagF__all_12/v1/pacPat_t9sc0sg9.xml
 L1Trigger/RPCTrigger/data/D_20091204NewMagF__all_12/v1/readme.txt
 CMS_EOF
 
-## IMPORT data-package-build
