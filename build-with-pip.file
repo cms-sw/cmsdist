@@ -1,17 +1,14 @@
 #File: with-with-pip
-#
-#pip_name: pip package name default is package name without starting py2
+#pip_name: pip package name default is package name without starting py3
 #PipDownloadSourceType: Only override the download source type e.g. none, all etc. Default is all
 #PipDownloadOptions: override pip download sources options. Default is --no-deps%%20--no-binary%%3D:%%PipDownloadSourceType:
 #PipBuildOptions: Override pip install options
 #pkgsource: Override default source name e.g. source.tar.gz
 #source0: Override default source
-#doPython(2|3): To disable building package for python2 or python3
 #Pip<Pre|Post><Section>: Extra macros to run extra commands for various sections e.g
 #PipPostBuild to relocate hardcoded pyton paths
 #define PipPostBuild perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/*
 
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %if "%{?pip_package_pack_command:set}" != "set"
@@ -44,18 +41,8 @@
 %define PipDepsPost %{nil}
 %endif
 
-%if "%{?doPython2:set}" != "set"
-Requires: python py2-pip py2-setuptools
-%define doPython2 yes
-%define pip pip2
-%else
 %define pip pip3&package_dependency=py3-pip
-%endif
-
-%if "%{?doPython3:set}" != "set"
 Requires: python3 py3-pip py3-setuptools
-%define doPython3 yes
-%endif
 
 %if "%{?source0:set}" != "set"
 %define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=%{pip}&output=/%{pkgsource}
@@ -109,55 +96,32 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    export PIPFILE=`cat files.list`
    echo ${PIPFILE}
    export PYTHONUSERBASE=%{i}
-   %if "%{doPython3}" == "yes"
-      pip3 list --disable-pip-version-check
-      %{?PipPreBuildPy3:%PipPreBuildPy3}
-      pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy3:%PipBuildOptionsPy3} $PIPFILE
-      PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
-      [ "${PKG_NAME}" = "" ] && exit 1
-      DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
-      if [ "$DEPS" != "" ] ; then
-        echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
-        exit 1
-      fi
-      %{relocatePy3SitePackages}
-      %{?PipPostBuildPy3:%PipPostBuildPy3}
-   %endif
-   %if "%{doPython2}" == "yes"
-      pip2 list  --disable-pip-version-check
-      %{?PipPreBuildPy2:%PipPreBuildPy2}
-      pip2 install --no-clean --no-deps --no-index --upgrade --upgrade-strategy only-if-needed --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} %{?PipBuildOptionsPy2:%PipBuildOptionsPy2}  $PIPFILE
-      PKG_NAME=$(pip2 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
-      [ "${PKG_NAME}" = "" ] && exit 1
-      DEPS=$(pip2 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
-      if [ "$DEPS" != "" ] ; then
-        echo "ERROR: Missing dependencies for %n (python2) found: $DEPS"
-        exit 1
-      fi
-      %{relocatePy2SitePackages}
-      %{?PipPostBuildPy2:%PipPostBuildPy2}
-   %endif
+   pip3 list --disable-pip-version-check
+   %{?PipPreBuildPy:%PipPreBuildPy}
+   pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
+   PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
+   [ "${PKG_NAME}" = "" ] && exit 1
+   DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
+   if [ "$DEPS" != "" ] ; then
+      echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
+      exit 1
+    fi
+    %{relocatePy3SitePackages}
+    %{?PipPostBuildPy:%PipPostBuildPy}
 else
    echo "Sorry I don't know how to handle no/multiple install files yet"
    cat %{_builddir}/files.list
    exit 1
 fi
 
-%if "%{doPython3}%{doPython2}" != "yesyes"
 if [ -d %{i}/bin ] ; then
   for py in $(grep -Rl -m1 '^#\!.*python' %{i}/bin) ; do
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||')
-%if "%{doPython2}" == "yes"
-    sed -i -e "${lnum}c#!/usr/bin/env python" $py
-%else
     sed -i -e "${lnum}c#!/usr/bin/env python3" $py
-%endif
   done
 fi
-%endif
 %{?PipPostBuild:%PipPostBuild}
-%{?RelocatePython:perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %RelocatePython}
-%{?RelocatePython3:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %RelocatePython3}
+%{?RelocatePython:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %RelocatePython}
 
 #Install Section
 %install
