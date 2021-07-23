@@ -31,7 +31,6 @@ Requires: python3
 Requires: root
 Requires: sigcpp
 Requires: sqlite
-Requires: systemtools
 Requires: libuuid
 Requires: xerces-c
 Requires: xrootd
