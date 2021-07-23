@@ -1,2 +1,0 @@
-Requires: py3-numexpr py3-six hdf5 bz2lib py3-mock py3-numpy
-%define PipPostBuildPy3 for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
