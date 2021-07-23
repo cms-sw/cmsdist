@@ -1,2 +1,3 @@
 Requires: py3-ipykernel
-%define PipPostBuildPy3 mv %{i}/bin/jupyter-console %{i}/bin/jupyter-console3
+Requires: py3-ipykernel
+%define PipPostBuildPy mv %{i}/bin/jupyter-console %{i}/bin/jupyter-console3
