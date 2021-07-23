@@ -126,6 +126,9 @@ echo %{configtag} > %_builddir/config/config_tag
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
 sed -i -e 's|</tool>|<runtime name="SCRAM_TARGET" value="auto"/><runtime name="USER_TARGETS_ALL" value="1"/></tool>|' %_builddir/config/Self.xml
 %endif
+%if "%{?release_usercxxflags:set}" == "set"
+echo '<flags CXXFLAGS="%{release_usercxxflags}"/>' >> %_builddir/config/BuildFile.xml
+%endif
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
