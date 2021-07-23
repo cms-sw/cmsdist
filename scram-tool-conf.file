@@ -44,13 +44,14 @@ export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
 if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
 if [ $(echo ' %requiredtools ' | grep ' python ' |wc -l) -gt 0 ] ;  then export PYTHON_LIB_SITE_PACKAGES ; fi
 
-for tool in %requiredtools systemtools; do
+for tool in %requiredtools; do
   echo ">> Copying tool files from: $tool"
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
   toolver=`eval echo \\$${uctool}_VERSION`
   %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
 done
+%{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
 
 for vec in %{package_vectorization}; do \
   ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
