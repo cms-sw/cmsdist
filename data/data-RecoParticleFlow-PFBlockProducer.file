@@ -1,4 +1,3 @@
-### RPM cms data-RecoParticleFlow-PFBlockProducer V02-04-02
 
 %prep
 
@@ -12,4 +11,3 @@ RecoParticleFlow/PFBlockProducer/data/resmap_HCAL_eta.dat
 RecoParticleFlow/PFBlockProducer/data/resmap_HCAL_phi.dat
 CMS_EOF
 
-## IMPORT data-package-build
