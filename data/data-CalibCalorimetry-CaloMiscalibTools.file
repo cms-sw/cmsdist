@@ -1,4 +1,3 @@
-### RPM cms data-CalibCalorimetry-CaloMiscalibTools V01-00-00
 
 %prep
 
@@ -19,4 +18,3 @@ CalibCalorimetry/CaloMiscalibTools/data/miscalib_endcap_10pb_csa08.xml
 CalibCalorimetry/CaloMiscalibTools/data/miscalib_endcap_startup_csa08.xml
 CMS_EOF
 
-## IMPORT data-package-build
