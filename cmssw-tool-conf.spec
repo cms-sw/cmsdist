@@ -79,7 +79,6 @@ Requires: ucx
 Requires: openmpi
 Requires: sigcpp
 Requires: sqlite
-Requires: systemtools
 Requires: tauola
 Requires: tauolapp
 Requires: thepeg
