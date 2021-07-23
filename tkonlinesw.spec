@@ -18,7 +18,6 @@ Requires: cmake
 Requires: oracle
 Requires: xerces-c
 Requires: gmake
-Requires: systemtools
 Requires: root
 
 %prep
