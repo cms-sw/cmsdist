@@ -2,7 +2,7 @@
 ## NO_VERSION_SUFFIX
 ## UPLOAD_DEPENDENCIES dqmgui
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -fprofile-arcs -ftest-coverage
+%define release_usercxxflags    -fprofile-arcs -ftest-coverage
 %endif
 
 %if "%(case %realversion in (*_DEBUG_X*) echo true ;; (*) echo false ;; esac)" == "true"
@@ -10,19 +10,19 @@
 %endif
 
 %if "%(case %realversion in (*_EXPERIMENTAL_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
+%define release_usercxxflags    -O3 -ffast-math -freciprocal-math -fipa-pta
 %endif
 
 %if "%(case %realversion in (*_DBG_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %ifarch ppc64le
 %define usercxxflags    -g
 %else
-%define usercxxflags    -g -O3 -DEDM_ML_DEBUG
+%define release_usercxxflags    -g -O3 -DEDM_ML_DEBUG
 %endif
 %endif
 
 %if "%(case %realversion in (*_FORTIFIED_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
+%define release_usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
