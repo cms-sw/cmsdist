@@ -13,7 +13,6 @@ Requires: zlib
 Requires: bz2lib
 Requires: cppunit
 Requires: xerces-c
-Requires: systemtools
 %ifarch x86_64
 Requires: oracle
 %endif
