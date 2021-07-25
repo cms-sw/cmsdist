@@ -1,0 +1,35 @@
+diff --git a/madgraph/core/color_amp.py b/madgraph/core/color_amp.py
+index fd974f8..0003852 100755
+--- a/madgraph/core/color_amp.py
++++ b/madgraph/core/color_amp.py
+@@ -19,7 +19,7 @@ squared diagrams and interference terms."""
+ 
+ from __future__ import absolute_import
+ import copy
+-import fractions
++import math
+ import operator
+ import re
+ import array
+@@ -733,7 +733,7 @@ class ColorMatrix(dict):
+     @staticmethod
+     def lcm(a, b):
+         """Return lowest common multiple."""
+-        return a * b // fractions.gcd(a, b)
++        return a * b // math.gcd(a, b)
+ 
+     @staticmethod
+     def lcmm(*args):
+diff --git a/madgraph/iolibs/export_v4.py b/madgraph/iolibs/export_v4.py
+index 1892f4c..7cc8d58 100755
+--- a/madgraph/iolibs/export_v4.py
++++ b/madgraph/iolibs/export_v4.py
+@@ -1240,7 +1240,7 @@ param_card.inc: ../Cards/param_card.dat\n\t../bin/madevent treatcards param\n'''
+             ampnumbers_list=[coefficient[1]*(-1 if coefficient[0][2] else 1) \
+                               for coefficient in coeff_list]
+             # Find the common denominator.      
+-            commondenom=abs(reduce(fractions.gcd, coefs_list).denominator)
++            commondenom=abs(reduce(math.gcd, coefs_list).denominator)
+             num_list=[(coefficient*commondenom).numerator \
+                       for coefficient in coefs_list]
+             res_list.append("DATA NCONTRIBAMPS%s(%i)/%i/"%(tag_letter,\
