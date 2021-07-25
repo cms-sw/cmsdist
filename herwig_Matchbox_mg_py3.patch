@@ -1,6 +1,61 @@
---- Herwig-7.2.2/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in	2021-07-21 03:10:26.000000001 +0200
-+++ mg2herwig_patched	2021-07-21 13:33:43.000000001 +0200
-@@ -224,7 +224,7 @@
+diff --git a/MatrixElement/Matchbox/External/GoSam/GoSamAmplitude.cc b/MatrixElement/Matchbox/External/GoSam/GoSamAmplitude.cc
+index 6a8bce3..9a631b5 100644
+--- a/MatrixElement/Matchbox/External/GoSam/GoSamAmplitude.cc
++++ b/MatrixElement/Matchbox/External/GoSam/GoSamAmplitude.cc
+@@ -152,7 +152,7 @@ bool GoSamAmplitude::startOLP(const map<pair<Process, int>, int>& procs) {
+   // specific input file at gosamSetupInFileName. If the GoSam input file
+   // does not exist yet at gosamSetupInFileName the python script will get 
+   // it from src/defaults/ before making the replacements.
+-  string cmd = "python "+bindir_+"/gosam2herwig ";
++  string cmd = "python3 "+bindir_+"/gosam2herwig ";
+   cmd+=" --usrinfile="+gosamSetupInFileNameInterface;
+   cmd+=" --infile="+gosamSetupInFileName+".tbu";
+   cmd+=" --definfile="+pkgdatadir_+"/defaults/setup.gosam.in";
+@@ -543,7 +543,7 @@ void GoSamAmplitude::signOLP(const string& order, const string& contract) {
+     string cmd = GoSamPrefix_+"/bin/gosam.py --olp --output-file=" + contract + " --config=" + 
+       gosamSetupInFileName+".tbu" + " --destination=" + gosamSourcePath + " " + order + " > " + cwd + folderMatchboxBuild + "gosam-amplitudes.log 2>&1";
+     std::system(cmd.c_str());
+-    cmd = "python "+bindir_+"/gosam2herwig ";
++    cmd = "python3 "+bindir_+"/gosam2herwig ";
+     cmd += " --makelink ";
+     // cmd += " --makelinkfrom=contract ";
+     cmd += " --makelinkfrom="+gosamPath+"/"+name()+".OLPContract.lh";
+diff --git a/MatrixElement/Matchbox/External/MadGraph/MadGraphAmplitude.cc b/MatrixElement/Matchbox/External/MadGraph/MadGraphAmplitude.cc
+index 1a564f4..6a750f1 100644
+--- a/MatrixElement/Matchbox/External/MadGraph/MadGraphAmplitude.cc
++++ b/MatrixElement/Matchbox/External/MadGraph/MadGraphAmplitude.cc
+@@ -257,7 +257,7 @@ bool MadGraphAmplitude::initializeExternal() {
+   params<<"\n$MTA$ "    <<std::setiosflags(ios::scientific)   << getParticleData(ParticleID::tauplus)->hardProcessMass() /GeV <<flush;
+ 
+   
+-  string cmd = "python " + bindir_ + "/mg2herwig ";
++  string cmd = "python3 " + bindir_ + "/mg2herwig ";
+   cmd +=" --buildpath "+mgProcLibPath();
+   cmd += !theProcessPath.empty() ? " --absolute-links" : "";
+   cmd +=" --model "+theMGmodel;
+@@ -299,7 +299,7 @@ bool MadGraphAmplitude::initializeExternal() {
+   std::system(cmd.c_str());
+   
+   
+-  cmd = "python " + bindir_ + "/mg2herwig ";
++  cmd = "python3 " + bindir_ + "/mg2herwig ";
+   cmd +=" --buildpath "+mgProcLibPath();
+   cmd +=" --model "+theMGmodel;
+   cmd +=" --runpath "+factory()->runStorage()+"/MadGraphAmplitudes ";
+diff --git a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in
+index 619127a..79ad73f 100644
+--- a/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in
++++ b/MatrixElement/Matchbox/External/MadGraph/mg2herwig.in
+@@ -189,7 +189,7 @@ if options.model=="loop_sm" or options.model=="heft":
+   file.close()   
+ elif  options.model.startswith("/"):
+   
+-  os.system("python %s/write_param_card.py " % options.model)
++  os.system("python3 %s/write_param_card.py " % options.model)
+   
+   
+   
+@@ -224,7 +224,7 @@ if not options.madgraph and not os.path.isfile("InterfaceMadGraph.so"):
    sys.stderr.write("*** MadGraph build failed, check logfile for details ***")
    exit(1)
  
