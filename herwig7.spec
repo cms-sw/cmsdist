@@ -10,17 +10,15 @@ Requires: gsl OpenBLAS
 Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
+Requires: python3
 %ifnarch ppc64le
 Requires: openloops
 %endif
 BuildRequires: autotools
-
-
 Patch0: herwig_Matchbox_mg_py3
 
 %prep
 %setup -q -n Herwig-%{realversion}
-
 %patch0 -p1
 
 # Regenerate build scripts
@@ -36,7 +34,7 @@ if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 
 FCFLAGS="${FCFLAGS} -fno-range-check"
 %endif
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
-./configure --prefix=%i \
+PYTHON=python3 ./configure --prefix=%i \
             --with-thepeg=$THEPEG_ROOT \
             --with-fastjet=$FASTJET_ROOT \
             --with-gsl=$GSL_ROOT \
@@ -67,6 +65,9 @@ fi
 $(dirname $0)/Herwig-cms $REPO_OPT "$@"
 HERWIG_WRAPPER
 chmod +x %{i}/bin/Herwig
+
+sed -i -e 's|^#!.*python|#!/usr/bin/env python3|' %{i}/bin/ufo2herwig %{i}/bin/slha2herwig %{i}/bin/herwig-mergegrids %{i}/bin/gosam2herwig %{i}/bin/mg2herwig
+sed -i -e 's|^#!.*python|#!/usr/bin/env python3|' %{i}/lib/Herwig/python/ufo2herwig %{i}/lib/Herwig/python/slha2herwig
 
 %post
 %{relocateConfig}bin/herwig-config
