@@ -4,8 +4,8 @@ Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
 Source: https://launchpad.net/mg5amcnlo/2.0/2.7.x/+download/MG5_aMC_v%{realversion}.py3.tar.gz
 Patch0: madgraph5amcatnlo-config
-# Compile and install internal and external packages
-#Patch1: madgraph5amcatnlo-compile
+#Python 3.9, use of math.gcd instead of fractions.gcd
+Patch1: madgraph5amcatnlo-py39
 
 Requires: python3 py3-six
 Requires: hepmc
@@ -21,7 +21,7 @@ Requires: thepeg
 %prep
 %setup -n MG5_aMC_v%{versiontag}_py3
 %patch0 -p1
-#%patch1 -p1
+%patch1 -p1
 
 sed -i -e "s|\${HEPMC_ROOT}|${HEPMC_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${PYTHIA8_ROOT}|${PYTHIA8_ROOT}|g" input/mg5_configuration.txt
