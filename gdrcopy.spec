@@ -1,4 +1,4 @@
-### RPM external gdrcopy 2.1
+### RPM external gdrcopy 2.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source: https://github.com/NVIDIA/%{n}/archive/v%{realversion}.tar.gz
 Requires: cuda
@@ -7,9 +7,9 @@ Requires: cuda
 %setup -n %{n}-%{realversion}
 
 %build
-make %{makeprocesses} PREFIX=%{i} CUDA=$CUDA_ROOT lib
+make %{makeprocesses} prefix=%{i} libdir=%{i}/lib64 CUDA=$CUDA_ROOT lib
 
 %install
-make %{makeprocesses} PREFIX=%{i} CUDA=$CUDA_ROOT lib_install
+make %{makeprocesses} prefix=%{i} libdir=%{i}/lib64 CUDA=$CUDA_ROOT lib_install
 
 %post
