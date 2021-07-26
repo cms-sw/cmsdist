@@ -1,10 +1,7 @@
 ### RPM external ucx 1.9.0
 Source: https://github.com/openucx/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: autotools
-Requires: numactl cuda
-%ifnarch aarch64
-Requires: gdrcopy
-%endif
+Requires: numactl cuda gdrcopy
 AutoReq: no
 # external libraries are needed for additional protocols:
 #   --with-rocm:        AMD ROCm platform for accelerated compute
@@ -38,11 +35,7 @@ AutoReq: no
   --without-java \
   --with-cuda=$CUDA_ROOT \
   --without-rocm \
-%ifarch aarch64
-  --without-gdrcopy \
-%else
   --with-gdrcopy=$GDRCOPY_ROOT \
-%endif
   --without-verbs \
   --with-rc \
   --with-ud \
