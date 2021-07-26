@@ -1,4 +1,4 @@
-### RPM external gdb 9.2
+### RPM external gdb 10.2
 Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-disable-makeinfo
