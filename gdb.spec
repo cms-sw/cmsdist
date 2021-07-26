@@ -30,7 +30,6 @@ cd ../build
 make install
 
 cd %i/bin/
-mv gdb gdb-%{realversion}
 cat << \EOF_GDBINIT > %{i}/share/gdbinit
 set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
