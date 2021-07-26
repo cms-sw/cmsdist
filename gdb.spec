@@ -3,20 +3,13 @@ Source: https://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 Patch0: gdb-disable-makeinfo
 
-Requires: python3 zlib xz expat
-
-BuildRequires: autotools
+Requires: python3 zlib xz expat py3-six
 
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
 
 %build
-
-pushd gdb
-  autoreconf -fiv
-popd
-
 rm -rf ../build; mkdir ../build; cd ../build
 ../%n-%realversion/configure --prefix=%{i} \
             --disable-rpath \
@@ -42,13 +35,8 @@ cat << \EOF_GDBINIT > %{i}/share/gdbinit
 set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
 
-echo "#!/bin/bash" > gdb
-echo "PYTHONHOME=${PYTHON3_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
-chmod +x gdb
-
 # To save space, clean up some things that we don't really need 
 %define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
-%{relocateConfig}/bin/gdb
