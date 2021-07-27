@@ -8,4 +8,9 @@
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/cuda" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/tbb" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$PCM_UTIL_BASE/lib/HepMC" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(HEPMC_HEADERS_BASE)/include/hepmc.modulemap" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(CLHEPHEADER_BASE)/include/module.modulemap" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(TBB_BASE)/include/module.modulemap" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(CUDA_BASE)/include/cuda.modulemap" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$(BOOSTHEADER_BASE)/include/boost/boost.modulemap" type="path"/>
 </tool>
