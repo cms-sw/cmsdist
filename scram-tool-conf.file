@@ -27,6 +27,7 @@ mkdir -p %i/tools/selected %i/tools/available
 %define skipreqtools %{nil}
 %endif
 
+export ROOT_CXXMODULES="1"
 %if "%{?package_vectorization}" != ""
 export PKG_VECTORIZATION=`echo %package_vectorization`
 %endif
