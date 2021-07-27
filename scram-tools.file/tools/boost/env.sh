@@ -19,3 +19,7 @@ export BOOST_SERIALIZATION_LIB=`getLibName serialization`
 export BOOST_IOSTREAMS_LIB=`getLibName iostreams`
 export BOOST_MPI_LIB=`getLibName mpi`
 
+export CXXMODULE_DATA=""
+if [ "${ROOT_CXXMODULES}" = "1" ] ; then
+  export CXXMODULE_DATA='<flags ROOTCLING_ARGS="-moduleMapFile=$(BOOSTHEADER_BASE)/include/boost/boost.modulemap"/>'
+fi

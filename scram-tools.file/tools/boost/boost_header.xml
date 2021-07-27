@@ -13,4 +13,5 @@
   <flags CPPDEFINES="BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX"/>
   <flags CXXFLAGS="-Wno-error=unused-variable"/>
   <flags SYSTEM_INCLUDE="1"/>
+  @CXXMODULE_DATA@
 </tool>
