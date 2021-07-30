@@ -47,6 +47,7 @@ AutoReq: no
   --without-rdmacm \
   --without-knem \
   --with-xpmem \
+  CFLAGS="-Wno-error=array-bounds" \
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
   LDFLAGS="-L$NUMACTL_ROOT/lib"
 

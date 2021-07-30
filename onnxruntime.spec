@@ -4,24 +4,25 @@
 %define branch cms/v%{realversion}
 %define tag d594f80cdf0a50a490eec4a807bb670ecce149d6
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+#GCC 11 Fix
+Source1: https://patch-diff.githubusercontent.com/raw/microsoft/onnxruntime/pull/7599.patch
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11
-%if "%{cmsos}" != "slc7_aarch64"
 Requires: cuda cudnn
-%endif
 
 %prep
 %setup -q -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/7599.patch
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
 
-%if "%{cmsos}" != "slc7_aarch64"
+if [ $(%{cuda_gcc_support}) = true ]; then
 USE_CUDA=ON
-%else
+else
 USE_CUDA=OFF
-%endif
+fi
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \

@@ -9,11 +9,16 @@ Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
-Requires: curl expat zlib pcre2
+Requires: curl expat zlib pcre2 python3
 BuildRequires: autotools
 Provides: perl(SVN::Core)
 Provides: perl(SVN::Delta)
 Provides: perl(SVN::Ra)
+Provides: perl(CGI::Carp)
+Provides: perl(CGI::Util)
+Provides: perl(Scalar::Util)
+Provides: perl(Time::HiRes)
+Provides: perl(YAML::Any)
 
 %define drop_files %{i}/share/man
 
@@ -29,7 +34,7 @@ make %{makeprocesses} configure
    --with-curl=${CURL_ROOT} \
    --with-expat=${EXPAT_ROOT} \
    --with-libpcre=${PCRE2_ROOT} \
-   --without-python \
+   --with-python=$(which python3) \
    --with-zlib=${ZLIB_ROOT}
    
 make %{makeprocesses} \
@@ -60,6 +65,7 @@ make %{makeprocesses} \
 # Install ca-bundle.crt (Certification Authority certificates)
 mkdir -p %{i}/share/ssl/certs
 cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
+perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/libexec/git-core/git-p4
 
 %post
 %{relocateConfig}bin/git-cvsserver

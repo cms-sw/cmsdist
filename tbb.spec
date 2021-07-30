@@ -9,6 +9,10 @@ Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%
 Source1: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/435.patch
 # Remove arch macros checks for getSmallObjectIndex
 Source2: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/461.patch
+# Fix GCC 11 warnings
+Source3: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/447.patch
+Source4: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/433.patch
+
 Requires: hwloc
 BuildRequires: cmake
 
@@ -16,6 +20,8 @@ BuildRequires: cmake
 %setup -n %{n}-%{realversion}
 patch -p1 < %{_sourcedir}/435.patch
 patch -p1 < %{_sourcedir}/461.patch
+patch -p1 < %{_sourcedir}/447.patch
+patch -p1 < %{_sourcedir}/433.patch
 
 %build
 rm -rf %{_builddir}/build
