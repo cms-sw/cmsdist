@@ -4,6 +4,8 @@
 %define branch cms/v%{realversion}
 %define tag d594f80cdf0a50a490eec4a807bb670ecce149d6
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+#GCC 11 Fix
+Source1: https://github.com/microsoft/onnxruntime/commit/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11
@@ -13,6 +15,7 @@ Requires: cuda cudnn
 
 %prep
 %setup -q -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
