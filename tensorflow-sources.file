@@ -4,7 +4,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         9b69eda15062cfec1b9c2d6f78c0fecbf9e67a34
+%define tag         9e04c4f46d90cf7b73b9fb2203840d9e0b90faa8
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
