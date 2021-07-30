@@ -1,4 +1,5 @@
-Requires: py3-cython py3-wheel
+Requires: py3-cython
+BuildRequires: py3-wheel
 
 Requires: zlib OpenBLAS
 
