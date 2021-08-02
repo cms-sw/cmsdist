@@ -130,9 +130,7 @@ Requires: py3-dxr
 Requires: py3-PyYAML
 Requires: py3-pylint
 Requires: py3-pip
-%ifarch x86_64
 Requires: py3-cx-Oracle
-%endif
 Requires: py3-cython
 Requires: py3-pybind11
 Requires: py3-histbook

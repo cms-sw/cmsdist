@@ -146,6 +146,8 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: mxnet-predict
 Requires: dablooms
+Requires: oracle
+Requires: tkonlinesw
 
 # Only for Linux platform.
 %ifos linux
@@ -167,14 +169,9 @@ Requires: openloops
 
 %ifarch x86_64
 Requires: dmtcp
-Requires: tkonlinesw
-Requires: oracle
 Requires: intel-vtune
 Requires: cmsmon-tools
 Requires: dip
-%else
-Requires: tkonlinesw-fake
-Requires: oracle-fake
 %endif
 %endif
 
