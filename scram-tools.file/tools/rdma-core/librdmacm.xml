@@ -1,0 +1,6 @@
+<tool name="librdmacm" version="@TOOL_VERSION@">
+  <info url="https://github.com/linux-rdma/rdma-core/blob/master/README.md"/>
+  <use name="rdma-core"/>
+  <use name="libibverbs"/>
+  <lib name="rdmacm"/>
+</tool>
