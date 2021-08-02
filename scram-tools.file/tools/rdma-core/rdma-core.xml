@@ -1,0 +1,9 @@
+<tool name="rdma-core" version="@TOOL_VERSION@">
+  <info url="https://github.com/linux-rdma/rdma-core/blob/master/README.md"/>
+  <client>
+    <environment name="RDMA_CORE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$RDMA_CORE_BASE/lib64"/>
+    <environment name="INCLUDE"        default="$RDMA_CORE_BASE/include"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+</tool>
