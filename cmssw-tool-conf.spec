@@ -169,9 +169,12 @@ Requires: openloops
 
 %ifarch x86_64
 Requires: dmtcp
+Requires: tkonlinesw
 Requires: intel-vtune
 Requires: cmsmon-tools
 Requires: dip
+%else
+Requires: tkonlinesw-fake
 %endif
 %endif
 
