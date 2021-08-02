@@ -1,13 +1,13 @@
-### RPM external ucx 1.9.0
+### RPM external ucx 1.10.1
 Source: https://github.com/openucx/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: autotools
-Requires: numactl cuda gdrcopy
+Requires: numactl
+Requires: gdrcopy cuda
+Requires: rdma-core
 AutoReq: no
 # external libraries are needed for additional protocols:
 #   --with-rocm:        AMD ROCm platform for accelerated compute
-#   --with-verbs:       Verbs library for direct userspace use of RDMA (InfiniBand/iWARP) hardware
-#   --with-cm:          Userspace InfiniBand Communication Managment library
-#   --with-rdmacm:      Userspace RDMA Connection Manager
+#   --with-cm:          Userspace InfiniBand Communication Managment library: deprecated and removed from RDMA core v17 on December 2017
 #   --with-knem:        KNEM High-Performance Intra-Node MPI Communication
 # etc.
 
@@ -36,7 +36,7 @@ AutoReq: no
   --with-cuda=$CUDA_ROOT \
   --without-rocm \
   --with-gdrcopy=$GDRCOPY_ROOT \
-  --without-verbs \
+  --with-verbs=$RDMA_CORE_ROOT \
   --with-rc \
   --with-ud \
   --with-dc \
@@ -44,7 +44,7 @@ AutoReq: no
   --with-ib-hw-tm \
   --with-dm \
   --without-cm \
-  --without-rdmacm \
+  --with-rdmacm=$RDMA_CORE_ROOT \
   --without-knem \
   --with-xpmem \
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
