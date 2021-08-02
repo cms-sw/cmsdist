@@ -147,7 +147,6 @@ Requires: dasgoclient
 Requires: mxnet-predict
 Requires: dablooms
 Requires: oracle
-Requires: tkonlinesw
 
 # Only for Linux platform.
 %ifos linux
