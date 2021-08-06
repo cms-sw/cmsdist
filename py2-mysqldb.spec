@@ -11,6 +11,8 @@ Patch0: py2-mysqldb-setup
 %patch0 -p0
 # Patch the converters module to avoid getting long data type back in the client
 sed -i 's|LONG: long|LONG: int|' MySQLdb/converters.py
+# Patch for "no member named 'reconnect', see: https://github.com/DefectDojo/django-DefectDojo/issues/407
+sed -i '/st_mysql_options options;/a unsigned int reconnect;' $MARIADB_ROOT/include/mysql/mysql.h
 
 cat >> setup.cfg <<- EOF
 include_dirs = $MARIADB_ROOT/include
