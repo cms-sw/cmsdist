@@ -6,7 +6,7 @@
     <environment name="LIBDIR" default="$EVTGEN_BASE/lib"/>
     <environment name="INCLUDE" default="$EVTGEN_BASE/include"/>
   </client>
-  <runtime name="EVTGENDATA" value="$EVTGEN_BASE/share"/>
+  <runtime name="EVTGENDATA" value="$EVTGEN_BASE/share/EvtGen"/>
   <use name="hepmc"/>
   <use name="pythia8"/>
   <use name="tauolapp"/>
