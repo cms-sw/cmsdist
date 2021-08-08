@@ -1,7 +1,7 @@
-### RPM external cudnn 8.1.1.33
+### RPM external cudnn 8.2.2.26
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define cudaver 11.2
+%define cudaver 11.4
 %define cudnnver_maj %(echo %{realversion} | cut -f1,2,3 -d.)
 
 %ifarch x86_64
