@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 50.0
+### RPM cms cmssw-tool-conf 51.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## NOCOMPILER
@@ -73,6 +73,7 @@ Requires: libpciaccess
 Requires: numactl
 Requires: hwloc
 Requires: gdrcopy
+Requires: rdma-core
 Requires: ucx
 Requires: openmpi
 Requires: sigcpp
@@ -182,6 +183,5 @@ Requires: xtensor
 Requires: xtl
 Requires: xgboost
 
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
-
+## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf
