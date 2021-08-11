@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-Requires: root clhep tinyxml2 boost fftw3 cuda python hepmc tbb gcc
+Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc
 
 %prep
 
@@ -56,7 +56,7 @@ for mod in boost_rational boost_type_traits boost_algorithm_and_range boost_any 
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include -I ${PYTHON_ROOT}/include/python2.7 empty.h
+    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include -I ${PYTHON3_ROOT}/include/python3.9 empty.h
 done
 
 mkdir -p boost
