@@ -73,7 +73,6 @@ Requires: libpciaccess
 Requires: numactl
 Requires: hwloc
 Requires: gdrcopy
-Requires: rdma-core
 Requires: ucx
 Requires: openmpi
 Requires: sigcpp
