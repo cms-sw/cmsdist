@@ -19,8 +19,10 @@ Provides: perl(CGI::Util)
 Provides: perl(Scalar::Util)
 Provides: perl(Time::HiRes)
 Provides: perl(YAML::Any)
+Provides: perl(DBI)
 
 %define drop_files %{i}/share/man
+%define runpath_opts -m libexec
 
 %prep
 %setup -b 0 -n %{n}-%{realversion}

@@ -1,6 +1,7 @@
 #!/bin/bash
 dir=$(dirname $0)
 if [ -e "${dir}/$1.spec" ] ; then
+  echo "## NO_AUTO_RUNPATH"
   cat "${dir}/$1.spec"
   exit 0
 fi

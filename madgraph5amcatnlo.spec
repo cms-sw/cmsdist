@@ -1,4 +1,5 @@
 ### RPM external madgraph5amcatnlo 2.7.3
+%define runpath_opts -m HEPTools -m basiceventgeneration
 %define versiontag 2_7_3
 Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
