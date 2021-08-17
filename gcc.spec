@@ -1,4 +1,4 @@
-### RPM external gcc 11.2.0
+### RPM external gcc 11.2.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
