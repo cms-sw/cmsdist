@@ -1,7 +1,6 @@
 ### RPM cms cmssw-tool-conf 51.0
 # With cmsBuild, change the above version only when a new tool is added
 
-## NOCOMPILER
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
 
