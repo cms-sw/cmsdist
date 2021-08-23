@@ -1,5 +1,4 @@
 ### RPM cms fwlite-tool-conf 20.0
-## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
@@ -54,6 +53,5 @@ Requires: zstd
 Requires: freetype
 %endif
 
-%define skipreqtools jcompiler db6 expat fftw3 sqlite
-
+## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf
