@@ -1,4 +1,5 @@
 ### FILE cmssw-queue-override
+## NO_AUTO_RUNPATH
 ## NO_VERSION_SUFFIX
 ## UPLOAD_DEPENDENCIES dqmgui
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
