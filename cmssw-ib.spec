@@ -1,4 +1,6 @@
-### RPM cms cmssw-ib 1.0.0
+### RPM cms cmssw-ib 2.0.0
+## NO_AUTO_RUNPATH
+## NO_VERSION_SUFFIX
 BuildRequires: cmssw SCRAMV1
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
