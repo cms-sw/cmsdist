@@ -1,0 +1,20 @@
+## INCLUDE compilation_flags
+## INCLUDE cuda-flags
+
+export ROOT_CXXMODULES="0"
+%if "%{?package_vectorization}" != ""
+export PKG_VECTORIZATION=`echo %package_vectorization`
+%endif
+export CMSDIST_DIR=%cmsdist_directory
+
+%ifarch x86_64
+export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
+%endif
+%ifarch ppc64le
+export COMPILER_CXXFLAGS="%{ppc64le_build_flags}"
+%endif
+export ORACLE_ENV_ROOT=""
+export CUDA_FLAGS="%{nvcc_cuda_flags}"
+export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
+if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
+if [ $(echo ' %requiredtools ' | grep ' python ' |wc -l) -gt 0 ] ;  then export PYTHON_LIB_SITE_PACKAGES ; fi
