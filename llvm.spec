@@ -63,11 +63,8 @@ cd ../build
 ninja -v %{makeprocesses} install
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
-PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
 mkdir -p $BINDINGS_PATH
 cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
-mkdir $BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info
-echo -e "Metadata-Version: 1.1\nName: clang\nVersion: %{realversion}" > ${PKG_INFO_FILE}
 
 rm -f %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build/set-xcode*
 find %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build -exec install {} %{i}/bin \;
