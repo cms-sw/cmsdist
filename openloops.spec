@@ -1,4 +1,4 @@
-### RPM external openloops 2.1.0
+### RPM external openloops 2.1.2
 %define tag 87acafc00fe37cbe29afd82f3356483eb9006435
 %define branch cms/v%{realversion}
 %define github_user cms-externals
