@@ -15,6 +15,7 @@ Requires: py3-scikit-learn
 Requires: py3-tensorflow
 Requires: py3-cmsml
 Requires: py3-law
+Requires: py3-protobuf
 
 Requires: py3-cloudpickle
 Requires: py3-tables
