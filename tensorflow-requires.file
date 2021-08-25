@@ -2,4 +2,4 @@ Requires: python3 py3-numpy py3-mock py3-wheel py3-typing py3-typing_extensions
 Requires: py3-keras-applications py3-keras-preprocessing py3-future py3-wrapt py3-gast py3-setuptools
 Requires: py3-cython py3-googlePackages py3-astor py3-six py3-termcolor py3-absl-py
 Requires: py3-opt-einsum py3-flatbuffers
-Requires: eigen protobuf zlib libpng libjpeg-turbo curl giflib sqlite grpc flatbuffers py3-pybind11
+Requires: eigen protobuf zlib libpng libjpeg-turbo curl pcre giflib sqlite grpc flatbuffers py3-pybind11
