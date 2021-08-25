@@ -83,7 +83,6 @@ gitdb==4.0.5
 GitPython==3.1.14
 google-auth==1.27.0
 google-auth-oauthlib==0.4.2
-google-common==0.0.1
 google-pasta==0.2.0
 grpcio==1.36.0
 grpcio-tools==1.36.0
