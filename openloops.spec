@@ -2,7 +2,7 @@
 %define tag 4247179369144b0134c7b8014a5d38a90dc9b6ba
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%{github_user}/openloops.git?obj=%{branch}/%{tag}&export=openloops-%{openloop_version}&output=/openloops-%{openloop_version}-%{tag}.tgz
+Source: git+https://github.com/%{github_user}/openloops.git?obj=%{branch}/%{tag}&export=openloops-%{realversion}&output=/openloops-%{realversion}-%{tag}.tgz
 Source1: openloops-user.coll
 BuildRequires: python scons
 
