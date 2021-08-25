@@ -13,9 +13,9 @@ Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
-Requires: py3-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
+Requires: py3-protobuf
 
 Requires: py3-cloudpickle
 Requires: py3-tables
@@ -167,7 +167,6 @@ Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py3-cffi
-Requires: py3-google-common
 Requires: py3-jedi
 Requires: py3-parso
 Requires: py3-pycparser
