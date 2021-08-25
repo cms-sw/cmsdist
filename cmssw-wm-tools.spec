@@ -5,7 +5,7 @@
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define commit 3a8d30c13353490a1745c5e1f71afb3183b2c917
+%define commit 699d8f31b96b0aa262cb878f891d05f3997a9bdb
 %define branch master
 Source0: git://github.com/cms-sw/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&output=/%{n}-%{commit}.tgz
 
