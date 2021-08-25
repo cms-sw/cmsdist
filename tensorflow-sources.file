@@ -4,7 +4,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         719e00b6f9553de2662b6df2c353d6934e941103
+%define tag         9e04c4f46d90cf7b73b9fb2203840d9e0b90faa8
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
@@ -73,6 +73,7 @@ echo "eigen_archive:${EIGEN_ROOT}"          >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
 echo "com_github_grpc_grpc:${GRPC_ROOT}"    >> ${TF_CMS_EXTERNALS}
+echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
 echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
