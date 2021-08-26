@@ -94,7 +94,10 @@ echo "opt_einsum_archive:"                  >> ${TF_CMS_EXTERNALS}
 export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
 
 # clear the build dir and configure
-rm -rf ../build
+if [ -d ../build ] ; then
+  chmod -R u+w  ../build
+  rm -rf ../build
+fi
 ./configure
 
 #Generate Python wrappers so that we can use PYTHON*PATH env
