@@ -1,0 +1,168 @@
+diff --git a/pyol/bin/download_process.py b/pyol/bin/download_process.py
+index 4cecfb9..ef0eafa 100755
+--- a/pyol/bin/download_process.py
++++ b/pyol/bin/download_process.py
+@@ -36,10 +36,9 @@ import OLBaseConfig
+ import OLToolbox
+ 
+ if sys.version_info < (3,0,0):
+-    from urllib2 import urlopen, URLError
++    from commands import getstatusoutput
+ else:
+-    from urllib.request import urlopen
+-    from urllib.error import URLError
++    from subprocess import getstatusoutput
+ 
+ commandline_options = [arg.split('=',1) for arg in sys.argv[1:] if ('=' in arg and not arg.startswith('-'))]
+ config = OLBaseConfig.get_config(commandline_options)
+@@ -112,25 +111,27 @@ def update_channel_db(repo):
+         fh.close()
+     else:
+         local_hash = None
+-    try:
+-        if remote_channel_url.startswith('/'):
+-            rfh = open(remote_channel_url, 'rb')
+-        else:
+-            rfh = urlopen(remote_channel_url)
+-    except (URLError, IOError) as e:
+-        print('Warning: Channel database update for repository ' + repo_name +
+-              ' failed (' + str(e) + '). Skip this repository.')
+-        return False
+-    hash_line = rfh.readline().decode()
++    lines = []
++    if remote_channel_url.startswith('/'):
++        e, out = getstatusoutput("cat %s" % remote_channel_url)
++        lines = out.split("\n")
++    else:
++        e, out = getstatusoutput("curl -s -k -L %s" % remote_channel_url)
++        if e:
++            print('Warning: Channel database update for repository ' + repo_name +
++              ' failed (' + rfh + '). Skip this repository.')
++            return False
++        lines = out.split("\n")
++    hash_line = lines[0]
+     if local_hash != hash_line.split()[0]:
+         local_hash = hashlib.md5()
+         tmp_file = local_channel_file + '.~' + str(os.getpid())
+         lfh = open(tmp_file, 'w')
+         lfh.write(hash_line.strip() + '  ' +
+                   time.strftime(OLToolbox.timeformat) + '\n')
+-        for line in rfh:
+-            lfh.write(line.decode())
+-            local_hash.update(line.strip())
++        for line in lines[1:]:
++            lfh.write(line+"\n")
++            local_hash.update(line.encode('utf-8').strip())
+         lfh.close()
+         local_hash = local_hash.hexdigest()
+         if local_hash == hash_line.split()[0]:
+@@ -140,7 +141,6 @@ def update_channel_db(repo):
+             print('ERROR: downloaded channel database inconsistent ' +
+                   'for repository ' + repo_name)
+             sys.exit(1)
+-    rfh.close()
+     return True
+ 
+ 
+@@ -214,21 +214,17 @@ def download(process, dbs, libmaps):
+     # download the process
+     print('download from repository: '+ available[3] +'...',end=' ')
+     sys.stdout.flush()
+-    try:
+-        if remote_archive.startswith('/'):
+-            rf = open(remote_archive, 'rb')
+-        else:
+-            rf = urlopen(remote_archive)
+-    except (URLError, IOError):
+-        print('*** DOWNLOAD FAILED ***')
+-        if args.ignore:
+-            return
+-        else:
+-            sys.exit(1)
+-    lf = open(local_archive, 'wb')
+-    lf.write(rf.read())
+-    rf.close()
+-    lf.close()
++    if remote_archive.startswith('/'):
++        getstatusoutput ("cp -f %s %s" % (remote_archive, local_archive))
++    else:
++        e, out = getstatusoutput("curl -s -k -L -o '%s' '%s'" % (local_archive, remote_archive))
++        if e:
++            print('*** DOWNLOAD FAILED ***')
++            print(out)
++            if args.ignore:
++                return
++            else:
++                sys.exit(1)
+     print('extract ...', end=' ')
+     sys.stdout.flush()
+     # remove target directory if it already exists
+diff --git a/pyol/tools/OLToolbox.py b/pyol/tools/OLToolbox.py
+index 380e06f..1315d0e 100644
+--- a/pyol/tools/OLToolbox.py
++++ b/pyol/tools/OLToolbox.py
+@@ -29,6 +29,11 @@ try:
+ except NameError:
+     strtype = str
+ 
++if sys.version_info < (3,0,0):
++    from commands import getstatusoutput
++else:
++    from subprocess import getstatusoutput
++
+ timeformat = '%Y-%m-%d-%H-%M-%S'
+ 
+ def remove_duplicates(ls):
+@@ -56,29 +61,14 @@ def import_list(filename, lines=None, fatal=True,
+     and empty elements. filename can be a file name or a file object."""
+     # OLD PYTHON
+     decode = False
++    new_data = []
+     if isinstance(filename, strtype):
+         if not filename.startswith('http:'):
+-            try:
+-                fh = open(filename, 'r')
+-            except IOError:
+-                if fatal:
+-                    if '%s' in error_message:
+-                        print(error_message % (filename,))
+-                    else:
+-                        print(error_message)
+-                    raise
+-                else:
+-                    return None
++            e, out = getstatusoutput("cat %s" % filename)
++            new_data = out.split("\n")
+         else:
+-            if sys.version_info < (3,0,0):
+-                from urllib2 import urlopen, URLError
+-            else:
+-                from urllib.request import urlopen
+-                from urllib.error import URLError
+-                decode = True
+-            try:
+-                fh = urlopen(filename)
+-            except URLError:
++            e, out = getstatusoutput("curl -s -k -L %s" % filename)
++            if e:
+                 if fatal:
+                     if '%s' in error_message:
+                         print(error_message % (filename,))
+@@ -87,13 +77,13 @@ def import_list(filename, lines=None, fatal=True,
+                     raise
+                 else:
+                     return None
++            new_data = out.split("\n")
+     else:
+-        fh = filename
++        new_data = filename.readlines()
+     if lines:
+-        ls = [fh.readline() for n in range(lines)]
++        ls = [new_data[n] for n in range(lines)]
+     else:
+-        ls = fh.readlines()
+-    fh.close()
++        ls = new_data
+     if decode:
+         ls = [li.decode() for li in ls]
+     return strip_comments(ls)
