@@ -8,7 +8,7 @@ Requires: professor2 rivet frontier_client onnxruntime openldap
 Requires: py2-future
 
 Requires: py3-scipy
-Requires: py3-Keras
+Requires: py3-keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
