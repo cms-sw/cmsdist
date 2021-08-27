@@ -1,7 +1,6 @@
 ### RPM external gcc-fixincludes 1.0
 ## NO_VERSION_SUFFIX
 ## REVISION 1001
-## INSTALL_DEPENDENCIES gcc
 ## NOCOMPILER
 
 %prep
