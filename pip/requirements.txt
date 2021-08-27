@@ -119,9 +119,8 @@ jupyter_console==6.2.0
 jupyter_core==4.6.3
 jupyter==1.0.0
 jupyterlab-widgets==1.0.0
-Keras==2.4.3
+keras==2.6.0
 keras-applications==1.0.8
-keras-nightly==2.7.0.dev2021071300
 keras-preprocessing==1.1.2
 keras2onnx==1.7.0
 keyring==22.3.0
@@ -255,10 +254,10 @@ stevedore==1.32.0
 subprocess32==3.5.4
 sympy==1.7.1
 tables==3.6.1
-#NO_AUTO_UPDATE:3: Force to use tensorflow 2.5.0; this should match the version in tensorflow-sources.spec
-tensorboard==2.5.0
-tensorflow==2.5.0
-tensorflow-estimator==2.5.0
+#NO_AUTO_UPDATE:3: Force to use tensorflow 2.6.0; this should match the version in tensorflow-sources.spec
+tensorboard==2.6.0
+tensorflow==2.6.0
+tensorflow-estimator==2.6.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
 termcolor==1.1.0
