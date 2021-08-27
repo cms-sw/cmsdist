@@ -39,6 +39,7 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
 Patch2: m4-centos8
+Patch3: binutils-2.31.1-gold-ignore-discarded-note-relocts
 
 %prep
 
@@ -99,6 +100,7 @@ EOF_CMS_H
 %ifos linux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
+%patch3 -p1
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %setup -D -T -b 10 -n m4-%{m4Version}
 %patch2 -p1
