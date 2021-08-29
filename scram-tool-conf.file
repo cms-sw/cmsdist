@@ -5,9 +5,10 @@
 BuildRequires: SCRAMV1
 Source99: scram-tools
 Source: none
+%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
 
-%if "%{?vec_tools:set}" != "set"
-%define vec_tools %{nil}
+%if "%{?vectorized_packages:set}" != "set"
+%define vectorized_packages %{nil}
 %endif
 
 %prep
@@ -38,7 +39,7 @@ done
 
 for vec in %{package_vectorization}; do \
   ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
-  for tool in %{vec_tools}; do \
+  for tool in %{vectorized_packages}; do \
     uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
     toolbase=`eval echo \\$${uctool}_${ucvec}_ROOT`
     toolver=`eval echo \\$${uctool}_${ucvec}_VERSION`
@@ -121,24 +122,6 @@ if [ "${DUP_BIN}" != "" ] ; then
   exit 1
 fi
 set -x
-
-#vectorized packages
-%if "%{?vectorized_packages}" != ""
-for vect_package in  %vectorized_packages; do
-    echo $vect_package
-    package_uc=$(echo $vect_package | tr '[a-z-]' '[A-Z_]')
-    r=""
-    #echo $package_uc
-    for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]'); do
-    	r=$r"    <environment name=\"${v}_LIBDIR\" default=\""
-	r=$r'\$'
-	r=$r${package_uc}_${v}_ROOT/lib"\"/>\n"
-    	#echo $v
-    done
-    r=$r'</client>'
-    perl -p -i -e "s|</client>|${r}|g" %i/tools/selected/$(echo $vect_package | tr '[A-Z]' '[a-z]').xml
-done
-%endif
 
 %post
 
