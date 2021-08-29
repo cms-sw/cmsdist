@@ -1,11 +1,8 @@
-### RPM cms cmssw-tool-conf 51.0
+### RPM cms cmssw-tool-conf 52.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
-
-%define vectorized_packages OpenBLAS fastjet mkfit rivet tensorflow vecgeom zlib
-%{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
 
 Requires: crab
 Requires: cmssw-wm-tools
@@ -182,5 +179,6 @@ Requires: xtensor
 Requires: xtl
 Requires: xgboost
 
+## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf
