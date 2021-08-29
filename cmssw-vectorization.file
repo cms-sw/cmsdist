@@ -1,0 +1,2 @@
+%define vectorized_packages zlib fastjet mkfit vecgeom tensorflow-sources tensorflow OpenBLAS rivet
+%{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
