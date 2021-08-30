@@ -22,7 +22,7 @@ Requires: libxml2
 rm -rf build; mkdir build; cd build
 cmake .. \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
   -DENABLE_FUSE=FALSE \
   -DENABLE_KRB5=TRUE \
