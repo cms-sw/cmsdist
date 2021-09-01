@@ -53,7 +53,7 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-fastjet=$FASTJET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib"
+            --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" CXXFLAGS="-g0 -O2 -DNDEBUG" CFLAGS="-g0 -O2 -DNDEBUG"
 
 make %{makeprocesses}
 
