@@ -1,4 +1,4 @@
-### RPM external llvm 12.0.0
+### RPM external llvm 12.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -7,8 +7,8 @@ Requires: gcc zlib python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 3c4c9e19d48816ffecc35cae4a410683746f7a48
-%define llvmBranch cms/release/12.x/d28af7c
+%define llvmCommit 9f4ab770e61b68d2037cc7cda1f868a8ba52da85
+%define llvmBranch cms/release/12.x/fed4134
 %define iwyuCommit 5db414ac448004fe019871c977905cb7c2cff23f
 %define iwyuBranch clang_11
 
