@@ -1,5 +1,5 @@
 diff --git a/ffi/Makefile.linux b/ffi/Makefile.linux
-index 334e9ff..9501d2c 100644
+index fcfda4e..2d875cf 100644
 --- a/ffi/Makefile.linux
 +++ b/ffi/Makefile.linux
 @@ -5,7 +5,7 @@ CXX ?= g++

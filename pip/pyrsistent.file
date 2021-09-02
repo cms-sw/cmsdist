@@ -1,1 +1,2 @@
 Requires: py3-six
+BuildRequires: py3-wheel

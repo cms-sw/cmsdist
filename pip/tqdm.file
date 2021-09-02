@@ -1,1 +1,2 @@
+BuildRequires: py3-wheel
 %define RelocatePython %{i}/bin/*

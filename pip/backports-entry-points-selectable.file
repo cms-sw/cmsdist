@@ -1,0 +1,2 @@
+%define pip_name backports.entry-points-selectable
+BuildRequires: py3-wheel

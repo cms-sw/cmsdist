@@ -1,1 +1,2 @@
-Requires: py3-wheel
+BuildRequires: py3-wheel
+Requires: py3-tomli

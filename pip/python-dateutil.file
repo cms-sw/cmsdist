@@ -1,1 +1,2 @@
 Requires: py3-six py3-setuptools-scm
+BuildRequires: py3-wheel
