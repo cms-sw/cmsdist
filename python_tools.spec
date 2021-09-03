@@ -161,7 +161,7 @@ Requires: py3-pyasn1
 Requires: py3-pyflakes
 Requires: py3-smmap2
 Requires: py3-stevedore
-Requires: py3-typing_extensions
+Requires: py3-typing-extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall

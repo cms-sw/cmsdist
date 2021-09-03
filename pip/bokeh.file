@@ -1,5 +1,4 @@
-BuildRequires: py3-wheel
-Requires: py3-typing_extensions
+Requires: py3-typing-extensions
 %define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
 Requires: py3-PyYAML py3-python-dateutil py3-Jinja2 py3-numpy py3-packaging
 Requires: py3-tornado py3-numpy py3-pillow

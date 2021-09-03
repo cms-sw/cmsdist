@@ -1,4 +1,4 @@
-Requires: llvm py3-wheel 
+Requires: llvm
 Patch0: py3-llvmlite-fpic-flag
 Patch1: py3-llvmlite-version
 Patch3: py3-llvmlite-removeMethod

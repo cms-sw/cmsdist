@@ -1,6 +1,4 @@
 Requires: py3-cython
-BuildRequires: py3-wheel
-
 Requires: zlib OpenBLAS
 
 %define patchsrc \
