@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc
+Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11
 
 %prep
 
@@ -20,6 +20,28 @@ TINYXML2_MM_NAME="tinyxml2.modulemap"
 CUDA_MM_NAME="cuda.modulemap"
 HEPMC_MM_NAME="hepmc.modulemap"
 TBB_MM_NAME="module.modulemap"
+PYBIND11_MM_NAME="module.modulemap"
+
+CLHEP_INCDIR="include/"
+TINYXML2_INCDIR="include/"
+CUDA_INCDIR="include/"
+HEPMC_INCDIR="include/"
+TBB_INCDIR="include/"
+PYBIND11_INCDIR="lib/python3.9/site-packages/pybind11/include"
+
+CLHEP_MODDIR="include"
+TINYXML2_MODDIR="include"
+CUDA_MODDIR="include"
+HEPMC_MODDIR="include"
+TBB_MODDIR="include"
+PYBIND11_MODDIR="lib/python3.9/site-packages/pybind11/include"
+ 
+CLHEP_MODPACK="clhep"
+TINYXML2_MODPACK="tinyxml2"
+CUDA_MODPACK="cuda"
+HEPMC_MODPACK="hepmc"
+TBB_MODPACK="tbb"
+PYBIND11_MODPACK="py3_pybind11"
 
 GCC_GLIBCXX_VERSION=$(gcc -dumpversion | tr '.' '0')
 BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX" 
@@ -27,30 +49,24 @@ TBB_FLAGS="-DTBB_USE_GLIBCXX_VERSION=${GCC_GLIBCXX_VERSION} -DTBB_SUPPRESS_DEPRE
 CLHEP_FLAGS=""
 TINYXML2_FLAGS=""
 HEPMC_FLAGS=""
-
+PYBIND11_FLAGS="-I$PYTHON3_ROOT/include/python3.9/"
 
 #packages with module maps
-for mod in clhep tinyxml2 cuda HepMC tbb
+for mod in tbb pybind11 clhep tinyxml2 cuda HepMC
 do
-    rootvar="$(echo "${mod}_ROOT" | tr [a-z] [A-Z])"
+    modpack="$(echo "${mod}_MODPACK" | tr [a-z] [A-Z])"
+    rootvar="$(echo "${!modpack}_ROOT" | tr [a-z] [A-Z])"
     mm_name="$(echo "${mod}_MM_NAME" | tr [a-z] [A-Z])"
     mm_flags="$(echo "${mod}_FLAGS" | tr [a-z] [A-Z])"
+    mm_incdir="$(echo "${mod}_INCDIR" | tr [a-z] [A-Z])"
+    mm_moddir="$(echo "${mod}_MODDIR" | tr [a-z] [A-Z])"
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -v2 ${!mm_flags} -moduleMapFile=${!rootvar}/include/${!mm_name} -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m $mod -mByproduct $mod  -I ${!rootvar}/include/ empty.h
+    rootcling dummy_dict.cc -v2 ${!mm_flags} -moduleMapFile=${!rootvar}/${!mm_moddir}/${!mm_name} -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m $mod -mByproduct $mod  -I${!rootvar}/${!mm_incdir} empty.h
     mkdir -p $mod
     rm -f Dummy.pcm
     mv *.pcm $mod
 done
-
-#boost is special
-
-#rm -f dummy_dict*.cc
-#rm -f libDummy*.so
-#
-#echo "boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian" | xargs -I myMod -d ' ' -n 1 -P 4 rootcling dummy_dict_myMod.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy_myMod.so -moduleMapFile=dummy.modulemap -cxxmodule -m myMod -mByproduct myMod  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include empty.h
-#rm -f dummy_dict*.cc
-#rm -f libDummy*.so
 
 for mod in boost_rational boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian boost_python boost_program_options boost_thread boost_iostreams boost_spirit boost_multi_index_container
 do
@@ -64,12 +80,10 @@ rm -f Dummy*.pcm
 rm -f libDummy*.pcm
 mv *.pcm boost/.
 
-
-
 %install
 
 mkdir %{i}/lib
 rm -f Dummy*.pcm
 rm -f libDummy*.pcm
-cp -r clhep tinyxml2 boost cuda HepMC tbb  %{i}/lib/.
+cp -r clhep tinyxml2 boost cuda HepMC tbb pybind11  %{i}/lib/.
 
