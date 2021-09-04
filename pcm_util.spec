@@ -27,14 +27,14 @@ TINYXML2_INCDIR="include/"
 CUDA_INCDIR="include/"
 HEPMC_INCDIR="include/"
 TBB_INCDIR="include/"
-PYBIND11_INCDIR="lib/python3.9/site-packages/pybind11/include"
+PYBIND11_INCDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
 
 CLHEP_MODDIR="include"
 TINYXML2_MODDIR="include"
 CUDA_MODDIR="include"
 HEPMC_MODDIR="include"
 TBB_MODDIR="include"
-PYBIND11_MODDIR="lib/python3.9/site-packages/pybind11/include"
+PYBIND11_MODDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
  
 CLHEP_MODPACK="clhep"
 TINYXML2_MODPACK="tinyxml2"
@@ -49,7 +49,7 @@ TBB_FLAGS="-DTBB_USE_GLIBCXX_VERSION=${GCC_GLIBCXX_VERSION} -DTBB_SUPPRESS_DEPRE
 CLHEP_FLAGS=""
 TINYXML2_FLAGS=""
 HEPMC_FLAGS=""
-PYBIND11_FLAGS="-I$PYTHON3_ROOT/include/python3.9/"
+PYBIND11_FLAGS="-I$PYTHON3_ROOT/include/python%{cms_python3_major_minor_version}/"
 
 #packages with module maps
 for mod in tbb pybind11 clhep tinyxml2 cuda HepMC
@@ -72,7 +72,7 @@ for mod in boost_rational boost_type_traits boost_algorithm_and_range boost_any 
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
-    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include -I ${PYTHON3_ROOT}/include/python3.9 empty.h
+    rootcling dummy_dict.cc -v2 $BOOST_FLAGS -moduleMapFile=${BOOST_ROOT}/include/boost/boost.modulemap -s ./libDummy.so -moduleMapFile=dummy.modulemap -cxxmodule -m ${mod} -mByproduct ${mod}  -I ${BOOST_ROOT}/include/ -I ${BOOST_ROOT}/include/boost -I ${FFTW3_ROOT}/include -I ${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version} empty.h
 done
 
 mkdir -p boost

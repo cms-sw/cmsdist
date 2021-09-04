@@ -14,5 +14,5 @@
   <runtime name="CLING_MODULEMAP_FILES" value="@TBB_ROOT@/include/module.modulemap" type="path" handler="warn"/>
   <runtime name="CLING_MODULEMAP_FILES" value="@CUDA_ROOT@/include/cuda.modulemap" type="path" handler="warn"/>
   <runtime name="CLING_MODULEMAP_FILES" value="@BOOST_ROOT@/include/boost/boost.modulemap" type="path" handler="warn"/>
-  <runtime name="CLING_MODULEMAP_FILES" value="@PY3_PYBIND11_ROOT@/lib/python3.9/site-packages/pybind11/include/module.modulemap" type="path" handler="warn"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="@PY3_PYBIND11_ROOT@/@PYTHON3_LIB_SITE_PACKAGES@/pybind11/include/module.modulemap" type="path" handler="warn"/>
 </tool>

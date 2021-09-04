@@ -2,7 +2,7 @@ Requires: py3-wheel
 %define RelocatePython %{i}/bin/*
 
 %define PipPostBuild \
-cat > %{i}/lib/python3.9/site-packages/pybind11/include/module.modulemap << EOF \
+cat > %{i}/${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include/module.modulemap << EOF \
 module pybind11 { \
   export * \
   requires cplusplus \
