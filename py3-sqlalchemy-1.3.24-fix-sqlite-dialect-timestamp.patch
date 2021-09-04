@@ -1,5 +1,5 @@
 diff --git a/lib/sqlalchemy/processors.py b/lib/sqlalchemy/processors.py
-index 0c0aa1b..65a35fb 100644
+index c090548..faa2475 100644
 --- a/lib/sqlalchemy/processors.py
 +++ b/lib/sqlalchemy/processors.py
 @@ -30,13 +30,16 @@ def str_to_datetime_processor_factory(regexp, type_):
@@ -21,22 +21,20 @@ index 0c0aa1b..65a35fb 100644
                      from_=err,
                  )
 diff --git a/setup.py b/setup.py
-index 55a3cee..ab65667 100644
+index 1fdc91f..1654110 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -29,11 +29,11 @@ else:
-     extra_compile_args = []
+@@ -21,10 +21,10 @@ if sys.version_info < (2, 7):
+ cpython = platform.python_implementation() == "CPython"
  
  ext_modules = [
 -    Extension(
 -        "sqlalchemy.cprocessors",
 -        sources=["lib/sqlalchemy/cextension/processors.c"],
--        extra_compile_args=extra_compile_args,
 -    ),
 +#    Extension(
 +#        "sqlalchemy.cprocessors",
 +#        sources=["lib/sqlalchemy/cextension/processors.c"],
-+#        extra_compile_args=extra_compile_args,
 +#    ),
      Extension(
          "sqlalchemy.cresultproxy",

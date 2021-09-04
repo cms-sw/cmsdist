@@ -31,13 +31,13 @@ index 0000000..8d00404
 +    def do_rollback(self, dbapi_connection):
 +        pass
 diff --git a/lib/sqlalchemy/dialects/oracle/__init__.py b/lib/sqlalchemy/dialects/oracle/__init__.py
-index 3d4aca1..39883eb 100644
+index 75eb95f..8c126b3 100644
 --- a/lib/sqlalchemy/dialects/oracle/__init__.py
 +++ b/lib/sqlalchemy/dialects/oracle/__init__.py
-@@ -7,6 +7,7 @@
- 
+@@ -8,6 +8,7 @@
  from . import base  # noqa
  from . import cx_oracle  # noqa
+ from . import zxjdbc  # noqa
 +from . import frontier  # noqa
  from .base import BFILE
  from .base import BINARY_DOUBLE
