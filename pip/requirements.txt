@@ -23,7 +23,7 @@ astor==0.8.1
 astroid==2.7.3
 astunparse==1.6.3
 async-lru==1.0.2
-async-timeout==4.0.0a3
+async-timeout==3.0.1
 atomicwrites==1.4.0
 attrs==21.2.0
 autopep8==1.5.7
@@ -35,7 +35,7 @@ backports-entry-points-selectable==1.1.0
 beautifulsoup4==4.9.3
 beniget==0.4.1
 bleach==4.1.0
-bokeh==2.3.0
+bokeh==2.3.3
 boost-histogram==1.1.0
 bottle==0.12.19
 Bottleneck==1.3.2
@@ -43,9 +43,9 @@ cachecontrol==0.12.6
 cachetools==4.2.2
 cachy==0.3.0
 charset-normalizer==2.0.4
-cleo==1.0.0a4
+cleo==0.8.1
 clikit==0.6.2
-cmsml==0.1.1
+cmsml==0.1.2
 correctionlib==1.1.0
 crashtest==0.3.1
 certifi==2021.5.30
@@ -58,7 +58,7 @@ colorama==0.4.4
 conan==1.39.0
 contextlib2==21.6.0
 contextvars==2.4
-coverage==6.0b1
+coverage==5.5
 cx-Oracle==8.2.1
 cycler==0.10.0
 cython==0.29.24
@@ -86,12 +86,12 @@ funcsigs==1.0.2
 future==0.18.2
 gast==0.5.2
 gitdb==4.0.7
-GitPython==3.1.20
+GitPython==3.1.18
 google-auth==2.0.2
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
-grpcio==1.40.0rc1
-grpcio-tools==1.40.0rc1
+grpcio==1.39.0
+grpcio-tools==1.39.0
 #1.0.1 doesn't download (wheel only?)
 h5py-cache==1.0
 h5py==3.4.0
@@ -119,7 +119,7 @@ jedi==0.18.0
 Jinja2==3.0.1
 joblib==1.0.1
 jsonpickle==2.0.0
-jsonschema==4.0.0a6
+jsonschema==3.2.0
 jupyter-client==7.0.2
 jupyter-console==6.4.0
 jupyter-core==4.7.1
@@ -135,7 +135,7 @@ keras-preprocessing==1.1.2
 keras2onnx==1.7.0
 keyring==23.1.0
 kiwisolver==1.3.2
-law==0.1.4
+law==0.1.5
 lazy-object-proxy==1.6.0
 lizard==1.17.9
 llvmlite==0.37.0
@@ -146,12 +146,12 @@ lz4==3.1.3
 Mako==1.1.5
 Markdown==3.3.4
 MarkupSafe==2.0.1
-matplotlib==3.5.0b1
+matplotlib==3.4.3
 matplotlib-inline==0.1.2
 mccabe==0.6.1
-mistune==2.0.0rc1
+mistune==0.8.4
 mock==4.0.3
-more-itertools==8.8.0
+more-itertools==8.9.0
 mpld3==0.5.5
 mplhep==0.3.12
 mplhep-data==0.0.3
@@ -188,7 +188,7 @@ pathlib2==2.3.6
 pbr==5.6.0
 pexpect==4.8.0
 pickleshare==0.7.5
-pillow==8.3.1
+pillow==8.3.2
 pkgconfig==1.5.5
 plac==1.3.3
 platformdirs==2.3.0
@@ -200,7 +200,7 @@ poetry-core==1.0.4
 prettytable==2.2.0
 prometheus-client==0.11.0
 prompt_toolkit==3.0.20
-protobuf==3.18.0rc2
+protobuf==3.17.3
 prwlock==0.4.1
 psutil==5.8.0
 ptyprocess==0.7.0
@@ -218,7 +218,7 @@ Pygments==2.10.0
 PyJWT==2.1.0
 pylint==2.10.2
 pymongo==3.12.0
-pyparsing==3.0.0b3
+pyparsing==2.4.7
 pyrsistent==0.18.0
 py==1.10.0
 pydantic==1.8.2
@@ -239,7 +239,7 @@ pytz==2021.1
 PyYAML==5.4.1
 pyzmq==22.2.1
 qtconsole==5.1.1
-QtPy==1.10.0
+QtPy==1.11.0
 repoze-lru==0.7
 rep==0.6.6
 requests==2.26.0
@@ -252,13 +252,13 @@ scandir==1.10.0
 schema==0.7.4
 scikit-build==0.12.0
 scikit-learn==0.24.2
-scinum==1.1.4
+scinum==1.2.0
 scipy==1.7.1
 threadpoolctl==2.2.0
 scons==4.2.0
 seaborn==0.11.2
-Send2Trash==1.8.1b0
-setuptools-scm==6.2.0
+Send2Trash==1.8.0
+setuptools-scm==6.3.1
 shellingham==1.4.0
 simplegeneric==0.8.1
 singledispatch==3.7.0
@@ -307,8 +307,8 @@ webencodings==0.5.1
 websocket-client==1.2.1
 Werkzeug==2.0.1
 wheel==0.37.0
-widgetsnbextension==4.0.0a4
-wrapt==1.13.0rc3
+widgetsnbextension==3.5.1
+wrapt==1.12.1
 xgboost==1.3.3
 #bumping this pulls in xrootd - which looks like it needs some understanding
 xrootdpyfs==0.2.1
