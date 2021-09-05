@@ -124,15 +124,20 @@ if [ -d %{i}/bin ] ; then
   done
 fi
 %{?PipPostBuild:%PipPostBuild}
-%{?RelocatePython:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %RelocatePython}
+if [ -d %{i}/bin ] ; then
+  for s in $(grep -IR '^#!.*' %{i}/bin) ; do
+    perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|;s| %{cmsroot}/.*python3 | python3 |" $s
+  done
+fi
+%{?RelocatePython:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|;s| %{cmsroot}/.*python3 | python3 |" %RelocatePython}
 
 #Install Section
 %install
 %{?PipPreInstall:%PipPreInstall}
 %{?PipPostInstall:%PipPostInstall}
+[ ! -d %{i}/bin/__pycache__ ] || rm -rf %{i}/bin/__pycache__
 chmod -R a+r %{i}
 find %{i} -type d -print | xargs chmod 0755
-echo "OK Install"
 
 #post Section
 %post

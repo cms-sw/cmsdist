@@ -1,2 +1,1 @@
 Requires: py3-poetry
-%define RelocatePython %{i}/bin/*
