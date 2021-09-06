@@ -1,1 +1,1 @@
-Requires: py3-notebook
+Requires: py3-notebook py3-jupyter-packaging

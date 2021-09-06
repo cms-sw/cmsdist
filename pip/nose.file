@@ -1,2 +1,0 @@
-%define RelocatePython %{i}/bin/nosetests %{i}/bin/nosetests-2.7
-%define RelocatePython %{i}/bin/*3*

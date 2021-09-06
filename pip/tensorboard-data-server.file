@@ -3,4 +3,3 @@
                    mkdir data-server ; mv tensorboard-data-server-v%{realversion}/tensorboard/data/server/pip_package/* data-server/ ; \
                    rm -rf tensorboard-data-server-v%{realversion} ; mv data-server tensorboard-data-server-v%{realversion}; \
                  popd
-BuildRequires: py3-wheel

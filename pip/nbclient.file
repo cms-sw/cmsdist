@@ -1,0 +1,1 @@
+Requires: py3-jupyter-client py3-nbformat py3-nest-asyncio py3-traitlets
