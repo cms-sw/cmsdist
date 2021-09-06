@@ -1,2 +1,1 @@
 Requires: py3-MarkupSafe
-%define RelocatePython %{i}/bin/*

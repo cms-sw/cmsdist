@@ -1,3 +1,1 @@
 Requires: py3-six
-
-%define RelocatePython %{i}/bin/*

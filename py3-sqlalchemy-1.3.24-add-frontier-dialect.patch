@@ -1,6 +1,6 @@
 diff --git a/lib/sqlalchemy/connectors/frontier.py b/lib/sqlalchemy/connectors/frontier.py
 new file mode 100644
-index 0000000..5cbb3d7
+index 0000000..8d00404
 --- /dev/null
 +++ b/lib/sqlalchemy/connectors/frontier.py
 @@ -0,0 +1,26 @@
@@ -31,7 +31,7 @@ index 0000000..5cbb3d7
 +    def do_rollback(self, dbapi_connection):
 +        pass
 diff --git a/lib/sqlalchemy/dialects/oracle/__init__.py b/lib/sqlalchemy/dialects/oracle/__init__.py
-index 9f1e15b..d06e3e9 100644
+index 75eb95f..8c126b3 100644
 --- a/lib/sqlalchemy/dialects/oracle/__init__.py
 +++ b/lib/sqlalchemy/dialects/oracle/__init__.py
 @@ -8,6 +8,7 @@

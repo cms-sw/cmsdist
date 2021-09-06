@@ -1,0 +1,2 @@
+Requires: py3-jupyter-packaging py3-jupyter-client py3-nbconvert
+Requires: py3-anyio py3-argon2-cffi py3-prometheus-client py3-requests-unixsocket py3-Send2Trash py3-terminado py3-websocket-client
