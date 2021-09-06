@@ -2,4 +2,3 @@ Requires: py3-future
 Requires: py3-six py3-nose py3-pymongo py3-scipy py3-tqdm
 Requires: py3-scipy py3-networkx py3-cloudpickle
 %define patchsrc sed -i -e 's|packages = None|packages = ["hyperopt"]|' setup.py
-%define RelocatePython %{i}/bin/*

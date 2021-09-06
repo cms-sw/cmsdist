@@ -1,6 +1,3 @@
-Requires: py3-wheel
-%define RelocatePython %{i}/bin/*
-
 %define PipPostBuild \
 cat > %{i}/${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include/module.modulemap << EOF \
 module pybind11 { \

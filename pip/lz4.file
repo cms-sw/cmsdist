@@ -1,5 +1,2 @@
 Requires: lz4 py3-future py3-pkgconfig py3-setuptools-scm
-
 %define PipBuildOptions  --global-option=build_ext --global-option="-L${LZ4_ROOT}/lib"  --global-option="-I${LZ4_ROOT}/include"
-
-%define RelocatePython %{i}/bin/*

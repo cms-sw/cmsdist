@@ -1,1 +1,1 @@
-Requires: py3-urllib3 py3-chardet py3-idna py3-certifi
+Requires: py3-urllib3 py3-chardet py3-idna py3-certifi py3-charset-normalizer

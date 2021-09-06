@@ -1,0 +1,2 @@
+BuildRequires: py3-poetry
+Requires: py3-numpy
