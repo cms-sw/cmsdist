@@ -1,2 +1,1 @@
 Requires: py3-funcsigs py3-six py3-singledispatch py3-llvmlite py3-numpy python3
-%define RelocatePython %{i}/bin/*

@@ -1,2 +1,2 @@
 Requires: py3-appdirs py3-distlib py3-filelock py3-six py3-importlib-metadata py3-importlib-resources
-%define RelocatePython %{i}/bin/*
+Requires: py3-backports-entry-points-selectable py3-platformdirs

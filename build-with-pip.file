@@ -43,6 +43,9 @@
 
 %define pip pip3&package_dependency=py3-pip
 Requires: python3 py3-pip py3-setuptools
+%if "%{n}" != "py3-wheel"
+BuildRequires: py3-wheel
+%endif
 
 %if "%{?source0:set}" != "set"
 %define source0 pip://%{pip_name}/%{realversion}?pip_options=%{PipDownloadOptions}&pip=%{pip}&output=/%{pkgsource}
@@ -101,7 +104,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
    PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
    [ "${PKG_NAME}" = "" ] && exit 1
-   DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py2-|' %{PipDepsPost} | tr '\n' ' ')
+   DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py3-|' %{PipDepsPost} | tr '\n' ' ')
    if [ "$DEPS" != "" ] ; then
       echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
       exit 1
@@ -121,15 +124,20 @@ if [ -d %{i}/bin ] ; then
   done
 fi
 %{?PipPostBuild:%PipPostBuild}
-%{?RelocatePython:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %RelocatePython}
+if [ -d %{i}/bin ] ; then
+  for s in $(grep -IRHl '^#!.*' %{i}/bin) ; do
+    perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|;s| %{cmsroot}/.*python3 | python3 |" $s
+  done
+fi
+%{?RelocatePython:perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|;s| %{cmsroot}/.*python3 | python3 |" %RelocatePython}
 
 #Install Section
 %install
 %{?PipPreInstall:%PipPreInstall}
 %{?PipPostInstall:%PipPostInstall}
+[ ! -d %{i}/bin/__pycache__ ] || rm -rf %{i}/bin/__pycache__
 chmod -R a+r %{i}
 find %{i} -type d -print | xargs chmod 0755
-echo "OK Install"
 
 #post Section
 %post

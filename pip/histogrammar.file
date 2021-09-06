@@ -1,2 +1,3 @@
+Requires: py3-joblib py3-numpy py3-tqdm
 %define PipDownloadSourceType none
 %define PipPostBuild ls %{i}/bin/* | xargs -i mv '{}' '{}3'
