@@ -1,4 +1,1 @@
-Requires: py3-wheel
 Requires: py3-importlib-metadata
-
-
