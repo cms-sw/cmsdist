@@ -1,3 +1,3 @@
-Requires: py3-jedi py3-prompt_toolkit py3-backcall
-%define PipPostBuildPy rm -f %{i}/bin/iptest %{i}/bin/ipython ; sed -i -e 's| %{cmsroot}/.*python3 | python3 |' %{i}/bin/*3
+Requires: py3-jedi py3-prompt_toolkit py3-backcall py3-matplotlib-inline
+%define PipPostBuildPy rm -f %{i}/bin/iptest %{i}/bin/ipython
 Requires: py3-traitlets py3-pickleshare py3-Pygments py3-prompt_toolkit py3-pexpect py3-simplegeneric
