@@ -60,9 +60,9 @@ Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
 Requires: py3-jupyter
-Requires: py3-jupyter_client
-Requires: py3-jupyter_console
-Requires: py3-jupyter_core
+Requires: py3-jupyter-client
+Requires: py3-jupyter-console
+Requires: py3-jupyter-core
 Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
@@ -156,13 +156,12 @@ Requires: py3-ipaddress
 Requires: py3-mccabe
 Requires: py3-more-itertools
 Requires: py3-pluggy
-Requires: py3-prometheus_client
 Requires: py3-pyasn1-modules
 Requires: py3-pyasn1
 Requires: py3-pyflakes
 Requires: py3-smmap2
 Requires: py3-stevedore
-Requires: py3-typing_extensions
+Requires: py3-typing-extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall

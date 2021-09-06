@@ -1,8 +1,8 @@
 diff --git a/lib/sqlalchemy/dialects/oracle/base.py b/lib/sqlalchemy/dialects/oracle/base.py
-index 2353f15..77b2613 100644
+index c621165..65bad1e 100644
 --- a/lib/sqlalchemy/dialects/oracle/base.py
 +++ b/lib/sqlalchemy/dialects/oracle/base.py
-@@ -1247,7 +1247,7 @@ class OracleDialect(default.DefaultDialect):
+@@ -1346,7 +1346,7 @@ class OracleDialect(default.DefaultDialect):
          super(OracleDialect, self).initialize(connection)
  
          self.implicit_returning = self.__dict__.get(
@@ -11,7 +11,7 @@ index 2353f15..77b2613 100644
          )
  
          if self._is_oracle_8:
-@@ -1259,7 +1259,7 @@ class OracleDialect(default.DefaultDialect):
+@@ -1358,7 +1358,7 @@ class OracleDialect(default.DefaultDialect):
          # dialect does not need compat levels below 12.2, so don't query
          # in those cases
  
@@ -20,7 +20,7 @@ index 2353f15..77b2613 100644
              return self.server_version_info
          try:
              compat = connection.execute(
-@@ -1272,9 +1272,9 @@ class OracleDialect(default.DefaultDialect):
+@@ -1371,9 +1371,9 @@ class OracleDialect(default.DefaultDialect):
              try:
                  return tuple(int(x) for x in compat.split("."))
              except:

@@ -1,2 +1,1 @@
-Requires: py3-widgetsnbextension 
-#needed for py3 upgrade py2-jupyterlab-widgets 
+Requires: py3-widgetsnbextension py3-jupyterlab-widgets
