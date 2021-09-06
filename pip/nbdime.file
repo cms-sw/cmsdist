@@ -1,5 +1,3 @@
 Requires: py3-GitPython py3-requests py3-colorama
 Requires: py3-notebook py3-GitPython
-%define RelocatePython %{i}/bin/*
-
-
+Requires: py3-jupyter-server py3-jupyter-server-mathjax

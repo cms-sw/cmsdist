@@ -1,1 +1,1 @@
-Requires: py3-numpy py3-setuptools-scm py3-toml py3-Click
+Requires: py3-numpy py3-setuptools-scm py3-toml py3-Click py3-uhi

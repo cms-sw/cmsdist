@@ -1,4 +1,2 @@
-Requires: cmake protobuf py3-protobuf py3-six py3-typing_extensions py3-numpy py3-pytest-runner
-
+Requires: cmake protobuf py3-protobuf py3-six py3-typing-extensions py3-numpy py3-pytest-runner
 %define PipPreBuild export ONNX_ML=1
-%define RelocatePython %{i}/bin/*
