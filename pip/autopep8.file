@@ -1,2 +1,1 @@
 Requires: py3-pycodestyle py3-toml
-%define RelocatePython %{i}/bin/*

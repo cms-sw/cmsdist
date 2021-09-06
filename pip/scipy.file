@@ -1,4 +1,4 @@
-Requires: py3-numpy py3-cython py3-wheel py3-pybind11
+Requires: py3-numpy py3-cython py3-pybind11 py3-pythran
 
 %define PipPreBuild\
   if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; fi \

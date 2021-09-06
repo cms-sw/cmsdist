@@ -1,6 +1,6 @@
 Requires: py3-numpy py3-absl-py py3-grpcio
 Requires: py3-google-auth-oauthlib py3-tensorboard-plugin-wit
 %define PipPostBuild mv %{i}/bin/tensorboard %{i}/bin/tensorboard3
-Requires: py3-Markdown py3-Werkzeug py3-protobuf py3-html5lib py3-six py3-wheel py3-bleach
+Requires: py3-Markdown py3-Werkzeug py3-protobuf py3-html5lib py3-six py3-bleach
 Requires: py3-tensorboard-data-server
 %define PipDownloadSourceType none

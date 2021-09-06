@@ -1,1 +1,2 @@
 Requires: py3-numpy py3-matplotlib py3-scipy py3-requests py3-packaging
+Requires: py3-mplhep-data py3-uhi

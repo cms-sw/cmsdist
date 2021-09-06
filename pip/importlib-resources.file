@@ -1,3 +1,2 @@
-Requires: py3-wheel
 Requires: py3-pathlib2 py3-contextlib2 py3-singledispatch py3-typing py3-importlib-metadata py3-zipp
 

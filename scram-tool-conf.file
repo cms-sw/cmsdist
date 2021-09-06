@@ -111,7 +111,7 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep '/py[23]-') ; do
   fi
   echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
 done
-DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
+DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | grep -v '__pycache__' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
 
 set +x
 if [ "${DUP_BIN}" != "" ] ; then
