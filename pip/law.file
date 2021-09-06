@@ -1,3 +1,1 @@
 Requires: py3-six py3-luigi py3-scinum
-
-%define RelocatePython %{i}/bin/*

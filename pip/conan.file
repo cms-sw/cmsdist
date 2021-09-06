@@ -1,3 +1,2 @@
 Requires: py3-python-dateutil py3-requests py3-PyJWT py3-tqdm py3-PyYAML py3-Jinja2 py3-Pygments py3-patch-ng py3-pluginbase
 Requires: py3-fasteners py3-patch-ng py3-pluginbase py3-node-semver py3-distro py3-future py3-deprecation py3-bottle py3-colorama
-%define PipPostBuildPy sed -i -e 's| %{cmsroot}/.*python3 | python3 |' %{i}/bin/conan*

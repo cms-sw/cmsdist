@@ -1,2 +1,1 @@
-%define patchsrc sed -i -e '/.*futures.*/d' isort.egg-info/requires.txt setup.py
-%define RelocatePython %{i}/bin/*
+Requires: py3-poetry
