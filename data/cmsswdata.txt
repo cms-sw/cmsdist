@@ -110,5 +110,5 @@ CalibCalorimetry-CaloMiscalibTools=V01-00-00
 FastSimulation-MaterialEffects=V05-00-00
 L1Trigger-RPCTrigger=V00-15-00
 RecoParticleFlow-PFBlockProducer=V02-04-02
-SimG4CMS-Calo=V03-03-00
+SimG4CMS-Calo=V03-04-00
 Validation-Geometry=V00-07-00
