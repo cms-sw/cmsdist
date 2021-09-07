@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 89cd671f0f1e9578496e400338f9a3f9e52ec7b7
-%define branch cms/master/0f5db5d
+%define tag bcac6b47be3c7a2f2e4793504c6edf6669c79aa8
+%define branch cms/master/0e0154b
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
