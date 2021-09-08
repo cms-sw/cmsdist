@@ -11,7 +11,6 @@ Requires: boost zlib
 
 %prep
 %setup -n CGAL-%{realversion}
-%patch0 -p1
 
 %build
 
