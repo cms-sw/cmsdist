@@ -1,4 +1,4 @@
-### RPM external cuda 11.4.1
+### RPM external cuda 11.4.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define driversversion 470.57.02
