@@ -23,6 +23,7 @@ cmake . \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DWITH_demos:BOOL=OFF \
   -DWITH_examples:BOOL=OFF \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 make VERBOSE=1
 
