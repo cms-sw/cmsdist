@@ -6,7 +6,7 @@
     <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib"/>
   </client>
   <use name="protobuf"/>
-  <ifarchitecture name="!aarch64">
+  <ifarchitecture name="!slc7_aarch64">
     <use name="cuda"/>
     <use name="cudnn"/>
   </ifarchitecture>
