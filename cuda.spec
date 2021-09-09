@@ -32,13 +32,16 @@ mkdir -p %{i}/include
 mkdir -p %{i}/lib64
 mkdir -p %{i}/lib64/stubs
 
-# package only the runtime static library
+# package only the runtime static libraries
 mv %_builddir/build/lib64/libcudadevrt.a %{i}/lib64/
+mv %_builddir/build/lib64/libcudart_static.a %{i}/lib64/
 rm -f %_builddir/build/lib64/lib*.a
 
-# package only the CUDA driver and NVML library stub
-mv %_builddir/build/lib64/stubs/libcuda.so %{i}/lib64/stubs/
-mv %_builddir/build/lib64/stubs/libnvidia-ml.so %{i}/lib64/stubs/
+# package only the CUDA driver and NVML library stubs
+mv %_builddir/build/lib64/stubs/libcuda.so      %{i}/lib64/stubs/libcuda.so
+ln -sf libcuda.so                               %{i}/lib64/stubs/libcuda.so.1
+mv %_builddir/build/lib64/stubs/libnvidia-ml.so %{i}/lib64/stubs/libnvidia-ml.so
+ln -sf libnvidia-ml.so                          %{i}/lib64/stubs/libnvidia-ml.so.1
 rm -rf %_builddir/build/lib64/stubs/
 
 # do not package the OpenCL libraries

@@ -150,6 +150,7 @@ Requires: pcm_util
 Requires: openldap
 Requires: gperftools
 Requires: cuda
+Requires: cuda-compatible-runtime
 Requires: alpaka
 Requires: cupla
 
