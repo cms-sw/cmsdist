@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+CalibPPS-ESProducers=V01-04-00
 L1Trigger-CSCTriggerPrimitives=V00-11-00
 RecoTracker-MkFit=V00-03-00
 RecoEgamma-ElectronIdentification=V01-07-00
@@ -28,7 +29,6 @@ L1Trigger-TrackTrigger=V00-01-00
 RecoParticleFlow-PFProducer=V16-01-00
 RecoTracker-TkSeedGenerator=V00-02-00
 CalibTracker-SiPixelESProducers=V02-02-00
-CalibPPS-ESProducers=V01-03-00
 Alignment-OfflineValidation=V00-01-00
 Geometry-DTGeometryBuilder=V00-01-00
 L1Trigger-TrackFindingTMTT=V00-02-00
