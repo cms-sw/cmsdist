@@ -4,7 +4,7 @@
 
 BuildRequires: gcc
 BuildRequires: db6-bootstrap lua-bootstrap
-BuildRequires: openssl-bootstrap xz-bootstrap libarchive-bootstrap
+BuildRequires: xz-bootstrap libarchive-bootstrap
 
 %define keep_archives true
 %define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac)
