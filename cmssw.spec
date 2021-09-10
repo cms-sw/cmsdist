@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_12_1_X_2099-01-01-2400
 
 Requires: cmssw-tool-conf
 
