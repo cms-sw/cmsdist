@@ -1,7 +1,0 @@
-  <tool name="doxygen" version="@TOOL_VERSION@">
-    <info url="http://www.stack.nl/~dimitri/doxygen/"/>
-    <client>
-      <environment name="DOXYGEN_BASE" default="@TOOL_ROOT@"/>
-    </client>
-    <runtime name="PATH" value="$DOXYGEN_BASE/bin" type="path"/>
-  </tool>
