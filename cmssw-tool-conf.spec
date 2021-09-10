@@ -113,8 +113,6 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: cgal
-#Requires: doxygen
 Requires: yaml-cpp
 Requires: gmp-static
 Requires: mpfr-static
