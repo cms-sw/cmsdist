@@ -1,6 +1,6 @@
-### RPM external mkfit 3.1.1
+### RPM external mkfit 3.2.0
 ## INCLUDE compilation_flags
-%define tag V3.1.1+pr344
+%define tag V3.2.0-0+pr354
 %define branch devel
 %define github_user trackreco
 
