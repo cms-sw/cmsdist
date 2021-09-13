@@ -15,7 +15,7 @@ rm -f dummy.modulemap
 touch empty.h
 echo "module Dummy{}" > dummy.modulemap
 
-CLHEP_MM_NAME="module.modulemap"
+CLHEP_MM_NAME="clhep.modulemap"
 TINYXML2_MM_NAME="tinyxml2.modulemap"
 CUDA_MM_NAME="cuda.modulemap"
 HEPMC_MM_NAME="hepmc.modulemap"
