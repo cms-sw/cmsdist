@@ -77,7 +77,6 @@ Geometry-MTCCTrackerCommonData=V01-01-00
 Geometry-MuonCommonData=V01-06-00
 Geometry-MuonSimData=V01-03-00
 Geometry-RPCGeometryBuilder=V01-04-00
-Geometry-TrackerCommonData=V01-09-05
 Geometry-TrackerRecoData=V01-04-05
 Geometry-TrackerSimData=V01-02-05
 Geometry-TwentyFivePercentTrackerCommonData=V00-01-00
