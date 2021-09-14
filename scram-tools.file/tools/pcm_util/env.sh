@@ -5,3 +5,4 @@ export CLHEP_ROOT
 export TBB_ROOT
 export CUDA_ROOT
 export BOOST_ROOT
+export PY3_PYBIND11_ROOT
