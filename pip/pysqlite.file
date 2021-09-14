@@ -1,2 +1,0 @@
-Requires: sqlite
-%define patchsrc echo "include_dirs=$SQLITE_ROOT/include">>setup.cfg

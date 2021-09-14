@@ -1,0 +1,2 @@
+%define pip_name pycurl
+%define source0 usercommand://%{pip_name}?package_dependency=py3-pip,git&command=pip3%%20download%%20--no-deps%%20--no-binary%%3D:all:%%20--disable-pip-version-check%%20-d%%20.%%20%{pip_name}==%{realversion};/bin/ls%%20|grep%%20-v%%20files.list>%%20files.list&output=/source.tar.gz
