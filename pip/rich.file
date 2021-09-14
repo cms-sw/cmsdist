@@ -1,0 +1,2 @@
+BuildRequires: py3-poetry
+Requires: py3-colorama py3-commonmark py3-Pygments
