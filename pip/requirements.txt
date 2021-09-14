@@ -12,7 +12,7 @@
 #flags or patching, please use package_name.file
 #############################################################################
 absl-py==0.13.0
-aiohttp==3.7.4.post0
+aiohttp==3.7.4
 aiosqlite==0.17.0
 anyio==3.3.0
 appdirs==1.4.4
