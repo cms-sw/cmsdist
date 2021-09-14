@@ -162,7 +162,6 @@ Requires: openloops
 %endif
 
 %ifarch x86_64
-Requires: dmtcp
 Requires: tkonlinesw
 Requires: oracle
 Requires: intel-vtune
