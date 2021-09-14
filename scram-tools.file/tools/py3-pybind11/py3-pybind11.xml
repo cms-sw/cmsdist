@@ -5,5 +5,5 @@
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/module.modulemap" type="path"/>
-  <flags ROOTCLING_ARGS="-moduleMapFile=$INCLUDE/module.modulemap"/>
+  <flags ROOTCLING_ARGS="-moduleMapFile=$(INCLUDE)/module.modulemap"/>
 </tool>
