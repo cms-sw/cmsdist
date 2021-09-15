@@ -1,5 +1,5 @@
-### RPM external form 4.1.033e
-Source: https://gosam.hepforge.org/gosam-installer/form-%{realversion}.tar.gz
+### RPM external form 4.2.1
+Source: https://github.com/vermaseren/form/releases/download/v%{realversion}/form-%{realversion}.tar.gz
 BuildRequires: gmake
 Requires: zlib
 
@@ -8,7 +8,7 @@ Requires: zlib
 %endif
 
 %prep
-%setup -q -n form-4.1
+%setup -q -n form-4.2.1
 
 %build
 
