@@ -8,7 +8,7 @@ Requires: zlib
 %endif
 
 %prep
-%setup -q -n form-4.2.1
+%setup -q -n form-%{realversion}
 
 %build
 
