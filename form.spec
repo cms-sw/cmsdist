@@ -12,8 +12,8 @@ Requires: zlib
 
 %build
 
-CXX="$(which %{cms_cxx}) -fPIC"
-CC="$(which gcc) -fPIC"
+CXX="$(which %{cms_cxx})"
+CC="$(which gcc)"
 
 ./configure --prefix=%i \
             --bindir=%i/bin \
