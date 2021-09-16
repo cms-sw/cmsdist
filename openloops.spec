@@ -21,13 +21,19 @@ sed -i -e 's|^ *cmodel *=.*|cmodel = small|' pyol/config/default.cfg
 %endif
 
 #Fix for GCC 10
-gcc10_extra_flag=""
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export gcc10_extra_flag=-fallow-invalid-boz ; fi
+extra_flag=""
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then extra_flag=-fallow-invalid-boz ; fi
+
+# ppc64le: error: detected recursion whilst expanding macro "vector"
+%ifarch ppc64le
+extra_flag="${extra_flag} -Uvector"
+%endif
+export extra_flag
 
 cat <<EOF > openloops.cfg
 [OpenLoops]
 fortran_compiler = gfortran
-gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0 $gcc10_extra_flag
+gfortran_f90_flags = -ffixed-line-length-0 -ffree-line-length-0 $extra_flag
 generic_optimisation = -O2
 born_optimisation = -O2
 loop_optimisation = -O0
