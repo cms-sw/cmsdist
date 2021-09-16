@@ -141,6 +141,7 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: mxnet-predict
 Requires: dablooms
+Requires: openloops
 
 # Only for Linux platform.
 %ifos linux
@@ -158,7 +159,6 @@ Requires: cudnn
 Requires: libunwind
 %ifnarch ppc64le
 Requires: igprof
-Requires: openloops
 %endif
 
 %ifarch x86_64
