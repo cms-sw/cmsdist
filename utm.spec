@@ -10,7 +10,7 @@ Requires: xerces-c boost
 export XERCES_C_BASE=${XERCES_C_ROOT}
 export BOOST_BASE=${BOOST_ROOT}
 ./configure
-make all
+make %{makeprocesses} all
 
 %install
 make %{makeprocesses} install
