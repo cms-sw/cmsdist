@@ -1,24 +1,23 @@
-### RPM cms t0 2.2.4
+### RPM cms t0 3.0.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 1.4.7.patch3
+%define wmcver 1.5.2
 %define wmcpkg WMCore
 %define pkg T0
 
 Source0: git://github.com/dmwm/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
 Source1: git://github.com/dmwm/WMCore?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
 
-Requires: python py2-sqlalchemy py2-httplib2 py2-pycurl py2-rucio-clients
-Requires: py2-mysqldb py2-cx-oracle py2-cheetah py2-pyOpenSSL
-Requires: yui libuuid couchdb15 condor
-Requires: dbs3-client py2-pyzmq py2-psutil py2-future py2-retry
-Requires: jemalloc cmsmonitoring
+Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
+Requires: py3-mysqlclient py3-cx-oracle py3-cheetah3 py3-pyOpenSSL py3-retry
+Requires: py3-dbs3-client py3-pyzmq py3-psutil py3-future py3-cmsmonitoring
+Requires: yui libuuid couchdb16 condorpy3 jemalloc
 
-BuildRequires: py2-sphinx couchskel 
+BuildRequires: py3-sphinx py3-sphinxcontrib-websupport couchskel
 
 %prep
 %setup -c
@@ -33,9 +32,9 @@ BuildRequires: py2-sphinx couchskel
 
 %build
 # build T0 system from WMCore
-echo "Building t0 system"
+echo "Building T0 system"
 cd %{wmcpkg}_%n
-python setup.py build_system -s t0
+python3 setup.py build_system -s t0 --skip-docs
 #PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../T0-%{realversion}
 pwd
@@ -46,48 +45,40 @@ sed -i -e "s,development,%{realversion},g" doc/sphinx/conf.py
 sed -i -e "s,development,%{realversion},g" setup.py
 
 # then build the T0
-echo "AMR and now building the T0 itself"
-python setup.py build
+echo "Building T0"
+python3 setup.py build
 
 # build T0 sphinx documentation
-PYTHONPATH=$PWD/src/python:$PYTHONPATH
-cd doc
-#cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
-#mv sphinx/conf.py.tmp sphinx/conf.py
-mkdir -p sphinx/_static
-mkdir -p build
-make html
+echo "Building documentation"
+#PYTHONPATH=$PWD/src/python:$PYTHONPATH
+#cd doc
+##cat sphinx/conf.py | sed "s,development,%{realversion},g" > sphinx/conf.py.tmp
+##mv sphinx/conf.py.tmp sphinx/conf.py
+#mkdir -p sphinx/_static
+#mkdir -p build
+#make html
 
 %install
-echo "Installing t0 system"
+echo "Installing T0 system"
 cd %{wmcpkg}_%n
-python setup.py install_system -s t0 --prefix=%i
+python3 setup.py install_system -s t0 --prefix=%i
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../T0-%{realversion}
 
-echo "Then installing the T0 itself"
-python setup.py install --prefix=%i
+echo "Installing T0"
+python3 setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
+#egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
 mkdir -p %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
 cp -rpf %_builddir/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/%{wmcpkg}_%n/bin/* %i/bin/
 cp -rpf %_builddir/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/%{wmcpkg}_%n/etc/* %i/etc/
+egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/env python3}'
 
-tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
+# Commenting this out, otherwise: tar: doc/build/html: Cannot open: No such file or directory
+#tar --exclude '.buildinfo' -C doc/build/html -cf - . | tar -C %i/doc -xvf -
 
 export PYTHONPATH=$PYTHONPATH:$PWD/src/python:$PWD/../WMCore_t0/src/python
-
-# Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
-mkdir -p %i/etc/profile.d
-: > %i/etc/profile.d/dependencies-setup.sh
-: > %i/etc/profile.d/dependencies-setup.csh
-for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
-  root=$(echo $tool | tr a-z- A-Z_)_ROOT; eval r=\$$root
-  if [ X"$r" != X ] && [ -r "$r/etc/profile.d/init.sh" ]; then
-    echo "test X\$$root != X || . $r/etc/profile.d/init.sh" >> %i/etc/profile.d/dependencies-setup.sh
-    echo "test X\$$root != X || source $r/etc/profile.d/init.csh" >> %i/etc/profile.d/dependencies-setup.csh
-  fi
-done
 
 %post
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
@@ -95,4 +86,4 @@ done
 %files
 %{installroot}/%{pkgrel}/
 %exclude %{installroot}/%{pkgrel}/doc
-## SUBPACKAGE webdoc
+# ## SUBPACKAGE webdoc
