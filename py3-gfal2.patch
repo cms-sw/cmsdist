@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 461c8d3..9f3e4ef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,7 +35,7 @@ if (PYTHON3_CURRENT_VERSION)
+     find_library(Boost_PYTHON_3_LIBRARY
+         NAMES boost_python${Boost_PYTHON_3_SUFFIX} boost_python-py${Boost_PYTHON_3_SUFFIX} boost_python3
+         HINTS
+-            ${Boost_LIBRARYDIR}
++            $ENV{Boost_LIBRARYDIR}
+             "/usr/lib"
+             "/usr/lib64"
+     )
