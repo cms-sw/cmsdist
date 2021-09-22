@@ -1,4 +1,4 @@
-### RPM external fmt 7.0.1
+### RPM external fmt 8.0.1
 ## INCLUDE compilation_flags
 Source: https://github.com/fmtlib/fmt/archive/%{realversion}.tar.gz
 BuildRequires: gmake cmake
