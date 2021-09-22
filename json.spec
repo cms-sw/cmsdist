@@ -1,4 +1,4 @@
-### RPM external json 3.7.3
+### RPM external json 3.10.2
 ## NOCOMPILER
 
 Source: https://github.com/nlohmann/%{n}/releases/download/v%{realversion}/include.zip
