@@ -6,7 +6,7 @@ Patch0: lcov-merge-files-in-same-dir
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
+%patch0 -p0
 
 %ifarch darwin
 # OS X does not support -D option
