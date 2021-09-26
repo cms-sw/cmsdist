@@ -5,11 +5,8 @@ Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realv
 BuildRequires: autotools gmake
 Requires: zlib
 
-Patch0: libunwind-fix-comma
-
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 autoreconf -fiv
