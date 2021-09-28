@@ -1,5 +1,6 @@
-### RPM external qgraf 3.1.4
-Source: https://gosam.hepforge.org/gosam-installer/qgraf-%{realversion}.tgz
+### RPM external qgraf 3.4.2
+%define versionmajmin %(echo %v | cut -d. -f1,2)
+Source: http://anonymous:anonymous@qgraf.tecnico.ulisboa.pt/v%{versionmajmin}/qgraf-%{realversion}.tgz
 
 %prep
 %setup -q -c -n qgraf-%{realversion}
