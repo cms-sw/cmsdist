@@ -1,4 +1,4 @@
-### RPM external valgrind 3.15.0
+### RPM external valgrind 3.17.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 Source: https://sourceware.org/pub/valgrind/%{n}-%{realversion}.tar.bz2
 
@@ -21,8 +21,8 @@ make %{makeprocesses}
 
 %install
 make install
-%define strip_files %{i}/lib %{i}/bin/{cg_merge,no_op*,valgrind*}
-%define drop_files %{i}/lib/valgrind/*.a %{i}/share
+%define strip_files %{i}/libexec %{i}/bin/{cg_merge,no_op*,valgrind*}
+%define drop_files %{i}/libexec/valgrind/*.a %{i}/share
 
 perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' $(grep -r -e "^#!.*perl.*" %{i} | cut -d: -f 1)
 # I don't see how to make perl options work nicely with env, so drop the -w
