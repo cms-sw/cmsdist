@@ -32,7 +32,7 @@ cc* )
   cc8_amd64_packagesWithProvides="libGL"
   cc8_amd64_platformSeeds="
     bash bzip2 bzip2-libs bzip2-devel coreutils|coreutils-single e2fsprogs e2fsprogs-libs
-    file file-libs fontconfig freetype glibc krb5-libs libaio
+    file file-libs fontconfig freetype glibc glibc-headers krb5-libs libaio
     libcom_err libgomp libICE
     libSM libX11 libX11-devel libxcrypt libXcursor libXext
     libXext-devel libXft libXft-devel libXi libXinerama
@@ -67,7 +67,7 @@ slc*)
         libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
         nspr nss nss-util file file-libs readline zlib popt bzip2 bzip2-libs"
 
-  slc7_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs perl-ExtUtils-Embed
+  slc7_amd64_platformSeeds="glibc glibc-headers coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
         libXrender libXpm libcom_err perl-Test-Harness perl-Carp perl-constant perl-PathTools
