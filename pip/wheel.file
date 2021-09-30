@@ -1,1 +1,0 @@
-%define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
