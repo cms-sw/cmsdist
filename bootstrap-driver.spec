@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 24.0
+### RPM external bootstrap-driver 25.0
 ## NOCOMPILER
 
 Requires: rpm
@@ -27,8 +27,31 @@ done
 
 
 case %cmsplatf in
+cc* )
+  cc8_amd64_packagesWithProvides="libGL"
+  cc8_amd64_platformSeeds="
+    automake bash bzip2 bzip2-libs bzip2-devel coreutils|coreutils-single e2fsprogs e2fsprogs-libs
+    file file-libs fontconfig freetype glibc krb5-libs libaio
+    libcom_err libgomp libICE
+    libSM libX11 libX11-devel libxcrypt libXcursor libXext
+    libXext-devel libXft libXft-devel libXi libXinerama
+    libXmu libXpm libXpm-devel libXrandr libXrender
+    libglvnd-opengl mesa-libGL mesa-libGLU mesa-libGLU-devel
+    m4 make ncurses ncurses-libs openssl openssl-libs
+    perl perl-interpreter perl-libs
+    perl-Carp perl-CGI perl-constant perl-Data-Dumper
+    perl-Digest-MD5 perl-Encode perl-Env perl-Exporter perl-ExtUtils-Embed
+    perl-File-Path perl-File-Temp perl-Getopt-Long perl-IO perl-libnet
+    perl-Memoize perl-PathTools perl-Scalar-List-Utils perl-Socket perl-Storable
+    perl-Term-ANSIColor perl-Test-Harness perl-Text-ParseWords perl-Thread-Queue
+    perl-Time-HiRes perl-Time-Local perl-YAML
+    python2 readline rsync tcl tcsh tk wget which zsh"
+  cc8_aarch64_platformSeeds="${cc8_amd64_platformSeeds}"
+  cc8_aarch64_packagesWithProvides="${cc8_amd64_packagesWithProvides} libOpenGL.so.0()(64bit) libGLX.so.0()(64bit)"
+  cc8_ppc64le_platformSeeds="${cc8_amd64_platformSeeds}"
+  cc8_ppc64le_packagesWithProvides="${cc8_amd64_packagesWithProvides} libOpenGL.so.0()(64bit) libGLX.so.0()(64bit)"
+  ;;
 slc*)
-  # Backward compatible seeds, so that old bootstrap does not suddenly stop working.
   platformSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl
         tcl tk perl-Tk readline openssl ncurses XFree86-libs
         e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU
