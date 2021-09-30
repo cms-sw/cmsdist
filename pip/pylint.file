@@ -1,3 +1,2 @@
 Requires: py3-astroid py3-toml
-%define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
 Requires: py3-astroid py3-six py3-isort py3-mccabe
