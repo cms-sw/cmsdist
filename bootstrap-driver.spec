@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 25.0
+### RPM external bootstrap-driver 31.0
 ## NOCOMPILER
 
 Requires: rpm
