@@ -1,2 +1,1 @@
 Requires: py3-traitlets py3-jsonschema py3-jupyter-core
-%define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
