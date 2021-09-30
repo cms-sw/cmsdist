@@ -1,6 +1,6 @@
 ### RPM external bootstrap-driver 31.0
 ## NOCOMPILER
-
+Source: cmsos
 Requires: rpm
 
 #danger! cms-common version is now hardwired below (and in bootstrap.file)
@@ -8,6 +8,7 @@ Requires: rpm
 %prep
 %build
 %install
+cp %{_sourcedir}/cmsos %{i}/
 packageList=""
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
 for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
@@ -102,6 +103,9 @@ case %cmsplatf in
 
     ;;
     # Required to get slc5_amd64_gcc434 work on slc6.
+    cc8_* )
+        additionalProvides="perl(CGI) perl(Switch)"
+    ;;
     slc* )
         additionalProvides="perl(CGI)"
     ;;
