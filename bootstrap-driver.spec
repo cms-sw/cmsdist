@@ -36,158 +36,19 @@ slc*)
         xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL
         compat-libstdc++-33 fglrx_6_8_0 libidn"
 
-  slc6_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
-        libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
-        nspr nss nss-util file file-libs readline zlib popt bzip2 bzip2-libs"
-
-  slc7_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs perl-ExtUtils-Embed
-        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
-        libXrender libXpm libcom_err perl-Test-Harness perl-Carp perl-constant perl-PathTools
-        perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long
-        perl-Socket perl-Text-ParseWords perl-Time-Local libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel
-        perl-Switch perl-Storable perl-Env perl-Thread-Queue perl-Encode nspr nss nss-util file file-libs readline
-        zlib popt bzip2 bzip2-libs"
-
-  slc7_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                              perl-ExtUtils-Embed ncurses-libs perl-libs nspr nss nss-util file file-libs
-                              readline zlib popt bzip2 bzip2-libs perl-Encode"
-
-  slc7_ppc64le_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                              perl-ExtUtils-Embed ncurses-libs perl-libs nspr nss nss-util file file-libs
-                              readline zlib popt bzip2 bzip2-libs perl-Encode"
-
-  ;;
-fc*)
-  fc18_armv7hl_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl 
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr 
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama 
-                              libXft libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl"
-
-  fc19_armv7hl_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl 
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr 
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama 
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper"
-
-  fc19_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                              perl-Socket perl-Time-Local perl-Storable"
-
-  fc22_ppc64le_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                              perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs"
-
-  fc22_ppc64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                            ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                            libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                            libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                            libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                            libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                            glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                            krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                            time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                            perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                            perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                            perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                            perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs"
-
-  fc24_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                            ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                            libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                            libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                            libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                            libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                            glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                            krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                            time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                            perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                            perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                            perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                            perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                            perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
-                            bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
-
-  fc24_ppc64le_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                              time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                              perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                              perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                              perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
-                              bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
-
-  fc24_ppc64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
-                            ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
-                            libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
-                            libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-                            libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
-                            libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
-                            glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                            krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
-                            time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                            perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
-                            perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                            perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
-                            perl-Term-ANSIColor perl-ExtUtils-Embed ncurses-libs perl-libs perl-Errno
-                            perl-IO perl-Memoize nspr nss nss-util file file-libs readline zlib popt
-                            bzip2 bzip2-libs perl-LWP-Protocol-connect perl-Encode"
+  slc7_common_platformSeeds="bash bzip2 bzip2-libs coreutils e2fsprogs e2fsprogs-libs file file-libs
+                            fontconfig freetype gcc-c++ glibc glibc-headers hostname krb5-devel krb5-libs
+                            libICE libSM libX11 libX11-devel libXcursor libXext libXext-devel libXft libXft-devel
+                            libXi libXinerama libXmu libXpm libXpm-devel libXrandr libXrender libcom_err libidn
+                            libstdc++ mesa-libGL mesa-libGLU mesa-libGLU-devel ncurses ncurses-libs nspr nss nss-util
+                            openssl openssl-devel openssl-libs patch perl perl-Carp perl-Data-Dumper perl-Digest-MD5
+                            perl-Encode perl-Env perl-Exporter perl-ExtUtils-Embed perl-ExtUtils-MakeMaker perl-File-Path
+                            perl-File-Temp perl-Getopt-Long perl-PathTools perl-Socket perl-Storable perl-Switch
+                            perl-Test-Harness perl-Text-ParseWords perl-Thread-Queue perl-Time-Local perl-constant
+                            perl-libs perl-libwww-perl perl-threads popt readline tcl tcsh time tk zlib zsh"
+  slc7_amd64_platformSeeds="${slc7_common_platformSeeds}"
+  slc7_aarch64_platformSeeds="${slc7_common_platformSeeds} libGLEW glew perl-WWW-Curl texinfo perl-Module-ScanDeps"
+  slc7_ppc64le_platformSeeds="${slc7_common_platformSeeds} libGLEW glew perl-WWW-Curl texinfo perl-Module-ScanDeps"
   ;;
 esac
 
@@ -233,48 +94,18 @@ defaultPkgs="cms+cms-common+1.0"
 mkdir -p %{i}/etc/profile.d
 (echo "rpm_version=$RPM_VERSION"; \
  echo "platformSeeds=\"$platformSeeds\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
- echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
- echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
- echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
- echo "slc7_ppc64le_platformSeeds=\"$slc7_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64_platformSeeds=\"$fc22_ppc64_platformSeeds\""; \
- echo "fc24_amd64_platformSeeds=\"$fc24_amd64_platformSeeds\""; \
- echo "fc24_ppc64le_platformSeeds=\"$fc24_ppc64le_platformSeeds\""; \
- echo "fc24_ppc64_platformSeeds=\"$fc24_ppc64_platformSeeds\""; \
+ echo "%{cmsos}_platformSeeds=\"$%{cmsos}_platformSeeds\""; \
+ echo "%{cmsos}_packagesWithProvides=\"$%{cmsos}_packagesWithProvides\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
- echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver.txt
 
 (echo "rpm_version=$RPM_VERSION"; \
  echo "platformSeeds=\"$platformSeeds $compPackages\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
- echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
- echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
- echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
- echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
- echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
- echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
- echo "slc7_ppc64le_platformSeeds=\"$slc7_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
- echo "fc22_ppc64_platformSeeds=\"$fc22_ppc64_platformSeeds\""; \
- echo "fc24_amd64_platformSeeds=\"$fc24_amd64_platformSeeds\""; \
- echo "fc24_ppc64le_platformSeeds=\"$fc24_ppc64le_platformSeeds\""; \
- echo "fc24_ppc64_platformSeeds=\"$fc24_ppc64_platformSeeds\""; \
+ echo "%{cmsos}_platformSeeds=\"$%{cmsos}_platformSeeds\""; \
+ echo "%{cmsos}_packagesWithProvides=\"$%{cmsos}_packagesWithProvides\""; \
  echo "packageList=\"`echo $packageList`\""; \
  echo "additionalProvides=\"$additionalProvides\""; \
- echo "unsupportedProvides=\"$unsupportedProvides\""; \
  echo "defaultPkgs=\"$defaultPkgs\""; \
 ) > %{i}/%{cmsplatf}-driver-comp.txt
-
-# FIXME: Hack to make sure that the cms-common package is named correctly in the driver file.
-# We should make sure that the $PACKAGE_CATEGORY variable is used (requires changes to cmsBuild.sh which
-# I don't want to do at this point.
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver.txt
-perl -p -i -e 's|external[+]cms-common|cms+cms-common|g' %{i}/%{cmsplatf}-driver-comp.txt
