@@ -1,4 +1,4 @@
-### RPM external vecgeom v1.1.16
+### RPM external vecgeom v1.1.17
 ## INCLUDE compilation_flags
 %define tag ed9a40412c354652262ec80af449f5531206e52c
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -41,8 +41,6 @@ make %{makeprocesses}
 %install
 cd ../build
 make %{makeprocesses} install
-perl -p -i -e 's|set\(VECGEOM_EXTERNAL_INCLUDES .*|set(VECGEOM_EXTERNAL_INCLUDES "")|' \
-  $(grep -R 'set(VECGEOM_EXTERNAL_INCLUDES ' %{i}/lib/cmake | sed 's|:.*||' | sort | uniq)
 
 %post
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
