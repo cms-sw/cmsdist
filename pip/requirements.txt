@@ -56,7 +56,7 @@ climate==0.4.6
 cloudpickle==1.6.0
 colorama==0.4.4
 commonmark==0.9.1
-conan==1.39.0
+conan==1.40.3
 contextlib2==21.6.0
 contextvars==2.4
 coverage==5.5
