@@ -152,6 +152,7 @@ Requires: dablooms
 Requires: openldap
 Requires: gperftools
 Requires: cuda
+Requires: cuda-compatible-runtime
 Requires: alpaka
 Requires: cupla
 
