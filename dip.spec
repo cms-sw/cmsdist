@@ -18,7 +18,7 @@ cd %{_builddir}/platform-dependent
 conan create .
 
 cd %{_builddir}/dip
-conan create . --build=dip --build=log4cplus
+conan create . --build=dip --build=log4cplus --build=platform-dependent
 
 %install
 rm -rf %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib/cmake
