@@ -24,8 +24,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=Scalar \
-  -DUSOLIDS=ON \
-  -DUSOLIDS_VECGEOM=ON \
 %ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
 %endif
