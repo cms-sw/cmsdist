@@ -10,7 +10,7 @@ Requires: log4cplus
 %prep
 %setup -D -T -b 0 -n dip
 sed -i -e '/conanbuildinfo.cmake\|conan_basic_setup/d' CMakeLists.txt
-sed -i -e 's|CONAN_PKG::platform-dependent|platform-dependent|;s|CONAN_PKG::log4cplus|log4cplusS|' CMakeLists.txt
+sed -i -e 's|CONAN_PKG::||g;s|log4cplus|log4cplusS|' CMakeLists.txt
 
 %setup -D -T -b 1 -n platform-dependent
 sed -i -e '/conanbuildinfo.cmake\|conan_basic_setup/d' CMakeLists.txt
