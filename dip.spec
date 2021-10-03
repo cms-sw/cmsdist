@@ -4,28 +4,30 @@ Source0: git+https://:@gitlab.cern.ch:8443/industrial-controls/services/dip-hq/d
 
 %define xtag f41e221f8fb95830fc001dad975b4db770f5d29d
 Source1: git+https://:@gitlab.cern.ch:8443/industrial-controls/services/dip-hq/platform-dependent.git?obj=develop/%{xtag}&export=platform-dependent&output=/platform-dependent-%{xtag}.tgz
-BuildRequires: cmake ninja py3-conan
+BuildRequires: cmake gmake
+Requires: log4cplus
 
 %prep
 %setup -D -T -b 0 -n dip
-sed -i -e '/^\s*cmake.test()/d' conanfile.py
+sed -i -e '/conanbuildinfo.cmake\|conan_basic_setup/d' CMakeLists.txt
+sed -i -e 's|CONAN_PKG::||g;s|log4cplus|log4cplusS|' CMakeLists.txt
+
 %setup -D -T -b 1 -n platform-dependent
+sed -i -e '/conanbuildinfo.cmake\|conan_basic_setup/d' CMakeLists.txt
 
 %build
-rm -rf %{_builddir}/build && mkdir %{_builddir}/build
-export CONAN_USER_HOME=%{_builddir}/build
-cd %{_builddir}/platform-dependent
-conan create .
+cd %{_builddir}; rm -rf build/platform-dependent && mkdir -p build/platform-dependent; cd build/platform-dependent
+cmake ../../platform-dependent -DCMAKE_INSTALL_PREFIX=%{i}
+gmake %{makeprocesses} VERBOSE=1
+gmake install
 
-cd %{_builddir}/dip
-conan create . --build=dip --build=log4cplus --build=platform-dependent
+cd %{_builddir}; rm -rf build/dip && mkdir -p build/dip ; cd build/dip
+LDFLAGS="-L${LOG4CPLUS_ROOT}/lib64 -L%{i}/lib" \
+  CXXFLAGS="-I%{i}/include -I${LOG4CPLUS_ROOT}/include" \
+  cmake ../../dip -DCMAKE_INSTALL_PREFIX=%{i}
+gmake %{makeprocesses} VERBOSE=1
 
 %install
-rm -rf %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib/cmake
-rm -rf %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/lib/cmake
-mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/include %{i}/include
-mv %{_builddir}/build/.conan/data/dip/*/_/_/package/*/lib %{i}/lib
-mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/include/log4cplus %{i}/include/
-mv %{_builddir}/build/.conan/data/log4cplus/*/_/_/package/*/lib/* %{i}/lib/
-mv %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/include/* %{i}/include/
-mv %{_builddir}/build/.conan/data/platform-dependent/*/_/_/package/*/lib/* %{i}/lib/
+cd %{_builddir}/build/dip
+gmake install
+rm -rf %{i}/lib/cmake
