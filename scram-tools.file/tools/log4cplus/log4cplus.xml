@@ -1,0 +1,8 @@
+<tool name="log4cplus" version="@TOOL_VERSION@">
+  <lib name="log4cplusS"/>
+  <client>
+    <environment name="LOG4CPLUS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"        default="$LOG4CPLUS_BASE/include"/>
+    <environment name="LIBDIR"         default="$LOG4CPLUS_BASE/lib64"/>
+  </client>
+</tool>
