@@ -14,16 +14,17 @@ Patch1: OpenBLAS-disable-tests
 %build
 
 # PRESCOTT is a generic x86-64 target https://github.com/xianyi/OpenBLAS/issues/685 
+%define build_opts FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0 MAKE_NB_JOBS=%{compiling_processes}
 %ifarch x86_64
-make FC=gfortran BINARY=64 TARGET=CORE2 NUM_THREADS=256 DYNAMIC_ARCH=0
-%else
+make %{build_opts} TARGET=CORE2
+%endif
 %ifarch aarch64
-make FC=gfortran BINARY=64 TARGET=ARMV8 NUM_THREADS=256 DYNAMIC_ARCH=0
-%else
-make FC=gfortran BINARY=64 NUM_THREADS=256 DYNAMIC_ARCH=0 CFLAGS="%{ppc64le_build_flags}"
-%endif # aarch64
-%endif # x86_64
+make %{build_opts} TARGET=ARMV8
+%endif
+%ifarch ppc64le
+make %{build_opts} CFLAGS="%{ppc64le_build_flags}"
+%endif
 
 %install
-make install PREFIX=%i
+make install PREFIX=%i MAKE_NB_JOBS=%{compiling_processes}
 
