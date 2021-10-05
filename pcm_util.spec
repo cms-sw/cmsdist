@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none
-Requires: root clhep tinyxml2 boost fftw3 cuda python hepmc tbb gcc
+Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc
 
 %prep
 

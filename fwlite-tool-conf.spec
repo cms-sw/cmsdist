@@ -26,7 +26,6 @@ Requires: libpng
 Requires: libtiff
 Requires: libungif
 Requires: pcre
-Requires: python
 Requires: python3
 Requires: root
 Requires: sigcpp
