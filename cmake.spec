@@ -1,24 +1,10 @@
-### RPM external cmake 3.7.0
+### RPM external cmake 3.18.2
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
-%define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
-#Patch1: cmake
-#Patch2: cmake-osx-nld
-Requires: bz2lib curl expat
-
-#We are using system zlib for the online builds:
-%if "%online" != "true"
-Requires: zlib
-%endif
+Requires: bz2lib curl expat zlib
 
 %prep
-
 %setup -n cmake-%realversion
-# This patch disables the warning about long doubles that some
-# macosx compilers emit. Even if it matters only for macosx,
-# we apply it anyway to avoid discrepancies and to avoid that 
-# it's left behind if cmake version is changed. 
-#%patch2 -p1
 
 %build
 cat > build-flags.cmake <<- EOF 
@@ -41,7 +27,17 @@ cat > build-flags.cmake <<- EOF
 EOF
 
 export CMAKE_PREFIX_PATH=$CURL_ROOT:$ZLIB_ROOT:$EXPAT_ROOT:$BZ2LIB_ROOT
-./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
+# For OS X 10.8 ("Mountain Lion") do not use Objective-C in
+# C and C++ code.
+case %cmsplatf in
+  osx108_*)
+    CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
+      ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
+  ;;
+  *)
+    ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
+  ;;
+esac
 make %makeprocesses
 
 %install

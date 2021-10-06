@@ -1,4 +1,4 @@
-### RPM external condor 8.9.7
+### RPM external condor 9.2.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")
@@ -75,7 +75,7 @@ egrep -r -l '^#!.*python' %i | xargs perl -p -i -e 's{^#!.*python.*}{#!/usr/bin/
 # Strip libraries, we are not going to debug them.
 %define strip_files %i/lib
 
-# Clean things up; read the docs online;
+# Clean things up; read the docs online
 # remove condor_gather_info since it brings a dependency on Date::Manip
 rm -rf %i/{README,etc/{examples,init.d,sysconfig},examples} \
        %i/{include,sbin,libexec,src,condor*,bosco*}         \

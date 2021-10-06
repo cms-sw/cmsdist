@@ -1,4 +1,4 @@
-### RPM external condorpy3 8.9.7
+### RPM external condorpy3 9.2.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib/condor
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 %define condortag %(echo V%realversion | tr "." "_")

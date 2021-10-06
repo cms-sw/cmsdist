@@ -12,8 +12,8 @@
 -
 +if (HAVE_EXT_GLOBUS AND HAVE_LDAP_H AND LDAP_FOUND )
  	add_definitions(-DLDAP_DEPRECATED)
- 
- 	condor_glob( HeaderFiles SourceFiles "" )
+
+	set(SourceFiles
 @@ -52,6 +47,6 @@ if (HAVE_EXT_GLOBUS)
  
  else()
@@ -34,14 +34,14 @@
  	if (WINDOWS)
  	  # need to expand the configure and
 --- a/externals/bundles/boost/1.66.0/CMakeLists.txt	
-+++ b/externals/bundles/boost/1.66.0/CMakeLists.txt	
-@@ -62,27 +62,27 @@
- 	message (STATUS "Boost components: ${BOOST_COMPONENTS}" )
- 
++++ b/externals/bundles/boost/1.66.0/CMakeLists.txt
+@@ -61,26 +61,26 @@
+     # set (Boost_DEBUG TRUE)
+
      message (STATUS "SYSTEM_NAME: ${SYSTEM_NAME}" )
 -    if (DEFINED SYSTEM_NAME)
 -        if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "64")
--            if ( ${SYSTEM_NAME} MATCHES "rhel7" OR ${SYSTEM_NAME} MATCHES "centos7" OR ${SYSTEM_NAME} MATCHES "sl7")
+-            if ( ${SYSTEM_NAME} MATCHES "rhel7" OR ${SYSTEM_NAME} MATCHES "centos7" OR ${SYSTEM_NAME} MATCHES "sl7" OR ${SYSTEM_NAME} MATCHES "amzn2")
 -                message (STATUS "Using system boost169 for 64-bit EL7" )
 -                # If you look for python on cmake 2.8.12.2 it fails.
 -                # Looking for thread finds boost for python for me.
@@ -53,16 +53,15 @@
 -                set(USE_SYSTEM_BOOST True)
 -            endif()
 -        endif()
--        if (${SYSTEM_NAME} MATCHES "Debian" OR ${SYSTEM_NAME} MATCHES "Ubuntu" OR ${SYSTEM_NAME} MATCHES "rhel8" OR ${SYSTEM_NAME} MATCHES "centos8")
+-        if (${SYSTEM_NAME} MATCHES "Debian" OR ${SYSTEM_NAME} MATCHES "Ubuntu" OR ${SYSTEM_NAME} MATCHES "rhel8" OR ${SYSTEM_NAME} MATCHES "centos8" OR ${SYSTEM_NAME} MATCHES "fc")
 -            set(USE_SYSTEM_BOOST True)
--        endif()
--        if (${SYSTEM_NAME} MATCHES "fc")
--            set(USE_SYSTEM_BOOST True)
+-            # BOOST_COMPONENTS breaks CMake boost detection on Ubuntu 20.04, Debian bullseye
+-            set(BOOST_COMPONENTS "" )
 -        endif()
 -    endif()
 +    #if (DEFINED SYSTEM_NAME)
 +    #    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "64")
-+    #        if ( ${SYSTEM_NAME} MATCHES "rhel7" OR ${SYSTEM_NAME} MATCHES "centos7" OR ${SYSTEM_NAME} MATCHES "sl7")
++    #        if ( ${SYSTEM_NAME} MATCHES "rhel7" OR ${SYSTEM_NAME} MATCHES "centos7" OR ${SYSTEM_NAME} MATCHES "sl7" OR ${SYSTEM_NAME} MATCHES "amzn2")
 +    #            message (STATUS "Using system boost169 for 64-bit EL7" )
 +    #            # If you look for python on cmake 2.8.12.2 it fails.
 +    #            # Looking for thread finds boost for python for me.
@@ -74,13 +73,12 @@
 +    #            set(USE_SYSTEM_BOOST True)
 +    #        endif()
 +    #    endif()
-+    #    if (${SYSTEM_NAME} MATCHES "Debian" OR ${SYSTEM_NAME} MATCHES "Ubuntu" OR ${SYSTEM_NAME} MATCHES "rhel8" OR ${SYSTEM_NAME} MATCHES "centos8")
++    #    if (${SYSTEM_NAME} MATCHES "Debian" OR ${SYSTEM_NAME} MATCHES "Ubuntu" OR ${SYSTEM_NAME} MATCHES "rhel8" OR ${SYSTEM_NAME} MATCHES "centos8" OR ${SYSTEM_NAME} MATCHES "fc")
 +    #        set(USE_SYSTEM_BOOST True)
-+    #    endif()
-+    #    if (${SYSTEM_NAME} MATCHES "fc")
-+    #        set(USE_SYSTEM_BOOST True)
++    #        # BOOST_COMPONENTS breaks CMake boost detection on Ubuntu 20.04, Debian bullseye
++    #        set(BOOST_COMPONENTS "" )
 +    #    endif()
 +    #endif()
- 
+
+ 	message (STATUS "Boost components: ${BOOST_COMPONENTS}" )
  	find_package( Boost 1.33.1 COMPONENTS ${BOOST_COMPONENTS} )
- 
