@@ -1,0 +1,2 @@
+BuildRequires: py3-setuptools-scm
+Requires: py3-idna py3-sniffio
