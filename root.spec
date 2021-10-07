@@ -3,8 +3,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i} 
 
-%define tag 2b4bc59016dd8dc6138cf6b58cc2a973313f562d
-%define branch cms/master/72b48b5
+%define tag 0c9a71f4f0281e84b5ba034c784b1514cd971635
+%define branch cms/master/9e539bb
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
