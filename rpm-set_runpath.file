@@ -1,0 +1,111 @@
+#!/bin/bash -ex
+
+function set_runpath()
+{
+  [ $(readelf -d ${1} 2>&1 | grep '(NEEDED)' |wc -l) -eq 0 ] && return
+  cp ${1} ${1}.post-tmp
+  chmod u+w ${1}.post-tmp
+  local ERR=true
+  if patchelf --set-rpath ${LD_LIBRARY_PATH_ENV} ${FORCE_RPATH} ${1}.post-tmp ; then
+    if [ "${SET_RUNPATH}" = "" ] ; then
+      if patchelf --shrink-rpath ${1}.post-tmp ; then
+        rpath=""
+        local d=$(dirname ${1} | sed 's|^./||')
+        local r1=$(echo $d | sed 's|[^/][^/]*|..|g')
+        local r2="${r1}/../../.."
+        for p in $(patchelf --print-rpath ${1}.post-tmp | tr ':' '\n') ; do
+          case $p in
+            ${PACKAGE_PATH}/${d}) rpath="${rpath}:\$ORIGIN" ;;
+            ${PACKAGE_PATH}/*)    p=$(echo $p | sed "s|${PACKAGE_PATH}/||");   rpath="${rpath}:\$ORIGIN/${r1}/${p}" ;;
+            ${INSTALL_PREFIX}/*)  p=$(echo $p | sed "s|${INSTALL_PREFIX}/||"); rpath="${rpath}:\$ORIGIN/${r2}/${p}" ;;
+            *)                    rpath="${rpath}:${p}" ;;
+          esac
+        done
+        rpath=$(echo ${rpath} | sed 's|^:||')
+        if [ "${rpath}" != "" -a "${rpath}" != "${LD_LIBRARY_PATH_ENV}" ] ; then
+          patchelf --set-rpath ${rpath} ${FORCE_RPATH} ${1}.post-tmp 
+        fi
+        ERR=false
+      fi
+    else
+      ERR=false
+    fi
+  fi
+  if $ERR ; then
+    touch ${PACKAGE_PATH}/error.set_runpath
+    echo "ERROR: $1"
+    rm ${1}.post-tmp
+  else
+    chmod --reference=${1} ${1}.post-tmp
+    mv ${1}.post-tmp ${1}
+    touch ${1}.cmsdist_runpath
+  fi
+}
+
+INSTALL_PREFIX=""
+PACKAGE_PATH=""
+FORCE_RPATH=""
+SET_RUNPATH=""
+MATCH="lib lib64 bin"
+NAME="py pyc pyi h hh hpp inc"
+MAX_JOBS=$(getconf _NPROCESSORS_ONLN)
+let STIME=$(date +%s)
+
+while [ ! X$# = X0 ]; do
+  arg=$1 ; shift
+  case $arg in
+    --prefix)      INSTALL_PREFIX=$1 ; shift   ;;
+    --package)     PACKAGE_PATH=$1   ; shift   ;;
+    --force-rpath) FORCE_RPATH='--force-rpath' ;;
+    --rpath)       SET_RUNPATH=$1    ; shift   ;;
+    -m|--match)    MATCH="$MATCH $1"; shift   ;; 
+    -n|--not-name) NAME="$NAME $1"   ; shift   ;;
+    --jobs)        MAX_JOBS="$1"     ; shift   ;;
+    --help)
+      echo "Usage: $0 --prefix /install/prefix/arch --package package-rootdir [--force-rpath] [--rpath runpath-to-set] [--patchelf patchelf-path] [--jobs N] [--help]"
+      echo "e.g."
+      echo "$0 --prefix /build/cms/slc7_amd64_gcc900 --package /build/cms/slc7_amd64_gcc900/lcg/root/6.24.00 --patchelf /build/cms/slc7_amd64_gcc900/externals/rpm/4.15.0/bin/patchelf"
+      exit 0
+      ;;
+    *) echo "Unknown command $1"  ; exit 1   ;;
+  esac
+done
+
+[ "${INSTALL_PREFIX}" != "" ] || exit 1
+[ "${PACKAGE_PATH}" != "" ]   || exit 1
+
+LD_LIBRARY_PATH_ENV="${SET_RUNPATH}"
+if [ "${SET_RUNPATH}" = "" ] ; then
+  case $(uname -s) in
+    Linux) LD_LIBRARY_PATH_ENV="${LD_LIBRARY_PATH}" ;;
+    Darwin) LD_LIBRARY_PATH_ENV="${DYLD_FALLBACK_LIBRARY_PATH}" ;;
+  esac
+fi
+
+cnt=0
+pcnt=0
+if [ "${LD_LIBRARY_PATH_ENV}" != "" ] ; then
+  pushd ${PACKAGE_PATH}
+    rm -f error.set_runpath
+    mdir="" ; name=""
+    for d in $(echo ${MATCH} | tr ' ' '\n' | grep -v '^$' | sort | uniq) ; do mdir="${mdir} -path './$d/*' -o "; done
+    for d in $(echo ${NAME}  | tr ' ' '\n' | grep -v '^$' | sort | uniq) ; do name="${name} -not -name '*.$d' -a "; done
+    mdir=$(echo "$mdir" | sed 's|-o $||')
+    name=$(echo "$name" | sed 's|-a $||')
+    mkdir -p ./etc/profile.d
+    for fpath in $(eval "find .  -path './*/__pycache__' -prune -o \( $mdir \) -a \( $name \) -a  -type f -print") ; do
+      let cnt=$cnt+1
+      while [ $(jobs -p | wc -l) -gt ${MAX_JOBS} ] ; do sleep 0.1 ; done
+      set_runpath $fpath &
+    done
+    wait
+    find . -name '*.cmsdist_runpath' -type f > etc/profile.d/set_runpath.txt
+    cat etc/profile.d/set_runpath.txt | xargs --no-run-if-empty rm -f
+    pcnt=$(cat etc/profile.d/set_runpath.txt | wc -l)
+  popd
+fi
+
+let DTIME=$(date +%s)-${STIME} || true
+echo "Runpath took ${DTIME} secs for $pcnt/$cnt files"
+
+[ ! -e ${PACKAGE_PATH}/error.set_runpath ] || exit 1
