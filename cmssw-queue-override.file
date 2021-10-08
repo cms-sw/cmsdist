@@ -31,7 +31,7 @@
 %endif
 
 %if "%(case %realversion in (*_UBSAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%define patchsrc20   sed -i -e 's|</tool>|  <runtime name="UBSAN_OPTIONS" value="print_stacktrace=1"/>\\n</tool>|' config/Projects/CMSSW/Self.xml
+%define patchsrc20   sed -i -e 's|</tool>|  <runtime name="UBSAN_OPTIONS" value="print_stacktrace=1"/>\\n</tool>|' config/Self.xml
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
