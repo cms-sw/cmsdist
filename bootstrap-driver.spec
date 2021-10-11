@@ -31,6 +31,7 @@ case %cmsplatf in
 cc* )
   cc8_amd64_packagesWithProvides="libGL"
   cc8_amd64_platformSeeds="
+    zlib nss nspr popt nss-util
     automake bash bzip2 bzip2-libs bzip2-devel coreutils|coreutils-single e2fsprogs e2fsprogs-libs
     file file-libs fontconfig freetype glibc krb5-libs libaio
     libcom_err libgomp libICE
