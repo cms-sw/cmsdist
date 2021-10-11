@@ -1,6 +1,5 @@
-### RPM external bootstrap-bundle 2.0
-## INITENV +PATH PATH %{i}/bin
-## INITENV SET MAGIC %{i}/share/misc/magic.mgc
+### RPM external bootstrap-bundle 3.0
+## NO_AUTO_DEPENDENCY
 ## NOCOMPILER
 
 BuildRequires: gcc
@@ -40,6 +39,7 @@ cp -P $GCC_ROOT/lib/libelf.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf-*.%{soname} %{i}/lib
 cp -P $GCC_ROOT/lib/libdw.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libdw-*.%{soname} %{i}/lib
+cp -P $GCC_ROOT/bin/readelf %{i}/bin
 %endif
 
 find %{i}/bin -type f -writable -exec %{strip} {} \;
@@ -55,8 +55,3 @@ mv %{i}/lib/lib{lua,archive}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp
-
-touch %{i}/etc/profile.d/dependencies-setup.sh  %{i}/etc/profile.d/dependencies-setup.csh
-
-%post
-rm -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/dependencies-setup.*
