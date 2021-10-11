@@ -45,6 +45,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Droot7=ON \
+  -Druntime_cxxmodules=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \

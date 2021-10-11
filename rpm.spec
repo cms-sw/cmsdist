@@ -1,20 +1,19 @@
 ### RPM external rpm 4.15.0
-## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
+## INITENV SET RPM_CONFIGDIR %{i}/libx/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
+## INITENV SET MAGIC %{i}/share/misc/magic.mgc
 ## NOCOMPILER
+## NO_AUTO_DEPENDENCY
 
-# Warning! While rpm itself seems to work, at the time of writing it
-# does not seem to be possible to build apt-rpm with 
 %define tag 48c04ee8077fbba1a0001968f2794cbaeb54f15c
 %define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source2: rpm-set_runpath
 
-Requires: bootstrap-bundle
-BuildRequires: autotools
 BuildRequires: gcc
+BuildRequires: bootstrap-bundle patchelf-bootstrap
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -69,19 +68,13 @@ perl -p -i -e's|-O2|-O0|' ./configure
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
           -ldb -llua -larchive $LIBS_PLATF"
 
-#FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
-export __PYTHON="/usr/bin/env python"
-#perl -p -i -e "s|^.*WITH_SELINUX.*$||;
-#               s|-lselinux||;
-#" `find . -name \*.in` 
-
 perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|"     $(grep -R '#! */usr/bin/perl' . | sed 's|:.*||' | sort | uniq)
 perl -p -i -e "s|#\!.*python(.*)|#!/usr/bin/env python$1|" $(grep -R '#! */usr/bin/python' . | sed 's|:.*||' | sort | uniq)
 
 %install
 make install
 # Remove unneeded documentation
-%define drop_files %i/share
+rm -rf %i/share
 
 # We remove pkg-config files for two reasons:
 # * it's actually not required (macosx does not even have it).
@@ -102,7 +95,7 @@ perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 
 # Removes any reference to /usr/lib/rpm in lib/rpm
-perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/lib/rpm$1|g' \
+perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/libx/rpm$1|g' \
     %{i}/lib/rpm/check-rpaths \
     %{i}/lib/rpm/check-rpaths-worker \
     %{i}/lib/rpm/find-debuginfo.sh \
@@ -137,8 +130,24 @@ done
 ln -sf rpm %i/bin/rpmverify
 ln -sf rpm %i/bin/rpmquery
 
-mkdir -p %{i}/etc/profile.d
-echo "test X\$BOOTSTRAP_BUNDLE_ROOT != X || . $BOOTSTRAP_BUNDLE_ROOT/etc/profile.d/init.sh" > %{i}/etc/profile.d/dependencies-setup.sh
+#rpath settings
+#Copy bootstrap/patchelf lib
+mv %{i}/lib %{i}/libx
+cp -rf $BOOTSTRAP_BUNDLE_ROOT/bin/* %{i}/bin
+cp -f $PATCHELF_BOOTSTRAP_ROOT/bin/patchelf %{i}/bin
+cp %{_sourcedir}/rpm-set_runpath %{i}/bin/set_runpath
+chmod +x %{i}/bin/set_runpath
+#Copy bootstrap share/lib
+cp -rf $BOOTSTRAP_BUNDLE_ROOT/share %i/share
+cp -rf $BOOTSTRAP_BUNDLE_ROOT/lib/* %{i}/libx
+
+MAGIC=%{i}/share/misc/magic.mgc  %{dynamic_path_var}=%{i}/libx PATH="%{i}/bin:${PATH}" \
+  %{i}/bin/set_runpath --prefix %{cmsroot}/%{cmsplatf} --package %{i} -m libx \
+  --force-rpath --rpath '$ORIGIN:$ORIGIN/..:$ORIGIN/../libx' --jobs %{compiling_processes}
+
+#Create lib/rpm
+mkdir -p %{i}/lib
+for d in lua rpm rpm-plugins ; do ln -sf ../libx/$d %{i}/lib/$d ; done
 
 %post
-%{relocateRpmFiles} $(grep -I -r %cmsroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | sort | uniq)
+%{relocateRpmFiles} $(grep -I -r %cmsroot $RPM_INSTALL_PREFIX/%pkgrel | cut -d: -f1 | grep -v '/%pkgrel/etc/profile.d/' | sort | uniq)

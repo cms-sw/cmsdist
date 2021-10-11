@@ -1,8 +1,6 @@
 ### RPM external sloccount 2.26
 Source: http://www.dwheeler.com/sloccount/sloccount-%{realversion}.tar.gz
 
-BuildRequires: flex
-
 %prep
 %setup -n sloccount-%{realversion}
 %build
