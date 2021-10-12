@@ -6,11 +6,9 @@
 Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 
 Requires: python py2-sqlalchemy py2-httplib2 py2-pycurl py2-rucio-clients
-Requires: py2-mysqldb py2-cx-oracle py2-cheetah py2-pyOpenSSL
-Requires: yui libuuid couchdb15 condor
+Requires: py2-mysqldb py2-cx-oracle py2-cheetah py2-pyOpenSSL py2-htcondor
+Requires: yui libuuid couchdb15 jemalloc cmsmonitoring
 Requires: dbs3-client py2-pyzmq py2-psutil py2-future py2-retry
-Requires: jemalloc cmsmonitoring
-
 BuildRequires: py2-sphinx couchskel
 
 %prep
