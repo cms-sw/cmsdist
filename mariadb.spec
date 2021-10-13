@@ -6,6 +6,7 @@ Source: https://ftp.igh.cnrs.fr/pub/archive.mariadb.org/mariadb-%{realversion}/s
 Requires: zlib ncurses libxml2
 BuildRequires: cmake
 Provides: perl(GD)
+Provides: perl(DBI)
 Provides: perl(List::Util)
 
 %prep
