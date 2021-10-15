@@ -5,7 +5,7 @@
 # CMSWEB
 Requires: frontend das dbs3 reqmon
 Requires: dqmgui workqueue
-Requires: dbs3-client crabserver
+Requires: dbs3-client crabserver crabserver-py3
 Requires: acdcserver
 Requires: t0wmadatasvc dbs3-migration t0_reqmon reqmgr2 reqmgr2ms
 Requires: cmsweb-analytics
