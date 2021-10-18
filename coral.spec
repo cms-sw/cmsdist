@@ -19,7 +19,6 @@ Requires: coral-tool-conf
 %define cmsplatf_ppc64 1
 %endif
 
-
 %define cvssrc          %{n}
 
 # Build with debug symbols, and package them in a separate rpm:
