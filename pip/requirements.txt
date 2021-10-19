@@ -318,4 +318,4 @@ xgboost==1.3.3
 #bumping this pulls in xrootd - which looks like it needs some understanding
 xrootdpyfs==0.2.1
 yarl==1.6.3
-zipp==3.5.0
+zipp==3.6.0
