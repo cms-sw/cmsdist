@@ -1,14 +1,5 @@
-### RPM external jemalloc-debug 4.5.0
-
-%define tag %{realversion}
-%define branch master
-%define github_user jemalloc
-Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
-BuildRequires: autotools
-
-%prep
-%setup -n %{n}-%{realversion}
+## INCLUDE jemalloc-common
+### RPM external jemalloc-debug %{jemalloc_version}
 
 %build
 # Disable documentation (not needed)
