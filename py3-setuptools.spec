@@ -18,5 +18,3 @@ python3 setup.py install --single-version-externally-managed --record=/dev/null 
 sed -i 's|#!.*python.*|#!/usr/bin/env python3|' \
  %{i}/${PYTHON3_LIB_SITE_PACKAGES}/setuptools/command/easy_install.py \
  %{i}/${PYTHON3_LIB_SITE_PACKAGES}/pkg_resources/_vendor/appdirs.py
-
-mv %{i}/${PYTHON3_LIB_SITE_PACKAGES}/setuptools/command/easy_install.py %{i}/${PYTHON3_LIB_SITE_PACKAGES}/setuptools/command/easy_install3.py
