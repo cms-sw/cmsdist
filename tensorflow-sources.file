@@ -35,8 +35,7 @@ BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --di
 BAZEL_OPTS="$BAZEL_OPTS --copt=%{vectorize_flag}"
 %else
 %ifarch ppc64le
-BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
-BAZEL_OPTS="$BAZEL_OPTS --copt=--param=l1-cache-size=64 --copt=--param=l1-cache-line-size=128 --copt=--param=l2-cache-size=512"
+BAZEL_OPTS="$BAZEL_OPTS $(echo %{ppc64le_build_flags} | tr ' ' '\n' | grep -v '^$' | sed -e 's|^|--copt=|' | tr '\n' ' ')"
 %else
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
