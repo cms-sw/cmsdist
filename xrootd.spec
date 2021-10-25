@@ -39,7 +39,7 @@ cmake .. \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
-  -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${LIBUUID_ROOT}"
+  -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT}"
 
 make %makeprocesses VERBOSE=1
 make install
