@@ -57,6 +57,7 @@ SimTransport-TotemRPProtonTransportParametrization=V00-01-00
 SimG4CMS-HGCalTestBeam=V01-00-00
 Fireworks-Geometry=V07-06-00
 SimG4CMS-Forward=V02-04-00
+GeneratorInterface-ReggeGribovPartonMCInterface=V00-00-02
 
 #Never update any package here. Always move it to default section.
 [cmssw-xmldata-build]
@@ -98,10 +99,6 @@ RecoBTag-SoftLepton=V01-00-01
 RecoHI-HiJetAlgos=V01-00-01
 RecoParticleFlow-PFTracking=V13-01-00
 SimTransport-HectorProducer=V01-00-01
-
-#Never update any package here. Always move it to default section.
-[data-cmssw-package-build]
-GeneratorInterface-ReggeGribovPartonMCInterface=V00-00-02
 
 #Never update any package here. Always move it to default section.
 [data-package-build]
