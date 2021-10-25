@@ -28,8 +28,8 @@ atomicwrites==1.4.0
 attrs==21.2.0
 autopep8==1.5.7
 avro==1.10.2
-awkward==0.15.5
-awkward1==1.5.1
+awkward0==0.15.5
+awkward==1.5.1
 backcall==0.2.0
 backports-entry-points-selectable==1.1.0
 beautifulsoup4==4.9.3
