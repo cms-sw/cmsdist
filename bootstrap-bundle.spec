@@ -34,7 +34,7 @@ rm -f %{i}/bin/xml2-config %{i}/lib/xml2Conf.sh
 %ifos darwin
 cp -P $GCC_ROOT/lib/lib{stdc++,gcc_s}*.%{soname} %{i}/lib
 %else
-cp -P $GCC_ROOT/%{libdir}/lib{stdc++,gcc_s}.%{soname}* %{i}/lib
+cp -P $GCC_ROOT/%{libdir}/lib{stdc++,gcc_s,gomp}.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libelf-*.%{soname} %{i}/lib
 cp -P $GCC_ROOT/lib/libdw.%{soname}* %{i}/lib
