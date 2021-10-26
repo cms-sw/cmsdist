@@ -36,7 +36,6 @@ Requires: py3-hyperopt
 Requires: py3-seaborn
 Requires: py3-h5py
 Requires: py3-h5py-cache
-Requires: py3-uproot3
 Requires: py3-uproot
 Requires: py3-opt-einsum
 Requires: py3-joblib
