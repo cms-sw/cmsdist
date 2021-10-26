@@ -12,7 +12,7 @@
 %define k8s_info_ver 0.0.1
 %define gocurlver 0.0.2
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
-%define common_commands promtool amtool prometheus hey stern trivy k8s_info
+%define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
