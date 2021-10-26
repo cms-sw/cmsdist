@@ -1,26 +1,28 @@
 ### RPM cms cmsmon-tools 0.5.35
 ## NOCOMPILER
 
-%define arch linux-amd64
-%define promv 2.28.0
-%define amver 0.22.2
+%define arch amd64
+%define linuxarch linux-amd64
+%define promv 2.30.3
+%define amver 0.23.0
 %define sternv 1.11.0
-%define apsver 0.1.106
-%define trivyver 0.18.3
-%define gover 0.16.5
+%define apsver 0.2.15
+%define trivyver 0.20.2
 %define heyver 0.0.2
 %define k8s_info_ver 0.0.1
+%define gocurlver 0.0.2
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
-%define common_commands promtool amtool prometheus hey stern trivy k8s_info
+%define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/releases/download/%heyver/hey-tools.tar.gz
 Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
-Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools.tar.gz
+Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools_amd64.tar.gz
 Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
+Source8: https://github.com/vkuznet/gocurl/releases/download/%gocurlver/gocurl-tools.tar.gz
 
 BuildRequires: go
 
@@ -29,12 +31,13 @@ BuildRequires: go
 # http://ftp.rpm.org/max-rpm/s1-rpm-inside-macros.html
 %prep
 %setup -D -T -b 0 -n cmsmon-tools
-%setup -D -T -b 1 -n prometheus-%promv.%arch
+%setup -D -T -b 1 -n prometheus-%promv.%linuxarch
 %setup -D -T -b 3 -n hey-tools
-%setup -D -T -b 2 -n alertmanager-%amver.%arch
-%setup -D -T -b 5 -n auth-proxy-tools
+%setup -D -T -b 2 -n alertmanager-%amver.%linuxarch
+%setup -D -T -b 5 -n auth-proxy-tools_%arch
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
+%setup -D -T -b 8 -n gocurl-tools
 
 %build
 export CGO_ENABLED=0
@@ -47,10 +50,10 @@ for cmd in %monit_commands; do
     cp $cmd %i/
 done
 # add prometheus, alertmanager tools to our install area
-cd %{_builddir}/prometheus-%promv.%arch
+cd %{_builddir}/prometheus-%promv.%linuxarch
 cp promtool %i/
 cp prometheus %i/
-cd %{_builddir}/alertmanager-%amver.%arch
+cd %{_builddir}/alertmanager-%amver.%linuxarch
 cp amtool %i/
 
 # build hey tool
@@ -64,7 +67,7 @@ cp %{_sourcedir}/stern_linux_amd64 %i/stern
 chmod +x %i/stern
 
 # install token-manager
-cd %{_builddir}/auth-proxy-tools
+cd %{_builddir}/auth-proxy-tools_%arch
 cp token-manager %i/
 cp auth-token %i/
 cd -
@@ -72,13 +75,19 @@ cd -
 # install k8s_info
 cd %{_builddir}/k8s_info-tools
 cp k8s_info_amd64 %i/k8s_info
-chmod +x %i/hey
+chmod +x %i/k8s_info
 cd -
 
 # install stern
 cd %{_builddir}/trivy-%trivyver
 cp trivy %i/
 chmod +x %i/trivy
+
+# install gocurl
+cd %{_builddir}/gocurl-tools
+cp gocurl_amd64 %i/gocurl
+chmod +x %i/gocurl
+cd -
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
