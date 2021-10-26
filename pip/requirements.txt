@@ -28,7 +28,6 @@ atomicwrites==1.4.0
 attrs==21.2.0
 autopep8==1.5.7
 avro==1.10.2
-awkward0==0.15.5
 awkward==1.5.1
 backcall==0.2.0
 backports-entry-points-selectable==1.1.0
@@ -300,8 +299,6 @@ typing-extensions==3.10.0.2
 typing==3.7.4.3
 uhi==0.3.0
 uncertainties==3.1.6
-uproot3==3.14.4
-uproot3-methods==0.10.1
 uproot==4.1.5
 urllib3==1.26.6
 virtualenv-clone==0.5.6
