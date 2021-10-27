@@ -1,2 +1,0 @@
-Requires: py3-numpy py3-pytest-runner py3-pybind11 cmake
-%define source0 git+https://github.com/scikit-hep/awkward-1.0?obj=main/%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/source.tar.gz
