@@ -1,0 +1,1 @@
+%define source0 %define source0 https://github.com/cms-externals/nose/archive/refs/tags/release_%{realversion}_py3.tar.gz
