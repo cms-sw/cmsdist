@@ -1,2 +1,1 @@
-Requires: py3-numpy py3-awkward py3-uproot-methods
-Requires: py3-cachetools
+Requires: py3-awkward py3-pandas py3-boost-histogram py3-hist
