@@ -1,0 +1,2 @@
+Requires: py3-numpy py3-awkward0 py3-uproot3-methods
+Requires: py3-cachetools
