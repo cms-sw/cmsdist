@@ -37,7 +37,7 @@ Requires: py3-seaborn
 Requires: py3-h5py
 Requires: py3-h5py-cache
 Requires: py3-uproot
-Requires: py3-uproot4
+Requires: py3-vector
 Requires: py3-opt-einsum
 Requires: py3-joblib
 
