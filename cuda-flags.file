@@ -3,7 +3,7 @@
 
 # on X86 and Power, build support for Pascal, Volta and Turing
 %ifarch x86_64 ppc64le
-%define cuda_arch 60 70 75
+%define cuda_arch 60 70 75 80
 %endif
 
 # on ARM, build support for Volta, Xavier SoC and Turing
