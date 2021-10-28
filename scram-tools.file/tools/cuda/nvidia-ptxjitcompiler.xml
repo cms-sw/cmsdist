@@ -1,0 +1,9 @@
+<tool name="nvidia-ptxjitcompiler" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/index.html"/>
+  <lib name="cuda"/>
+  <lib name="nvidia-ptxjitcompiler"/>
+  <client>
+    <environment name="NVIDIA_DRIVERS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"              default="$NVIDIA_DRIVERS_BASE/drivers"/>
+  </client>
+</tool>
