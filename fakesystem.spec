@@ -1,4 +1,4 @@
-### RPM external fakesystem 1.0
+### RPM external fakesystem 2.0
 ## NOCOMPILER
 
 # Various system scripts
@@ -8,6 +8,7 @@ Provides: /bin/sed
 Provides: /bin/bash
 Provides: /usr/bin/awk
 Provides: /usr/bin/python
+Provides: /usr/bin/python3
 # Various perl modules/dependencies that are needed only for specialized
 # scripts
 Provides: perl(Date::Format)
