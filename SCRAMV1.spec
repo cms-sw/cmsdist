@@ -1,11 +1,6 @@
-### RPM lcg SCRAMV1 V3_00_32
+### RPM lcg SCRAMV1 V3_00_33
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
-
-Provides: perl(BuildSystem::Template::Plugins::PluginCore)
-Provides: perl(BuildSystem::TemplateStash)
-Provides: perl(Cache::CacheUtilities)
-Provides: perl(BuildSystem::ToolManager)
 
 %define tag 4ae4e4cde2026f0b88189e8f748a5fd47f0f44fb
 %define branch SCRAMV3
