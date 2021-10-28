@@ -20,6 +20,10 @@ Provides: perl(Scalar::Util)
 Provides: perl(Time::HiRes)
 Provides: perl(YAML::Any)
 Provides: perl(DBI)
+Provides: perl(CGI)
+Provides: perl(Encode)
+Provides: perl(Storable)
+Provides: perl(Time::Local)
 
 %define drop_files %{i}/share/man
 %define runpath_opts -m libexec
