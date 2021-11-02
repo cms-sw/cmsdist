@@ -1,6 +1,5 @@
 ### RPM external bootstrap-driver 32.0
 ## NOCOMPILER
-Source: cmsos
 Requires: rpm
 BuildRequires: cms-common
 
@@ -9,7 +8,6 @@ BuildRequires: cms-common
 %prep
 %build
 %install
-cp %{_sourcedir}/cmsos %{i}/
 packageList=""
 echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
 for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
