@@ -37,8 +37,6 @@ defaultSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl tcl tk perl-T
 platformSeeds="bash bzip2-libs glibc nspr nss nss-util perl popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
       libcom_err tcsh perl-Carp perl-Data-Dumper perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords
       perl-Thread-Queue perl-constant perl-Digest-MD5 perl-Socket libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU"
-# Needed by oracle
-platformSeeds+=" libaio"
 # Needed by python runtime
 platformSeeds+=" readline ncurses-libs tcl tk"
 # Seed packages which provides these
@@ -51,6 +49,15 @@ platformBuildSeeds="git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libc
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 packagesWithBuildProvides=""
+
+case %cmsplatf in
+*_aarch64_* )
+  ;;
+*)
+  # Needed by oracle
+  platformSeeds+=" libaio"
+  ;;
+esac
 
 case %cmsplatf in
 cc* )
