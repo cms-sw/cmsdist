@@ -1,4 +1,4 @@
-### RPM cms cmsLHEtoEOSManager @VERSION@00
+### RPM cms cmsLHEtoEOSManager @VERSION@01
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -6,10 +6,7 @@
 Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%{commit}/GeneratorInterface/LHEInterface/scripts/cmsLHEtoEOSManager.py
 
 %prep
-%if "%{v}" != "%{realversion}"
-  echo "ERROR: %{v} does not match %{realversion}. Please update version number for %{n}."
-  exit 1
-%endif
+%{?check_version_suffix:%check_version_suffix}
 
 %build
 
