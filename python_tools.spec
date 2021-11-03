@@ -17,7 +17,6 @@ Requires: py3-cmsml
 Requires: py3-law
 Requires: py3-protobuf
 
-Requires: py3-cloudpickle
 Requires: py3-tables
 Requires: py3-numexpr
 Requires: py3-histogrammar
@@ -29,10 +28,7 @@ Requires: py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
 Requires: py3-hep_ml
-Requires: py3-rep
 Requires: py3-uncertainties
-Requires: py3-hyperas
-Requires: py3-hyperopt
 Requires: py3-seaborn
 Requires: py3-h5py
 Requires: py3-h5py-cache
@@ -103,7 +99,6 @@ Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
 Requires: py3-funcsigs
-Requires: py3-nose
 Requires: py3-pkgconfig
 Requires: py3-Click
 Requires: py3-jsonpickle
@@ -176,14 +171,8 @@ Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
-Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
-Requires: py3-mpld3
-Requires: py3-neurolab
-Requires: py3-nose-parameterized
 Requires: py3-pillow
-Requires: py3-pybrain
-Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py3-astroid
