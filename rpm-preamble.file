@@ -273,11 +273,21 @@ fi
 
 %define common_revision_script() \
   OLD_REV=0 \
-  if [ -f %2 ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
+  if [ -f %{2} ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
   NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
-  if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %2 ; cp %1 %2 ; fi
+  if [ ${OLD_REV} -lt ${NEW_REV} ] ; then rm -f %{2} ; cp %{1} %{2} ; fi
 
 %define cms_python2_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python/ | cut -d/ -f3 | cut -f1,2 -d.)
 %define cms_python2_major_minor $(echo %{cms_python2_major_minor_version} | sed 's|[.]||')
 %define cms_python3_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python3/ | cut -d/ -f3 | cut -f1,2 -d.)
 %define cms_python3_major_minor $(echo %{cms_python3_major_minor_version} | sed 's|[.]||')
+
+%if "%{?allow_version_suffix:set}" == "set"
+%define check_version_suffix echo "%%allow_version_suffix defined, skipping version suffix check."
+%else
+%define check_version_suffix \
+  if [ "%{v}" != "%{realversion}" ] ; then \
+    echo "ERROR: %{v} not same as %{realversion}. Automatic version suffix was added, please update the version explicitly for %{n}.spec to avoid this error." ;\
+    exit 1 ;\
+  fi
+%endif
