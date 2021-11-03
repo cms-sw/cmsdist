@@ -17,7 +17,6 @@ Requires: py3-cmsml
 Requires: py3-law
 Requires: py3-protobuf
 
-Requires: py3-cloudpickle
 Requires: py3-tables
 Requires: py3-numexpr
 Requires: py3-histogrammar
@@ -172,13 +171,8 @@ Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
-Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
-Requires: py3-mpld3
-Requires: py3-neurolab
 Requires: py3-pillow
-Requires: py3-pybrain
-Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py3-astroid
