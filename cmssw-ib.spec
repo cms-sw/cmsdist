@@ -7,6 +7,7 @@ BuildRequires: cmssw SCRAMV1
 Source: https://raw.githubusercontent.com/cms-sw/cms-bot/0a77459fa43029366cb43ae03c1f67b4176df095/buildLogAnalyzer.py
 
 %prep
+%{?check_version_suffix:%check_version_suffix}
 cd ..
 %build
 cd $CMSSW_ROOT
