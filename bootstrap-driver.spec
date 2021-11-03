@@ -59,7 +59,7 @@ esac
 
 case %cmsplatf in
 cc* )
-  platformSeeds+=" libxcrypt"
+  platformSeeds+=" libxcrypt perl-IO"
   ;;
 slc*)
   platformSeeds+=" perl-Switch"
