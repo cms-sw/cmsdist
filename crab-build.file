@@ -18,10 +18,7 @@ Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&e
 Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
 
 %prep
-if [ "%{v}" != "%{realversion}" ] ; then
-  echo "ERROR: %{v} not same as %{realversion}. Please increment version suffix in %{n}.spec file."
-  exit 1
-fi
+%{?check_version_suffix:%check_version_suffix}
 %setup -D -T -b 0 -n CRABClient
 %setup -D -T -b 1 -n WMCore
 %setup -D -T -b 2 -n CRABServer
