@@ -41,8 +41,7 @@ packagesWithProvides="/usr/bin/python3 /usr/bin/perl /usr/bin/env /usr/bin/uname
 ##############################
 platformBuildSeeds="git patch perl make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
 #Needed by autotools,go and lcov
-platformBuildSeeds+=" perl-Carp perl-PathTools perl-Data-Dumper perl-Exporter perl-File-Path perl-PathTools perl-File-Temp perl-Getopt-Long perl-Text-ParseWords
-                      perl-constant perl-PathTools perl-PathTools perl-Digest-MD5 perl-File-Path perl-PathTools perl-File-Temp perl-Getopt-Long"
+platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords perl-constant"
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 packagesWithBuildProvides=""
@@ -58,10 +57,11 @@ esac
 
 case %cmsplatf in
 cc* )
-  platformSeeds+=" libxcrypt perl-IO perl-Memoize perl-libnet perl-Term-ANSIColor perl-libs"
+  platformSeeds+=" libxcrypt"
+  #platformBuildSeeds+=" perl-IO perl-Memoize perl-libnet perl-Term-ANSIColor perl-libs"
   ;;
 slc*)
-  platformSeeds+=" perl-Switch"
+  platformBuildSeeds+=" perl-Switch"
   ;;
 esac
 
