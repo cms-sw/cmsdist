@@ -12,23 +12,6 @@ Patch1: git-2.19.0-runtime
 Requires: curl expat zlib pcre2 python3
 BuildRequires: autotools
 
-# Fake provides for git add --interactive
-# The following are not avaialble on SLC and Darwin platforms by default
-Provides: perl(SVN::Core)
-Provides: perl(SVN::Delta)
-Provides: perl(SVN::Ra)
-Provides: perl(CGI::Carp)
-Provides: perl(CGI::Util)
-Provides: perl(Scalar::Util)
-Provides: perl(Time::HiRes)
-Provides: perl(YAML::Any)
-Provides: perl(DBI)
-Provides: perl(CGI)
-Provides: perl(Encode)
-Provides: perl(Error)
-Provides: perl(Storable)
-Provides: perl(Time::Local)
-
 %define drop_files %{i}/share/man
 %define runpath_opts -m libexec
 

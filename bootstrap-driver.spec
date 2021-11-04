@@ -1,7 +1,7 @@
-### RPM external bootstrap-driver 32.0
+### RPM external bootstrap-driver 40.0
 ## NOCOMPILER
 Requires: rpm
-BuildRequires: cms-common
+BuildRequires: cms-common fakesystem
 
 #danger! cms-common version is now hardwired below (and in bootstrap.file)
 
@@ -26,15 +26,11 @@ do
 done
 
 additionalProvides=""
-defaultSeeds="glibc glibc-32bit coreutils bash tcsh zsh pdksh perl tcl tk perl-Tk readline openssl ncurses XFree86-libs
-        e2fsprogs krb5-libs freetype fontconfig XFree86-Mesa-libGLU XFree86-Mesa-libGL xorg-x11-deprecated-libs
-        xorg-x11-libs xorg-x11-Mesa-libGLU xorg-x11-Mesa-libGL compat-libstdc++-33 fglrx_6_8_0 libidn"
 ##############################
 # Packages to seed for runtime
 ##############################
-platformSeeds="bash bzip2-libs glibc nspr nss nss-util perl popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
-      libcom_err tcsh perl-Carp perl-Data-Dumper perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords
-      perl-Thread-Queue perl-constant perl-Digest-MD5 perl-Socket libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU"
+platformSeeds="bash tcsh bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
+               libcom_err libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU"
 # Needed by python runtime
 platformSeeds+=" readline ncurses-libs tcl tk"
 # Seed packages which provides these
@@ -43,7 +39,10 @@ packagesWithProvides="/usr/bin/python3 /usr/bin/perl /usr/bin/env /usr/bin/uname
 ##############################
 #Packages to seed for build
 ##############################
-platformBuildSeeds="git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
+platformBuildSeeds="git patch perl make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
+#Needed by autotools,go and lcov
+platformBuildSeeds+=" perl-Carp perl-PathTools perl-Data-Dumper perl-Exporter perl-File-Path perl-PathTools perl-File-Temp perl-Getopt-Long perl-Text-ParseWords
+                      perl-constant perl-PathTools perl-PathTools perl-Digest-MD5 perl-File-Path perl-PathTools perl-File-Temp perl-Getopt-Long"
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 packagesWithBuildProvides=""
@@ -66,25 +65,12 @@ slc*)
   ;;
 esac
 
-# Seeds for unsupported platforms. These will not make bootstrap die, if not found.
-# OpenSuse
-unsupportedSeeds="xorg-x11-Mesa compat-readline4 compat-curl2 freetype2 xorg-x11-libX11"
-# Ubuntu
-unsupportedSeeds="$unsupportedSeeds libcomerr2 libidn11 libxi6 libxpm4 libxinerama1 libncurses5 libsm6 libice6 libc6 libxcursor1 libxmu6
-        libgl1-mesa-glx libxft2 perl-base xserver-xorg xserver-xorg-core libfreetype6 libfontconfig1 libgl1-mesa libxrandr2 libglu1-mesa libxext6 libx11-6 libxrender1"
-# Fedora
-unsupportedSeeds="$unsupportedSeeds libX11 libXmu libSM libICE libXcursor
-        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
-        libXft libXrender libXpm ncurses-libs libc6-i686 compat-readline5"
-# PU-IAS
-unsupportedSeeds="$unsupportedSeeds libcom_err"
-
-defaultPkgs="cms+cms-common+1.0"
+defaultPkgs="cms+cms-common+1.0 cms+fakesystem+1.0"
 
 mkdir -p %{i}/etc/profile.d
 (echo "rpm_version=$RPM_VERSION"; \
- echo "platformSeeds=\"$defaultSeeds\""; \
- echo "unsupportedSeeds=\"$unsupportedSeeds\""; \
+ echo "platformSeeds=\"\""; \
+ echo "unsupportedSeeds=\"\""; \
  echo "%{cmsos}_platformSeeds=\"$platformSeeds\""; \
  echo "%{cmsos}_platformBuildSeeds=\"$platformBuildSeeds\""; \
  echo "%{cmsos}_packagesWithProvides=\"$packagesWithProvides\""; \

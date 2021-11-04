@@ -5,7 +5,6 @@
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
-Provides: python(abi)
 Requires: expat bz2lib db6 gdbm libffi
 Requires: zlib sqlite
 
