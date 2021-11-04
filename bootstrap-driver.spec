@@ -29,7 +29,7 @@ additionalProvides=""
 ##############################
 # Packages to seed for runtime
 ##############################
-platformSeeds="bash tcsh bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
+platformSeeds="bash tcsh perl bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
                libcom_err libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU"
 # Needed by python runtime
 platformSeeds+=" readline ncurses-libs tcl tk"
@@ -57,8 +57,8 @@ esac
 
 case %cmsplatf in
 cc* )
-  platformSeeds+=" libxcrypt"
-  #platformBuildSeeds+=" perl-IO perl-Memoize perl-libnet perl-Term-ANSIColor perl-libs"
+  platformSeeds+=" libxcrypt perl-libs perl-IO"
+  #platformBuildSeeds+=" perl-Memoize perl-libnet perl-Term-ANSIColor"
   ;;
 slc*)
   platformBuildSeeds+=" perl-Switch"
