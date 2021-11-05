@@ -47,6 +47,30 @@ Provides: perl(Tk::ROText)
 Provides: perl(constant)
 Provides: perl(full)
 
+#################################
+# Needed by git on SLC7
+#################################
+Provides: perl(CGI)
+Provides: perl(CGI::Carp)
+Provides: perl(CGI::Util)
+Provides: perl(Encode)
+Provides: perl(SVN::Core)
+Provides: perl(SVN::Delta)
+Provides: perl(SVN::Ra)
+Provides: perl(Scalar::Util)
+Provides: perl(Storable)
+Provides: perl(Time::HiRes)
+Provides: perl(Time::Local)
+Provides: perl(YAML::Any)
+
+#################################
+# Needed by git on CC8
+#################################
+Provides: perl(Memoize)
+Provides: perl(Net::Domain)
+Provides: perl(Net::SMTP)
+Provides: perl(Term::ANSIColor)
+
 %prep
 %build
 %install
