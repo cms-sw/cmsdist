@@ -12,7 +12,13 @@
 #  File::Path, File::Spec, File::Temp
 #  Getopt::Long, Text::ParseWords, constant
 ####################################
-# Needed by xrootd:
+# Needed by git
+####################################
+# Carp, Cwd, DBI, Data::Dumper, Digest::MD5, Exporter
+# File::Path, File::Spec, File::Spec::Functions, File::Temp
+# Getopt::Long, Text::ParseWords, constant
+####################################
+# Needed by xrootd
 ####################################
 # Cwd, Exporter, Socket
 
