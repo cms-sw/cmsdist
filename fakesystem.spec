@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1000
+## REVISION 1001
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
