@@ -28,6 +28,8 @@ Provides: perl(constant)
 Provides: perl(Errno)
 Provides: perl(Digest::MD5)
 Provides: perl(File::Spec::Functions)
+#needed by xrootd
+Provides: perl(Socket)
 
 %prep
 %build
