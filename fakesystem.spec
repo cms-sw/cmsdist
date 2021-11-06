@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1003
+## REVISION 1004
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -70,12 +70,19 @@ Provides: perl(Compress::Zlib)
 Provides: perl(List::Util)
 
 #################################
+# Needed by cmssw
+#################################
+Provides: perl(Switch)
+
+#################################
 # Needed by git on CC8
 #################################
 Provides: perl(Memoize)
 Provides: perl(Net::Domain)
 Provides: perl(Net::SMTP)
 Provides: perl(Term::ANSIColor)
+
+
 
 %prep
 %build
