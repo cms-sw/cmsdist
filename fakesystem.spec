@@ -64,6 +64,12 @@ Provides: perl(Time::Local)
 Provides: perl(YAML::Any)
 
 #################################
+# Needed by madgraph5amcatnlo
+#################################
+Provides: perl(Compress::Zlib)
+Provides: perl(List::Util)
+
+#################################
 # Needed by git on CC8
 #################################
 Provides: perl(Memoize)
