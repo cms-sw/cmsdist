@@ -7,6 +7,8 @@ Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
 Requires: py2-future
 
+Requires: py3-anyio
+Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
 Requires: py3-Theano
