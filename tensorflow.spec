@@ -4,6 +4,7 @@
 %else
 %define source_package tensorflow-sources_%{vectorized_package}
 %endif
+## INCLUDE tensorflow-requires
 BuildRequires: %{source_package}
 %define tf_root %(echo %{source_package}_ROOT | tr '[a-z-]' '[A-Z_]')
 %define tf_version %(echo %{source_package}_VERSION | tr '[a-z-]' '[A-Z_]')
