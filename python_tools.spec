@@ -139,7 +139,6 @@ Requires: py3-typing
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
-Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py3-colorama
