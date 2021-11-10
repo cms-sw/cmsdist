@@ -7,6 +7,8 @@ Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
 Requires: py2-future
 
+Requires: py3-anyio
+Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
 Requires: py3-Theano
@@ -139,7 +141,6 @@ Requires: py3-typing
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
-Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py3-colorama
