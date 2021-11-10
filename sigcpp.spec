@@ -1,6 +1,5 @@
 ### RPM external sigcpp 3.0.7
-%define majorv %(echo %{realversion} | cut -d. -f1,2)
-Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.xz
+Source: https://github.com/libsigcplusplus/libsigcplusplus/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: autotools
 
