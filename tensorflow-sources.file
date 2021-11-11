@@ -4,9 +4,6 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         719e00b6f9553de2662b6df2c353d6934e941103
-%define branch      cms/v%{realversion}
-%define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
 %if "%{?build_type:set}" != "set"
@@ -66,6 +63,7 @@ export TEST_TMPDIR=%{_builddir}/build
 export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 
 echo "png:${LIBPNG_ROOT}"                   >  ${TF_CMS_EXTERNALS}
+echo "hwloc:${HWLOC_ROOT}"                  >> ${TF_CMS_EXTERNALS}
 echo "libjpeg_turbo:${LIBJPEG_TURBO_ROOT}"  >> ${TF_CMS_EXTERNALS}
 echo "zlib:${ZLIB_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "eigen_archive:${EIGEN_ROOT}"          >> ${TF_CMS_EXTERNALS}
