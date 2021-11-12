@@ -1,5 +1,5 @@
-### RPM external lhapdf 6.3.0
-%define setsversion 6.3.0f
+### RPM external lhapdf 6.4.0
+%define setsversion 6.4.0b
 
 Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-%{realversion}.tar.gz
 
