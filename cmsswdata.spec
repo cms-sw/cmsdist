@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-DQM-EcalMonitorClient
 Requires: data-RecoTracker-MkFit
 Requires: data-RecoMuon-TrackerSeedGenerator
 Requires: data-Validation-HGCalValidation
@@ -141,4 +142,3 @@ for DATA_PATH in %directpkgreqs; do
     rm -rf $SOURCE/$PKG_DATA && ln -fs ../../../../share/$DATA_PATH/$PKG_DATA $SOURCE/$PKG_DATA
   fi
 done
-
