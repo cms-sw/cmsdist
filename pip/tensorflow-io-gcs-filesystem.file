@@ -1,0 +1,2 @@
+%define source0 https://github.com/tensorflow/io/archive/refs/tags/v%{realversion}.tar.gz
+%define patchsrc0 sed -i -e 's|project *= *"tensorflow-io"|project = "tensorflow-io-gcs-filesystem"|' setup.py
