@@ -8,6 +8,11 @@ SimDataFormatsGeneratorProducts_EXTRA_LIBS+= $(MODULE_PREFIX)DataFormatsStdDicti
 # include/eigen3/Eigen/src/Geometry/Quaternion.h:81:52: error: 'Eigen::QuaternionBase::w' from module 'DataFormatsCaloRecHit.MultifitComputations.h' is not present in definition of 'QuaternionBase<Derived>' provided earlier
 DataFormatsCaloRecHit_LOC_FLAGS_IGNORE_MODULE_FILE:=MultifitComputations.h
 
+#avoid tensorflow errors
+RecoEgammaElectronIdentification_LOC_FLAGS_IGNORE_MODULE_FILE:=ElectronDNNEstimator.h
+RecoEgammaPhotonIdentification_LOC_FLAGS_IGNORE_MODULE_FILE:=PhotonDNNEstimator.h
+
+
 CUDADataFormatsBeamSpot_CXXMODULES:=1
 CUDADataFormatsCaloCommon_CXXMODULES:=1
 CUDADataFormatsEcalDigi_CXXMODULES:=1
