@@ -1,11 +1,18 @@
-### RPM external py3-htcondor 9.2.0
+### RPM external py3-htcondor 8.9.7
 ## IMPORT build-with-pip3
 
-Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0)(64bit)
-Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0d)(64bit)
-Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0f)(64bit)
-Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0i)(64bit)
-Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_1)(64bit)
+# dependencies required by 8.9.7
+Provides: libcrypto-d47fc050.so.1.1(OPENSSL_1_1_0)(64bit)
+Provides: libcrypto-d47fc050.so.1.1(OPENSSL_1_1_0d)(64bit)
+Provides: libcrypto-d47fc050.so.1.1(OPENSSL_1_1_0f)(64bit)
+Provides: libcrypto-d47fc050.so.1.1(OPENSSL_1_1_0i)(64bit)
+Provides: libcrypto-d47fc050.so.1.1(OPENSSL_1_1_1)(64bit)
+# dependencies required by 9.2.0
+#Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0)(64bit)
+#Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0d)(64bit)
+#Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0f)(64bit)
+#Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_0i)(64bit)
+#Provides: libcrypto-b8807daa.so.1.1(OPENSSL_1_1_1)(64bit)
 Provides: libglobus_gssapi_gsi-46531449.so.4.10.9(globus_gssapi_gsi)(64bit)
 Provides: libgomp-3300acd3.so.1.0.0(GOMP_1.0)(64bit)
 Provides: libgomp-3300acd3.so.1.0.0(OMP_1.0)(64bit)
