@@ -5,7 +5,6 @@ BuildRequires: bazel java-env git
 ## INCLUDE compilation_flags
 
 
-
 %define tag         719e00b6f9553de2662b6df2c353d6934e941103
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
