@@ -40,13 +40,19 @@ echo dbs >> %{i}/etc/crab_py_pkgs.txt
 echo RestClient >> %{i}/etc/crab_py_pkgs.txt
 
 #Copy WMCore
-for pkg in %{wmcore_packages} ; do
-  if [ -d %{_builddir}/WMCore/src/python/${pkg} ] ; then
-    rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/
-  else
-    cp %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/${pkg}
-  fi
-done
+if [ "%{crab_type}" != "dev" ] ; then
+  for pkg in %{wmcore_packages} ; do
+    if [ -d %{_builddir}/WMCore/src/python/${pkg} ] ; then
+      rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/
+    else
+      cp %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/${pkg}
+    fi
+  done
+else
+  mkdir %{i}/lib/WMCore
+  cp %{_builddir}/CRABClient/src/python/CRABClient/WMCoreConfigWrapper.py %{i}/lib/WMCore/Configuration.py 
+  touch %{i}/lib/WMCore/__init__.py
+fi
 
 #Copy CRABServer
 for pkg in %{crabserver_packages} ; do
