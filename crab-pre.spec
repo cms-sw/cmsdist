@@ -6,7 +6,7 @@
 %define crabclient_version v3.210825
 ### RPM cms crab-pre %{crabclient_version}.%{version_suffix}
 %define wmcore_version     1.3.6.crab6
-%define crabserver_version v3.2106p11p1
+%define crabserver_version v3.210611p1
 %define dbs_version        3.14.0
 
 ## IMPORT crab-build
