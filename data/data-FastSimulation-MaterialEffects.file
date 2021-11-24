@@ -1,10 +1,1 @@
-
-%prep
-
-# Base URL, where to find the files
-%define base_url "http://cmsdoc.cern.ch/cms/data/CMSSW"
-
-cat << CMS_EOF >> ./sources
-FastSimulation/MaterialEffects/data/NuclearInteractions.root
-CMS_EOF
-
+%define source0 http://cmsrep.cern.ch/cmssw/download/data/%{n}-%{realversion}.tar.gz
