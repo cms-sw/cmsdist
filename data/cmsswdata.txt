@@ -3,6 +3,12 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+CalibCalorimetry-CaloMiscalibTools=V01-00-00
+FastSimulation-MaterialEffects=V05-00-00
+L1Trigger-RPCTrigger=V00-15-00
+RecoParticleFlow-PFBlockProducer=V02-04-02
+SimG4CMS-Calo=V03-04-00
+Validation-Geometry=V00-07-00
 Validation-HGCalValidation=V00-02-00
 DQM-EcalMonitorClient=V00-01-00
 RecoTracker-MkFit=V00-07-00
@@ -100,12 +106,3 @@ RecoBTag-SoftLepton=V01-00-01
 RecoHI-HiJetAlgos=V01-00-01
 RecoParticleFlow-PFTracking=V13-01-00
 SimTransport-HectorProducer=V01-00-01
-
-#Never update any package here. Always move it to default section.
-[data-package-build]
-CalibCalorimetry-CaloMiscalibTools=V01-00-00
-FastSimulation-MaterialEffects=V05-00-00
-L1Trigger-RPCTrigger=V00-15-00
-RecoParticleFlow-PFBlockProducer=V02-04-02
-SimG4CMS-Calo=V03-04-00
-Validation-Geometry=V00-07-00
