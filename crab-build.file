@@ -50,7 +50,7 @@ if [ "%{crab_type}" != "dev" ] ; then
   done
 else
   mkdir %{i}/lib/WMCore
-  cp %{_builddir}/CRABClient/src/python/CRABClient/WMCoreConfigWrapper.py %{i}/lib/WMCore/Configuration.py 
+  cp %{_builddir}/CRABClient/src/python/CRABClient/WMCoreConfiguration.py %{i}/lib/WMCore/Configuration.py 
   touch %{i}/lib/WMCore/__init__.py
 fi
 
