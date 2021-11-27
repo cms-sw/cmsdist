@@ -131,19 +131,11 @@ export PATH=%{i}/tmp/sw/bin:$PATH
 
 # Build zlib (required for compressed debug information)
 cd ../zlib-%{zlibVersion}
-case %{cmsplatf} in
-  *_amd64_*)
-    CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
-    ./configure --static --prefix=%{i}/tmp/sw
-    ;;
-  *_aarch64_*|*_ppc64le_*|*_ppc64_*)
-    CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
-    ./configure --static --prefix=%{i}/tmp/sw
-    ;;
-  *)
-    ./configure --static --prefix=%{i}/tmp/sw
-    ;;
-esac
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+%ifarch x86_64
+CONF_FLAGS="${CONF_FLAGS} -msse3"
+%endif
+CFLAGS="${CONF_FLAGS}" ./configure --static --prefix=%{i}/tmp/sw
 make %{makeprocesses}
 make install
 
@@ -151,14 +143,8 @@ make install
   CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
 
-case "%{cmsplatf}" in
-  *_ppc64_*)
-    ;;
-  *)
-    CONF_BINUTILS_OPTS="$CONF_BINUTILS_OPTS --enable-gold=yes"
-    CONF_GCC_WITH_LTO="$CONF_GCC_WITH_LTO --enable-gold=yes"
-    ;;
-esac
+  CONF_BINUTILS_OPTS="$CONF_BINUTILS_OPTS --enable-gold=yes"
+  CONF_GCC_WITH_LTO="$CONF_GCC_WITH_LTO --enable-gold=yes"
 
   # Build M4 (for building)
   cd ../m4-%{m4Version}
@@ -204,14 +190,9 @@ esac
   make %{makeprocesses}
   make install
 
-case %{cmsplatf} in
-  *_ppc64le_*)
+%ifarch ppc64le
     CONF_BINUTILS_OPTS="${CONF_BINUTILS_OPTS} --enable-targets=spu --enable-targets=powerpc-linux"
-    ;;
-  *_ppc64_*)
-    CONF_BINUTILS_OPTS="${CONF_BINUTILS_OPTS} --enable-targets=spu"
-    ;;
-esac
+%endif
 
   # Build binutils
   cd ../binutils-%{binutilsVersion}
@@ -257,24 +238,16 @@ make %{makeprocesses}
 make install
 
 CONF_GCC_ARCH_SPEC=
-case %{cmsplatf} in
-  *_aarch64_*)
+%ifarch aarch64
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
                         --enable-threads=posix --enable-initfini-array --disable-libmpx"
-    ;;
-  *_ppc64le_*)
+%endif
+%ifarch ppc64le
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
                         --enable-threads=posix --enable-initfini-array \
                         --enable-targets=powerpcle-linux --enable-secureplt --with-long-double-128 \
                         --with-cpu=power8 --with-tune=power8 --disable-libmpx"
-    ;;
-  *_ppc64_*)
-    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
-                        --enable-threads=posix --enable-initfini-array \
-                        --enable-secureplt --with-long-double-128 \
-                        --with-cpu=power7 --with-tune=power7 --disable-libmpx"
-    ;;
-esac
+%endif
 
 # Build GCC
 cd ../%{moduleName}

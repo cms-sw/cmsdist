@@ -46,19 +46,14 @@ platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter p
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 packagesWithBuildProvides=""
 
-case %cmsplatf in
-*_aarch64_* )
-  ;;
-*)
-  # Needed by oracle
-  platformSeeds+=" libaio"
-  ;;
-esac
+%ifnarch aarch64
+# Needed by oracle
+platformSeeds+=" libaio"
+%endif
 
 case %cmsplatf in
 cc*|cs* )
   platformSeeds+=" libxcrypt perl-libs perl-IO"
-  #platformBuildSeeds+=" perl-Memoize perl-libnet perl-Term-ANSIColor"
   ;;
 slc*)
   platformBuildSeeds+=" perl-Switch"
