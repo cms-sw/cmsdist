@@ -56,7 +56,7 @@ case %cmsplatf in
 esac
 
 case %cmsplatf in
-cc* )
+cc*|cs* )
   platformSeeds+=" libxcrypt perl-libs perl-IO"
   #platformBuildSeeds+=" perl-Memoize perl-libnet perl-Term-ANSIColor"
   ;;
