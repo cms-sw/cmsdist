@@ -28,7 +28,7 @@ CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
 %ifarch ppc64le
 CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags}"
-$endif
+%endif
 
 PYTHON=$(which python3) \
   ./configure \
