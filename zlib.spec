@@ -19,7 +19,7 @@ CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
 %ifarch x86_64
 CONF_FLAGS="${CONF_FLAGS} msse3"
 %endif
-CFLAGS=${CONF_FLAGS} ./configure --prefix=%{i}
+CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
 make %{makeprocesses}
 
