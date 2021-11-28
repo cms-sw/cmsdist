@@ -17,7 +17,7 @@ Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&e
 
 CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
 %ifarch x86_64
-CONF_FLAGS="${CONF_FLAGS} msse3"
+CONF_FLAGS="${CONF_FLAGS} -msse3"
 %endif
 CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
