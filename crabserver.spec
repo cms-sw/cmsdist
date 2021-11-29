@@ -42,9 +42,9 @@ touch $PWD/condor_config
 export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 %if "%{version_prefix}" == "py3"
-python3 setup.py build_system -s crabserver --skip-docs
+%{python_runtime} setup.py build_system -s crabserver --skip-docs
 %else
-python setup.py build_system -s crabserver
+%{python_runtime} setup.py build_system -s crabserver
 %endif
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
