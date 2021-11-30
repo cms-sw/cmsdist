@@ -3,7 +3,7 @@
 #For any other change, increment version_suffix
 ##########################################
 %define version_suffix 00
-%define crabclient_version v3.211125
+%define crabclient_version v3.211130
 ### RPM cms crab-dev %{crabclient_version}.%{version_suffix}
 %define wmcore_version     1.5.3
 %define crabserver_version v3.211025
