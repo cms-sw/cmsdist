@@ -21,6 +21,7 @@ Requires: py3-retry
 Requires: py3-rucio-clients py3-future
 Requires: jemalloc
 %else
+%define python_runtime %(echo python)
 %define wmcver 1.4.6.pre2
 Requires: p5-time-hires
 Requires: python dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
