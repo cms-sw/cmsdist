@@ -41,6 +41,7 @@ Requires: heppdt
 Requires: herwig
 Requires: herwig7
 Requires: hydjet
+Requires: hydjet2
 Requires: ittnotify
 Requires: jemalloc
 Requires: jemalloc-debug
