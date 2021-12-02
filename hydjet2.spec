@@ -1,6 +1,7 @@
-### RPM external hydjet2 2.x.y 
+### RPM external hydjet2 2.4.3 
 
-Source: http://cern.ch/lokhtin/hydjet++/%{n}.tar.gz
+Source: http://cern.ch/lokhtin/hydjet++/%{n}-%{realversion}.tar.gz
+
 
 BuildRequires: cmake gmake
 
@@ -8,7 +9,7 @@ Requires: pyquen pythia6 lhapdf root
 
 
 %prep
-%setup -q -n %{n}
+%setup -q -n %{n}-%{realversion}
 
 %build
 
