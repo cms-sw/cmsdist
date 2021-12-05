@@ -1,2 +1,4 @@
 Requires: openldap py3-pyasn1-modules
-%define PipBuildOptions --global-option=build_ext --global-option="-L${PYTHON3_ROOT}/lib" --global-option="-L${OPENLDAP_ROOT}/lib" --global-option="-I${PYTHON3_ROOT}/include" --global-option="-I${OPENLDAP_ROOT}/include"  --global-option="-UHAVE_SASL"
+%define patchsrc0 sed -i -e "s|\\[_ldap\\]|[_ldap]\\ninclude_dirs = ${PYTHON3_ROOT}/include ${OPENLDAP_ROOT}/include|" setup.cfg
+%define patchsrc1 sed -i -e "s|\\[_ldap\\]|[_ldap]\\nlibrary_dirs = ${PYTHON3_ROOT}/lib ${OPENLDAP_ROOT}/lib|" setup.cfg
+%define patchsrc2 sed -i -e "s|HAVE_SASL||" setup.cfg

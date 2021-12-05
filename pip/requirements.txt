@@ -230,7 +230,7 @@ pytest-cov==2.12.1
 pytest-runner==5.3.1
 python-daemon==2.3.0
 python-dateutil==2.8.2
-python-ldap==3.3.1
+python-ldap==3.4.0
 python-rapidjson==1.4
 pythran==0.9.12.post1
 pytoml==0.1.21
