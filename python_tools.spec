@@ -57,7 +57,6 @@ Requires: py3-ipython
 Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
-Requires: py3-jupyter
 Requires: py3-jupyter-client
 Requires: py3-jupyter-console
 Requires: py3-jupyter-core
