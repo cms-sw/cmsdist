@@ -74,7 +74,6 @@ Requires: py3-prompt_toolkit
 Requires: py3-ptyprocess
 Requires: py3-pyparsing
 Requires: py3-pyzmq
-Requires: py3-qtconsole
 Requires: py3-scandir
 Requires: py3-setuptools
 Requires: py3-simplegeneric
