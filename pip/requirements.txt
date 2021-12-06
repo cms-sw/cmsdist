@@ -124,7 +124,6 @@ jupyter-client==7.0.2
 jupyter-console==6.4.0
 jupyter-core==4.7.1
 jupyter-packaging==0.10.4
-jupyter==1.0.0
 jupyterlab-pygments==0.1.2
 jupyter-server==1.10.2
 jupyter-server-mathjax==0.2.3
