@@ -105,16 +105,8 @@ echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python3
 echo "export PYTHON3PATH=\"${PYTHON3PATH}\""  >> %{_builddir}/cms-pytool/python3
 echo "$(which python3) \"\$@\""               >> %{_builddir}/cms-pytool/python3
 
-echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python2
-echo "export PYTHON27PATH=\"${PYTHON27PATH}\"" >> %{_builddir}/cms-pytool/python2
-echo "$(which python2) \"\$@\""                 >> %{_builddir}/cms-pytool/python2
-
-chmod +x %{_builddir}/cms-pytool/python2 %{_builddir}/cms-pytool/python3
-if [ "%{python_cmd}" = "python3" ] ; then
-  ln -s python3 %{_builddir}/cms-pytool/python
-else
-  ln -s python2 %{_builddir}/cms-pytool/python
-fi
+chmod +x %{_builddir}/cms-pytool/python3
+ln -s python3 %{_builddir}/cms-pytool/python
 export PATH=%{_builddir}/cms-pytool:$PATH
 
 # build tensorflow python targets
