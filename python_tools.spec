@@ -57,7 +57,6 @@ Requires: py3-ipython
 Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
-Requires: py3-jupyter
 Requires: py3-jupyter-client
 Requires: py3-jupyter-console
 Requires: py3-jupyter-core
@@ -74,7 +73,6 @@ Requires: py3-prompt_toolkit
 Requires: py3-ptyprocess
 Requires: py3-pyparsing
 Requires: py3-pyzmq
-Requires: py3-qtconsole
 Requires: py3-scandir
 Requires: py3-setuptools
 Requires: py3-simplegeneric
