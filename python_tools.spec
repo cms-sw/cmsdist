@@ -1,11 +1,9 @@
 ### RPM external python_tools 3.0
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
-Requires: py2-future
 
 Requires: py3-anyio
 Requires: py3-sniffio
