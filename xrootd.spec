@@ -7,10 +7,15 @@
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake
+BuildRequires: cmake autotools
 Requires: zlib
 Requires: python3
 Requires: libxml2
+
+%define soext so
+%ifarch darwin
+%define soext dylib
+%endif
 
 %prep
 %setup -n %n-%{realversion}
@@ -31,7 +36,10 @@ cmake .. \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT}"
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
+  -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
+  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+  -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT}"
 
 make %makeprocesses VERBOSE=1
 make install

@@ -7,6 +7,8 @@ Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
 Requires: py2-future
 
+Requires: py3-anyio
+Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
 Requires: py3-Theano
@@ -17,7 +19,6 @@ Requires: py3-cmsml
 Requires: py3-law
 Requires: py3-protobuf
 
-Requires: py3-cloudpickle
 Requires: py3-tables
 Requires: py3-numexpr
 Requires: py3-histogrammar
@@ -34,7 +35,7 @@ Requires: py3-seaborn
 Requires: py3-h5py
 Requires: py3-h5py-cache
 Requires: py3-uproot
-Requires: py3-uproot4
+Requires: py3-vector
 Requires: py3-opt-einsum
 Requires: py3-joblib
 
@@ -140,7 +141,6 @@ Requires: py3-typing
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
-Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py3-colorama
@@ -172,13 +172,8 @@ Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
-Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
-Requires: py3-mpld3
-Requires: py3-neurolab
 Requires: py3-pillow
-Requires: py3-pybrain
-Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py3-astroid
