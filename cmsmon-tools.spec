@@ -3,14 +3,14 @@
 
 %define arch amd64
 %define linuxarch linux-amd64
-%define promv 2.30.3
+%define promv 2.31.1
 %define amver 0.23.0
 %define sternv 1.11.0
 %define apsver 0.2.15
-%define trivyver 0.20.2
+%define trivyver 0.21.1
 %define heyver 0.0.2
 %define k8s_info_ver 0.0.1
-%define gocurlver 0.0.2
+%define gocurlver 0.0.4
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
 %define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
