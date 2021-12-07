@@ -61,7 +61,6 @@ Requires: photospp
 Requires: pyquen
 Requires: pythia6
 Requires: pythia8
-Requires: python
 Requires: python3
 Requires: root
 Requires: sherpa
