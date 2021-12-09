@@ -1,10 +1,10 @@
 ### RPM lcg root 6.24.07
-## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 
-%define tag 1b48cabb4c00e2d1c7cb1486f34844cbfb0caa23
-%define branch cms/v6-24-00-patches/f4ad42e
+%define tag dad2707149879878d01304431fa26cecbd4740d0
+%define branch cms/v6-24-00-patches/e9d29ae
+
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
