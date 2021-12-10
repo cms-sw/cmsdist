@@ -10,5 +10,4 @@
   <use name="root_cxxdefaults"/>
   <use name="zlib"/>
   <use name="expat"/>
-  <use name="python"/>
 </tool>
