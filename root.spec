@@ -36,10 +36,6 @@ Requires: dcap
 %patch0 -p1
 %patch2 -p1
 
-wget https://github.com/root-project/root/pull/9295.patch
-git apply --whitespace=fix 9295.patch
-rm 9295.patch
-
 %build
 rm -rf ../build
 mkdir ../build
