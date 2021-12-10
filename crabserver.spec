@@ -8,14 +8,13 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
 %define version_prefix %(echo %{realversion} | cut -d. -f1)
 %if "%{version_prefix}" == "py3"
 %define python_runtime %(echo python3)
 %define wmcrepo mapellidario
-%define wmcver py3.211209 
+%define wmcver 1.5.5
 Requires: python3 py3-cherrypy py3-pycurl py3-cx-oracle py3-dbs3-client py3-dbs3-pycurl-client 
 Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL py3-htcondor rotatelogs jemalloc
 BuildRequires: py3-sphinx
