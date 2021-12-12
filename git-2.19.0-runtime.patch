@@ -1,5 +1,5 @@
 diff --git a/exec-cmd.c b/exec-cmd.c
-index 4f81f44..9102708 100644
+index 7deeab3..927d76c 100644
 --- a/exec-cmd.c
 +++ b/exec-cmd.c
 @@ -35,19 +35,21 @@
@@ -30,3 +30,21 @@ index 4f81f44..9102708 100644
  		prefix = FALLBACK_RUNTIME_PREFIX;
  		trace_printf("RUNTIME_PREFIX requested, "
  				"but prefix computation failed.  "
+@@ -245,7 +247,7 @@ void git_resolve_executable_dir(const char *argv0)
+  */
+ static const char *system_prefix(void)
+ {
+-	return FALLBACK_RUNTIME_PREFIX;
++	return git_exec_path();
+ }
+ 
+ /*
+@@ -269,7 +271,7 @@ char *system_path(const char *path)
+ 	return strbuf_detach(&d, NULL);
+ }
+ 
+-static const char *exec_path_value;
++static const char *exec_path_value = NULL;
+ 
+ void git_set_exec_path(const char *exec_path)
+ {

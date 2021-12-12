@@ -18,6 +18,7 @@ BuildRequires: autotools
 %prep
 %setup -b 0 -n %{n}-%{realversion}
 %patch1 -p1
+sed -i -e 's|$(sysconfdir)/git|etc/git|' Makefile
 
 %build
 export LDFLAGS=""
