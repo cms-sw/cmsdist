@@ -19,3 +19,6 @@ cmake --build . --clean-first -- %{makeprocesses}
 %install
 
 cmake --build . --target install -- %{makeprocesses}
+
+mkdir -p %{i}/data/externals/hydjet2
+mv %{i}/share/* %{i}/data/externals/hydjet2
