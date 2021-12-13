@@ -92,8 +92,6 @@ google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
 grpcio==1.39.0
 grpcio-tools==1.39.0
-#1.0.1 doesn't download (wheel only?)
-h5py-cache==1.0
 h5py==3.4.0
 hepdata-lib==0.8.1
 hep_ml==0.6.2
