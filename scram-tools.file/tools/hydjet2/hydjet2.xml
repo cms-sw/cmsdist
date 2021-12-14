@@ -6,6 +6,7 @@
     <environment name="INCLUDE" default="$HYDJET2_BASE/include"/>
   </client>
   <runtime name="CMSSW_SEARCH_PATH" default="$HYDJET2_BASE/data" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="pyquen"/>
   <use name="pythia6"/>
   <use name="lhapdf"/>
