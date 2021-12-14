@@ -11,4 +11,5 @@
   <use name="pythia6"/>
   <use name="lhapdf"/>
   <use name="root"/>
+  <flags SYSTEM_INCLUDE="1"/>
 </tool>
