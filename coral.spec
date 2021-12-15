@@ -7,19 +7,6 @@ Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-gcc8
 Requires: coral-tool-conf
 
-%if %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
-%define cmsplatf_aarch64 1
-%endif
-
-%if %(case %{cmsplatf} in (*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac) == 1
-%define cmsplatf_ppc64le 1
-%endif
-
-%if %(case %{cmsplatf} in (*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac) == 1
-%define cmsplatf_ppc64 1
-%endif
-
-
 %define cvssrc          %{n}
 
 # Build with debug symbols, and package them in a separate rpm:
@@ -33,7 +20,7 @@ Requires: coral-tool-conf
 
 # Drop Oracle interface on ARM machines and POWER machines.
 # Oracle does not provide Instant Client for ARMv8 or POWER8.
-%if 0%{?cmsplatf_aarch64}%{?cmsplatf_ppc64le}%{?cmsplatf_ppc64}
+%ifnarch x86_64
 %define patchsrc2       rm -rf ./src/OracleAccess
 %endif
 %define patchsrc4       %patch1 -p1

@@ -1,2 +1,3 @@
 Requires: cmake protobuf py3-protobuf py3-six py3-typing-extensions py3-numpy py3-pytest-runner
+%define runpath_opts -n pb -n onnx
 %define PipPreBuild export ONNX_ML=1

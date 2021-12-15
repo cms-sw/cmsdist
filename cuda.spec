@@ -1,6 +1,7 @@
 ### RPM external cuda 11.4.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
+%define runpath_opts -m compute-sanitizer -m drivers -m nvvm
 %define driversversion 470.57.02
 
 %ifarch x86_64

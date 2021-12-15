@@ -23,10 +23,12 @@ cp ./config.guess ./plugins/SISCone/siscone/config.guess
 
 CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
 
-case %{cmsplatf} in
-    *_amd64_*) CXXFLAGS="${CXXFLAGS} -msse3" ;;
-    *_ppc64le_*) CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags}" ;;
-esac
+%ifarch x86_64
+CXXFLAGS="${CXXFLAGS} -msse3"
+%endif
+%ifarch ppc64le
+CXXFLAGS="${CXXFLAGS} %{ppc64le_build_flags}"
+%endif
 
 PYTHON=$(which python3) \
   ./configure \

@@ -1,0 +1,334 @@
+diff --git a/include/lwtnn/NNLayerConfig.hh b/include/lwtnn/NNLayerConfig.hh
+index 680d995..f725ac2 100644
+--- a/include/lwtnn/NNLayerConfig.hh
++++ b/include/lwtnn/NNLayerConfig.hh
+@@ -63,7 +63,7 @@ namespace lwt {
+       INPUT, INPUT_SEQUENCE, FEED_FORWARD, CONCATENATE, SEQUENCE,
+       TIME_DISTRIBUTED, SUM };
+     Type type;
+-    std::vector<size_t> sources;
++    std::vector<std::size_t> sources;
+     int index;                  // input node size, or layer number
+   };
+ }
+diff --git a/src/Graph.cxx b/src/Graph.cxx
+index 6089793..61b60cf 100644
+--- a/src/Graph.cxx
++++ b/src/Graph.cxx
+@@ -14,14 +14,14 @@ namespace lwt {
+     m_matrix_inputs(std::move(mm))
+   {
+   }
+-  VectorXd VectorSource::at(size_t index) const {
++  VectorXd VectorSource::at(std::size_t index) const {
+     if (index >= m_inputs.size()) {
+       throw NNEvaluationException(
+         "VectorSource: no source vector defined at " + std::to_string(index));
+     }
+     return m_inputs.at(index);
+   }
+-  MatrixXd VectorSource::matrix_at(size_t index) const {
++  MatrixXd VectorSource::matrix_at(std::size_t index) const {
+     if (index >= m_matrix_inputs.size()) {
+       throw NNEvaluationException(
+         "VectorSource: no source matrix defined at " + std::to_string(index));
+@@ -29,34 +29,34 @@ namespace lwt {
+     return m_matrix_inputs.at(index);
+   }
+ 
+-  DummySource::DummySource(const std::vector<size_t>& input_sizes,
+-                           const std::vector<std::pair<size_t,size_t> >& ma):
++  DummySource::DummySource(const std::vector<std::size_t>& input_sizes,
++                           const std::vector<std::pair<std::size_t,size_t> >& ma):
+     m_sizes(input_sizes),
+     m_matrix_sizes(ma)
+   {
+   }
+-  VectorXd DummySource::at(size_t index) const {
++  VectorXd DummySource::at(std::size_t index) const {
+     if (index >= m_sizes.size()) {
+       throw NNEvaluationException(
+         "Dummy Source: no size defined at " + std::to_string(index));
+     }
+-    size_t n_entries = m_sizes.at(index);
++    std::size_t n_entries = m_sizes.at(index);
+     VectorXd vec(n_entries);
+-    for (size_t iii = 0; iii < n_entries; iii++) {
++    for (std::size_t iii = 0; iii < n_entries; iii++) {
+       vec(iii) = iii;
+     }
+     return vec;
+   }
+-  MatrixXd DummySource::matrix_at(size_t index) const {
++  MatrixXd DummySource::matrix_at(std::size_t index) const {
+     if (index >= m_matrix_sizes.size()) {
+       throw NNEvaluationException(
+         "Dummy Source: no size defined at " + std::to_string(index));
+     }
+-    size_t n_rows = m_matrix_sizes.at(index).first;
+-    size_t n_cols = m_matrix_sizes.at(index).second;
++    std::size_t n_rows = m_matrix_sizes.at(index).first;
++    std::size_t n_cols = m_matrix_sizes.at(index).second;
+     MatrixXd mat(n_rows, n_cols);
+-    for (size_t iii = 0; iii < n_rows; iii++) {
+-      for (size_t jjj = 0; jjj < n_cols; jjj++) {
++    for (std::size_t iii = 0; iii < n_rows; iii++) {
++      for (std::size_t jjj = 0; jjj < n_cols; jjj++) {
+         mat(iii, jjj) = jjj + n_cols * iii;
+       }
+     }
+@@ -65,7 +65,7 @@ namespace lwt {
+ 
+ 
+   // Nodes
+-  InputNode::InputNode(size_t index, size_t n_outputs):
++  InputNode::InputNode(std::size_t index, size_t n_outputs):
+     m_index(index),
+     m_n_outputs(n_outputs)
+   {
+@@ -73,7 +73,7 @@ namespace lwt {
+   VectorXd InputNode::compute(const ISource& source) const {
+     VectorXd output = source.at(m_index);
+     assert(output.rows() > 0);
+-    if (static_cast<size_t>(output.rows()) != m_n_outputs) {
++    if (static_cast<std::size_t>(output.rows()) != m_n_outputs) {
+       std::string len = std::to_string(output.rows());
+       std::string found = std::to_string(m_n_outputs);
+       throw NNEvaluationException(
+@@ -81,7 +81,7 @@ namespace lwt {
+     }
+     return output;
+   }
+-  size_t InputNode::n_outputs() const {
++  std::size_t InputNode::n_outputs() const {
+     return m_n_outputs;
+   }
+ 
+@@ -93,7 +93,7 @@ namespace lwt {
+   VectorXd FeedForwardNode::compute(const ISource& source) const {
+     return m_stack->compute(m_source->compute(source));
+   }
+-  size_t FeedForwardNode::n_outputs() const {
++  std::size_t FeedForwardNode::n_outputs() const {
+     return m_stack->n_outputs();
+   }
+ 
+@@ -107,10 +107,10 @@ namespace lwt {
+   }
+   VectorXd ConcatenateNode::compute(const ISource& source) const {
+     VectorXd output(m_n_outputs);
+-    size_t offset = 0;
++    std::size_t offset = 0;
+     for (const auto node: m_sources) {
+       VectorXd input = node->compute(source);
+-      size_t n_elements = input.rows();
++      std::size_t n_elements = input.rows();
+       assert(n_elements == node->n_outputs());
+       output.segment(offset, n_elements) = input;
+       offset += n_elements;
+@@ -118,12 +118,12 @@ namespace lwt {
+     assert(offset == m_n_outputs);
+     return output;
+   }
+-  size_t ConcatenateNode::n_outputs() const {
++  std::size_t ConcatenateNode::n_outputs() const {
+     return m_n_outputs;
+   }
+ 
+   // Sequence nodes
+-  InputSequenceNode::InputSequenceNode(size_t index, size_t n_outputs):
++  InputSequenceNode::InputSequenceNode(std::size_t index, size_t n_outputs):
+     m_index(index),
+     m_n_outputs(n_outputs)
+   {
+@@ -133,7 +133,7 @@ namespace lwt {
+     if (output.rows() == 0) {
+       throw NNEvaluationException("empty input sequence");
+     }
+-    if (static_cast<size_t>(output.rows()) != m_n_outputs) {
++    if (static_cast<std::size_t>(output.rows()) != m_n_outputs) {
+       std::string len = std::to_string(output.rows());
+       std::string found = std::to_string(m_n_outputs);
+       throw NNEvaluationException(
+@@ -141,7 +141,7 @@ namespace lwt {
+     }
+     return output;
+   }
+-  size_t InputSequenceNode::n_outputs() const {
++  std::size_t InputSequenceNode::n_outputs() const {
+     return m_n_outputs;
+   }
+ 
+@@ -156,14 +156,14 @@ namespace lwt {
+   }
+   VectorXd SequenceNode::compute(const ISource& src) const {
+     MatrixXd mat = scan(src);
+-    size_t n_cols = mat.cols();
++    std::size_t n_cols = mat.cols();
+     // special handling for empty sequence
+     if (n_cols == 0) {
+       return MatrixXd::Zero(mat.rows(), 1);
+     }
+     return mat.col(n_cols - 1);
+   }
+-  size_t SequenceNode::n_outputs() const {
++  std::size_t SequenceNode::n_outputs() const {
+     return m_stack->n_outputs();
+   }
+ 
+@@ -176,13 +176,13 @@ namespace lwt {
+   MatrixXd TimeDistributedNode::scan(const ISource& source) const {
+     MatrixXd input = m_source->scan(source);
+     MatrixXd output(m_stack->n_outputs(), input.cols());
+-    size_t n_columns = input.cols();
+-    for (size_t col_n = 0; col_n < n_columns; col_n++) {
++    std::size_t n_columns = input.cols();
++    for (std::size_t col_n = 0; col_n < n_columns; col_n++) {
+       output.col(col_n) = m_stack->compute(input.col(col_n));
+     }
+     return output;
+   }
+-  size_t TimeDistributedNode::n_outputs() const {
++  std::size_t TimeDistributedNode::n_outputs() const {
+     return m_stack->n_outputs();
+   }
+ 
+@@ -193,7 +193,7 @@ namespace lwt {
+   VectorXd SumNode::compute(const ISource& source) const {
+     return m_source->scan(source).rowwise().sum();
+   }
+-  size_t SumNode::n_outputs() const {
++  std::size_t SumNode::n_outputs() const {
+     return m_source->n_outputs();
+   }
+ 
+@@ -201,19 +201,19 @@ namespace lwt {
+ 
+ namespace {
+   using namespace lwt;
+-  void throw_cfg(std::string msg, size_t index) {
++  void throw_cfg(std::string msg, std::size_t index) {
+     throw NNConfigurationException(msg + " " + std::to_string(index));
+   }
+   void check_compute_node(const NodeConfig& node) {
+-    size_t n_source = node.sources.size();
++    std::size_t n_source = node.sources.size();
+     if (n_source != 1) throw_cfg("need one source, found", n_source);
+     int layer_n = node.index;
+     if (layer_n < 0) throw_cfg("negative layer number", layer_n);
+   }
+-  void check_compute_node(const NodeConfig& node, size_t n_layers) {
++  void check_compute_node(const NodeConfig& node, std::size_t n_layers) {
+     check_compute_node(node);
+     int layer_n = node.index;
+-    if (static_cast<size_t>(layer_n) >= n_layers) {
++    if (static_cast<std::size_t>(layer_n) >= n_layers) {
+       throw_cfg("no layer number", layer_n);
+     }
+   }
+@@ -221,8 +221,8 @@ namespace {
+   INode* get_feedforward_node(
+     const NodeConfig& node,
+     const std::vector<LayerConfig>& layers,
+-    const std::unordered_map<size_t, INode*>& node_map,
+-    std::unordered_map<size_t, Stack*>& stack_map) {
++    const std::unordered_map<std::size_t, INode*>& node_map,
++    std::unordered_map<std::size_t, Stack*>& stack_map) {
+ 
+     // FIXME: merge this block with the time distributed one later on
+     check_compute_node(node, layers.size());
+@@ -237,8 +237,8 @@ namespace {
+   SequenceNode* get_sequence_node(
+     const NodeConfig& node,
+     const std::vector<LayerConfig>& layers,
+-    const std::unordered_map<size_t, ISequenceNode*>& node_map,
+-    std::unordered_map<size_t, RecurrentStack*>& stack_map) {
++    const std::unordered_map<std::size_t, ISequenceNode*>& node_map,
++    std::unordered_map<std::size_t, RecurrentStack*>& stack_map) {
+ 
+     check_compute_node(node, layers.size());
+     ISequenceNode* source = node_map.at(node.sources.at(0));
+@@ -252,8 +252,8 @@ namespace {
+   TimeDistributedNode* get_time_distributed_node(
+     const NodeConfig& node,
+     const std::vector<LayerConfig>& layers,
+-    const std::unordered_map<size_t, ISequenceNode*>& node_map,
+-    std::unordered_map<size_t, Stack*>& stack_map) {
++    const std::unordered_map<std::size_t, ISequenceNode*>& node_map,
++    std::unordered_map<std::size_t, Stack*>& stack_map) {
+ 
+     // FIXME: merge this block with the FF block above
+     check_compute_node(node, layers.size());
+@@ -282,7 +282,7 @@ namespace lwt {
+                const std::vector<LayerConfig>& layers):
+     m_last_node(0)
+   {
+-    for (size_t iii = 0; iii < nodes.size(); iii++) {
++    for (std::size_t iii = 0; iii < nodes.size(); iii++) {
+       build_node(iii, nodes, layers);
+     }
+     // assert(maps.node.size() + maps.seq_node.size() == nodes.size());
+@@ -308,7 +308,7 @@ namespace lwt {
+       stack.second = nullptr;
+     }
+   }
+-  VectorXd Graph::compute(const ISource& source, size_t node_number) const {
++  VectorXd Graph::compute(const ISource& source, std::size_t node_number) const {
+     if (!m_nodes.count(node_number)) {
+       auto num = std::to_string(node_number);
+       if (m_seq_nodes.count(node_number)) {
+@@ -325,7 +325,7 @@ namespace lwt {
+     }
+     return m_nodes.at(m_last_node)->compute(source);
+   }
+-  MatrixXd Graph::scan(const ISource& source, size_t node_number) const {
++  MatrixXd Graph::scan(const ISource& source, std::size_t node_number) const {
+     if (!m_seq_nodes.count(node_number)) {
+       auto num = std::to_string(node_number);
+       if (m_nodes.count(node_number)) {
+@@ -346,10 +346,10 @@ namespace lwt {
+   // ______________________________________________________________________
+   // private methods
+ 
+-  void Graph::build_node(const size_t iii,
++  void Graph::build_node(const std::size_t iii,
+                          const std::vector<NodeConfig>& nodes,
+                          const std::vector<LayerConfig>& layers,
+-                         std::set<size_t> cycle_check) {
++                         std::set<std::size_t> cycle_check) {
+     if (m_nodes.count(iii) || m_seq_nodes.count(iii)) return;
+ 
+     // we insist that the upstream nodes are built before the
+@@ -364,12 +364,12 @@ namespace lwt {
+     // if it's an input, build and return
+     if (node.type == NodeConfig::Type::INPUT) {
+       check_compute_node(node);
+-      size_t input_number = node.sources.at(0);
++      std::size_t input_number = node.sources.at(0);
+       m_nodes[iii] = new InputNode(input_number, node.index);
+       return;
+     } else if (node.type == NodeConfig::Type::INPUT_SEQUENCE) {
+       check_compute_node(node);
+-      size_t input_number = node.sources.at(0);
++      std::size_t input_number = node.sources.at(0);
+       m_seq_nodes[iii] = new InputSequenceNode(input_number, node.index);
+       return;
+     }
+@@ -379,7 +379,7 @@ namespace lwt {
+       throw NNConfigurationException("found cycle in graph");
+     }
+     cycle_check.insert(iii);
+-    for (size_t source_node: node.sources) {
++    for (std::size_t source_node: node.sources) {
+       build_node(source_node, nodes, layers, cycle_check);
+     }
+ 
+@@ -400,7 +400,7 @@ namespace lwt {
+     } else if (node.type == NodeConfig::Type::CONCATENATE) {
+       // build concatenate layer
+       std::vector<const INode*> in_nodes;
+-      for (size_t source_node: node.sources) {
++      for (std::size_t source_node: node.sources) {
+         in_nodes.push_back(m_nodes.at(source_node));
+       }
+       m_nodes[iii] = new ConcatenateNode(in_nodes);

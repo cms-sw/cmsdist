@@ -2,7 +2,7 @@
 ## INITENV SET GSL_CBLAS_LIB -L${OPENBLAS_ROOT}/lib -lopenblas
 Source: ftp://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Requires: OpenBLAS
-
+%define runpath_opts -m cblas
 %define keep_archives true
 
 %prep
