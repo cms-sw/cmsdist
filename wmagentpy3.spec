@@ -1,4 +1,4 @@
-### RPM cms wmagentpy3 1.5.4.patch4
+### RPM cms wmagentpy3 1.5.7.pre1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
