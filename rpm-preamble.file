@@ -261,9 +261,6 @@ fi
 %define get_config_guess() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.guess
 %define get_config_sub()   curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.sub
 
-#Some help macros to check for OS and ARCH
-%define isslc     %(case %{cmsos} in (slc*|cc*)     echo 1 ;; (*) echo 0 ;; esac)
-
 #Use the following without {} e.g 'isos cc*' instead of '{isos} cc*'
 %define is_cmsos()    %(case %{cmsos} in (%{1}_*) echo 1 ;; (*) echo 0 ;; esac)
 %define is_ncmsos()   %(case %{cmsos} in (%{1}_*) echo 0 ;; (*) echo 1 ;; esac)

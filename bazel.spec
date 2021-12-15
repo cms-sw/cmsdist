@@ -17,6 +17,7 @@ BuildRequires: java-env python3
 # configuration issue
 # https://github.com/bazelbuild/bazel/issues/9392
 Patch0: bazel-3.7.0-patches
+Patch1: bazel-3.7.2-gcc11
 
 %prep
 
@@ -25,6 +26,7 @@ Patch0: bazel-3.7.0-patches
 %setup -q -n bazel-%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 

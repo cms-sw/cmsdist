@@ -1,0 +1,12 @@
+diff --git a/modules/gapi/test/gapi_async_test.cpp b/modules/gapi/test/gapi_async_test.cpp
+index 66b8be4..aa0c9c7 100644
+--- a/modules/gapi/test/gapi_async_test.cpp
++++ b/modules/gapi/test/gapi_async_test.cpp
+@@ -13,6 +13,7 @@
+ 
+ #include <condition_variable>
+ #include <stdexcept>
++#include <thread>
+ 
+ namespace opencv_test
+ {

@@ -1,6 +1,6 @@
-### RPM external xz 5.2.4
+### RPM external xz 5.2.5
 
-%define tag 982e837ddd3da234f710870fa65ba8c14f381b8b
+%define tag 50f585dc3b7b9b94b6b7f7a4c29903602d1e2a2d
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -11,7 +11,7 @@ BuildRequires: autotools
 %setup -n %{n}-%{realversion}
 
 %build
-./autogen.sh
+./autogen.sh --no-po4a
 ./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 

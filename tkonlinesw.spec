@@ -74,16 +74,13 @@ export ENV_CMS_TK_TTC_ROOT=%{i}/dummy/Linux
 ################################################################################
 # External Dependencies
 ################################################################################
-case %cmsos in 
-  slc*|cc*)
+%ifnos darwin
     export XDAQ_OS=linux
     export XDAQ_PLATFORM=x86_slc4
-  ;;
-  osx*)
+%else
     export XDAQ_OS=macosx
     export XDAQ_PLATFORM=x86_slc4
-  ;;
-esac
+%endif
 
 export ENV_CMS_TK_ORACLE_HOME=${ORACLE_ROOT}
 export ENV_ORACLE_HOME=${ORACLE_ROOT}
@@ -93,29 +90,24 @@ export XDAQ_ROOT
 ################################################################################
 # Configure
 ################################################################################
-case %cmsos in
-  slc*|cc*)
+%ifnos darwin
     chmod +x ./configure && ./configure --with-xdaq-platform=x86_64
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure --with-xdaq-platform=x86_64 && cd -
-  ;;
-  osx*)
+%else
     chmod +x ./configure && ./configure
     cd ${ENV_CMS_TK_FEC_ROOT} && chmod +x ./configure && ./configure && cd -
     cd ${ENV_CMS_TK_FED9U_ROOT} && chmod +x ./configure && ./configure && cd -
-  ;;
-esac
+%endif
 
 # The CPPFLAGS is probably not needed. Clean up at some point.
 export CPPFLAGS="-fPIC"
 export CFLAGS="-O2 -fPIC"
 export CXXFLAGS="-O2 -fPIC"
-case %cmsos in 
-  slc*|cc*)
+%ifnos darwin
     make cmssw
     make cmsswinstall
-  ;;
-  osx*)
+%else
     # We still need the old makefile to generate a few headers.
     make -C TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils include/Fed9UUtils.hh
     make -C TrackerOnline/Fed9U/Fed9USoftware Fed9UUtils/include/Fed9UVersion.inc
@@ -132,14 +124,11 @@ case %cmsos in
 	    -DXERCESC=2 -DCMAKE_INSTALL_PREFIX=%i
     make %makeprocesses
     make install
-  ;;
-esac
+%endif
 
 %install
 # Again, installing is actually done by make install on macosx.
-case %cmsos in
-  slc*|cc*)
+%ifos linux
     # Option --prefix in configure is not working yet, using tar:
     tar -c -C  %{_builddir}/%{releasename}/opt/%{projectname} include lib | tar -x -C %{i}
-  ;;
-esac
+%endif

@@ -1,39 +1,88 @@
-### RPM external fakesystem 2.0
+### RPM cms fakesystem 1.0
+## REVISION 1004
 ## NOCOMPILER
+## NO_VERSION_SUFFIX
 
-# Various system scripts
-Provides: /bin/zsh
-Provides: /bin/ksh
-Provides: /bin/sed
-Provides: /bin/bash
-Provides: /usr/bin/awk
-Provides: /usr/bin/python
-Provides: /usr/bin/python3
-# Various perl modules/dependencies that are needed only for specialized
-# scripts
-Provides: perl(Date::Format)
-Provides: perl(Term::ReadKey)
-Provides: perl(full)
-Provides: perl(LWP::UserAgent)
-Provides: perl(Template)
+# Various perl modules/dependencies that are needed only for specialized scripts
+# One should install these on host system to run perl part of these tools
+####################################
+# Needed by autotools
+####################################
+#  Carp, Cwd, Data::Dumper, Errno, Exporter
+#  File::Path, File::Spec, File::Temp
+#  Getopt::Long, Text::ParseWords, constant
+####################################
+# Needed by git
+####################################
+# Carp, Cwd, DBI, Data::Dumper, Digest::MD5, Exporter
+# File::Path, File::Spec, File::Spec::Functions, File::Temp
+# Getopt::Long, Text::ParseWords, constant
+####################################
+# Needed by xrootd
+####################################
+# Cwd, Exporter, Socket
+
 Provides: perl(CMSDBA)
-Provides: perl(Tk) >= 804
-Provides: perl(Tk::ROText)
-Provides: perl(Tk::DialogBox)
+Provides: perl(Carp)
+Provides: perl(Cwd)
 Provides: perl(DBI)
-# These appear to be needed by Iguana/Utilities once we moved to SLC5
-# Add them here, but why they are needed should be understood. 
-Provides: ld-linux.so.2(GLIBC_PRIVATE)
-Provides: ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
-# The following are for oracle 11.2.0.1.0, which apparently needs libaio.
-# Since oracle in principle is only used at CERN, don't require this 
-# everywhere, use instead fake provides
-Provides: libaio.so.1
-Provides: libaio.so.1(LIBAIO_0.1)
-Provides: libaio.so.1(LIBAIO_0.4)
-Provides: libaio.so.1()(64bit)
-Provides: libaio.so.1(LIBAIO_0.1)(64bit)
-Provides: libaio.so.1(LIBAIO_0.4)(64bit)
+Provides: perl(Data::Dumper)
+Provides: perl(Date::Format)
+Provides: perl(Digest::MD5)
+Provides: perl(Errno)
+Provides: perl(Exporter)
+Provides: perl(File::Path)
+Provides: perl(File::Spec)
+Provides: perl(File::Spec::Functions)
+Provides: perl(File::Temp)
+Provides: perl(Getopt::Long)
+Provides: perl(LWP::UserAgent)
+Provides: perl(Socket)
+Provides: perl(Template)
+Provides: perl(Term::ReadKey)
+Provides: perl(Text::ParseWords)
+Provides: perl(Tk) >= 804
+Provides: perl(Tk::DialogBox)
+Provides: perl(Tk::ROText)
+Provides: perl(constant)
+Provides: perl(full)
+
+#################################
+# Needed by git on SLC7
+#################################
+Provides: perl(CGI)
+Provides: perl(CGI::Carp)
+Provides: perl(CGI::Util)
+Provides: perl(Encode)
+Provides: perl(SVN::Core)
+Provides: perl(SVN::Delta)
+Provides: perl(SVN::Ra)
+Provides: perl(Scalar::Util)
+Provides: perl(Storable)
+Provides: perl(Time::HiRes)
+Provides: perl(Time::Local)
+Provides: perl(YAML::Any)
+
+#################################
+# Needed by madgraph5amcatnlo
+#################################
+Provides: perl(Compress::Zlib)
+Provides: perl(List::Util)
+
+#################################
+# Needed by cmssw
+#################################
+Provides: perl(Switch)
+
+#################################
+# Needed by git on CC8
+#################################
+Provides: perl(Memoize)
+Provides: perl(Net::Domain)
+Provides: perl(Net::SMTP)
+Provides: perl(Term::ANSIColor)
+
+
 
 %prep
 %build
