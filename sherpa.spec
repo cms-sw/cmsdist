@@ -19,17 +19,13 @@ Requires: openloops
 autoreconf -i --force
 
 # Force architecture based on %%cmsplatf
-case %cmsplatf in
-  *_amd64_gcc*) ARCH_CMSPLATF="-m64" ;;
-esac
+%ifarch x86_64
+  ARCH_CMSPLATF="-m64"
+%endif
 
-case %cmsplatf in
-  osx*)
-    perl -p -i -e 's|-rdynamic||g' \
-      configure \
-      AddOns/Analysis/Scripts/Makefile.in
-  ;;
-esac
+%ifos darwin
+perl -p -i -e 's|-rdynamic||g' configure AddOns/Analysis/Scripts/Makefile.in
+%endif
 
 %patch0 -p1
 

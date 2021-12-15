@@ -23,23 +23,18 @@ BuildRequires: bootstrap-bundle patchelf-bootstrap
 # Reconfigure to drop pkg-config for lua
 autoreconf -fiv
 
-case %cmsplatf in
-  slc*_amd64|cc*_amd64)
-    CFLAGS_PLATF="-fPIC"
-    LIBS_PLATF="-ldl"
-  ;;
-  slc*_aarch64_*|fc*)
-    CFLAGS_PLATF="-fPIC"
-    LIBS_PLATF="-ldl -lrt -pthread"
-  ;;
-  osx*)
-    export CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
-    export LIBS_PLATF="-liconv"
-  ;;
-  *)
-    export CFLAGS_PLATF="-fPIC"
-  ;;
-esac 
+CFLAGS_PLATF="-fPIC"
+%ifos darwin
+CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
+export LIBS_PLATF="-liconv"
+%else
+%ifarch aarch64
+LIBS_PLATF="-ldl -lrt -pthread"
+%endif
+%ifarch x86_64
+LIBS_PLATF="-ldl"
+%endif
+%endif
 
 USER_CFLAGS="-ggdb -O0"
 USER_CXXFLAGS="-ggdb -O0"
