@@ -1,8 +1,10 @@
-### RPM external mariadb 10.1.21
+### RPM external mariadb 10.6.5
 ## INITENV +PATH %{dynamic_path_var} %i/lib/mysql
 ## INITENV +PATH PATH %i/scripts
 ## INITENV SET MYSQL_HOME $MYSQL_ROOT
-Source: https://ftp.igh.cnrs.fr/pub/archive.mariadb.org/mariadb-%{realversion}/source/mariadb-%{realversion}.tar.gz
+#Source: https://ftp.igh.cnrs.fr/pub/archive.mariadb.org/mariadb-%{realversion}/source/mariadb-%{realversion}.tar.gz
+Source: git+https://github.com/MariaDB/server.git?obj=10.6/%{n}-%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+
 Requires: zlib ncurses libxml2
 BuildRequires: cmake
 Provides: perl(GD)
@@ -10,7 +12,7 @@ Provides: perl(DBI)
 Provides: perl(List::Util)
 
 %prep
-%setup -n %n-%realversion
+%setup -n %{n}-%realversion
 
 %build
 cmake .  -DCURSES_LIBRARY=${NCURSES_ROOT}/lib/libncurses.a \
@@ -23,7 +25,7 @@ cmake .  -DCURSES_LIBRARY=${NCURSES_ROOT}/lib/libncurses.a \
          -DHAVE_SETUPTERM:INTERNAL=0 \
          -DCMAKE_INSTALL_PREFIX=%i \
          -DWITH_EXTRA_CHARSETS=complex \
-         -DENABLED_LOCAL_INFILE=1
+         -DENABLED_LOCAL_INFILE=ON
 
 make %{makeprocesses}
 %install
