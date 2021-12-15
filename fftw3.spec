@@ -9,14 +9,9 @@ CONFIG_ARGS="--with-pic --enable-shared --enable-threads --disable-fortran
              --disable-dependency-tracking --disable-mpi --disable-openmp
              --prefix=%{i} --build=%{_build} --host=%{_host}"
 
-case "%{cmsplatf}" in
-  *amd64*)
+%ifarch x86_64
     CONFIG_ARGS="${CONFIG_ARGS} --enable-sse2"
-  ;;
-#  *armv7hl*)
-#    CONFIG_ARGS="${CONFIG_ARGS} --enable-neon --enable-float"
-#  ;;
-esac
+%endif
 
 ./configure ${CONFIG_ARGS}
 

@@ -30,10 +30,6 @@ do
   chmod +x $CONFIG_SUB_FILE
 done
 
-case %{cmsplatf} in
-  slc6*) sed -i -e 's#^ *OPENMP_CXXFLAGS=.*#OPENMP_CXXFLAGS=#' configure ;;
-esac
-
 autoreconf -fiv
 
 #disable building Rivet with OpenMP as it crash executables due to static TLS blocks
