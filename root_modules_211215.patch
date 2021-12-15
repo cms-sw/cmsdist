@@ -1,0 +1,13 @@
+a/interpreter/llvm/src/include/llvm/ADT/FoldingSet.h b/interpreter/llvm/src/include/llvm/ADT/FoldingSet.h
+index d5837e51bc..3269a32ed4 100644
+--- a/interpreter/llvm/src/include/llvm/ADT/FoldingSet.h
++++ b/interpreter/llvm/src/include/llvm/ADT/FoldingSet.h
+@@ -554,7 +554,7 @@ public:
+ /// to provide the interface of FoldingSet but with deterministic iteration
+ /// order based on the insertion order. T must be a subclass of FoldingSetNode
+ /// and implement a Profile function.
+-template <class T, class VectorT = SmallVector<T*, 8>>
++template <class T, class VectorT = SmallVector<T*, 32>>
+ class FoldingSetVector {
+   FoldingSet<T> Set;
+   VectorT Vector;
