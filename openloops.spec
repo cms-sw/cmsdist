@@ -4,6 +4,7 @@
 BuildRequires: py3-scons openloops-process
 
 %define keep_archives true
+%define runpath_opts -m proclib
 
 %prep
 %setup -n %{n}-%{realversion}

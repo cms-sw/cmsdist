@@ -55,7 +55,7 @@ Requires: libungif
 Requires: libxml2
 Requires: lwtnn
 Requires: meschach
-Requires: pcre
+Requires: pcre2
 Requires: photos
 Requires: photospp
 Requires: pyquen

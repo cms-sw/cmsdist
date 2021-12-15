@@ -23,14 +23,11 @@ do
 done
 
 %build
-case %cmsplatf in
-    slc*|fc*|cc*)
+%ifnos darwin
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
-    ;;
-    osx*)
+%else
         ADDITIONAL_OPTIONS="--with-freetype2=no"
-    ;;
-esac
+%endif
 ./configure \
   --disable-silent-rules \
   --with-expatlibdir=$EXPAT_ROOT/lib \
@@ -76,10 +73,8 @@ make install
 rm -rf %{i}/lib/pkgconfig
 
 # To match configure options above
-case %{cmsplatf} in
-    slc*|fc*|cc*)
+%ifnos darwin
         ln -s dot_static %{i}/bin/dot
-    ;;
-esac
+%endif
 # Drop static libraries.
 rm -rf %{i}/lib/*.{l,}a
