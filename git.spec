@@ -9,27 +9,11 @@ Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
-Requires: curl expat zlib pcre
+Requires: curl expat zlib pcre2 python3
 BuildRequires: autotools
 
-# Fake provides for git add --interactive
-# The following are not avaialble on SLC and Darwin platforms by default
-Provides: perl(SVN::Core)
-Provides: perl(SVN::Delta)
-Provides: perl(SVN::Ra)
-Provides: perl(CGI::Carp)
-Provides: perl(CGI::Util)
-Provides: perl(Scalar::Util)
-Provides: perl(Time::HiRes)
-Provides: perl(YAML::Any)
-Provides: perl(DBI)
-Provides: perl(CGI)
-Provides: perl(Encode)
-Provides: perl(Error)
-Provides: perl(Storable)
-Provides: perl(Time::Local)
-
 %define drop_files %{i}/share/man
+%define runpath_opts -m libexec
 
 %prep
 %setup -b 0 -n %{n}-%{realversion}
@@ -43,8 +27,8 @@ make %{makeprocesses} configure
 ./configure prefix=%{i} \
    --with-curl=${CURL_ROOT} \
    --with-expat=${EXPAT_ROOT} \
-   --with-libpcre=${PCRE_ROOT} \
-   --without-python \
+   --with-libpcre=${PCRE2_ROOT} \
+   --with-python=$(which python3) \
    --with-zlib=${ZLIB_ROOT}
    
 make %{makeprocesses} \
@@ -75,6 +59,7 @@ make %{makeprocesses} \
 # Install ca-bundle.crt (Certification Authority certificates)
 mkdir -p %{i}/share/ssl/certs
 cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
+perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/libexec/git-core/git-p4
 
 %post
 %{relocateConfig}bin/git-cvsserver

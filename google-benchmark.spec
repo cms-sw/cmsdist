@@ -11,11 +11,13 @@ BuildRequires: cmake ninja
 
 Source0: git+https://github.com/google/benchmark.git?obj=%{benchmarkBranch}/%{benchmarkCommit}&export=benchmark-%{realversion}-%{benchmarkCommit}&module=benchmark-%{realversion}-%{benchmarkCommit}&output=/benchmark-%{realversion}-%{benchmarkCommit}.tgz
 Source1: git+https://github.com/google/googletest.git?obj=%{googletestBranch}/%{googletestCommit}&export=googletest-%{realversion}-%{googletestCommit}&module=googletest-%{realversion}-%{googletestCommit}&output=/googletest-%{realversion}-%{googletestCommit}.tgz
+Patch0: google-benchmark-gcc11
 
 %prep
 %setup -T -b0 -n benchmark-%{realversion}-%{benchmarkCommit}
 %setup -T -D -a1 -c -n benchmark-%{realversion}-%{benchmarkCommit}
 mv googletest-%{realversion}-%{googletestCommit} googletest
+%patch0 -p1
 
 %build
 rm -rf %{_builddir}/build
