@@ -206,6 +206,7 @@ Requires: py2-pillow
 Requires: py2-pybrain
 Requires: py2-pymongo
 Requires: py2-pydot
+Requires: py2-correctionlib
 
 %prep
 
