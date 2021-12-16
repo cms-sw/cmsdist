@@ -29,6 +29,7 @@ cmstest==0.6.1
 colorama==0.4.1
 configparser==3.5.0
 contextlib2==0.5.5
+correctionlib==2.1.0
 cryptography==2.6.1
 cycler==0.10.0
 cython==0.29.7
