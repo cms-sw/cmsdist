@@ -1,11 +1,8 @@
-### RPM cms cmssw-tool-conf 51.0
+### RPM cms cmssw-tool-conf 52.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
-
-%define vectorized_packages OpenBLAS fastjet mkfit rivet tensorflow vecgeom zlib
-%{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
 
 Requires: crab
 Requires: cmssw-wm-tools
@@ -58,13 +55,12 @@ Requires: libungif
 Requires: libxml2
 Requires: lwtnn
 Requires: meschach
-Requires: pcre
+Requires: pcre2
 Requires: photos
 Requires: photospp
 Requires: pyquen
 Requires: pythia6
 Requires: pythia8
-Requires: python
 Requires: python3
 Requires: root
 Requires: sherpa
@@ -87,7 +83,6 @@ Requires: dcap
 Requires: frontier_client
 Requires: xrootd
 Requires: dd4hep
-Requires: graphviz
 Requires: valgrind
 Requires: cmsswdata
 Requires: zstd
@@ -116,8 +111,6 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: cgal
-Requires: doxygen
 Requires: yaml-cpp
 Requires: gmp-static
 Requires: mpfr-static
@@ -152,6 +145,7 @@ Requires: dablooms
 Requires: openldap
 Requires: gperftools
 Requires: cuda
+Requires: cuda-compatible-runtime
 Requires: alpaka
 Requires: cupla
 
@@ -166,7 +160,6 @@ Requires: openloops
 %endif
 
 %ifarch x86_64
-Requires: dmtcp
 Requires: tkonlinesw
 Requires: oracle
 Requires: intel-vtune
@@ -182,5 +175,6 @@ Requires: xtensor
 Requires: xtl
 Requires: xgboost
 
+## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf

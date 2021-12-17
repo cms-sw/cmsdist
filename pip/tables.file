@@ -1,5 +1,4 @@
 Requires: py3-numexpr py3-six hdf5 bz2lib py3-mock py3-numpy
-%define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done
 Requires: py3-numexpr py3-six py3-numpy hdf5 bz2lib py3-mock
 Requires: openmpi
 %define PipPreBuild export HDF5_DIR=${HDF5_ROOT} CC="mpicc"; export DISABLE_AVX2=true

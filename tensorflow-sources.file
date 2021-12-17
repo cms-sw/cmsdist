@@ -4,7 +4,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         9e04c4f46d90cf7b73b9fb2203840d9e0b90faa8
+%define tag         719e00b6f9553de2662b6df2c353d6934e941103
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
@@ -35,8 +35,7 @@ BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --di
 BAZEL_OPTS="$BAZEL_OPTS --copt=%{vectorize_flag}"
 %else
 %ifarch ppc64le
-BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
-BAZEL_OPTS="$BAZEL_OPTS --copt=--param=l1-cache-size=64 --copt=--param=l1-cache-line-size=128 --copt=--param=l2-cache-size=512"
+BAZEL_OPTS="$BAZEL_OPTS $(echo %{ppc64le_build_flags} | tr ' ' '\n' | grep -v '^$' | sed -e 's|^|--copt=|' | tr '\n' ' ')"
 %else
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
@@ -73,7 +72,6 @@ echo "eigen_archive:${EIGEN_ROOT}"          >> ${TF_CMS_EXTERNALS}
 echo "curl:${CURL_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "com_google_protobuf:${PROTOBUF_ROOT}" >> ${TF_CMS_EXTERNALS}
 echo "com_github_grpc_grpc:${GRPC_ROOT}"    >> ${TF_CMS_EXTERNALS}
-echo "pcre:${PCRE_ROOT}"                    >> ${TF_CMS_EXTERNALS}
 echo "gif:${GIFLIB_ROOT}"                   >> ${TF_CMS_EXTERNALS}
 echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
@@ -95,7 +93,10 @@ echo "opt_einsum_archive:"                  >> ${TF_CMS_EXTERNALS}
 export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
 
 # clear the build dir and configure
-rm -rf ../build
+if [ -d ../build ] ; then
+  chmod -R u+w  ../build
+  rm -rf ../build
+fi
 ./configure
 
 #Generate Python wrappers so that we can use PYTHON*PATH env
@@ -104,16 +105,8 @@ echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python3
 echo "export PYTHON3PATH=\"${PYTHON3PATH}\""  >> %{_builddir}/cms-pytool/python3
 echo "$(which python3) \"\$@\""               >> %{_builddir}/cms-pytool/python3
 
-echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python2
-echo "export PYTHON27PATH=\"${PYTHON27PATH}\"" >> %{_builddir}/cms-pytool/python2
-echo "$(which python2) \"\$@\""                 >> %{_builddir}/cms-pytool/python2
-
-chmod +x %{_builddir}/cms-pytool/python2 %{_builddir}/cms-pytool/python3
-if [ "%{python_cmd}" = "python3" ] ; then
-  ln -s python3 %{_builddir}/cms-pytool/python
-else
-  ln -s python2 %{_builddir}/cms-pytool/python
-fi
+chmod +x %{_builddir}/cms-pytool/python3
+ln -s python3 %{_builddir}/cms-pytool/python
 export PATH=%{_builddir}/cms-pytool:$PATH
 
 # build tensorflow python targets

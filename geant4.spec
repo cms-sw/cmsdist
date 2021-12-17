@@ -1,4 +1,4 @@
-### RPM external geant4 10.7.1
+### RPM external geant4 10.7.2
 ## INCLUDE compilation_flags
 %define tag %{realversion}
 %define branch geant4-10.7-release
@@ -45,7 +45,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
-  -DGEANT4_BUILD_CXXSTD:STRING="14" \
+  -DGEANT4_BUILD_CXXSTD:STRING="17" \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \

@@ -4,6 +4,7 @@ Requires: tensorflow-sources
 %define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
 ## INCLUDE tensorflow-requires
 Requires: py3-funcsigs py3-pbr py3-packaging py3-appdirs py3-pyparsing py3-mock py3-Werkzeug
-Requires: py3-grpcio py3-astunparse py3-keras-nightly
+Requires: py3-grpcio py3-astunparse py3-keras
+Requires: llvm
 %define source0 none
 %define source_file none

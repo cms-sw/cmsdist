@@ -1,4 +1,0 @@
-Requires: py3-jupyter_core py3-python-dateutil py3-pyzmq
-Requires: py3-tornado
-%define RelocatePython %{i}/bin/*
-%define PipPostBuildPy for x in $(ls %{i}/bin/*) ; do mv $x ${x}3; done

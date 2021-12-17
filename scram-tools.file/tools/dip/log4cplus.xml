@@ -1,4 +1,0 @@
-<tool name="log4cplus" version="@TOOL_VERSION@">
-  <lib name="log4cplus"/>
-  <use name="dip_interface"/>
-</tool>

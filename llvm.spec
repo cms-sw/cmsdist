@@ -1,4 +1,4 @@
-### RPM external llvm 12.0.0
+### RPM external llvm 12.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -7,8 +7,8 @@ Requires: gcc zlib python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 3c4c9e19d48816ffecc35cae4a410683746f7a48
-%define llvmBranch cms/release/12.x/d28af7c
+%define llvmCommit 9f4ab770e61b68d2037cc7cda1f868a8ba52da85
+%define llvmBranch cms/release/12.x/fed4134
 %define iwyuCommit 5db414ac448004fe019871c977905cb7c2cff23f
 %define iwyuBranch clang_11
 
@@ -48,6 +48,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
+  -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%llvm_cuda_arch" \
@@ -63,8 +64,11 @@ cd ../build
 ninja -v %{makeprocesses} install
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
+PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
 mkdir -p $BINDINGS_PATH
 cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
+mkdir $BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info
+echo -e "Metadata-Version: 1.1\nName: clang\nVersion: %{realversion}" > ${PKG_INFO_FILE}
 
 rm -f %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build/set-xcode*
 find %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build -exec install {} %{i}/bin \;

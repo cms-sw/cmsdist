@@ -1,7 +1,7 @@
 ### RPM cms coral-tool-conf 10.0
 
 Requires: pcre
-Requires: python
+Requires: python3
 Requires: expat
 Requires: boost
 Requires: frontier_client

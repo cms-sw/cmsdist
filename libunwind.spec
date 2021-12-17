@@ -5,11 +5,8 @@ Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realv
 BuildRequires: autotools gmake
 Requires: zlib
 
-Patch0: libunwind-fix-comma
-
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 autoreconf -fiv
@@ -19,6 +16,5 @@ make %{makeprocesses}
 %install
 
 make %{makeprocesses} install
-
 [ -d %{i}/lib64 ] && mv %{i}/lib64 %{i}/lib
 %define drop_files %{i}/share/man %{i}/lib/pkgconfig %{i}/lib/*.a

@@ -1,19 +1,16 @@
 ################################################################
 ####For any change, always update version number to latest date#
 ################################################################
-### RPM cms cmssw-wm-tools 210803
+### RPM cms cmssw-wm-tools 211210
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define commit 3a8d30c13353490a1745c5e1f71afb3183b2c917
+%define commit aa1626fb2d2fdbde6b3259e4b44828220883a809
 %define branch master
 Source0: git://github.com/cms-sw/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&output=/%{n}-%{commit}.tgz
 
 %prep
-%if "%{v}" != "%{realversion}"
-  echo "ERROR: %{v} does not match %{realversion}. Please update version number for %{n}."
-  exit 1
-%endif
+%{?check_version_suffix:%check_version_suffix}
 %setup -n %{n}
 
 %build

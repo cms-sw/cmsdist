@@ -1,3 +1,2 @@
 %define PipDownloadSourceType none
 %define DownloadOptionsExtra pkg_filename=virtualenv_clone
-%define RelocatePython %{i}/bin/*

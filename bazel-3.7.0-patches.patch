@@ -11,3 +11,15 @@ index 0ea30a9..8df189f 100755
              named = true,
              positional = false,
              doc = "Whether the action should use the built in shell environment or not."),
+diff --git a/tools/cpp/unix_cc_configure.bzl b/tools/cpp/unix_cc_configure.bzl
+index d48485b..40ca051 100755
+--- a/tools/cpp/unix_cc_configure.bzl
++++ b/tools/cpp/unix_cc_configure.bzl
+@@ -193,6 +193,7 @@ def _find_gold_linker_path(repository_ctx, cc):
+     Returns:
+       String to put as value to -fuse-ld= flag, or None if gold couldn't be found.
+     """
++    return None
+     result = repository_ctx.execute([
+         cc,
+         str(repository_ctx.path("tools/cpp/empty.cc")),

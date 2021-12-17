@@ -1,7 +1,8 @@
-### RPM external cuda 11.2.2
+### RPM external cuda 11.4.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define driversversion 460.32.03
+%define runpath_opts -m compute-sanitizer -m drivers -m nvvm
+%define driversversion 470.57.02
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -32,13 +33,16 @@ mkdir -p %{i}/include
 mkdir -p %{i}/lib64
 mkdir -p %{i}/lib64/stubs
 
-# package only the runtime static library
+# package only the runtime static libraries
 mv %_builddir/build/lib64/libcudadevrt.a %{i}/lib64/
+mv %_builddir/build/lib64/libcudart_static.a %{i}/lib64/
 rm -f %_builddir/build/lib64/lib*.a
 
-# package only the CUDA driver and NVML library stub
-mv %_builddir/build/lib64/stubs/libcuda.so %{i}/lib64/stubs/
-mv %_builddir/build/lib64/stubs/libnvidia-ml.so %{i}/lib64/stubs/
+# package only the CUDA driver and NVML library stubs
+mv %_builddir/build/lib64/stubs/libcuda.so      %{i}/lib64/stubs/libcuda.so
+ln -sf libcuda.so                               %{i}/lib64/stubs/libcuda.so.1
+mv %_builddir/build/lib64/stubs/libnvidia-ml.so %{i}/lib64/stubs/libnvidia-ml.so
+ln -sf libnvidia-ml.so                          %{i}/lib64/stubs/libnvidia-ml.so.1
 rm -rf %_builddir/build/lib64/stubs/
 
 # do not package the OpenCL libraries

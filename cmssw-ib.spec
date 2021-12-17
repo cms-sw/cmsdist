@@ -4,9 +4,10 @@
 BuildRequires: cmssw SCRAMV1
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: https://raw.githubusercontent.com/cms-sw/cms-bot/282c66bd8f0e6e76a17188342e269cbbe41d9a68/buildLogAnalyzer.py
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/0a77459fa43029366cb43ae03c1f67b4176df095/buildLogAnalyzer.py
 
 %prep
+%{?check_version_suffix:%check_version_suffix}
 cd ..
 %build
 cd $CMSSW_ROOT

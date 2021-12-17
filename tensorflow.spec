@@ -1,9 +1,10 @@
-### RPM external tensorflow 2.5.0
+### RPM external tensorflow 2.6.0
 %if "%{?vectorized_package:set}" != "set"
 %define source_package tensorflow-sources
 %else
 %define source_package tensorflow-sources_%{vectorized_package}
 %endif
+## INCLUDE tensorflow-requires
 BuildRequires: %{source_package}
 %define tf_root %(echo %{source_package}_ROOT | tr '[a-z-]' '[A-Z_]')
 %define tf_version %(echo %{source_package}_VERSION | tr '[a-z-]' '[A-Z_]')

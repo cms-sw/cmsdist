@@ -1,23 +1,22 @@
 ### RPM external python_tools 3.0
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
-Requires: py2-future
 
+Requires: py3-anyio
+Requires: py3-sniffio
 Requires: py3-scipy
-Requires: py3-Keras
+Requires: py3-keras
 Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
-Requires: py3-googlePackages
 Requires: py3-cmsml
 Requires: py3-law
+Requires: py3-protobuf
 
-Requires: py3-cloudpickle
 Requires: py3-tables
 Requires: py3-numexpr
 Requires: py3-histogrammar
@@ -29,15 +28,11 @@ Requires: py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
 Requires: py3-hep_ml
-Requires: py3-rep
 Requires: py3-uncertainties
-Requires: py3-hyperas
-Requires: py3-hyperopt
 Requires: py3-seaborn
 Requires: py3-h5py
-Requires: py3-h5py-cache
 Requires: py3-uproot
-Requires: py3-uproot4
+Requires: py3-vector
 Requires: py3-opt-einsum
 Requires: py3-joblib
 
@@ -59,10 +54,9 @@ Requires: py3-ipython
 Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
-Requires: py3-jupyter
-Requires: py3-jupyter_client
-Requires: py3-jupyter_console
-Requires: py3-jupyter_core
+Requires: py3-jupyter-client
+Requires: py3-jupyter-console
+Requires: py3-jupyter-core
 Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
@@ -76,7 +70,6 @@ Requires: py3-prompt_toolkit
 Requires: py3-ptyprocess
 Requires: py3-pyparsing
 Requires: py3-pyzmq
-Requires: py3-qtconsole
 Requires: py3-scandir
 Requires: py3-setuptools
 Requires: py3-simplegeneric
@@ -103,7 +96,6 @@ Requires: py3-mpmath
 Requires: py3-sympy
 Requires: py3-tqdm
 Requires: py3-funcsigs
-Requires: py3-nose
 Requires: py3-pkgconfig
 Requires: py3-Click
 Requires: py3-jsonpickle
@@ -144,7 +136,6 @@ Requires: py3-typing
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
-Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py3-colorama
@@ -156,18 +147,16 @@ Requires: py3-ipaddress
 Requires: py3-mccabe
 Requires: py3-more-itertools
 Requires: py3-pluggy
-Requires: py3-prometheus_client
 Requires: py3-pyasn1-modules
 Requires: py3-pyasn1
 Requires: py3-pyflakes
 Requires: py3-smmap2
 Requires: py3-stevedore
-Requires: py3-typing_extensions
+Requires: py3-typing-extensions
 Requires: py3-virtualenv-clone
 Requires: py3-asn1crypto
 Requires: py3-backcall
 Requires: py3-cffi
-Requires: py3-google-common
 Requires: py3-jedi
 Requires: py3-parso
 Requires: py3-pycparser
@@ -178,14 +167,8 @@ Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
-Requires: py3-bokeh py3-bokeh
 Requires: py3-climate
-Requires: py3-mpld3
-Requires: py3-neurolab
-Requires: py3-nose-parameterized
 Requires: py3-pillow
-Requires: py3-pybrain
-Requires: py3-pymongo
 Requires: py3-pydot
 
 Requires: py3-astroid
