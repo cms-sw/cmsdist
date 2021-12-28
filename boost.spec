@@ -1,6 +1,6 @@
-### RPM external boost 1.75.0
+### RPM external boost 1.78.0
 
-%define tag 3defebd61ecb0970c0046c85384bb34ec9572ac3
+%define tag 7f597ea02d8a714076157b4bf65fa8e5752b8468
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
