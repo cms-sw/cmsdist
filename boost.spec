@@ -9,7 +9,7 @@ Requires: python3 bz2lib zlib openmpi xz zstd
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
+#Needs to be updated for boost1.78 %patch0 -p1
 
 %build
 case %cmsos in 
