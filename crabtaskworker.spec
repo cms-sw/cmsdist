@@ -13,8 +13,9 @@
 %define version_prefix %(echo %{realversion} | cut -d. -f1)
 %if "%{version_prefix}" == "py3"
 %define python_runtime %(echo python3)
-%define wmcrepo mapellidario
-%define wmcver 1.5.5
+%define wmcrepo dmwm
+%define wmcver 1.5.7.pre4
+%define crabrepo dmwm
 Requires: p5-time-hires
 Requires: python3 py3-dbs3-client py3-pycurl py3-httplib2 py3-cherrypy py3-htcondor 
 Requires: py3-ldap 
@@ -25,6 +26,7 @@ Requires: jemalloc
 %define python_runtime %(echo python)
 %define wmcrepo dmwm
 %define wmcver 1.4.6.pre2
+%define crabrepo dmwm
 Requires: p5-time-hires
 Requires: python dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
 Requires: py2-rucio-clients py2-ipython py2-future
@@ -34,7 +36,7 @@ BuildRequires: py2-sphinx
 
 
 Source0: git://github.com/%{wmcrepo}/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
-Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
+Source1: git://github.com/%{crabrepo}/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
 #Patch0: crabtaskworker_cherrypy
 
 #Patch0: crabserver3-setup
