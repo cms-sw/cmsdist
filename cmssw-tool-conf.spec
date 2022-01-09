@@ -55,13 +55,12 @@ Requires: libungif
 Requires: libxml2
 Requires: lwtnn
 Requires: meschach
-Requires: pcre
+Requires: pcre2
 Requires: photos
 Requires: photospp
 Requires: pyquen
 Requires: pythia6
 Requires: pythia8
-Requires: python
 Requires: python3
 Requires: root
 Requires: sherpa

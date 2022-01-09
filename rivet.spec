@@ -1,4 +1,4 @@
-### RPM external rivet 3.1.4
+### RPM external rivet 3.1.5
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -29,10 +29,6 @@ do
   cp %{_tmppath}/config.sub $CONFIG_SUB_FILE
   chmod +x $CONFIG_SUB_FILE
 done
-
-case %{cmsplatf} in
-  slc6*) sed -i -e 's#^ *OPENMP_CXXFLAGS=.*#OPENMP_CXXFLAGS=#' configure ;;
-esac
 
 autoreconf -fiv
 

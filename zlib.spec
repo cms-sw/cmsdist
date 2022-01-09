@@ -15,19 +15,11 @@ Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&e
 
 %build
 
-case %{cmsplatf} in
-   *_amd64_*|*_mic_*)
-     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -msse3" \
-     ./configure --prefix=%{i}
-     ;;
-   *_armv7hl_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*)
-     CFLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1" \
-     ./configure --prefix=%{i}
-     ;;
-   *)
-     ./configure --prefix=%{i}
-     ;;
-esac
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+%ifarch x86_64
+CONF_FLAGS="${CONF_FLAGS} -msse3"
+%endif
+CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
 make %{makeprocesses}
 

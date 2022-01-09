@@ -1,12 +1,12 @@
 ### RPM external python_tools 3.0
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap
-Requires: py2-future
 
+Requires: py3-anyio
+Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
 Requires: py3-Theano
@@ -31,7 +31,6 @@ Requires: py3-hep_ml
 Requires: py3-uncertainties
 Requires: py3-seaborn
 Requires: py3-h5py
-Requires: py3-h5py-cache
 Requires: py3-uproot
 Requires: py3-vector
 Requires: py3-opt-einsum
@@ -55,7 +54,6 @@ Requires: py3-ipython
 Requires: py3-ipython_genutils
 Requires: py3-ipywidgets
 Requires: py3-jsonschema
-Requires: py3-jupyter
 Requires: py3-jupyter-client
 Requires: py3-jupyter-console
 Requires: py3-jupyter-core
@@ -72,7 +70,6 @@ Requires: py3-prompt_toolkit
 Requires: py3-ptyprocess
 Requires: py3-pyparsing
 Requires: py3-pyzmq
-Requires: py3-qtconsole
 Requires: py3-scandir
 Requires: py3-setuptools
 Requires: py3-simplegeneric
@@ -139,7 +136,6 @@ Requires: py3-typing
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
-Requires: py3-nbdime
 Requires: py3-onnx
 Requires: py3-onnxmltools
 Requires: py3-colorama
