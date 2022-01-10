@@ -12,6 +12,10 @@ Source: https://static.rust-lang.org/dist/rust-%{realversion}-aarch64-unknown-li
 %endif
 
 Provides: /bin/rc
+Provides: libLLVM-13-rust-%{realversion}-stable.so()(64bit)
+Provides: libLLVM-13-rust-%{realversion}-stable.so(LLVM_13)(64bit)
+# NB: Hash probably needs to be updated each time Rust updates
+Provides: librustc_driver-15fe7307aff1f259.so()(64bit)
 
 %prep
 %ifarch x86_64
