@@ -23,7 +23,6 @@ Requires: py3-histogrammar
 Requires: py3-pandas
 Requires: py3-Bottleneck
 Requires: py3-downhill
-Requires: py3-theanets
 Requires: py3-xgboost
 Requires: py3-llvmlite
 Requires: py3-numba
@@ -167,7 +166,6 @@ Requires: py3-grpcio-tools
 Requires: py3-Markdown
 Requires: py3-subprocess32
 Requires: py3-kiwisolver
-Requires: py3-climate
 Requires: py3-pillow
 Requires: py3-pydot
 
