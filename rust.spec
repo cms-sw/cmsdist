@@ -1,12 +1,10 @@
 ### RPM external rust 1.57.0
 ## NOCOMPILER
 
-Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 %ifarch x86_64
 Source: https://static.rust-lang.org/dist/rust-%{realversion}-x86_64-unknown-linux-gnu.tar.gz
 %endif
 %ifarch ppc64le
-Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 Source: https://static.rust-lang.org/dist/rust-%{realversion}-powerpc64-unknown-linux-gnu.tar.gz
 %endif
 %ifarch aarch64
@@ -16,7 +14,15 @@ Source: https://static.rust-lang.org/dist/rust-%{realversion}-aarch64-unknown-li
 Provides: /bin/rc
 
 %prep
-%setup -n rust
+%ifarch x86_64
+%setup -n rust-%{realversion}-x86_64-unknown-linux-gnu
+%endif
+%ifarch ppc64le
+%setup -n rust-%{realversion}-powerpc64-unknown-linux-gnu
+%endif
+%ifarch aarch64
+%setup -n rust-%{realversion}-aarch64-unknown-linux-gnu
+%endif
 
 %build
 
