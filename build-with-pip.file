@@ -104,7 +104,7 @@ if [ $(cat files.list | wc -l) -eq 1 ] ; then
    pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
    PKG_NAME=$(pip3 show %{pip_name} --disable-pip-version-check | grep '^Name:' | sed 's|^Name: *||;s| ||g')
    [ "${PKG_NAME}" = "" ] && exit 1
-   DEPS=$(pip3 check --disable-pip-version-check | grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py3-|' %{PipDepsPost} | tr '\n' ' ')
+   DEPS=$(pip3 check --disable-pip-version-check | grep -i "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py3-|' %{PipDepsPost} | tr '\n' ' ')
    if [ "$DEPS" != "" ] ; then
       echo "ERROR: Missing dependencies for %n (python3) found: $DEPS"
       exit 1
