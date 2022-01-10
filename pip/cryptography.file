@@ -1,1 +1,1 @@
-Requires: setuptools-rust
+Requires: py3-setuptools-rust py3-cffi
