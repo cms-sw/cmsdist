@@ -27,6 +27,6 @@ Provides: /bin/rc
 %build
 
 %install
-./install.sh --prefix=%i --disable-ldconfig --disable-verify --without-rust-docs --without-llvm-tools-preview --without-cargo
+./install.sh --prefix=%i --disable-ldconfig --disable-verify
 # Drop documentation
-rm -rf %i/{man,doc}
+rm -rf %i/share/{man,doc}
