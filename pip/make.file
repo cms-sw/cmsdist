@@ -3,4 +3,4 @@
 %define github_user fholmer
 Source: git+https://github.com/%{github_user}/make.git?obj=%{branch}/%{tag}&export=make-%{realversion}&output=/make-%{realversion}.tgz
  
-Requires: py3-jinja2 py3-jinja2-time
+Requires: py3-Jinja2 py3-jinja2-time
