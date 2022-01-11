@@ -1,1 +1,1 @@
-Requires: py3-deprecated py3-pyjwt py3-pynacl py3-requests
+Requires: py3-deprecated py3-PyJWT py3-PyNaCl py3-requests
