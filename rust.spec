@@ -1,4 +1,9 @@
 ### RPM external rust 1.57.0
+%ifarch ppc64le
+%define build_arch powerpc64le-unknown-linux-gnu
+%else
+%define build_arch %{_arch}-unknown-linux-gnu
+%endif
 %define github_user rust-lang
 %define branch master
 %define tag %{realversion}
@@ -16,7 +21,7 @@ link-shared = true
 
 [build]
 docs = false
-build = "%{_arch}-unknown-linux-gnu"
+build = "%{build_arch}"
 extended = true
 
 [install]
@@ -28,7 +33,7 @@ channel = "stable"
 rpath = false
 codegen-tests = false
 
-[target.%{_arch}-unknown-linux-gnu]
+[target.%{build_arch}]
 llvm-config = "${LLVM_ROOT}/bin/llvm-config"
 EOF
 
