@@ -139,6 +139,7 @@ Requires: python_tools
 Requires: dasgoclient
 Requires: mxnet-predict
 Requires: dablooms
+BuildRequires: rust
 
 # Only for Linux platform.
 %ifos linux
