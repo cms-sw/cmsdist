@@ -1,1 +1,1 @@
-Requires: py3-arrow
+Requires: py3-arrow py3-Jinja2
