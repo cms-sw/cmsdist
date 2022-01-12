@@ -1,7 +1,7 @@
 ### RPM external frontier_client 2.9.1
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
-%define tag 243a81154174afd6e9e5d0428f40a9eea507d041
+%define tag 7259a2c8efaf79b5d2ca78cb7f3bb39318ff4400
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
