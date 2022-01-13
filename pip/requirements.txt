@@ -45,7 +45,6 @@ cachy==0.3.0
 charset-normalizer==2.0.4
 cleo==0.8.1
 clikit==0.6.2
-cmake==3.18.2
 cmsml==0.1.2
 correctionlib==2.1.0
 crashtest==0.3.1
