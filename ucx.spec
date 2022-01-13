@@ -1,4 +1,4 @@
-### RPM external ucx 1.10.1
+### RPM external ucx 1.12.0
 Source: https://github.com/openucx/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: autotools
 Requires: numactl
