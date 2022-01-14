@@ -149,7 +149,6 @@ Requires: py3-pluggy
 Requires: py3-pyasn1-modules
 Requires: py3-pyasn1
 Requires: py3-pyflakes
-Requires: py3-smmap2
 Requires: py3-stevedore
 Requires: py3-typing-extensions
 Requires: py3-virtualenv-clone
