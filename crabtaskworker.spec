@@ -17,7 +17,7 @@
 %define wmcver 1.5.7.pre4
 %define crabrepo dmwm
 Requires: p5-time-hires
-Requires: python3 py3-dbs3-client py3-pycurl py3-httplib2 py3-cherrypy py3-htcondor 
+Requires: python3 py3-dbs3-client py3-pycurl py3-httplib2 condorpy3 
 Requires: py3-ldap 
 Requires: py3-retry
 Requires: py3-rucio-clients py3-future
