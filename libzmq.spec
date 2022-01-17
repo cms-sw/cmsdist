@@ -3,10 +3,10 @@ Source: https://github.com/zeromq/libzmq/releases/download/v%{realversion}/zerom
 BuildRequires: autotools
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n zeromq-%{realversion}
 
 ./configure --prefix=%{i} \
-            --disable-doc \
+            --without-docs \
             --disable-dependency-tracking
 
 %build
