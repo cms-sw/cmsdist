@@ -1,11 +1,11 @@
-### RPM external gcc 11.2.1
+### RPM external gcc 12.0.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag a0a0499b8bb920fdd98e791804812f001f0b4fe8
-%define gccBranch releases/gcc-11
+%define gccTag 254ada46ae0f21bd6f40314214f969f368328e22
+%define gccBranchmaster
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
@@ -24,9 +24,9 @@ Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %ifos linux
-%define bisonVersion 3.7.6
-%define binutilsVersion 2.36.1
-%define elfutilsVersion 0.183
+%define bisonVersion 3.8.2
+%define binutilsVersion 2.37
+%define elfutilsVersion 0.186
 %define m4Version 1.4.19
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz

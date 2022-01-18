@@ -1,4 +1,4 @@
-### RPM external bison 3.7.6
+### RPM external bison 3.8.2
 ## INITENV SET BISON_PKGDATADIR %{i}/share/bison
 
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
