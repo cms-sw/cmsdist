@@ -1,6 +1,2 @@
-%define tag         ce2ef5834837a35dba5f2bea8866b61c8907c83a
-%define branch      master
-%define github_user fholmer
-%define source0 git+https://github.com/%{github_user}/make.git?obj=%{branch}/%{tag}&export=make-%{realversion}&output=/source.tar.gz
- 
+%define source0 https://github.com/fholmer/make/archive/refs/tags/%{realversion}.tar.gz
 Requires: py3-Jinja2 py3-jinja2-time
