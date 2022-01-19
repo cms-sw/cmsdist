@@ -1,0 +1,35 @@
+From f7a82d2c9a399d610c5dbb0121f135864f301cbe Mon Sep 17 00:00:00 2001
+From: "Benjamin A. Beasley" <code@musicinmybrain.net>
+Date: Sun, 16 Jan 2022 10:42:22 -0500
+Subject: [PATCH] Fix implicit std::string_view(nullptr)
+
+This fixes failure to compile on (pre-release) GCC 12 due to use of
+explicitly deleted function:
+
+  std::basic_string_view<_CharT, _Traits>::basic_string_view(std::nullptr_t)
+
+Comparing instead against a default-constructed std::string_view() seems
+to be an adequate substitute.
+---
+ test/core/security/evaluate_args_test.cc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/test/core/security/evaluate_args_test.cc b/test/core/security/evaluate_args_test.cc
+index 6b64fe4826ad..152279918ba7 100644
+--- a/test/core/security/evaluate_args_test.cc
++++ b/test/core/security/evaluate_args_test.cc
+@@ -32,10 +32,10 @@ class EvaluateArgsTest : public ::testing::Test {
+ 
+ TEST_F(EvaluateArgsTest, EmptyMetadata) {
+   EvaluateArgs args = util_.MakeEvaluateArgs();
+-  EXPECT_EQ(args.GetPath(), nullptr);
+-  EXPECT_EQ(args.GetMethod(), nullptr);
+-  EXPECT_EQ(args.GetHost(), nullptr);
+-  EXPECT_EQ(args.GetAuthority(), nullptr);
++  EXPECT_EQ(args.GetPath(), std::string_view());
++  EXPECT_EQ(args.GetMethod(), std::string_view());
++  EXPECT_EQ(args.GetHost(), std::string_view());
++  EXPECT_EQ(args.GetAuthority(), std::string_view());
+   EXPECT_EQ(args.GetHeaderValue("some_key", nullptr), absl::nullopt);
+ }
+ 

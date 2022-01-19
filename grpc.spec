@@ -3,6 +3,7 @@
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: grpc-ssl-fix
 Patch1: grpc-gcc11
+Patch2: grpc-pr28589
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre
 %define keep_archives true
@@ -14,6 +15,7 @@ if [ ! -z "$OPENSSL_ROOT" ]; then
 %patch0 -p1
 fi
 %patch1 -p1
+%patch2 -p1
 
 %build
 rm -rf ../build
