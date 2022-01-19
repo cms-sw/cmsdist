@@ -1,4 +1,4 @@
-### RPM external grpc 1.35.0
+### RPM external grpc 1.43.0
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: grpc-ssl-fix
