@@ -4,6 +4,6 @@
   </client>
   <ifos value="linux">
     <flags LDFLAGS="$(PYDATA_BASE)/lib/pydata.o"/>
-  </architecture>
+  </ifos>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>
