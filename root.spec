@@ -1,10 +1,10 @@
-### RPM lcg root 6.25.01
+### RPM lcg root 6.27.01
 ## INITENV +PATH PYTHON27PATH %{i}/lib
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i} 
 
-%define tag 0e6da466e77fdaf445fc1da75f97af240bd18661
-%define branch cms/master/eff25e5
+%define tag 93fd2e90ab46fac2083016469c1af819f74c5908
+%define branch cms/master/f705d41
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
