@@ -52,11 +52,11 @@ platformSeeds+=" libaio"
 %endif
 
 case %cmsplatf in
-cc*|cs* )
-  platformSeeds+=" libxcrypt perl-libs perl-IO"
-  ;;
 slc*)
   platformBuildSeeds+=" perl-Switch"
+  ;;
+*)
+  platformSeeds+=" libxcrypt perl-libs perl-IO"
   ;;
 esac
 

@@ -2,8 +2,8 @@
   <client>
     <environment name="PYDATA_BASE" default="@TOOL_ROOT@"/>
   </client>
-  <architecture name="slc.*|fc.*|cc*|cs*">
+  <ifos value="linux">
     <flags LDFLAGS="$(PYDATA_BASE)/lib/pydata.o"/>
-  </architecture>
+  </ifos>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>
