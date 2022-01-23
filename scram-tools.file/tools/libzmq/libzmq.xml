@@ -1,0 +1,9 @@
+<tool name="libzmq" version="@TOOL_VERSION@">
+  <info url="https://zeromq.org"/>
+  <lib name="zmq"/>
+  <client>
+    <environment name="LIBZMQ_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$LIBZMQ_BASE/lib"/>
+    <environment name="INCLUDE" default="$LIBZMQ_BASE/include"/>
+  </client>
+</tool>
