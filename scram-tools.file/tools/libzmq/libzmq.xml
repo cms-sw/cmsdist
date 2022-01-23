@@ -3,7 +3,7 @@
   <lib name="zmq"/>
   <client>
     <environment name="LIBZMQ_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LIBXSLT_BASE/lib"/>
-    <environment name="INCLUDE" default="$LIBXSLT_BASE/include"/>
+    <environment name="LIBDIR" default="$LIBZMQ_BASE/lib"/>
+    <environment name="INCLUDE" default="$LIBZMQ_BASE/include"/>
   </client>
-</tool> 
+</tool>
