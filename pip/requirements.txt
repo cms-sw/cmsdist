@@ -113,7 +113,7 @@ iniconfig==1.1.1
 ipaddress==1.0.23
 ipykernel==6.3.1
 ipython_genutils==0.2.0
-ipython==7.27.0
+ipython==7.31.1
 ipywidgets==7.6.4
 isort==5.9.3
 jedi==0.18.0
