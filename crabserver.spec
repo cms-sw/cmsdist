@@ -1,4 +1,4 @@
-### RPM cms crabserver v3.210701
+### RPM cms crabserver py3.220124
 
 # This specfile accepts both following types of tags:
 # - v3.210701 -> builds py2 environment
@@ -13,8 +13,8 @@
 %define version_prefix %(echo %{realversion} | cut -d. -f1)
 %if "%{version_prefix}" == "py3"
 %define python_runtime %(echo python3)
-%define wmcrepo mapellidario
-%define wmcver py3.211221.dario
+%define wmcrepo dmwm
+%define wmcver 1.5.7
 %define crabrepo dmwm
 Requires: python3 py3-cherrypy py3-pycurl py3-cx-oracle
 Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL py3-htcondor rotatelogs jemalloc
