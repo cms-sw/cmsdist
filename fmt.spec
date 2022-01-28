@@ -14,8 +14,8 @@ rm -rf build && mkdir build && cd build
 cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
     -DCMAKE_INSTALL_LIBDIR:STRING=lib \
-%ifarch ppc64le
-    -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags}" \
+%if "%{?arch_build_flags:set}" == "set"
+    -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
     -DBUILD_SHARED_LIBS=TRUE
 

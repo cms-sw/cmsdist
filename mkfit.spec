@@ -22,11 +22,8 @@ sed -i -e 's|-std=c++14|-std=c++1z|' Makefile.config
 %ifarch x86_64
 BUILD_ARGS=SSE3="1"
 %endif
-%ifarch aarch64
-BUILD_ARGS=VEC_GCC="-march=native"
-%endif
-%ifarch ppc64le
-BUILD_ARGS=VEC_GCC="%{ppc64le_build_flags}"
+%if "%{?arch_build_flags:set}" == "set"
+BUILD_ARGS=VEC_GCC="%{arch_build_flags}"
 %endif
 make %{makeprocesses} TBB_PREFIX=$TBB_ROOT "${BUILD_ARGS}"
 
