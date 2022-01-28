@@ -22,7 +22,7 @@ make %{build_opts} TARGET=CORE2
 make %{build_opts} TARGET=ARMV8
 %endif
 %ifarch ppc64le
-make %{build_opts} CFLAGS="%{ppc64le_build_flags}"
+make %{build_opts} CFLAGS="%{arch_build_flags}"
 %endif
 
 %install
