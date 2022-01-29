@@ -3,6 +3,6 @@
 %define arch_build_flags  -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
 %endif
 %ifarch aarch64
-%define arch_build_flags -mcpu=armv8-a
+%define arch_build_flags -march=armv8-a
 %endif
 %endif
