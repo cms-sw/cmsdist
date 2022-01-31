@@ -42,6 +42,10 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+#disable outline atomic by default
+%ifarch aarch64
+sed -i -e 's|#define\s\s*TARGET_OUTLINE_ATOMICS\s.*|#define TARGET_OUTLINE_ATOMICS (0)|' gcc/config/aarch64/aarch64.h
+%endif
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req

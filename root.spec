@@ -1,7 +1,7 @@
 ### RPM lcg root 6.24.07
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-
+## INCLUDE compilation_flags
 %define tag 11009abdb2a84fb354cea142c16bf27963053db6
 %define branch cms/v6-24-00-patches/292e441
 
@@ -31,8 +31,8 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-export CFLAGS=-D__ROOFIT_NOBANNER
-export CXXFLAGS=-D__ROOFIT_NOBANNER
+export CFLAGS="-D__ROOFIT_NOBANNER %{arch_build_flags}"
+export CXXFLAGS="-D__ROOFIT_NOBANNER %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \

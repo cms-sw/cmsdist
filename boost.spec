@@ -29,6 +29,10 @@ PYTHONV3=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 # enable boost::mpi
 echo "using mpi ;" > user-config.jam
 echo "using python : ${PYTHONV3} : ${PYTHON3_ROOT}/bin/python3 : ${PYTHON3_ROOT}/include/python${PYTHONV3} : ${PYTHON3_ROOT}/lib ;" >> user-config.jam
+%if "%{?arch_build_flags:set}" == "set"
+echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" ;' >> user-config.jam
+echo 'using gcc : : : <cflags>"%{arch_build_flags}" ;' >> user-config.jam
+%endif
 
 b2 -q \
    -d2 \
