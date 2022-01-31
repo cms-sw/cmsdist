@@ -17,10 +17,8 @@ case %cmsos in
   *) TOOLSET=gcc ;;
 esac
 
-# enable boost::mpi
 %if "%{?arch_build_flags:set}" == "set"
-echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" ;' > user-config.jam
-echo 'using gcc : : : <cflags>"%{arch_build_flags}" ;' >> user-config.jam
+echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" <cflags>"%{arch_build_flags}" ;' > user-config.jam
 %endif
 
 pushd tools/build
