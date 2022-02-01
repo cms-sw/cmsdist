@@ -11,6 +11,7 @@ BuildRequires: cmake autotools
 Requires: zlib
 Requires: python3
 Requires: libxml2
+Requires: scitokens-cpp
 
 %define soext so
 %ifarch darwin
@@ -39,6 +40,8 @@ cmake .. \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+  -DSciTokensCpp_INCLUDE_DIR="${SCITOKENSCPP_ROOT}/include" \
+  -DSciTokensCpp_LIBRARY="${SCITOKENSCPP_ROOT}/lib" \
   -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT}"
 
 make %makeprocesses VERBOSE=1
