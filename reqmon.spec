@@ -1,4 +1,4 @@
-### RPM cms reqmon 1.5.7.pre5
+### RPM cms reqmon 2.0.0.pre1
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
