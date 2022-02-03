@@ -26,7 +26,7 @@ CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
 %ifarch x86_64
 CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
-%if "%{?arch_build_flags:set}" == "set"
+%if "%{?arch_build_flags}"
 CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 %endif
 

@@ -31,8 +31,12 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-export CFLAGS="-D__ROOFIT_NOBANNER %{arch_build_flags}"
-export CXXFLAGS="-D__ROOFIT_NOBANNER %{arch_build_flags}"
+export CFLAGS=-D__ROOFIT_NOBANNER
+export CXXFLAGS=-D__ROOFIT_NOBANNER
+%if "%{?arch_build_flags}"
+export CFLAGS="${CFLAGS} %{arch_build_flags}"
+export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
+%endif
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \

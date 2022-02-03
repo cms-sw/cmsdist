@@ -17,7 +17,7 @@ case %cmsos in
   *) TOOLSET=gcc ;;
 esac
 
-%if "%{?arch_build_flags:set}" == "set"
+%if "%{?arch_build_flags}"
 echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" <cflags>"%{arch_build_flags}" ;' > user-config.jam
 %endif
 

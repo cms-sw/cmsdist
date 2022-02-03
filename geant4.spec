@@ -32,7 +32,7 @@ export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
-%if "%{?arch_build_flags:set}" == "set"
+%if "%{?arch_build_flags}"
   -DCMAKE_CXX_FLAGS="-fPIC %{arch_build_flags}" \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC %{arch_build_flags}" \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC %{arch_build_flags}" \

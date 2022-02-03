@@ -14,7 +14,7 @@ rm -rf build && mkdir build && cd build
 cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
     -DCMAKE_INSTALL_LIBDIR:STRING=lib \
-%if "%{?arch_build_flags:set}" == "set"
+%if "%{?arch_build_flags}"
     -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
     -DBUILD_SHARED_LIBS=TRUE
