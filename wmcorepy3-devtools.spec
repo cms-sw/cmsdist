@@ -1,4 +1,4 @@
-### RPM cms wmcorepy3-devtools 0.1
+### RPM cms wmcorepy3-devtools 0.2
 
 # This is a meta-package to group development tool dependencies
 Requires: yuicompressor
