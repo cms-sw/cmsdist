@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEcal-EgammaClusterProducers=V00-01-00
 CondTools-SiPhase2Tracker=V00-02-00
 RecoTracker-FinalTrackSelectors=V01-03-00
 RecoTracker-MkFit=V00-08-00
