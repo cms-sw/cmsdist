@@ -1,11 +1,13 @@
-### RPM external alpaka 0.7.0
+### RPM external alpaka develop-20220124
 ## NOCOMPILER
 
-Source: https://github.com/alpaka-group/%{n}/archive/%{realversion}.tar.gz
+%define git_commit 26cabb4d5a635c75a75e37d4c4770d3bb71dcd1c
+
+Source: https://github.com/alpaka-group/%{n}/archive/%{git_commit}.tar.gz
 Requires: boost
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-%{git_commit}
 
 %build
 

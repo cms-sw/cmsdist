@@ -1,0 +1,2 @@
+%define source0 https://github.com/fholmer/make/archive/refs/tags/%{realversion}.tar.gz
+Requires: py3-Jinja2 py3-jinja2-time

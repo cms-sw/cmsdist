@@ -1,0 +1,11 @@
+Requires: libzmq
+
+%define patchsrc \
+cat > setup.cfg <<EOF \
+[global]\
+zmq_prefix = $LIBZMQ_ROOT\
+\
+[build_ext]\
+include_dirs = $LIBZMQ_ROOT/include\
+library_dirs = $LIBZMQ_ROOT/lib\
+EOF

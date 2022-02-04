@@ -1,1 +1,1 @@
-Requires: py3-smmap2 py3-gitdb
+Requires: py3-gitdb py3-typing-extensions

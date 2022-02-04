@@ -19,10 +19,10 @@ Patch1: OpenBLAS-disable-tests
 make %{build_opts} TARGET=CORE2
 %endif
 %ifarch aarch64
-make %{build_opts} TARGET=ARMV8
+make %{build_opts} TARGET=ARMV8 CFLAGS="%{arch_build_flags}"
 %endif
 %ifarch ppc64le
-make %{build_opts} CFLAGS="%{ppc64le_build_flags}"
+make %{build_opts} CFLAGS="%{arch_build_flags}"
 %endif
 
 %install
