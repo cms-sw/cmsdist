@@ -1,5 +1,5 @@
 ### RPM external boost 1.75.0
-
+## INCLUDE compilation_flags
 %define tag 3defebd61ecb0970c0046c85384bb34ec9572ac3
 %define branch cms/v%realversion
 %define github_user cms-externals
@@ -17,6 +17,10 @@ case %cmsos in
   *) TOOLSET=gcc ;;
 esac
 
+%if "%{?arch_build_flags}"
+echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" <cflags>"%{arch_build_flags}" ;' > user-config.jam
+%endif
+
 pushd tools/build
   sh bootstrap.sh ${TOOLSET}
   mkdir ./tmp-boost-build
@@ -27,7 +31,7 @@ popd
 PYTHONV3=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
 
 # enable boost::mpi
-echo "using mpi ;" > user-config.jam
+echo "using mpi ;" >> user-config.jam
 echo "using python : ${PYTHONV3} : ${PYTHON3_ROOT}/bin/python3 : ${PYTHON3_ROOT}/include/python${PYTHONV3} : ${PYTHON3_ROOT}/lib ;" >> user-config.jam
 
 b2 -q \
