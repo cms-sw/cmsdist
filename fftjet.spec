@@ -25,8 +25,8 @@ chmod +x ./config.{sub,guess}
 touch pkg-config ; chmod +x pkg-config
 ./configure $PLATF_CONF_OPTS --disable-dependency-tracking --enable-threads \
             --prefix=%i F77="$F77" CXX="$CXX" DEPS_CFLAGS=-I$FFTW3_ROOT/include \
-%ifarch ppc64le
-            CXXFLAGS="-O2 %{ppc64le_build_flags}" \
+%if "%{?arch_build_flags}"
+            CXXFLAGS="-O2 %{arch_build_flags}" \
 %else
             CXXFLAGS="-O2" \
 %endif

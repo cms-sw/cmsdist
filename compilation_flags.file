@@ -1,4 +1,11 @@
-%if "%{?ppc64le_build_flags:set}" != "set"
-%define ppc64le_build_flags  -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
+%if "%{?arch_build_flags:set}" != "set"
+%ifarch ppc64le
+%define arch_build_flags  -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
 %endif
-
+%ifarch aarch64
+%define arch_build_flags -march=armv8-a -mno-outline-atomics
+%endif
+%ifarch x86_64
+%define arch_build_flags %{nil}
+%endif
+%endif

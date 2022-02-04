@@ -29,8 +29,8 @@ cmake ../%{n}-%{realversion} \
 %endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
-%ifarch ppc64le
-  -DCMAKE_CXX_FLAGS="%{ppc64le_build_flags}" \
+%if "%{?arch_build_flags}"
+  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
   -DGEANT4=OFF
 
