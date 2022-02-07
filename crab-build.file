@@ -39,20 +39,10 @@ ls %{_builddir}/CRABClient/src/python/*/__init__.py | sed 's|/__init__.py$||;s|.
 echo dbs >> %{i}/etc/crab_py_pkgs.txt
 echo RestClient >> %{i}/etc/crab_py_pkgs.txt
 
-#Copy WMCore
-if [ "%{crab_type}" == "pre" ] ; then
-  for pkg in %{wmcore_packages} ; do
-    if [ -d %{_builddir}/WMCore/src/python/${pkg} ] ; then
-      rsync -a %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/
-    else
-      cp %{_builddir}/WMCore/src/python/${pkg} %{i}/lib/${pkg}
-    fi
-  done
-else
-  mkdir %{i}/lib/WMCore
-  cp %{_builddir}/CRABClient/src/python/CRABClient/WMCoreConfiguration.py %{i}/lib/WMCore/Configuration.py 
-  touch %{i}/lib/WMCore/__init__.py
-fi
+#Create fake WMCore
+mkdir %{i}/lib/WMCore
+cp %{_builddir}/CRABClient/src/python/CRABClient/WMCoreConfiguration.py %{i}/lib/WMCore/Configuration.py 
+touch %{i}/lib/WMCore/__init__.py
 
 #Copy CRABServer
 for pkg in %{crabserver_packages} ; do
