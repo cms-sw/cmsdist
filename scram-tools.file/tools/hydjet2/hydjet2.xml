@@ -1,0 +1,15 @@
+<tool name="hydjet2" version="@TOOL_VERSION@">
+  <lib name="hydjet2"/>
+  <client>
+    <environment name="HYDJET2_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$HYDJET2_BASE/lib64"/>
+    <environment name="INCLUDE" default="$HYDJET2_BASE/include"/>
+  </client>
+  <runtime name="CMSSW_SEARCH_PATH" default="$HYDJET2_BASE/data" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="pyquen"/>
+  <use name="pythia6"/>
+  <use name="lhapdf"/>
+  <use name="root"/>
+  <flags SYSTEM_INCLUDE="1"/>
+</tool>
