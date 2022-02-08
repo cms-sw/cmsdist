@@ -1,0 +1,10 @@
+- Requested, AddedBy: 
+  @wouf
+  
+- PR:
+  https://github.com/cms-sw/cmsdist/pull/7483
+
+- Description:
+  {hydjet2} is event generator for simulation of relativistic heavy ion AA collisions as a superposition of the soft, hydro-type state and the hard, multi-parton state. 
+- Documentation
+  http://cern.ch/lokhtin/hydjet++/documentation/ 
