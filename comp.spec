@@ -28,6 +28,10 @@ BuildRequires: gitweb compsec
 
 %prep
 %build
+pwd
+whoami
+ps -u $(whoami) -o pid,cmd --forest
+exit 1
 %install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
