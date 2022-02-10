@@ -121,7 +121,6 @@ Requires: opencl-cpp
 Requires: qd
 Requires: blackhat
 Requires: sherpa
-Requires: geant4-parfullcms
 Requires: fasthadd
 Requires: eigen
 Requires: gdb
