@@ -20,8 +20,7 @@
 %define _build_id_links none
 
 # Preliminarily define where things go.  These are the places we
-# know even without knowing the architecture yet.  In particular
-# we need _specdir to find "cmsos" to determine the architecture.
+# know even without knowing the architecture yet.  
 # Note that we define the values all here, but some of them are
 # not actually usable until we've managed to defined %cmsplatf.
 #
@@ -132,18 +131,6 @@
 # line macros in spec files, only in "rpmmacros" files.
 %define debugsuffix %{?debug_build:_dbg}
 %define cmscomp	    	%{cmscompiler}%{cmscompilerv}
-
-#set cmsos only if cmsBuild does not set it
-%if "%{?cmsos:set}" != "set"
-# Old versions of cmsBuild/install.sh used to keep cmsos script in
-# _specdir rather than in _sourcedir. This makes sure that
-# rpm-preamble works for boths.
-%if "%{cmsbuildApiVersion}" == "0"
-%{expand:%%define cmsos %(sh %_specdir/cmsos)}
-%else
-%{expand:%%define cmsos	%(sh %_sourcedir/cmsos)}
-%endif
-%endif
 
 %define cmsplatf    	%{cmsos}_%{cmscomp}%{debugsuffix}
 
