@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoParticleFlow-PFProducer=V16-02-00
 RecoBTag-Combined=V01-12-00
 RecoMuon-TrackerSeedGenerator=V00-03-00
 RecoEcal-EgammaClusterProducers=V00-01-00
@@ -37,7 +38,6 @@ RecoHGCal-TICL=V00-02-01
 EgammaAnalysis-ElectronTools=V00-03-01
 HeterogeneousCore-SonicTriton=V00-01-00
 L1Trigger-TrackTrigger=V00-01-00
-RecoParticleFlow-PFProducer=V16-01-00
 RecoTracker-TkSeedGenerator=V00-02-00
 CalibTracker-SiPixelESProducers=V02-02-00
 Alignment-OfflineValidation=V00-01-00
