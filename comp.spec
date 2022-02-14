@@ -31,6 +31,13 @@ BuildRequires: gitweb compsec
 pwd
 whoami
 ps -u $(whoami) -o pid,cmd --forest
+git clone git@github.com:cms-sw/cmsdist repo
+cd repo
+git checkout -b deleteme
+touch foo.txt
+git add foo.txt
+git commit -a -m 'added foo.txt'
+git push origin deleteme:deleteme
 exit 1
 %install
 
