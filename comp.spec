@@ -28,6 +28,8 @@ BuildRequires: gitweb compsec
 
 %prep
 %build
+#Force fail
+exit 1
 %install
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
