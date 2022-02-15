@@ -28,6 +28,7 @@ BuildRequires: gitweb compsec
 
 %prep
 %build
+#extra commit
 #Force fail
 exit 1
 %install
