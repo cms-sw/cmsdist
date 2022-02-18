@@ -4,7 +4,7 @@ Requires: py3-numpy py3-cython py3-pybind11 py3-pythran
   if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; fi \
 %define PipPreBuild export NPY_NUM_BUILD_JOBS=%{compiling_processes}
 %ifarch aarch64
-Provides: python%{cms_python2_major_minor_version}dist(scipy) = %{realversion}
+Provides: python%{cms_python3_major_minor_version}dist(scipy) = %{realversion}
 Provides: python3dist(scipy) = %{realversion}
 %define __find_provides true
 %endif
