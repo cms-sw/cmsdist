@@ -40,7 +40,7 @@ BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' 
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 %endif
-BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
 
 %if %{enable_cuda}
