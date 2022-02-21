@@ -8,7 +8,7 @@ BuildRequires: cmake
 Requires: eigen
 
 %prep
-%setup -q -n %{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf build
