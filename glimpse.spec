@@ -1,5 +1,6 @@
-### RPM external glimpse 4.18.5
-Source: http://webglimpse.net/trial/glimpse-%{realversion}.tar.gz
+### RPM external glimpse 4.18.7
+%define tag 49457116bb0796636fd1bc84f39006fb102bfafc
+Source: git+https://github.com/gvelez17/glimpse.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools
 %prep
 %setup -n glimpse-%realversion
