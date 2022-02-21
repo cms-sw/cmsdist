@@ -13,7 +13,6 @@ if machine() == "x86_64":
   MULTI_TARGET_PACKAGES = [
     "zlib",
     "fastjet",
-    "mkfit",
     "vecgeom",
     "tensorflow-sources",
     "tensorflow",
