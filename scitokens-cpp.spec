@@ -1,7 +1,7 @@
-### RPM external scitokens-cpp 0.6.3
-Source: https://github.com/scitokens/scitokens-cpp/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
+### RPM external scitokens-cpp 0.7.0
+Source: https://github.com/scitokens/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 Requires: libuuid curl sqlite
 Patch0: scitokens-cpp
 
