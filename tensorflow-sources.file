@@ -4,7 +4,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-%define tag         719e00b6f9553de2662b6df2c353d6934e941103
+%define tag         399b0f02cae076845ca000dffdcbaa2274303dd0
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
@@ -40,15 +40,25 @@ BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' 
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 %endif
-BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
 
+%if %{enable_gpu}
+BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
+export GCC_HOST_COMPILER_PREFIX=${GCC_ROOT}/bin
+export GCC_HOST_COMPILER_PATH=$(which gcc)
+export TF_CUDA_COMPUTE_CAPABILITIES=$(echo "compute_%{cuda_arch}" | sed 's|\s\s*|,compute_|g')
+export TF_CUDA_VERSION="$(echo ${CUDA_VERSION} | cut -f1,2 -d.)"
+export TF_CUDA_PATHS="${CUDA_ROOT},${CUDNN_ROOT}"
+export TF_CUDA_CLANG=0
+export cuda=Y
+%endif
+export TF_NEED_CUDA=%{enable_gpu}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export TF_NEED_GCP=0
 export TF_ENABLE_XLA=0
 export TF_NEED_OPENCL=0
-export TF_NEED_CUDA=0
 export TF_NEED_VERBS=0
 export TF_NEED_MKL=0
 export TF_NEED_MPI=0
