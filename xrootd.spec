@@ -1,4 +1,4 @@
-### RPM external xrootd 5.3.1
+### RPM external xrootd 5.4.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -7,7 +7,7 @@
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake autotools
+BuildRequires: cmake gmake autotools
 Requires: zlib
 Requires: python3
 Requires: libxml2
