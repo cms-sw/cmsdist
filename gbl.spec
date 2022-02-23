@@ -1,19 +1,21 @@
-### RPM external gbl V02-01-03
+### RPM external gbl V02-04-01
 
-Source: svn://svnsrv.desy.de/public/GeneralBrokenLines/tags/%{realversion}/cpp/?scheme=http&module=%{realversion}&output=/%{n}-%{realversion}.tgz
+%define tag 31e726d777fe93cdbed0c363dc15f803f7767f40
+Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+
 
 BuildRequires: cmake
 Requires: eigen
 
 %prep
-%setup -q -n %{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf build
 mkdir build
 cd build
 
-cmake .. \
+cmake ../cpp \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
