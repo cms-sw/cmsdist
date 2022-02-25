@@ -1,9 +1,9 @@
-### RPM external xrootd 5.4.0
+### RPM external xrootd 5.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define tag v%{realversion}
-%define branch stable-5.3.x
+%define branch master
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
