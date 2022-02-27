@@ -1,0 +1,34 @@
+--- CMakeLists.txt.orig	2021-09-14 22:52:06.000000000 +0200
++++ CMakeLists.txt	2022-02-01 11:46:11.698151800 +0100
+@@ -25,27 +25,23 @@
+ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+ 
+ 
+-if( APPLE )
+-
+ find_package( OpenSSL REQUIRED )
+ find_package( Sqlite3 REQUIRED )
++
++if( APPLE )
++
+ set(LIBCRYPTO_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR})
+ set(LIBCRYPTO_LIBRARIES ${OPENSSL_CRYPTO_LIBRARY})
+ set(CMAKE_MACOSX_RPATH ON)
+ 
+ elseif( UNIX )
+ 
+-include (FindPkgConfig)
+-pkg_check_modules(LIBCRYPTO REQUIRED libcrypto)
+-pkg_check_modules(OPENSSL REQUIRED openssl)
+-pkg_check_modules(SQLITE REQUIRED sqlite3)
+-
+ # pkg_check_modules fails to return an absolute path on RHEL7.  Set the
+ # link directories accordingly.
+ link_directories(${OPENSSL_LIBRARY_DIRS} ${LIBCRYPTO_LIBRARY_DIRS})
+ endif()
+ 
+-include_directories( "${PROJECT_SOURCE_DIR}" ${JWT_CPP_INCLUDES} ${CURL_INCLUDES} ${OPENSSL_INCLUDE_DIRS} ${LIBCRYPTO_INCLUDE_DIRS} ${SQLITE_INCLUDE_DIRS}  ${UUID_INCLUDE_DIRS} )
++include_directories( "${PROJECT_SOURCE_DIR}" ${JWT_CPP_INCLUDES} ${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIRS} ${LIBCRYPTO_INCLUDE_DIRS} ${SQLITE_INCLUDE_DIRS}  ${UUID_INCLUDE_DIRS} )
+ 
+ add_library(SciTokens SHARED src/scitokens.cpp src/scitokens_internal.cpp src/scitokens_cache.cpp)
+ target_link_libraries(SciTokens ${OPENSSL_LIBRARIES} ${LIBCRYPTO_LIBRARIES} ${CURL_LIBRARIES} ${SQLITE_LIBRARIES} ${UUID_LIBRARIES})
