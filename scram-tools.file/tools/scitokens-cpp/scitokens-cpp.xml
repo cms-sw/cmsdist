@@ -1,0 +1,11 @@
+<tool name="scitokens-cpp" version="@TOOL_VERSION@">
+  <lib name="SciTokens"/>
+  <client>
+    <environment name="LIBSCITOKENS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$LIBSCITOKENS_BASE/lib64"/>
+    <environment name="INCLUDE" default="$LIBSCITOKENS_BASE/include"/>
+  </client>
+  <use name="sqlite"/>
+  <use name="libuuid"/>
+  <use name="curl"/>
+</tool>
