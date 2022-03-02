@@ -1,0 +1,10 @@
+<tool name="hepmc3" version="@TOOL_VERSION@">
+  <lib name="HepMC3"/>
+  <lib name="HepMC3search"/>
+  <client>
+    <environment name="HEPMC3_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$HEPMC3_BASE/lib64"/>
+    <environment name="INCLUDE" default="$HEPMC3_BASE/include"/>
+  </client>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$HEPMC3_BASE/include" type="path"/>
+</tool>
