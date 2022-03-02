@@ -39,9 +39,9 @@ packagesWithProvides="/usr/bin/python3 /usr/bin/perl /usr/bin/env /usr/bin/uname
 ##############################
 #Packages to seed for build
 ##############################
-platformBuildSeeds="git patch perl make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
+platformBuildSeeds="git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
 #Needed by autotools,go and lcov
-platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords perl-constant"
+#platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords perl-constant"
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 packagesWithBuildProvides=""
@@ -53,10 +53,12 @@ platformSeeds+=" libaio"
 
 case %cmsplatf in
 slc*)
-  platformBuildSeeds+=" perl-Switch"
+#  platformBuildSeeds+=" perl-Switch"
+  true
   ;;
 *)
-  platformSeeds+=" libxcrypt perl-libs perl-IO"
+  #platformSeeds+=" perl-IO"
+  platformSeeds+=" libxcrypt perl-libs"
   ;;
 esac
 
