@@ -37,6 +37,7 @@ Requires: gsl
 Requires: highfive
 Requires: hector
 Requires: hepmc
+Requires: hepmc3
 Requires: heppdt
 Requires: herwig
 Requires: herwig7
