@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1005
+## REVISION 1006
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -85,9 +85,8 @@ Provides: perl(Term::ANSIColor)
 ################################
 # Needed by git
 ################################
-Provides: IO::Pipe
-Provides: IO::Socket
-Provides: IO::Socket
+Provides: perl(IO::Pipe)
+Provides: perl(IO::Socket)
 
 %prep
 %build
