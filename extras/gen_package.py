@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 package_names = {
   "cmsLHEtoEOSManager" : "https://api.github.com/repos/cms-sw/cmssw/commits?path=GeneratorInterface/LHEInterface/scripts/cmsLHEtoEOSManager.py&page=0&per_page=1",
   "dqmgui": None,
@@ -9,12 +9,8 @@ def main():
   import os, sys, platform
   from json import loads
   from sys import version_info, argv
-  if version_info[0] == 2:
-    from urllib2 import urlopen
-    from md5 import new as md5adder
-  else:
-    from urllib.request import urlopen
-    from hashlib import md5 as md5adder
+  from urllib.request import urlopen
+  from hashlib import md5 as md5adder
 
   pkg = argv[1]
   cmsdist = argv[2]
@@ -23,7 +19,7 @@ def main():
   tmpl = join(cmsdist,  pkg+".tmpl")
   md5str = ""
   with open(tmpl) as ref:
-    m = md5adder(ref.read())
+    m = md5adder(ref.read().encode("ascii"))
     md5str = m.hexdigest()
 
   sfile = join (tmpdir, pkg+"."+md5str)
