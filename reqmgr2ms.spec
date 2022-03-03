@@ -1,9 +1,9 @@
-### RPM cms reqmgr2ms 1.0.0.cmsweb1
+### RPM cms reqmgr2ms 1.0.1.pre4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-%define wmcorever 2.0.0.cmsweb1
+%define wmcorever 2.0.1.pre4
 
 Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: py3-cherrypy py3-pycurl py3-httplib2 py3-rucio-clients py3-retry py3-future
