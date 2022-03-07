@@ -1,4 +1,4 @@
-### RPM cms crabtaskworker v3.210301
+### RPM cms crabtaskworker v3.220301
 
 # This specfile accepts both following types of tags:
 # - v3.210701 -> builds py2 environment
@@ -10,8 +10,6 @@
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define version_prefix %(echo %{realversion} | cut -d. -f1)
-%if "%{version_prefix}" == "py3"
 %define python_runtime %(echo python3)
 %define wmcrepo dmwm
 %define wmcver 1.5.7.pre4
@@ -22,50 +20,25 @@ Requires: py3-ldap
 Requires: py3-retry
 Requires: py3-rucio-clients py3-future
 Requires: jemalloc
-%else
-%define python_runtime %(echo python)
-%define wmcrepo dmwm
-%define wmcver 1.4.6.pre2
-%define crabrepo dmwm
-Requires: p5-time-hires
-Requires: python dbs3-client py2-pycurl py2-httplib2 cherrypy condor python-ldap py2-retry
-Requires: py2-rucio-clients py2-ipython py2-future
-Requires: jemalloc
-BuildRequires: py2-sphinx
-%endif
-
 
 Source0: git://github.com/%{wmcrepo}/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
 Source1: git://github.com/%{crabrepo}/CRABServer.git?obj=master/%{realversion}&export=CRABServer-%{realversion}&output=/CRABServer-%{realversion}.tar.gz
-#Patch0: crabtaskworker_cherrypy
-
-#Patch0: crabserver3-setup
 
 %prep
 %setup -D -T -b 1 -n CRABServer-%{realversion}
-#%patch0 -p0 -d bin
 %setup -T -b 0 -n WMCore-%{wmcver}
-#%patch0 -p1
 
 %build
 touch $PWD/condor_config
 export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
-%if "%{version_prefix}" == "py3"
 %{python_runtime} setup.py build_system -s crabtaskworker --skip-docs
-%else
-%{python_runtime} setup.py build_system -s crabtaskworker
-%endif
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 
 cd ../CRABServer-%{realversion}
 perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/taskworker/conf.py
 echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build process" >> src/python/TaskWorker/__init__.py
-%if "%{version_prefix}" == "py3"
 %{python_runtime} setup.py build_system -s TaskWorker --skip-docs=d
-%else
-%{python_runtime} setup.py build_system -s TaskWorker
-%endif
 
 sed -i 's|CRAB3_VERSION=.*|CRAB3_VERSION=%{realversion}|' bin/htcondor_make_runtime.sh
 sed -i 's|CRABSERVERVER=.*|CRABSERVERVER=%{realversion}|' bin/htcondor_make_runtime.sh
