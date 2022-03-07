@@ -1,4 +1,4 @@
-### RPM external pacparser 1.3.5
+### RPM external pacparser 1.3.7
 Source: https://github.com/%{n}/%{n}/releases/download/%{realversion}/%{n}-%{realversion}.tar.gz
 
 %prep
