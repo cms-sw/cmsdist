@@ -1,4 +1,4 @@
-### RPM lcg root 6.25.99
+### RPM lcg root 6.26.01
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
