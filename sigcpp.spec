@@ -1,4 +1,4 @@
-### RPM external sigcpp 3.0.7
+### RPM external sigcpp 3.2.0
 Source: https://github.com/libsigcplusplus/libsigcplusplus/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake gmake
