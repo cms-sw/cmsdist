@@ -2,7 +2,7 @@
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 
-BuildRequires: java-env python3
+BuildRequires: java-env python3 python-python3
 
 # For some build steps, bazel uses a process-wrapper that is executed in an empty environment.
 # Therefore, the wrapper is linked to the system library /lib64/libstdc++.so.6, and complains about
@@ -31,10 +31,6 @@ Patch1: bazel-3.7.2-gcc11
 %build
 
 export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
-export PYTHONPATH=$(which python3)
-mkdir bin
-ln -s $(which python3) bin/python
-export PATH=$(/bin/pwd)/bin:${PATH}
 bash ./compile.sh
 
 %install
