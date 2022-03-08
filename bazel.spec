@@ -31,6 +31,10 @@ Patch1: bazel-3.7.2-gcc11
 %build
 
 export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
+export PYTHONPATH=$(which python3)
+mkdir bin
+ln -s $(which python3) bin/python
+export PATH=$(/bin/pwd)/bin:${PATH}
 bash ./compile.sh
 
 %install
