@@ -2,7 +2,7 @@
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: grpc-ssl-fix
-Patch1: grpc-gcc11
+Patch1: grpc-no-outline-atomics
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre
 %define keep_archives true
