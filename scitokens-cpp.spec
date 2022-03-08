@@ -7,8 +7,8 @@ Patch0: scitokens-cpp
 
 %prep
 %setup -n %{n}-%{realversion}
-
 %patch0 -p0
+sed -i -e 's/ -Werror//' CMakeLists.txt
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
