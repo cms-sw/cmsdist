@@ -73,6 +73,7 @@ DataFormats/RPCDigi
 DataFormats/RPCRecHit
 DataFormats/RecoCandidate
 DataFormats/Scalers
+DataFormats/Scouting
 DataFormats/SiPixelCluster
 DataFormats/SiPixelDetId
 DataFormats/SiPixelDigi
