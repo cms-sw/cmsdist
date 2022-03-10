@@ -253,7 +253,15 @@ fi
 %define is_ncmsos()   %(case %{cmsos} in (%{1}_*) echo 0 ;; (*) echo 1 ;; esac)
 %define is_cmsarch()  %(case %{cmsos} in (*_%{1}) echo 1 ;; (*) echo 0 ;; esac)
 %define is_ncmsarch() %(case %{cmsos} in (*_%{1}) echo 0 ;; (*) echo 1 ;; esac)
-%define cuda_gcc_support %(touch cuda_gcc_supported.cu; if [ $((nvcc -dc cuda_gcc_supported.cu -o cuda_gcc_supported.cu.o 2>&1 || echo 'unsupported GCC version') | grep -i 'unsupported ' | wc -l) -eq 0 ] ; then echo 1; else echo 0; fi ; rm -f cuda_gcc_supported.cu*)
+
+%define cuda_gcc_support $(\
+  if [ ! -f %{_tmppath}/cache/cuda_gcc_supported.txt ] ; then \
+    touch %{_builddir}/cuda_gcc_supported.cu &&\
+    echo true > %{_builddir}/cuda_gcc_supported.txt &&\
+    (nvcc -dc %{_builddir}/cuda_gcc_supported.cu -o %{_builddir}/cuda_gcc_supported.cu.o 2>&1 || echo 'unsupported GCC version') > %{_builddir}/cuda_gcc_supported.log &&\
+    if [ $(grep -i 'unsupported ' %{_builddir}/cuda_gcc_supported.log | wc -l) -gt 0 ] ; then echo false > %{_builddir}/cuda_gcc_supported.txt ; fi;\
+    mv %{_builddir}/cuda_gcc_supported.txt %{_tmppath}/cache/cuda_gcc_supported.txt ;\
+  fi; cat %{_tmppath}/cache/cuda_gcc_supported.txt)
 
 %define common_revision_script() \
   OLD_REV=0 \

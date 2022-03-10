@@ -9,10 +9,8 @@ Source1: https://github.com/microsoft/onnxruntime/commit/de4089f8cbe0baffe56a363
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 cuda
-%if %{cuda_gcc_support}
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cudnn
-%endif
 %endif
 
 %prep
@@ -22,13 +20,12 @@ patch -p1 < %{_sourcedir}/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 %build
 rm -rf ../build; mkdir ../build; cd ../build
 
-%if %{cuda_gcc_support}
+USE_CUDA=OFF
+if [ "%{cuda_gcc_support}" = "true" ] ; then
 %if "%{cmsos}" != "slc7_aarch64"
 USE_CUDA=ON
-%else
-USE_CUDA=OFF
 %endif
-%endif
+fi
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
