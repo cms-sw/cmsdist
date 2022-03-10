@@ -73,7 +73,7 @@ if [ "%{cuda_gcc_support}" = "true" ] ; then
     TRITON_ENABLE_GPU_VALUE=ON
 else
     TRITON_ENABLE_GPU_VALUE=OFF
-if
+fi
 
 cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \

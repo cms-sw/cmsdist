@@ -45,7 +45,7 @@ if [ "%{cuda_gcc_support}" = "true" ] ; then
     $CUDA_ROOT/bin/nvcc -DALPAKA_ACC_GPU_CUDA_ENABLED -DCUPLA_STREAM_ASYNC_ENABLED=1 $CXXFLAGS $NVCC_FLAGS -Xcompiler "$HOST_FLAGS" -x cu -c $FILE -o build/cuda/$(basename $FILE).o
   done
   g++ $CXXFLAGS $HOST_FLAGS build/cuda/*.o -L$CUDA_ROOT/lib64 -lcudart -shared -o lib/libcupla-cuda.so
-if
+fi
 
 %install
 cp -ar include %{i}/include

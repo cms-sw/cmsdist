@@ -21,11 +21,11 @@ patch -p1 < %{_sourcedir}/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 rm -rf ../build; mkdir ../build; cd ../build
 
 USE_CUDA=OFF
-if [ "%{cuda_gcc_support}" = "true" ] ; then
 %if "%{cmsos}" != "slc7_aarch64"
+if [ "%{cuda_gcc_support}" = "true" ] ; then
 USE_CUDA=ON
-%endif
 fi
+%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
