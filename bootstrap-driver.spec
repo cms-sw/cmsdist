@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 40.0
+### RPM external bootstrap-driver 41.0
 ## NOCOMPILER
 Requires: rpm
 BuildRequires: cms-common fakesystem
@@ -9,58 +9,46 @@ BuildRequires: cms-common fakesystem
 %build
 %install
 packageList=""
-echo requiredtools `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-for tool in `echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'`
-do
-    case X$tool in
-        Xdistcc|Xccache )
-        ;;
-        * )
-            toolcap=`echo $tool | tr a-z- A-Z_`
-            toolversion=$(eval echo $`echo ${toolcap}_VERSION`)
-            toolrevision=$(eval echo $`echo ${toolcap}_REVISION`)
-            echo $toolversion $toolrevision
-            packageList="$packageList external+${tool}+${toolversion}-1-${toolrevision}.%cmsplatf.rpm"
-        ;;
-    esac
+for tool in $(echo %{directpkgreqs} | tr '/' '+') ; do
+  packageList="$packageList ${tool}-1-1.%{cmsplatf}.rpm"
 done
 
 additionalProvides=""
 ##############################
 # Packages to seed for runtime
 ##############################
-platformSeeds="bash tcsh perl bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs
-               libcom_err libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU"
+platformSeeds="  bash glibc glibc-headers python3 openssl-libs"
+platformSeeds+=" libbrotli libX11 libxcrypt"
+
 # Needed by python runtime
 platformSeeds+=" readline ncurses-libs tcl tk"
+
+# Needed by root runtime
+platformSeeds+=" mesa-libGLU libglvnd-glx libglvnd-opengl libXext libXft libXpm"
+
 # Seed packages which provides these
-packagesWithProvides="/usr/bin/python3 /usr/bin/perl /usr/bin/env /usr/bin/uname"
+packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr/bin/perl"
 
 ##############################
 #Packages to seed for build
 ##############################
-platformBuildSeeds="git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync"
-#Needed by autotools,go and lcov
-#platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords perl-constant"
+platformBuildSeeds="  git patch make zip unzip bzip2 which rsync"
+platformBuildSeeds+=" openssl-devel brotli-devel libcom_err-devel libxcrypt-devel"
+platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
+platformBuildSeeds+=" java-1.8.0-openjdk-devel"
+
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
+
+##############################
+#Packages which provides a definition
+##############################
 packagesWithBuildProvides=""
 
 %ifnarch aarch64
 # Needed by oracle
 platformSeeds+=" libaio"
 %endif
-
-case %cmsplatf in
-slc*)
-#  platformBuildSeeds+=" perl-Switch"
-  true
-  ;;
-*)
-  #platformSeeds+=" perl-IO"
-  platformSeeds+=" libxcrypt perl-libs"
-  ;;
-esac
 
 defaultPkgs="cms+cms-common+1.0 cms+fakesystem+1.0"
 
