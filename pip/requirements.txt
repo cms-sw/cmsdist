@@ -65,7 +65,7 @@ cx-Oracle==8.2.1
 cycler==0.10.0
 cython==0.29.24
 decorator==5.0.9
-debugpy==1.4.1
+debugpy==1.5.1
 defusedxml==0.7.1
 deprecation==2.1.0
 deprecated==1.2.13
