@@ -3,8 +3,8 @@
 ## NOCOMPILER
 
 BuildRequires: gcc
-BuildRequires: db6-bootstrap lua-bootstrap file-bootstrap
-BuildRequires: xz-bootstrap libarchive-bootstrap
+BuildRequires: lua-bootstrap file-bootstrap
+BuildRequires: xz-bootstrap libarchive-bootstrap sqlite-bootstrap
 
 %define keep_archives true
 

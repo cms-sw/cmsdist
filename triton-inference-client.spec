@@ -69,11 +69,11 @@ if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
 fi
 
-if [ $(%{cuda_gcc_support}) = true ]; then
+%if %{cuda_gcc_support}
     TRITON_ENABLE_GPU_VALUE=ON
-else
+%else
     TRITON_ENABLE_GPU_VALUE=OFF
-fi
+%endif
 
 cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
@@ -97,10 +97,10 @@ make %{makeprocesses}
 cd ../build
 make install
 
-if [ $(%{cuda_gcc_support}) = true ] ; then
+%if %{cuda_gcc_support}
     # modify header for consistent definition of GPU support
     sed -i '/^#ifdef TRITON_ENABLE_GPU/i #define TRITON_ENABLE_GPU' %{i}/include/ipc.h
-fi
+%endif
 
 # remove unneeded
 rm %{i}/include/triton/common/triton_json.h

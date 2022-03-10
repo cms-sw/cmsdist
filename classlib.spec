@@ -1,5 +1,5 @@
 ### RPM external classlib 3.1.3
-%define tag f7f9fb3ecf3c8bfe58dc0bf64e796274e62304ec
+%define tag 76cff1e3c0be6c24a2a9c02fb2a0670b7a19c444
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
