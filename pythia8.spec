@@ -1,4 +1,4 @@
-### RPM external pythia8 306
+### RPM external pythia8 307
 
 Source: https://pythia.org/download/pythia83/%{n}%{realversion}.tgz
 
