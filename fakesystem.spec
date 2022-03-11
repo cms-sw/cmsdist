@@ -98,7 +98,7 @@ Provides: perl(Term::ReadLine)
 Provides: perl(FileHandle)
 Provides: perl(sort)
 
-PRovides: /bin/csh
+Provides: /bin/csh
 
 %prep
 %build
