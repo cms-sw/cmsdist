@@ -1,6 +1,6 @@
-### RPM external log4cplus 2.0.5
+### RPM external log4cplus 2.0.7
 %define relver %(echo %{realversion} | tr '.' '_')
-Source: https://github.com/%{n}/%{n}/releases/download/REL_2_0_5/%{n}-%{realversion}.tar.gz
+Source: https://github.com/%{n}/%{n}/releases/download/REL_%{relver}/%{n}-%{realversion}.tar.gz
 BuildRequires: cmake gmake
 %define keep_archives true
 
