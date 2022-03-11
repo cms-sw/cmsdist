@@ -8,9 +8,9 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 Source1: https://github.com/microsoft/onnxruntime/commit/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11
+Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 cuda
 %if "%{cmsos}" != "slc7_aarch64"
-Requires: cuda cudnn
+Requires: cudnn
 %endif
 
 %prep
@@ -20,10 +20,11 @@ patch -p1 < %{_sourcedir}/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 %build
 rm -rf ../build; mkdir ../build; cd ../build
 
-%if "%{cmsos}" != "slc7_aarch64"
-USE_CUDA=ON
-%else
 USE_CUDA=OFF
+%if "%{cmsos}" != "slc7_aarch64"
+if [ "%{cuda_gcc_support}" = "true" ] ; then
+USE_CUDA=ON
+fi
 %endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
