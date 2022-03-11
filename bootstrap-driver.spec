@@ -26,6 +26,9 @@ platformSeeds+=" readline ncurses-libs tcl tk"
 # Needed by root runtime
 platformSeeds+=" mesa-libGLU libglvnd-glx libglvnd-opengl libXext libXft libXpm"
 
+#Various packages perl dependencies
+platformSeeds+=" perl perl-base perl-filetest perl-lib perl-libs perl-overload perl-vars"
+
 # Seed packages which provides these
 packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr/bin/perl"
 
