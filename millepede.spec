@@ -3,7 +3,7 @@ Source: https://gitlab.desy.de/claus.kleinwort/millepede-ii/-/archive/%{realvers
 Requires: zlib
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-ii-%{realversion}
 
 %build
 make \
