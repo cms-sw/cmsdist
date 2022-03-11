@@ -39,7 +39,7 @@ done
 g++ $CXXFLAGS $HOST_FLAGS build/tbb/*.o -L$TBB_ROOT/lib -ltbb -shared -o lib/libcupla-tbb.so
 
 # build the CUDA GPU backend
-if [ $(%{cuda_gcc_support}) = true ] ; then
+if [ "%{cuda_gcc_support}" = "true" ] ; then
   mkdir build/cuda
   for FILE in $FILES; do
     $CUDA_ROOT/bin/nvcc -DALPAKA_ACC_GPU_CUDA_ENABLED -DCUPLA_STREAM_ASYNC_ENABLED=1 $CXXFLAGS $NVCC_FLAGS -Xcompiler "$HOST_FLAGS" -x cu -c $FILE -o build/cuda/$(basename $FILE).o
