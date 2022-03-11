@@ -13,6 +13,7 @@ Requires: OpenBLAS python3 py3-numpy
 
 %prep
 %setup -q -n %{n}-%{realversion}
+sed -i -e 's| python | python3 |' cpp-package/cpp-package.mk cpp-package/CMakeLists.txt
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build

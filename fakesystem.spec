@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1006
+## REVISION 1007
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -82,11 +82,23 @@ Provides: perl(Net::Domain)
 Provides: perl(Net::SMTP)
 Provides: perl(Term::ANSIColor)
 
-################################
-# Needed by git
-################################
+#################################
+# Needed by git on CS9
+#################################
+Provides: perl(Fcntl)
+Provides: perl(File::Basename)
+Provides: perl(File::Find)
+Provides: perl(Getopt::Std)
 Provides: perl(IO::Pipe)
 Provides: perl(IO::Socket)
+Provides: perl(IPC::Open2)
+Provides: perl(IPC::Open3)
+Provides: perl(POSIX)
+Provides: perl(Term::ReadLine)
+Provides: perl(FileHandle)
+Provides: perl(sort)
+
+Provides: /bin/csh
 
 %prep
 %build
