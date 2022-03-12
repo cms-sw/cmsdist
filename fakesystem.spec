@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1007
+## REVISION 1008
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -96,9 +96,14 @@ Provides: perl(IPC::Open3)
 Provides: perl(POSIX)
 Provides: perl(Term::ReadLine)
 Provides: perl(FileHandle)
+Provides: perl(File::Copy)
+Provides: perl(File::stat)
+Provides: perl(Time::localtime)
 Provides: perl(sort)
 
 Provides: /bin/csh
+Provides: /bin/tcsh
+Provides: /bin/env
 
 %prep
 %build
