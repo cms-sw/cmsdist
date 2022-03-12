@@ -15,7 +15,7 @@ export CMSSW_VERSION
 mkdir -p %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION
 du -sh $CMSSW_ROOT/lib/%cmsplatf > %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/library_size.txt
 eval `%scram runtime -sh`
-PYTHON_CMD=$(which python >/dev/null 2>&1 || echo python3)
+PYTHON_CMD=$(which python 2>/dev/null || echo python3)
 DOW=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%a').lower())"`
 HOUR=`$PYTHON_CMD -c "import os;from datetime import datetime;print (datetime.strptime(os.environ['CMSSW_VERSION'].replace('_X_SLHC_', '_X_').rsplit('_X_')[1], '%Y-%m-%d-%H00').strftime('%H').lower())"`
 
