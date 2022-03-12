@@ -4,7 +4,7 @@
 Source: git+https://gitlab.com/hepcedar/yoda.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: python3 root
-BuildRequires: py3-cython autotools
+BuildRequires: py3-cython autotools python-python3
 
 %prep
 %setup -q -n %{n}-%{realversion}
