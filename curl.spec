@@ -20,7 +20,8 @@ esac
   --with-zlib=${ZLIB_ROOT} \
   --without-nss \
   --without-libssh2 \
-  --with-gssapi=${KERBEROS_ROOT}
+  --with-gssapi=${KERBEROS_ROOT} \
+  --with-openssl
 
 make %{makeprocesses}
 
