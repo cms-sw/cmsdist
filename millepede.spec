@@ -1,10 +1,9 @@
 ### RPM external millepede V04-11-01
-%define tag 9ee817fc61fe3e1b6543a8a16f7bcd8e1f8c331f
-Source: git+https://gitlab.desy.de/claus.kleinwort/millepede-ii.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://gitlab.desy.de/claus.kleinwort/millepede-ii/-/archive/%{realversion}/%{n}-ii-%{realversion}.tar.gz
 Requires: zlib
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-ii-%{realversion}
 
 %build
 make \
