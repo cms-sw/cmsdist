@@ -14,6 +14,7 @@
 absl-py==0.13.0
 aiohttp==3.8.1
 aiosqlite==0.17.0
+aiosignal==1.2.0
 anyio==3.3.2
 appdirs==1.4.4
 argon2-cffi==21.1.0
@@ -84,6 +85,7 @@ flake8==3.9.2
 flatbuffers==2.0
 flawfinder==2.0.19
 fonttools==4.26.2
+frozenlist==1.2.0
 fs==2.4.13
 funcsigs==1.0.2
 future==0.18.2
