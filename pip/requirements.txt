@@ -24,7 +24,7 @@ astor==0.8.1
 astroid==2.7.3
 astunparse==1.6.3
 async-lru==1.0.2
-async-timeout==3.0.1
+async-timeout==4.0.2
 atomicwrites==1.4.0
 attrs==21.2.0
 autopep8==1.5.7
