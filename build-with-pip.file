@@ -52,8 +52,8 @@
 %if "%{?PipDepsCommand:set}" != "set"
 %define PipDepsCommand $(pip3 check --disable-pip-version-check | %{PipDepsMatch} %{PipDepsPost} | tr '\n' ' ')
 %endif
-%if "%{?PipDepsCommand:set}" != "set"
-%define PipDepsCommand pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
+%if "%{?PipInstallCommand:set}" != "set"
+%define PipInstallCommand pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
 %endif
 
 %define pip pip3&package_dependency=py3-pip
