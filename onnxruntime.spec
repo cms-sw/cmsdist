@@ -13,7 +13,6 @@ Requires: cudnn
 
 %prep
 %setup -q -n %{n}-%{realversion}
-patch -p1 < %{_sourcedir}/de4089f8cbe0baffe56a363cc3a41595cc8f0809.patch
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
