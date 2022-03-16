@@ -9,7 +9,6 @@ Requires: python3
 %setup -n setuptools-%{realversion}
 
 %build
-python3 bootstrap.py
 python3 setup.py build
 python3 setup.py egg_info
 
