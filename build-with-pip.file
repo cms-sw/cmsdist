@@ -50,7 +50,7 @@
 %define PipDepsMatch grep "^${PKG_NAME}  *%{realversion}  *requires " | sed 's|,.*||;s|.* |py3-|'
 %endif
 %if "%{?PipDepsCommand:set}" != "set"
-%define PipDepsCommand $(pip3 check --disable-pip-version-check | %{PipDepsMatch} %{PipDepsPost} | tr '\n' ' ')
+%define PipDepsCommand pip3 check --disable-pip-version-check | %{PipDepsMatch} %{PipDepsPost} | tr '\\n' ' '
 %endif
 %if "%{?PipInstallCommand:set}" != "set"
 %define PipInstallCommand pip3 install --no-clean --no-deps --no-index --no-build-isolation --no-cache-dir --disable-pip-version-check --user -v %{PipInstallOptions} %{PipBuildOptions} $PIPFILE
