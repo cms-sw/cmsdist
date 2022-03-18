@@ -1,4 +1,4 @@
-### RPM external pcre2 10.33
+### RPM external pcre2 10.36
 Source0: http://downloads.sourceforge.net/pcre/%{n}-%{realversion}.tar.bz2
 
 Requires: bz2lib zlib
