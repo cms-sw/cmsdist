@@ -1,4 +1,4 @@
-### RPM external curl 7.70.0
+### RPM external curl 7.79.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
 
@@ -20,7 +20,8 @@ esac
   --with-zlib=${ZLIB_ROOT} \
   --without-nss \
   --without-libssh2 \
-  --with-gssapi=${KERBEROS_ROOT}
+  --with-gssapi=${KERBEROS_ROOT} \
+  --with-openssl
 
 make %{makeprocesses}
 
