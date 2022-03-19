@@ -39,7 +39,6 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DWITH_OPENSSL3=TRUE \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
