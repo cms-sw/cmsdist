@@ -45,7 +45,6 @@ cmake ../%n-%{realversion} \
   -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
   -DCMAKE_PREFIX_PATH="${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT}"
 
-
 make %makeprocesses VERBOSE=1
 
 %install
