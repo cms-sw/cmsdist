@@ -1,4 +1,4 @@
-### RPM external swig 3.0.10
+### RPM external swig 4.0.2
 ## INITENV SET SWIG_HOME %{i}
 ## INITENV SET SWIG_LIB %{i}/share/swig/%{realversion}
 
