@@ -10,8 +10,6 @@ Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
 
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
 
-
-
 %prep
 %setup -n Python-%{realversion}
 
