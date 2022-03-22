@@ -47,7 +47,7 @@ export PYTHON=$(which python3)
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++17 -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
             LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
 
 make %{makeprocesses}
