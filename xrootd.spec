@@ -8,7 +8,7 @@
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake gmake autotools python-python3
+BuildRequires: cmake gmake autotools
 Requires: zlib libuuid
 Requires: python3
 Requires: libxml2
