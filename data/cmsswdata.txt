@@ -70,29 +70,6 @@ SimG4CMS-Forward=V02-04-00
 GeneratorInterface-ReggeGribovPartonMCInterface=V00-00-02
 
 #Never update any package here. Always move it to default section.
-[cmssw-xmldata-build]
-Geometry-CaloEventSetup=V03-11-02
-Geometry-CMSCommonData=V01-09-00
-Geometry-CSCGeometryBuilder=V01-08-00
-Geometry-EcalCommonData=V05-05-00
-Geometry-EcalSimData=V01-02-00
-Geometry-EcalTestBeam=V00-09-09
-Geometry-ForwardCommonData=V01-05-00
-Geometry-ForwardSimData=V02-02-00
-Geometry-FP420CommonData=V00-06-00
-Geometry-FP420SimData=V00-06-00
-Geometry-HcalCommonData=V01-05-00
-Geometry-HcalSimData=V01-03-00
-Geometry-HcalTestBeamData=V01-08-00
-Geometry-MTCCTrackerCommonData=V01-01-00
-Geometry-MuonCommonData=V01-06-00
-Geometry-MuonSimData=V01-03-00
-Geometry-RPCGeometryBuilder=V01-04-00
-Geometry-TrackerRecoData=V01-04-05
-Geometry-TrackerSimData=V01-02-05
-Geometry-TwentyFivePercentTrackerCommonData=V00-01-00
-
-#Never update any package here. Always move it to default section.
 [data-build-github]
 Calibration-Tools=V01-00-00
 CalibTracker-SiStripDCS=V01-00-00
