@@ -1,4 +1,4 @@
-### RPM external py3-isort 5.7.0
+### RPM external py3-isort 5.10.1
 ## IMPORT build-with-pip3
 
 Requires: py3-backports-functools_lru_cache
