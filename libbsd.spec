@@ -3,6 +3,8 @@ Source: https://libbsd.freedesktop.org/releases/%{n}-%{v}.tar.xz
 
 Requires: libmd
 
+%define drop_files %{i}/share %{i}/lib/pkgconfig
+
 %prep
 %setup -n %{n}-%{realversion}
 

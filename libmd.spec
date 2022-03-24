@@ -1,6 +1,8 @@
 ### RPM external libmd 1.0.3
 Source: https://archive.hadrons.org/software/libmd/%{n}-%{v}.tar.xz
 
+%define drop_files %{i}/share %{i}/lib/pkgconfig
+
 %prep
 %setup -n %{n}-%{realversion}
 
