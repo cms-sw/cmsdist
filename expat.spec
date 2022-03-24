@@ -1,7 +1,7 @@
 ### RPM external expat 2.4.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-%define uversion %(echo %v | sed -e 's/\\./_/g')
-Source: https://github.com/libexpat/libexpat/releases/download/R_%{uversion}/%{n}-%{v}.tar.gz
+%define uversion %(echo %realversion | sed -e 's/\\./_/g')
+Source: https://github.com/libexpat/libexpat/releases/download/R_%{uversion}/%{n}-%{realversion}.tar.gz
 
 Requires: libbsd
 

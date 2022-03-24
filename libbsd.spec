@@ -1,5 +1,5 @@
 ### RPM external libbsd 0.11.5
-Source: https://libbsd.freedesktop.org/releases/%{n}-%{v}.tar.xz
+Source: https://libbsd.freedesktop.org/releases/%{n}-%{realversion}.tar.xz
 
 Requires: libmd
 
