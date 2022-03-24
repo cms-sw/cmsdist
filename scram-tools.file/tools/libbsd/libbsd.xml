@@ -1,4 +1,4 @@
-<tool name="LIBBSD" version="@TOOL_VERSION@">
+<tool name="libbsd" version="@TOOL_VERSION@">
   <lib name="bsd"/>
   <client>
     <environment name="LIBBSD_BASE" default="@TOOL_ROOT@"/>

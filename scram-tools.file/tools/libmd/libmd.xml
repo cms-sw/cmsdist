@@ -1,4 +1,4 @@
-<tool name="LIBMD" version="@TOOL_VERSION@">
+<tool name="libmd" version="@TOOL_VERSION@">
   <lib name="md"/>
   <client>
     <environment name="LIBMD_BASE" default="@TOOL_ROOT@"/>
