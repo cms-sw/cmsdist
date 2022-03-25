@@ -2,7 +2,7 @@
   <lib name="bsd"/>
   <client>
     <environment name="LIBBSD_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LIBBSD_BASE/lib64"/>
+    <environment name="LIBDIR" default="$LIBBSD_BASE/lib"/>
     <environment name="INCLUDE" default="$LIBBSD_BASE/include"/>
   </client>
 </tool>
