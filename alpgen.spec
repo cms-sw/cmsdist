@@ -1,13 +1,12 @@
 ### RPM external alpgen 214
 
-%define realversion %(echo %v | cut -d- -f1 )
 Source: http://mlm.home.cern.ch/mlm/alpgen/V2.1/v%{realversion}.tgz
 Source1: config.sub-amd64
 Patch0: alpgen-214
 Patch7: alpgen-214-Darwin-x86_84-gfortran
 
 %prep
-%setup -c -n alpgen-%v
+%setup -c -n %{n}-%{realversion}
 %patch0 -p1 
 %patch7 -p1
 sed -i -e 's|-fno-automatic|-fno-automatic -std=legacy|' compile.mk
