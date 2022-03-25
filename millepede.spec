@@ -1,10 +1,9 @@
-### RPM external millepede V04-09-01
-
-Source: svn://svnsrv.desy.de/public/MillepedeII/tags/%{realversion}/?scheme=http&module=%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM external millepede V04-11-01
+Source: https://gitlab.desy.de/claus.kleinwort/millepede-ii/-/archive/%{realversion}/%{n}-ii-%{realversion}.tar.gz
 Requires: zlib
 
 %prep
-%setup -n %{realversion}
+%setup -n %{n}-ii-%{realversion}
 
 %build
 make \
