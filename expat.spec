@@ -3,6 +3,7 @@
 %define uversion %(echo %realversion | sed -e 's/\\./_/g')
 Source: https://github.com/libexpat/libexpat/releases/download/R_%{uversion}/%{n}-%{realversion}.tar.gz
 
+BuildRequires: autotools
 Requires: libbsd
 
 %define drop_files %{i}/share
@@ -17,8 +18,8 @@ rm -f ./conftools/config.{sub,guess}
 %get_config_guess ./conftools/config.guess
 chmod +x ./conftools/config.{sub,guess}
 
-./configure --prefix=%{i} --with-libbsd
-make %{makeprocesses}
+./configure --prefix=%{i} --with-libbsd LDFLAGS="-L${LIBBSD_ROOT}/lib -L${LIBMD_ROOT}/lib" CFLAGS="-I${LIBBSD_ROOT}/include -I${LIBMD_ROOT}/include"
+make %{makeprocesses} LDFLAGS="-L${LIBBSD_ROOT}/lib -L${LIBMD_ROOT}/lib" CFLAGS="-I${LIBBSD_ROOT}/include -I${LIBMD_ROOT}/include"
 
 %install
 make install
