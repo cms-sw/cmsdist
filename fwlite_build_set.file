@@ -48,12 +48,14 @@ DataFormats/JetMatching
 DataFormats/JetReco
 DataFormats/L1CSCTrackFinder
 DataFormats/L1CaloTrigger
+DataFormats/L1DTTrackFinder
 DataFormats/L1GlobalCaloTrigger
 DataFormats/L1GlobalMuonTrigger
 DataFormats/L1GlobalTrigger
 DataFormats/L1TCorrelator
 DataFormats/L1THGCal
 DataFormats/L1TMuon
+DataFormats/L1TMuonPhase2
 DataFormats/L1TParticleFlow
 DataFormats/L1TrackTrigger
 DataFormats/L1Trigger
