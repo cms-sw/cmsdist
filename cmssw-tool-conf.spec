@@ -107,7 +107,6 @@ Requires: llvm
 Requires: tbb
 Requires: mctester
 Requires: vdt
-Requires: icc
 Requires: gnuplot
 Requires: sloccount
 Requires: millepede
@@ -164,6 +163,7 @@ Requires: openloops
 %ifarch x86_64
 Requires: tkonlinesw
 Requires: oracle
+Requires: icc
 Requires: icx
 Requires: intel-vtune
 Requires: cmsmon-tools
