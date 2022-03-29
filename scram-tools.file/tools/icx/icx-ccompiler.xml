@@ -7,4 +7,5 @@
     <architecture name="_mic_">
       <flags CFLAGS="-mmic"/>
     </architecture>
+    <flags SKIP_TOOL_SYMLINKS="1"/>
   </tool>

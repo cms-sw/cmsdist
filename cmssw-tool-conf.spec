@@ -164,6 +164,7 @@ Requires: openloops
 %ifarch x86_64
 Requires: tkonlinesw
 Requires: oracle
+Requires: icx
 Requires: intel-vtune
 Requires: cmsmon-tools
 Requires: dip

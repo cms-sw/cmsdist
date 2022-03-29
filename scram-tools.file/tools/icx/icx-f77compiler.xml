@@ -3,4 +3,5 @@
     <client>
       <environment name="FC" default="@GCC_ROOT@/bin/gfortran"/>
     </client>
+    <flags SKIP_TOOL_SYMLINKS="1"/>
   </tool>
