@@ -24,6 +24,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=Scalar \
+  -DGEANT4_USE_USOLIDS="CONS;POLYCONE;POLYHEDRA" \
 %ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
 %endif
