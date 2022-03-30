@@ -7,7 +7,7 @@
 %define branch master
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+Patch: xrootd-ssl3
 BuildRequires: cmake gmake autotools
 Requires: zlib libuuid
 Requires: python3
@@ -21,6 +21,7 @@ Requires: scitokens-cpp
 
 %prep
 %setup -n %n-%{realversion}
+%patch -p1
 sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 
 %build
