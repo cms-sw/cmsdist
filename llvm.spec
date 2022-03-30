@@ -7,9 +7,9 @@ Requires: gcc zlib python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 3f43d803382d57e3fc010ca19833077d1023e9c9
+%define llvmCommit 282462f20845d87aad8e6d55bccc06b3de1ab4d0
 %define llvmBranch cms/release/14.x/3f43d80
-%define iwyuCommit 282462f20845d87aad8e6d55bccc06b3de1ab4d0
+%define iwyuCommit d888efc52646dcf3e4e3a56af13aa23dd26abde0
 %define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
