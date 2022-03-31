@@ -1,9 +1,9 @@
-### RPM cms acdcserver 2.0.1.pre6
+### RPM cms acdcserver 2.0.2.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
+Source: git+https://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
 Requires: python3 py3-future py3-httplib2 rotatelogs couchdb16
 BuildRequires: py3-sphinx
 

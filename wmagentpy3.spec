@@ -1,9 +1,9 @@
-### RPM cms wmagentpy3 1.5.7.patch2
+### RPM cms wmagentpy3 2.0.2.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-Source: git://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
+Source: git+https://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=WMCore-%{realversion}&output=/WMCore-%{realversion}.tar.gz
 
 Requires: yui libuuid couchdb16 jemalloc mariadb
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients

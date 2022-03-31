@@ -1,11 +1,11 @@
-### RPM cms reqmgr2ms 1.0.1.pre6
+### RPM cms reqmgr2ms 1.0.2.pre2
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-%define wmcorever 2.0.1.pre6
+%define wmcorever 2.0.2.pre2
 
-Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
+Source: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: py3-cherrypy py3-pycurl py3-httplib2 py3-rucio-clients py3-retry py3-future
 Requires: py3-cmsmonitoring py3-pymongo py3-gfal2-python py3-dbs3-client
 Requires: rotatelogs jemalloc mongo
