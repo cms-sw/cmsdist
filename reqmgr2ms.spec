@@ -5,7 +5,7 @@
 
 %define wmcorever 2.0.2.pre2
 
-Source: git://github.com/dmwm/WMCore?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
+Source: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcorever&export=%n&output=/%n.tar.gz
 Requires: py3-cherrypy py3-pycurl py3-httplib2 py3-rucio-clients py3-retry py3-future
 Requires: py3-cmsmonitoring py3-pymongo py3-gfal2-python py3-dbs3-client
 Requires: rotatelogs jemalloc mongo

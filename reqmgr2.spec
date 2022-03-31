@@ -3,10 +3,10 @@
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
-Source: git://github.com/dmwm/WMCore?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source: git+https://github.com/dmwm/WMCore.git?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 #from private repository
-#Source: git://github.com/ticoann/WMCore?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
+#Source: git+https://github.com/ticoann/WMCore.git?obj=reqmgr2_dashboard_dep/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: python3 py3-httplib2 py3-cherrypy py3-cheetah3 py3-pycurl py3-dbs3-client
 Requires: py3-future py3-retry py3-psutil py3-cmsmonitoring
