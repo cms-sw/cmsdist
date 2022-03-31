@@ -1,4 +1,4 @@
-### RPM external VecCore 0.8.0
+### RPM external veccore 0.8.0
 ## INCLUDE compilation_flags
 Source: https://github.com/root-project/veccore/archive/refs/tags/v%{realversion}.tar.gz
 

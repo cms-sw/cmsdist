@@ -3,7 +3,7 @@
 %define tag ccc45b15420e60f39b60107795a85fed12332005
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
-Requires: VecCore
+Requires: veccore
 %define keep_archives true
 
 Patch0: vecgeom-fix-vector
