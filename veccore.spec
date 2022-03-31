@@ -14,13 +14,18 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
+  -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
 %if "%{?arch_build_flags}"
   -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
   -DCMAKE_BUILD_TYPE=Release
 
-ninja -v %{makeprocesses}
+make %{makeprocesses}
 
 %install
 cd ../build
-ninja %{makeprocesses} install
+make %{makeprocesses} install
+
+%post
+%{relocateConfig}lib/cmake/VecCore/*.cmake
+
