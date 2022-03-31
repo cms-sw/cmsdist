@@ -14,7 +14,6 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
 %if "%{?arch_build_flags}"
   -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
