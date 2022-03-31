@@ -1,6 +1,6 @@
-### RPM external vecgeom v1.1.18
+### RPM external vecgeom v1.1.20
 ## INCLUDE compilation_flags
-%define tag 0afdb8f87dbf1293a4a46b5efa3fe03dd345d302
+%define tag ccc45b15420e60f39b60107795a85fed12332005
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
@@ -24,7 +24,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=Scalar \
-  -DGEANT4_USE_USOLIDS="CONS;POLYCONE;POLYHEDRA" \
 %ifarch x86_64
   -DVECGEOM_VECTOR=sse3 \
 %endif
