@@ -1,0 +1,11 @@
+  <tool name="icx-ccompiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="gcc-ccompiler"/>
+    <client>
+      <environment name="ICX_CCOMPILER_BASE" default="@TOOL_ROOT@/installation" handler="warn"/>
+      <environment name="CC" value="$ICX_CCOMPILER_BASE/bin/icx" handler="warn"/>
+    </client>
+    <architecture name="_mic_">
+      <flags CFLAGS="-mmic"/>
+    </architecture>
+    <flags SKIP_TOOL_SYMLINKS="1"/>
+  </tool>
