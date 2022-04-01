@@ -1,4 +1,4 @@
-### RPM external lwtnn 2.10
+### RPM external lwtnn 2.12.1
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 Patch0: lwtnn-gcc11
