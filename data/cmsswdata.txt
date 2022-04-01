@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DQM-EcalMonitorClient=V00-02-00
 CondTools-SiStrip=V00-02-00
 RecoEgamma-PhotonIdentification=V01-04-00
 Alignment-OfflineValidation=V00-02-00
@@ -24,7 +25,6 @@ RecoParticleFlow-PFBlockProducer=V02-04-02
 SimG4CMS-Calo=V03-04-00
 Validation-Geometry=V00-07-00
 Validation-HGCalValidation=V00-02-00
-DQM-EcalMonitorClient=V00-01-00
 PhysicsTools-NanoAOD=V01-02-00
 RecoTauTag-TrainingFiles=V00-03-00
 CalibPPS-ESProducers=V01-04-00
