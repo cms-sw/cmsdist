@@ -1,13 +1,11 @@
 ### RPM external lwtnn 2.12.1
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
-Patch0: lwtnn-gcc11
 BuildRequires: ninja cmake
 Requires: eigen boost
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 
