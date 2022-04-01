@@ -35,6 +35,7 @@ cmake ../%{n}-%{realversion} \
 %endif
   -DGEANT4=OFF \
   -DDATA_DOWNLOAD=OFF \
+  -DVecCore_DIR=${VECCORE_ROOT}/lib64/cmake/VecCore
   -DCMAKE_PREFIX_PATH=${VECCORE_ROOT}
 
 make %{makeprocesses}
