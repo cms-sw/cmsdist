@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_12_2_4_CORALTEST
 
 Requires: cmssw-tool-conf
 
