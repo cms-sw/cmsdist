@@ -1,4 +1,4 @@
-### RPM external cudnn 8.3.2.44
+### RPM external cudnn 8.3.3.40
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define cudaver 11.5
