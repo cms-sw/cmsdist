@@ -5,7 +5,7 @@ Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=
 BuildRequires: cmake gmake
 Requires: veccore
 %define keep_archives true
-
+%define vecgeom_backend Scalar
 Patch0: vecgeom-fix-vector
 
 %prep
@@ -24,9 +24,11 @@ cmake ../%{n}-%{realversion} \
   -DROOT=OFF \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
-  -DBACKEND=Scalar \
+  -DBACKEND=%{vecgeom_backend} \
 %ifarch x86_64
+%if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR=sse3 \
+%endif
 %endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
