@@ -11,6 +11,7 @@ Patch0: root_lazy
 Patch1: root_cvt
 Patch2: root_cuda
 Patch3: root_modules_211215
+Patch4: root_boost_mm
  
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -37,6 +38,7 @@ Requires: dcap
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf ../build

@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
-Source: none
-Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11
+Source: none 
+Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11                  
 
 %prep
 
@@ -68,7 +68,8 @@ do
     mv *.pcm $mod
 done
 
-for mod in boost_rational boost_type_traits boost_algorithm_and_range boost_any boost_mpl boost_intrusive boost_functional boost_archive_and_serialization boost_date_time boost_iterator_adaptors boost_endian boost_python boost_program_options boost_thread boost_iostreams boost_spirit boost_multi_index_container
+for mod in boost
+#for mod in rational type_traits algorithm range intrusive_ptr functional archive_and_serialization date_time iterator_adaptors endian program_options thread iostreams multi_index_container spirit python 
 do
     rm -f dummy_dict.cc
     rm -f libDummy.so
