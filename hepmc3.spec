@@ -10,12 +10,6 @@ BuildRequires: cmake
 %setup -q -n HepMC3-%{realversion}
 
 %build
-sed 's/SOVERSION 3//' < CMakeLists.txt > tmpsed.txt
-mv tmpsed.txt CMakeLists.txt
-cd search
-sed 's/SOVERSION 4//' < CMakeLists.txt > tmpsed.txt
-mv tmpsed.txt CMakeLists.txt
-cd ..
 rm -rf ../build
 mkdir ../build
 cd ../build
