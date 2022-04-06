@@ -1,4 +1,4 @@
-### RPM external professor2 2.3.2
+### RPM external professor2 2.3.3
 ## INITENV +PATH PYTHON3PATH %i/lib/python%{cms_python3_major_minor_version}/site-packages
 
 Source: http://www.hepforge.org/archive/professor/Professor-%{realversion}.tar.gz
