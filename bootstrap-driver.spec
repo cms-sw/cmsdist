@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 41.0
+### RPM external bootstrap-driver 42.0
 ## NOCOMPILER
 Requires: rpm
 BuildRequires: cms-common fakesystem
