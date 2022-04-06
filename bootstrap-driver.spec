@@ -28,6 +28,7 @@ platformSeeds+=" mesa-libGLU libglvnd-glx libglvnd-opengl libXext libXft libXpm"
 
 #Various packages perl dependencies
 platformSeeds+=" perl perl-base perl-filetest perl-lib perl-libs perl-overload perl-vars"
+platformSeeds+=" libcom_err krb5-libs"
 
 # Seed packages which provides these
 packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr/bin/perl"
@@ -38,7 +39,7 @@ packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr
 platformBuildSeeds="  git patch make zip unzip bzip2 which rsync"
 platformBuildSeeds+=" openssl-devel brotli-devel libcom_err-devel libxcrypt-devel"
 platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
-platformBuildSeeds+=" java-1.8.0-openjdk-devel"
+platformBuildSeeds+=" java-1.8.0-openjdk-devel krb5-devel"
 
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
