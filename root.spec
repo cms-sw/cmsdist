@@ -8,7 +8,6 @@
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: root_lazy
-Patch1: root_cvt
 Patch2: root_cuda
 Patch3: root_modules_211215
 Patch4: root_boost_mm
@@ -34,7 +33,6 @@ Requires: dcap
 %prep
 %setup -n %{n}-%{realversion}
 
-%patch1 -p1
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
