@@ -2,9 +2,6 @@
 
 Source: https://gitlab.cern.ch/cvsmctst/mc-tester/-/archive/v%{realversion}/mc-tester-v%{realversion}.tar.gz
 
-Patch0: mctester-cling
-Patch1: mctester-root6-tbuffer
-
 Requires: hepmc
 Requires: root
 
@@ -14,9 +11,7 @@ BuildRequires: autotools
 
 
 %prep
-%setup -q -n %{n}/%{realversion}
-%patch0 -p2
-%patch1 -p2
+%setup -q -n mc-tester-v%{realversion}
 
 ./configure \
   --with-HepMC=${HEPMC_ROOT} \
