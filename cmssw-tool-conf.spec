@@ -39,7 +39,6 @@ Requires: hepmc
 Requires: hepmc3
 Requires: heppdt
 Requires: herwig7
-Requires: hydjet
 Requires: hydjet2
 Requires: ittnotify
 Requires: jemalloc
@@ -57,6 +56,7 @@ Requires: meschach
 Requires: pcre2
 Requires: photospp
 Requires: pyquen
+Requires: pythia6
 Requires: pythia8
 Requires: python3
 Requires: root
