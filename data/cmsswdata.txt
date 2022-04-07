@@ -102,7 +102,6 @@ DQM-PhysicsHWW=V01-00-00
 EventFilter-L1TRawToDigi=V01-00-00
 FastSimulation-TrackingRecHitProducer=V01-00-03
 HLTrigger-JetMET=V01-00-00
-L1Trigger-L1TGlobal=V00-00-07
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
