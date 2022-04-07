@@ -1,6 +1,6 @@
-### RPM external mctester 1.25.1
+### RPM external mctester 1.25.0a
 
-Source: https://gitlab.cern.ch/cvsmctst/mc-tester/-/archive/v%{realversion}/mc-tester-v%{realversion}.tar.gz
+Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
 
 Patch0: mctester-cling
 Patch1: mctester-root6-tbuffer
