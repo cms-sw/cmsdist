@@ -3,10 +3,11 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define strip_files %i/lib
-%define tag 332967cdc6553aebff0fd356254d4cdab9c9e515
+%define tag 8fce59a5fde45217bf099dfdba1ea9916459d1ba
 %define branch master
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: https://patch-diff.githubusercontent.com/raw/xrootd/xrootd/pull/1665.patch
 
 BuildRequires: cmake gmake autotools
 Requires: zlib libuuid
@@ -21,6 +22,7 @@ Requires: scitokens-cpp
 
 %prep
 %setup -n %n-%{realversion}
+patch -p1 < %{_sourcedir}/1665.patch
 sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 
 %build
