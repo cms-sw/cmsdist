@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-L1TGlobal=V00-02-00
 RecoMuon-TrackerSeedGenerator=V00-04-00
 DQM-EcalMonitorClient=V00-02-00
 CondTools-SiStrip=V00-02-00
@@ -101,7 +102,6 @@ DQM-PhysicsHWW=V01-00-00
 EventFilter-L1TRawToDigi=V01-00-00
 FastSimulation-TrackingRecHitProducer=V01-00-03
 HLTrigger-JetMET=V01-00-00
-L1Trigger-L1TGlobal=V00-00-07
 RecoBTag-CTagging=V01-00-03
 RecoBTag-SecondaryVertex=V02-00-04
 RecoBTag-SoftLepton=V01-00-01
