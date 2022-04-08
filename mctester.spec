@@ -1,9 +1,6 @@
-### RPM external mctester 1.25.0a
+### RPM external mctester 1.25.1
 
-Source:  http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-
-Patch0: mctester-cling
-Patch1: mctester-root6-tbuffer
+Source: https://gitlab.cern.ch/cvsmctst/mc-tester/-/archive/v%{realversion}/mc-tester-v%{realversion}.tar.gz
 
 Requires: hepmc
 Requires: root
@@ -14,9 +11,7 @@ BuildRequires: autotools
 
 
 %prep
-%setup -q -n %{n}/%{realversion}
-%patch0 -p2
-%patch1 -p2
+%setup -q -n mc-tester-v%{realversion}
 
 ./configure \
   --with-HepMC=${HEPMC_ROOT} \
