@@ -70,6 +70,7 @@ debugpy==1.5.1
 defusedxml==0.7.1
 deprecation==2.1.0
 deprecated==1.2.13
+dill==0.3.4
 distlib==0.3.2
 distro==1.6.0
 docopt==0.6.2
