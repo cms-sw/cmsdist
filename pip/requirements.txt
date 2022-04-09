@@ -22,7 +22,7 @@ argparse==1.4.0
 arrow==1.2.1
 asn1crypto==1.4.0
 astor==0.8.1
-astroid==2.7.3
+astroid==2.11.2
 astunparse==1.6.3
 async-lru==1.0.2
 async-timeout==4.0.2
@@ -219,7 +219,7 @@ pydot==1.4.2
 pyflakes==2.3.1
 Pygments==2.10.0
 PyJWT==2.1.0
-pylint==2.13.4
+pylint==2.13.5
 pymongo==3.12.0
 pyparsing==2.4.7
 pyrsistent==0.18.0

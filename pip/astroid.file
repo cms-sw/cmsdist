@@ -1,3 +1,3 @@
-Requires: py3-typed-ast
+Requires: py3-typed-ast py3-typing-extensions
 Requires: py3-lazy-object-proxy py3-six py3-wrapt py3-singledispatch
 Requires: py3-pytest-runner
