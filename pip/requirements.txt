@@ -132,7 +132,7 @@ jupyterlab-pygments==0.1.2
 jupyter-server==1.10.2
 jupyter-server-mathjax==0.2.3
 jupyterlab-widgets==1.1.0
-keras==2.8.0
+keras==2.6.0
 keras-applications==1.0.8
 keras-preprocessing==1.1.2
 keras2onnx==1.7.0
