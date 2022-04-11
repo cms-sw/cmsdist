@@ -1,6 +1,6 @@
-### RPM external vecgeom v1.1.17
+### RPM external vecgeom v1.1.20
 ## INCLUDE compilation_flags
-%define tag ed9a40412c354652262ec80af449f5531206e52c
+%define tag ccc45b15420e60f39b60107795a85fed12332005
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 Requires: veccore
