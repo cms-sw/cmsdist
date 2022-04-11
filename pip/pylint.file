@@ -1,2 +1,2 @@
-Requires: py3-astroid py3-toml
+Requires: py3-astroid py3-toml py3-dill
 Requires: py3-astroid py3-six py3-isort py3-mccabe
