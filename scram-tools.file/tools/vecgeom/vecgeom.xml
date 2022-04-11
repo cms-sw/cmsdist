@@ -6,4 +6,5 @@
     <environment name="LIBDIR" default="$VECGEOM_BASE/lib"/>
   </client>
   <use name="vecgeom_interface"/>
+  <use name="veccore"/>
 </tool>

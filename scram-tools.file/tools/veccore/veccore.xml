@@ -1,0 +1,7 @@
+<tool name="veccore" version="@TOOL_VERSION@">
+  <info url="https://github.com/root-project/veccore"/>
+  <client>
+    <environment name="VECCORE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"      default="$VECCORE_BASE/include"/>
+  </client>
+</tool>

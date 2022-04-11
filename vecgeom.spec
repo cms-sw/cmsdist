@@ -3,8 +3,9 @@
 %define tag ed9a40412c354652262ec80af449f5531206e52c
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
+Requires: veccore
 %define keep_archives true
-
+%define vecgeom_backend Scalar
 Patch0: vecgeom-fix-vector
 
 %prep
@@ -23,16 +24,21 @@ cmake ../%{n}-%{realversion} \
   -DROOT=OFF \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
-  -DBACKEND=Scalar \
+  -DBACKEND=%{vecgeom_backend} \
 %ifarch x86_64
+%if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR=sse3 \
+%endif
 %endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %if "%{?arch_build_flags}"
   -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
-  -DGEANT4=OFF
+  -DGEANT4=OFF \
+  -DDATA_DOWNLOAD=OFF \
+  -DVecCore_DIR=${VECCORE_ROOT}/lib64/cmake/VecCore \
+  -DCMAKE_PREFIX_PATH=${VECCORE_ROOT}
 
 make %{makeprocesses}
 
