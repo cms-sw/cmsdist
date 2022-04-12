@@ -14,7 +14,7 @@ Patch0: professor2-ppc64-flag-change
 %patch0 -p1
 %endif
 
-%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3)
+%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}
 
 %build
 make %{build_flags}
