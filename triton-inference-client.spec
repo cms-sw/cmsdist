@@ -1,9 +1,9 @@
-### RPM external triton-inference-client 2.11.0
-%define branch main
-%define github_user triton-inference-server
-%define tag_2_11_0 36cd3b3c839288c85b15e4df82cfe8fca3fff21b
+### RPM external triton-inference-client 2.20.0
+%define branch cmake_fixes_r22.03
+%define github_user kpedro88
+%define tag_2_20_0 37f6c6dffc81cc40ad9716adb9cc39757afedd7f
 
-Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_11_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_20_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: triton-inference-client/model_config.h
 Source2: triton-inference-client/model_config.cc
 BuildRequires: cmake git
@@ -17,19 +17,8 @@ Requires: protobuf grpc cuda abseil-cpp re2
 
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
-CML_CPP=${PROJ_DIR}/CMakeLists.txt
 CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
 
-# remove rapidjson dependence
-sed -i '/RapidJSON CONFIG REQUIRED/,+13d;' ${CML_LIB}
-sed -i '/triton-common-json/d' ${CML_LIB}
-# core repo not needed for grpc-client-only install
-sed -i '/FetchContent_MakeAvailable(repo-core)/d' ${CML_CPP}
-# remove attempts to install external libs
-sed -i '\~/../../_deps/repo-third-party-build/~d' ${CML_LIB}
-sed -i '\~/../../third-party/~d' ${CML_LIB}
-# keep typeinfo in .so by removing ldscript from properties
-sed -i '/set_target_properties/,+5d' ${CML_LIB}
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_LIB}
@@ -50,20 +39,13 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag_2_11_0=249232758855cc764c78a12964c2a5c09c388d87
-mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_11_0}.tar.gz | tar -xz --strip=1 && popd
+common_tag_2_20_0=249232758855cc764c78a12964c2a5c09c388d87
+mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_20_0}.tar.gz | tar -xz --strip=1 && popd
 
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
 COMMON_DIR=$PWD/repo-common
-CML_TOP=${COMMON_DIR}/CMakeLists.txt
 CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
 
-# remove rapidjson dependence
-sed -i '/RapidJSON CONFIG REQUIRED/,+1d;' ${CML_TOP}
-sed -i '/JSON utilities/,+17d' ${CML_TOP}
-sed -i '/triton-common-json/d' ${CML_TOP}
-# remove python dependence
-sed -i '/Python REQUIRED COMPONENTS Interpreter/,+10d;' ${CML_PRB}
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
@@ -86,6 +68,8 @@ cmake ${PROJ_DIR} \
     -DTRITON_ENABLE_PERF_ANALYZER=OFF \
     -DTRITON_ENABLE_EXAMPLES=OFF \
     -DTRITON_ENABLE_TESTS=OFF \
+    -DTRITON_USE_THIRD_PARTY=OFF \
+    -DTRITON_KEEP_TYPEINFO=ON \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
