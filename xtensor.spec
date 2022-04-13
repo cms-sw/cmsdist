@@ -1,4 +1,4 @@
-### RPM external xtensor 0.20.1
+### RPM external xtensor 0.24.1
 Source: https://github.com/QuantStack/xtensor/archive/%{realversion}.tar.gz
 BuildRequires: cmake
 Requires: xtl
@@ -8,10 +8,11 @@ Requires: xtl
 
 %build
 
-cmake -DCMAKE_INSTALL_PREFIX=%{i} -Dxtl_DIR=${XTL_ROOT}/lib64/cmake/xtl/
+rm -rf ../build; mkdir ../build; cd ../build
+cmake -DCMAKE_INSTALL_PREFIX=%{i} -DCMAKE_PREFIX_PATH=${XTL_ROOT} ../%{n}-%{realversion}
 make %{makeprocesses}
 
 %install
-
+cd ../build
 make install
 
