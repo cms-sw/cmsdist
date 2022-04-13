@@ -3,7 +3,7 @@
   <lib name="cpu_features"/>
   <client>
     <environment name="CPU_FEATURES_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$CPU_FEATURES_BASE/lib"/>
+    <environment name="LIBDIR" default="$CPU_FEATURES_BASE/lib64"/>
     <environment name="INCLUDE" default="$CPU_FEATURES_BASE/include"/>
     <environment name="BINDIR" default="$CPU_FEATURES_BASE/bin"/>
   </client>
