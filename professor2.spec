@@ -21,6 +21,5 @@ make %{build_flags}
 
 %install
 make install PREFIX=%{i} %{build_flags}
-
-find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python.*|#!/usr/bin/env python3| }' {} \;
-find %{i} -name '*deleteme' -delete
+mv %{i}/${PYTHON3_LIB_SITE_PACKAGES}/%{n}-%{realversion}*.egg %{i}/${PYTHON3_LIB_SITE_PACKAGES}/%{n}
+rm -f %{i}/${PYTHON3_LIB_SITE_PACKAGES}/*.pth
