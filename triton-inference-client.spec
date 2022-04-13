@@ -17,8 +17,11 @@ Requires: protobuf grpc cuda abseil-cpp re2
 
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
+CML_CPP=${PROJ_DIR}/CMakeLists.txt
 CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
 
+# change version of common repo initially pulled by cmake to avoid inconsistency
+sed -i 's~https://github.com/triton-inference-server/common.git~https://github.com/kpedro88/common.git~' ${CML_CPP}
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_LIB}
@@ -39,7 +42,7 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag_2_20_0=249232758855cc764c78a12964c2a5c09c388d87
+common_tag_2_20_0=ccee8e88f397a767c1a7ad9d2fa4491cdcced528
 mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_20_0}.tar.gz | tar -xz --strip=1 && popd
 
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
@@ -70,6 +73,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_ENABLE_TESTS=OFF \
     -DTRITON_USE_THIRD_PARTY=OFF \
     -DTRITON_KEEP_TYPEINFO=ON \
+    -DTRITON_COMMON_REPO_TAG=${common_tag_2_20_0} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
