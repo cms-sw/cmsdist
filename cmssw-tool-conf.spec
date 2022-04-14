@@ -17,6 +17,7 @@ Requires: classlib
 Requires: clhep
 Requires: coral
 Requires: cppunit
+Requires: cpu_features
 Requires: curl
 Requires: das_client
 Requires: db6
