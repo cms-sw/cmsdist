@@ -1,8 +1,8 @@
 diff --git a/interpreter/cling/include/cling/boost.modulemap b/interpreter/cling/include/cling/boost.modulemap
-index e3f6150..000b83d 100644
+index e3f6150..6756a0e 100644
 --- a/interpreter/cling/include/cling/boost.modulemap
 +++ b/interpreter/cling/include/cling/boost.modulemap
-@@ -1,7634 +1,3053 @@
+@@ -1,7634 +1,3307 @@
 -module boost_accumulators [system] {
 -  export *
 -  module "accumulators__accumulators_fwd" { header "accumulators/accumulators_fwd.hpp" export * }
@@ -4801,6 +4801,22 @@ index e3f6150..000b83d 100644
 +  }
 +  module throw_exception {
 +    header "throw_exception.hpp"
++    export *
++  }
++  module token_functions {
++    header "token_functions.hpp"
++    export *
++  }
++  module token_iterator {
++    header "token_iterator.hpp"
++    export *
++  }
++  module tokenizer {
++    header "tokenizer.hpp"
++    export *
++  }
++  module aligned_storage {
++    header "aligned_storage.hpp"
      export *
 -    module "random__additive_combine" { header "random/additive_combine.hpp" export * }
 -    module "random__bernoulli_distribution" { header "random/bernoulli_distribution.hpp" export * }
@@ -4874,8 +4890,8 @@ index e3f6150..000b83d 100644
 -    module "random__xor_combine" { header "random/xor_combine.hpp" export * }
    }
 -  module boost_pending {
-+  module token_functions {
-+    header "token_functions.hpp"
++  module array {
++    header "array.hpp"
      export *
 -    module "pending__bucket_sorter" { header "pending/bucket_sorter.hpp" export * }
 -    module "pending__container_traits" { header "pending/container_traits.hpp" export * }
@@ -4897,8 +4913,12 @@ index e3f6150..000b83d 100644
 -    module "pending__stringtok" { header "pending/stringtok.hpp" export * }
    }
 -  module boost_graph {
-+  module token_iterator {
-+    header "token_iterator.hpp"
++  module assert {
++    module source_location {
++      header "assert/source_location.hpp"
++      export *
++    }
++    header "assert.hpp"
      export *
 -    module "graph__adjacency_iterator" { header "graph/adjacency_iterator.hpp" export * }
 -    module "graph__adjacency_list" { header "graph/adjacency_list.hpp" export * }
@@ -6995,8 +7015,8 @@ index e3f6150..000b83d 100644
 -module boost_multi_index_wrapper {
 -  export *
 -  module boost_multi_index {
-+  module tokenizer {
-+    header "tokenizer.hpp"
++  module call_traits {
++    header "call_traits.hpp"
      export *
 -    module "multi_index__composite_key" { header "multi_index/composite_key.hpp" export * }
 -    module "multi_index__detail__access_specifier" { header "multi_index/detail/access_specifier.hpp" export * }
@@ -7688,8 +7708,8 @@ index e3f6150..000b83d 100644
 -module boost_archive_and_serialization {
 -  export *
 -  module boost_archive {
-+  module aligned_storage {
-+    header "aligned_storage.hpp"
++  module checked_delete {
++    header "checked_delete.hpp"
      export *
 -    exclude header "archive/detail/abi_prefix.hpp"
 -    exclude header "archive/detail/abi_suffix.hpp"
@@ -7703,8 +7723,8 @@ index e3f6150..000b83d 100644
    }
 -
 -  module boost_serialization {
-+  module array {
-+    header "array.hpp"
++  module current_function {
++    header "current_function.hpp"
      export *
 -    exclude header "config/abi_prefix.hpp"
 -    // undefined BOOST_SERIALIZATION_ASSUME_ABSTRACT
@@ -7723,12 +7743,30 @@ index e3f6150..000b83d 100644
 -   export *
 -  // lexical_cast/detail/inf_nan.hpp uses boost_math
 -  module boost_lexical_cast {
-+  module assert {
-+    module source_location {
-+      header "assert/source_location.hpp"
++  module detail {
++    module workaround {
++      header "detail/workaround.hpp"
 +      export *
 +    }
-+    header "assert.hpp"
++    module call_traits {
++      header "detail/call_traits.hpp"
++      export *
++    }
++    module compressed_pair {
++      header "detail/compressed_pair.hpp"
++      export *
++    }
++    module container_fwd {
++      header "detail/container_fwd.hpp"
++      export *
++    }
++    module lcast_precision {
++      header "detail/lcast_precision.hpp"
++      export *
++    }
++  }
++  module enable_shared_from_this {
++    header "enable_shared_from_this.hpp"
      export *
 -    module "lexical_cast" { header "lexical_cast.hpp" export * }
 -    umbrella "lexical_cast"
@@ -7736,8 +7774,12 @@ index e3f6150..000b83d 100644
    }
 -
 -  module boost_math {
-+  module call_traits {
-+    header "call_traits.hpp"
++  module integer {
++    module static_log2 {
++      header "integer/static_log2.hpp"
++      export *
++    }
++    header "integer.hpp"
      export *
 -
 -    module math_interpolators {
@@ -7933,8 +7975,8 @@ index e3f6150..000b83d 100644
 -  export *
 -  module interval_interval { header "numeric/interval.hpp" export *}
 -  /*module interval {
-+  module checked_delete {
-+    header "checked_delete.hpp"
++  module integer_fwd {
++    header "integer_fwd.hpp"
      export *
 -    umbrella "numeric/interval"
 -    module * { export * }
@@ -7947,8 +7989,8 @@ index e3f6150..000b83d 100644
 -  //module odeint_odeint { header "numeric/odeint.hpp" export * }
 -  module odeint {
 +  }
-+  module current_function {
-+    header "current_function.hpp"
++  module integer_traits {
++    header "integer_traits.hpp"
      export *
 -    module config { export * header "numeric/odeint/config.hpp" }
 -    module version { export * header "numeric/odeint/version.hpp" }
@@ -7972,25 +8014,9 @@ index e3f6150..000b83d 100644
 -      umbrella "numeric/odeint/integrate"
 -       module * { export * }
 +  }
-+  module detail {
-+    module workaround {
-+      header "detail/workaround.hpp"
-+      export *
-+    }
-+    module call_traits {
-+      header "detail/call_traits.hpp"
-+      export *
-+    }
-+    module compressed_pair {
-+      header "detail/compressed_pair.hpp"
-+      export *
-+    }
-+    module container_fwd {
-+      header "detail/container_fwd.hpp"
-+      export *
-+    }
-+    module lcast_precision {
-+      header "detail/lcast_precision.hpp"
++  module io {
++    module ios_state {
++      header "io/ios_state.hpp"
 +      export *
      }
 -    // FIXME: Missing includes
@@ -8000,8 +8026,8 @@ index e3f6150..000b83d 100644
    }
 -
 -  module ublas {
-+  module enable_shared_from_this {
-+    header "enable_shared_from_this.hpp"
++  module io_fwd {
++    header "io_fwd.hpp"
      export *
 -    // Missing includes.
 -    exclude header "numeric/ublas/detail/definitions.hpp"
@@ -8056,12 +8082,50 @@ index e3f6150..000b83d 100644
 -  module thread_detail {
 -
 -    umbrella "thread/detail" module * { export * }
-+  module integer {
-+    module static_log2 {
-+      header "integer/static_log2.hpp"
++  module lexical_cast {
++    module detail {
++      module converter_lexical {
++        header "lexical_cast/detail/converter_lexical.hpp"
++        export *
++      }
++      module converter_lexical_streams {
++        header "lexical_cast/detail/converter_lexical_streams.hpp"
++        export *
++      }
++      module converter_numeric {
++        header "lexical_cast/detail/converter_numeric.hpp"
++        export *
++      }
++      module inf_nan {
++        header "lexical_cast/detail/inf_nan.hpp"
++        export *
++      }
++      module is_character {
++        header "lexical_cast/detail/is_character.hpp"
++        export *
++      }
++      module lcast_char_constants {
++        header "lexical_cast/detail/lcast_char_constants.hpp"
++        export *
++      }
++      module lcast_unsigned_converters {
++        header "lexical_cast/detail/lcast_unsigned_converters.hpp"
++        export *
++      }
++      module widest_char {
++        header "lexical_cast/detail/widest_char.hpp"
++        export *
++      }
++    }
++    module try_lexical_convert {
++      header "lexical_cast/try_lexical_convert.hpp"
 +      export *
 +    }
-+    header "integer.hpp"
++    module bad_lexical_cast {
++      header "lexical_cast/bad_lexical_cast.hpp"
++      export *
++    }
++    header "lexical_cast.hpp"
 +    export *
    }
 -  //module thread_executors { umbrella "thread/executors" module * { export * } }
@@ -8072,8 +8136,8 @@ index e3f6150..000b83d 100644
 -    exclude header "thread/pthread/once_atomic.hpp"
 -    exclude header "thread/pthread/once.hpp"
 -    umbrella "thread/pthread" module * { export * }
-+  module integer_fwd {
-+    header "integer_fwd.hpp"
++  module limits {
++    header "limits.hpp"
 +    export *
    }
 -  module thread_v2 { umbrella "thread/v2" module * { export * } }
@@ -8091,8 +8155,8 @@ index e3f6150..000b83d 100644
 -module boost_foreach_fwd { export * module "foreach_fwd" { header "foreach_fwd.hpp" export * } }
 -
 -  module boost_spirit {
-+  module integer_traits {
-+    header "integer_traits.hpp"
++  module none {
++    header "none.hpp"
      export *
 -    module "spirit__home__classic__actor__assign_actor" { header "spirit/home/classic/actor/assign_actor.hpp" export * }
 -    module "spirit__home__classic__actor__assign_key_actor" { header "spirit/home/classic/actor/assign_key_actor.hpp" export * }
@@ -9033,138 +9097,6 @@ index e3f6150..000b83d 100644
 -}
 -
 -  module boost_proto {
-+  module io {
-+    module ios_state {
-+      header "io/ios_state.hpp"
-+      export *
-+    }
-+  }
-+  module io_fwd {
-+    header "io_fwd.hpp"
-     export *
--    module "proto__args" { header "proto/args.hpp" export * }
--    module "proto__context__callable" { header "proto/context/callable.hpp" export * }
--    module "proto__context__default" { header "proto/context/default.hpp" export * }
--    module "proto__context" { header "proto/context.hpp" export * }
--    module "proto__context__null" { header "proto/context/null.hpp" export * }
--    module "proto__core" { header "proto/core.hpp" export * }
--    module "proto__debug" { header "proto/debug.hpp" export * }
--    module "proto__deep_copy" { header "proto/deep_copy.hpp" export * }
--    module "proto__detail__any" { header "proto/detail/any.hpp" export * }
--    module "proto__detail__as_expr" { header "proto/detail/as_expr.hpp" export * }
--    module "proto__detail__as_lvalue" { header "proto/detail/as_lvalue.hpp" export * }
--    module "proto__detail__decltype" { header "proto/detail/decltype.hpp" export * }
--    module "proto__detail__deduce_domain" { header "proto/detail/deduce_domain.hpp" export * }
--    module "proto__detail__deprecated" { header "proto/detail/deprecated.hpp" export * }
--    module "proto__detail__dont_care" { header "proto/detail/dont_care.hpp" export * }
--    module "proto__detail__ignore_unused" { header "proto/detail/ignore_unused.hpp" export * }
--    module "proto__detail__is_noncopyable" { header "proto/detail/is_noncopyable.hpp" export * }
--    module "proto__detail__poly_function" { header "proto/detail/poly_function.hpp" export * }
--    module "proto__detail__remove_typename" { header "proto/detail/remove_typename.hpp" export * }
--    module "proto__detail__static_const" { header "proto/detail/static_const.hpp" export * }
--    module "proto__detail__template_arity" { header "proto/detail/template_arity.hpp" export * }
--    module "proto__domain" { header "proto/domain.hpp" export * }
--    module "proto__eval" { header "proto/eval.hpp" export * }
--    module "proto__expr" { header "proto/expr.hpp" export * }
--    module "proto__extends" { header "proto/extends.hpp" export * }
--    module "proto__functional__fusion__at" { header "proto/functional/fusion/at.hpp" export * }
--    module "proto__functional__fusion" { header "proto/functional/fusion.hpp" export * }
--    module "proto__functional__fusion__pop_back" { header "proto/functional/fusion/pop_back.hpp" export * }
--    module "proto__functional__fusion__pop_front" { header "proto/functional/fusion/pop_front.hpp" export * }
--    module "proto__functional__fusion__push_back" { header "proto/functional/fusion/push_back.hpp" export * }
--    module "proto__functional__fusion__push_front" { header "proto/functional/fusion/push_front.hpp" export * }
--    module "proto__functional__fusion__reverse" { header "proto/functional/fusion/reverse.hpp" export * }
--    module "proto__functional" { header "proto/functional.hpp" export * }
--    module "proto__functional__range__begin" { header "proto/functional/range/begin.hpp" export * }
--    module "proto__functional__range__empty" { header "proto/functional/range/empty.hpp" export * }
--    module "proto__functional__range__end" { header "proto/functional/range/end.hpp" export * }
--    module "proto__functional__range" { header "proto/functional/range.hpp" export * }
--    module "proto__functional__range__rbegin" { header "proto/functional/range/rbegin.hpp" export * }
--    module "proto__functional__range__rend" { header "proto/functional/range/rend.hpp" export * }
--    module "proto__functional__range__size" { header "proto/functional/range/size.hpp" export * }
--    module "proto__functional__std" { header "proto/functional/std.hpp" export * }
--    module "proto__functional__std__iterator" { header "proto/functional/std/iterator.hpp" export * }
--    module "proto__functional__std__utility" { header "proto/functional/std/utility.hpp" export * }
--    module "proto__fusion" { header "proto/fusion.hpp" export * }
--    module "proto__generate" { header "proto/generate.hpp" export * }
--    module "proto__literal" { header "proto/literal.hpp" export * }
--    module "proto__make_expr" { header "proto/make_expr.hpp" export * }
--    module "proto__matches" { header "proto/matches.hpp" export * }
--    module "proto__operators" { header "proto/operators.hpp" export * }
--    module "proto__proto_fwd" { header "proto/proto_fwd.hpp" export * }
--    module "proto__proto" { header "proto/proto.hpp" export * }
--    module "proto__proto_typeof" { header "proto/proto_typeof.hpp" export * }
--    module "proto__repeat" { header "proto/repeat.hpp" export * }
--    module "proto__tags" { header "proto/tags.hpp" export * }
--    module "proto__traits" { header "proto/traits.hpp" export * }
--    module "proto__transform__arg" { header "proto/transform/arg.hpp" export * }
--    module "proto__transform__call" { header "proto/transform/call.hpp" export * }
--    module "proto__transform__detail__pack" { header "proto/transform/detail/pack.hpp" export * }
--    module "proto__transform__env" { header "proto/transform/env.hpp" export * }
--    module "proto__transform__fold" { header "proto/transform/fold.hpp" export * }
--    module "proto__transform__fold_tree" { header "proto/transform/fold_tree.hpp" export * }
--    module "proto__transform__impl" { header "proto/transform/impl.hpp" export * }
--    module "proto__transform__integral_c" { header "proto/transform/integral_c.hpp" export * }
--    module "proto__transform__lazy" { header "proto/transform/lazy.hpp" export * }
--    module "proto__transform__make" { header "proto/transform/make.hpp" export * }
--    module "proto__transform__pass_through" { header "proto/transform/pass_through.hpp" export * }
--    module "proto__transform__when" { header "proto/transform/when.hpp" export * }
-   }
--  module boost_phoenix {
-+  module lexical_cast {
-+    module detail {
-+      module converter_lexical {
-+        header "lexical_cast/detail/converter_lexical.hpp"
-+        export *
-+      }
-+      module converter_lexical_streams {
-+        header "lexical_cast/detail/converter_lexical_streams.hpp"
-+        export *
-+      }
-+      module converter_numeric {
-+        header "lexical_cast/detail/converter_numeric.hpp"
-+        export *
-+      }
-+      module inf_nan {
-+        header "lexical_cast/detail/inf_nan.hpp"
-+        export *
-+      }
-+      module is_character {
-+        header "lexical_cast/detail/is_character.hpp"
-+        export *
-+      }
-+      module lcast_char_constants {
-+        header "lexical_cast/detail/lcast_char_constants.hpp"
-+        export *
-+      }
-+      module lcast_unsigned_converters {
-+        header "lexical_cast/detail/lcast_unsigned_converters.hpp"
-+        export *
-+      }
-+      module widest_char {
-+        header "lexical_cast/detail/widest_char.hpp"
-+        export *
-+      }
-+    }
-+    module try_lexical_convert {
-+      header "lexical_cast/try_lexical_convert.hpp"
-+      export *
-+    }
-+    module bad_lexical_cast {
-+      header "lexical_cast/bad_lexical_cast.hpp"
-+      export *
-+    }
-+    header "lexical_cast.hpp"
-+    export *
-+  }
-+  module limits {
-+    header "limits.hpp"
-+    export *
-+  }
-+  module none {
-+    header "none.hpp"
-+    export *
-+  }
 +  module none_t {
 +    header "none_t.hpp"
 +    export *
@@ -9271,140 +9203,78 @@ index e3f6150..000b83d 100644
 +  }
 +  module scoped_ptr {
 +    header "scoped_ptr.hpp"
-+    export *
-+  }
+     export *
+-    module "proto__args" { header "proto/args.hpp" export * }
+-    module "proto__context__callable" { header "proto/context/callable.hpp" export * }
+-    module "proto__context__default" { header "proto/context/default.hpp" export * }
+-    module "proto__context" { header "proto/context.hpp" export * }
+-    module "proto__context__null" { header "proto/context/null.hpp" export * }
+-    module "proto__core" { header "proto/core.hpp" export * }
+-    module "proto__debug" { header "proto/debug.hpp" export * }
+-    module "proto__deep_copy" { header "proto/deep_copy.hpp" export * }
+-    module "proto__detail__any" { header "proto/detail/any.hpp" export * }
+-    module "proto__detail__as_expr" { header "proto/detail/as_expr.hpp" export * }
+-    module "proto__detail__as_lvalue" { header "proto/detail/as_lvalue.hpp" export * }
+-    module "proto__detail__decltype" { header "proto/detail/decltype.hpp" export * }
+-    module "proto__detail__deduce_domain" { header "proto/detail/deduce_domain.hpp" export * }
+-    module "proto__detail__deprecated" { header "proto/detail/deprecated.hpp" export * }
+-    module "proto__detail__dont_care" { header "proto/detail/dont_care.hpp" export * }
+-    module "proto__detail__ignore_unused" { header "proto/detail/ignore_unused.hpp" export * }
+-    module "proto__detail__is_noncopyable" { header "proto/detail/is_noncopyable.hpp" export * }
+-    module "proto__detail__poly_function" { header "proto/detail/poly_function.hpp" export * }
+-    module "proto__detail__remove_typename" { header "proto/detail/remove_typename.hpp" export * }
+-    module "proto__detail__static_const" { header "proto/detail/static_const.hpp" export * }
+-    module "proto__detail__template_arity" { header "proto/detail/template_arity.hpp" export * }
+-    module "proto__domain" { header "proto/domain.hpp" export * }
+-    module "proto__eval" { header "proto/eval.hpp" export * }
+-    module "proto__expr" { header "proto/expr.hpp" export * }
+-    module "proto__extends" { header "proto/extends.hpp" export * }
+-    module "proto__functional__fusion__at" { header "proto/functional/fusion/at.hpp" export * }
+-    module "proto__functional__fusion" { header "proto/functional/fusion.hpp" export * }
+-    module "proto__functional__fusion__pop_back" { header "proto/functional/fusion/pop_back.hpp" export * }
+-    module "proto__functional__fusion__pop_front" { header "proto/functional/fusion/pop_front.hpp" export * }
+-    module "proto__functional__fusion__push_back" { header "proto/functional/fusion/push_back.hpp" export * }
+-    module "proto__functional__fusion__push_front" { header "proto/functional/fusion/push_front.hpp" export * }
+-    module "proto__functional__fusion__reverse" { header "proto/functional/fusion/reverse.hpp" export * }
+-    module "proto__functional" { header "proto/functional.hpp" export * }
+-    module "proto__functional__range__begin" { header "proto/functional/range/begin.hpp" export * }
+-    module "proto__functional__range__empty" { header "proto/functional/range/empty.hpp" export * }
+-    module "proto__functional__range__end" { header "proto/functional/range/end.hpp" export * }
+-    module "proto__functional__range" { header "proto/functional/range.hpp" export * }
+-    module "proto__functional__range__rbegin" { header "proto/functional/range/rbegin.hpp" export * }
+-    module "proto__functional__range__rend" { header "proto/functional/range/rend.hpp" export * }
+-    module "proto__functional__range__size" { header "proto/functional/range/size.hpp" export * }
+-    module "proto__functional__std" { header "proto/functional/std.hpp" export * }
+-    module "proto__functional__std__iterator" { header "proto/functional/std/iterator.hpp" export * }
+-    module "proto__functional__std__utility" { header "proto/functional/std/utility.hpp" export * }
+-    module "proto__fusion" { header "proto/fusion.hpp" export * }
+-    module "proto__generate" { header "proto/generate.hpp" export * }
+-    module "proto__literal" { header "proto/literal.hpp" export * }
+-    module "proto__make_expr" { header "proto/make_expr.hpp" export * }
+-    module "proto__matches" { header "proto/matches.hpp" export * }
+-    module "proto__operators" { header "proto/operators.hpp" export * }
+-    module "proto__proto_fwd" { header "proto/proto_fwd.hpp" export * }
+-    module "proto__proto" { header "proto/proto.hpp" export * }
+-    module "proto__proto_typeof" { header "proto/proto_typeof.hpp" export * }
+-    module "proto__repeat" { header "proto/repeat.hpp" export * }
+-    module "proto__tags" { header "proto/tags.hpp" export * }
+-    module "proto__traits" { header "proto/traits.hpp" export * }
+-    module "proto__transform__arg" { header "proto/transform/arg.hpp" export * }
+-    module "proto__transform__call" { header "proto/transform/call.hpp" export * }
+-    module "proto__transform__detail__pack" { header "proto/transform/detail/pack.hpp" export * }
+-    module "proto__transform__env" { header "proto/transform/env.hpp" export * }
+-    module "proto__transform__fold" { header "proto/transform/fold.hpp" export * }
+-    module "proto__transform__fold_tree" { header "proto/transform/fold_tree.hpp" export * }
+-    module "proto__transform__impl" { header "proto/transform/impl.hpp" export * }
+-    module "proto__transform__integral_c" { header "proto/transform/integral_c.hpp" export * }
+-    module "proto__transform__lazy" { header "proto/transform/lazy.hpp" export * }
+-    module "proto__transform__make" { header "proto/transform/make.hpp" export * }
+-    module "proto__transform__pass_through" { header "proto/transform/pass_through.hpp" export * }
+-    module "proto__transform__when" { header "proto/transform/when.hpp" export * }
+   }
+-  module boost_phoenix {
 +  module shared_ptr {
 +    header "shared_ptr.hpp"
-+    export *
-+  }
-+  module smart_ptr {
-+    module bad_weak_ptr {
-+      header "smart_ptr/bad_weak_ptr.hpp"
-+      export *
-+    }
-+    module detail {
-+      module sp_counted_base {
-+        header "smart_ptr/detail/sp_counted_base.hpp"
-+        export *
-+      }
-+      module sp_counted_base_gcc_atomic {
-+        header "smart_ptr/detail/sp_counted_base_gcc_atomic.hpp"
-+        export *
-+      }
-+      module sp_counted_impl {
-+        header "smart_ptr/detail/sp_counted_impl.hpp"
-+        export *
-+      }
-+      module sp_disable_deprecated {
-+        header "smart_ptr/detail/sp_disable_deprecated.hpp"
-+        export *
-+      }
-+      module sp_has_gcc_intrinsics {
-+        header "smart_ptr/detail/sp_has_gcc_intrinsics.hpp"
-+        export *
-+      }
-+      module sp_has_sync_intrinsics {
-+        header "smart_ptr/detail/sp_has_sync_intrinsics.hpp"
-+        export *
-+      }
-+      module sp_noexcept {
-+        header "smart_ptr/detail/sp_noexcept.hpp"
-+        export *
-+      }
-+      module sp_nullptr_t {
-+        header "smart_ptr/detail/sp_nullptr_t.hpp"
-+        export *
-+      }
-+      module sp_thread_pause {
-+        header "smart_ptr/detail/sp_thread_pause.hpp"
-+        export *
-+      }
-+      module sp_thread_sleep {
-+        header "smart_ptr/detail/sp_thread_sleep.hpp"
-+        export *
-+      }
-+      module sp_typeinfo_ {
-+        header "smart_ptr/detail/sp_typeinfo_.hpp"
-+        export *
-+      }
-+      module spinlock {
-+        header "smart_ptr/detail/spinlock.hpp"
-+        export *
-+      }
-+      module spinlock_gcc_atomic {
-+        header "smart_ptr/detail/spinlock_gcc_atomic.hpp"
-+        export *
-+      }
-+      module spinlock_pool {
-+        header "smart_ptr/detail/spinlock_pool.hpp"
-+        export *
-+      }
-+      module yield_k {
-+        header "smart_ptr/detail/yield_k.hpp"
-+        export *
-+      }
-+      module shared_count {
-+        header "smart_ptr/detail/shared_count.hpp"
-+        export *
-+      }
-+      module sp_convertible {
-+        header "smart_ptr/detail/sp_convertible.hpp"
-+        export *
-+      }
-+      module local_counted_base {
-+        header "smart_ptr/detail/local_counted_base.hpp"
-+        export *
-+      }
-+    }
-+    module enable_shared_from_this {
-+      header "smart_ptr/enable_shared_from_this.hpp"
-+      export *
-+    }
-+    module scoped_ptr {
-+      header "smart_ptr/scoped_ptr.hpp"
-+      export *
-+    }
-+    module shared_ptr {
-+      header "smart_ptr/shared_ptr.hpp"
-+      export *
-+    }
-+    module weak_ptr {
-+      header "smart_ptr/weak_ptr.hpp"
-+      export *
-+    }
-+  }
-+  module static_assert {
-+    header "static_assert.hpp"
-+    export *
-+  }
-+  module type {
-+    header "type.hpp"
-+    export *
-+  }
-+  module optional {
-+    module optional {
-+      header "optional/optional.hpp"
-+      export *
-+    }
-+    module optional_fwd {
-+      header "optional/optional_fwd.hpp"
-+      export *
-+    }
-+    module bad_optional_access {
-+      header "optional/bad_optional_access.hpp"
-+      export *
-+    }
-+    module detail {
-+      module optional_config {
-+        header "optional/detail/optional_config.hpp"
-+        export *
-+      }
-+    }
-+    header "optional.hpp"
-+    export *
-+  }
-+  module compressed_pair {
-+    header "compressed_pair.hpp"
      export *
 -    module "phoenix__bind__bind_function" { header "phoenix/bind/bind_function.hpp" export * }
 -    module "phoenix__bind__bind_function_object" { header "phoenix/bind/bind_function_object.hpp" export * }
@@ -10657,4 +10527,388 @@ index e3f6150..000b83d 100644
 -  module "xpressive__xpressive" { header "xpressive/xpressive.hpp" export * }
 -  module "xpressive__xpressive_static" { header "xpressive/xpressive_static.hpp" export * }
 -  module "xpressive__xpressive_typeof" { header "xpressive/xpressive_typeof.hpp" export * }
++  module smart_ptr {
++    module bad_weak_ptr {
++      header "smart_ptr/bad_weak_ptr.hpp"
++      export *
++    }
++    module detail {
++      module sp_counted_base {
++        header "smart_ptr/detail/sp_counted_base.hpp"
++        export *
++      }
++      module sp_counted_base_gcc_atomic {
++        header "smart_ptr/detail/sp_counted_base_gcc_atomic.hpp"
++        export *
++      }
++      module sp_counted_impl {
++        header "smart_ptr/detail/sp_counted_impl.hpp"
++        export *
++      }
++      module sp_disable_deprecated {
++        header "smart_ptr/detail/sp_disable_deprecated.hpp"
++        export *
++      }
++      module sp_has_gcc_intrinsics {
++        header "smart_ptr/detail/sp_has_gcc_intrinsics.hpp"
++        export *
++      }
++      module sp_has_sync_intrinsics {
++        header "smart_ptr/detail/sp_has_sync_intrinsics.hpp"
++        export *
++      }
++      module sp_noexcept {
++        header "smart_ptr/detail/sp_noexcept.hpp"
++        export *
++      }
++      module sp_nullptr_t {
++        header "smart_ptr/detail/sp_nullptr_t.hpp"
++        export *
++      }
++      module sp_thread_pause {
++        header "smart_ptr/detail/sp_thread_pause.hpp"
++        export *
++      }
++      module sp_thread_sleep {
++        header "smart_ptr/detail/sp_thread_sleep.hpp"
++        export *
++      }
++      module sp_typeinfo_ {
++        header "smart_ptr/detail/sp_typeinfo_.hpp"
++        export *
++      }
++      module spinlock {
++        header "smart_ptr/detail/spinlock.hpp"
++        export *
++      }
++      module spinlock_gcc_atomic {
++        header "smart_ptr/detail/spinlock_gcc_atomic.hpp"
++        export *
++      }
++      module spinlock_pool {
++        header "smart_ptr/detail/spinlock_pool.hpp"
++        export *
++      }
++      module yield_k {
++        header "smart_ptr/detail/yield_k.hpp"
++        export *
++      }
++      module shared_count {
++        header "smart_ptr/detail/shared_count.hpp"
++        export *
++      }
++      module sp_convertible {
++        header "smart_ptr/detail/sp_convertible.hpp"
++        export *
++      }
++      module local_counted_base {
++        header "smart_ptr/detail/local_counted_base.hpp"
++        export *
++      }
++    }
++    module enable_shared_from_this {
++      header "smart_ptr/enable_shared_from_this.hpp"
++      export *
++    }
++    module scoped_ptr {
++      header "smart_ptr/scoped_ptr.hpp"
++      export *
++    }
++    module shared_ptr {
++      header "smart_ptr/shared_ptr.hpp"
++      export *
++    }
++    module weak_ptr {
++      header "smart_ptr/weak_ptr.hpp"
++      export *
++    }
++  }
++  module static_assert {
++    header "static_assert.hpp"
++    export *
++  }
++  module type {
++    header "type.hpp"
++    export *
++  }
++  module optional {
++    module optional {
++      header "optional/optional.hpp"
++      export *
++    }
++    module optional_fwd {
++      header "optional/optional_fwd.hpp"
++      export *
++    }
++    module bad_optional_access {
++      header "optional/bad_optional_access.hpp"
++      export *
++    }
++    module detail {
++      module optional_config {
++        header "optional/detail/optional_config.hpp"
++        export *
++      }
++    }
++    header "optional.hpp"
++    export *
++  }
++  module compressed_pair {
++    header "compressed_pair.hpp"
++    export *
++  }
++  module spirit {
++    module home {
++      module classic {
++        module actor {
++          module assign_actor {
++            header "spirit/home/classic/actor/assign_actor.hpp"
++            export *
++          }
++          module push_back_actor {
++            header "spirit/home/classic/actor/push_back_actor.hpp"
++            export *
++          }
++          module ref_const_ref_actor {
++            header "spirit/home/classic/actor/ref_const_ref_actor.hpp"
++            export *
++          }
++          module ref_value_actor {
++            header "spirit/home/classic/actor/ref_value_actor.hpp"
++            export *
++          }
++        }
++        module core {
++          module composite {
++            module actions {
++              header "spirit/home/classic/core/composite/actions.hpp"
++              export *
++            }
++            module alternative {
++              header "spirit/home/classic/core/composite/alternative.hpp"
++              export *
++            }
++            module composite {
++              header "spirit/home/classic/core/composite/composite.hpp"
++              export *
++            }
++            module difference {
++              header "spirit/home/classic/core/composite/difference.hpp"
++              export *
++            }
++            module directives {
++              header "spirit/home/classic/core/composite/directives.hpp"
++              export *
++            }
++            module epsilon {
++              header "spirit/home/classic/core/composite/epsilon.hpp"
++              export *
++            }
++            module exclusive_or {
++              header "spirit/home/classic/core/composite/exclusive_or.hpp"
++              export *
++            }
++            module intersection {
++              header "spirit/home/classic/core/composite/intersection.hpp"
++              export *
++            }
++            module kleene_star {
++              header "spirit/home/classic/core/composite/kleene_star.hpp"
++              export *
++            }
++            module no_actions {
++              header "spirit/home/classic/core/composite/no_actions.hpp"
++              export *
++            }
++            module operators {
++              header "spirit/home/classic/core/composite/operators.hpp"
++              export *
++            }
++            module optional {
++              header "spirit/home/classic/core/composite/optional.hpp"
++              export *
++            }
++            module positive {
++              header "spirit/home/classic/core/composite/positive.hpp"
++              export *
++            }
++            module sequence {
++              header "spirit/home/classic/core/composite/sequence.hpp"
++              export *
++            }
++            module sequential_or {
++              header "spirit/home/classic/core/composite/sequential_or.hpp"
++              export *
++            }
++          }
++          module non_terminal {
++            module impl {
++              module object_with_id {
++                header "spirit/home/classic/core/non_terminal/impl/object_with_id.ipp"
++                export *
++              }
++              module rule {
++                header "spirit/home/classic/core/non_terminal/impl/rule.ipp"
++                export *
++              }
++              module static {
++                header "spirit/home/classic/core/non_terminal/impl/static.hpp"
++                export *
++              }
++            }
++            module rule {
++              header "spirit/home/classic/core/non_terminal/rule.hpp"
++              export *
++            }
++            module subrule {
++              header "spirit/home/classic/core/non_terminal/subrule.hpp"
++              export *
++            }
++            module subrule_fwd {
++              header "spirit/home/classic/core/non_terminal/subrule_fwd.hpp"
++              export *
++            }
++            module grammar {
++              header "spirit/home/classic/core/non_terminal/grammar.hpp"
++              export *
++            }
++          }
++          module assert {
++            header "spirit/home/classic/core/assert.hpp"
++            export *
++          }
++          module config {
++            header "spirit/home/classic/core/config.hpp"
++            export *
++          }
++          module nil {
++            header "spirit/home/classic/core/nil.hpp"
++            export *
++          }
++          module parser {
++            header "spirit/home/classic/core/parser.hpp"
++            export *
++          }
++          module primitives {
++            module numerics {
++              header "spirit/home/classic/core/primitives/numerics.hpp"
++              export *
++            }
++            module numerics_fwd {
++              header "spirit/home/classic/core/primitives/numerics_fwd.hpp"
++              export *
++            }
++            module primitives {
++              header "spirit/home/classic/core/primitives/primitives.hpp"
++              export *
++            }
++          }
++          module safe_bool {
++            header "spirit/home/classic/core/safe_bool.hpp"
++            export *
++          }
++          module scanner {
++            module scanner {
++              header "spirit/home/classic/core/scanner/scanner.hpp"
++              export *
++            }
++            module scanner_fwd {
++              header "spirit/home/classic/core/scanner/scanner_fwd.hpp"
++              export *
++            }
++            module skipper_fwd {
++              header "spirit/home/classic/core/scanner/skipper_fwd.hpp"
++              export *
++            }
++          }
++          header "spirit/home/classic/core.hpp"
++          export *
++        }
++        module utility {
++          module impl {
++            module chset {
++              module basic_chset {
++                header "spirit/home/classic/utility/impl/chset/basic_chset.hpp"
++                header "spirit/home/classic/utility/impl/chset/basic_chset.ipp"
++                export *
++              }
++              module range_run {
++                header "spirit/home/classic/utility/impl/chset/range_run.hpp"
++                header "spirit/home/classic/utility/impl/chset/range_run.ipp"
++                export *
++              }
++              header "spirit/home/classic/utility/impl/chset.ipp"
++              export *
++            }
++          }
++          module chset {
++            header "spirit/home/classic/utility/chset.hpp"
++            export *
++          }
++          module grammar_def {
++            header "spirit/home/classic/utility/grammar_def.hpp"
++            export *
++          }
++        }
++        module meta {
++          module parser_traits {
++            header "spirit/home/classic/meta/parser_traits.hpp"
++            export *
++          }
++          module as_parser {
++            header "spirit/home/classic/meta/as_parser.hpp"
++            export *
++          }
++          module impl {
++            module parser_traits {
++              header "spirit/home/classic/meta/impl/parser_traits.ipp"
++              export *
++            }
++          }
++        }
++        module namespace {
++          header "spirit/home/classic/namespace.hpp"
++          export *
++        }
++        module phoenix {
++          module tuples {
++            header "spirit/home/classic/phoenix/tuples.hpp"
++            export *
++          }
++        }
++        module debug {
++          header "spirit/home/classic/debug.hpp"
++          export *
++        }
++        module error_handling {
++          module exceptions {
++            header "spirit/home/classic/error_handling/exceptions.hpp"
++            export *
++          }
++          module exceptions_fwd {
++            header "spirit/home/classic/error_handling/exceptions_fwd.hpp"
++            export *
++          }
++        }
++        module version {
++          header "spirit/home/classic/version.hpp"
++          export *
++        }
++      }
++    }
++    module include {
++      module classic_chset {
++        header "spirit/include/classic_chset.hpp"
++        export *
++      }
++      module classic_core {
++        header "spirit/include/classic_core.hpp"
++        export *
++      }
++      module classic_exceptions {
++        header "spirit/include/classic_exceptions.hpp"
++        export *
++      }
++    }
++  }
  }
