@@ -1,5 +1,6 @@
 ### RPM external geant4 10.7.2
 ## INCLUDE compilation_flags
+%define use_vecgeom 1
 %define tag %{realversion}
 %define branch geant4-10.7-release
 %define github_user Geant4
@@ -10,7 +11,9 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
+%if %{use_vecgeom}
 Requires: vecgeom
+%endif
 Requires: zlib
 
 %define keep_archives true
@@ -28,7 +31,9 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
+%if %{use_vecgeom}
 export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom 
+%endif
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -49,7 +54,9 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
+%if %{use_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
+%endif
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
