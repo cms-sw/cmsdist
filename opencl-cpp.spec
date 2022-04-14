@@ -1,7 +1,7 @@
-### RPM external opencl-cpp 1.1
+### RPM external opencl-cpp 2.0.16
 ## NOCOMPILER
 
-Source0: http://www.khronos.org/registry/cl/api/%{realversion}/cl.hpp
+Source0: https://raw.githubusercontent.com/KhronosGroup/OpenCL-CLHPP/v%{realversion}/include/CL/opencl.hpp
 
 Requires: opencl
 

@@ -1,19 +1,15 @@
-### RPM external opencv 4.5.1
+### RPM external opencv 4.5.5
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 %define tag %{realversion}
 %define branch master
 %define github_user opencv
 
 Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Source1: https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/19692.patch
-Patch0: opencv-gcc11
 BuildRequires: cmake ninja
 Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 
 %prep
 %setup -n %{n}-%{realversion}
-patch -p1 < %{_sourcedir}/19692.patch
-%patch0 -p1
 
 %build
 rm -rf ../build

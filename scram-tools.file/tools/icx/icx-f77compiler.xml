@@ -1,0 +1,7 @@
+  <tool name="icx-f77compiler" version="@TOOL_VERSION@" type="compiler">
+    <use name="gcc-f77compiler"/>
+    <client>
+      <environment name="FC" default="@GCC_ROOT@/bin/gfortran"/>
+    </client>
+    <flags SKIP_TOOL_SYMLINKS="1"/>
+  </tool>

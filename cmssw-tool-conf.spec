@@ -17,6 +17,7 @@ Requires: classlib
 Requires: clhep
 Requires: coral
 Requires: cppunit
+Requires: cpu_features
 Requires: curl
 Requires: das_client
 Requires: db6
@@ -107,7 +108,6 @@ Requires: llvm
 Requires: tbb
 Requires: mctester
 Requires: vdt
-Requires: icc
 Requires: gnuplot
 Requires: sloccount
 Requires: millepede
@@ -163,6 +163,8 @@ Requires: openloops
 %ifarch x86_64
 Requires: tkonlinesw
 Requires: oracle
+Requires: icc
+Requires: icx
 Requires: intel-vtune
 Requires: cmsmon-tools
 Requires: dip

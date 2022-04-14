@@ -1,0 +1,11 @@
+<tool name="cpu_features" version="@TOOL_VERSION@">
+  <info url="https://github.com/google/cpu_features"/>
+  <lib name="cpu_features"/>
+  <client>
+    <environment name="CPU_FEATURES_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$CPU_FEATURES_BASE/lib64"/>
+    <environment name="INCLUDE" default="$CPU_FEATURES_BASE/include"/>
+    <environment name="BINDIR" default="$CPU_FEATURES_BASE/bin"/>
+  </client>
+  <runtime name="PATH" value="$BINDIR" type="path"/>
+</tool>
