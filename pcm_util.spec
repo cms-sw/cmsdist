@@ -1,7 +1,7 @@
 ### RPM external pcm_util 1.0
 
 Source: none 
-Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11                  
+Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11 fmt                 
 
 %prep
 
@@ -21,6 +21,7 @@ CUDA_MM_NAME="cuda.modulemap"
 HEPMC_MM_NAME="hepmc.modulemap"
 TBB_MM_NAME="module.modulemap"
 PYBIND11_MM_NAME="module.modulemap"
+FMT_MM_NAME="module.modulemap"
 
 CLHEP_INCDIR="include/"
 TINYXML2_INCDIR="include/"
@@ -28,6 +29,7 @@ CUDA_INCDIR="include/"
 HEPMC_INCDIR="include/"
 TBB_INCDIR="include/"
 PYBIND11_INCDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
+FMT_INCDIR="include/"
 
 CLHEP_MODDIR="include"
 TINYXML2_MODDIR="include"
@@ -35,6 +37,7 @@ CUDA_MODDIR="include"
 HEPMC_MODDIR="include"
 TBB_MODDIR="include"
 PYBIND11_MODDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
+FMT_MODDIR="include"
  
 CLHEP_MODPACK="clhep"
 TINYXML2_MODPACK="tinyxml2"
@@ -42,6 +45,7 @@ CUDA_MODPACK="cuda"
 HEPMC_MODPACK="hepmc"
 TBB_MODPACK="tbb"
 PYBIND11_MODPACK="py3_pybind11"
+FMT_MODPACK="fmt"
 
 GCC_GLIBCXX_VERSION=$(gcc -dumpversion | tr '.' '0')
 BOOST_FLAGS="-DBOOST_SPIRIT_THREADSAFE -DPHOENIX_THREADSAFE -DBOOST_MATH_DISABLE_STD_FPCLASSIFY -DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX" 
@@ -50,9 +54,10 @@ CLHEP_FLAGS=""
 TINYXML2_FLAGS=""
 HEPMC_FLAGS=""
 PYBIND11_FLAGS="-I$PYTHON3_ROOT/include/python%{cms_python3_major_minor_version}/"
+FMT_FLAGS=""
 
 #packages with module maps
-for mod in tbb pybind11 clhep tinyxml2 cuda HepMC
+for mod in tbb pybind11 clhep tinyxml2 cuda HepMC fmt
 do
     modpack="$(echo "${mod}_MODPACK" | tr [a-z] [A-Z])"
     rootvar="$(echo "${!modpack}_ROOT" | tr [a-z] [A-Z])"
@@ -86,5 +91,5 @@ mv *.pcm boost/.
 mkdir %{i}/lib
 rm -f Dummy*.pcm
 rm -f libDummy*.pcm
-cp -r clhep tinyxml2 boost cuda HepMC tbb pybind11  %{i}/lib/.
+cp -r clhep tinyxml2 boost cuda HepMC tbb pybind11 fmt  %{i}/lib/.
 
