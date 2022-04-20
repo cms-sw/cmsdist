@@ -75,7 +75,6 @@ Requires: ucx
 Requires: openmpi
 Requires: sigcpp
 Requires: sqlite
-Requires: tauola
 Requires: tauolapp
 Requires: thepeg
 Requires: toprex
