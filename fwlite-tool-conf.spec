@@ -20,6 +20,7 @@ Requires: gdbm
 Requires: gmake
 Requires: gsl
 Requires: hepmc
+Requires: hepmc3
 Requires: hls
 Requires: libjpeg-turbo
 Requires: libpng
