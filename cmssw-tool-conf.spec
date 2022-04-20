@@ -95,7 +95,6 @@ Requires: grpc
 Requires: onnxruntime
 Requires: triton-inference-client
 Requires: hdf5
-Requires: cascade
 Requires: yoda
 Requires: fftw3
 Requires: fftjet
