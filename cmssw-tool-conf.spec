@@ -59,7 +59,6 @@ Requires: libxml2
 Requires: lwtnn
 Requires: meschach
 Requires: pcre2
-Requires: photos
 Requires: photospp
 Requires: pyquen
 Requires: pythia6
