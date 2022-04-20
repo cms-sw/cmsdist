@@ -1,0 +1,7 @@
+<tool name="geant4_dummy" version="@TOOL_VERSION@">
+  <client>
+    <environment name="INCLUDE" default="$GEANT4_ROOT/include/Geant4"/>
+    <environment name="INCLUDE" default="$GEANT4_ROOT/include"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
+</tool>
