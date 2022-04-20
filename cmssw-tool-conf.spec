@@ -79,7 +79,6 @@ Requires: sqlite
 Requires: tauola
 Requires: tauolapp
 Requires: thepeg
-Requires: toprex
 Requires: libuuid
 Requires: xerces-c
 Requires: dcap
