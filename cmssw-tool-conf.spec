@@ -40,14 +40,12 @@ Requires: hector
 Requires: hepmc
 Requires: hepmc3
 Requires: heppdt
-Requires: herwig
 Requires: herwig7
 Requires: hydjet
 Requires: hydjet2
 Requires: ittnotify
 Requires: jemalloc
 Requires: jemalloc-debug
-Requires: jimmy
 Requires: json
 Requires: ktjet
 Requires: lhapdf
