@@ -165,6 +165,7 @@ Requires: oracle
 Requires: icc
 Requires: icx
 Requires: intel-vtune
+Requires: rocm
 Requires: cmsmon-tools
 Requires: dip
 %else
