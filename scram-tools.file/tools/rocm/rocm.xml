@@ -3,19 +3,15 @@
   <lib name="amdhip64"/>
   <client>
     <environment name="ROCM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="ROCM_LLVM" default="$ROCM_BASE/llvm/lib/clang/14.0.0"/>
     <environment name="HIPCC"     default="$ROCM_BASE/bin/hipcc"/>
     <environment name="BINDIR"    default="$ROCM_BASE/bin"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/lib"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/lib64"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/hip/lib"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/hsa/lib"/>
-    <environment name="LIBDIR"    default="$ROCM_LLVM/lib/linux"/>
-    <environment name="LIBDIR"    default="$ROCM_BASE/llvm/lib"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hip/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hsa/include"/>
-    <environment name="INCLUDE"   default="$ROCM_LLVM"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
   <flags ROCM_FLAGS="-fno-gpu-rdc --amdgpu-target=gfx900 --gcc-toolchain=$COMPILER_PATH -D__HIP_PLATFORM_HCC__ -D__HIP_PLATFORM_AMD__"/>
