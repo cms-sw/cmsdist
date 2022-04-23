@@ -8,3 +8,5 @@ export BOOST_ROOT
 export PY3_PYBIND11_ROOT
 export FMT_ROOT
 export XERCES_C_ROOT
+export DD4HEP_ROOT
+

@@ -16,4 +16,5 @@
   <use name="boost"/>
   <use name="xerces-c"/>
   <use name="clhep"/>
+  @CXXMODULE_DATA@
 </tool>
