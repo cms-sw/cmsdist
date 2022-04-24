@@ -57,7 +57,6 @@ Requires: libxml2
 Requires: lwtnn
 Requires: meschach
 Requires: pcre2
-Requires: photos
 Requires: photospp
 Requires: pyquen
 Requires: pythia6
@@ -74,7 +73,6 @@ Requires: ucx
 Requires: openmpi
 Requires: sigcpp
 Requires: sqlite
-Requires: tauola
 Requires: tauolapp
 Requires: thepeg
 Requires: toprex
