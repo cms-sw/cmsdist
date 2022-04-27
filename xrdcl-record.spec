@@ -1,5 +1,5 @@
 ### RPM external xrdcl-record 5.4.2
-Source: https://github.com/xrootd/xrdcl-record/archive/refs/tags/v5.4.2.tar.gz
+Source: https://github.com/xrootd/xrdcl-record/archive/refs/tags/v%{realversion}.tar.gz
 
 BuildRequires: gmake cmake
 Requires: xrootd
