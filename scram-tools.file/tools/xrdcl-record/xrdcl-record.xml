@@ -1,0 +1,7 @@
+<tool name="xrdcl-record" version="@TOOL_VERSION@">
+  <lib name="XrdClRecorder-5"/>
+  <client>
+    <environment name="XRDCL-RECORD_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"            default="$xrdcl-record_BASE/lib64"/>
+  </client>
+</tool>
