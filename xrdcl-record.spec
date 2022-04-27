@@ -12,9 +12,11 @@ rm -rf ../build; mkdir ../build ; cd ../build
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
-  -DCMAKE_PREFIX_PATH="${XROOTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${XROOTD_ROOT}" \
+  -DCMAKE_VERBOSE=1 \
+  -DCMAKE_CXX_FLAGS="-L${XROOTD_ROOT}/lib64"
 
-gmake %{makeprocesses}
+gmake %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
