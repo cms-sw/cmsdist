@@ -1,0 +1,8 @@
+<tool name="xpmem" version="@TOOL_VERSION@">
+  <lib name="xpmem"/>
+  <client>
+    <environment name="XPMEM_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"    default="$XPMEM_BASE/include"/>
+    <environment name="LIBDIR"     default="$XPMEM_BASE/lib"/>
+  </client>
+</tool>
