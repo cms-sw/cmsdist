@@ -81,6 +81,7 @@ Requires: xerces-c
 Requires: dcap
 Requires: frontier_client
 Requires: xrootd
+Requires: xrdcl-record
 Requires: dd4hep
 Requires: valgrind
 Requires: cmsswdata
