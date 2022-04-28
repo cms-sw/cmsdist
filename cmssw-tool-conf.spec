@@ -12,7 +12,6 @@ Requires: starlight
 Requires: alpgen
 Requires: boost
 Requires: bz2lib
-Requires: charybdis
 Requires: classlib
 Requires: clhep
 Requires: coral
