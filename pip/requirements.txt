@@ -301,7 +301,7 @@ typed-ast==1.4.3
 typing-extensions==3.10.0.2
 uhi==0.3.0
 uncertainties==3.1.6
-uproot==4.1.5
+uproot==4.2.2
 urllib3==1.26.6
 vector==0.8.4
 virtualenv-clone==0.5.6
