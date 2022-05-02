@@ -143,4 +143,5 @@ SimDataFormats/TrackingAnalysis
 SimDataFormats/TrackingHit
 SimDataFormats/Vertex
 Utilities/General
+Utilities/OpenSSL
 Utilities/ReleaseScripts
