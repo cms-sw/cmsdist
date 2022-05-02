@@ -1,18 +1,25 @@
-### RPM external ucx 1.12.0
-Source: https://github.com/openucx/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
+### RPM external ucx 1.12.1
+Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
+Requires: cuda gdrcopy
 Requires: numactl
-Requires: gdrcopy cuda
 Requires: rdma-core
+%ifarch x86_64
+Requires: rocm
+%endif
+Requires: xpmem
 AutoReq: no
-# external libraries are needed for additional protocols:
-#   --with-rocm:        AMD ROCm platform for accelerated compute
-#   --with-cm:          Userspace InfiniBand Communication Managment library: deprecated and removed from RDMA core v17 on December 2017
-#   --with-knem:        KNEM High-Performance Intra-Node MPI Communication
-# etc.
 
 %prep
 %setup -q -n %{n}-%{realversion}
+
+# remove the ROCm GDR module, because it is not compatible with GDRCopy v2.x
+sed -e'/SUBDIRS/s/ *\<gdr\>//'                -i src/uct/rocm/Makefile.am
+sed -e'/src\/uct\/rocm\/gdr\/configure\.m4/d' -i src/uct/rocm/configure.m4
+rm -rf src/uct/rocm/gdr
+
+# regenerate the configure files and Makefiles
+./autogen.sh
 
 ./configure \
   --prefix=%i \
@@ -32,9 +39,14 @@ AutoReq: no
   --with-avx \
   --with-sse41 \
   --with-sse42 \
+  --without-go \
   --without-java \
   --with-cuda=$CUDA_ROOT \
+%ifarch x86_64
+  --with-rocm=$ROCM_ROOT \
+%else
   --without-rocm \
+%endif
   --with-gdrcopy=$GDRCOPY_ROOT \
   --with-verbs=$RDMA_CORE_ROOT \
   --with-rc \
@@ -43,10 +55,10 @@ AutoReq: no
   --with-mlx5-dv \
   --with-ib-hw-tm \
   --with-dm \
-  --without-cm \
   --with-rdmacm=$RDMA_CORE_ROOT \
   --without-knem \
-  --with-xpmem \
+  --with-xpmem=$XPMEM_ROOT \
+  --without-ugni \
   CFLAGS="-Wno-error=array-bounds" \
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
   LDFLAGS="-L$NUMACTL_ROOT/lib"

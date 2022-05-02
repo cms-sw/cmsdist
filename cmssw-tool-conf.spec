@@ -85,6 +85,7 @@ Requires: xerces-c
 Requires: dcap
 Requires: frontier_client
 Requires: xrootd
+Requires: xrdcl-record
 Requires: dd4hep
 Requires: valgrind
 Requires: cmsswdata
@@ -113,7 +114,6 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: yaml-cpp
 Requires: gmp-static
 Requires: mpfr-static
 Requires: fastjet-contrib
@@ -166,6 +166,7 @@ Requires: oracle
 Requires: icc
 Requires: icx
 Requires: intel-vtune
+Requires: rocm
 Requires: cmsmon-tools
 Requires: dip
 %else
