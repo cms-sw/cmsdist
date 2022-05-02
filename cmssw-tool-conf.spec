@@ -150,7 +150,6 @@ Requires: gperftools
 Requires: cuda
 Requires: cuda-compatible-runtime
 Requires: alpaka
-Requires: cupla
 
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cudnn
