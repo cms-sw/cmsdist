@@ -20,7 +20,7 @@
   <lib name="G4analysis"/>
   <client>
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib"/>
+    <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib64"/>
     <environment name="G4LIB" value="$LIBDIR"/>
   </client>
   <flags cppdefines="GNU_GCC G4V9"/>
