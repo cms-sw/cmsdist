@@ -46,8 +46,9 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC" \
 %endif
+  -DCMAKE_AR=$(which gcc-ar) \
+  -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_CXX_STANDARD:STRING="17" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
@@ -74,14 +75,14 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 
-mkdir -p %i/lib/archive
-cd %i/lib/archive
-find %i/lib -name "*.a" -exec ar x {} \;
-ar rcs libgeant4-static.a *.o
+mkdir -p %i/lib64/archive
+cd %i/lib64/archive
+find %i/lib64 -name "*.a" -exec gcc-ar x {} \;
+gcc-ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
 
 %post
-%{relocateConfig}lib/Geant4-*/*.cmake
+%{relocateConfig}lib64/Geant4-*/*.cmake
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4-*/geant4make/geant4make.*
