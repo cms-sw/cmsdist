@@ -76,7 +76,7 @@ make install
 mkdir -p %i/lib/archive
 cd %i/lib/archive
 find %i/lib -name "*.a" -exec ar x {} \;
-ar rcs libgeant4-static.a *.o
+gcc-ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
 
 %post
