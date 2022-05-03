@@ -19,6 +19,7 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_CXX_STANDARD:STRING="17" \
   -DROOT=OFF \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
@@ -39,7 +40,7 @@ cmake ../%{n}-%{realversion} \
   -DGEANT4=OFF \
   -DDATA_DOWNLOAD=OFF
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
