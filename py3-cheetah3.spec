@@ -1,4 +1,4 @@
-### RPM external py3-cheetah3 3.2.6.post2
+### RPM external py3-cheetah3 3.2.6.post1
 ## IMPORT build-with-pip3
 
 Requires: py3-markdown
