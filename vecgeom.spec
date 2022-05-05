@@ -1,6 +1,6 @@
-### RPM external vecgeom v1.1.20
+### RPM external vecgeom v1.2.0
 ## INCLUDE compilation_flags
-%define tag ccc45b15420e60f39b60107795a85fed12332005
+%define tag 14d3a5c3d851794da4ca48d7659980dbf73384d4
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
@@ -20,25 +20,23 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD:STRING="17" \
-  -DROOT=OFF \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=Release \
-  -DNO_SPECIALIZATION=ON \
-  -DBUILTIN_VECCORE=ON \
-  -DBACKEND=%{vecgeom_backend} \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+%if "%{?arch_build_flags}"
+  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
+%endif
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR=sse3 \
 %endif
 %endif
-  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-  -DCMAKE_CXX_STANDARD=17 \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
-%endif
-  -DGEANT4=OFF \
-  -DDATA_DOWNLOAD=OFF
+  -DVECGEOM_NO_SPECIALIZATION=ON \
+  -DVECGEOM_BUILTIN_VECCORE=ON \
+  -DVECGEOM_BACKEND=%{vecgeom_backend} \
+  -DVECGEOM_GEANT4=OFF \
+  -DVECGEOM_ROOT=OFF
 
 make %{makeprocesses} VERBOSE=1
 
