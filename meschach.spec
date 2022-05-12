@@ -5,7 +5,6 @@ Patch1: meschach-1.2b-fPIC
 
 %define keep_archives true
 
-
 %prep
 %setup -c -n meschach-1.2 -a 0
 %patch -p0
@@ -16,7 +15,7 @@ Patch1: meschach-1.2b-fPIC
 %ifarch darwin
 perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
 %endif
-make
+make %{makeprocesses}
 %install
 mkdir -p %i/include
 mkdir -p %i/lib
