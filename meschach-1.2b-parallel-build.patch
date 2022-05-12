@@ -1,0 +1,14 @@
+diff --git a/makefile b/makefile
+index 2e01d63..457eba7 100644
+--- a/makefile
++++ b/makefile
+@@ -67,7 +67,8 @@ OTHERS = dmacheps.c extras.c fmacheps.c maxint.c  makefile.in \
+ 
+ 
+ # Different configurations
+-all:  part1 part2 part3 zpart1 zpart2 
++all:  $(LIST1) $(LIST2) $(LIST3) $(ZLIST1) $(ZLIST2)
++	ar ru meschach.a $? ; $(RANLIB) meschach.a
+ basic: part1 part2
+ sparse: part1 part2 part3 
+ complex: part1 part2 zpart1 zpart2

@@ -2,6 +2,7 @@
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
 Patch: meschach-1.2-slc4
 Patch1: meschach-1.2b-fPIC
+Patch2: meschach-1.2b-parallel-build
 
 %define keep_archives true
 
@@ -9,6 +10,7 @@ Patch1: meschach-1.2b-fPIC
 %setup -c -n meschach-1.2 -a 0
 %patch -p0
 %patch1 -p0
+%patch2 -p1
 
 %build
 # Just fix this by hand for MacOSX (the configure probably needs to be updated)
