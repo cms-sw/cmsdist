@@ -129,7 +129,7 @@ jupyter-console==6.4.3
 jupyter-core==4.7.1
 jupyter-packaging==0.10.4
 jupyterlab-pygments==0.1.2
-jupyter-server==1.10.2
+jupyter-server==1.15.4
 jupyter-server-mathjax==0.2.3
 jupyterlab-widgets==1.1.0
 keras==2.6.0
@@ -170,7 +170,7 @@ nest-asyncio==1.5.1
 networkx==2.7.1
 neurolab==0.3.5
 node-semver==0.8.0
-notebook==6.4.3
+notebook==6.4.10
 numba==0.54.0
 numexpr==2.8.1
 numpy==1.21.2
