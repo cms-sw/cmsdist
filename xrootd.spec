@@ -9,7 +9,7 @@
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake gmake autotools
-Requires: zlib libuuid curl
+Requires: zlib libuuid curl davix
 Requires: python3
 Requires: libxml2
 Requires: scitokens-cpp
@@ -46,7 +46,7 @@ cmake ../%n-%{realversion} \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
   -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
 
 make %makeprocesses VERBOSE=1
 
