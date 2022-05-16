@@ -53,7 +53,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V07-00-07
+%define configtag       V07-01-05
 %endif
 
 %if "%{?cvssrc:set}" != "set"
