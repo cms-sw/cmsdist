@@ -9,7 +9,7 @@
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake gmake autotools
-Requires: zlib libuuid
+Requires: zlib libuuid curl
 Requires: python3
 Requires: libxml2
 Requires: scitokens-cpp
@@ -38,12 +38,13 @@ cmake ../%n-%{realversion} \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
+  -DENABLE_HTTP=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
   -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT}"
 
 make %makeprocesses VERBOSE=1
 
