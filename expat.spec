@@ -1,4 +1,4 @@
-### RPM external expat 2.1.0
+### RPM external expat 2.4.8
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://downloads.sourceforge.net/project/%{n}/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
 
