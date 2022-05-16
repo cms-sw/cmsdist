@@ -34,7 +34,7 @@
 %endif
 
 %define PatchReleaseLink \
-  for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/*`; do \
+  for SUBSYS in `ls -d %{parent_release_fpath}/$DIR/* | grep -v /__pycache__`; do \
     if [ -d $SUBSYS ] ; then \
       S=`basename $SUBSYS`; \
       if [ -d $DIR/$S ] ; then \
