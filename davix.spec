@@ -5,6 +5,11 @@
 %define github_user cern-it-sdc-id
 Source0: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+%define soext so
+%ifarch darwin
+%define soext dylib
+%endif
+
 BuildRequires: cmake gmake
 Requires: libxml2 libuuid curl
 %prep
@@ -16,7 +21,8 @@ cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX="%{i}" \
  -DEMBEDDED_LIBCURL=FALSE \
  -DDAVIX_TESTS=False \
- -DCMAKE_PREFIX_PATH="${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT}" 
+ -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+ -DCMAKE_PREFIX_PATH="${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT}"
 
 make VERBOSE=1 %{makeprocesses}
 
