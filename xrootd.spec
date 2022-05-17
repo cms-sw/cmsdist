@@ -42,7 +42,7 @@ cmake ../%n-%{realversion} \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
   -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
