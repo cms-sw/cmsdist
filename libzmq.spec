@@ -1,4 +1,4 @@
-### RPM external libzmq 4.3.2
+### RPM external libzmq 4.3.4
 Source: https://github.com/zeromq/libzmq/releases/download/v%{realversion}/zeromq-%{realversion}.tar.gz
 BuildRequires: autotools
 
