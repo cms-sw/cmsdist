@@ -1,4 +1,4 @@
-### RPM external tensorflow-sources 2.6.0
+### RPM external tensorflow-sources 2.6.3
 %define python_cmd python3
 %define python_env PYTHON3PATH
 %define build_type opt
