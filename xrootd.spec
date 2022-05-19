@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define strip_files %i/lib
-%define tag 153d3c514cb20a7a3cb6ba999df3a390eadacf29
+%define tag 975ea12e06dd4237a40d91de7869fbcb3a48bfaa
 %define branch master
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -34,7 +34,7 @@ cmake ../%n-%{realversion} \
   -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
   -DENABLE_VOMS=FALSE \
-  -DXRDCL_ONLY=FALSE \
+  -DXRDCL_ONLY=TRUE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=TRUE \
   -DENABLE_CRYPTO=TRUE \
