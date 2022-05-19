@@ -30,6 +30,7 @@ sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DUSER_VERSION=%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
