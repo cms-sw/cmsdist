@@ -1,4 +1,4 @@
-### RPM cms dqmgui 9.7.0
+### RPM cms dqmgui 9.7.4
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH %{dynamic_path_var} %i/xlib
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
@@ -12,7 +12,7 @@ Source0: git+https://github.com/cms-DQM/dqmgui_prod.git?obj=index128/%realversio
 #Source0: git+:///build1/rovere/GUIDevelopment/GHM?obj=RovereDevelopment&export=Monitoring&output=/Monitoring.tar.gz
 #Source0: %{svn}?scheme=svn+ssh&strategy=export&module=Monitoring&output=/src.tar.gz
 # For documentation, please refer to http://cms-sw.github.io/pkgtools/fetching-sources.html
-Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_6_X/CMSSW_7_6_0&export=./&filter=*DQMServices*&output=/DQMCore.tar.gz
+#Source1: git+https://github.com/cms-sw/cmssw.git?obj=CMSSW_7_6_X/CMSSW_7_6_0&export=./&filter=*DQMServices*&output=/DQMCore.tar.gz
 #Source1: %{cvs}&strategy=export&module=CMSSW/DQMServices/Core&export=DQMServices/Core&tag=-rV03-15-19&output=/DQMCore.tar.gz
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
@@ -23,7 +23,7 @@ BuildRequires: py2-sphinx
 
 %prep
 # Unpack sources.
-%setup -c    -T -a 1 -n stuff
+#%setup -c    -T -a 1 -n stuff
 %setup -c -D -T -a 2 -n stuff/rtgu
 %patch0 -p1
 %setup -c -D -T -a 3 -n stuff/boost/gil/extension
@@ -35,20 +35,20 @@ perl -p -i -e "s{<VERSION>}{%{realversion}}g" doc/*/conf.py
 
 # Adapt CMSSW sources to our build.
 cp -pr %_builddir/stuff/{rtgu,boost} src/cpp
-for f in DQM{Store,Error,Net}.{h,cc} MonitorElement.{h,cc} \
-         Q{Test,Report,StatisticalTests}.{h,cc} \
-         Standalone.h DQM{Channel,Definitions}.h \
-         DQMCollector.cpp ROOTFilePB.proto; do
-  dest=src/cpp/DQM/$(basename $f | sed 's/\.cpp/.cc/')
-  cp %_builddir/stuff/DQMServices/Core/*/$f $dest
-  perl -p -i -e 's{DQMServices/Core/(interface|src)/}{DQM/}g' $dest
-  perl -p -i -e 's{#include "FWCore/ServiceRegistry/interface/SystemBounds.h"}{}g' $dest
-  case $f in Standalone.h )
-    perl -p -i -e 's|(?=std::string getReleaseVersion)|inline |' $dest
-    perl -0777 -p -i -e 's|struct SystemBounds {\n(.*?)};|namespace service {\n   struct SystemBounds {\n$1};\n  }|gs' $dest ;;
-  esac
-  chmod 644 $dest
-done
+#for f in DQM{Store,Error,Net}.{h,cc} MonitorElement.{h,cc} \
+#         Q{Test,Report,StatisticalTests}.{h,cc} \
+#         Standalone.h DQM{Channel,Definitions}.h \
+#         DQMCollector.cpp ROOTFilePB.proto; do
+#  dest=src/cpp/DQM/$(basename $f | sed 's/\.cpp/.cc/')
+#  cp %_builddir/stuff/DQMServices/Core/*/$f $dest
+#  perl -p -i -e 's{DQMServices/Core/(interface|src)/}{DQM/}g' $dest
+#  perl -p -i -e 's{#include "FWCore/ServiceRegistry/interface/SystemBounds.h"}{}g' $dest
+#  case $f in Standalone.h )
+#    perl -p -i -e 's|(?=std::string getReleaseVersion)|inline |' $dest
+#    perl -0777 -p -i -e 's|struct SystemBounds {\n(.*?)};|namespace service {\n   struct SystemBounds {\n$1};\n  }|gs' $dest ;;
+#  esac
+#  chmod 644 $dest
+#done
 # Generate makefile fragment for externals.
 libs=". %i/128/xlib %i/128/lib"
 incs=". %i/128/xinclude %i/128/include"
