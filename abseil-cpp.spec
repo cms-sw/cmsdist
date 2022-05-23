@@ -14,6 +14,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_INSTALL_LIBDIR=lib \
     -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=ON
 
