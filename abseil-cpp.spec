@@ -1,0 +1,24 @@
+## RPM external abseil-cpp 20210324.2
+Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
+
+%setup -n %{n}-%{realversion}
+
+%build
+rm -rf build
+mkdir build
+cd build
+
+cmake ../%{n}-%{realversion} \
+    -DCMAKE_INSTALL_PREFIX=%{i} \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_SHARED_LIBS=ON
+
+make %{makeprocesses}
+
+%install
+cd build
+make %{makeprocesses} install
+
+%define strip_files %i/lib
+%define drop_files %i/lib/pkgconfig

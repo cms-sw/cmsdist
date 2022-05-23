@@ -1,0 +1,10 @@
+<tool name="c-ares" version="@TOOL_VERSION@">
+  <info url="https://c-ares.org/"/>
+  <lib name="cares"/>
+  <client>
+    <environment name="LIBCARES_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$LIBCARES_BASE/lib"/>
+    <environment name="INCLUDE" default="$LIBCARES_BASE/include"/>
+  </client>
+</tool>
+
