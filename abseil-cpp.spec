@@ -1,12 +1,15 @@
-## RPM external abseil-cpp 20210324.2
+### RPM external abseil-cpp 20210324.2
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
 
+BuildRequires: cmake gmake
+
+%prep
 %setup -n %{n}-%{realversion}
 
 %build
-rm -rf build
-mkdir build
-cd build
+rm -rf ../build
+mkdir ../build
+cd ../build
 
 cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -17,7 +20,7 @@ cmake ../%{n}-%{realversion} \
 make %{makeprocesses}
 
 %install
-cd build
+cd ../build
 make %{makeprocesses} install
 
 %define strip_files %i/lib
