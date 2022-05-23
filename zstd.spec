@@ -2,6 +2,7 @@
 ## INITENV SETV ZSTD_SOURCE %{source0}
 ## INITENV SETV ZSTD_STRIP_PREFIX %{source_prefix}
 
+
 %define source0 https://github.com/facebook/zstd/releases/download/v%{realversion}/zstd-%{realversion}.tar.gz
 %define source_prefix %{n}-%{realversion}
 Source: %{source0}
