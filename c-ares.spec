@@ -17,7 +17,7 @@ cd ../build
 
 cmake ../%{n}-cares-%{uversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  -DCMAKE_BUILD_TYPE=Release
 
 make %{makeprocesses} VERBOSE=1
 
