@@ -62,7 +62,7 @@
   <lib name="absl_time_zone"/>
   <lib name="absl_wyhash"/>
   <client>
-    <environment name="LIBABSL_BASE" default="@TOOL_ROOT@"/>
+    <environment name="ABSEIL_CPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$LIBABSL_BASE/lib"/>
     <environment name="INCLUDE" default="$LIBABSL_BASE/include"/>
   </client>
