@@ -90,6 +90,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
+    -DCMAKE_PREFIX_PATH=${GRPC_ROOT}
 
 make %{makeprocesses}
 
