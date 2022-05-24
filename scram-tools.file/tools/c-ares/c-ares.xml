@@ -2,9 +2,9 @@
   <info url="https://c-ares.org/"/>
   <lib name="cares"/>
   <client>
-    <environment name="CARES_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$LIBCARES_BASE/lib"/>
-    <environment name="INCLUDE" default="$LIBCARES_BASE/include"/>
+    <environment name="C_ARES_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$C_ARES_BASE/lib"/>
+    <environment name="INCLUDE" default="$C_ARES_BASE/include"/>
   </client>
 </tool>
 
