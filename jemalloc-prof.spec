@@ -1,16 +1,11 @@
-%define jemalloc_version 5.2.1
-### RPM external jemalloc-prof %{jemalloc_version}
-%define tag de1caefb587217f0b519eb425d7a9b3570e5ba28
-%define branch cms/%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-BuildRequires: autotools
 Requires: libunwind
-
-%prep
-%setup -n %{n}-%{realversion}
+## INCLUDE jemalloc-common
+### RPM external jemalloc-prof %{jemalloc_version}
 
 %build
+export CXXFLAGS=-I$LIBUNWIND_ROOT/include
+export CFLAGS=-I$LIBUNWIND_ROOT/include
+export LDFLAGS=-L$LIBUNWIND_ROOT/lib
 
 ./autogen.sh --enable-shared \
   --disable-static \
