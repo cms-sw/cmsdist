@@ -9,6 +9,7 @@ def packages(virtual_packages, *args):
   extra_match['platform_machine'] = platform.machine()
   extra_match['sys_platform'] = sys.platform
   extra_match['os_name'] = os.name
+  extra_match['cmsos_name'] = args[0].options.architecture.split("_")[0]
   for line in [ l.strip().replace(' ','') for l in open(req).readlines()]:
     if line.startswith('#'):continue
     if not '==' in line: continue
@@ -18,8 +19,8 @@ def packages(virtual_packages, *args):
     for item in items[1:]:
       m = match("^("+"|".join(list(extra_match.keys()))+")(==|!=)'([^']+)'$", item)
       if m:
-        if m.group(2)=='==' and extra_match[m.group(1)]!=m.group(3): matched=False
-        if m.group(2)=='!=' and extra_match[m.group(1)]==m.group(3): matched=False
+        if m.group(2)=='==' and not match(m.group(3),extra_match[m.group(1)]): matched=False
+        if m.group(2)=='!=' and     match(m.group(3),extra_match[m.group(1)]): matched=False
     if matched:
       virtual_packages['py3-'+pkg]='%s/package.sh "py3-%s" "%s" "py3"' % (pkg_dir, pkg, ver)
   return
