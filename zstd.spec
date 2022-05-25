@@ -30,9 +30,8 @@ cmake build/cmake \
  -DCMAKE_INSTALL_LIBDIR:STRING=lib \
  -Dzstd_VERSION:STRING=%{realversion}
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 
 make install
-
