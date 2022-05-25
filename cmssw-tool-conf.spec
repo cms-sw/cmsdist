@@ -45,6 +45,7 @@ Requires: hydjet2
 Requires: ittnotify
 Requires: jemalloc
 Requires: jemalloc-debug
+Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
 Requires: lhapdf
