@@ -280,9 +280,9 @@ subprocess32==3.5.4
 sympy==1.8
 tables==3.6.1
 tenacity==8.0.1
-#NO_AUTO_UPDATE:3: Force to use tensorflow 2.6.3; this should match the version in tensorflow-sources.spec
+#NO_AUTO_UPDATE:1: Force to use tensorflow 2.6.4; this should match the version in tensorflow-sources.spec
+tensorflow==2.6.4
 tensorboard==2.6.0
-tensorflow==2.6.3
 tensorflow-estimator==2.6.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
