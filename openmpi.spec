@@ -1,4 +1,4 @@
-### RPM external openmpi 4.1.3
+### RPM external openmpi 4.1.4
 ## INITENV SET OPAL_PREFIX %{i}
 Source: https://download.open-mpi.org/release/open-mpi/v4.1/%{n}-%{realversion}.tar.bz2
 BuildRequires: autotools
@@ -39,6 +39,7 @@ AutoReq: no
   --without-psm \
   --without-psm2 \
   --with-verbs=$RDMA_CORE_ROOT \
+  --without-mxm \
   --with-ucx=$UCX_ROOT \
   --with-cma \
   --without-knem \
@@ -54,9 +55,7 @@ make %{makeprocesses}
 make install
 
 # remove the libtool library files
-rm -f %{i}/lib/lib*.la
-rm -f %{i}/lib/pmix/lib*.la
-rm -f %{i}/lib/openmpi/lib*.la
+find %{i}/lib/ -name '*.la' -delete
 
 %post
 %{relocateConfig}share/openmpi/*-wrapper-data.txt
