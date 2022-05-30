@@ -40,7 +40,11 @@ for DATA_PATH in %directpkgreqs; do
   [ $(echo $PKG_DIR | grep '^data-' | wc -l) -eq 1 ] || continue
   PKG_DIR=$(echo $PKG_DIR | sed 's|^data-||;s|-|/|')
   SOURCE=$RPM_INSTALL_PREFIX/%{cmsplatf}/$DATA_PATH
+%if "%{?cmsswdata_version_link:set}" == "set"
+  DES_PATH=$DATA_PATH
+%else
   DES_PATH=$(echo $DATA_PATH | cut -d/ -f1,2)/$(echo $DATA_PATH | cut -d/ -f3 | tr '-' '\n' | grep '^V[0-9][0-9]$\|^[0-9][0-9]$' | tr '\n' '-' | sed 's|-$||')
+%endif
   PKG_DATA=$(echo $PKG_DIR | cut -d/ -f1)
   if [ ! -e $RPM_INSTALL_PREFIX/share/$DES_PATH/$PKG_DIR ] ; then
     rm -rf $RPM_INSTALL_PREFIX/share/$DES_PATH
