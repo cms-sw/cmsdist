@@ -1,3 +1,9 @@
+#################################################################
+# Do not forget to update cmsdist/tensorflow-absl-src.patch when
+# abseil-cpp version is updated here. This allows to use same
+# abseil-cpp version by grpc and tensorflow
+################################################################
+
 ### RPM external abseil-cpp 20211102.0
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
 
