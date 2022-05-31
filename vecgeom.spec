@@ -19,6 +19,7 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
+  -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
   -DROOT=OFF \
