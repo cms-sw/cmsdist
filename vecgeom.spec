@@ -33,7 +33,13 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
+  -DCMAKE_CXX_FLAGS="-fPIC %{arch_build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC %{arch_build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC %{arch_build_flags}" \
+%else
+  -DCMAKE_CXX_FLAGS="-fPIC" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC" \
 %endif
   -DGEANT4=OFF \
   -DDATA_DOWNLOAD=OFF \
