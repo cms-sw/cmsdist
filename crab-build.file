@@ -2,27 +2,22 @@
 ## NO_AUTO_DEPENDENCY
 ## NO_VERSION_SUFFIX
 %define crab_type %(echo %n | sed -e 's|crab-||')
-%if "%{?wmcore_packages:set}" != "set"
-  %define wmcore_packages PSetTweaks Utils WMCore
-%endif
 %if "%{?crabserver_packages:set}" != "set"
-  %define crabserver_packages RESTInteractions.py ServerUtilities.py
+  %define crabserver_packages ServerUtilities.py
 %endif
 %if "%{?dbs_packages:set}" != "set"
   %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
 %endif
 
 Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
-Source1: git://github.com/dmwm/WMCore.git?obj=master/%{wmcore_version}&export=WMCore&output=/WMCore-%{wmcore_version}.tar.gz
-Source2: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
-Source3: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
+Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
+Source2: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
 
 %prep
 %{?check_version_suffix:%check_version_suffix}
 %setup -D -T -b 0 -n CRABClient
-%setup -D -T -b 1 -n WMCore
-%setup -D -T -b 2 -n CRABServer
-%setup -D -T -b 3 -n DBS
+%setup -D -T -b 1 -n CRABServer
+%setup -D -T -b 2 -n DBS
 
 %build
 

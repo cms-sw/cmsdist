@@ -12,7 +12,6 @@ Requires: starlight
 Requires: alpgen
 Requires: boost
 Requires: bz2lib
-Requires: charybdis
 Requires: classlib
 Requires: clhep
 Requires: coral
@@ -40,14 +39,13 @@ Requires: hector
 Requires: hepmc
 Requires: hepmc3
 Requires: heppdt
-Requires: herwig
 Requires: herwig7
 Requires: hydjet
 Requires: hydjet2
 Requires: ittnotify
 Requires: jemalloc
 Requires: jemalloc-debug
-Requires: jimmy
+Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
 Requires: lhapdf
@@ -59,7 +57,6 @@ Requires: libxml2
 Requires: lwtnn
 Requires: meschach
 Requires: pcre2
-Requires: photos
 Requires: photospp
 Requires: pyquen
 Requires: pythia6
@@ -76,15 +73,14 @@ Requires: ucx
 Requires: openmpi
 Requires: sigcpp
 Requires: sqlite
-Requires: tauola
 Requires: tauolapp
 Requires: thepeg
-Requires: toprex
 Requires: libuuid
 Requires: xerces-c
 Requires: dcap
 Requires: frontier_client
 Requires: xrootd
+Requires: xrdcl-record
 Requires: dd4hep
 Requires: valgrind
 Requires: cmsswdata
@@ -95,7 +91,6 @@ Requires: grpc
 Requires: onnxruntime
 Requires: triton-inference-client
 Requires: hdf5
-Requires: cascade
 Requires: yoda
 Requires: fftw3
 Requires: fftjet
@@ -113,7 +108,6 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: yaml-cpp
 Requires: gmp-static
 Requires: mpfr-static
 Requires: fastjet-contrib
@@ -149,7 +143,6 @@ Requires: gperftools
 Requires: cuda
 Requires: cuda-compatible-runtime
 Requires: alpaka
-Requires: cupla
 
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cudnn
@@ -167,6 +160,7 @@ Requires: oracle
 Requires: icc
 Requires: icx
 Requires: intel-vtune
+Requires: rocm
 Requires: cmsmon-tools
 Requires: dip
 %else

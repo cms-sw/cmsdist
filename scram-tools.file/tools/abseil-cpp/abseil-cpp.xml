@@ -1,0 +1,69 @@
+<tool name="abseil-cpp" version="@TOOL_VERSION@">
+  <info url="https://github.com/abseil/abseil-cpp"/>
+  <lib name="absl_bad_any_cast_impl"/>
+  <lib name="absl_bad_optional_access"/>
+  <lib name="absl_bad_variant_access"/>
+  <lib name="absl_base"/>
+  <lib name="absl_city"/>
+  <lib name="absl_civil_time"/>
+  <lib name="absl_cord"/>
+  <lib name="absl_debugging_internal"/>
+  <lib name="absl_demangle_internal"/>
+  <lib name="absl_examine_stack"/>
+  <lib name="absl_exponential_biased"/>
+  <lib name="absl_failure_signal_handler"/>
+  <lib name="absl_flags_commandlineflag_internal"/>
+  <lib name="absl_flags_commandlineflag"/>
+  <lib name="absl_flags_config"/>
+  <lib name="absl_flags_internal"/>
+  <lib name="absl_flags_marshalling"/>
+  <lib name="absl_flags_parse"/>
+  <lib name="absl_flags_private_handle_accessor"/>
+  <lib name="absl_flags_program_name"/>
+  <lib name="absl_flags_reflection"/>
+  <lib name="absl_flags"/>
+  <lib name="absl_flags_usage_internal"/>
+  <lib name="absl_flags_usage"/>
+  <lib name="absl_graphcycles_internal"/>
+  <lib name="absl_hash"/>
+  <lib name="absl_hashtablez_sampler"/>
+  <lib name="absl_int128"/>
+  <lib name="absl_leak_check_disable"/>
+  <lib name="absl_leak_check"/>
+  <lib name="absl_log_severity"/>
+  <lib name="absl_malloc_internal"/>
+  <lib name="absl_periodic_sampler"/>
+  <lib name="absl_random_distributions"/>
+  <lib name="absl_random_internal_distribution_test_util"/>
+  <lib name="absl_random_internal_platform"/>
+  <lib name="absl_random_internal_pool_urbg"/>
+  <lib name="absl_random_internal_randen_hwaes_impl"/>
+  <lib name="absl_random_internal_randen_hwaes"/>
+  <lib name="absl_random_internal_randen_slow"/>
+  <lib name="absl_random_internal_randen"/>
+  <lib name="absl_random_internal_seed_material"/>
+  <lib name="absl_random_seed_gen_exception"/>
+  <lib name="absl_random_seed_sequences"/>
+  <lib name="absl_raw_hash_set"/>
+  <lib name="absl_raw_logging_internal"/>
+  <lib name="absl_scoped_set_env"/>
+  <lib name="absl_spinlock_wait"/>
+  <lib name="absl_stacktrace"/>
+  <lib name="absl_statusor"/>
+  <lib name="absl_status"/>
+  <lib name="absl_strerror"/>
+  <lib name="absl_str_format_internal"/>
+  <lib name="absl_strings_internal"/>
+  <lib name="absl_strings"/>
+  <lib name="absl_symbolize"/>
+  <lib name="absl_synchronization"/>
+  <lib name="absl_throw_delegate"/>
+  <lib name="absl_time"/>
+  <lib name="absl_time_zone"/>
+  <lib name="absl_wyhash"/>
+  <client>
+    <environment name="ABSEIL_CPP_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$ABSEIL_CPP_BASE/lib"/>
+    <environment name="INCLUDE" default="$ABSEIL_CPP_BASE/include"/>
+  </client>
+</tool>

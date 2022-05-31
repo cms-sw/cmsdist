@@ -22,6 +22,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
   -DROOT=OFF \
+  -DCMAKE_AR=$(which gcc-ar) \
+  -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=Release \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=%{vecgeom_backend} \

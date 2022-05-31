@@ -61,7 +61,8 @@ contextlib2==21.6.0
 contextvars==2.4
 coverage==5.5
 # Newer versions of py3-cryptography require OpenSSL 1.1.0+, see https://github.com/pyca/cryptography/issues/5906
-cryptography==3.2.1
+cryptography==37.0.2
+cryptography==3.2.1 ; cmsos_name=='slc7'
 cx-Oracle==8.2.1
 cycler==0.10.0
 cython==0.29.24
@@ -129,7 +130,7 @@ jupyter-console==6.4.3
 jupyter-core==4.7.1
 jupyter-packaging==0.10.4
 jupyterlab-pygments==0.1.2
-jupyter-server==1.10.2
+jupyter-server==1.15.4
 jupyter-server-mathjax==0.2.3
 jupyterlab-widgets==1.1.0
 keras==2.6.0
@@ -170,7 +171,7 @@ nest-asyncio==1.5.1
 networkx==2.7.1
 neurolab==0.3.5
 node-semver==0.8.0
-notebook==6.4.3
+notebook==6.4.10
 numba==0.54.0
 numexpr==2.8.1
 numpy==1.21.2
@@ -218,7 +219,7 @@ pycurl==7.44.1
 pydot==1.4.2
 pyflakes==2.3.1
 Pygments==2.10.0
-PyJWT==2.1.0
+PyJWT==2.4.0
 pylint==2.13.5
 pymongo==3.12.0
 pyparsing==2.4.7
@@ -279,9 +280,9 @@ subprocess32==3.5.4
 sympy==1.8
 tables==3.6.1
 tenacity==8.0.1
-#NO_AUTO_UPDATE:3: Force to use tensorflow 2.6.0; this should match the version in tensorflow-sources.spec
+#NO_AUTO_UPDATE:1: Force to use tensorflow 2.6.4; this should match the version in tensorflow-sources.spec
+tensorflow==2.6.4
 tensorboard==2.6.0
-tensorflow==2.6.0
 tensorflow-estimator==2.6.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
@@ -301,7 +302,7 @@ typed-ast==1.4.3
 typing-extensions==3.10.0.2
 uhi==0.3.0
 uncertainties==3.1.6
-uproot==4.1.5
+uproot==4.2.2
 urllib3==1.26.6
 vector==0.8.4
 virtualenv-clone==0.5.6

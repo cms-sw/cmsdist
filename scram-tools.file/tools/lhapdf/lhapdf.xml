@@ -5,7 +5,7 @@
     <environment name="LIBDIR" default="$LHAPDF_BASE/lib"/>
     <environment name="INCLUDE" default="$LHAPDF_BASE/include"/>
   </client>
-  <use name="yaml-cpp"/>
+  <use name="pythia6"/>
   <runtime name="LHAPDF_DATA_PATH" value="$LHAPDF_BASE/share/LHAPDF"/>
   <runtime name="PATH" value="$LHAPDF_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
