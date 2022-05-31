@@ -49,7 +49,7 @@ cmake ../%{n}-%{realversion} \
   -DVecCore_DIR=${VECCORE_ROOT}/lib64/cmake/VecCore \
   -DCMAKE_PREFIX_PATH=${VECCORE_ROOT}
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build

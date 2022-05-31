@@ -14,12 +14,13 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
+  -DCMAKE_CXX_STANDARD:STRING="17" \
 %if "%{?arch_build_flags}"
   -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
   -DCMAKE_BUILD_TYPE=Release
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build

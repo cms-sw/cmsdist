@@ -49,7 +49,6 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_INSTALL_LIBDIR="lib" \
   -DCMAKE_CXX_STANDARD:STRING="17" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
