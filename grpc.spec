@@ -37,3 +37,4 @@ ninja -v %{makeprocesses}
 %install
 cd ../build
 ninja -v %{makeprocesses} install
+ln -sf ../../../abseil-cpp/${ABSEIL_CPP_VERSION}/include/absl %{i}/include/absl

@@ -5,6 +5,7 @@ BuildRequires: bazel java-env git
 ## INCLUDE compilation_flags
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Patch0: tensorflow-absl-src
 
 %if "%{?build_type:set}" != "set"
 %define build_type opt
@@ -18,6 +19,7 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %prep
 
 %setup -q -n tensorflow-%{realversion}
+%patch0 -p1
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
 
 %build
