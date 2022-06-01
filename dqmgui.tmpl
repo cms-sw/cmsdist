@@ -6,12 +6,14 @@
 %define branch master
 %define github_user cms-DQM
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: dqmgui-gcc12
 Requires: root boost python3
 Requires: py3-aiohttp py3-aiosqlite py3-async-lru py3-contextvars
 BuildRequires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 gmake %{makeprocesses} all ROOT_ROOT=${ROOT_ROOT} BOOST_ROOT=${BOOST_ROOT}
