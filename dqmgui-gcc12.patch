@@ -1,6 +1,7 @@
-diff -Naur dqmgui-1.0.1_R6.24.07/plugins/PCLPixelAlignmentRenderPlugin.cc ../dqmgui-1.0.1_R6.24.07/plugins/PCLPixelAlignmentRenderPlugin.cc
---- dqmgui-1.0.1_R6.24.07/plugins/PCLPixelAlignmentRenderPlugin.cc	2021-09-10 23:22:46.000000000 +0200
-+++ ../dqmgui-1.0.1_R6.24.07/plugins/PCLPixelAlignmentRenderPlugin.cc	2022-06-01 15:52:10.488008246 +0200
+diff --git a/plugins/PCLPixelAlignmentRenderPlugin.cc b/plugins/PCLPixelAlignmentRenderPlugin.cc
+index be08575..f4a544d 100644
+--- a/plugins/PCLPixelAlignmentRenderPlugin.cc
++++ b/plugins/PCLPixelAlignmentRenderPlugin.cc
 @@ -12,6 +12,7 @@
  #include "TList.h"
  #include "TLine.h"
@@ -9,9 +10,10 @@ diff -Naur dqmgui-1.0.1_R6.24.07/plugins/PCLPixelAlignmentRenderPlugin.cc ../dqm
  
  class PCLPixelAlignmentRenderPlugin : public DQMRenderPlugin {
    std::array<double, 6> sigCut_;
-diff -Naur dqmgui-1.0.1_R6.24.07/plugins/RPCRenderPlugin.cc ../dqmgui-1.0.1_R6.24.07/plugins/RPCRenderPlugin.cc
---- dqmgui-1.0.1_R6.24.07/plugins/RPCRenderPlugin.cc	2021-09-10 23:22:46.000000000 +0200
-+++ ../dqmgui-1.0.1_R6.24.07/plugins/RPCRenderPlugin.cc	2022-06-01 15:52:32.232906821 +0200
+diff --git a/plugins/RPCRenderPlugin.cc b/plugins/RPCRenderPlugin.cc
+index 98032ed..6c7daa1 100644
+--- a/plugins/RPCRenderPlugin.cc
++++ b/plugins/RPCRenderPlugin.cc
 @@ -6,6 +6,7 @@
  #include "TColor.h"
  #include <iostream>
