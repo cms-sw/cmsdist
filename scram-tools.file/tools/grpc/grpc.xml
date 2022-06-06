@@ -12,4 +12,6 @@
   <use name="protobuf"/>
   <use name="openssl"/>
   <use name="pcre"/>
+  <use name="abseil-cpp"/>
+  <use name="c-ares"/>
 </tool>
