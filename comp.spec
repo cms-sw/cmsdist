@@ -15,7 +15,7 @@ Requires: PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 # Common
 Requires: rotatelogs wmcore-devtools
 # Other
-Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
+Requires: wmagent-dev condor crabtaskworker t0 crab-devtools
 Requires: wmarchive
 # Python3
 BuildRequires: wmcorepy3-devtools wmagentpy3-dev
