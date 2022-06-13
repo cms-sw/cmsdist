@@ -1,5 +1,5 @@
 ### RPM external pacparser 1.4.0
-Source: https://github.com/%{n}/%{n}/releases/download/%{realversion}/%{n}-%{realversion}.tar.gz
+Source: https://github.com/%{n}/%{n}/releases/download/v%{realversion}/%{n}-v%{realversion}.tar.gz
 
 %prep
 %setup -n %{n}-%{realversion}
