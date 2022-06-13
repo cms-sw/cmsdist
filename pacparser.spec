@@ -2,7 +2,7 @@
 Source: https://github.com/%{n}/%{n}/releases/download/v%{realversion}/%{n}-v%{realversion}.tar.gz
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-v%{realversion}
 
 %build
 make -C src PREFIX=%{i}
