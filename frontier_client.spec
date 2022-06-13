@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
 %define tag 322269d4133bf154f96989fd382cc31b0d92a08a
-%define branch cms/%{realversion}
+%define branch iarspider-patch-1
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: expat pacparser zlib
