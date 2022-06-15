@@ -122,6 +122,12 @@ if [ "${DUP_BIN}" != "" ] ; then
   exit 1
 fi
 set -x
+if [ -e %{i}/tools/selected/cuda-gcc-support.xml ] ; then
+  if [ "%{cuda_gcc_support}" != "true" ] ; then
+    rm -f %{i}/tools/selected/cuda-gcc-support.xml
+    echo "WARNING: CUDA does not support this GCC version, removing cuda-gcc-support.xml tool file"
+  fi
+fi
 
 %post
 
