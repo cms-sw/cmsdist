@@ -8,6 +8,7 @@
   </ifarchitecture>
   <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE -D__STRICT_ANSI__"/>
   <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
+  <flags OVERRIDABLE_FLAGS="GENREFLEX_CPPFLAGS"/>
   <use name="root_interface"/>
   <use name="rootcling"/>
 </tool>
