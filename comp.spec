@@ -15,12 +15,12 @@ Requires: PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 # Common
 Requires: rotatelogs wmcore-devtools
 # Other
-Requires: wmagent-dev condor crabtaskworker t0 couchdb15 crab-devtools
+Requires: wmagent-dev condor crabtaskworker t0 crab-devtools
 Requires: wmarchive
 # Python3
 BuildRequires: wmcorepy3-devtools wmagentpy3-dev
 ### List of services that are likely no longer needed, but nobody could confirm that..
-BuildRequires: gitweb compsec
+BuildRequires: gitweb compsec couchdb31
 ### List of obsolete services (or under deprecation), stop building them!
 #BuildRequires: filemover PHEDEX-combined-web PHEDEX-combined-agents PHEDEX-lifecycle
 #BuildRequires: overview happyface sreadiness lifecycle-das webtools

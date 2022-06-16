@@ -1,0 +1,14 @@
+--- src/couch_replicator/src/couch_replicator_api_wrap.erl
++++ src/couch_replicator/src/couch_replicator_api_wrap.erl
+@@ -220,7 +220,7 @@ open_doc_revs(#httpdb{} = HttpDb, Id, Revs, Options, Fun, Acc) ->
+             Params = [
+                 {path, Path},
+                 {qs, QS},
+-                {ibrowse_options, [{stream_to, {self(), once}}]},
++                {ibrowse_options, [{stream_to, self()}]},
+                 {headers, [{"Accept", "multipart/mixed"}]}
+             ],
+             % We're setting retries to 0 here to avoid the case where the
+--
+2.32.0
+
