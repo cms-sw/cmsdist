@@ -174,7 +174,7 @@ node-semver==0.8.0
 notebook==6.4.12
 numba==0.54.0
 numexpr==2.8.1
-numpy==1.22.0
+numpy==1.22.4
 onnx==1.10.1
 onnxmltools==1.9.1
 onnxconverter-common==1.8.1
