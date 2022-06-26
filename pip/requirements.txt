@@ -65,7 +65,7 @@ cryptography==37.0.2
 cryptography==3.2.1 ; cmsos_name=='slc7'
 cx-Oracle==8.2.1
 cycler==0.10.0
-cython==0.29.24
+cython==0.29.30
 decorator==5.0.9
 debugpy==1.5.1
 defusedxml==0.7.1
@@ -174,7 +174,7 @@ node-semver==0.8.0
 notebook==6.4.12
 numba==0.54.0
 numexpr==2.8.1
-numpy==1.21.2
+numpy==1.22.4
 onnx==1.10.1
 onnxmltools==1.9.1
 onnxconverter-common==1.8.1
