@@ -2,15 +2,14 @@
 ### RPM external jemalloc-debug %{jemalloc_version}
 
 %build
-# Disable documentation (not needed)
-sed -ibak 's/install: install_bin install_include install_lib install_doc/install: install_bin install_include install_lib/' Makefile.in
-./autogen.sh
-
-./configure \
+./autogen.sh \
+  --enable-shared \
+  --disable-static \
+  --disable-doc \
   --enable-stats \
-  --prefix %{i} \
   --enable-debug \
-  --enable-fill
+  --enable-fill \
+  --prefix %{i}
 
 %post
 %{relocateConfig}bin/jemalloc.sh
