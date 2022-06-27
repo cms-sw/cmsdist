@@ -2,8 +2,8 @@
 ### RPM external jemalloc %{jemalloc_version}
 
 %build
-
-./autogen.sh --enable-shared \
+./autogen.sh \
+  --enable-shared \
   --disable-static \
   --disable-doc \
   --enable-stats \
