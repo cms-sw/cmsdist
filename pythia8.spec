@@ -7,7 +7,7 @@ Requires: hepmc hepmc3 lhapdf
 %prep
 %setup -q -n %{n}%{realversion}
 
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-hepmc3=${HEPMC3_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
+./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-hepmc3=${HEPMC3_ROOT} --with-lhapdf6=${LHAPDF_ROOT} --enable-mg5mes
 
 %build
 make %makeprocesses
