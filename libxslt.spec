@@ -1,4 +1,4 @@
-### RPM external libxslt 1.1.33
+### RPM external libxslt 1.1.35
 
 Source0: http://xmlsoft.org/sources/%{n}-%{realversion}.tar.gz
 
