@@ -1,11 +1,8 @@
-### RPM external libxslt 1.1.28
+### RPM external libxslt 1.1.33
 
-%define tag 195f644cf7b5e93208b033fa7c5501c41cf82f59
-%define branch master
-%define github_user cms-externals
-Source0: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source0: http://xmlsoft.org/sources/%{n}-%{realversion}.tar.gz
 
-Requires: libxml2
+Requires: libxml2 zlib xz
 BuildRequires: autotools
 %prep
 %setup -n %{n}-%{realversion}
