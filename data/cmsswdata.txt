@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+MagneticField-Interpolation=V01-02-00
 RecoEcal-EgammaClusterProducers=V00-02-00
 L1Trigger-TrackTrigger=V00-02-00
 RecoEgamma-ElectronIdentification=V01-11-00
@@ -57,7 +58,6 @@ RecoMET-METPUSubtraction=V01-01-00
 RecoMTD-TimingIDTools=V00-01-00
 Configuration-Generator=V01-02-00
 MagneticField-Engine=V00-01-00
-MagneticField-Interpolation=V01-01-00
 SimTracker-SiStripDigitizer=V01-01-00
 SimPPS-PPSPixelDigiProducer=V00-00-02
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
