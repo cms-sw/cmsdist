@@ -1,4 +1,4 @@
-### RPM external lcov 1.9
+### RPM external lcov 1.15
 ## NOCOMPILER
 Source: http://heanet.dl.sourceforge.net/sourceforge/ltp/%{n}-%{realversion}.tar.gz
 Patch0: lcov-merge-files-in-same-dir
