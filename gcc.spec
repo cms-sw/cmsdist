@@ -26,7 +26,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %ifos linux
 %define bisonVersion 3.7.6
 %define binutilsVersion 2.36.1
-%define elfutilsVersion 0.183
+%define elfutilsVersion 0.186
 %define m4Version 1.4.19
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
