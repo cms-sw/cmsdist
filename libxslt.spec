@@ -9,7 +9,7 @@ BuildRequires: autotools
 
 %build
 autoreconf -ivf
-./configure
+./configure \
   --prefix=%{i} \
   --with-libxml-prefix=$LIBXML2_ROOT \
   --with-libxml-include-prefix=$LIBXML2_ROOT/include \
