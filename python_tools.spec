@@ -24,8 +24,6 @@ Requires: py3-pandas
 Requires: py3-Bottleneck
 Requires: py3-downhill
 Requires: py3-xgboost
-Requires: py3-llvmlite
-Requires: py3-numba
 Requires: py3-hep_ml
 Requires: py3-uncertainties
 Requires: py3-seaborn
