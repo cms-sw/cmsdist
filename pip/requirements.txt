@@ -130,7 +130,7 @@ jupyter-console==6.4.3
 jupyter-core==4.7.1
 jupyter-packaging==0.10.4
 jupyterlab-pygments==0.1.2
-jupyter-server==1.15.4
+jupyter-server==1.18.0
 jupyter-server-mathjax==0.2.3
 jupyterlab-widgets==1.1.0
 keras==2.6.0
