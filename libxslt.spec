@@ -5,7 +5,7 @@ Source0: https://github.com/GNOME/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Requires: libxml2 zlib xz
 BuildRequires: autotools
 %prep
-%setup -n %{n}-v%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 autoreconf -ivf
