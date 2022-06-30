@@ -9,7 +9,7 @@ AutoReq: no
 
 %define llvmCommit d88fe2a1cafb6621210a7a0ae968c1e8e797d2bb
 %define llvmBranch cms/release/14.x/f28c006
-%define iwyuCommit d88fe2a1cafb6621210a7a0ae968c1e8e797d2bb
+%define iwyuCommit d888efc52646dcf3e4e3a56af13aa23dd26abde0
 %define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
