@@ -2,4 +2,5 @@
   <use name="alpaka"/>
   <use name="tbb"/>
   <flags CXXFLAGS="-DALPAKA_ACC_CPU_B_TBB_T_SEQ_ENABLED"/>
+  <flags GENREFLEX_CPPFLAGS="-DALPAKA_ACC_CPU_B_TBB_T_SEQ_ENABLED"/>
 </tool>

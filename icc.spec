@@ -1,4 +1,4 @@
-### RPM external icc 2017.2.174
+### RPM external icc 2020
 ## NOCOMPILER
 Source: none
 Provides: libimf.so()(64bit)
@@ -10,5 +10,5 @@ Provides: libsvml.so()(64bit)
 %build
 %install
 %post
-ln -s /cvmfs/projects.cern.ch/intelsw/psxe/linux/x86_64/2017/compilers_and_libraries_%{realversion}/linux $RPM_INSTALL_PREFIX/%{pkgrel}/installation
+ln -s /cvmfs/projects.cern.ch/intelsw/oneAPI/linux/x86_64/2022/compiler/latest/linux/ $RPM_INSTALL_PREFIX/%{pkgrel}/installation
 
