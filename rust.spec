@@ -8,11 +8,13 @@
 %define branch master
 %define tag %{realversion}
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: rust-libstdc
 BuildRequires: python3
 Requires: llvm
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 cat << EOF > config.toml
