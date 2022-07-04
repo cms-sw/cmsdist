@@ -48,3 +48,5 @@ mv ../../%{n}-%{realversion}/DDG4/include/DDG4 %i/include
 %{relocateConfig}*.cmake
 %{relocateConfig}bin/*.sh
 %{relocateConfig}bin/*.csh
+
+# test:revision 1
