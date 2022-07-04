@@ -12,8 +12,6 @@ autoreconf -ivf
 ./configure \
   --prefix=%{i} \
   --with-libxml-prefix=$LIBXML2_ROOT \
-  --with-libxml-include-prefix=$LIBXML2_ROOT/include \
-  --with-libxml-libs-prefix=$LIBXML2_ROOT/lib \
   --without-crypto --without-python
 make
 
