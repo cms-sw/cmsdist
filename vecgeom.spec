@@ -46,3 +46,4 @@ make %{makeprocesses} install
 
 %post
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
+# test:revision 1
