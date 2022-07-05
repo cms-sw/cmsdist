@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1008
+## REVISION 1009
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -100,6 +100,12 @@ Provides: perl(File::Copy)
 Provides: perl(File::stat)
 Provides: perl(Time::localtime)
 Provides: perl(sort)
+
+#################################
+# Needed by lcov
+#################################
+Provides: perl(IO::Uncompress::Gunzip)
+Provides: perl(JSON::PP)
 
 Provides: /bin/csh
 Provides: /bin/tcsh

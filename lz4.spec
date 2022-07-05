@@ -7,7 +7,7 @@ Source: https://github.com/%{github_user}/%{n}/archive/v%{realversion}.tar.gz
 %setup -n %{n}-%{realversion}
 
 %build
-make %{makeprocesses} 
+CC="$(which gcc)" make %{makeprocesses}
 
 %install
 make PREFIX=%{i} install

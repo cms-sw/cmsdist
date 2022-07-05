@@ -1,8 +1,8 @@
 ### RPM external lcov 1.15
 ## NOCOMPILER
-Source: http://heanet.dl.sourceforge.net/sourceforge/ltp/%{n}-%{realversion}.tar.gz
+Source: https://github.com/linux-test-project/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Patch0: lcov-merge-files-in-same-dir
-
+Requires: fakesystem
 
 %prep
 %setup -n %{n}-%{realversion}
