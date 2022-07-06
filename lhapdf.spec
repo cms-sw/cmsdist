@@ -9,15 +9,15 @@ Source2: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.
 
 Source3: lhapdf_pdfsetsindex
 
-Requires: python3
-BuildRequires: py3-cython
+Requires: python
+BuildRequires: py2-cython
 
 %define keep_archives true
 
 %prep
 %setup -q -n LHAPDF-%{realversion}
 
-PYTHON=$(which python3) \
+PYTHON=$(which python) \
   ./configure --prefix=%{i} \
   --enable-python
 
