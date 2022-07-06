@@ -1,4 +1,5 @@
 ### RPM external dd4hep v01-19x
+## INCLUDE compilation_flags
 
 %define tag cc335b34e9eb2825ab18e20c531be813a92d141f
 %define branch master
@@ -14,6 +15,11 @@ Requires: root boost clhep xerces-c geant4
 %setup -n %{n}-%{realversion}
 
 %build
+%if "%{?arch_build_flags}"
+%define build_flags -fPIC %{arch_build_flags} %{lto_build_flags}
+%else
+%define build_flags -fPIC %{lto_build_flags}
+%endif
 
 export BOOST_ROOT
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
@@ -21,6 +27,8 @@ CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
       -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_AR=$(which gcc-ar) \
+      -DCMAKE_RANLIB=$(which gcc-ranlib) \
       -DCMAKE_CXX_STANDARD=17 \
       -DCMAKE_BUILD_TYPE=Release \
       -DDD4HEP_USE_GEANT4_UNITS=ON \
@@ -28,13 +36,24 @@ CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
-cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=ON ../%{n}-%{realversion}
+cmake $CMAKE_ARGS \
+      -DBUILD_SHARED_LIBS=ON \
+      -DCMAKE_CXX_FLAGS="%{build_flags}" \
+      -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+      -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+      ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
 #Building DDG4 static
 rm -rf ../build-g4; mkdir ../build-g4; cd ../build-g4
-cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DDD4HEP_USE_GEANT4=ON ../%{n}-%{realversion}
+cmake $CMAKE_ARGS \
+      -DBUILD_SHARED_LIBS=OFF \
+      -DDD4HEP_USE_GEANT4=ON  \
+      -DCMAKE_CXX_FLAGS="%{build_flags}" \
+      -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+      -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+      ../%{n}-%{realversion}
 cd DDG4
 make %{makeprocesses} VERBOSE=1
 for lib in $(ls ../lib/libDDG4*.a | sed 's|.a$||'); do
