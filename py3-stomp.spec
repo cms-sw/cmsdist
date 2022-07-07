@@ -1,4 +1,4 @@
-### RPM external py3-stomp 4.1.21
+### RPM external py3-stomp 7.0.0
 ## IMPORT build-with-pip3
 
 Requires: py3-docopt
