@@ -1,8 +1,11 @@
-### RPM external hwloc 2.7.1
-Source: https://download.open-mpi.org/release/%{n}/v2.7/%{n}-%{realversion}.tar.bz2
+### RPM external hwloc 2.8.0
+Source: https://download.open-mpi.org/release/%{n}/v2.8/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
 Requires: cuda libpciaccess libxml2 numactl
+%ifarch x86_64
+Requires: rocm
+%endif
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -13,17 +16,24 @@ Requires: cuda libpciaccess libxml2 numactl
   --disable-static \
   --disable-dependency-tracking \
   --enable-cpuid \
-  --enable-cuda \
-  --enable-nvml \
   --enable-libxml2 \
   --disable-cairo \
   --disable-doxygen \
+  --disable-opencl \
+  --with-cuda=$CUDA_ROOT \
+  --enable-cuda \
+  --enable-nvml \
   --enable-plugins=cuda,nvml \
+%ifarch x86_64
+  --with-rocm=$ROCM_ROOT \
+  --enable-rsmi \
+  --enable-plugins=cuda,nvml,rsmi \
+%else
+  --enable-plugins=cuda,nvml \
+%endif
   --with-pic \
   --with-gnu-ld \
   --without-x \
-  CPPFLAGS="-I$CUDA_ROOT/include" \
-  LDFLAGS="-L$CUDA_ROOT/lib64 -L$CUDA_ROOT/lib64/stubs" \
   HWLOC_PCIACCESS_CFLAGS="-I$LIBPCIACCESS_ROOT/include" \
   HWLOC_PCIACCESS_LIBS="-L$LIBPCIACCESS_ROOT/lib -lpciaccess" \
   HWLOC_LIBXML2_CFLAGS="-I$LIBXML2_ROOT/include/libxml2" \
