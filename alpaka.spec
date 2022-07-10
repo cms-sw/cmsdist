@@ -1,7 +1,7 @@
-### RPM external alpaka develop-20220503
+### RPM external alpaka develop-20220621
 ## NOCOMPILER
 
-%define git_commit c493040fe0b3ef9416bb0bbb8d45550c184a67e0
+%define git_commit 5a4691c82676176fd8b71e1f57bb809f8c75a095
 
 Source: https://github.com/alpaka-group/%{n}/archive/%{git_commit}.tar.gz
 Requires: boost
