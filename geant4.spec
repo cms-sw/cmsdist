@@ -1,10 +1,10 @@
-### RPM external geant4 10.7.2
+### RPM external geant4 11.0.6
 ## INCLUDE compilation_flags
-%define use_vecgeom 1
-%define tag %{realversion}
-%define branch geant4-10.7-release
-%define github_user Geant4
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+%define tag 44ccd9ab45d11c6e299273fad754115acd34968c
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+%define use_vecgeom 0
 
 BuildRequires: cmake gmake
 
@@ -55,6 +55,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
+  -DGEANT4_USE_USOLIDS-ADVANCED:INTERNAL=1 \
 %if %{use_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
 %endif
