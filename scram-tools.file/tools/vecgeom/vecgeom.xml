@@ -3,7 +3,7 @@
   <lib name="vecgeom"/>
   <client>
     <environment name="VECGEOM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$VECGEOM_BASE/lib"/>
+    <environment name="LIBDIR" default="$VECGEOM_BASE/lib64"/>
   </client>
   <use name="vecgeom_interface"/>
 </tool>
