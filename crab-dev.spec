@@ -5,7 +5,7 @@
 %define version_suffix 00
 %define crabclient_version v3.220714
 ### RPM cms crab-dev %{crabclient_version}.%{version_suffix}
-%define crabserver_version v3.220429
+%define crabserver_version v3.220713
 %define dbs_version        3.14.0
 
 ## IMPORT crab-build
