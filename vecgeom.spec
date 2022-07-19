@@ -24,6 +24,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=Scalar \
 %ifarch x86_64
