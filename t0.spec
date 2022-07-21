@@ -15,7 +15,7 @@ Source1: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcver&export=%{wmcp
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-mysqlclient py3-cx-oracle py3-cheetah3 py3-pyOpenSSL py3-retry
 Requires: py3-dbs3-client py3-pyzmq py3-psutil py3-future py3-cmsmonitoring py3-pyjwt
-Requires: yui libuuid couchdb31 condorpy3 jemalloc
+Requires: yui libuuid couchdb condorpy3 jemalloc
 
 BuildRequires: py3-sphinx py3-sphinxcontrib-websupport couchskel
 

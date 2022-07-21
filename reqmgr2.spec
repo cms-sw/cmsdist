@@ -10,7 +10,7 @@ Source: git+https://github.com/dmwm/WMCore.git?obj=master/%realversion&export=%n
 
 Requires: python3 py3-httplib2 py3-cherrypy py3-cheetah3 py3-pycurl py3-dbs3-client
 Requires: py3-future py3-retry py3-psutil py3-cmsmonitoring
-Requires: jemalloc rotatelogs couchdb31
+Requires: jemalloc rotatelogs couchdb
 BuildRequires: py3-sphinx
 
 %prep
