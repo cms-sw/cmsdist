@@ -1,22 +1,5 @@
-### RPM external couchdb31 3.1.2
+### RPM external couchdb 3.2.2
 Source0: https://downloads.apache.org/couchdb/source/%{realversion}/apache-couchdb-%{realversion}.tar.gz
-Source1: couchdb31_cms_auth.erl
-Patch0: couchdb31-ssl-cert-patch
-Patch1: couchdb31-fix-rep-streaming
-
-# Patch explanation
-#   couchdb31-ssl-client-cert:
-#     Passes cacert_file too for the ssl context in the replicator
-#     code. Otherwise, it cannot use proxy certificates.
-#   couchdb31-fix-rep-streaming:
-#     Fixes or at least avoids the obscure bug of couch replicator
-#     client where it does not process chunked requests correctly
-#     when replicating from (but not to) a remote couch behind
-#     a SSL (Apache) proxy. On this very specific case (which happens only
-#     when replicating big documents), it seems couch is not reading
-#     the very last received data in the SSL connection buffer.
-#     We tell ibrowse to handle the (pace of) reading of incoming data buffer
-#     instead of couch. Not clear if the bug is in couch or in ibrowse.
 
 # Although there is no technical software dependency,
 # couchapp was included because all CMS applications will need it.
@@ -25,9 +8,6 @@ BuildRequires: autotools
 
 %prep
 %setup -n apache-couchdb-%{realversion}
-%patch0 -p0
-%patch1 -p0
-cp %_sourcedir/couchdb31_cms_auth.erl %_builddir/apache-couchdb-%{realversion}/src/couch/src/couch_cms_auth.erl
 
 %build
 export CURL_ROOT SPIDERMONKEY_ROOT ICU4C_ROOT ERLANG22_ROOT AUTOTOOLS_ROOT

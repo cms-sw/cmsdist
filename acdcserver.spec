@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 Source: git+https://github.com/dmwm/WMCore.git?obj=master/%{realversion}&export=%n&output=/%n.tar.gz
-Requires: python3 py3-future py3-httplib2 rotatelogs couchdb31
+Requires: python3 py3-future py3-httplib2 rotatelogs couchdb
 BuildRequires: py3-sphinx
 
 %prep
