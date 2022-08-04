@@ -1,11 +1,9 @@
-### RPM external triton-inference-client 2.20.0
-%define branch cmake_fixes_r22.03
-%define github_user kpedro88
-%define tag_2_20_0 37f6c6dffc81cc40ad9716adb9cc39757afedd7f
+### RPM external triton-inference-client 2.24.0
+%define branch r22.07
+%define github_user triton-inference-server
+%define client_tag a40d66523fc7092835ba863ae0ee85f77e9bd1a2
 
-Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_20_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: triton-inference-client/model_config.h
-Source2: triton-inference-client/model_config.cc
+Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake git
 Requires: protobuf grpc cuda abseil-cpp re2
 
@@ -20,37 +18,27 @@ PROJ_DIR=../%{n}-%{realversion}/src/c++
 CML_CPP=${PROJ_DIR}/CMakeLists.txt
 CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
 
-# change version of common repo initially pulled by cmake to avoid inconsistency
-sed -i 's~https://github.com/triton-inference-server/common.git~https://github.com/kpedro88/common.git~' ${CML_CPP}
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_LIB}
 fi
 
-# these files were extracted from:
-# https://github.com/triton-inference-server/server/blob/v2.11.0/src/core/model_config.h
-# https://github.com/triton-inference-server/server/blob/v2.11.0/src/core/model_config.cc
-cp %{_sourcedir}/model_config.h  ${PROJ_DIR}/library/
-cp %{_sourcedir}/model_config.cc ${PROJ_DIR}/library/
-
-# add custom header to cmake build
-sed -i 's/grpc_client.cc common.cc/& model_config.cc/' ${CML_LIB}
-sed -i 's/grpc_client.h common.h/& model_config.h/' ${CML_LIB}
-sed -i '\~${CMAKE_CURRENT_SOURCE_DIR}/common.h~a ${CMAKE_CURRENT_SOURCE_DIR}/model_config.h' ${CML_LIB}
+# remove unneeded test libs
+sed -i 's/FetchContent_MakeAvailable(googletest)/if(TRITON_ENABLE_TESTS OR TRITON_ENABLE_PERF_ANALYZER)\nFetchContent_MakeAvailable(googletest)\nendif()/' ${CML_CPP}
 
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag_2_20_0=ccee8e88f397a767c1a7ad9d2fa4491cdcced528
-mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_20_0}.tar.gz | tar -xz --strip=1 && popd
+common_tag=38452b707e66eeb590188c9440d257ca3b68f35a
+mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag}.tar.gz | tar -xz --strip=1 && popd
 
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
 COMMON_DIR=$PWD/repo-common
 CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
 
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
+if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then
     sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
 fi
 
@@ -73,7 +61,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_ENABLE_TESTS=OFF \
     -DTRITON_USE_THIRD_PARTY=OFF \
     -DTRITON_KEEP_TYPEINFO=ON \
-    -DTRITON_COMMON_REPO_TAG=${common_tag_2_20_0} \
+    -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
