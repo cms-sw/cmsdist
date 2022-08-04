@@ -35,7 +35,11 @@ mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github
 
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
 COMMON_DIR=$PWD/repo-common
+CML_COM=${COMMON_DIR}/CMakeLists.txt
 CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
+
+# get shared libraries
+sed -i '/^project/a option(BUILD_SHARED_LIBS "Build using shared libraries" ON)' ${CML_COM}
 
 # change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then
