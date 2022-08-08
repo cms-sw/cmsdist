@@ -1,4 +1,4 @@
-### RPM cms comp HG2208d
+### RPM cms comp HG2208e
 
 
 # This is a meta-package to group all cms comp services
