@@ -35,9 +35,6 @@ Requires: py3-vector
 Requires: py3-opt-einsum
 Requires: py3-joblib
 
-#this DOES NOT depend on numpy..
-Requires: py3-xrootdpyfs
-
 Requires: py3-entrypoints
 Requires: py3-psutil
 Requires: py3-repoze-lru
@@ -107,7 +104,6 @@ Requires: py3-idna
 Requires: py3-Werkzeug
 Requires: py3-pytest
 Requires: py3-avro
-Requires: py3-fs
 Requires: py3-lizard
 Requires: py3-flawfinder
 Requires: py3-python-ldap
