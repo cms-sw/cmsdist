@@ -6,6 +6,8 @@
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: dd4hep_modulemap
+
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
 
@@ -43,6 +45,7 @@ done
 mv ../../%{n}-%{realversion}/DDG4/include/DDG4 %i/include
 
 %install
+cp %{_sourcedir}/dd4hep_modulemap  %{i}/include/module.modulemap
 
 %post
 %{relocateConfig}*.cmake

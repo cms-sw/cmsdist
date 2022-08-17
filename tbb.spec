@@ -5,6 +5,7 @@
 %define github_user oneapi-src
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
+Source3: tbb_modulemap
 Requires: hwloc
 BuildRequires: cmake
 
@@ -29,3 +30,8 @@ make %{makeprocesses}
 %install
 cd %{_builddir}/build
 make install
+ls
+ls %{i}
+
+cp %{_sourcedir}/tbb_modulemap  %{i}/include/module.modulemap
+ls ../%{n}-%{realversion}/include/tbb

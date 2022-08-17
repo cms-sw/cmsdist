@@ -8,4 +8,5 @@
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  @CXXMODULE_DATA@
 </tool>

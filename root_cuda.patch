@@ -1,0 +1,16 @@
+diff --git a/interpreter/cling/include/cling/cuda.modulemap b/interpreter/cling/include/cling/cuda.modulemap
+index 6784f2fb27..0bc3d313a0 100644
+--- a/interpreter/cling/include/cling/cuda.modulemap
++++ b/interpreter/cling/include/cling/cuda.modulemap
+@@ -2,11 +2,4 @@ module "cuda" [system] {
+   export *
+   module "cuda.h" { textual header "cuda.h" export * }
+   module "cuda_runtime.h" { header "cuda_runtime.h" export * }
+-  module "curand.h" {
+-    export *
+-    header "curand.h"
+-    header "curand_kernel.h"
+-    header "curand_discrete.h"
+-    header "curand_discrete2.h"
+-  }
+ }

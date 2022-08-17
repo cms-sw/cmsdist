@@ -1,0 +1,19 @@
+diff --git a/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h b/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
+index e9e9483..70e98a0 100644
+--- a/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
++++ b/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
+@@ -750,10 +750,10 @@ class RedeclarableTemplateDecl : public TemplateDecl,
+       return DeclID < Other.DeclID;
+     }
+     bool operator==(const LazySpecializationInfo &Other) const {
+-      assert((DeclID != Other.DeclID || ODRHash == Other.ODRHash) &&
+-             "Hashes differ!");
+-      assert((DeclID != Other.DeclID || IsPartial == Other.IsPartial) &&
+-             "Both must be the same kinds!");
++      //assert((DeclID != Other.DeclID || ODRHash == Other.ODRHash) &&
++      //       "Hashes differ!");
++      //assert((DeclID != Other.DeclID || IsPartial == Other.IsPartial) &&
++      //       "Both must be the same kinds!");
+       return DeclID == Other.DeclID;
+     }
+   };

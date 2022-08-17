@@ -1,0 +1,263 @@
+diff --git a/core/metacling/src/TCling.cxx b/core/metacling/src/TCling.cxx
+index 47c152ffc525..6313d53a95ad 100644
+--- a/core/metacling/src/TCling.cxx
++++ b/core/metacling/src/TCling.cxx
+@@ -1140,6 +1140,8 @@ static GlobalModuleIndex *loadGlobalModuleIndex(cling::Interpreter &interp)
+                }
+                else if (TypedefNameDecl *TND = dyn_cast<TypedefNameDecl>(ND))
+                   Register(TND);
++               else if (isa<FunctionDecl>(ND) && !isa<CXXMethodDecl>(ND))
++                  Register(ND);
+                // FIXME: Add the rest...
+                return true; // continue decending
+             }
+@@ -1169,7 +1171,16 @@ static GlobalModuleIndex *loadGlobalModuleIndex(cling::Interpreter &interp)
+                // FIXME: We might end up with many times with the same module.
+                // FIXME: We might end up two modules containing a definition.
+                // FIXME: What do we do if no definition is found.
+-               DefinitionIDs[ND->getName()].push_back(OwningModule->getASTFile());
++               InterestingIDInfo &Info = DefinitionIDs[ND->getName()];
++
++               if (auto *NSD = dyn_cast_or_null<NamespaceDecl>(ND)) {
++                  if (!NSD->getParent()->isNamespace()) {
++                     Info.setTopNamespace();
++                  }
++               }
++
++               Info.setDeclKind(ND->getKind());
++               Info.FE.push_back(OwningModule->getASTFile());
+             }
+          };
+          DefinitionFinder defFinder(IDs, CI.getASTContext().getTranslationUnitDecl());
+diff --git a/core/metacling/src/TClingCallbacks.cxx b/core/metacling/src/TClingCallbacks.cxx
+index 1ee5d03d5c89..086f94837301 100644
+--- a/core/metacling/src/TClingCallbacks.cxx
++++ b/core/metacling/src/TClingCallbacks.cxx
+@@ -316,10 +316,17 @@ bool TClingCallbacks::findInGlobalModuleIndex(DeclarationName Name, bool loadFir
+    // FIXME: We should load only the first available and rely on other callbacks
+    // such as RequireCompleteType and LookupUnqualified to load all.
+    GlobalModuleIndex::FileNameHitSet FoundModules;
++   bool K = false;
+ 
+    // Find the modules that reference the identifier.
+    // Note that this only finds top-level modules.
+-   if (Index->lookupIdentifier(Name.getAsString(), FoundModules)) {
++   if (Index->lookupIdentifier(Name.getAsString(), K, FoundModules)) {
++      if (K) {
++         if (gDebug > 2)
++            llvm::errs() << "\x1B[31m\"" << Name.getAsString() << "\" is a top level namespace,"
++                         << " skip loading its modules\n\x1B[0m";
++         return true;
++      }
+       for (llvm::StringRef FileName : FoundModules) {
+          StringRef ModuleName = llvm::sys::path::stem(FileName);
+ 
+diff --git a/interpreter/llvm/src/tools/clang/include/clang/Serialization/GlobalModuleIndex.h b/interpreter/llvm/src/tools/clang/include/clang/Serialization/GlobalModuleIndex.h
+index d38ae6a9b426..cf66b3e5a0f9 100644
+--- a/interpreter/llvm/src/tools/clang/include/clang/Serialization/GlobalModuleIndex.h
++++ b/interpreter/llvm/src/tools/clang/include/clang/Serialization/GlobalModuleIndex.h
+@@ -14,15 +14,15 @@
+ //===----------------------------------------------------------------------===//
+ #ifndef LLVM_CLANG_SERIALIZATION_GLOBALMODULEINDEX_H
+ #define LLVM_CLANG_SERIALIZATION_GLOBALMODULEINDEX_H
+-
++#include "clang/AST/DeclBase.h"
+ #include "llvm/ADT/DenseMap.h"
+-#include <llvm/ADT/DenseSet.h>
+ #include "llvm/ADT/SmallPtrSet.h"
+ #include "llvm/ADT/SmallVector.h"
+ #include "llvm/ADT/StringMap.h"
+ #include "llvm/ADT/StringRef.h"
+-#include "llvm/Support/Error.h"
+ #include "llvm/ADT/StringSet.h"
++#include "llvm/Support/Error.h"
++#include <llvm/ADT/DenseSet.h>
+ #include <memory>
+ #include <utility>
+ 
+@@ -50,6 +50,33 @@ using llvm::StringRef;
+ using llvm::StringSet;
+ using serialization::ModuleFile;
+ 
++struct DeclKindInfo {
++  // First bit is used to represent if is a top level namespace, and the
++  // last ones is used to store its DeclKind. The first bit is only valid
++  // when it's a NamespaceDecl.
++  unsigned Data = 0;
++
++  void setDeclKind(clang::Decl::Kind Kd) {
++    Data |= static_cast<unsigned>(Kd) & ~(1 << 31);
++  }
++
++  Decl::Kind getDeclKind() const {
++    return static_cast<Decl::Kind>(Data & ~(1 << 31));
++  }
++
++  void setTopNamespace() { Data |= (1 << 31); }
++
++  bool isTopNamespace() const { return Data & (1 << 31); }
++};
++
++struct InterestingIdentifiersInfo : public DeclKindInfo {
++  SmallVector<unsigned, 2> ModuleFileID;
++};
++
++struct InterestingIDInfo : public DeclKindInfo {
++  SmallVector<const FileEntry *, 2> FE;
++};
++
+ /// A global index for a set of module files, providing information about
+ /// the identifiers within those module files.
+ ///
+@@ -127,8 +154,7 @@ class GlobalModuleIndex {
+   GlobalModuleIndex &operator=(const GlobalModuleIndex &) = delete;
+ 
+ public:
+-  using UserDefinedInterestingIDs =
+-    llvm::StringMap<llvm::SmallVector<const FileEntry*, 2>>;
++  using UserDefinedInterestingIDs = llvm::StringMap<InterestingIDInfo>;
+ 
+   ~GlobalModuleIndex();
+ 
+@@ -177,6 +203,8 @@ class GlobalModuleIndex {
+   typedef llvm::SmallDenseSet<llvm::StringRef, 4> FileNameHitSet;
+   bool lookupIdentifier(StringRef Name, FileNameHitSet &Hits);
+ 
++  bool lookupIdentifier(StringRef Name, bool &K, FileNameHitSet &Hits);
++
+   /// Note that the given module file has been loaded.
+   ///
+   /// \returns false if the global module index has information about this
+diff --git a/interpreter/llvm/src/tools/clang/lib/Serialization/GlobalModuleIndex.cpp b/interpreter/llvm/src/tools/clang/lib/Serialization/GlobalModuleIndex.cpp
+index 42851d14febc..5c63fb7b2baa 100644
+--- a/interpreter/llvm/src/tools/clang/lib/Serialization/GlobalModuleIndex.cpp
++++ b/interpreter/llvm/src/tools/clang/lib/Serialization/GlobalModuleIndex.cpp
+@@ -73,7 +73,7 @@ class IdentifierIndexReaderTrait {
+ public:
+   typedef StringRef external_key_type;
+   typedef StringRef internal_key_type;
+-  typedef SmallVector<unsigned, 2> data_type;
++  typedef InterestingIdentifiersInfo data_type;
+   typedef unsigned hash_value_type;
+   typedef unsigned offset_type;
+ 
+@@ -109,9 +109,14 @@ class IdentifierIndexReaderTrait {
+     using namespace llvm::support;
+ 
+     data_type Result;
++    auto Raw = endian::readNext<uint32_t, little, unaligned>(d);
++    Result.setDeclKind(static_cast<Decl::Kind>(Raw & ~(1 << 31)));
++    if (Raw & (1 << 31))
++      Result.setTopNamespace();
++    DataLen -= 4;
+     while (DataLen > 0) {
+       unsigned ID = endian::readNext<uint32_t, little, unaligned>(d);
+-      Result.push_back(ID);
++      Result.ModuleFileID.push_back(ID);
+       DataLen -= 4;
+     }
+ 
+@@ -329,7 +334,8 @@ bool GlobalModuleIndex::lookupIdentifier(StringRef Name, HitSet &Hits) {
+     return false;
+   }
+ 
+-  SmallVector<unsigned, 2> ModuleIDs = *Known;
++  SmallVector<unsigned, 2> ModuleIDs =
++      (*Known).ModuleFileID; // FIXME: odd syntax
+   for (unsigned I = 0, N = ModuleIDs.size(); I != N; ++I) {
+     if (ModuleFile *MF = Modules[ModuleIDs[I]].File)
+       Hits.insert(MF);
+@@ -340,6 +346,12 @@ bool GlobalModuleIndex::lookupIdentifier(StringRef Name, HitSet &Hits) {
+ }
+ 
+ bool GlobalModuleIndex::lookupIdentifier(StringRef Name, FileNameHitSet &Hits) {
++  bool K;
++  return lookupIdentifier(Name, K, Hits);
++}
++
++bool GlobalModuleIndex::lookupIdentifier(StringRef Name, bool &K,
++                                         FileNameHitSet &Hits) {
+   Hits.clear();
+ 
+   // If there's no identifier index, there is nothing we can do.
+@@ -355,7 +367,11 @@ bool GlobalModuleIndex::lookupIdentifier(StringRef Name, FileNameHitSet &Hits) {
+     return false;
+   }
+ 
+-  SmallVector<unsigned, 2> ModuleIDs = *Known;
++  K = (((*Known).getDeclKind() == Decl::Kind::Namespace) &&
++       (*Known).isTopNamespace());
++
++  SmallVector<unsigned, 2> ModuleIDs =
++      (*Known).ModuleFileID; // FIXME: odd syntax
+   for (unsigned I = 0, N = ModuleIDs.size(); I != N; ++I) {
+     assert(!Modules[ModuleIDs[I]].FileName.empty());
+     Hits.insert(Modules[ModuleIDs[I]].FileName);
+@@ -457,7 +473,8 @@ namespace {
+ 
+     /// Mapping from identifiers to the list of module file IDs that
+     /// consider this identifier to be interesting.
+-    typedef llvm::StringMap<SmallVector<unsigned, 2> > InterestingIdentifierMap;
++    typedef llvm::StringMap<InterestingIdentifiersInfo>
++        InterestingIdentifierMap;
+ 
+     /// A mapping from all interesting identifiers to the set of module
+     /// files in which those identifiers are considered interesting.
+@@ -484,9 +501,12 @@ namespace {
+       if (!ExternalIDs)
+         return;
+ 
+-      for (const auto & I : *ExternalIDs)
+-        for (const FileEntry * J : I.getValue())
+-          InterestingIdentifiers[I.getKey()].push_back(getModuleFileInfo(J).ID);
++      for (const auto &I : *ExternalIDs) {
++        InterestingIdentifiers[I.getKey()].Data = I.getValue().Data;
++        for (const FileEntry *J : I.getValue().FE)
++          InterestingIdentifiers[I.getKey()].ModuleFileID.push_back(
++              getModuleFileInfo(J).ID);
++      }
+     }
+ 
+     /// Load the contents of the given module file into the builder.
+@@ -733,7 +753,7 @@ llvm::Error GlobalModuleIndexBuilder::loadModuleFile(const FileEntry *File,
+            D != DEnd; ++D) {
+         std::pair<StringRef, bool> Ident = *D;
+         if (Ident.second)
+-          InterestingIdentifiers[Ident.first].push_back(ID);
++          InterestingIdentifiers[Ident.first].ModuleFileID.push_back(ID);
+         else
+           (void)InterestingIdentifiers[Ident.first];
+       }
+@@ -759,8 +779,8 @@ class IdentifierIndexWriterTrait {
+ public:
+   typedef StringRef key_type;
+   typedef StringRef key_type_ref;
+-  typedef SmallVector<unsigned, 2> data_type;
+-  typedef const SmallVector<unsigned, 2> &data_type_ref;
++  typedef InterestingIdentifiersInfo data_type;
++  typedef const InterestingIdentifiersInfo &data_type_ref;
+   typedef unsigned hash_value_type;
+   typedef unsigned offset_type;
+ 
+@@ -773,7 +793,8 @@ class IdentifierIndexWriterTrait {
+     using namespace llvm::support;
+     endian::Writer LE(Out, little);
+     unsigned KeyLen = Key.size();
+-    unsigned DataLen = Data.size() * 4;
++    unsigned DataLen =
++        sizeof(unsigned) + Data.ModuleFileID.size() * sizeof(unsigned);
+     LE.write<uint16_t>(KeyLen);
+     LE.write<uint16_t>(DataLen);
+     return std::make_pair(KeyLen, DataLen);
+@@ -786,8 +807,9 @@ class IdentifierIndexWriterTrait {
+   void EmitData(raw_ostream& Out, key_type_ref Key, data_type_ref Data,
+                 unsigned DataLen) {
+     using namespace llvm::support;
+-    for (unsigned I = 0, N = Data.size(); I != N; ++I)
+-      endian::write<uint32_t>(Out, Data[I], little);
++    endian::write<uint32_t>(Out, Data.Data, little);
++    for (unsigned I = 0, N = Data.ModuleFileID.size(); I != N; ++I)
++      endian::write<uint32_t>(Out, Data.ModuleFileID[I], little);
+   }
+ };
+ 

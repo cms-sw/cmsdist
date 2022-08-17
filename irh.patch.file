@@ -1,0 +1,12 @@
+diff --git a/FWCore/Services/plugins/InitRootHandlers.cc b/FWCore/Services/plugins/InitRootHandlers.cc
+index a759f57534d..70198511091 100644
+--- a/FWCore/Services/plugins/InitRootHandlers.cc
++++ b/FWCore/Services/plugins/InitRootHandlers.cc
+@@ -822,6 +822,7 @@ namespace edm {
+       if (autoLibraryLoader_) {
+         gInterpreter->SetClassAutoloading(1);
+       }
++      gSystem->Load("libDataFormatsStdDictionaries.so");
+ 
+       // Set ROOT parameters.
+       TTree::SetMaxTreeSize(kMaxLong64);

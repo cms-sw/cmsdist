@@ -1,0 +1,11 @@
+%define PipPostBuild \
+cat > %{i}/${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include/module.modulemap << EOF \
+module pybind11 { \
+  export * \
+  requires cplusplus \
+  umbrella "pybind11" \
+  exclude header "pybind11/eigen.h" \
+  exclude header "pybind11/common.h" \
+  module * { export *} \
+} \
+EOF

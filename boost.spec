@@ -85,3 +85,6 @@ for l in $(find %{i}/lib -name "*.${so}.*")
 do
   ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]${so}[.].*|.${so}|")
 done
+
+
+

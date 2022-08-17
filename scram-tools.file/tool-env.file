@@ -1,7 +1,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE cuda-flags
 
-export ROOT_CXXMODULES="0"
+export ROOT_CXXMODULES="1"
 %if "%{?package_vectorization}" != ""
 export PKG_VECTORIZATION=`echo %package_vectorization`
 %endif

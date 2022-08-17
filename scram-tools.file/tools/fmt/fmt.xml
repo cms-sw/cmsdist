@@ -7,4 +7,5 @@
     <environment name="INCLUDE" default="$FMT_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  @CXXMODULE_DATA@
 </tool>

@@ -1,12 +1,20 @@
 ### RPM lcg root 6.27.01
 ## INITENV +PATH PYTHON3PATH %{i}/lib
-## INITENV SET ROOTSYS %{i}
+## INITENV SET ROOTSYS %{i} 
 ## INCLUDE compilation_flags
-%define tag 8929b400cdf756140ddcb5c21e31f35b29ff44e1
-%define branch cms/master/6018b5fd45
+%define tag 0381c771223b83eb1d9d118209a1870eaccf9343
+%define branch cms/master/cd992545ae
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: root_lazy
+Patch2: root_cuda
+Patch3: root_modules_211215
+Patch4: root_boost_mm
+Patch5: root_avoid_load
+ 
+%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 BuildRequires: cmake ninja
 
@@ -26,6 +34,12 @@ Requires: dcap
 %prep
 %setup -n %{n}-%{realversion}
 
+%patch0 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+
 %build
 rm -rf ../build
 mkdir ../build
@@ -40,7 +54,7 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_BUILD_TYPE=Release \
   -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
@@ -48,6 +62,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -Druntime_cxxmodules=ON \
+  -DPython3_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Droot7=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
@@ -155,7 +171,8 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses}
+ninja -v %{makeprocesses} 
+ninja -v %{makeprocesses} clang
 
 %install
 cd ../build
@@ -170,6 +187,9 @@ export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} install
+mkdir -p %{i}/etc/cling/bin
+cp -P interpreter/llvm/src/bin/clang %{i}/etc/cling/bin/.
+cp -P interpreter/llvm/src/bin/clang-* %{i}/etc/cling/bin/.
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
@@ -179,10 +199,10 @@ for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
   sed -i -e "${lnum}c#!/usr/bin/env python" $p
 done
 
+#this is instaled by mistake it appears. Move it until its fixed upstream
+mv %{i}/include/cling %{i}/etc_cling || true 
+
 #Make sure root build directory is not available after the root install is done
 #This will catch errors if root remembers the build paths.
 cd ..
 rm -rf build
-
-%post
-%{relocateConfig}etc/cling/llvm/Config/llvm-config.h

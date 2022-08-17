@@ -1,6 +1,7 @@
 ### RPM external fmt 8.0.1
 ## INCLUDE compilation_flags
 Source: https://github.com/fmtlib/fmt/archive/%{realversion}.tar.gz
+Source1: fmt_modulemap
 BuildRequires: gmake cmake
 
 %prep
@@ -25,4 +26,5 @@ make %{makeprocesses}
 
 cd %{_builddir}/build
 make install
+cp %{_sourcedir}/fmt_modulemap  %{i}/include/module.modulemap
 
