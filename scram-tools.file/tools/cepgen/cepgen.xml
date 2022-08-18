@@ -1,5 +1,6 @@
 <tool name="cepgen" version="@TOOL_VERSION@">
   <info url="https://cepgen.hepforge.org/"/>
+  <use name="gsl"/>
   <use name="hepmc"/>
   <use name="hepmc3"/>
   <use name="lhapdf"/>
