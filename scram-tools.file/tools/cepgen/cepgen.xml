@@ -10,10 +10,10 @@
   <lib name="CepGenLHAPDF"/>
   <lib name="CepGenPythia6"/>
   <client>
-    <environment name="CEPGEN_DIR" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$CEPGEN_DIR/lib"/>
-    <environment name="INCLUDE" default="$CEPGEN_DIR/include"/>
+    <environment name="CEPGEN_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$CEPGEN_BASE/lib"/>
+    <environment name="INCLUDE" default="$CEPGEN_BASE/include"/>
   </client>
-  <runtime name="PATH" value="$CEPGEN_DIR/bin" type="path"/>
-  <runtime name="CEPGEN_PATH" value="$CEPGEN_DIR/share/CepGen"/>
+  <runtime name="PATH" value="$CEPGEN_BASE/bin" type="path"/>
+  <runtime name="CEPGEN_PATH" value="$CEPGEN_BASE/share/CepGen"/>
 </tool>
