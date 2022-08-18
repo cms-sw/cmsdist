@@ -1,4 +1,5 @@
 <tool name="cepgen" version="@TOOL_VERSION@">
+  <info url="https://cepgen.hepforge.org/"/>
   <use name="hepmc"/>
   <use name="hepmc3"/>
   <use name="lhapdf"/>
@@ -12,6 +13,7 @@
     <environment name="CEPGEN_DIR" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CEPGEN_DIR/lib"/>
     <environment name="INCLUDE" default="$CEPGEN_DIR/include"/>
-    <environment name="CEPGEN_PATH" default="$CEPGEN_DIR/share/CepGen"/>
   </client>
+  <runtime name="PATH" value="$CEPGEN_DIR/bin" type="path"/>
+  <runtime name="CEPGEN_PATH" value="$CEPGEN_DIR/share/CepGen"/>
 </tool>
