@@ -14,7 +14,7 @@ cd ../build
 
 export HEPMC_DIR=${HEPMC_ROOT}
 export HEPMC3_DIR=${HEPMC3_ROOT}
-export LHAPDF_DIR=${LHAPDF_ROOT}
+export LHAPDF_PATH=${LHAPDF_ROOT}
 export PYTHIA6_DIR=${PYTHIA6_ROOT}
 
 cmake ../%{n}-%{realversion} \
