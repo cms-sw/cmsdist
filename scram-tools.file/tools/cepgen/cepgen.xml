@@ -5,9 +5,9 @@
   <lib name="CepGenLHAPDF"/>
   <lib name="CepGenPythia6"/>
   <client>
-    <environment name="CEPGEN_PATH" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$CEPGEN_PATH/lib"/>
-    <environment name="INCLUDE" default="$CEPGEN_PATH/include"/>
+    <environment name="CEPGEN_DIR" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$CEPGEN_DIR/lib"/>
+    <environment name="INCLUDE" default="$CEPGEN_DIR/include"/>
+    <environment name="CEPGEN_PATH" default="$CEPGEN_DIR/share"/>
   </client>
-  <flags SYSTEM_INCLUDE="1"/>
 </tool>
