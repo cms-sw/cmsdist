@@ -42,7 +42,7 @@ make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make %{makeprocesses} install
+make %{makeprocesses} install VERBOSE=1
 
 %post
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
