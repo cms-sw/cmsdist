@@ -1,9 +1,6 @@
 ### RPM external cepgen 1.0.1
 
-%define tag 8bb7a41787b4efb2b765e1de5d39da6bce6a2b25
-%define branch %{realversion}
-%define github_user cepgen
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
 
