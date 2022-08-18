@@ -2,7 +2,7 @@
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
-BuildRequires: cmake ninja
+BuildRequires: cmake ninja hepmc hepmc3 lhapdf pythia6
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -11,6 +11,11 @@ BuildRequires: cmake ninja
 rm -rf ../build
 mkdir ../build
 cd ../build
+
+export HEPMC_DIR=${HEPMC_ROOT}
+export HEPMC3_DIR=${HEPMC3_ROOT}
+export LHAPDF_DIR=${LHAPDF_ROOT}
+export PYTHIA6_DIR=${PYTHIA6_ROOT}
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
@@ -24,7 +29,7 @@ cd ../build
 ninja %{makeprocesses} install
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
-rm -f %i/lib/libCepGen-[A-Z]*-%realversion.$so
+rm -f %i/lib/libCepGen*-[A-Z]*-%realversion.$so
 
 %post
 %{relocateConfig}bin/cepgen

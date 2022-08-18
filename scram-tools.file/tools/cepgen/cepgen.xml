@@ -1,6 +1,7 @@
 <tool name="cepgen" version="@TOOL_VERSION@">
   <lib name="CepGen"/>
   <lib name="CepGenHepMC2"/>
+  <lib name="CepGenHepMC3"/>
   <lib name="CepGenLHAPDF"/>
   <lib name="CepGenPythia6"/>
   <client>
