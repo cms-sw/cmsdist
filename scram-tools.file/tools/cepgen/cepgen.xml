@@ -1,5 +1,8 @@
 <tool name="cepgen" version="@TOOL_VERSION@">
   <lib name="CepGen"/>
+  <lib name="CepGenHepMC2"/>
+  <lib name="CepGenLHAPDF"/>
+  <lib name="CepGenPythia6"/>
   <client>
     <environment name="CEPGEN_PATH" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CEPGEN_PATH/lib"/>
