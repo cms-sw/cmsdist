@@ -12,6 +12,6 @@
     <environment name="CEPGEN_DIR" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CEPGEN_DIR/lib"/>
     <environment name="INCLUDE" default="$CEPGEN_DIR/include"/>
-    <environment name="CEPGEN_PATH" default="$CEPGEN_DIR/share"/>
+    <environment name="CEPGEN_PATH" default="$CEPGEN_DIR/share/CepGen"/>
   </client>
 </tool>
