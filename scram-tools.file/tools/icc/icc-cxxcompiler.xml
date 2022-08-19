@@ -7,7 +7,6 @@
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
-    <flags REM_CXXFLAGS="-Wstrict-overflow"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Wno-psabi"/>
