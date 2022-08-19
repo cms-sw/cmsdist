@@ -1,9 +1,9 @@
-### RPM external cepgen 1.0.1
+### RPM external cepgen 1.0.1patch1
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
-Requires: gsl hepmc hepmc3 lhapdf pythia6
+Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -14,6 +14,7 @@ mkdir ../build
 cd ../build
 
 export GSL_DIR=${GSL_ROOT}
+export OPENBLAS_DIR=${OPENBLAS_ROOT}
 export HEPMC_DIR=${HEPMC_ROOT}
 export HEPMC3_DIR=${HEPMC3_ROOT}
 export LHAPDF_PATH=${LHAPDF_ROOT}

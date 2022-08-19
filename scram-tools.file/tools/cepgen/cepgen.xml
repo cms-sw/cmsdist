@@ -1,10 +1,5 @@
 <tool name="cepgen" version="@TOOL_VERSION@">
   <info url="https://cepgen.hepforge.org/"/>
-  <use name="gsl"/>
-  <use name="hepmc"/>
-  <use name="hepmc3"/>
-  <use name="lhapdf"/>
-  <use name="pythia6"/>
   <lib name="CepGen"/>
   <lib name="CepGenHepMC2"/>
   <lib name="CepGenHepMC3"/>
@@ -17,4 +12,10 @@
   </client>
   <runtime name="PATH" value="$CEPGEN_BASE/bin" type="path"/>
   <runtime name="CEPGEN_PATH" value="$CEPGEN_BASE/share/CepGen"/>
+  <use name="gsl"/>
+  <use name="OpenBLAS"/>
+  <use name="hepmc"/>
+  <use name="hepmc3"/>
+  <use name="lhapdf"/>
+  <use name="pythia6"/>
 </tool>
