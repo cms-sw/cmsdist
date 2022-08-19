@@ -35,7 +35,6 @@ source ${SCRAM_TOOLS_BIN_DIR}/os_libdir.sh
 
 GCC_CXXFLAGS=""
 GCC_CXXFLAGS="$GCC_CXXFLAGS -std=c++1z -ftree-vectorize"
-GCC_CXXFLAGS="$GCC_CXXFLAGS -Wstrict-overflow"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fvisibility-inlines-hidden"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
