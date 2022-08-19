@@ -4,6 +4,7 @@
   <lib name="CepGenHepMC2"/>
   <lib name="CepGenHepMC3"/>
   <lib name="CepGenLHAPDF"/>
+  <lib name="CepGenProcesses"/>
   <lib name="CepGenPythia6"/>
   <client>
     <environment name="CEPGEN_BASE" default="@TOOL_ROOT@"/>

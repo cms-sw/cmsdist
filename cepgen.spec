@@ -3,7 +3,7 @@
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
-Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6
+Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -19,6 +19,7 @@ export HEPMC_DIR=${HEPMC_ROOT}
 export HEPMC3_DIR=${HEPMC3_ROOT}
 export LHAPDF_PATH=${LHAPDF_ROOT}
 export PYTHIA6_DIR=${PYTHIA6_ROOT}
+export ROOTSYS=${ROOT_ROOT}
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
