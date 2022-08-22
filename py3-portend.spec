@@ -1,3 +1,3 @@
-### RPM external py3-portend 2.4
+### RPM external py3-portend 3.1.0
 ## IMPORT build-with-pip3
 Requires: py3-tempora

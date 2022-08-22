@@ -1,4 +1,4 @@
-### RPM external py3-pycurl 7.43.0.6
+### RPM external py3-pycurl 7.45.1
 ## IMPORT build-with-pip3
 
 Requires: curl

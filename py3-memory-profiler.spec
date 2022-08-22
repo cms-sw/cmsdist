@@ -1,4 +1,4 @@
-### RPM external py3-memory-profiler 0.58.0
+### RPM external py3-memory-profiler 0.60.0
 ## IMPORT build-with-pip3
 
 Requires: py3-psutil

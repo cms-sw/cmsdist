@@ -1,4 +1,4 @@
-### RPM external py3-cheroot 8.2.1
+### RPM external py3-cheroot 8.6.0
 ## IMPORT build-with-pip3
 Requires: py3-backports-functools_lru_cache py3-six py3-more-itertools py3-jaraco-functools
 
