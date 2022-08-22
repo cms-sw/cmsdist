@@ -8,7 +8,7 @@
   <lib name="CepGenPythia6"/>
   <client>
     <environment name="CEPGEN_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$CEPGEN_BASE/lib"/>
+    <environment name="LIBDIR" default="$CEPGEN_BASE/lib64"/>
     <environment name="INCLUDE" default="$CEPGEN_BASE/include"/>
   </client>
   <runtime name="PATH" value="$CEPGEN_BASE/bin" type="path"/>
