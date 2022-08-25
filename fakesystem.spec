@@ -81,6 +81,7 @@ Provides: perl(Memoize)
 Provides: perl(Net::Domain)
 Provides: perl(Net::SMTP)
 Provides: perl(Term::ANSIColor)
+Provides: perl(IO::File)
 
 #################################
 # Needed by git on CS9
