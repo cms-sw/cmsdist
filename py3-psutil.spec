@@ -1,4 +1,4 @@
-### RPM external py3-psutil 5.8.0
+### RPM external py3-psutil 5.9.1
 ## IMPORT build-with-pip3
 
 %define find %i -name '*.egg-info' -delete; \
