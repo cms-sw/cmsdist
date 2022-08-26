@@ -40,5 +40,6 @@
     <elif name="_TSAN"/>
       <runtime name="GCC_RUNTIME_TSAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libtsan.so" type="path"/>
     </ifrelease>
-    <runtime name="COMPILER_PATH"    value="@TOOL_ROOT@"/>
+    <runtime name="COMPILER_PATH" value="@TOOL_ROOT@"/>
+    <runtime name="COMPILER_HOST" value="@COMPILER_HOST@"/>
   </tool>
