@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_12_5_0_pre5_ROOT626
 
 Requires: cmssw-tool-conf
 
