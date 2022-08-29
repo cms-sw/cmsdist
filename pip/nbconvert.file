@@ -1,2 +1,3 @@
 Requires: py3-Jinja2 py3-Pygments py3-bleach py3-defusedxml py3-entrypoints py3-mistune py3-pandocfilters py3-nbformat
 Requires: py3-testpath py3-jupyterlab-pygments py3-nbclient
+Requires: py3-beautifulsoup4 py3-lxml py3-tinycss2
