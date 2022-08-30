@@ -1,4 +1,4 @@
-### RPM external py3-mysqlclient 2.0.3
+### RPM external py3-mysqlclient 2.1.1
 ## IMPORT build-with-pip3
 
 Requires: mariadb

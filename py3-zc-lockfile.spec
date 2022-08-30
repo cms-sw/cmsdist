@@ -1,4 +1,4 @@
-### RPM external py3-zc-lockfile 1.4
+### RPM external py3-zc-lockfile 2.0
 ## IMPORT build-with-pip3
 %define pip_name zc.lockfile
 

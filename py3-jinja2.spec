@@ -1,4 +1,4 @@
-### RPM external py3-jinja2 3.0.1
+### RPM external py3-jinja2 3.1.2
 ## IMPORT build-with-pip3
 Requires: py3-markupsafe
 %define pip_name Jinja2

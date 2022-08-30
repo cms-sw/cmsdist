@@ -1,4 +1,4 @@
-### RPM external py3-nose2 0.10.0
+### RPM external py3-nose2 0.12.0
 ## IMPORT build-with-pip3
 
 Requires: py3-coverage py3-six
