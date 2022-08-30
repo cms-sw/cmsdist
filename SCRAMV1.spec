@@ -2,7 +2,7 @@
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define tag 8111f5f92f9478647c50cd09fda95936eace77ac
+%define tag e60d22b0e4e91a244ba0cf14d3a95ca48dc735c9
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
