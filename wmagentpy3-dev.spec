@@ -1,4 +1,4 @@
-### RPM cms wmagentpy3-dev 2.1.2.pre2
+### RPM cms wmagentpy3-dev 2.1.2.pre3
 
 # This is a meta-package to group development tool dependencies
 Requires: wmagentpy3 rotatelogs wmcorepy3-devtools
