@@ -1,6 +1,6 @@
-### RPM external geant4 11.0.7
+### RPM external geant4 11.0.6
 ## INCLUDE compilation_flags
-%define tag 07bb156d328a6caee8daba0a8786148ece9670f9
+%define tag 44ccd9ab45d11c6e299273fad754115acd34968c
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -32,7 +32,7 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 %if %{use_vecgeom}
-export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
+export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom 
 %endif
 
 cmake ../%{n}.%{realversion} \
