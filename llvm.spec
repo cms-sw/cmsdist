@@ -38,6 +38,7 @@ cd %{_builddir}/build
 
 cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -G Ninja \
+  -DGCC_INSTALL_PREFIX="${GCC_ROOT}" \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -80,9 +81,6 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
-# Remove all static libs except libomptarget-nvptx.a
-# undo this change to allow support of cmake and llvm
-#find %{i}/lib64 -name "*.a" -and -not -name "libomptarget-*.a" -delete
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
