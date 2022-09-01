@@ -4,4 +4,5 @@
     <environment name="ALPAKA_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"     default="$ALPAKA_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
 </tool>
