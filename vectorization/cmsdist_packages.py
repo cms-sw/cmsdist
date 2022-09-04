@@ -20,10 +20,10 @@ if machine() == "x86_64":
     "rivet",
   ]
   VALID_TARGETS = {
-    "nehalem":     "-march=nehalem",
-    "sandybridge": "-march=sandybridge",
-    "haswell":     "-march=haswell",
-    "skylake-avx512":"-march=skylake-avx512",
+    "sse4":  "-march=nehalem",
+    "avx":   "-march=sandybridge",
+    "avx2":  "-march=haswell",
+    "avx512":"-march=skylake-avx512",
   }
 
 def fix_tensorflow_sources(vec, value):
@@ -33,7 +33,7 @@ def fix_vecgeom(vec, value):
   return [(DEFAULT_TARGET_FLAG.replace("-m", ""), value.replace("-m", ""))]
 
 def fix_OpenBLAS(vec, value):
-  if vec=="skylake-avx512": vec="SKYLAKEX"
+  if vec=="avx512": vec="SKYLAKEX"
   return [("TARGET=CORE2", "TARGET=%s" % vec.upper())]
 
 def packages(virtual_packages, *args):
