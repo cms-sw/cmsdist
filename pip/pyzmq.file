@@ -1,4 +1,4 @@
-Requires: libzmq
+Requires: libzmq py3-packaging
 
 %define patchsrc \
 cat > setup.cfg <<EOF \

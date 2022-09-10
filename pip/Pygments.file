@@ -1,2 +1,2 @@
-Patch0: Pygments-cpp-extension-fix
+Patch0: pip/Pygments-cpp-extension-fix
 %define PipPostBuildPy mv %{i}/bin/pygmentize %{i}/bin/pygmentize3
