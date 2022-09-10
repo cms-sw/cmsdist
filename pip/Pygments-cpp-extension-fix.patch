@@ -1,0 +1,13 @@
+diff --git a/pygments/lexers/_mapping.py b/pygments/lexers/_mapping.py
+index 577d664..d7e6474 100644
+--- a/pygments/lexers/_mapping.py
++++ b/pygments/lexers/_mapping.py
+@@ -97,7 +97,7 @@ LEXERS = {
+     'ComponentPascalLexer': ('pygments.lexers.oberon', 'Component Pascal', ('componentpascal', 'cp'), ('*.cp', '*.cps'), ('text/x-component-pascal',)),
+     'CoqLexer': ('pygments.lexers.theorem', 'Coq', ('coq',), ('*.v',), ('text/x-coq',)),
+     'CplintLexer': ('pygments.lexers.cplint', 'cplint', ('cplint',), ('*.ecl', '*.prolog', '*.pro', '*.pl', '*.P', '*.lpad', '*.cpl'), ('text/x-cplint',)),
+-    'CppLexer': ('pygments.lexers.c_cpp', 'C++', ('cpp', 'c++'), ('*.cpp', '*.hpp', '*.c++', '*.h++', '*.cc', '*.hh', '*.cxx', '*.hxx', '*.C', '*.H', '*.cp', '*.CPP', '*.tpp'), ('text/x-c++hdr', 'text/x-c++src')),
++    'CppLexer': ('pygments.lexers.c_cpp', 'C++', ('cpp', 'c++'), ('*.icc', '*.cpp', '*.hpp', '*.c++', '*.h++', '*.cc', '*.hh', '*.cxx', '*.hxx', '*.C', '*.H', '*.cp', '*.CPP', '*.tpp'), ('text/x-c++hdr', 'text/x-c++src')),
+     'CppObjdumpLexer': ('pygments.lexers.asm', 'cpp-objdump', ('cpp-objdump', 'c++-objdumb', 'cxx-objdump'), ('*.cpp-objdump', '*.c++-objdump', '*.cxx-objdump'), ('text/x-cpp-objdump',)),
+     'CrmshLexer': ('pygments.lexers.dsls', 'Crmsh', ('crmsh', 'pcmk'), ('*.crmsh', '*.pcmk'), ()),
+     'CrocLexer': ('pygments.lexers.d', 'Croc', ('croc',), ('*.croc',), ('text/x-crocsrc',)),
