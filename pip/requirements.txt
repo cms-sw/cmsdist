@@ -24,6 +24,7 @@ arrow==1.2.3
 asn1crypto==1.5.1
 astor==0.8.1
 astroid==2.12.7
+asttokens==2.0.8
 astunparse==1.6.3
 async-lru==1.0.3
 async-timeout==4.0.2
@@ -82,6 +83,7 @@ downhill==0.4.0
 dulwich==0.20.46
 editables==0.3
 entrypoints==0.4
+executing==1.0.0
 fasteners==0.17.3
 fastjsonschema==2.16.1
 filelock==3.8.0
@@ -181,7 +183,7 @@ node-semver==0.8.1
 notebook==6.4.12
 numba==0.56.2
 numexpr==2.8.3
-numpy==1.23.2
+numpy==1.22.4
 onnx==1.12.0
 onnxmltools==1.11.1
 onnxconverter-common==1.9.0
@@ -217,6 +219,7 @@ protobuf==4.21.5
 prwlock==0.4.1
 psutil==5.9.2
 ptyprocess==0.7.0
+pure-eval==0.2.2
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
 pybind11==2.10.0
