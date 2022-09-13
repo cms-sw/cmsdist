@@ -1,4 +1,4 @@
-### RPM external py3-cmsmonitoring 0.6.7
+### RPM external py3-cmsmonitoring 0.6.8
 ## IMPORT build-with-pip3
 
 %define pip_name cmsmonitoring
