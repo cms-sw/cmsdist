@@ -1,12 +1,12 @@
-### RPM external xrootd 5.4.2
+### RPM external xrootd 5.5.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define strip_files %i/lib
-%define tag 18210b01c0fafa807484ab821bec1d54116b1137
+%define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake gmake autotools
 Requires: zlib libuuid curl davix
