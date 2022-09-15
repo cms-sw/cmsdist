@@ -13,7 +13,7 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake ../%{n}-%{uversion} \
+cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=True \
