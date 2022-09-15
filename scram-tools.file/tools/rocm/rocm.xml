@@ -13,7 +13,7 @@
     <environment name="INCLUDE"   default="$ROCM_BASE/hip/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hsa/include"/>
   </client>
-  <flags ROCM_FLAGS="-fno-gpu-rdc --amdgpu-target=gfx900 --target=$(COMPILER_HOST) --gcc-toolchain=$(COMPILER_PATH) -D__HIP_PLATFORM_HCC__ -D__HIP_PLATFORM_AMD__"/>
+  <flags ROCM_FLAGS="-fno-gpu-rdc --amdgpu-target=gfx900 --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH) -D__HIP_PLATFORM_HCC__ -D__HIP_PLATFORM_AMD__"/>
   <!-- REM_CXXFLAGS from llvm/llvm-cxxcompiler.xml -->
   <flags ROCM_HOST_REM_CXXFLAGS="-Wno-non-template-friend"/>
   <flags ROCM_HOST_REM_CXXFLAGS="-Werror=format-contains-nul"/>
