@@ -1,0 +1,10 @@
+<tool name="re2" version="@TOOL_VERSION@">
+  <info url="https://github.com/google/re2"/>
+  <lib name="re2"/>
+  <client>
+    <environment name="RE2_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$RE2_BASE/lib"/>
+    <environment name="INCLUDE" default="$RE2_BASE/include"/>
+  </client>
+</tool>
+
