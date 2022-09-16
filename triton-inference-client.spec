@@ -7,7 +7,7 @@ Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_1
 Source1: triton-inference-client/model_config.h
 Source2: triton-inference-client/model_config.cc
 BuildRequires: cmake git
-Requires: protobuf grpc cuda abseil-cpp
+Requires: protobuf grpc cuda abseil-cpp re2
 
 %prep
 
@@ -90,7 +90,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
-    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT}"
+    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
 make %{makeprocesses}
 
