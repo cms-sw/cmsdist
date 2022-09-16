@@ -6,7 +6,7 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 cuda
+Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 cuda re2
 %if "%{cmsos}" != "slc7_aarch64"
 Requires: cudnn
 %endif
@@ -32,30 +32,24 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_ENABLE_PYTHON=ON \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
    -Donnxruntime_USE_CUDA=${USE_CUDA} \
-   -Donnxruntime_CUDA_VERSION="${CUDA_VERSION}" \
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
    -Donnxruntime_BUILD_CSHARP=OFF \
-   -Donnxruntime_USE_EIGEN_FOR_BLAS=ON \
-   -Donnxruntime_USE_OPENBLAS=OFF \
-   -Donnxruntime_USE_MKLML=OFF \
-   -Donnxruntime_USE_NGRAPH=OFF \
    -Donnxruntime_USE_OPENMP=OFF \
    -Donnxruntime_USE_TVM=OFF \
    -Donnxruntime_USE_LLVM=OFF \
    -Donnxruntime_ENABLE_MICROSOFT_INTERNAL=OFF \
-   -Donnxruntime_USE_BRAINSLICE=OFF \
    -Donnxruntime_USE_NUPHAR=OFF \
    -Donnxruntime_USE_TENSORRT=OFF \
    -Donnxruntime_CROSS_COMPILING=OFF \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
-   -Donnxruntime_USE_PREINSTALLED_PROTOBUF=ON \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -DCMAKE_CUDA_FLAGS="-cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT}"
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
+   -DRE2_INCLUDE_DIR="${RE2_ROOT}/include"
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build
