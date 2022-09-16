@@ -9,4 +9,5 @@
   <use name="protobuf"/>
   <use name="grpc"/>
   <use name="cuda"/>
+  <use name="re2"/>
 </tool>

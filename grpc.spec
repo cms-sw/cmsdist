@@ -3,7 +3,7 @@
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch1: grpc-mno-outline-atomics
 BuildRequires: cmake ninja go
-Requires: protobuf zlib pcre c-ares abseil-cpp
+Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
 
 %prep
@@ -28,9 +28,10 @@ cmake ../%{n}-%{realversion} \
     -DgRPC_PROTOBUF_PROVIDER=package \
     -DgRPC_SSL_PROVIDER=package \
     -DgRPC_ZLIB_PROVIDER=package \
+    -DgRPC_RE2_PROVIDER=package \
     -DZLIB_ROOT=${ZLIB_ROOT} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
-    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT};${C_ARES_ROOT};${ABSEIL_CPP_ROOT}"
+    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT};${C_ARES_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
 ninja -v %{makeprocesses}
 
