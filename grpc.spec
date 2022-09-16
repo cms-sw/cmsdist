@@ -4,7 +4,7 @@ Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%
 Patch0: grpc-ssl-fix
 Patch1: grpc-gcc11
 BuildRequires: cmake ninja go
-Requires: protobuf zlib pcre c-ares abseil-cpp
+Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
 
 %prep
@@ -34,9 +34,10 @@ cmake ../%{n}-%{realversion} \
     -DgRPC_PROTOBUF_PROVIDER=package \
     -DgRPC_SSL_PROVIDER=package \
     -DgRPC_ZLIB_PROVIDER=package \
+    -DgRPC_RE2_PROVIDER=package \
     -DZLIB_ROOT=${ZLIB_ROOT} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
-    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT}${OPENSSLROOT};${C_ARES_ROOT};${ABSEIL_CPP_ROOT}"
+    -DCMAKE_PREFIX_PATH="${PCRE_ROOT};${PROTOBUF_ROOT};${ZLIB_ROOT}${OPENSSLROOT};${C_ARES_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
 ninja -v %{makeprocesses}
 
