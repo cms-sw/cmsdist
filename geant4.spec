@@ -80,7 +80,7 @@ gcc-ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
 
 %post
-%{relocateConfig}lib64/Geant4-*/*.cmake
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel} -name '*.cmake')
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
-%{relocateConfig}share/Geant4-*/geant4make/geant4make.*
+%{relocateConfig}share/Geant4*/geant4make/geant4make.*
