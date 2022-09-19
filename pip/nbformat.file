@@ -1,1 +1,1 @@
-Requires: py3-traitlets py3-jsonschema py3-jupyter-core
+Requires: py3-traitlets py3-jsonschema py3-jupyter-core py3-fastjsonschema

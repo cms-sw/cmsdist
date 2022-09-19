@@ -1,4 +1,4 @@
-### RPM external python3 3.9.6
+### RPM external python3 3.9.14
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON3_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
