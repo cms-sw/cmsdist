@@ -1,1 +1,1 @@
-Requires: py3-ipython_genutils py3-six py3-decorator
+Requires: py3-ipython_genutils py3-six py3-decorator py3-hatchling
