@@ -1,2 +1,2 @@
-Requires: py3-ptyprocess
+Requires: py3-ptyprocess py3-hatchling
 Requires: py3-tornado py3-flit

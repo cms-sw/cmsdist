@@ -1,1 +1,2 @@
-Requires: root py3-pytest py3-pytest-cov py3-PyYAML py3-future py3-pylint
+Requires: root py3-pytest py3-pytest-cov py3-PyYAML py3-future py3-pylint py3-hepdata-validator
+%define source0 https://github.com/HEPData/hepdata_lib/archive/refs/tags/v%{realversion}.tar.gz

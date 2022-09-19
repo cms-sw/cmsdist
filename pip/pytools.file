@@ -1,1 +1,1 @@
-Requires: py3-decorator py3-appdirs py3-six py3-numpy
+Requires: py3-decorator py3-appdirs py3-six py3-numpy py3-platformdirs py3-typing-extensions

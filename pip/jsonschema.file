@@ -1,3 +1,2 @@
 Requires: py3-repoze-lru py3-argparse py3-pyrsistent
 Requires: py3-attrs py3-six py3-importlib-metadata
-
