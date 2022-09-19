@@ -1,0 +1,26 @@
+diff --git a/dxr/build.py b/dxr/build.py
+index 851a8c2..87c5a17 100644
+--- a/dxr/build.py
++++ b/dxr/build.py
+@@ -22,7 +22,7 @@ from sys import exc_info
+ from traceback import format_exc
+ from warnings import warn
+ 
+-from jinja2 import Markup
++from markupsafe import Markup
+ from collections import OrderedDict
+ 
+ from dxr.config import Config
+diff --git a/dxr/query.py b/dxr/query.py
+index 8575b31..493fd5b 100644
+--- a/dxr/query.py
++++ b/dxr/query.py
+@@ -4,7 +4,7 @@ import re
+ import struct
+ import time
+ 
+-from jinja2 import Markup
++from markupsafe import Markup
+ from parsimonious import Grammar
+ from parsimonious.nodes import NodeVisitor
+ 
