@@ -6,10 +6,12 @@ Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3 py3-Pygments
 %define branch cms/6ea764102a/py3
 
 Source0: git+https://github.com/cms-externals/dxr.git?obj=%{branch}/%{dxrCommit}&export=dxr-%{dxrCommit}&module=dxr-%dxrCommit&output=/dxr-%{dxrCommit}.tgz
+Patch0: py3-dxr-Markup
 %define keep_archives true
 
 %prep
 %setup -n dxr-%dxrCommit
+%patch0 -p1
 
 %build
 export SQLITE_ROOT

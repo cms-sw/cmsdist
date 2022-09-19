@@ -1,4 +1,4 @@
-### RPM external xgboost 1.3.3
+### RPM external xgboost 1.6.2
 
 BuildRequires: cmake
 Source: git+https://github.com/dmlc/xgboost.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
