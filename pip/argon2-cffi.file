@@ -1,1 +1,1 @@
-Requires: py3-cffi py3-six
+Requires: py3-cffi py3-six py3-flit-core py3-argon2-cffi-bindings

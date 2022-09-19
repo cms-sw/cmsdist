@@ -1,1 +1,1 @@
-Requires: py3-tomli py3-packaging
+Requires: py3-tomli py3-packaging py3-typing-extensions
