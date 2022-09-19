@@ -1,1 +1,1 @@
-Requires: py3-setuptools-scm py3-importlib-metadata py3-secretstorage py3-jeepney
+Requires: py3-setuptools-scm py3-importlib-metadata py3-secretstorage py3-jeepney py3-jaraco-classes

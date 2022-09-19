@@ -1,4 +1,4 @@
-### RPM external py3-setuptools 60.9.3
+### RPM external py3-setuptools 63.4.3
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: https://github.com/pypa/setuptools/archive/v%{realversion}.tar.gz
