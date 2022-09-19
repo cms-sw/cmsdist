@@ -1,1 +1,1 @@
-Requires: py3-Pygments
+Requires: py3-Pygments py3-jupyter-packaging

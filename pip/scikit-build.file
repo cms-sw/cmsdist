@@ -1,1 +1,1 @@
-Requires: py3-distro py3-packaging
+Requires: py3-distro py3-packaging py3-setuptools-scm

@@ -1,1 +1,1 @@
-Requires: py3-packaging py3-deprecation py3-tomlkit
+Requires: py3-packaging py3-deprecation py3-tomlkit py3-hatchling
