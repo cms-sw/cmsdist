@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoHGCal-TICL=V00-03-00
 L1Trigger-Phase2L1ParticleFlow=V00-04-00
 Validation-HGCalValidation=V00-05-00
 DQM-Integration=V00-02-00
@@ -45,7 +46,6 @@ DetectorDescription-Schema=V02-03-00
 PhysicsTools-PatUtils=V00-05-00
 RecoJets-JetProducers=V05-14-00
 L1Trigger-DTTriggerPhase2=V00-02-00
-RecoHGCal-TICL=V00-02-01
 EgammaAnalysis-ElectronTools=V00-03-01
 HeterogeneousCore-SonicTriton=V00-01-00
 RecoTracker-TkSeedGenerator=V00-02-00
