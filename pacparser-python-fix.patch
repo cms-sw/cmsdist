@@ -7,7 +7,7 @@ index 9760300..fbb436d 100644
  
  def runtests(pacfile, testdata, tests_dir):
 -  py_ver = '.'.join([str(x) for x in sys.version_info[0:2]])
-+  py_ver = ''.join([str(x) for x in sys.version_info[0:2]])
++  py_ver = "%s*" % sys.version_info[0]
    try:
      pacparser_module_path = glob.glob(os.path.join(
        tests_dir, '..', 'src', 'pymod', 'build', 'lib*%s' % py_ver))[0]
