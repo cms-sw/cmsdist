@@ -8,4 +8,4 @@ Requires: py3-grpcio py3-astunparse py3-keras
 Requires: llvm
 %define source0 none
 %define source_file none
-#test
+%define PipPostInstall rm -f %{i}/lib/python*/site-packages/*.dist-info/direct_url.json
