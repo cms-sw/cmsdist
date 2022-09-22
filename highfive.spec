@@ -26,3 +26,5 @@ cmake ../%{n}-%{realversion} \
 cd %{_builddir}/build
 make install
 
+%post
+%{relocateConfig}share/HighFive/CMake/HighFiveTargets.cmake

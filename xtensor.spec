@@ -16,3 +16,5 @@ make %{makeprocesses}
 cd ../build
 make install
 
+%post
+%{relocateConfig}lib64/pkgconfig/xtensor.pc
