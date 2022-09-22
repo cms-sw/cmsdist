@@ -3,7 +3,7 @@
 Source: none
 
 Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
-Requires: professor2 rivet frontier_client onnxruntime openldap
+Requires: professor2 rivet frontier_client onnxruntime openldap pacparser
 
 Requires: py3-anyio
 Requires: py3-sniffio
