@@ -50,5 +50,5 @@ rm %{i}/*.so
 mv %{i}/python* %{i}/lib
 
 %post
-%{%relocateConfig}include/mxnet-cpp/op.h
+%{relocateConfig}include/mxnet-cpp/op.h
 %relocateConfigAll lib/cmake *.cmake
