@@ -28,3 +28,5 @@ make %{build_opts} CFLAGS="%{arch_build_flags}"
 %install
 make install PREFIX=%i MAKE_NB_JOBS=%{compiling_processes}
 
+%post
+%relocateConfigAll lib/cmake *.cmake
