@@ -45,6 +45,10 @@ EOF
 
 # Remove all downloaded tgz files before building the package
 find . -type f -name '*.tgz' -delete
+rm -rf HEPTools/ninja/Ninja HEPTools/ninja/ninja_install.log \
+       ME5_debug basiceventgeneration/run*debug.log \
+       basiceventgeneration/Source/StdHEP/log.mcfio.*
+find HEPTools/oneloop -type f -print | xargs chmod a+r
 
 %install
 rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}_py3/ %{i}/
@@ -54,4 +58,8 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
 find %{i} -name '*deleteme' -delete
 
 %post
+%relocateConfigAll . py.py
 %{relocateConfig}input/mg5_configuration.txt
+%{relocateConfig}basiceventgeneration/Cards/amcatnlo_configuration.txt
+%{relocateConfig}basiceventgeneration/Source/make_opts
+%{relocateConfig}HEPTools/ninja/lib/lib*.la

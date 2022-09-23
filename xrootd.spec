@@ -56,3 +56,6 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 %{relocatePy3SitePackages}
+
+%post
+%{relocateConfig}bin/xrootd-config
