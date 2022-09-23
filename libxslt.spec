@@ -24,3 +24,5 @@ make install
 
 %post
 %{relocateConfig}bin/xslt-config
+%{relocateConfig}include/libxslt/xsltconfig.h
+%{relocateConfig}lib/xsltConf.sh

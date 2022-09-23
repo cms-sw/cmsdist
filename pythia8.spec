@@ -15,3 +15,7 @@ make %makeprocesses
 %install
 make install
 test -f %i/lib/libpythia8lhapdf6.so || exit 1
+rm -rf %{i}/share/Pythia8/examples
+
+%post
+%{relocateConfig}bin/pythia8-config
