@@ -21,3 +21,6 @@ cmake ../%{n}-%{realversion} \
 cd ../build
 make %{makeprocesses}
 make install
+
+%post
+%{relocateConfig}lib64/pkgconfig/xgboost.pc

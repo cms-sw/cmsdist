@@ -6,11 +6,11 @@ BuildRequires: cmake
 %setup -n %{n}-%{realversion}
 
 %build
-
 cmake -DCMAKE_INSTALL_PREFIX=%{i}
 make %{makeprocesses}
 
 %install
-
 make install
 
+%post
+%{relocateConfig}share/pkgconfig/xtl.pc

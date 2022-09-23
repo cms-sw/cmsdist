@@ -73,7 +73,6 @@ sed -i -e 's|^#!.*python|#!/usr/bin/env python3|' %{i}/lib/Herwig/python/ufo2her
 
 %post
 %{relocateConfig}bin/herwig-config
-%{relocateConfig}bin/Herwig7
 %{relocateConfig}bin/Herwig-cms
 %{relocateConfig}bin/ufo2herwig
 %{relocateConfig}lib/Herwig/*.la
@@ -81,4 +80,5 @@ sed -i -e 's|^#!.*python|#!/usr/bin/env python3|' %{i}/lib/Herwig/python/ufo2her
 %{relocateConfig}share/Herwig/Makefile-UserModules
 %{relocateConfig}share/Herwig/defaults/PDF.in
 %{relocateConfig}share/Herwig/HerwigDefaults.rpo
-sed -i -e "s|^.*/BUILDROOT/[0-9a-f][0-9a-f]*%{installroot}/|$CMS_INSTALL_PREFIX/|g" $RPM_INSTALL_PREFIX/%{pkgrel}/share/Herwig/HerwigDefaults.rpo
+%{relocateConfig}share/Herwig/Doc/*.conf
+%{relocateConfig}share/Herwig/defaults/setup.gosam.in

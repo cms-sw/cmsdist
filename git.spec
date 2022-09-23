@@ -76,4 +76,3 @@ perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/libexec/git-core/gi
 %{relocateConfig}libexec/git-core/git-gui
 %{relocateConfig}share/perl5/Git/I18N.pm
 %{relocateConfig}share/gitweb/gitweb.cgi
-%{relocateConfig}lib64/perl5/auto/Git/.packlist
