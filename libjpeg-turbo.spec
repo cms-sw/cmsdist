@@ -26,3 +26,6 @@ make install
 
 %define strip_files %{i}/lib
 %define drop_files %{i}/{share,man}
+
+%post
+%relocateConfigAll lib64/pkgconfig lib*.pc

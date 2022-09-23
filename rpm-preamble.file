@@ -192,6 +192,7 @@
 %define relocateRpmPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$RPM_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
+%define relocateConfigAll()     find $RPM_INSTALL_PREFIX/%{pkgrel}/%{1} -name '%{2}' -print -type f | xargs %{relocateCmsFiles}
 %define relocatePy3SitePackages \
   for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} | grep -v '\.pyc$') ; do \
     lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
