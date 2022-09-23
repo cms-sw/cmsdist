@@ -17,3 +17,6 @@ make %{makeprocesses}
 
 %install
 make install
+
+%post
+%{relocateConfig}bin/qd-config
