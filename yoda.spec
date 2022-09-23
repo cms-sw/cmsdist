@@ -25,3 +25,4 @@ make install
 
 %post
 %{relocateConfig}bin/yoda-config
+%{relocateConfig}lib/python*/site-packages/yoda*egg-info/SOURCES.txt

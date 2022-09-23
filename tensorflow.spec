@@ -25,3 +25,6 @@ esac
 %install
 
 tar xfz ${%{tf_root}}/libtensorflow_cc.tar.gz -C %{i}
+
+%post
+%{relocateConfig}lib/lib*.params
