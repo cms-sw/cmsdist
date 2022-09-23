@@ -340,6 +340,6 @@ done
 if [ -f compile_commands.json ] ; then
   %{relocateConfig}compile_commands.json
 fi
-
+%{relocateConfig}external/%cmsplatf/links.DB
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel

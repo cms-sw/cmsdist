@@ -60,3 +60,6 @@ find %i/lib64 -name "*.*" -exec mv {} %i/lib \;
 rm -rf %i/lib64
 ls %{i}/lib
 cd ..
+
+%post
+%relocateConfigAll share/EvtGen/cmake *.cmake

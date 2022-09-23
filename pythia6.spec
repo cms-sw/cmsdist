@@ -48,3 +48,6 @@ make install
 %install
 tar -c lib include | tar -x -C %i
 
+%post
+%{relocateConfig}include/Makefile
+%{relocateConfig}lib/lib*.la

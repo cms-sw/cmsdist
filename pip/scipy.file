@@ -9,3 +9,5 @@ Provides: python%{cms_python3_major_minor_version}dist(scipy) = %{realversion}
 Provides: python3dist(scipy) = %{realversion}
 %define __find_provides true
 %endif
+
+%define PipPostPost %{relocateConfig}lib/python*/site-packages/scipy/__config__.py
