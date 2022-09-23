@@ -84,3 +84,5 @@ rm -f %{i}/bin/set-xcode-analyzer
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
+%{relocateConfig}include/clang/Config/config.h
+%{relocateConfig}lib64/cmake/llvm/LLVMConfig.cmake
