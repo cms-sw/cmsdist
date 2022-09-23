@@ -64,4 +64,4 @@ sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa-generate-model
 %{relocateConfig}share/SHERPA-MC/sherpa-completion
 %{relocateConfig}bin/Sherpa-config
 %{relocateConfig}bin/Sherpa-generate-model
-%{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS.H
+%{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS*.H

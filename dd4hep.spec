@@ -48,6 +48,4 @@ mv ../../%{n}-%{realversion}/DDG4/include/DDG4 %i/include
 cp %{_sourcedir}/dd4hep_modulemap  %{i}/include/module.modulemap
 
 %post
-%{relocateConfig}*.cmake
 %{relocateConfig}bin/*.sh
-%{relocateConfig}bin/*.csh

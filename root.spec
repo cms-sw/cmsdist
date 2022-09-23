@@ -207,3 +207,11 @@ mv %{i}/include/cling %{i}/etc_cling || true
 #This will catch errors if root remembers the build paths.
 cd ..
 rm -rf build
+
+%post
+%{relocateConfig}bin/root-config
+%{relocateConfig}cmake/ROOTConfig-targets.cmake
+%{relocateConfig}config/Makefile.config
+%{relocateConfig}etc/notebook/jupyter_notebook_config.py
+%{relocateConfig}include/RConfigOptions.h
+%{relocateConfig}include/compiledata.h

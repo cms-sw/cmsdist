@@ -80,3 +80,4 @@ rm -f %{i}/lib/ucx/lib*.la
 rm -rf %{i}/share/ucx/examples
 
 %post
+%{relocateConfig}lib/cmake/ucx/*.cmake
