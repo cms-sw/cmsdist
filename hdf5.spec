@@ -17,3 +17,5 @@ make %{makeprocesses} VERBOSE=1
 make install
 
 %post
+%{relocateConfig}bin/h5pcc
+%{relocateConfig}lib/libhdf5.settings

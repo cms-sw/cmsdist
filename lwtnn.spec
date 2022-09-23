@@ -30,3 +30,6 @@ ninja -v %{makeprocesses}
 cd ../build
 
 ninja -v %{makeprocesses} install
+
+%post
+%{relocateConfig}cmake/lwtnnConfig-targets.cmake
