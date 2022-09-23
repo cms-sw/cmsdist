@@ -48,3 +48,7 @@ cd ../build
 ninja -v %{makeprocesses} install
 rm %{i}/*.so
 mv %{i}/python* %{i}/lib
+
+%post
+%{relocateConfig}include/mxnet-cpp/op.h
+%relocateConfigAll lib/cmake *.cmake
