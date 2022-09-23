@@ -32,3 +32,6 @@ make
 
 %install
 make install
+
+%post
+%{relocateConfig}examples/*/GNUmakefile

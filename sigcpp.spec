@@ -27,3 +27,6 @@ rm -rf %{i}/lib/pkgconfig
 # Read documentation online.
 %define drop_files %{i}/share
 cp %{i}/lib/sigc++-3.0/include/sigc++config.h %{i}/include/sigc++-3.0/
+
+%post
+%{relocateConfig}lib/cmake/sigc++-3/*.cmake

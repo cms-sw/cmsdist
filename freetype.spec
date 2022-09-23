@@ -25,5 +25,3 @@ perl -p -i -e 's|-lfreetype|-lfreetype-cms|' %{i}/bin/freetype-config
 
 # Strip libraries, we are not going to debug them.
 %define strip_files %{i}/lib
-%post
-%{relocateConfig}bin/freetype-config

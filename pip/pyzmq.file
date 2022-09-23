@@ -9,3 +9,5 @@ zmq_prefix = $LIBZMQ_ROOT\
 include_dirs = $LIBZMQ_ROOT/include\
 library_dirs = $LIBZMQ_ROOT/lib\
 EOF
+
+%define PipPostPost %{relocateConfig}lib/python*/site-packages/zmq/utils/*.json

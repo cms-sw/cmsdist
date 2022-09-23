@@ -25,3 +25,6 @@ make install
 
 # Remove documentation. 
 %define drop_files %{i}/share
+
+%post
+%relocateConfigAll lib/cmake *.cmake
