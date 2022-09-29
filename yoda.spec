@@ -1,4 +1,4 @@
-### RPM external yoda 1.9.6
+### RPM external yoda 1.9.7
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: git+https://gitlab.com/hepcedar/yoda.git?obj=main/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
