@@ -13,9 +13,6 @@ autoreconf -fiv
 
 %build
 
-sed -i -e "s|lPyROOT|lcppyyX.X|" ./pyext/setup.py.in
-
-sed -i -e "s|lcppyy...|lcppyy$(echo %{cms_python3_major_minor_version} | tr . _)|" ./pyext/setup.py.in
 PYTHON=$(which python3) ./configure --prefix=%i --enable-root
 sed -i "s|env python|env python3|" bin/*
 make %{makeprocesses} all
