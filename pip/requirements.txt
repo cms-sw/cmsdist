@@ -83,7 +83,7 @@ downhill==0.4.0
 dulwich==0.20.46
 editables==0.3
 entrypoints==0.4
-executing==1.0.0
+executing==1.1.0
 fasteners==0.17.3
 fastjsonschema==2.16.1
 filelock==3.8.0
@@ -255,7 +255,7 @@ pytoml==0.1.21
 pytools==2022.1.12
 pytz==2022.2.1
 PyYAML==6.0
-pyzmq==23.2.1
+pyzmq==24.0.1
 regex==2022.8.17
 repoze-lru==0.7
 rep==0.6.6
