@@ -131,7 +131,7 @@ jedi==0.18.1
 jeepney==0.8.0
 Jinja2==3.1.2
 jinja2-time==0.2.0
-joblib==1.1.0
+joblib==1.2.0
 jsonpickle==2.2.0
 jsonschema==3.2.0
 jupyter-client==7.3.5
@@ -187,7 +187,7 @@ numpy==1.22.4
 onnx==1.12.0
 onnxmltools==1.11.1
 onnxconverter-common==1.9.0
-oauthlib==3.2.0
+oauthlib==3.2.1
 opt-einsum==3.3.0
 pkginfo==1.8.3
 packaging==21.3
@@ -215,7 +215,7 @@ poetry-plugin-export==1.0.6
 prettytable==3.4.1
 prometheus-client==0.14.1
 prompt_toolkit==3.0.31
-protobuf==4.21.5
+protobuf==4.21.7
 prwlock==0.4.1
 psutil==5.9.2
 ptyprocess==0.7.0
