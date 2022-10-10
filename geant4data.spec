@@ -1,4 +1,4 @@
-### RPM external geant4data 10.0
+### RPM external geant4data 11.0
 ## NOCOMPILER
 
 Requires: geant4-G4NDL
@@ -35,6 +35,7 @@ for tool in `echo %requiredtools | tr ' ' '\n' | grep 'geant4-'` ; do
   echo "  <runtime name=\"$toolenv\" value=\"$tooldata\" type=\"path\"/>" >> %i/etc/scram.d/geant4data.xml
 done
 echo "</tool>" >> %i/etc/scram.d/geant4data.xml
+chmod +r %i/etc/scram.d/geant4data.xml
 
 %post
 if [ "X$CMS_INSTALL_PREFIX" = "X" ] ; then CMS_INSTALL_PREFIX=$RPM_INSTALL_PREFIX; export CMS_INSTALL_PREFIX; fi
