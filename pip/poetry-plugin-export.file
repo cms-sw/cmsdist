@@ -1,2 +1,1 @@
 Requires: py3-poetry-core
-Patch0: pip/poetry-cyclic-deps
