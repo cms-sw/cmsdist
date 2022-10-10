@@ -85,7 +85,7 @@ editables==0.3
 entrypoints==0.4
 executing==1.1.0
 fasteners==0.17.3
-fastjsonschema==2.16.1
+fastjsonschema==2.16.2
 filelock==3.8.0
 fire==0.4.0
 flit==3.7.1
@@ -211,7 +211,7 @@ pluggy==1.0.0
 ply==3.11
 poetry==1.2.0
 poetry-core==1.1.0
-poetry-plugin-export==1.0.6
+poetry-plugin-export==1.0.7
 prettytable==3.4.1
 prometheus-client==0.14.1
 prompt_toolkit==3.0.31
