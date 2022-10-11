@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_12_6_0_pre3_LossyCompression
 
 Requires: cmssw-tool-conf
 
