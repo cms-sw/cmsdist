@@ -51,11 +51,11 @@ clikit==0.6.2
 cmsml==0.1.2
 correctionlib==2.1.0
 crashtest==0.4.0
-certifi==2022.6.15
+certifi==2022.9.14
 cffi==1.15.1
 chardet==5.0.0
 Click==8.1.3
-cloudpickle==2.1.0
+cloudpickle==2.2.0
 colorama==0.4.5
 commonmark==0.9.1
 conan==1.52.0
@@ -83,9 +83,9 @@ downhill==0.4.0
 dulwich==0.20.46
 editables==0.3
 entrypoints==0.4
-executing==1.0.0
+executing==1.1.0
 fasteners==0.17.3
-fastjsonschema==2.16.1
+fastjsonschema==2.16.2
 filelock==3.8.0
 fire==0.4.0
 flit==3.7.1
@@ -93,7 +93,7 @@ flit-core==3.7.1
 flake8==5.0.4
 flatbuffers==2.0.7
 flawfinder==2.0.19
-fonttools==4.37.1
+fonttools==4.37.3
 frozenlist==1.3.1
 funcsigs==1.0.2
 future==0.18.2
@@ -121,7 +121,7 @@ importlib-metadata==4.12.0
 importlib-resources==5.9.0
 iniconfig==1.1.1
 ipaddress==1.0.23
-ipykernel==6.15.2
+ipykernel==6.16.0
 ipython_genutils==0.2.0
 ipython==8.5.0
 ipywidgets==8.0.2
@@ -211,7 +211,7 @@ pluggy==1.0.0
 ply==3.11
 poetry==1.2.0
 poetry-core==1.1.0
-poetry-plugin-export==1.0.6
+poetry-plugin-export==1.0.7
 prettytable==3.4.1
 prometheus-client==0.14.1
 prompt_toolkit==3.0.31
@@ -255,7 +255,7 @@ pytoml==0.1.21
 pytools==2022.1.12
 pytz==2022.2.1
 PyYAML==6.0
-pyzmq==23.2.1
+pyzmq==24.0.1
 regex==2022.8.17
 repoze-lru==0.7
 rep==0.6.6
