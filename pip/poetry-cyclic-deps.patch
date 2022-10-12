@@ -1,25 +1,21 @@
-diff --git a/setup.py b/setup.py
-index d076e11..3a2429d 100644
---- a/setup.py
-+++ b/setup.py
-@@ -11,7 +11,7 @@ package_data = \
- {'': ['*']}
- 
- install_requires = \
--['poetry-core>=1.1.0b3,<2.0.0', 'poetry>=1.2.0b3,<2.0.0']
-+['poetry-core>=1.1.0b3,<2.0.0']
- 
- entry_points = \
- {'poetry.application.plugin': ['export = '
-diff --git a/pyproject.toml b/pyproject.toml
-index 04f6d31..d55294c 100644
---- a/pyproject.toml
-+++ b/pyproject.toml
-@@ -16,7 +16,6 @@ include = [
+--- poetry-plugin-export-1.0.7/pyproject.toml.orig	2022-10-10 17:51:00.629913598 +0200
++++ poetry-plugin-export-1.0.7/pyproject.toml	2022-10-10 17:51:09.979835427 +0200
+@@ -18,7 +18,6 @@
  
  [tool.poetry.dependencies]
  python = "^3.7"
--poetry = "^1.2.0b3"
- poetry-core = "^1.1.0b3"
+-poetry = "^1.2.0"
+ poetry-core = "^1.1.0"
  
  [tool.poetry.dev-dependencies]
+--- poetry-plugin-export-1.0.7/setup.py.orig	2022-10-10 17:50:42.686063618 +0200
++++ poetry-plugin-export-1.0.7/setup.py	2022-10-10 17:50:52.395982438 +0200
+@@ -11,7 +11,7 @@
+ {'': ['*']}
+ 
+ install_requires = \
+-['poetry-core>=1.1.0,<2.0.0', 'poetry>=1.2.0,<2.0.0']
++['poetry-core>=1.1.0,<2.0.0']
+ 
+ entry_points = \
+ {'poetry.application.plugin': ['export = '
