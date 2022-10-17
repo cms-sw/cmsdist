@@ -32,6 +32,7 @@ Requires: gcc
 Requires: gdbm
 Requires: geant4
 Requires: geant4data
+Requires: g4hepem
 Requires: glimpse
 Requires: gmake
 Requires: gsl
