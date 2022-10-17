@@ -1,0 +1,7 @@
+<tool name="g4hepem_interface" version="@TOOL_VERSION@">
+  <info url="https://github.com/mnovak42/g4hepem"/>
+  <client>
+    <environment name="G4HEPEM_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$G4HEPEM_INTERFACE_BASE/include/G4HepEm"/>
+  </client>
+</tool>
