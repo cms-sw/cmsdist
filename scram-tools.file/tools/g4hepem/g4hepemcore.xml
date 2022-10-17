@@ -1,0 +1,11 @@
+<tool name="g4hepemcore" version="@TOOL_VERSION@">
+  <lib name="g4HepEmData"/>
+  <lib name="g4HepEmInit"/>
+  <lib name="g4HepEmRun"/>
+  <lib name="g4HepEm"/>
+  <client>
+    <environment name="G4HEPEMCORE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$G4HEPEMCORE_BASE/lib64"/>
+  </client>
+  <use name="g4hepem_interface"/>
+</tool>
