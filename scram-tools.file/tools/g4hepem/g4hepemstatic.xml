@@ -1,0 +1,8 @@
+<tool name="g4hepemstatic" version="@TOOL_VERSION@">
+  <lib name="g4hepem-static"/>
+  <client>
+    <environment name="G4HEPEMSTATIC_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$G4HEPEMSTATIC_BASE/lib64/archive"/>
+  </client>
+  <use name="g4hepem_interface"/>
+</tool>
