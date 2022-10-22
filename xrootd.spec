@@ -1,4 +1,4 @@
-### RPM external xrootd 5.5.0
+### RPM external xrootd 5.5.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -7,6 +7,7 @@
 %define branch master
 %define github_user xrootd
 Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: https://patch-diff.githubusercontent.com/raw/xrootd/xrootd/pull/1805.patch
 
 BuildRequires: cmake gmake autotools
 Requires: zlib libuuid curl davix
@@ -22,6 +23,7 @@ Requires: scitokens-cpp
 %prep
 %setup -n %n-%{realversion}
 sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
+patch -p1 < %{_sourcedir}/1805.patch
 
 %build
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
