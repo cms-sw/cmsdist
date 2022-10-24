@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Geometry-TestReference=V00-10-00
 L1Trigger-L1TMuon=V01-07-00
 CalibTracker-SiPixelESProducers=V02-03-00
 RecoHGCal-TICL=V00-03-00
@@ -27,7 +28,6 @@ RecoMuon-MuonIdentification=V01-14-00
 DQM-EcalMonitorClient=V00-02-00
 CondTools-SiStrip=V00-02-00
 Alignment-OfflineValidation=V00-02-00
-Geometry-TestReference=V00-09-00
 L1Trigger-L1THGCal=V01-07-00
 RecoParticleFlow-PFProducer=V16-02-00
 CondTools-SiPhase2Tracker=V00-02-00
