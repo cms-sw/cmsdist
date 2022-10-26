@@ -1,6 +1,9 @@
 ## IMPORT dd4hep-common
 ### RPM external dd4hep %{dd4hep_version}
 
+%prep
+%setup -n %{n}-%{realversion}
+
 %build
 export BOOST_ROOT
 
