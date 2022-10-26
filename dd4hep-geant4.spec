@@ -4,8 +4,7 @@
 Requires: geant4
 
 %prep
-
-%setup -n %{n}-%{realversion}
+%setup -n dd4hep-%{realversion}
 
 %build
 export BOOST_ROOT
