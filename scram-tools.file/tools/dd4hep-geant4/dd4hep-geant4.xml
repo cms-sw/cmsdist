@@ -1,5 +1,15 @@
 <tool name="dd4hep-geant4" version="@TOOL_VERSION@">
+  <info url="https://github.com/AIDASoft/DD4hep"/>
   <lib name="DDG4-static"/>
+  <client>
+    <environment name="DD4HEP_GEANT4_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$DD4HEP_GEANT4_BASE/lib"/>
+  </client>
+  <flags cppdefines="DD4HEP_USE_GEANT4_UNITS=1"/>
+  <use name="root_cxxdefaults"/>
+  <use name="root"/>
+  <use name="boost"/>
+  <use name="xerces-c"/>
+  <use name="clhep"/>
   <use name="geant4core"/>
-  <use name="dd4hep-core"/>
 </tool>
