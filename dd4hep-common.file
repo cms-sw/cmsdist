@@ -6,7 +6,7 @@
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
-Requires: root boost clhep xerces-c geant4
+Requires: root boost clhep xerces-c
 
 CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DBoost_NO_BOOST_CMAKE=ON \
