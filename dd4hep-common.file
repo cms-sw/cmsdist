@@ -7,3 +7,13 @@
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
+
+%define CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX='%{i}' \
+      -DBoost_NO_BOOST_CMAKE=ON \
+      -DDD4HEP_USE_XERCESC=ON \
+      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
+      -DDD4HEP_USE_PYROOT=ON \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DDD4HEP_USE_GEANT4_UNITS=ON \
+      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT};${XERCES_C_ROOT}"
