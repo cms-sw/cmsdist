@@ -20,7 +20,7 @@ Source: none
 
 %install
 rm -rf %i
-mkdir -p %i/tools/selected %i/tools/available
+mkdir -p %{i}/tools/selected %{i}/tools/available
 
 %if "%{?skipreqtools:set}" != "set"
 %define skipreqtools %{nil}
@@ -129,7 +129,7 @@ if [ -e %{i}/tools/selected/cuda-gcc-support.xml ] ; then
   fi
 fi
 [ -d %{i}/tools/selected ] && chmod a+r -R %{i}/tools/selected
-[ -d %i/tools/available  ] && chmod a+r -R %i/tools/available
+[ -d %{i}/tools/available  ] && chmod a+r -R %i/tools/available
 
 %post
 
