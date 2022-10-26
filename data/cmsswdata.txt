@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-L1Trigger-L1TMuon=V01-06-00
+L1Trigger-L1TMuon=V01-07-00
 L1Trigger-CSCTriggerPrimitives=V00-12-00
 RecoEgamma-ElectronIdentification=V01-10-00
 Validation-HGCalValidation=V00-03-00
