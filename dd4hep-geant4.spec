@@ -1,6 +1,8 @@
 ## IMPORT dd4hep-common
 ### RPM external dd4hep-geant4 %{dd4hep_version}
 
+Requires: geant4
+
 %prep
 
 %setup -n %{n}-%{realversion}
