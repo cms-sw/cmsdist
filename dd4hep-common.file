@@ -8,7 +8,7 @@ Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&ex
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
 
-%define CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX='%{i}' \
+CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
       -DBoost_NO_BOOST_CMAKE=ON \
       -DDD4HEP_USE_XERCESC=ON \
       -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
