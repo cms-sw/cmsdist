@@ -1,0 +1,14 @@
+%define dd4hep_version v01-19x
+%define tag cc335b34e9eb2825ab18e20c531be813a92d141f
+%define branch master
+%define github_user AIDASoft
+%define keep_archives true
+
+Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+BuildRequires: cmake
+Requires: root boost clhep xerces-c geant4
+
+%prep
+
+%setup -n %{n}-%{realversion}
+
