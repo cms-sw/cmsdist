@@ -1,6 +1,9 @@
 ### RPM external pythia8 306
 
-Source: https://pythia.org/download/pythia83/%{n}%{realversion}.tgz
+%define tag 2859dafb545a8ede707a86b4eff4a329c21cfd6a
+%define branch cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: hepmc hepmc3 lhapdf
 
