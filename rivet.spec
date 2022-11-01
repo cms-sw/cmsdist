@@ -7,11 +7,13 @@ Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python3 py3-cython autotools
 
 Patch0: rivet-140-313
+Patch1: rivet-disable-doc
 
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p0
+%patch1 -p0
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
