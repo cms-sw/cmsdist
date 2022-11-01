@@ -1,7 +1,7 @@
-### RPM external dd4hep v01-19x
+### RPM external dd4hep v01-23x
 ## INCLUDE compilation_flags
 
-%define tag cc335b34e9eb2825ab18e20c531be813a92d141f
+%define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
