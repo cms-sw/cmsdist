@@ -1,4 +1,4 @@
-### RPM external rivet 3.1.7
+### RPM external rivet 3.1.6
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -61,3 +61,4 @@ sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*
 %{relocateConfig}bin/rivet-config
 %{relocateConfig}bin/rivet-buildplugin
 %{relocateConfig}bin/rivet-build
+%{relocateConfig}lib/python*/site-packages/rivet-*egg-info/SOURCES.txt
