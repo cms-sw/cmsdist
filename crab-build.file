@@ -1,7 +1,3 @@
-
-
-
-
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
 ## NO_VERSION_SUFFIX
@@ -16,7 +12,7 @@
 Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
 Source2: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
-
+#MODIFY FILE FOR TEST PURPOSES
 %prep
 %{?check_version_suffix:%check_version_suffix}
 %setup -D -T -b 0 -n CRABClient
