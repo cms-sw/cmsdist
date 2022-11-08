@@ -1,4 +1,4 @@
-### RPM external hydjet 1.9.1
+### RPM external hydjet 1.9.3
 
 Source: http://cern.ch/lokhtin/hydro/%{n}-%{realversion}.tar.gz
 
