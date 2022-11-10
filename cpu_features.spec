@@ -9,6 +9,7 @@ BuildRequires: gmake cmake
 %build
 cmake -S. -Bbuild \
     -DBUILD_TESTING=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX:STRING=%{i}
 
 %install
