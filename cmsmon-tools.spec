@@ -1,11 +1,11 @@
-### RPM cms cmsmon-tools 0.5.35
+### RPM cms cmsmon-tools 0.5.36
 ## NOCOMPILER
 
 %define arch amd64
 %define linuxarch linux-amd64
 %define promv 2.31.1
 %define amver 0.23.0
-%define sternv 1.11.0
+%define sternv 1.22.0
 %define apsver 0.2.15
 %define trivyver 0.21.1
 %define heyver 0.0.2
@@ -18,7 +18,7 @@ Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/releases/download/%heyver/hey-tools.tar.gz
-Source4: https://github.com/wercker/stern/releases/download/%sternv/stern_linux_amd64
+Source4: https://github.com/stern/stern/releases/download/%sternv/stern_linux_amd64.tar.gz
 Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools_amd64.tar.gz
 Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
@@ -34,6 +34,7 @@ BuildRequires: go
 %setup -D -T -b 1 -n prometheus-%promv.%linuxarch
 %setup -D -T -b 3 -n hey-tools
 %setup -D -T -b 2 -n alertmanager-%amver.%linuxarch
+%setup -D -T -b 4 -n stern_%sternv_amd64
 %setup -D -T -b 5 -n auth-proxy-tools_%arch
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
@@ -63,7 +64,7 @@ chmod +x %i/hey
 cd -
 
 # install stern
-cp %{_sourcedir}/stern_linux_amd64 %i/stern
+cp %{_builddir}/stern_%sternv_amd64 %i/stern
 chmod +x %i/stern
 
 # install token-manager
