@@ -3,7 +3,7 @@
 
 # This is a meta-package to group all cms comp services
 # CMSWEB
-Requires: frontend das dbs3 reqmon
+Requires: frontend das dbs3 reqmon frontend8443
 Requires: dqmgui workqueue
 Requires: dbs3-client crabserver
 Requires: acdcserver
