@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools 0.5.36
+### RPM cms cmsmon-tools 0.5.35
 ## NOCOMPILER
 
 %define arch amd64
@@ -18,7 +18,7 @@ Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/releases/download/%heyver/hey-tools.tar.gz
-Source4: https://github.com/stern/stern/releases/download/%sternv/stern_linux_amd64.tar.gz
+Source4: https://github.com/stern/stern/releases/download/v%sternv/stern_%sternv_linux_amd64.tar.gz
 Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/auth-proxy-tools_amd64.tar.gz
 Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
