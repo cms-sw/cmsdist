@@ -3,10 +3,10 @@
 
 %build
 XOPTS=""
-case %{cmsplatf} in
-  # set the huge page size to 16M on ARMv8
-  *_aarch64_*) XOPTS="--with-lg-hugepage=24" ;;
-esac
+%ifarch aarch64
+# set the huge page size to 16M ( log2(16M)=24 ) on ARMv8
+XOPTS="--with-lg-hugepage=24"
+%endif
 
 ./autogen.sh ${XOPTS} \
   --enable-shared \
