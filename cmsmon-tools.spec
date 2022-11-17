@@ -34,7 +34,7 @@ BuildRequires: go
 %setup -D -T -b 1 -n prometheus-%promv.%linuxarch
 %setup -D -T -b 3 -n hey-tools
 %setup -D -T -b 2 -n alertmanager-%amver.%linuxarch
-%setup -D -T -b 4 -c -n stern-%sternv
+%setup -D -T -a 4 -c -n stern-%sternv
 %setup -D -T -b 5 -n auth-proxy-tools_%arch
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
@@ -64,7 +64,7 @@ chmod +x %i/hey
 cd -
 
 # install stern
-cp %{_builddir}/stern %i/stern
+cp %{_builddir}/stern-%sternv/stern %i/stern
 chmod +x %i/stern
 
 # install token-manager
