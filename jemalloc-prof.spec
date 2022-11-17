@@ -5,11 +5,17 @@ Requires: libunwind
 ### RPM external jemalloc-prof %{jemalloc_version}
 
 %build
+XOPTS=""
+%ifarch aarch64
+# set the huge page size to 16M ( log2(16M)=24 ) on ARMv8
+XOPTS="--with-lg-hugepage=24"
+%endif
+
 export CXXFLAGS=-I$LIBUNWIND_ROOT/include
 export CFLAGS=-I$LIBUNWIND_ROOT/include
 export LDFLAGS=-L$LIBUNWIND_ROOT/lib
 
-./autogen.sh \
+./autogen.sh ${XOPTS} \
   --enable-shared \
   --disable-static \
   --disable-doc \
