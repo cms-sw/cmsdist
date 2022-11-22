@@ -1,2 +1,2 @@
-### RPM external py3-decorator 4.4.2
+### RPM external py3-decorator 5.1.1
 ## IMPORT build-with-pip3
