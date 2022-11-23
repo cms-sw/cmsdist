@@ -1,4 +1,4 @@
-### RPM external py3-requests 2.26.0
+### RPM external py3-requests 2.27.1
 ## IMPORT build-with-pip3
 
 Requires: py3-certifi py3-urllib3 py3-idna py3-charset-normalizer
