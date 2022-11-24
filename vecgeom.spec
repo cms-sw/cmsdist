@@ -24,7 +24,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DNO_SPECIALIZATION=ON \
   -DBACKEND=Scalar \
 %ifarch x86_64
@@ -37,11 +36,11 @@ cmake ../%{n}-%{realversion} \
 %endif
   -DGEANT4=OFF
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make %{makeprocesses} install
+make %{makeprocesses} install VERBOSE=1
 
 %post
 %{relocateConfig}lib/cmake/VecGeom/*.cmake
