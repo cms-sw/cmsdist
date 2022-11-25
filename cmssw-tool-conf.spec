@@ -1,7 +1,7 @@
-### RPM cms cmssw-tool-conf 52.0
+### RPM cms cmssw-tool-conf 53.0
 # With cmsBuild, change the above version only when a new tool is added
 
-## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
 ## UPLOAD_DEPENDENCIES dqmgui
 
 Requires: crab
