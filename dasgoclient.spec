@@ -1,6 +1,10 @@
 ### RPM cms dasgoclient v20221125.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
+####### NOTE ########
+# For any changes in this file (e.g. updating dasgoclient_tag or build recipe changes) please
+# always use the latest date as version in first line
+#####################
 %define dasgoclient_tag v02.04.49
 Source0: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_amd64
 Source1: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_aarch64
