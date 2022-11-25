@@ -1,11 +1,13 @@
-### RPM cms dasgoclient v20221125.0
+############## IMPORTANT #################
+#For new dasgoclient_tag, set the version_suffix to 00
+#For any other change, increment version_suffix
+##########################################
+%define version_suffix 00
+%define dasgoclient_tag v02.04.49
+### RPM cms crab-dev %{dasgoclient_tag}.rev%{version_suffix}
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
-####### NOTE ########
-# For any changes in this file (e.g. updating dasgoclient_tag or build recipe changes) please
-# always use the latest date as version in first line
-#####################
-%define dasgoclient_tag v02.04.49
+
 Source0: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_amd64
 Source1: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_aarch64
 Source2: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_ppc64le
