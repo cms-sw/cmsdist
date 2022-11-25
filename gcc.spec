@@ -1,11 +1,11 @@
-### RPM external gcc 10.3.0
+### RPM external gcc 11.2.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag f00b5710a30f22efc3171c393e56aeb335c3cd39
-%define gccBranch releases/gcc-10
+%define gccTag a0a0499b8bb920fdd98e791804812f001f0b4fe8
+%define gccBranch releases/gcc-11
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
@@ -38,7 +38,7 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-103-substitution-bug-fix
+Patch2: gcc-03af8492bee6243a9d10e78fea1a3e423bd5f9cd
 
 %prep
 
