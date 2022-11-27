@@ -2,7 +2,7 @@
 #For new dasgoclient_tag, set the version_suffix to 00
 #For any other change, increment version_suffix
 ##########################################
-%define version_suffix 00
+%define version_suffix 01
 %define dasgoclient_tag v02.04.49
 ### RPM cms dasgoclient %{dasgoclient_tag}.rev%{version_suffix}
 ## NOCOMPILER
@@ -18,7 +18,7 @@ Source2: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag
 mkdir %{i}/etc %{i}/bin
 cat << \EOF > %{i}/etc/dasgoclient
 #!/bin/sh
-# CMSDIST_FILE_REVISION=1
+#CMSDIST_FILE_REVISION=1
 # Clean-up CMSSW environment
 if [ -f %{instroot}/common/scram ] ; then
   eval `%{instroot}/common/scram unsetenv -sh`
@@ -40,7 +40,7 @@ chmod +x %{i}/bin/dasgoclient
 
 # copy wrapper script into common if latest version is same as this version
 mkdir -p $RPM_INSTALL_PREFIX/common
-%common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/dasgoclien $RPM_INSTALL_PREFIX/common/dasgoclient
+%common_revision_script ${RPM_INSTALL_PREFIX}/%{pkgrel}/etc/dasgoclient $RPM_INSTALL_PREFIX/common/dasgoclient
 
 # make das_client point to dasgoclient in overrides/bin area
 mkdir -p $RPM_INSTALL_PREFIX/share/overrides/bin

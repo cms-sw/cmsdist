@@ -266,8 +266,8 @@ fi
 
 %define common_revision_script() \
   OLD_REV=0 \
-  if [ -f %{2} ] ; then OLD_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; fi \
-  NEW_REV=$(grep '^\s*#\s*CMSDIST_FILE_REVISION\s*=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
+  if [ -f %{2} ] ; then OLD_REV=$(grep '^#CMSDIST_FILE_REVISION=' %{2} | tail -1 | sed 's|.*=||;s| ||g') ; [ "${OLD_REV}" = "" ] && OLD_REV=0; fi \
+  NEW_REV=$(grep '^#CMSDIST_FILE_REVISION=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
   if [ ${OLD_REV} -lt ${NEW_REV} ] ; then cp %{1} %{2}.tmp; mv %{2}.tmp %{2} ; fi
 
 %define cms_python2_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python/ | cut -d/ -f3 | cut -f1,2 -d.)
