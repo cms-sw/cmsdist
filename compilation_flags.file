@@ -1,12 +1,16 @@
-%define lto_build_flags -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
+%define lto_build_flags_common -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
 %if "%{?arch_build_flags:set}" != "set"
 %ifarch ppc64le
 %define arch_build_flags  -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
+%define lto_build_flags_arch -mno-htm -mno-power8-fusion
 %endif
 %ifarch aarch64
 %define arch_build_flags -march=armv8-a -mno-outline-atomics
+%define lto_build_flags_arch %{nil}
 %endif
 %ifarch x86_64
 %define arch_build_flags %{nil}
+%define lto_build_flags_arch %{nil}
 %endif
 %endif
+%define lto_build_flags %{lto_build_flags_common} %{lto_build_flags_arch}
