@@ -3,7 +3,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi rivet
+Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi
 BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
 
@@ -34,7 +34,6 @@ export PYTHON=$(which python3)
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
-            --enable-rivet=$RIVET_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
