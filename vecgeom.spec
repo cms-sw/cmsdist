@@ -25,7 +25,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
 %if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{arch_build_flags} -O2" \
+%else
+  -DCMAKE_CXX_FLAGS="-O2" \
 %endif
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
