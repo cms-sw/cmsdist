@@ -1,4 +1,4 @@
-### RPM cms t0_reqmon 2.1.5rc4
+### RPM cms t0_reqmon 2.1.5rc7
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 
 Source0: git+https://github.com/dmwm/WMCore.git?obj=master/%realversion&export=%n&output=/%n.tar.gz
