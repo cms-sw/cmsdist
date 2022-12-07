@@ -23,7 +23,7 @@ Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
-Source13: https://github.com/facebook/zstd/releases/download/v%{realversion}/zstd-%{realversion}.tar.gz
+Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
 
 %ifos linux
 %define bisonVersion 3.7.6
@@ -98,7 +98,7 @@ EOF_CMS_H
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 12 -n zlib-%{zlibVersion}
-%setup -D -T -b 13 -n zstd-%{zlibVersion}
+%setup -D -T -b 13 -n zstd-%{zstdVersion}
 
 %ifos linux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
@@ -151,12 +151,29 @@ chmod +x ./config.{sub,guess}
 
 cmake build/cmake \
  -DZSTD_BUILD_CONTRIB:BOOL=OFF \
- -DZSTD_BUILD_STATIC:BOOL=ON \
+ -DZSTD_BUILD_STATIC:BOOL=OFF \
+ -DZSTD_BUILD_SHARED:BOOL=ON \
  -DZSTD_BUILD_TESTS:BOOL=OFF \
  -DCMAKE_BUILD_TYPE=Release \
  -DZSTD_BUILD_PROGRAMS:BOOL=OFF \
  -DZSTD_LEGACY_SUPPORT:BOOL=OFF \
  -DCMAKE_INSTALL_PREFIX:STRING=%{i}/tmp/sw \
+ -DCMAKE_INSTALL_LIBDIR:STRING=lib \
+ -Dzstd_VERSION:STRING=%{zstdVersion}
+
+make %{makeprocesses} VERBOSE=1
+make install
+
+# Build zstd (for runtime)
+cmake build/cmake \
+ -DZSTD_BUILD_CONTRIB:BOOL=OFF \
+ -DZSTD_BUILD_STATIC:BOOL=OFF \
+ -DZSTD_BUILD_SHARED:BOOL=ON \
+ -DZSTD_BUILD_TESTS:BOOL=OFF \
+ -DCMAKE_BUILD_TYPE=Release \
+ -DZSTD_BUILD_PROGRAMS:BOOL=OFF \
+ -DZSTD_LEGACY_SUPPORT:BOOL=OFF \
+ -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
  -DCMAKE_INSTALL_LIBDIR:STRING=lib \
  -Dzstd_VERSION:STRING=%{zstdVersion}
 
@@ -287,13 +304,15 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
              --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
-             --enable-shared --disable-libgcj CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             --enable-shared --disable-libgcj \
+             --with-zstd-include=%{i}/tmp/sw/include --with-zstd-lib=%{i}/tmp/sw/lib \
+             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 make %{makeprocesses} profiledbootstrap
 
 %install
-cd %_builddir/%{moduleName}/obj && make install 
+cd %_builddir/%{moduleName}/obj && make install
 
 ln -s gcc %{i}/bin/cc
 find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
