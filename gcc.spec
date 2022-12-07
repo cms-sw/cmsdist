@@ -17,11 +17,13 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define mpcVersion 1.2.1
 %define islVersion 0.24
 %define zlibVersion 1.2.11
+%define zstdVersion 1.4.5
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
+Source13: https://github.com/facebook/zstd/releases/download/v%{realversion}/zstd-%{realversion}.tar.gz
 
 %ifos linux
 %define bisonVersion 3.7.6
@@ -96,6 +98,7 @@ EOF_CMS_H
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 12 -n zlib-%{zlibVersion}
+%setup -D -T -b 13 -n zstd-%{zlibVersion}
 
 %ifos linux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
@@ -137,6 +140,27 @@ CONF_FLAGS="${CONF_FLAGS} -msse3"
 %endif
 CFLAGS="${CONF_FLAGS}" ./configure --static --prefix=%{i}/tmp/sw
 make %{makeprocesses}
+make install
+
+# Build zstd (required for compressing LTO information)
+cd ../zstd-%{zstdVersion}
+rm -f ./config.{sub,guess}
+%get_config_sub ./config.sub
+%get_config_guess ./config.guess
+chmod +x ./config.{sub,guess}
+
+cmake build/cmake \
+ -DZSTD_BUILD_CONTRIB:BOOL=OFF \
+ -DZSTD_BUILD_STATIC:BOOL=ON \
+ -DZSTD_BUILD_TESTS:BOOL=OFF \
+ -DCMAKE_BUILD_TYPE=Release \
+ -DZSTD_BUILD_PROGRAMS:BOOL=OFF \
+ -DZSTD_LEGACY_SUPPORT:BOOL=OFF \
+ -DCMAKE_INSTALL_PREFIX:STRING=%{i}/tmp/sw \
+ -DCMAKE_INSTALL_LIBDIR:STRING=lib \
+ -Dzstd_VERSION:STRING=%{zstdVersion}
+
+make %{makeprocesses} VERBOSE=1
 make install
 
 %ifos linux
