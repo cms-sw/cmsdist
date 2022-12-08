@@ -142,44 +142,10 @@ CFLAGS="${CONF_FLAGS}" ./configure --static --prefix=%{i}/tmp/sw
 make %{makeprocesses}
 make install
 
-# Build zstd (required for compressing LTO information)
-cd ../zstd-%{zstdVersion}
-rm -f ./config.{sub,guess}
-%get_config_sub ./config.sub
-%get_config_guess ./config.guess
-chmod +x ./config.{sub,guess}
-
-cmake build/cmake \
- -DZSTD_BUILD_CONTRIB:BOOL=OFF \
- -DZSTD_BUILD_STATIC:BOOL=OFF \
- -DZSTD_BUILD_SHARED:BOOL=ON \
- -DZSTD_BUILD_TESTS:BOOL=OFF \
- -DCMAKE_BUILD_TYPE=Release \
- -DZSTD_BUILD_PROGRAMS:BOOL=OFF \
- -DZSTD_LEGACY_SUPPORT:BOOL=OFF \
- -DCMAKE_INSTALL_PREFIX:STRING=%{i}/tmp/sw \
- -DCMAKE_INSTALL_LIBDIR:STRING=lib \
- -Dzstd_VERSION:STRING=%{zstdVersion}
-
-make %{makeprocesses} VERBOSE=1
-make install
-
-# Build zstd (for runtime)
-cmake build/cmake \
- -DZSTD_BUILD_CONTRIB:BOOL=OFF \
- -DZSTD_BUILD_STATIC:BOOL=OFF \
- -DZSTD_BUILD_SHARED:BOOL=ON \
- -DZSTD_BUILD_TESTS:BOOL=OFF \
- -DCMAKE_BUILD_TYPE=Release \
- -DZSTD_BUILD_PROGRAMS:BOOL=OFF \
- -DZSTD_LEGACY_SUPPORT:BOOL=OFF \
- -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
- -DCMAKE_INSTALL_LIBDIR:STRING=lib \
- -Dzstd_VERSION:STRING=%{zstdVersion}
-
-make %{makeprocesses} VERBOSE=1
-make install
-
+#Build and install zstd static library
+make -C ../zstd-%{zstdVersion}/lib %{makeprocesses} \
+  install-static install-includes prefix=%{i}/tmp/sw \
+  CPPFLAGS="-fPIC" CFLAGS="-fPIC"
 %ifos linux
   CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
@@ -305,7 +271,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
              --enable-shared --disable-libgcj \
-             --with-zstd-include=%{i}/tmp/sw/include --with-zstd-lib=%{i}/tmp/sw/lib \
+             --with-zstd=%{i}/tmp/sw \
              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
