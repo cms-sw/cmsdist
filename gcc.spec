@@ -179,14 +179,6 @@ make -C ../zstd-%{zstdVersion}/lib %{makeprocesses} \
   make install
   hash -r
 
-  # Build Flex
-  cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i} \
-              --build=%{_build} --host=%{_host} \
-              CC="$CC" CXX="$CXX"
-  make %{makeprocesses}
-  make install
-
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
   ./configure --disable-static --with-zlib --without-bzlib --without-lzma \
