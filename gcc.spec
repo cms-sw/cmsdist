@@ -173,6 +173,7 @@ make -C ../zstd-%{zstdVersion}/lib %{makeprocesses} \
   # Build Flex (for building)
   cd ../flex-%{flexVersion}
   ./configure --disable-nls --prefix=%{i}/tmp/sw \
+              --enable-static --disable-shared \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
