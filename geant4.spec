@@ -1,6 +1,6 @@
-### RPM external geant4 11.0.10
+### RPM external geant4 11.1.0
 ## INCLUDE compilation_flags
-%define tag fdd5cd70ae299ffa162cf274eba2638bd9b008aa
+%define tag 9f34590941fb8a3f7ad139731089ec3794947545
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -51,7 +51,6 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_CXX_STANDARD:STRING="17" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
