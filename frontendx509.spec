@@ -21,7 +21,7 @@ gcc -o %_builddir/grid-proxy-verify %_sourcedir/grid-proxy-verify.c \
 
 %install
 mkdir -p %i/{bin,etc/env.d,etc/profile.d}
-ln -sf ../profile.d/init.sh %i/etc/env.d/10-frontend.sh
+ln -sf ../profile.d/init.sh %i/etc/env.d/10-frontendx509.sh
 cp -p %_builddir/grid-proxy-verify %i/bin/
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
