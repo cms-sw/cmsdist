@@ -65,3 +65,4 @@ rm -f  %{i}/HEPTools/collier/collier_install.log
 %{relocateConfig}basiceventgeneration/Cards/amcatnlo_configuration.txt
 %{relocateConfig}basiceventgeneration/Source/make_opts
 %{relocateConfig}HEPTools/ninja/lib/lib*.la
+%{relocateConfig}HEPTools/collier/COLLIER-*/collierConfig.cmake
