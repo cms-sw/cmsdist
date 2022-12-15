@@ -1,4 +1,4 @@
-### RPM external tbb v2021.5.0
+### RPM external tbb v2021.8.0-rc1
 
 %define tag %{realversion}
 %define branch onetbb_2021

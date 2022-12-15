@@ -56,6 +56,8 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
 find %{i} -name '*deleteme' -delete
+rm -rf %{i}/HEPTools/collier/COLLIER-*/build
+rm -f  %{i}/HEPTools/collier/collier_install.log
 
 %post
 %relocateConfigAll . py.py
@@ -63,3 +65,4 @@ find %{i} -name '*deleteme' -delete
 %{relocateConfig}basiceventgeneration/Cards/amcatnlo_configuration.txt
 %{relocateConfig}basiceventgeneration/Source/make_opts
 %{relocateConfig}HEPTools/ninja/lib/lib*.la
+%{relocateConfig}HEPTools/collier/COLLIER-*/collierConfig.cmake
