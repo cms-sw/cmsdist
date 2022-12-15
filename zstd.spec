@@ -1,4 +1,4 @@
-### RPM external zstd 1.4.5
+### RPM external zstd 1.5.2
 ## INITENV SETV ZSTD_SOURCE %{source0}
 ## INITENV SETV ZSTD_STRIP_PREFIX %{source_prefix}
 
@@ -12,12 +12,6 @@ BuildRequires: gmake cmake
 %setup -n %{source_prefix}
 
 %build
-# Update to get AArch64
-
-rm -f ./config.{sub,guess}
-%get_config_sub ./config.sub
-%get_config_guess ./config.guess
-chmod +x ./config.{sub,guess}
 
 cmake build/cmake \
  -DZSTD_BUILD_CONTRIB:BOOL=OFF \
