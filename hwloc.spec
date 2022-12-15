@@ -1,5 +1,5 @@
-### RPM external hwloc 2.8.0
-Source: https://download.open-mpi.org/release/%{n}/v2.8/%{n}-%{realversion}.tar.bz2
+### RPM external hwloc 2.9.0
+Source: https://download.open-mpi.org/release/%{n}/v2.9/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
 Requires: cuda libpciaccess libxml2 numactl
