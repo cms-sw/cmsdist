@@ -11,8 +11,9 @@
 %define heyver 0.0.2
 %define k8s_info_ver 0.0.1
 %define gocurlver 0.0.4
+%define murrever 0.0.4
 %define monit_commands monit ggus_parser alert annotationManager nats-sub nats-pub dbs_vm
-%define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl
+%define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl murre
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
 Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
@@ -23,7 +24,7 @@ Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/
 Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
 Source8: https://github.com/vkuznet/gocurl/releases/download/%gocurlver/gocurl-tools.tar.gz
-
+Source9: https://github.com/groundcover-com/murre/releases/download/%murrever/murre_%{murrever}_linux_amd64.tar.gz
 BuildRequires: go
 
 # RPM macros documentation
@@ -39,6 +40,7 @@ BuildRequires: go
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
 %setup -D -T -b 8 -n gocurl-tools
+%setup -D -T -b 9 -c -n murrever-%murrever
 
 %build
 export CGO_ENABLED=0
@@ -89,6 +91,9 @@ cd %{_builddir}/gocurl-tools
 cp gocurl_amd64 %i/gocurl
 chmod +x %i/gocurl
 cd -
+
+cd %{_builddir}/murrever-%murrever %i/murrever
+chmod +x %i/stern
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
