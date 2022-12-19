@@ -93,7 +93,7 @@ chmod +x %i/gocurl
 cd -
 
 #install muree
-cd %{_builddir}/murre-%murrever/murre %i/murre
+cp %{_builddir}/murre-%murrever/murre %i/murre
 chmod +x %i/murre
 
 #####################################################
