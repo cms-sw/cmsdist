@@ -40,7 +40,7 @@ BuildRequires: go
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
 %setup -D -T -b 8 -n gocurl-tools
-%setup -D -T -b 9 -c -n murre-%murrever
+%setup -D -T -a 9 -c -n murre-%murrever
 
 %build
 export CGO_ENABLED=0
