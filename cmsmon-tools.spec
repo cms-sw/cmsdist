@@ -40,7 +40,7 @@ BuildRequires: go
 %setup -D -T -b 6 -n k8s_info-tools
 %setup -D -T -a 7 -n trivy-%trivyver -c trivy-%trivyver
 %setup -D -T -b 8 -n gocurl-tools
-%setup -D -T -b 9 -c -n murrever-%murrever
+%setup -D -T -b 9 -c -n murre-%murrever
 
 %build
 export CGO_ENABLED=0
@@ -92,8 +92,9 @@ cp gocurl_amd64 %i/gocurl
 chmod +x %i/gocurl
 cd -
 
-cd %{_builddir}/murrever-%murrever %i/murrever
-chmod +x %i/stern
+#install muree
+cd %{_builddir}/murre-%murrever/murre %i/murre
+chmod +x %i/murre
 
 #####################################################
 # **************** IMPORTANT NOTE ***************** #
