@@ -24,7 +24,7 @@ Source5: https://github.com/vkuznet/auth-proxy-server/releases/download/%apsver/
 Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s_info-tools.tar.gz
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
 Source8: https://github.com/vkuznet/gocurl/releases/download/%gocurlver/gocurl-tools.tar.gz
-Source9: https://github.com/groundcover-com/murre/releases/download/%murrever/murre_%{murrever}_linux_amd64.tar.gz
+Source9: https://github.com/groundcover-com/murre/releases/download/v%murrever/murre_%{murrever}_linux_amd64.tar.gz
 BuildRequires: go
 
 # RPM macros documentation
