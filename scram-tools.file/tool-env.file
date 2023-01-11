@@ -16,5 +16,6 @@ export COMPILER_CXXFLAGS="%{arch_build_flags}"
 export ORACLE_ENV_ROOT=""
 export CUDA_FLAGS="%{nvcc_cuda_flags}"
 export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
+export LTO_FLAGS="%{lto_build_flags}"
 if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
 if [ $(echo ' %requiredtools ' | grep ' python ' |wc -l) -gt 0 ] ;  then export PYTHON_LIB_SITE_PACKAGES ; fi

@@ -32,7 +32,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
 %if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{arch_build_flags} %{lto_build_flags}" \
+%else
+  -DCMAKE_CXX_FLAGS="%{lto_build_flags}" \
 %endif
   -DGEANT4=OFF
 
