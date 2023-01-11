@@ -1,9 +1,9 @@
-### RPM lcg root 6.24.07
+### RPM lcg root 6.26.07
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
-%define tag def00cf3e93b5f896c5dfef657988703e388b0e6
-%define branch cms/v6-24-00-patches/b5aa8fd
+%define tag ea38d3a4e2c6f5d796c0e4b2e13059387447de65
+%define branch cms/v6-26-00-patches/26247b6
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -84,6 +84,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
