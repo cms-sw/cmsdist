@@ -1,4 +1,5 @@
 ### RPM external dd4hep v01-23x
+## INCLUDE compilation_flags
 
 %define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
 %define branch master
@@ -9,11 +10,22 @@ Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&ex
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
 
+%if "%{?arch_build_flags}"
+%define build_flags -fPIC %{arch_build_flags} %{lto_build_flags}
+%else
+%define build_flags -fPIC %{lto_build_flags}
+%endif
+
 %define cmake_fixed_args \\\
   -DCMAKE_INSTALL_PREFIX='%{i}' \\\
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \\\
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \\\
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \\\
   -DBoost_NO_BOOST_CMAKE=ON \\\
   -DDD4HEP_USE_XERCESC=ON \\\
   -DDD4HEP_USE_PYROOT=ON \\\
+  -DCMAKE_AR=$(which gcc-ar) \\\
+  -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
   -DCMAKE_CXX_STANDARD=17 \\\
   -DCMAKE_BUILD_TYPE=Release \\\
   -DDD4HEP_USE_GEANT4_UNITS=ON \\\

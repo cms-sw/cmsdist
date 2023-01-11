@@ -26,7 +26,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
 %if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{arch_build_flags} %{lto_build_flags}" \
+%else
+  -DCMAKE_CXX_FLAGS="%{lto_build_flags}" \
 %endif
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
