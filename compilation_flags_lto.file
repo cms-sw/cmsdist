@@ -1,0 +1,13 @@
+#Enable/disable LTO builds
+%define enable_lto 1
+
+#LTO related flags
+%ifarch ppc64le
+%undefine enable_lto
+%define enable_lto 0
+%endif
+%if "%{enable_lto}" == "1"
+%define lto_build_flags -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
+%else
+%define lto_build_flags %{nil}
+%endif
