@@ -1,6 +1,6 @@
 ### FILE scram-project-build
 ## NO_AUTO_DEPENDENCY
-## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
