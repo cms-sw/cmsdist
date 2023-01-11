@@ -1,9 +1,7 @@
-%define lto_build_flags -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
+#Special architecture related flags
 %if "%{?arch_build_flags:set}" != "set"
 %ifarch ppc64le
 %define arch_build_flags  -mcpu=power8 -mtune=power8 --param=l1-cache-size=64 --param=l1-cache-line-size=128 --param=l2-cache-size=512
-%undefine lto_build_flags
-%define lto_build_flags %{nil}
 %endif
 %ifarch aarch64
 %define arch_build_flags -march=armv8-a -mno-outline-atomics
