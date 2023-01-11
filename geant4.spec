@@ -1,5 +1,6 @@
 ### RPM external geant4 10.7.2
 ## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
 %define use_vecgeom 1
 %define tag %{realversion}
 %define branch geant4-10.7-release
@@ -17,6 +18,11 @@ Requires: vecgeom
 Requires: zlib
 
 %define keep_archives true
+%if "%{?arch_build_flags}"
+%define build_flags -fPIC %{arch_build_flags} %{lto_build_flags}
+%else
+%define build_flags -fPIC %{lto_build_flags}
+%endif
 
 %prep
 %setup -n %{n}.%{realversion}
@@ -37,15 +43,9 @@ export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="-fPIC %{arch_build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC %{arch_build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC %{arch_build_flags}" \
-%else
-  -DCMAKE_CXX_FLAGS="-fPIC" \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="-fPIC" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="-fPIC" \
-%endif
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \

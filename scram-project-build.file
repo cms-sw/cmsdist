@@ -1,5 +1,6 @@
 ### FILE scram-project-build
 ## NO_AUTO_DEPENDENCY
+## INCLUDE compilation_flags_lto
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
@@ -53,7 +54,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V07-03-11
+%define configtag       V07-03-12
 %endif
 
 %if "%{?cvssrc:set}" != "set"
@@ -116,7 +117,9 @@ rm -rf config %{srctree} poison
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} --keys SCRAM_COMPILER=%{scram_compiler} \
+%_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} \
+  --keys SCRAM_COMPILER=%{scram_compiler} \
+  --keys ENABLE_LTO=%{enable_lto} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
