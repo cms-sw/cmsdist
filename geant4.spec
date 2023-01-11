@@ -1,5 +1,6 @@
 ### RPM external geant4 10.7.2
 ## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
 %define use_vecgeom 1
 %define tag %{realversion}
 %define branch geant4-10.7-release

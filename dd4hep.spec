@@ -1,5 +1,6 @@
 ### RPM external dd4hep v01-23x
 ## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
 
 %define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
 %define branch master
