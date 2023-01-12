@@ -26,5 +26,5 @@ Requires: coral-tool-conf
 %define patchsrc4       %patch1 -p1
 
 %define source1  git://github.com/%{github_user}/%{n}.git?protocol=https&obj=%{branch}/%{tag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
-## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
+## INCLUDE scram-project-build
