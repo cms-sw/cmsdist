@@ -17,5 +17,5 @@ Requires: fwlite-tool-conf
 
 %define source1 git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
-## IMPORT cmssw-partial-build
-## IMPORT scram-project-build
+## INCLUDE cmssw-partial-build
+## INCLUDE scram-project-build
