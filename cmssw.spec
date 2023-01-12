@@ -13,5 +13,5 @@ Requires: cmssw-tool-conf
 
 %define source1         git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
-## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
+## INCLUDE scram-project-build
