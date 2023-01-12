@@ -9,8 +9,7 @@ Requires: cmssw-patch-tool-conf
 #Set it to -cmsX added by cmsBuild (if any) to the base release
 %define baserel_postfix %{nil}
 
-## INCLUDE cmssw-queue-override
-
-## IMPORT cmssw-patch-build
-## IMPORT scram-project-build
 ## SUBPACKAGE debug IF %subpackageDebug
+## INCLUDE cmssw-queue-override
+## INCLUDE cmssw-patch-build
+## INCLUDE scram-project-build
