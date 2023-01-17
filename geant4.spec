@@ -2,7 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 0
-%define tag 911cc73168ab4dce3af91fcd2233d87301637cd4
+%define tag 6d6ce029050cf01e4519269f609c46120030bc30
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
