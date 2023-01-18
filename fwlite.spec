@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_10_1_0_pre1_FWLITE
+### RPM cms fwlite CMSSW_13_0_0_pre3_LTOG4VECGEOM_FWLITE
 
 Requires: fwlite-tool-conf
 
