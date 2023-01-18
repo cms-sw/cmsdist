@@ -4,7 +4,7 @@ Requires: py3-cython py3-protobuf py3-astor py3-six py3-termcolor py3-absl-py
 Requires: py3-opt-einsum py3-flatbuffers
 Requires: eigen protobuf zlib libpng libjpeg-turbo curl giflib sqlite grpc flatbuffers py3-pybind11
 BuildRequires: py3-wheel
-%define enable_gpu 0
+%define enable_gpu 1
 %if %{enable_gpu}
 %if "%{cmsos}" != "slc7_aarch64"
 ## INCLUDE cuda-flags
