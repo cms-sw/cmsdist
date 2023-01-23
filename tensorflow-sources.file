@@ -85,7 +85,6 @@ echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
 echo "pybind11:${PY3_PYBIND11_ROOT}"        >> ${TF_CMS_EXTERNALS}
 echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
-echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
 echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
 echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}

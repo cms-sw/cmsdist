@@ -1,1 +1,2 @@
+%define source0 https://github.com/cython/cython/archive/%{realversion}.tar.gz
 %define pip_name Cython

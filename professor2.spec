@@ -9,12 +9,16 @@ Patch0: professor2-ppc64-flag-change
 
 %prep
 %setup -n Professor-%{realversion}
+sed -i -e 's|^ *CXXSTD  *:=.*|CXXSTD:=c++17|' Makefile
+sed -i -e 's|std=c++11|std=c++17|' pyext/setup.py
 
 %ifarch ppc64le
 %patch0 -p1
 %endif
 
-%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}
+%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}:./pyext/professor2
+sor2.spec
+ibclang==12.0.0
 
 %build
 make %{build_flags}

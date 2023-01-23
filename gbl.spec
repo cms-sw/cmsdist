@@ -1,4 +1,4 @@
-### RPM external gbl V02-04-01
+### RPM external gbl V03-00-00
 
 %define tag 31e726d777fe93cdbed0c363dc15f803f7767f40
 Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -18,6 +18,7 @@ cd build
 cmake ../cpp \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CXX_STANDARD=17 \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DSUPPORT_ROOT=False
 
