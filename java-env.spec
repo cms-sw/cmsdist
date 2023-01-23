@@ -4,7 +4,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib
 ## NOCOMPILER
 
-%define java_home /usr/lib/jvm/java-11
+%define java_home /etc/alternatives/jre_11
 Source: none
 
 %prep
