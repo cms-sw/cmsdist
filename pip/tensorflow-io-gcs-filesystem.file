@@ -1,1 +1,2 @@
-%define PipDownloadSourceType none
+%define source0 https://github.com/tensorflow/io/archive/refs/tags/v0.30.0.tar.gz
+%define patchsrc0 sed -i -e 's|project = "tensorflow-io"|project = "tensorflow-io-gcs-filesystem"|' setup.py
