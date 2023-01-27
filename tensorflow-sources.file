@@ -39,6 +39,9 @@ BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
+%ifarch ppc64le
+BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false"
+%endif
 
 %if %{enable_gpu}
 BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
