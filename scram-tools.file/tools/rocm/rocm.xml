@@ -13,7 +13,8 @@
     <environment name="INCLUDE"   default="$ROCM_BASE/hip/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hsa/include"/>
   </client>
-  <flags ROCM_FLAGS="-fno-gpu-rdc --amdgpu-target=gfx900 --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH) -D__HIP_PLATFORM_HCC__ -D__HIP_PLATFORM_AMD__"/>
+  <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
+  <flags ROCM_FLAGS="-fgpu-rdc --offload-arch=gfx900 --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH)"/>
   <!-- REM_CXXFLAGS from llvm/llvm-cxxcompiler.xml -->
   <flags ROCM_HOST_REM_CXXFLAGS="-Wno-non-template-friend"/>
   <flags ROCM_HOST_REM_CXXFLAGS="-Werror=format-contains-nul"/>
@@ -26,7 +27,6 @@
   <flags ROCM_HOST_REM_CXXFLAGS="-fno-crossjumping"/>
   <flags ROCM_HOST_REM_CXXFLAGS="-fno-aggressive-loop-optimizations"/>
   <flags ROCM_HOST_REM_CXXFLAGS="-funroll-all-loops"/>
-  <flags ROCM_HOST_CXXFLAGS="-D__HIP_PLATFORM_HCC__ -D__HIP_PLATFORM_AMD__"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
   <runtime name="PATH" value="$ROCM_BASE/bin" type="path"/>
 </tool>
