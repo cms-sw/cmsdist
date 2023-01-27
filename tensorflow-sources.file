@@ -189,6 +189,7 @@ copy_headers() {
 copy_headers "$PWD" tensorflow/compiler
 copy_headers "$PWD" tensorflow/core/profiler/internal
 copy_headers "$PWD" tensorflow/core/profiler/lib
+copy_headers "$PWD" tensorflow/core/util/tensor_bundle
 
 # do not copy the protobuf headers as we use the version in cmsdist
 # copy_headers "$PWD/tensorflow/contrib/makefile/downloads/protobuf/src" google
