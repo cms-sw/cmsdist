@@ -4,6 +4,7 @@
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: boost_modulemap
 Requires: python3 bz2lib zlib openmpi xz zstd
 
 %prep
@@ -86,5 +87,4 @@ do
   ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]${so}[.].*|.${so}|")
 done
 
-
-
+cp %{_sourcedir}/boost_modulemap %{i}/include/boost/module.modulemap

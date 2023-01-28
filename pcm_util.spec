@@ -19,7 +19,7 @@ CLHEP_MM_NAME="clhep.modulemap"
 TINYXML2_MM_NAME="tinyxml2.modulemap"
 CUDA_MM_NAME="cuda.modulemap"
 HEPMC_MM_NAME="hepmc.modulemap"
-BOOST_MM_NAME="boost.modulemap"
+BOOST_MM_NAME="module.modulemap"
 HLS_MM_NAME="hls.modulemap"
 
 PYBIND11_INCDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
