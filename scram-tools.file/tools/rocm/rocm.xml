@@ -7,8 +7,6 @@
     <environment name="BINDIR"    default="$ROCM_BASE/bin"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/lib"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/lib64"/>
-    <environment name="LIBDIR"    default="$ROCM_BASE/hip/lib"/>
-    <environment name="LIBDIR"    default="$ROCM_BASE/hsa/lib"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hip/include"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/hsa/include"/>
