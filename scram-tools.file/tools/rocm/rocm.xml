@@ -6,7 +6,6 @@
     <environment name="HIPCC"     default="$ROCM_BASE/bin/hipcc"/>
     <environment name="BINDIR"    default="$ROCM_BASE/bin"/>
     <environment name="LIBDIR"    default="$ROCM_BASE/lib"/>
-    <environment name="LIBDIR"    default="$ROCM_BASE/lib64"/>
     <environment name="INCLUDE"   default="$ROCM_BASE/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>

@@ -1,4 +1,4 @@
-### RPM external rocm 5.0.2
+### RPM external rocm 5.4.2
 ## NOCOMPILER
 Source: none
 Provides: libamd_comgr.so.2()(64bit)
@@ -30,7 +30,7 @@ rm -f %{i}/bin/{aompcc,gputable.txt,mygpu,mymcpu}
 rm -f %{i}/bin/migraphx-driver
 
 # ROCm/HIP core tools
-DIRECTORIES="amdgcn hip hipcub hsa hsa-amd-aqlprofile include lib lib64 llvm rocthrust share"
+DIRECTORIES="amdgcn hip hipcub hsa hsa-amd-aqlprofile include lib libexec llvm rocthrust share"
 
 # rocm-smi
 DIRECTORIES+=" oam rocm_smi"
@@ -60,7 +60,7 @@ DIRECTORIES+=" rocprofiler roctracer"
 #DIRECTORIES+=" atmi"
 
 # OpenCL support
-#DIRECTORIES+=" opencl"
+#DIRECTORIES+=" opencl tests"
 
 # ROCm Communication Collectives Library (RCCL)
 #DIRECTORIES+=" rccl"
@@ -69,7 +69,7 @@ DIRECTORIES+=" rocprofiler roctracer"
 #DIRECTORIES+=" rocalution"
 
 # Machine Intelligence Libraries
-#DIRECTORIES+=" miopen miopengemm mivisionx"
+#DIRECTORIES+=" miopen miopengemm"
 
 # HIP Fortran interface (hipfort)
 #DIRECTORIES+=" hipfort"
