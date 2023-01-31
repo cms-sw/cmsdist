@@ -1,8 +1,8 @@
-### RPM lcg SCRAMV1 V3_00_56
+### RPM lcg SCRAMV1 V3_00_57
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define tag 7c2a9437c0bed43b91855985ae348b2312920ab7
+%define tag 5397411835ff6703985694e972c1b4f4c63b691d
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
