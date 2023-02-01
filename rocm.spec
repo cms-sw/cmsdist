@@ -5,6 +5,8 @@ Provides: libamd_comgr.so.2()(64bit)
 Provides: libhsa-runtime64.so.1()(64bit)
 Provides: librocm-core.so.1()(64bit)
 Provides: librocm_smi64.so.5()(64bit)
+Provides: libamdhip64.so.5()(64bit)
+Provides: libamdhip64.so.5(hip_4.2)(64bit)
 
 # This rpm packages only symlinks to an installation that is already on CVMFS.
 # Configure pkgtools to keep the static libraries, to avoid actually trying to
