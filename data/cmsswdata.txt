@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+PhysicsTools-NanoAOD=V01-03-00
 RecoTracker-MkFit=V00-11-00
 CalibTracker-SiStripDCS=V01-01-00
 RecoEgamma-ElectronIdentification=V01-12-00
@@ -40,7 +41,6 @@ L1Trigger-RPCTrigger=V00-15-00
 RecoParticleFlow-PFBlockProducer=V02-04-02
 SimG4CMS-Calo=V03-04-00
 Validation-Geometry=V00-07-00
-PhysicsTools-NanoAOD=V01-02-00
 CalibPPS-ESProducers=V01-04-00
 DataFormats-PatCandidates=V01-01-00
 GeneratorInterface-EvtGenInterface=V02-06-00
