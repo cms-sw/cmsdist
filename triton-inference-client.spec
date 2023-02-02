@@ -1,7 +1,7 @@
-### RPM external triton-inference-client 2.24.0
-%define branch r22.07
+### RPM external triton-inference-client 2.25.0
+%define branch r22.08
 %define github_user triton-inference-server
-%define client_tag a40d66523fc7092835ba863ae0ee85f77e9bd1a2
+%define client_tag b4f10a4650a6c3acd0065f063fd1b9c258f10b73
 
 Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake git
@@ -15,16 +15,12 @@ Requires: protobuf grpc cuda abseil-cpp re2
 
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
-CML_CPP=${PROJ_DIR}/CMakeLists.txt
-
-# remove unneeded test libs
-sed -i 's/FetchContent_MakeAvailable(googletest)/if(TRITON_ENABLE_TESTS OR TRITON_ENABLE_PERF_ANALYZER)\nFetchContent_MakeAvailable(googletest)\nendif()/' ${CML_CPP}
 
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag=38452b707e66eeb590188c9440d257ca3b68f35a
+common_tag=d5c561841e9bd0818c40e5153bdb88e98725ee79
 mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag}.tar.gz | tar -xz --strip=1 && popd
 
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
