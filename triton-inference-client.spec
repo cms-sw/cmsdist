@@ -16,12 +16,6 @@ Requires: protobuf grpc cuda abseil-cpp re2
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
 CML_CPP=${PROJ_DIR}/CMakeLists.txt
-CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
-
-# change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then
-    sed -i -e "s|Werror|Wtype-limits|g" ${CML_LIB}
-fi
 
 # remove unneeded test libs
 sed -i 's/FetchContent_MakeAvailable(googletest)/if(TRITON_ENABLE_TESTS OR TRITON_ENABLE_PERF_ANALYZER)\nFetchContent_MakeAvailable(googletest)\nendif()/' ${CML_CPP}
@@ -36,15 +30,9 @@ mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
 COMMON_DIR=$PWD/repo-common
 CML_COM=${COMMON_DIR}/CMakeLists.txt
-CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
 
 # get shared libraries
 sed -i '/^project/a option(BUILD_SHARED_LIBS "Build using shared libraries" ON)' ${CML_COM}
-
-# change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then
-    sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
-fi
 
 if [ "%{cuda_gcc_support}" = "true" ] ; then
     TRITON_ENABLE_GPU_VALUE=ON
