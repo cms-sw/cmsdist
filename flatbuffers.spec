@@ -29,3 +29,6 @@ make -v %{makeprocesses}
 cd ../build
 
 make %{makeprocesses} install
+
+%post
+%{relocateConfig}lib64/pkgconfig/flatbuffers.pc
