@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1011
+## REVISION 1012
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -102,6 +102,11 @@ Provides: perl(File::Copy)
 Provides: perl(File::stat)
 Provides: perl(Time::localtime)
 Provides: perl(sort)
+
+#####
+# ROCM
+#####
+Provides: libamdhip64.so.5(hip_5.3)(64bit)
 
 Provides: /bin/csh
 Provides: /bin/tcsh
