@@ -12,8 +12,8 @@
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
-  <flags CUDA_HOST_REM_CXXFLAGS="-std=%"/>
-  <flags CUDA_HOST_REM_CXXFLAGS="%potentially-evaluated-expression"/>
+  <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
+  <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="@CUDA_HOST_CXXFLAGS@"/>
   <lib name="cudadevrt" type="cuda"/>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
