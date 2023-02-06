@@ -1,8 +1,8 @@
-### RPM external cuda 11.5.2
+### RPM external cuda 11.8.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 495.29.05
+%define driversversion 520.61.05
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -96,12 +96,15 @@ mkdir -p %{i}/drivers
 mv %_builddir/build/drivers/libcuda.so.%{driversversion}                    %{i}/drivers/
 ln -sf libcuda.so.%{driversversion}                                         %{i}/drivers/libcuda.so.1
 ln -sf libcuda.so.1                                                         %{i}/drivers/libcuda.so
+mv %_builddir/build/drivers/libcudadebugger.so.%{driversversion}            %{i}/drivers/
+ln -sf libcudadebugger.so.%{driversversion}                                 %{i}/drivers/libcudadebugger.so.1
+ln -sf libcudadebugger.so.1                                                 %{i}/drivers/libcudadebugger.so
 mv %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}   %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                        %{i}/drivers/libnvidia-ptxjitcompiler.so.1
 ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}/drivers/libnvidia-ptxjitcompiler.so
-cp %{i}/nvvm/lib64/libnvvm.so.4.0.0                                         %{i}/drivers/
-ln -sf libnvvm.so.4.0.0                                                     %{i}/drivers/libnvvm.so.4
-ln -sf libnvvm.so.4                                                         %{i}/drivers/libnvvm.so
+mv %_builddir/build/drivers/libnvidia-nvvm.so.%{driversversion}             %{i}/drivers/
+ln -sf libnvidia-nvvm.so.%{driversversion}                                  %{i}/drivers/libnvidia-nvvm.so.4
+ln -sf libnvidia-nvvm.so.4                                                  %{i}/drivers/libnvidia-nvvm.so
 
 %post
 # let nvcc find its components when invoked from the command line
