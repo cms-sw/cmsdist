@@ -1,5 +1,8 @@
   <tool name="ofast-flag" version="1.0">
-    <flags CXXFLAGS="-Ofast -fno-reciprocal-math -mno-recip"/>
+    <flags CXXFLAGS="-Ofast -fno-reciprocal-math"/>
+    <ifcompiler name="gcc">
+      <flags CXXFLAGS="-mno-recip"/>
+    </ifcompiler>
     <ifarchitecture name="slc6_">
       <ifcompiler name="llvm">
         <flags CXXFLAGS="-fno-builtin"/>
