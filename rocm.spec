@@ -1,4 +1,4 @@
-### RPM external rocm 5.4.2
+### RPM external rocm 5.4.3
 ## NOCOMPILER
 Source: none
 Provides: libamd_comgr.so.2()(64bit)
