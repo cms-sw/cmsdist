@@ -1,5 +1,8 @@
   <tool name="ofast-flag" version="1.0">
-    <flags CXXFLAGS="-Ofast -fno-reciprocal-math -mrecip=none"/>
+    <flags CXXFLAGS="-Ofast -fno-reciprocal-math"/>
+    <ifarch value="!aarch64">
+      <flags CXXFLAGS="-mrecip=none"/>
+    </ifarch>
     <ifarchitecture name="slc6_">
       <ifcompiler name="llvm">
         <flags CXXFLAGS="-fno-builtin"/>
