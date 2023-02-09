@@ -5,7 +5,5 @@
   <lib name="rocrand"/>
   <client>
     <environment name="ROCM_ROCRAND_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$ROCM_ROCRAND_BASE/include/hiprand"/>
-    <environment name="INCLUDE" default="$ROCM_ROCRAND_BASE/include/rocrand"/>
   </client>
 </tool>
