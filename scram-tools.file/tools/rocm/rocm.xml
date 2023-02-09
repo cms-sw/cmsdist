@@ -9,7 +9,7 @@
     <environment name="INCLUDE"   default="$ROCM_BASE/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
-  <flags ROCM_FLAGS="-fgpu-rdc --offload-arch=gfx900 --offload-arch=gfx906 --offload-arch=gfx908 --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH)"/>
+  <flags ROCM_FLAGS="-fgpu-rdc --offload-arch=gfx900 --offload-arch=gfx906 --offload-arch=gfx908 --offload-arch=gfx90a --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH)"/>
   <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
