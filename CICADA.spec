@@ -1,9 +1,5 @@
-### RPM external CICADA 1.0
-%define tag 7b9dde083a78e75c539bf16741f4085eee8d9412
-%define branch main
-%define github_user smuzaffar
-
-Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+### RPM external CICADA 1.0.0
+Source: https://github.com/cms-hls4ml/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Requires: hls4mlEmulatorExtras
 BuildRequires: gmake
 
