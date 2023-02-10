@@ -1,11 +1,11 @@
-### RPM cms t0 3.0.7
+### RPM cms t0 3.0.8
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 2.1.4
+%define wmcver 2.1.6.3
 %define wmcpkg WMCore
 %define pkg T0
 
@@ -34,7 +34,7 @@ BuildRequires: py3-sphinx py3-sphinxcontrib-websupport couchskel
 # build T0 system from WMCore
 echo "Building T0 system"
 cd %{wmcpkg}_%n
-python3 setup.py build_system -s t0 --skip-docs
+python3 setup.py build_system -s t0-agent --skip-docs
 #PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../T0-%{realversion}
 pwd
@@ -61,7 +61,7 @@ echo "Building documentation"
 %install
 echo "Installing T0 system"
 cd %{wmcpkg}_%n
-python3 setup.py install_system -s t0 --prefix=%i
+python3 setup.py install_system -s t0-agent --prefix=%i
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 cd ../T0-%{realversion}
 
