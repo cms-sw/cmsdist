@@ -5,7 +5,7 @@
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 2.1.6.1
+%define wmcver 2.1.6.3
 %define wmcpkg WMCore
 %define pkg T0
 
