@@ -1,0 +1,7 @@
+  <tool name="sanitizer-flags-asan" version="1.0">
+    <ifrelease name="ASAN">
+      <flags CXXFLAGS="-fno-omit-frame-pointer -fsanitize=address"/>
+      <!-- See https://github.com/cms-sw/cmssw/issues/36480 <flags CXXFLAGS="-fsanitize=pointer-compare"/> -->
+      <flags CXXFLAGS="-fsanitize=pointer-subtract"/>
+    </ifrelease>
+  </tool>
