@@ -1,0 +1,6 @@
+<tool name="cicada" version="@TOOL_VERSION@">
+  <client>
+    <environment name="CICADA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"       default="$CICADA_BASE/lib64"/>
+  </client>
+</tool>
