@@ -1,4 +1,5 @@
 <tool name="hls4mlemulatorextras" version="@TOOL_VERSION@">
+  <lib name="emulator_interface"/>
   <client>
     <environment name="HLS4MLEMULATOREXTRAS_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"      default="$HLS4MLEMULATOREXTRAS_BASE/include"/>
