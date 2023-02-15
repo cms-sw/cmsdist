@@ -1,0 +1,8 @@
+  <tool name="sanitizer-flags-ubsan" version="1.0">
+    <ifrelease name="UBSAN">
+      <flags CXXFLAGS="-fno-omit-frame-pointer -fsanitize=undefined"/>
+      <flags CXXFLAGS="-fsanitize=builtin -fsanitize=pointer-overflow"/>
+      <flags REM_BOOST_SERIALIZATION_CXXFLAGS="-fno-omit-frame-pointer -fsanitize=undefined"/>
+      <flags REM_BOOST_SERIALIZATION_CXXFLAGS="-fsanitize=builtin -fsanitize=pointer-overflow"/>
+    </ifrelease>
+  </tool>
