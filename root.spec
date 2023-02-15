@@ -12,7 +12,7 @@ BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
 
-Patch1: https://patch-diff.githubusercontent.com/raw/root-project/root/pull/12276.patch
+Patch1: root-12276
 
 %ifos linux
 Requires: dcap

@@ -1,0 +1,34 @@
+From f945434a97c345a7a26ba5cc55db836441c53ed1 Mon Sep 17 00:00:00 2001
+From: Vassil Vassilev <v.g.vassilev@gmail.com>
+Date: Thu, 9 Feb 2023 17:47:16 +0000
+Subject: [PATCH] [cxxmodules] Add a module for experimental/string_view
+
+Recent gcc updates somehow make experimental/string_view available through
+module string_view. Then it wrongly decides it needs to include
+"bits/ranges_base.h" which is a c++14 header and breaks the compilation in case
+of c++11.
+
+This patch adds a proper experimental/string_view to disallow such shadowing.
+---
+ interpreter/cling/include/cling/std.modulemap | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/interpreter/cling/include/cling/std.modulemap b/interpreter/cling/include/cling/std.modulemap
+index 6af475ae6b47..e4d0e33eea2a 100644
+--- a/interpreter/cling/include/cling/std.modulemap
++++ b/interpreter/cling/include/cling/std.modulemap
+@@ -391,10 +391,10 @@ module "std" [system] {
+     export *
+     header "cuchar"
+   }
+-  //module "experimental/algorithm" {
+-  //  export *
+-  //  header "experimental/algorithm"
+-  //}
++  module "experimental/string_view" {
++    export *
++    header "experimental/string_view"
++  }
+   module "ext/functional" {
+     export *
+     header "ext/functional"
