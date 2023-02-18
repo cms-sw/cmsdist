@@ -2,29 +2,29 @@
 %define branch r22.08
 %define github_user triton-inference-server
 %define client_tag b4f10a4650a6c3acd0065f063fd1b9c258f10b73
+%define common_tag d5c561841e9bd0818c40e5153bdb88e98725ee79
 
-Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source0: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: git+https://github.com/%{github_user}/common.git?obj=%{branch}/%{common_tag}&export=common-%{realversion}&output=/common-%{realversion}.tgz
 BuildRequires: cmake git
 Requires: protobuf grpc cuda abseil-cpp re2
 
 %prep
 
-%setup -n %{n}-%{realversion}
+%setup -D -T -b 0 -n %{n}-%{realversion}
+%setup -D -T -b 1 -n common-%{realversion}
 
 %build
 
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
+COMMON_DIR=../common-%{realversion}/
 
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag=d5c561841e9bd0818c40e5153bdb88e98725ee79
-mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag}.tar.gz | tar -xz --strip=1 && popd
-
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
-COMMON_DIR=$PWD/repo-common
 CML_COM=${COMMON_DIR}/CMakeLists.txt
 
 # get shared libraries
