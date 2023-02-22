@@ -3,7 +3,7 @@
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
-Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root bz2lib
+Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root bz2lib zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -24,7 +24,8 @@ export ROOTSYS=${ROOT_ROOT}
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH="${BZ2LIB_ROOT};${ZLIB_ROOT};${XZ_ROOT}"
 
 ninja -v %{makeprocesses}
 
