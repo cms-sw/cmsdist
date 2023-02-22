@@ -2,8 +2,8 @@
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
-BuildRequires: cmake ninja bz2lib
-Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root
+BuildRequires: cmake ninja
+Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root bz2lib
 
 %prep
 %setup -n %{n}-%{realversion}
