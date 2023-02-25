@@ -1,5 +1,5 @@
 #Enable/disable LTO builds
-%define enable_lto 1
+%define enable_lto 0
 
 #LTO related flags
 %ifarch ppc64le
