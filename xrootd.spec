@@ -10,7 +10,7 @@ Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&exp
 
 BuildRequires: cmake gmake autotools
 Requires: zlib libuuid curl davix
-Requires: python3
+Requires: python3 py3-setuptools
 Requires: libxml2
 Requires: scitokens-cpp
 
