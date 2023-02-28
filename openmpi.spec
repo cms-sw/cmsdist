@@ -1,4 +1,4 @@
-### RPM external openmpi 4.1.4
+### RPM external openmpi 4.1.5
 ## INITENV SET OPAL_PREFIX %{i}
 Source: https://download.open-mpi.org/release/open-mpi/v4.1/%{n}-%{realversion}.tar.bz2
 BuildRequires: autotools
