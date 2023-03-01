@@ -20,7 +20,7 @@ cmake ../%{n}-%{realversion} \
     -DHIGHFIVE_EXAMPLES=OFF \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DHIGHFIVE_UNIT_TESTS=OFF \
-    -DCMAKE_PREFIX_PATH="${BOOST_ROOT};${HDF5_ROOT}"
+    -DCMAKE_PREFIX_PATH=%cmake_prefix_path
 
 %install
 cd %{_builddir}/build

@@ -284,3 +284,5 @@ fi
     exit 1 ;\
   fi
 %endif
+
+%define cmake_prefix_path() %(for x in %{directpkgreqs}; do echo "$x_ROOT;"; done)
