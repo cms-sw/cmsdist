@@ -1,6 +1,7 @@
 <tool name="triton-inference-client" version="@TOOL_VERSION@">
   <info url="https://github.com/triton-inference-server/client"/>
   <lib name="grpcclient"/> 
+  <lib name="tritoncommonmodelconfig"/> 
   <client>
     <environment name="TRITON_INFERENCE_CLIENT_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TRITON_INFERENCE_CLIENT_BASE/include"/>
