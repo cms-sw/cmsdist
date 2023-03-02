@@ -58,3 +58,4 @@ make install
 
 %post
 %{relocateConfig}bin/xrootd-config
+%{relocateConfig}lib/python*/site-packages/xrootd-*/EGG-INFO/SOURCES.txt
