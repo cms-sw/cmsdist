@@ -1,73 +1,34 @@
-### RPM external triton-inference-client 2.11.0
-%define branch main
+### RPM external triton-inference-client 2.25.0
+%define branch r22.08
 %define github_user triton-inference-server
-%define tag_2_11_0 36cd3b3c839288c85b15e4df82cfe8fca3fff21b
+%define client_tag b4f10a4650a6c3acd0065f063fd1b9c258f10b73
+%define common_tag d5c561841e9bd0818c40e5153bdb88e98725ee79
 
-Source: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{tag_2_11_0}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: triton-inference-client/model_config.h
-Source2: triton-inference-client/model_config.cc
+Source0: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: git+https://github.com/%{github_user}/common.git?obj=%{branch}/%{common_tag}&export=common-%{realversion}&output=/common-%{realversion}.tgz
 BuildRequires: cmake git
 Requires: protobuf grpc cuda abseil-cpp re2
 
 %prep
 
-%setup -n %{n}-%{realversion}
+%setup -D -T -b 0 -n %{n}-%{realversion}
+%setup -D -T -b 1 -n common-%{realversion}
 
 %build
 
 # locations of CMakeLists.txt
 PROJ_DIR=../%{n}-%{realversion}/src/c++
-CML_CPP=${PROJ_DIR}/CMakeLists.txt
-CML_LIB=${PROJ_DIR}/library/CMakeLists.txt
-
-# remove rapidjson dependence
-sed -i '/RapidJSON CONFIG REQUIRED/,+13d;' ${CML_LIB}
-sed -i '/triton-common-json/d' ${CML_LIB}
-# core repo not needed for grpc-client-only install
-sed -i '/FetchContent_MakeAvailable(repo-core)/d' ${CML_CPP}
-# remove attempts to install external libs
-sed -i '\~/../../_deps/repo-third-party-build/~d' ${CML_LIB}
-sed -i '\~/../../third-party/~d' ${CML_LIB}
-# keep typeinfo in .so by removing ldscript from properties
-sed -i '/set_target_properties/,+5d' ${CML_LIB}
-# change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
-    sed -i -e "s|Werror|Wtype-limits|g" ${CML_LIB}
-fi
-
-# these files were extracted from:
-# https://github.com/triton-inference-server/server/blob/v2.11.0/src/core/model_config.h
-# https://github.com/triton-inference-server/server/blob/v2.11.0/src/core/model_config.cc
-cp %{_sourcedir}/model_config.h  ${PROJ_DIR}/library/
-cp %{_sourcedir}/model_config.cc ${PROJ_DIR}/library/
-
-# add custom header to cmake build
-sed -i 's/grpc_client.cc common.cc/& model_config.cc/' ${CML_LIB}
-sed -i 's/grpc_client.h common.h/& model_config.h/' ${CML_LIB}
-sed -i '\~${CMAKE_CURRENT_SOURCE_DIR}/common.h~a ${CMAKE_CURRENT_SOURCE_DIR}/model_config.h' ${CML_LIB}
+COMMON_DIR=../common-%{realversion}/
 
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-common_tag_2_11_0=249232758855cc764c78a12964c2a5c09c388d87
-mkdir repo-common && pushd repo-common && curl -k -L https://github.com/%{github_user}/common/archive/${common_tag_2_11_0}.tar.gz | tar -xz --strip=1 && popd
-
 # modifications to common repo (loaded by cmake through FetchContent_MakeAvailable)
-COMMON_DIR=$PWD/repo-common
-CML_TOP=${COMMON_DIR}/CMakeLists.txt
-CML_PRB=${COMMON_DIR}/protobuf/CMakeLists.txt
+CML_COM=${COMMON_DIR}/CMakeLists.txt
 
-# remove rapidjson dependence
-sed -i '/RapidJSON CONFIG REQUIRED/,+1d;' ${CML_TOP}
-sed -i '/JSON utilities/,+17d' ${CML_TOP}
-sed -i '/triton-common-json/d' ${CML_TOP}
-# remove python dependence
-sed -i '/Python REQUIRED COMPONENTS Interpreter/,+10d;' ${CML_PRB}
-# change flag due to bug in gcc10 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95148
-if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then 
-    sed -i -e "s|Werror|Wtype-limits|g" ${CML_PRB}
-fi
+# get shared libraries
+sed -i '/^project/a option(BUILD_SHARED_LIBS "Build using shared libraries" ON)' ${CML_COM}
 
 if [ "%{cuda_gcc_support}" = "true" ] ; then
     TRITON_ENABLE_GPU_VALUE=ON
@@ -86,6 +47,9 @@ cmake ${PROJ_DIR} \
     -DTRITON_ENABLE_PERF_ANALYZER=OFF \
     -DTRITON_ENABLE_EXAMPLES=OFF \
     -DTRITON_ENABLE_TESTS=OFF \
+    -DTRITON_USE_THIRD_PARTY=OFF \
+    -DTRITON_KEEP_TYPEINFO=ON \
+    -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
