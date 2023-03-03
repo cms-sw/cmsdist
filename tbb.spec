@@ -5,14 +5,14 @@
 %define github_user oneapi-src
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
-Source1: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/782.patch
+Patch0: https://patch-diff.githubusercontent.com/raw/oneapi-src/oneTBB/pull/782.patch
 Requires: hwloc
 BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
-patch -p1 < %{_sourcedir}/782.patch
- 
+%patch0 -p1
+
 %build
 rm -rf %{_builddir}/build
 mkdir %{_builddir}/build
