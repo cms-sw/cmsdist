@@ -6,11 +6,13 @@
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
 Source3: tbb_modulemap
+Patch0: tbb-782
 Requires: hwloc
 BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf %{_builddir}/build
