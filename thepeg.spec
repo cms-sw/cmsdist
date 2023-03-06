@@ -22,7 +22,7 @@ BuildRequires: lhapdf
 %define cms_cxx c++
 %endif
 
-Patch0: LesHouchesFileReader
+Patch0: LHEEventNum
 
 %prep
 %setup -q -n ThePEG-%{realversion}

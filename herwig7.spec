@@ -15,8 +15,12 @@ Requires: openloops
 %endif
 BuildRequires: autotools
 
+Patch0: LHEEventNumFxFx
+
 %prep
 %setup -q -n Herwig-%{realversion}
+
+%patch0 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
