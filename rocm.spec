@@ -7,6 +7,13 @@ Provides: librocm-core.so.1()(64bit)
 Provides: librocm_smi64.so.5()(64bit)
 Provides: libamdhip64.so.5()(64bit)
 Provides: libamdhip64.so.5(hip_4.2)(64bit)
+Provides: libamdhip64.so.5(hip_4.3)(64bit)
+Provides: libamdhip64.so.5(hip_4.4)(64bit)
+Provides: libamdhip64.so.5(hip_4.5)(64bit)
+Provides: libamdhip64.so.5(hip_5.0)(64bit)
+Provides: libamdhip64.so.5(hip_5.1)(64bit)
+Provides: libamdhip64.so.5(hip_5.2)(64bit)
+Provides: libamdhip64.so.5(hip_5.3)(64bit)
 
 # This rpm packages only symlinks to an installation that is already on CVMFS.
 # Configure pkgtools to keep the static libraries, to avoid actually trying to
