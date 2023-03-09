@@ -225,7 +225,7 @@ pybind11==2.10.0
 pybrain==0.3.3
 pycodestyle==2.9.1
 pycparser==2.21
-pycuda==2022.1
+pycuda==2022.2.2
 pycurl==7.45.1
 pydot==1.4.2
 pyflakes==2.5.0
