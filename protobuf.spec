@@ -8,13 +8,15 @@
 # protoc --cpp_out=. DQMServices/Core/src/ROOTFilePB.proto
 #######################################################
 
-Source: https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
+Source:  https://github.com/google/protobuf/archive/v%{realversion}.tar.gz
+Source1: https://patch-diff.githubusercontent.com/raw/protocolbuffers/protobuf/pull/8741.patch
 Patch0: protobuf-3.15-gcc10
 Requires: zlib
 BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 <%{_sourcedir}/8741.patch
 %patch0 -p1
 sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD 17|' cmake/CMakeLists.txt
 %build
@@ -25,6 +27,8 @@ cd ../build
 cmake ../%{n}-%{realversion}/cmake \
     -G Ninja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=17 \
     -Dprotobuf_BUILD_TESTS=OFF \
     -Dprotobuf_BUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_LIBDIR=lib \
