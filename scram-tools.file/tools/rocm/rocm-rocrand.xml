@@ -1,9 +1,0 @@
-<tool name="rocm-rocrand" version="@TOOL_VERSION@">
-  <info url="https://github.com/ROCmSoftwarePlatform/rocRAND"/>
-  <use name="rocm"/>
-  <lib name="hiprand"/>
-  <lib name="rocrand"/>
-  <client>
-    <environment name="ROCM_ROCRAND_BASE" default="@TOOL_ROOT@"/>
-  </client>
-</tool>
