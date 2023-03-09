@@ -1,8 +1,7 @@
-### RPM external cudnn 8.3.3.40
+### RPM external cudnn 8.8.0.121
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define cudaver 11.5
-%define cudnnver_maj %(echo %{realversion} | cut -f1,2,3 -d.)
+%define cudaver 11
 
 # NVIDIA uses sbsa for aarch64, and the standard architecture name for ppc64le and x86_64
 %ifarch aarch64
@@ -14,13 +13,13 @@
 # cuDNN archive base name and unpacked name
 %define archive cudnn-linux-%{nvarch}-%{realversion}_cuda%{cudaver}-archive
 
-Source: https://developer.download.nvidia.com/compute/redist/cudnn/v%{cudnnver_maj}/local_installers/%{cudaver}/%{archive}.tar.xz
+Source: https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-%{nvarch}/%{archive}.tar.xz
 Requires: cuda
 
 %prep
 %setup -n %{archive}
 
-if [ "${CUDA_VERSION%.*}" != %{cudaver} ]; then
+if [ "${CUDA_VERSION%.*.*}" != %{cudaver} ]; then
     echo 'Incompatible CUDA version in cudnn.spec!'
     exit 1
 fi
