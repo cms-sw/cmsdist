@@ -43,17 +43,22 @@ mv opt/rocm-%{realversion} %{i}
 rm -rf opt
 rm -rf usr
 
+# the hip directory is deprecated in favour of the main directory
+rm -r -f %{i}/hip/
+
 # hip-devel postinstall
 ln -s -f amd_detail    %{i}/include/hip/hcc_detail
 ln -s -f nvidia_detail %{i}/include/hip/nvcc_detail
-ln -s -f amd_detail    %{i}/hip/include/hip/hcc_detail
-ln -s -f nvidia_detail %{i}/hip/include/hip/nvcc_detail
+# deprecated
+#ln -s -f amd_detail    %{i}/hip/include/hip/hcc_detail
+#ln -s -f nvidia_detail %{i}/hip/include/hip/nvcc_detail
 
 # hip-runtime-amd postinstall
-mkdir -p %{i}/hip/lib/cmake/hip
-mkdir -p %{i}/hip/lib/cmake/hip-lang
-ln -r -s -f %{i}/lib/cmake/hip/hip-targets*           %{i}/hip/lib/cmake/hip/
-ln -r -s -f %{i}/lib/cmake/hip-lang/hip-lang-targets* %{i}/hip/lib/cmake/hip-lang/
+# deprecated
+#mkdir -p %{i}/hip/lib/cmake/hip
+#mkdir -p %{i}/hip/lib/cmake/hip-lang
+#ln -r -s -f %{i}/lib/cmake/hip/hip-targets*           %{i}/hip/lib/cmake/hip/
+#ln -r -s -f %{i}/lib/cmake/hip-lang/hip-lang-targets* %{i}/hip/lib/cmake/hip-lang/
 
 # rocm-llvm postinstall
 mkdir -p %{i}/bin
