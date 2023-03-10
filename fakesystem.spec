@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1012
+## REVISION 1014
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -103,10 +103,21 @@ Provides: perl(File::stat)
 Provides: perl(Time::localtime)
 Provides: perl(sort)
 
-#####
-# ROCM
-#####
+#################################
+# Needed by ROCm
+#################################
 Provides: libamdhip64.so.5(hip_5.3)(64bit)
+Provides: libdrm.so.2()(64bit)
+Provides: libdrm_amdgpu.so.1()(64bit)
+Provides: perl(File::Which)
+Provides: perl(URI::Encode)
+
+#################################
+# Needed by ROCm on EL9
+#################################
+Provides: perl(FindBin)
+Provides: perl(Hash::Util)
+Provides: perl(Sys::Hostname)
 
 Provides: /bin/csh
 Provides: /bin/tcsh
