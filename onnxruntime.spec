@@ -1,5 +1,6 @@
 ### RPM external onnxruntime 1.10.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
 %define tag 7a6355a2780cd18ed0cb3f4a1ceb664391a0bf0c
@@ -45,6 +46,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
+   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
    -DCMAKE_CUDA_FLAGS="-cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
