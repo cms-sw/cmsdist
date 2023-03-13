@@ -285,4 +285,4 @@ fi
   fi
 %endif
 
-%define cmake_prefix_path() %(for x in %{directpkgreqs}; do echo "$x_ROOT;"; done)
+%define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done)
