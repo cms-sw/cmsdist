@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Geometry-TestReference=V00-11-00
 RecoEgamma-EgammaPhotonProducers=V00-02-00
 RecoEcal-EgammaClusterProducers=V00-03-00
 HeterogeneousCore-SonicTriton=V00-02-00
@@ -17,7 +18,6 @@ RecoEgamma-PhotonIdentification=V01-06-00
 Alignment-OfflineValidation=V00-03-00
 RecoTracker-FinalTrackSelectors=V01-04-00
 L1Trigger-L1TGlobal=V00-04-00
-Geometry-TestReference=V00-10-00
 L1Trigger-L1TMuon=V01-07-00
 CalibTracker-SiPixelESProducers=V02-03-00
 RecoHGCal-TICL=V00-03-00
