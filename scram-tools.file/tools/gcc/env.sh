@@ -39,6 +39,7 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -We
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fvisibility-inlines-hidden"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
+GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-gnu-unique"
 
 case $(uname -m) in
   aarch64 ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
