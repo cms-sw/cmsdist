@@ -1,4 +1,4 @@
-### RPM external ucx 1.12.1
+### RPM external ucx 1.14.0
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 Requires: cuda gdrcopy
@@ -12,11 +12,6 @@ AutoReq: no
 
 %prep
 %setup -q -n %{n}-%{realversion}
-
-# remove the ROCm GDR module, because it is not compatible with GDRCopy v2.x
-sed -e'/SUBDIRS/s/ *\<gdr\>//'                -i src/uct/rocm/Makefile.am
-sed -e'/src\/uct\/rocm\/gdr\/configure\.m4/d' -i src/uct/rocm/configure.m4
-rm -rf src/uct/rocm/gdr
 
 # regenerate the configure files and Makefiles
 ./autogen.sh
