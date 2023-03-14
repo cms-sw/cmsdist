@@ -1,6 +1,6 @@
 ### RPM external libarchive-bootstrap 3.5.1
 Source0: http://www.libarchive.org/downloads/libarchive-%{realversion}.tar.gz
-
+AutoReqProv: no
 Requires: xz-bootstrap
 
 %define keep_archives true

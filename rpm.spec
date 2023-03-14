@@ -1,11 +1,11 @@
-### RPM external rpm 4.17.0
+### RPM external rpm 4.18.0
 ## INITENV SET RPM_CONFIGDIR %{i}/libx/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
 ## INITENV SET MAGIC %{i}/share/misc/magic.mgc
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
-
-%define tag bce5a5cd66948478cddfebef5e7630b1bd4fa051
+AutoReqProv: no
+%define tag 10c1f38c4c5e4c62a879801e34a0aa042207cd53
 %define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
@@ -53,8 +53,10 @@ perl -p -i -e's|-O2|-O0|' ./configure
 # Notice that libelf is now in $GCC_ROOT because also gcc LTO requires it.
 ./configure --prefix %{i} --build="%{_build}" --host="%{_host}" \
     --enable-ndb=yes --enable-sqlite=yes --disable-python --disable-nls --with-archive \
-    --disable-rpath --with-crypto=openssl --localstatedir=%{i}/var \
+    --disable-rpath --with-crypto=openssl  --enable-zstd --localstatedir=%{i}/var \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
+    ZSTD_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include" \
+    ZSTD_LIBS="-lzstd" \
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include \
             $OS_CFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
     LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \

@@ -1,9 +1,9 @@
-### RPM external bootstrap-bundle 3.0
+### RPM external bootstrap-bundle 4.0
 ## NO_AUTO_DEPENDENCY
 ## NOCOMPILER
-
+AutoReqProv: no
 BuildRequires: gcc
-BuildRequires: lua-bootstrap file-bootstrap
+BuildRequires: lua-bootstrap file-bootstrap zstd-bootstrap
 BuildRequires: xz-bootstrap libarchive-bootstrap sqlite-bootstrap
 
 %define keep_archives true
@@ -51,7 +51,7 @@ find %{i}/lib -type f ! -name '*.a' -writable -exec %{strip} {} \;
 # RPM requires it to generate requires/provides also (otherwise it ignores the files)
 find %{i}/lib -type f | xargs chmod 0755
 
-mv %{i}/lib/lib{lua,archive}.a %{i}/tmp
+mv %{i}/lib/lib{lua,archive,zstd}.a %{i}/tmp
 rm -f %{i}/lib/*.{l,}a
 mv %{i}/tmp/lib* %{i}/lib/
 rm -rf %{i}/tmp
