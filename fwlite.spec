@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_13_1_0_pre1_FWLITE
+### RPM cms fwlite CMSSW_13_1_0_pre1_LossyCompression_FWLITE
 
 Requires: fwlite-tool-conf
 
