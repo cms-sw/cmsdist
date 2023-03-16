@@ -24,6 +24,12 @@ export LDFLAGS=-L$LIBUNWIND_ROOT/lib
   --enable-prof-libunwind \
   --prefix %{i}
 
+%install
+make install
+mv %{i}/lib/libjemalloc.so.2 %{i}/lib/libjemalloc-prof.so.2
+rm %{i}/lib/libjemalloc.so
+ln -sf libjemalloc-prof.so.2 %{i}/lib/libjemalloc-prof.so
+
 %post
 %{relocateConfig}bin/jemalloc.sh
 %{relocateConfig}bin/jemalloc-config
