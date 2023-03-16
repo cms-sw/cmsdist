@@ -3,7 +3,7 @@
   <client>
     <environment name="JEMALLOC_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
-    <environment name="BINDIR"        default="$JEMALLOC_PROF_BASE/bin"/>
+    <environment name="BINDIR"        default="$JEMALLOC_BASE/bin"/>
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
