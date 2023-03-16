@@ -40,6 +40,9 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -fvisibility-inlines-hidden"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
 
+# Explicitly use the GNU binutils ld.bfd linker
+GCC_CXXFLAGS="$GCC_CXXFLAGS -fuse-ld=bfd"
+
 case $(uname -m) in
   aarch64 ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
   ppc64le ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
