@@ -66,6 +66,9 @@ export USE_SYSTEM_FXDIV=ON \
 export USE_SYSTEM_BENCHMARK=ON \
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
+%post
+%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
+
 #export USE_SYSTEM_PTHREADPOOL=ON \
 
 # For ROCm, pre-build
