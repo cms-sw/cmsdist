@@ -9,7 +9,7 @@
 #Patch0: py3-torch-cpp-externsion-ppc64 - TODO: is it needed? 1st part doesn't apply
 
 BuildRequires: cmake ninja
-Requires: eigen fxdiv numactl openmpi protobuf psimd pthreadpool py3-astunparse py3-cffi py3-future py3-numpy py3-pip py3-protobuf py3-pybind11 py3-PyYAML py3-requests py3-setuptools py3-six py3-tqdm py3-typing-extensions py3-wheel python3 cuda cudnn OpenBLAS
+Requires: eigen fxdiv numactl openmpi protobuf psimd py3-astunparse py3-cffi py3-future py3-numpy py3-pip py3-protobuf py3-pybind11 py3-PyYAML py3-requests py3-setuptools py3-six py3-tqdm py3-typing-extensions py3-wheel python3 cuda cudnn OpenBLAS
 
 %define PipPreBuildPy \
 %if "%{?compiling_processes:set}" == "set" \
