@@ -64,8 +64,7 @@ export USE_SYSTEM_FXDIV=ON \
 export USE_SYSTEM_BENCHMARK=ON \
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
-%post
-%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
+%define PipPrePost %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
 
 # For ROCm, pre-build
 # NOTICE: can't build with both cuda and rocm
