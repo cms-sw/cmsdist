@@ -1,7 +1,6 @@
-### RPM external py3-torch 1.13.1
-## IMPORT build-with-pip
 ## INCLUDE cuda-flags
 
+%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\n' | sed -E 's|([0-9])$|.\1|' | tr '\n' ' ')
 %define tag v%{realversion}
 %define branch release/1.13
 
@@ -66,10 +65,7 @@ export USE_SYSTEM_FXDIV=ON \
 export USE_SYSTEM_BENCHMARK=ON \
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
-%post
-%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
-
-#export USE_SYSTEM_PTHREADPOOL=ON \
+%define PipPrePost %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
 
 # For ROCm, pre-build
 # NOTICE: can't build with both cuda and rocm
