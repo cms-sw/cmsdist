@@ -2,10 +2,10 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 1
-%define tag %{realversion}
-%define branch geant4-10.7-release
-%define github_user Geant4
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/v%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+%define tag 0aeb9c66fceb9ae0f66b91721783fd35a8dffa52
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
