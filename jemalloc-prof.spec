@@ -30,7 +30,7 @@ mv %{i}/lib/libjemalloc.so.2 %{i}/lib/libjemalloc-prof.so.2
 rm %{i}/lib/libjemalloc.so
 ln -sf libjemalloc-prof.so.2 %{i}/lib/libjemalloc-prof.so
 patchelf --set-soname  libjemalloc-prof.so.2  %{i}/lib/libjemalloc-prof.so.2
-_
+
 %post
 %{relocateConfig}bin/jemalloc.sh
 %{relocateConfig}bin/jemalloc-config
