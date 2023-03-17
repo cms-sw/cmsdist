@@ -1,4 +1,4 @@
-### RPM external g4hepem 20221014
+### RPM external g4hepem 20230309
 ## INCLUDE compilation_flags
 %define tag %{realversion}
 %define branch master
