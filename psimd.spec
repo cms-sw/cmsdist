@@ -3,7 +3,7 @@
 
 Source0: git+https://github.com/Maratyszcza/psimd.git?obj=master/%{commit}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake
+BuildRequires: gmake cmake
 
 %prep
 %setup -n %{n}-%{realversion}
