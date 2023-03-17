@@ -1,6 +1,6 @@
 ## INCLUDE cuda-flags
 
-%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\n' | sed -E 's|([0-9])$|.\1|' | tr '\n' ' ')
+%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
 %define tag v%{realversion}
 %define branch release/1.13
 
