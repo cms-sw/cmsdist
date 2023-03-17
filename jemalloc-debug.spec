@@ -22,7 +22,7 @@ make install
 mv %{i}/lib/libjemalloc.so.2 %{i}/lib/libjemalloc-debug.so.2
 rm %{i}/lib/libjemalloc.so
 ln -sf libjemalloc-debug.so.2 %{i}/lib/libjemalloc-debug.so
-patchelf --set-soname  libjemalloc-debug.so.2  lib/libjemalloc-prof.so.2
+patchelf --set-soname  libjemalloc-debug.so.2  lib/libjemalloc-debug.so.2
 
 %post
 %{relocateConfig}bin/jemalloc.sh
