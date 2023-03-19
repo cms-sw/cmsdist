@@ -17,13 +17,3 @@ XOPTS="--with-lg-hugepage=24"
   --enable-fill \
   --prefix %{i}
 
-%install
-make install
-mv %{i}/lib/libjemalloc.so.2 %{i}/lib/libjemalloc-debug.so.2
-rm %{i}/lib/libjemalloc.so
-ln -sf libjemalloc-debug.so.2 %{i}/lib/libjemalloc-debug.so
-patchelf --set-soname  libjemalloc-debug.so.2  %{i}/lib/libjemalloc-debug.so.2
-
-%post
-%{relocateConfig}bin/jemalloc.sh
-%{relocateConfig}bin/jemalloc-config
