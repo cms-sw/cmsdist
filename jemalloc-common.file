@@ -14,7 +14,7 @@ BuildRequires: autotools gmake
 %build
 
 %{?PreBuild:%PreBuild}
-%{?PreoAutoGen:%PreAutoGen}
+%{?PreAutoGen:%PreAutoGen}
 ./autogen.sh \
   --prefix %{i} \
   --disable-doc \
