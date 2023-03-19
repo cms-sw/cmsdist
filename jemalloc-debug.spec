@@ -17,6 +17,3 @@ XOPTS="--with-lg-hugepage=24"
   --enable-fill \
   --prefix %{i}
 
-%post
-%{relocateConfig}bin/jemalloc.sh
-%{relocateConfig}bin/jemalloc-config
