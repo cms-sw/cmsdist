@@ -5,6 +5,14 @@
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
 
+%if "%{n}" != "jemalloc"
+%ifarch x86_64
+%if "%{rhel}" == "7"
+BuildRequires: patchelf
+%endif
+%endif
+%endif
+
 %prep
 
 %{?PrePrep:%PrePrep}
