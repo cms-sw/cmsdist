@@ -23,7 +23,3 @@ export LDFLAGS=-L$LIBUNWIND_ROOT/lib
   --enable-prof \
   --enable-prof-libunwind \
   --prefix %{i}
-
-%post
-%{relocateConfig}bin/jemalloc.sh
-%{relocateConfig}bin/jemalloc-config

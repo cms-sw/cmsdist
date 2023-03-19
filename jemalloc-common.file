@@ -7,3 +7,19 @@ BuildRequires: autotools
 
 %prep
 %setup -n %{n}-%{realversion}
+
+%install
+make install
+%if "%{n}" != "jemalloc"
+  # Rename jemalloc libs
+  mv %{i}/lib/libjemalloc.so.2 %{i}/lib/lib%{n}.so.2
+  rm %{i}/lib/libjemalloc.so
+  ln -sf lib%{n}.so.2 %{i}/lib/lib%{n}.so
+  patchelf --set-soname  lib%{n}.so.2  %{i}/lib/lib%{n}.so.2
+  # Make sure there are no other libs. If there are then we should fail and update the recipe
+  if [ $(ls %{i}/lib/lib* | grep -v lib%{n}. | wc -l) -gt 0 ] ; then exit 1; fi
+%endif
+
+%post
+%{relocateConfig}bin/jemalloc.sh
+%{relocateConfig}bin/jemalloc-config
