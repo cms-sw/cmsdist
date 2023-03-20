@@ -3,12 +3,43 @@
 %define branch cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-BuildRequires: autotools
+BuildRequires: autotools gmake
+
+%if "%{n}" != "jemalloc"
+%ifarch x86_64
+%if "%{rhel}" == "7"
+BuildRequires: patchelf
+%endif
+%endif
+%endif
 
 %prep
+
+%{?PrePrep:%PrePrep}
 %setup -n %{n}-%{realversion}
+%{?PostPrep:%PostPrep}
+
+%build
+
+%{?PreBuild:%PreBuild}
+%{?PreAutoGen:%PreAutoGen}
+./autogen.sh \
+  --prefix %{i} \
+  --disable-doc \
+%ifarch aarch64
+  --with-lg-hugepage=24 \
+%endif
+  --enable-shared \
+  --disable-static \
+  --enable-stats \
+  %{autogen_opts}
+
+%{?PostAutoGen:%PostAutoGen}
+make %{makeprocesses}
+%{?PostBuild:%PostBuild}
 
 %install
+%{?PreInstall:%PreInstall}
 make install
 %if "%{n}" != "jemalloc"
   # Rename jemalloc libs
@@ -19,7 +50,10 @@ make install
   # Make sure there are no other libs. If there are then we should fail and update the recipe
   if [ $(ls %{i}/lib/lib* | grep -v lib%{n}. | wc -l) -gt 0 ] ; then exit 1; fi
 %endif
+%{?PostInstall:%PostInstall}
 
 %post
+%{?PrePost:%PrePost}
 %{relocateConfig}bin/jemalloc.sh
 %{relocateConfig}bin/jemalloc-config
+%{?PostPost:%PostPost}
