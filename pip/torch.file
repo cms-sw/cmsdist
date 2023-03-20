@@ -7,7 +7,7 @@
 %define source0 git+https://github.com/pytorch/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 #Patch0: py3-torch-cpp-externsion-ppc64 - TODO: is it needed? 1st part doesn't apply
 
-BuildRequires: cmake ninja
+BuildRequires: cmake gmake
 Requires: eigen fxdiv numactl openmpi protobuf psimd py3-astunparse py3-cffi py3-future py3-numpy py3-pip py3-protobuf py3-pybind11 py3-PyYAML py3-requests py3-setuptools py3-six py3-tqdm py3-typing-extensions py3-wheel python3 cuda cudnn OpenBLAS
 
 %define PipPreBuildPy \
