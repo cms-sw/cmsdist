@@ -1,0 +1,14 @@
+<tool name="rocm-rocrand" version="@TOOL_VERSION@">
+  <info url="https://github.com/ROCmSoftwarePlatform/rocRAND"/>
+  <use name="rocm"/>
+  <lib name="hiprand"/>
+  <lib name="rocrand"/>
+  <client>
+    <environment name="ROCM_ROCRAND_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"            default="$ROCM_ROCRAND_BASE/lib"/>
+    <environment name="INCLUDE"           default="$ROCM_ROCRAND_BASE/include"/>
+  </client>
+  <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
+  <flags SYSTEM_INCLUDE="1"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
+</tool>
