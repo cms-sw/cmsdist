@@ -1,6 +1,7 @@
 <tool name="alpaka-rocm" version="@TOOL_VERSION@">
   <use name="alpaka"/>
   <use name="rocm"/>
+  <use name="rocm-rocrand"/>
   <!-- host comiplation should run with ALPAKA_HOST_ONLY defined -->
   <flags CXXFLAGS="-DALPAKA_ACC_GPU_HIP_ENABLED -DALPAKA_HOST_ONLY"/>
   <flags GENREFLEX_CPPFLAGS="-DALPAKA_ACC_GPU_HIP_ENABLED -DALPAKA_HOST_ONLY"/>
