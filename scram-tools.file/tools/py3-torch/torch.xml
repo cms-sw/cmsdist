@@ -1,0 +1,5 @@
+<tool name="torch" version="@TOOL_VERSION@">
+  <lib name="torch"/>
+  <lib name="c10"/>
+  <use name="torch_interface"/>
+</tool>
