@@ -1,0 +1,7 @@
+<tool name="py3-torch" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PY3_TORCH_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$PY3_TORCH_BASE/bin" type="path"/>
+</tool>
+
