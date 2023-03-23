@@ -65,6 +65,13 @@ export USE_SYSTEM_FXDIV=ON \
 export USE_SYSTEM_BENCHMARK=ON \
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
+%define PipPostBuild \
+  mkdir -p %{i}/c-api \
+  pytorch_core=$(ls -d %{i}/lib/python*/site-packages/torch | sed 's|%{i}/|../|') \
+  ln -s ${pytorch_core}/lib %{i}/c-api \
+  ln -s ${pytorch_core}/include %{i}/c-api
+
+
 %define PipPrePost %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
 
 # For ROCm, pre-build
