@@ -1,5 +1,9 @@
 <tool name="torch-c-api" version="@TOOL_VERSION@">
-  <lib name="npymath"/>
+  <lib name="torch"/>
+  <lib name="torch_cpu"/>
+  <lib name="torch_gpu"/>
+  <lib name="c10"/>
+  <lib name="c10_cuda"/>
   <client>
     <environment name="TORCH_C_API_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TORCH_C_API_BASE/c-api/include"/>
