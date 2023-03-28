@@ -24,3 +24,6 @@ ninja -v %{makeprocesses}
 %install
 cd ../build
 ninja %{makeprocesses} install
+
+%post
+%{relocateConfig}share/pkgconfig/yaml-cpp.pc
