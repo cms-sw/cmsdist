@@ -5,14 +5,14 @@ Source: https://github.com/jbeder/yaml-cpp/archive/refs/tags/%{n}-%{realversion}
 BuildRequires: cmake ninja
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-%{n}-%{realversion}
 
 %build
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake ../%{n}-%{realversion} \
+cmake ../%{n}-%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
