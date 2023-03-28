@@ -1,10 +1,9 @@
 <tool name="yaml-cpp" version="@TOOL_VERSION@">
-  <info url="http://code.google.com/p/yaml-cpp/"/>
+  <info url="https://github.com/jbeder/yaml-cpp/"/>
   <lib name="yaml-cpp"/>
   <client>
     <environment name="YAML_CPP_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$YAML_CPP_BASE/lib"/>
+    <environment name="LIBDIR" default="$YAML_CPP_BASE/lib64"/>
     <environment name="INCLUDE" default="$YAML_CPP_BASE/include"/>
   </client>
-  <use name="boost"/>
 </tool>
