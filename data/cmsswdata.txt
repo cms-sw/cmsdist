@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+CondTools-Hcal=V00-01-00
 RecoEgamma-EgammaPhotonProducers=V00-03-00
 Geometry-TestReference=V00-11-00
 RecoEcal-EgammaClusterProducers=V00-03-00
