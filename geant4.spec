@@ -57,7 +57,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
   -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
 %if %{use_vecgeom}
-  -DGEANT4_USE_USOLIDS="all" \
+  -DGEANT4_USE_USOLIDS="CONS;POLYCONE;POLYHEDRA" \
 %endif
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
@@ -86,3 +86,4 @@ find . -name "*.o" -delete
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4*/geant4make/geant4make.*
+%{relocateConfig}lib64/pkgconfig/G4ptl.pc
