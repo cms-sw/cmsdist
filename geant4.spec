@@ -86,3 +86,4 @@ find . -name "*.o" -delete
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4*/geant4make/geant4make.*
+%{relocateConfig}lib64/pkgconfig/G4ptl.pc
