@@ -1,0 +1,181 @@
+diff -u Herwig-7.2.2/MatrixElement/FxFx/FxFxEventHandler.cc ../../../../../../../leshoucheseventnumbers/FxFx/FxFxEventHandler.cc
+--- Herwig-7.2.2/MatrixElement/FxFx/FxFxEventHandler.cc	2021-01-20 20:46:46.000000001 +0100
++++ ../../../../../../../leshoucheseventnumbers/FxFx/FxFxEventHandler.cc	2022-01-12 19:04:24.000000001 +0100
+@@ -249,8 +249,15 @@
+ 
+       theLastXComb = currentReader()->getXComb();
+ 
+-      currentEvent(new_ptr(Event(lastParticles(), this, generator()->runName(),
+-				 generator()->currentEventNumber(), weight*fact)));
++      //whether to use the LHE event number or not for the event identification
++      if(UseLHEEvent==0 || currentReader()->LHEEventNum() == -1) { 
++	currentEvent(new_ptr(Event(lastParticles(), this, generator()->runName(),
++                                 generator()->currentEventNumber(), weight*fact )));
++      }
++      else if(UseLHEEvent==1 && currentReader()->LHEEventNum() != -1) {
++	currentEvent(new_ptr(Event(lastParticles(), this, generator()->runName(),
++				  currentReader()->LHEEventNum(), weight*fact )));
++      }
+       currentEvent()->optionalWeights() = currentReader()->optionalEventWeights();
+      // normalize the optional weights
+       for(map<string,double>::iterator it = currentEvent()->optionalWeights().begin();
+@@ -543,14 +550,14 @@
+ void FxFxEventHandler::persistentOutput(PersistentOStream & os) const {
+   os << stats << histStats << theReaders << theSelector
+      << oenum(theWeightOption) << theUnitTolerance << theCurrentReader << warnPNum
+-     << theNormWeight;
++     << theNormWeight << UseLHEEvent;
+ 
+ }
+ 
+ void FxFxEventHandler::persistentInput(PersistentIStream & is, int) {
+   is >> stats >> histStats >> theReaders >> theSelector
+      >> ienum(theWeightOption) >> theUnitTolerance >> theCurrentReader >> warnPNum
+-     >> theNormWeight;
++     >> theNormWeight >> UseLHEEvent;;
+ }
+ 
+ ClassDescription<FxFxEventHandler>
+@@ -644,6 +651,20 @@
+      "Normalize the weights to the max cross section in pb",
+      1);
+ 
++    static Switch<FxFxEventHandler,unsigned int> interfaceEventNumbering
++    ("EventNumbering",
++     "How to number the events",
++     &FxFxEventHandler::UseLHEEvent, 0, false, false);
++  static SwitchOption interfaceEventNumberingIncremental
++    (interfaceEventNumbering,
++     "Incremental",
++     "Standard incremental numbering (i.e. as they are generated)",
++     0);
++  static SwitchOption interfaceEventNumberingLHE
++    (interfaceEventNumbering,
++     "LHE",
++     "Corresponding to the LHE event number",
++     1);
+ 
+   interfaceFxFxReaders.rank(10);
+   interfaceWeightOption.rank(9);
+diff -u Herwig-7.2.2/MatrixElement/FxFx/FxFxEventHandler.h ../../../../../../../leshoucheseventnumbers/FxFx/FxFxEventHandler.h
+--- Herwig-7.2.2/MatrixElement/FxFx/FxFxEventHandler.h	2021-01-20 20:46:46.000000001 +0100
++++ ../../../../../../../leshoucheseventnumbers/FxFx/FxFxEventHandler.h	2022-01-12 19:04:24.000000001 +0100
+@@ -72,7 +72,7 @@
+    * The default constructor.
+    */
+   FxFxEventHandler()
+-    : theWeightOption(unitweight), theUnitTolerance(1.0e-6), warnPNum(true), theNormWeight(0)
++    : theWeightOption(unitweight), theUnitTolerance(1.0e-6), warnPNum(true), theNormWeight(0), UseLHEEvent(0)
+   {
+     selector().tolerance(unitTolerance());
+   }
+@@ -377,6 +377,11 @@
+    */
+   unsigned int theNormWeight;
+ 
++  /** 
++   * How to number the events
++   */
++  unsigned int UseLHEEvent;
++
+ 
+ public:
+ 
+diff -u Herwig-7.2.2/MatrixElement/FxFx/FxFxFileReader.cc ../../../../../../../leshoucheseventnumbers/FxFx/FxFxFileReader.cc
+--- Herwig-7.2.2/MatrixElement/FxFx/FxFxFileReader.cc	2021-01-20 20:46:46.000000001 +0100
++++ ../../../../../../../leshoucheseventnumbers/FxFx/FxFxFileReader.cc	2022-01-12 19:04:24.000000001 +0100
+@@ -707,6 +707,9 @@
+     } 
+   }
+ 
++  LHEeventnum = -1; // set the LHEeventnum to -1, this will be the default if the tag <event_num> is not found
++
++
+  // Now read any additional comments and named weights.
+   // read until the end of rwgt is found
+   bool readingWeights = false, readingaMCFast = false, readingMG5ClusInfo = false;
+@@ -767,6 +770,20 @@
+       erase_substr(mg5clusinfo,str_newline);
+       optionalWeights[mg5clusinfo.c_str()] = -222; //for the mg5 scale info weights we give them a weight -222 for future identification
+     }
++
++    //the event num tag
++    if(cfile.find("<event_num")) {
++      string hs = cfile.getline();
++      string stopDEL = "</event_num>"; //end delimiter
++      unsigned firstLim = hs.find(">") + 1;
++      string LHEeventnum_str = hs.substr(firstLim);
++      erase_substr(LHEeventnum_str,stopDEL);
++      LHEeventnum =  std::stol(LHEeventnum_str, nullptr, 10); 
++    }
++
++
++
++
+     
+     //store MG5 clustering information 
+     if(cfile.find("<scales")) {
+diff -u Herwig-7.2.2/MatrixElement/FxFx/FxFxReader.cc ../../../../../../../leshoucheseventnumbers/FxFx/FxFxReader.cc
+--- Herwig-7.2.2/MatrixElement/FxFx/FxFxReader.cc	2021-01-20 20:46:46.000000001 +0100
++++ ../../../../../../../leshoucheseventnumbers/FxFx/FxFxReader.cc	2022-01-12 19:04:24.000000001 +0100
+@@ -1185,6 +1185,7 @@
+   pos = mwrite(pos, hepeup.SPINUP[0], hepeup.NUP);
+   pos = mwrite(pos, lastweight);
+   pos = mwrite(pos, optionalWeights);
++  pos = mwrite(pos, LHEeventnum);
+   for(size_t ff = 0; ff < optionalWeightsNames.size(); ff++) {
+     pos = mwrite(pos, optionalWeightsNames[ff]);
+   }
+@@ -1234,6 +1235,7 @@
+   pos = mread(pos, optionalnpLO);
+   pos = mread(pos, optionalnpNLO);
+   pos = mread(pos, preweight);
++  pos = mread(pos, LHEeventnum);
+ 
+   // If we are skipping, we do not have to do anything else.
+   if ( skipping ) return true;
+@@ -1263,7 +1265,7 @@
+      << thePartonBinInstances
+      << theBeams << theIncoming << theOutgoing << theIntermediates
+      << reweights << preweights << preweight << reweightPDF << doInitPDFs
+-     << theLastXComb << theMaxMultCKKW << theMinMultCKKW << lastweight << optionalWeights << optionalnpLO << optionalnpNLO
++     << theLastXComb << theMaxMultCKKW << theMinMultCKKW << lastweight << optionalWeights << optionalnpLO << optionalnpNLO << LHEeventnum
+      << maxFactor << ounit(weightScale, picobarn) << xSecWeights << maxWeights
+      << theMomentumTreatment << useWeightWarnings << theReOpenAllowed
+      << theIncludeSpin;
+@@ -1284,7 +1286,7 @@
+      >> thePartonBinInstances
+      >> theBeams >> theIncoming >> theOutgoing >> theIntermediates
+      >> reweights >> preweights >> preweight >> reweightPDF >> doInitPDFs
+-     >> theLastXComb >> theMaxMultCKKW >> theMinMultCKKW >> lastweight >> optionalWeights >> optionalnpLO >> optionalnpNLO
++     >> theLastXComb >> theMaxMultCKKW >> theMinMultCKKW >> lastweight >> optionalWeights >> optionalnpLO >> optionalnpNLO >> LHEeventnum
+      >> maxFactor >> iunit(weightScale, picobarn) >> xSecWeights >> maxWeights
+      >> theMomentumTreatment >> useWeightWarnings >> theReOpenAllowed
+      >> theIncludeSpin;
+diff -u Herwig-7.2.2/MatrixElement/FxFx/FxFxReader.h ../../../../../../../leshoucheseventnumbers/FxFx/FxFxReader.h
+--- Herwig-7.2.2/MatrixElement/FxFx/FxFxReader.h	2021-01-20 20:46:46.000000001 +0100
++++ ../../../../../../../leshoucheseventnumbers/FxFx/FxFxReader.h	2022-01-12 19:04:24.000000001 +0100
+@@ -290,6 +290,11 @@
+    */
+   const map<string,double>& optionalEventWeights() const { return optionalWeights; }
+ 
++  /** 
++   * Return the Les Houches event number associated with the current event
++   */
++  const long& LHEEventNum() const { return LHEeventnum; }
++
+   /**
+    * Return the optional npLO and npNLO
+    */
+@@ -834,6 +839,11 @@
+    * The optional weights associated to the last read events.
+    */
+   map<string,double> optionalWeights;
++  
++  /**
++   * The event number
++   */
++  long LHEeventnum;
+ 
+    /**
+    * If the maximum cross section of this reader has been increased
