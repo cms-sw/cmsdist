@@ -21,7 +21,7 @@ BuildRequires: lhapdf
 %endif
 
 
-Patch0: LHEEventNum
+Patch0: LesHouchesFileReader
 
 %prep
 %setup -q -n ThePEG-%{realversion}

@@ -17,13 +17,11 @@ Requires: openloops
 BuildRequires: autotools
 Patch0: herwig_Matchbox_mg_py3
 Patch1: herwig7-fxfx-fix
-Patch2: LHEEventNumFxFx
 
 %prep
 %setup -q -n Herwig-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
