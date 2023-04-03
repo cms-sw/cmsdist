@@ -8,6 +8,8 @@ BuildRequires: cmake gmake
 
 Patch0: vecgeom-fix-vector
 
+%define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -32,11 +34,10 @@ cmake ../%{n}-%{realversion} \
 %endif
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_CXX_STANDARD=17 \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags} %{lto_build_flags}" \
-%else
-  -DCMAKE_CXX_FLAGS="%{lto_build_flags}" \
-%endif
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_C_FLAGS="%{build_flags}" \
   -DGEANT4=OFF
 
 make %{makeprocesses} VERBOSE=1
