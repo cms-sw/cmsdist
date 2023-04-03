@@ -9,7 +9,9 @@ export CMSDIST_DIR=%{cmsdist_directory}
 %ifarch x86_64
 export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
 %endif
-export COMPILER_CXXFLAGS="%{?arch_build_flags}"
+%if "%{?arch_build_flags}"
+export COMPILER_CXXFLAGS="%{arch_build_flags}"
+%endif
 export ORACLE_ENV_ROOT=""
 export CUDA_FLAGS="%{nvcc_cuda_flags}"
 export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
