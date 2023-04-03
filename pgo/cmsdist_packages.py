@@ -3,7 +3,10 @@ pgo_packages = ["geant4", "vecgeom", "g4hepem", "dd4hep", "cmssw", "cmssw-patch"
 
 def packages(virtual_packages, *args):
   opts = args[0].options
-  if (not opts.PGOGenerate) and (not opts.PGOUse): return
+  try:
+    if (not opts.PGOGenerate) and (not opts.PGOUse): return
+  except:
+    return
   for pkg in pgo_packages:
     spec  = "  echo '%%define pgo_path_prefix  %s'" % ('@LOCALTOP@' if pkg in ["cmssw-tool-conf"] else '%{_builddir}')
     spec += "; echo '%%define pgo_package_name %s'" % ('cmssw' if pkg in ["cmssw-tool-conf"] else pkg)
