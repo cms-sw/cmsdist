@@ -1,5 +1,6 @@
 ### RPM external g4hepem 20230309
 ## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
 %define tag %{realversion}
 %define branch master
 %define github_user mnovak42
@@ -10,6 +11,7 @@ BuildRequires: cmake gmake
 Requires: geant4
 
 %define keep_archives true
+%define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %prep
 %setup -n %{n}.%{realversion}
@@ -22,11 +24,7 @@ cd ../build
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="-fPIC %{arch_build_flags}" \
-%else
-  -DCMAKE_CXX_FLAGS="-fPIC" \
-%endif
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
