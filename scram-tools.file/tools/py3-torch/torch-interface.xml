@@ -2,6 +2,7 @@
   <client>
     <environment name="TORCH_INTERFACE_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TORCH_INTERFACE_BASE/c-api/include"/>
+    <environment name="INCLUDE" default="$TORCH_INTERFACE_BASE/c-api/include/torch/csrc/api/include"/>
     <environment name="LIBDIR" default="$TORCH_INTERFACE_BASE/c-api/lib"/>
   </client>
   <use name="protobuf"/>
