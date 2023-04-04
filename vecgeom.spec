@@ -8,6 +8,8 @@ BuildRequires: cmake gmake
 %define vecgeom_backend Scalar
 Patch0: vecgeom-fix-vector
 
+%define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+
 %prep
 %setup -n %{n}-%{realversion}
 
@@ -26,11 +28,10 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags} %{lto_build_flags}" \
-%else
-  -DCMAKE_CXX_FLAGS="%{lto_build_flags}" \
-%endif
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_C_FLAGS="%{build_flags}" \
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR=sse3 \

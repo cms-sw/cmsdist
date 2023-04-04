@@ -66,7 +66,7 @@
 %define cmsbuildApiVersion 0
 %endif
 
-%define pkgdir		%{pkgcategory}/%{n}/%{v}
+%define pkgdir		%{pkgcategory}/%{pkgname}/%{pkgversion}
 
 # Architecture comes first by default.  Run with "--define 'archfirst no'"
 # to change this.
@@ -164,13 +164,14 @@
 %define drop_bootstrap_lib  export %{dynamic_path_var}=$(echo $%{dynamic_path_var} | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
 %define disable_recursive_env %{drop_bootstrap_path}; %{drop_bootstrap_lib}; export _CMSBUILD_BUILD_ENV_=1
 %if "%archfirst" == "yes"
-%define initenv_all	%{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	%{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all     %{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct1 %{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	%{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	%{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all     %{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct1 %{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
-%define initenv		%initenv_all
+%define initenv_direct  %{initenv_direct1} %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
+%define initenv         %{initenv_all}     %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
 
 %if "%{?compiling_processes:set}" == "set"
 %define makeprocesses -j %compiling_processes 
@@ -279,8 +280,8 @@ fi
 %define check_version_suffix echo "%%allow_version_suffix defined, skipping version suffix check."
 %else
 %define check_version_suffix \
-  if [ "%{v}" != "%{realversion}" ] ; then \
-    echo "ERROR: %{v} not same as %{realversion}. Automatic version suffix was added, please update the version explicitly for %{n}.spec to avoid this error." ;\
+  if [ "%{pkgversion}" != "%{realversion}" ] ; then \
+    echo "ERROR: %{pkgversion} not same as %{realversion}. Automatic version suffix was added, please update the version explicitly for %{pkgname}.spec to avoid this error." ;\
     exit 1 ;\
   fi
 %endif

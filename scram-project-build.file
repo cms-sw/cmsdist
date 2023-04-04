@@ -11,6 +11,11 @@
 %define vectorized_build yes
 %endif
 %endif
+%if "%{?pgo_generate}"
+%undefine runGlimpse
+%undefine saveDeps
+%undefine subpackageDebug
+%endif
 
 Requires: SCRAMV1
 BuildRequires: gcc
@@ -32,10 +37,6 @@ BuildRequires: dwz
 %define buildtarget	release-build
 %endif
 
-%if "%{?cvstag:set}" != "set"
-%define cvstag          %realversion
-%endif
-
 %if "%{?scram_compiler:set}" != "set"
 %define scram_compiler          gcc
 %endif
@@ -54,27 +55,19 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V07-09-01
-%endif
-
-%if "%{?cvssrc:set}" != "set"
-%define cvssrc		%(echo %n | sed -e "s|-patch||"| tr 'a-z' 'A-Z')
+%define configtag       V08-00-00
 %endif
 
 %if "%{?buildarch:set}" != "set"
 %define buildarch	:
 %endif
 
-%if "%{?cmsroot:set}" != "set"
-%define cmsroot       %instroot
-%endif
-
 %if "%{?ucprojtype:set}" != "set"
-%define ucprojtype      %(echo %n | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
+%define ucprojtype      %(echo %{n} | sed -e "s|-patch||" | tr 'a-z' 'A-Z')
 %endif
 %define lcprojtype      %(echo %ucprojtype | tr 'A-Z' 'a-z')
 %if "%{?toolconf:set}" != "set"
-%define toolconf        %(echo %n | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
+%define toolconf        %(echo %{n} | sed "s|-|_|g" | tr 'a-z' 'A-Z')_TOOL_CONF_ROOT
 %endif
 
 %define source0 git+https://github.com/cms-sw/cmssw-config.git?obj=master/%{configtag}&export=config&output=/cmssw-config-%{configtag}.tgz
@@ -121,9 +114,14 @@ echo %{configtag} > %_builddir/config/config_tag
   --keys SCRAM_COMPILER=%{scram_compiler} \
   --keys ENABLE_LTO=%{enable_lto} \
 %if "%{?gitcommit:set}" == "set"
-  --keys PROJECT_GIT_HASH=%{gitcommit}
+  --keys PROJECT_GIT_HASH=%{gitcommit} \
 %else
-  --keys PROJECT_GIT_HASH=%{realversion}
+  --keys PROJECT_GIT_HASH=%{realversion} \
+%endif
+%if "%{?pgo_build_flags}"
+  --keys ENABLE_PGO=1
+%else
+  --keys ENABLE_PGO=0
 %endif
 %if "%{?vectorized_build:set}" == "set"
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
@@ -141,6 +139,9 @@ rm -rf %i
 mkdir -p $(dirname %i)
 %{?buildarch:%buildarch}
 %scramcmd project -d $(dirname %i) -b %{bootstrapfile}
+%if "%{?pgo_build_flags}"
+sed -i -e 's|@LOCALTOP@|%{i}|' %i/config/toolbox/%{cmsplatf}/tools/selected/gcc-cxxcompiler.xml
+%endif
 
 %build
 
@@ -183,7 +184,9 @@ export SCRAM_NOSYMCHECK=true
 %scramcmd b --verbose -f %{prebuildtarget} </dev/null
 %endif
 
-case %n in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
+%if "%{?pgo_generate:set}" != "set"
+case %{n} in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
+%endif
 %if "%{?vectorized_build:set}" == "set"
 touch %{i}/.SCRAM/%{cmsplatf}/multi-targets
 %endif
