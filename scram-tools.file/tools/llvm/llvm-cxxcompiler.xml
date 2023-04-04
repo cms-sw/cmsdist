@@ -19,6 +19,7 @@
     <flags REM_CXXFLAGS="-funroll-all-loops"/>
     <flags REM_LTO_FLAGS="-fipa-icf"/>
     <flags REM_LTO_FLAGS="-flto-odr-type-merging"/>
+    <flags REM_PGO_FLAGS="-fprofile%"/>
     <flags CXXFLAGS="-Wno-c99-extensions"/>
     <flags CXXFLAGS="-Wno-c++11-narrowing"/>
     <flags CXXFLAGS="-D__STRICT_ANSI__"/>

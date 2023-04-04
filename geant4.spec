@@ -18,11 +18,7 @@ Requires: vecgeom
 Requires: zlib
 
 %define keep_archives true
-%if "%{?arch_build_flags}"
-%define build_flags -fPIC %{arch_build_flags} %{lto_build_flags}
-%else
-%define build_flags -fPIC %{lto_build_flags}
-%endif
+%define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %prep
 %setup -n %{n}.%{realversion}
@@ -79,6 +75,10 @@ cd %i/lib64/archive
 find %i/lib64 -name "*.a" -exec gcc-ar x {} \;
 gcc-ar rcs libgeant4-static.a *.o
 find . -name "*.o" -delete
+
+%if "%{?pgo_build_flags}"
+sed -ire 's| +(-fprofile-[^ ]+ )+||' %{i}/lib64/Geant4-*/Geant4Config.cmake %{i}/bin/geant4-config
+%endif
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel} -name '*.cmake')
