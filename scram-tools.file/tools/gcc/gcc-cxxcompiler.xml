@@ -24,6 +24,7 @@
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
     <flags LTO_FLAGS="@LTO_FLAGS@"/>
+    <flags PGO_FLAGS="@PGO_FLAGS@"/>
     <flags LDFLAGS="@GCC_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@GCC_SHAREDFLAGS@"/>
     <flags LD_UNIT="@GCC_LD_UNIT@"/>

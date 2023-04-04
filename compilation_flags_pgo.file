@@ -1,0 +1,21 @@
+#####################
+#PGO flags
+########################################################
+#This file should not be included directly by spec files.
+# It is automatically added for selected packages via pgo/cmsdist_packages.py
+########################################################
+# Following are set by pgo/cmsdist_packages.py
+# pgo_path_prefix: path prefix where package was build.
+# pgo_package_name: Original name of the package e.g. geant4, vecgeom , cmssw etc.
+# pgo_generate: Set if package is build in pgo generate mode
+# pgo_use: Set if package is build in pgo use mode
+
+%define cmsdist_package_initenv export CMSSW_PGO_DIRECTORY=%{cmsroot}/%{tempprefix}
+%define pgo_common -fprofile-prefix-path=%{pgo_path_prefix} -fprofile-update=prefer-atomic -fprofile-correction
+%if "%{?pgo_generate:set}" == "set"
+%define pgo_build_flags %{pgo_common} -fprofile-generate -fprofile-dir=%%q{CMSSW_PGO_DIRECTORY}/pgo/%%p/%{pgo_package_name}
+%endif
+%if "%{?pgo_use:set}" == "set"
+%define pgo_build_flags %{pgo_common} -fprofile-use -fprofile-partial-training -fprofile-dir=%%q{CMSSW_PGO_DIRECTORY}/pgo/%{pgo_package_name}
+%endif
+
