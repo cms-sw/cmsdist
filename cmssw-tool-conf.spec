@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 56.0
+### RPM cms cmssw-tool-conf 57.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -121,7 +121,6 @@ Requires: opencl-cpp
 Requires: qd
 Requires: blackhat
 Requires: sherpa
-Requires: geant4-parfullcms
 Requires: fasthadd
 Requires: eigen
 Requires: gdb
