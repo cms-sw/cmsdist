@@ -11,11 +11,7 @@ Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&ex
 BuildRequires: cmake
 Requires: root boost clhep xerces-c geant4
 
-%if "%{?arch_build_flags}"
-%define build_flags -fPIC %{arch_build_flags} %{lto_build_flags}
-%else
-%define build_flags -fPIC %{lto_build_flags}
-%endif
+%define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %define cmake_fixed_args \\\
   -DCMAKE_INSTALL_PREFIX='%{i}' \\\
