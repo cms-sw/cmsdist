@@ -12,20 +12,16 @@
 %define baserelqueue	      %(echo %realversion | sed -e "s|_[[:alnum:]]*patch.*||")
 %endif
 
-%if "%{?cvstag:set}" != "set"
-%define cvstag		      %realversion
-%endif
-
 %if "%{?prebuildtarget}" == "gindices"
 %define prebuildtarget        %{nil}
 %endif
 
-%define source1               cmstc://?tag=%{cvstag}&module=CMSSW&export=src&baserelver=%{baserelver}&baserel=%{baserelqueue}&output=/src.tar.gz
+%define source1               cmstc://?tag=%{realversion}&module=CMSSW&export=src&baserelver=%{baserelver}&baserel=%{baserelqueue}&output=/src.tar.gz
 
 %define baserelverX           %(echo %{pkgreqs} | sed -e 's|.*/%baserelname/||' | awk '{print $1}')
 %define patchsrc9 \
   if [ "X%{baserelverX}" != "X%{baserelver}" ] ; then \
-    echo "ERROR: Please define valid baserel_postfix e.g. -cms, which was added by cmsBuild for %baserelname base release, in %n.spec file.";\
+    echo "ERROR: Please define valid baserel_postfix e.g. -cms, which was added by cmsBuild for %baserelname base release, in %{n}.spec file.";\
     false ;\
   fi
 
