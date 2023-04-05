@@ -3,7 +3,7 @@
 ## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag 6402abbe53d1a90879fbf25b28f582eb0a4898cd
+%define tag fb005d144227a1b105dac3df0fe4b01565d26a90
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
