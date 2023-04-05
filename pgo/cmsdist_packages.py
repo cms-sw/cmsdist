@@ -11,7 +11,7 @@ def packages(virtual_packages, *args):
     spec  = "  echo '%%define pgo_path_prefix  %s'" % ('@LOCALTOP@' if pkg in ["cmssw-tool-conf"] else '%{_builddir}')
     spec += "; echo '%%define pgo_package_name %s'" % ('cmssw' if pkg in ["cmssw-tool-conf"] else pkg)
     spec += "; echo '%%define %s 1'" % ('pgo_generate' if opts.PGOGenerate else 'pgo_use')
-    spec += "; echo '## INCLUDE compilation_flags_pgo'"
+    spec += "; echo '## INCLUDE pgo/compilation_flags_pgo'"
     spec += "; cat %s/%s.spec" % (opts.cmsdist, pkg)
     virtual_packages[pkg] = spec
   return
