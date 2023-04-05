@@ -1,4 +1,4 @@
-### RPM external sqlite 3.36.0
+### RPM external sqlite 3.41.2
 Source: https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
 
 %prep

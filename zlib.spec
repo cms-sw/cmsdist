@@ -1,4 +1,4 @@
-### RPM external zlib 1.2.11
+### RPM external zlib 1.2.13
 %ifarch x86_64
 %define git_repo cms-externals
 %define git_branch cms/v%{realversion}
