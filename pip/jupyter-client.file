@@ -1,2 +1,2 @@
 Requires: py3-jupyter-core py3-python-dateutil py3-pyzmq
-Requires: py3-tornado py3-entrypoints py3-nest-asyncio
+Requires: py3-tornado py3-traitlets

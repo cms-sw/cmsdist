@@ -1,1 +1,1 @@
-Requires: py3-pycodestyle py3-toml
+Requires: py3-pycodestyle py3-tomli

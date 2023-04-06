@@ -1,8 +1,9 @@
-Requires: py3-numpy py3-pillow
+Requires: py3-numpy py3-pillow py3-pybind11
 %define PipPreBuild \
   export CFLAGS="-I${FREETYPE_ROOT}/include/freetype2 -I${LIBPNG_ROOT}/include/libpng16" \
   export LDFLAGS="-L${FREETYPE_ROOT}/lib -L${LIBPNG_ROOT}/lib" \
   export PKG_CONFIG=false
 Requires: py3-cycler py3-kiwisolver py3-pyparsing py3-python-dateutil py3-certifi
 Requires: py3-fonttools py3-packaging
+Requires: py3-contourpy py3-importlib-resources
 Requires: zlib libpng freetype
