@@ -1,4 +1,4 @@
-### RPM external gcc 12.2.0
+### RPM external gcc 12.2.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
@@ -24,6 +24,8 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
+#Fix for array-bound
+Source14: https://github.com/gcc-mirror/gcc/commit/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 %ifos linux
 %define bisonVersion 3.8.2
@@ -44,6 +46,7 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+patch -p1 < %{_sourcedir}/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
