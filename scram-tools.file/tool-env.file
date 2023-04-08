@@ -3,8 +3,8 @@
 ## INCLUDE cuda-flags
 
 export ROOT_CXXMODULES="0"
-export PKG_VECTORIZATION=%{?package_vectorization}
-export CMSDIST_DIR=%{cmsdist_directory}
+export PKG_VECTORIZATION="%{?package_vectorization}"
+export CMSDIST_DIR="%{cmsdist_directory}"
 
 %ifarch x86_64
 export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
