@@ -3,7 +3,7 @@
 ## INCLUDE cuda-flags
 
 export ROOT_CXXMODULES="1"
-export PKG_VECTORIZATION=%{?package_vectorization}
+export PKG_VECTORIZATION="%{?package_vectorization}"
 export CMSDIST_DIR=%{cmsdist_directory}
 
 %ifarch x86_64
