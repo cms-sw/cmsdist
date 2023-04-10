@@ -1,11 +1,11 @@
-### RPM external geant4 10.7.2
+### RPM external geant4 11.1.1
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 1
-%define tag 0aeb9c66fceb9ae0f66b91721783fd35a8dffa52
+%define tag 35f304cde19a3e2dfe3bb941d4fc76c2fe45fa26
 %define branch cms/v%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
 
@@ -45,12 +45,13 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
+  -DCMAKE_CXX_STANDARD:STRING="17" \
   -DCMAKE_BUILD_TYPE=Release \
   -DGEANT4_USE_GDML=ON \
-  -DGEANT4_BUILD_CXXSTD:STRING="17" \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
+  -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
 %if %{use_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
 %endif
