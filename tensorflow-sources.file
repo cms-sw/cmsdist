@@ -200,5 +200,14 @@ popd
 
 %endif
 
+#FIXME: for some reason farmhash_gpu.h is a broken symlink
+optdir=$(ls -d $PWD/bazel-out/*-%{build_type})
+if [ -L ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
+  if [ ! -e ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
+    ln -sf ${optdir}/bin/tensorflow/tools/pip_package/build_pip_package.runfiles/org_tensorflow/external/farmhash_gpu_archive/src/farmhash_gpu.h \
+       ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h
+  fi
+fi
+
 # create the wheel file that is installed in py2-tensorflow
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
