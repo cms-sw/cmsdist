@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoBTag-Combined=V01-15-00
 RecoTracker-MkFit=V00-12-00
 RecoTauTag-TrainingFiles=V00-07-00
 PhysicsTools-NanoAOD=V01-03-00
@@ -22,7 +23,6 @@ Validation-HGCalValidation=V00-05-00
 DQM-Integration=V00-02-00
 L1Trigger-CSCTriggerPrimitives=V00-12-00
 RecoMET-METPUSubtraction=V01-02-00
-RecoBTag-Combined=V01-14-00
 MagneticField-Interpolation=V01-02-00
 RecoEcal-EgammaClusterProducers=V00-02-00
 L1Trigger-TrackTrigger=V00-02-00
