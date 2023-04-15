@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Configuration-Generator=V01-03-00
 RecoBTag-Combined=V01-15-00
 CondTools-Hcal=V00-01-00
 RecoEgamma-EgammaPhotonProducers=V00-03-00
@@ -59,7 +60,6 @@ L1Trigger-L1TCalorimeter=V01-01-00
 SimTransport-PPSProtonTransport=V00-02-00
 DQM-SiStripMonitorClient=V01-01-00
 RecoMTD-TimingIDTools=V00-01-00
-Configuration-Generator=V01-02-00
 MagneticField-Engine=V00-01-00
 SimTracker-SiStripDigitizer=V01-01-00
 SimPPS-PPSPixelDigiProducer=V00-00-02
