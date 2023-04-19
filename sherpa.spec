@@ -1,7 +1,4 @@
-### RPM external sherpa 2.2.12
-%define tag 600078cc741021be898f15563235cf6c809ca5ff
-%define branch cms/v%realversion
-%define github_user cms-externals
+### RPM external sherpa 2.2.15
 Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi
 BuildRequires: mcfm swig autotools
