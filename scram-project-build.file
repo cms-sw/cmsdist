@@ -120,6 +120,7 @@ echo %{configtag} > %_builddir/config/config_tag
 %_builddir/config/updateConfig.py -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} \
   --keys SCRAM_COMPILER=%{scram_compiler} \
   --keys ENABLE_LTO=%{enable_lto} \
+  --keys ENABLE_PGO=0 \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
