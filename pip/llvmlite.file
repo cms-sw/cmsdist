@@ -1,5 +1,4 @@
 Requires: llvm
-Patch0: py3-llvmlite-14
 
 %define source0 git+https://github.com/numba/llvmlite?obj=main/%{realversion}&export=llvmlite-%{realversion}&output=/source.tar.gz
 %define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config
