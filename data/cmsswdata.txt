@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoMuon-TrackerSeedGenerator=V00-05-00
 RecoBTag-Combined=V01-16-00
 Configuration-Generator=V01-04-00
 CondTools-Hcal=V00-01-00
@@ -32,7 +33,6 @@ RecoMET-METPUSubtraction=V01-02-00
 MagneticField-Interpolation=V01-02-00
 L1Trigger-TrackTrigger=V00-02-00
 L1TriggerConfig-L1TConfigProducers=V00-01-00
-RecoMuon-TrackerSeedGenerator=V00-04-00
 RecoMuon-MuonIdentification=V01-14-00
 DQM-EcalMonitorClient=V00-02-00
 CondTools-SiStrip=V00-02-00
