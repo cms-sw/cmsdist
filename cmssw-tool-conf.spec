@@ -137,7 +137,6 @@ Requires: gosam
 Requires: madgraph5amcatnlo
 Requires: python_tools
 Requires: dasgoclient
-Requires: mxnet-predict
 Requires: dablooms
 Requires: pcm_util
 
