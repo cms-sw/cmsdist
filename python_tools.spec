@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: root curl python3 xrootd llvm hdf5 yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap pacparser
 
 Requires: py3-anyio
