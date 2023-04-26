@@ -1,4 +1,4 @@
-### RPM external cuda 12.1.0
+### RPM external cuda 12.1.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
