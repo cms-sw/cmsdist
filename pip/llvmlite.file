@@ -1,7 +1,4 @@
 Requires: llvm
-Patch0: py3-llvmlite-fpic-flag
-Patch1: py3-llvmlite-version
-Patch3: py3-llvmlite-removeMethod
 
-%define source0 git+https://github.com/numba/llvmlite?obj=release0.35/v%{realversion}&export=llvmlite-%{realversion}&output=/source.tar.gz
+%define source0 git+https://github.com/numba/llvmlite?obj=main/%{realversion}&export=llvmlite-%{realversion}&output=/source.tar.gz
 %define PipPreBuild export LLVM_CONFIG=${LLVM_ROOT}/bin/llvm-config
