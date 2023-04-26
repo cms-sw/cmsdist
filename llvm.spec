@@ -1,4 +1,4 @@
-### RPM external llvm 12.0.1
+### RPM external llvm 14.0.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -7,10 +7,10 @@ Requires: gcc zlib python3
 Requires: cuda
 AutoReq: no
 
-%define llvmCommit 9f4ab770e61b68d2037cc7cda1f868a8ba52da85
-%define llvmBranch cms/release/12.x/fed4134
-%define iwyuCommit 5db414ac448004fe019871c977905cb7c2cff23f
-%define iwyuBranch clang_11
+%define llvmCommit d88fe2a1cafb6621210a7a0ae968c1e8e797d2bb
+%define llvmBranch cms/release/14.x/f28c006
+%define iwyuCommit d888efc52646dcf3e4e3a56af13aa23dd26abde0
+%define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
