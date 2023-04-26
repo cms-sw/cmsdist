@@ -14,6 +14,8 @@ Requires: llvm
 
 %prep
 %setup -n %{n}-%{realversion}
+#delete .git files which were part of tarfile ( may be due to submodules)
+find . -name '.git' -type f | xargs --no-run-if-empty rm -f
 %patch0 -p1
 
 %build
