@@ -151,7 +151,7 @@ kiwisolver==1.4.4
 law==0.1.7
 lazy-object-proxy==1.7.1
 lizard==1.17.10
-llvmlite==0.38.1
+llvmlite==v0.41.0dev0
 lockfile==0.12.2
 luigi==3.1.1
 lxml==4.9.1
