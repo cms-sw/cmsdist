@@ -151,7 +151,7 @@ kiwisolver==1.4.4
 law==0.1.7
 lazy-object-proxy==1.7.1
 lizard==1.17.10
-llvmlite==v0.41.0dev0
+#llvmlite==v0.41.0dev0
 lockfile==0.12.2
 luigi==3.1.1
 lxml==4.9.1
@@ -181,7 +181,7 @@ networkx==2.8.6
 neurolab==0.3.5
 node-semver==0.8.1
 notebook==6.4.12
-numba==0.56.2
+#numba==0.56.2
 numexpr==2.8.3
 numpy==1.22.4
 onnx==1.12.0
