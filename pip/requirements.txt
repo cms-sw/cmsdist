@@ -64,7 +64,7 @@ contextvars==2.4
 coverage==6.4.4
 cppy==1.2.1
 # Newer versions of py3-cryptography require OpenSSL 1.1.0+, see https://github.com/pyca/cryptography/issues/5906
-cryptography==37.0.4
+cryptography==40.0.2
 cryptography==3.2.1 ; cmsos_name=='slc7'
 cx-Oracle==8.3.0
 cycler==0.11.0
