@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DataFormats-Common=V00-01-00
 DQM-EcalMonitorClient=V00-03-00
 Configuration-Generator=V01-05-00
 RecoMuon-TrackerSeedGenerator=V00-05-00
