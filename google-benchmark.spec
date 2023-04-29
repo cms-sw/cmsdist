@@ -34,3 +34,5 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 
+%post
+%{relocateConfig}lib64/pkgconfig/benchmark.pc
