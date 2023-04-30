@@ -3,7 +3,7 @@
   <lib name="benchmark"/>
   <client>
     <environment name="GOOGLE_BENCHMARK_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"       default="$GOOGLE_BENCHMARK_BASE/lib"/>
+    <environment name="LIBDIR"       default="$GOOGLE_BENCHMARK_BASE/lib64"/>
     <environment name="INCLUDE"      default="$GOOGLE_BENCHMARK_BASE/include"/>
   </client>
   <use name="sockets"/>
