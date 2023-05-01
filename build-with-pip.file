@@ -12,6 +12,7 @@
 #PipDepsMatch Command to find out pypi package dependencies
 #PipDepsCommand to get package dependencies
 #PipInstallCommand Command to install the package
+#PipNoWheelDep: If set then do not add py3-wheel deps
 
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -60,7 +61,9 @@
 %define pip pip3&package_dependency=py3-pip
 Requires: python3 py3-pip py3-setuptools
 %if "%{n}" != "py3-wheel"
+%if "%{?PipNoWheelDep:set}" != "set"
 BuildRequires: py3-wheel
+%endif
 %endif
 
 %if "%{?source0:set}" != "set"

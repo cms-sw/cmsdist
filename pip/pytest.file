@@ -1,3 +1,4 @@
 Requires: py3-more-itertools py3-atomicwrites py3-attrs py3-funcsigs py3-pathlib2 py3-pluggy py3-py py3-scandir
 Requires: py3-packaging py3-wcwidth
 Requires: py3-iniconfig py3-toml
+Requires: py3-exceptiongroup
