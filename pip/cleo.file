@@ -1,1 +1,1 @@
-Requires: py3-poetry-core py3-clikit
+Requires: py3-poetry-core py3-clikit py3-rapidfuzz
