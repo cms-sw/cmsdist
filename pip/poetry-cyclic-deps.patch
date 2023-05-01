@@ -4,18 +4,7 @@
  
  [tool.poetry.dependencies]
  python = "^3.7"
--poetry = "^1.2.0"
- poetry-core = "^1.1.0"
+-poetry = "^1.3.0"
+ poetry-core = "^1.3.0"
  
  [tool.poetry.dev-dependencies]
---- poetry-plugin-export-1.0.7/setup.py.orig	2022-10-10 17:50:42.686063618 +0200
-+++ poetry-plugin-export-1.0.7/setup.py	2022-10-10 17:50:52.395982438 +0200
-@@ -11,7 +11,7 @@
- {'': ['*']}
- 
- install_requires = \
--['poetry-core>=1.1.0,<2.0.0', 'poetry>=1.2.0,<2.0.0']
-+['poetry-core>=1.1.0,<2.0.0']
- 
- entry_points = \
- {'poetry.application.plugin': ['export = '

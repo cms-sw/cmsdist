@@ -1,1 +1,2 @@
 Requires: py3-traitlets py3-jsonschema py3-jupyter-core py3-fastjsonschema
+BuildRequires: py3-hatchling py3-hatch-nodejs-version

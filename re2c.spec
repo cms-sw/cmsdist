@@ -1,5 +1,5 @@
-### RPM external re2c 0.13.5
-Source0: http://heanet.dl.sourceforge.net/project/%{n}/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
+### RPM external re2c 1.0.1
+Source0: https://deac-ams.dl.sourceforge.net/project/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
 
 %prep
 %setup -T -b 0 -n %{n}-%{realversion}

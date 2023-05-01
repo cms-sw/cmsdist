@@ -1,0 +1,2 @@
+BuildRequires: py3-versioneer
+Requires: py3-click py3-cloudpickle py3-fsspec py3-packaging py3-partd py3-PyYAML py3-toolz py3-importlib-metadata py3-numpy
