@@ -8,3 +8,7 @@ Requires: py3-grpcio py3-astunparse py3-keras
 Requires: llvm
 %define source0 none
 %define source_file none
+
+%define PipPostPost \
+    %{relocateConfig}lib/python*/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h ; \
+    %{relocateConfig}lib/python*/site-packages/tensorflow/python/platform/build_info.py

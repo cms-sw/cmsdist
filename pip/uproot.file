@@ -1,1 +1,2 @@
-Requires: py3-awkward py3-pandas py3-boost-histogram py3-hist
+BuildRequires: py3-hatchling
+Requires: py3-awkward py3-pandas py3-boost-histogram py3-hist py3-dask py3-dask-awkward py3-awkward-pandas

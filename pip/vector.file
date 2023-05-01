@@ -1,1 +1,2 @@
 Requires: py3-numpy py3-packaging
+BuildRequires: py3-hatchling py3-hatch-vcs

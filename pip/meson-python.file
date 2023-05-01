@@ -1,0 +1,1 @@
+Requires: py3-meson py3-pyproject-metadata py3-tomli py3-typing-extensions ninja
