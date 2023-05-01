@@ -1,1 +1,2 @@
 Requires: py3-wcwidth
+BuildRequires: py3-hatchling py3-hatch-vcs

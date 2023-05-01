@@ -1,0 +1,2 @@
+BuildRequires: py3-flit-core py3-pyproject-hooks
+Requires: py3-packaging py3-tomli

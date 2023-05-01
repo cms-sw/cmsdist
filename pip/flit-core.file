@@ -1,1 +1,1 @@
-Requires: py3-pytoml py3-toml
+%define PipNoWheelDep 1

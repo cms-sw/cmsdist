@@ -58,6 +58,7 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
 find %{i} -name '*deleteme' -delete
 rm -rf %{i}/HEPTools/collier/COLLIER-*/build
 rm -f  %{i}/HEPTools/collier/collier_install.log
+rm -f  %{i}/Source/StdHEP/log.*
 
 %post
 %relocateConfigAll . py.py

@@ -1,0 +1,1 @@
+Requires: py3-ipykernel py3-notebook-shim py3-jupyter-packaging py3-jupyter-server py3-babel
