@@ -1,2 +1,2 @@
 BuildRequires: py3-poetry
-Requires: py3-colorama py3-commonmark py3-Pygments
+Requires: py3-colorama py3-commonmark py3-Pygments py3-markdown-it-py
