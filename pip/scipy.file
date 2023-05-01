@@ -11,4 +11,6 @@ Provides: python3dist(scipy) = %{realversion}
 %define __find_provides true
 %endif
 
-%define PipPostPost %{relocateConfig}lib/python*/site-packages/scipy/__config__.py
+%define PipPostPost \
+    %{relocateConfig}lib/python*/site-packages/scipy/__config__.py ; \
+    %{relocateConfig}lib/python*/site-packages/scipy/special/*.pyx
