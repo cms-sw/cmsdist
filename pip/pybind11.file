@@ -1,0 +1,4 @@
+%define PipPostInstall \
+  ln -s ${PYTHON3_LIB_SITE_PACKAGES}/pybind11/share %{i}/share; \
+  ln -s ${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include %{i}/include
+%define PipPostPost %{relocateConfig}/share/cmake/pybind11/*.cmake

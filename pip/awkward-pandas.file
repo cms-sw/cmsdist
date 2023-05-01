@@ -1,0 +1,2 @@
+BuildRequires: py3-hatchling py3-hatch-vcs
+Requires: py3-awkward py3-pandas

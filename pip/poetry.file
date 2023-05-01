@@ -1,3 +1,4 @@
 Requires: py3-cachecontrol py3-cachy py3-cleo py3-html5lib py3-keyring py3-pexpect py3-pkginfo py3-virtualenv
 Requires: py3-requests-toolbelt py3-shellingham py3-tomlkit
 Requires: py3-dulwich py3-jsonschema py3-poetry-plugin-export
+BuildRequires: py3-build py3-installer py3-lockfile py3-pyproject-hooks py3-trove-classifiers

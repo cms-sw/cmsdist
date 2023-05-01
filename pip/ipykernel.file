@@ -1,2 +1,2 @@
 Requires: py3-ipython py3-jupyter-client py3-debugpy py3-psutil
-Requires: py3-ipython py3-jupyter-client py3-jedi py3-backcall
+Requires: py3-jedi py3-backcall py3-comm py3-nest-asyncio

@@ -1,10 +1,8 @@
-diff --git a/src/common/hist_util.cc b/src/common/hist_util.cc
-index c14da59..d95649a 100644
 --- a/src/common/hist_util.cc
 +++ b/src/common/hist_util.cc
-@@ -17,14 +17,7 @@
+@@ -12,14 +12,7 @@
+ #include "column_matrix.h"
  #include "quantile.h"
- #include "../data/gradient_index.h"
  
 -#if defined(XGBOOST_MM_PREFETCH_PRESENT)
 -  #include <xmmintrin.h>

@@ -1,2 +1,2 @@
-Requires: py3-repoze-lru py3-argparse py3-pyrsistent
-Requires: py3-attrs py3-six py3-importlib-metadata
+Requires: py3-attrs py3-pyrsistent py3-rfc3339-validator py3-rfc3986-validator
+BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme py3-hatch-vcs

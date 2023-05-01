@@ -1,7 +1,7 @@
 ## INCLUDE openloops-common
 ### RPM external openloops %{openloop_version}
 
-BuildRequires: py3-scons openloops-process
+BuildRequires: openloops-process
 
 %define keep_archives true
 %define runpath_opts -m proclib
