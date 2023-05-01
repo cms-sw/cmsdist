@@ -1,2 +1,4 @@
-Requires: py3-jupyter-packaging py3-jupyter-client py3-nbconvert
-Requires: py3-anyio py3-argon2-cffi py3-prometheus-client py3-requests-unixsocket py3-Send2Trash py3-terminado py3-websocket-client
+Requires: py3-anyio py3-argon2-cffi py3-Jinja2 py3-jupyter-client py3-jupyter-core py3-jupyter-server-terminals py3-nbconvert py3-nbformat
+Requires: py3-packaging py3-prometheus-client py3-pyzmq py3-Send2Trash py3-terminado py3-tornado py3-traitlets py3-websocket-client
+Requires: py3-jupyter-events
+BuildRequires: py3-hatch-jupyter-builder py3-jupyter-packaging

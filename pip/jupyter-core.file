@@ -1,2 +1,2 @@
-Requires: py3-traitlets
+Requires: py3-traitlets py3-platformdirs
 %define PipPostBuild  rm %{i}/lib/*/site-packages/jupyter.py*
