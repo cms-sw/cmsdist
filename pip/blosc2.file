@@ -1,0 +1,5 @@
+Requires: py3-scikit-build py3-cython py3-numpy py3-msgpack py3-ndindex py3-py-cpuinfo py3-rich
+BuildRequires: cmake ninja
+
+%define PipPostPost \
+  %{relocateConfig}lib64/pkgconfig/blosc2.pc

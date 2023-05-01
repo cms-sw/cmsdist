@@ -1,1 +1,1 @@
-Requires: py3-pathspec py3-tomli py3-pluggy py3-editables
+Requires: py3-pathspec py3-tomli py3-pluggy py3-editables py3-trove-classifiers py3-calver

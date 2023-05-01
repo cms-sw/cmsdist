@@ -1,5 +1,6 @@
 Requires: py3-numexpr py3-six hdf5 bz2lib py3-mock py3-numpy
 Requires: py3-numexpr py3-six py3-numpy hdf5 bz2lib py3-mock
+Requires: py3-blosc2
 Requires: openmpi
 %define PipPreBuild export CFLAGS="-pthread"; export HDF5_DIR=${HDF5_ROOT} CC="mpicc"; export DISABLE_AVX2=true
 %define PipBuildOptions  --global-option="--hdf5=${HDF5_ROOT}" --global-option="--bzip2=${BZ2LIB_ROOT}"
