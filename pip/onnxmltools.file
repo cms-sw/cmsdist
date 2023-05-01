@@ -1,2 +1,2 @@
 Requires: py3-numpy py3-onnx py3-protobuf py3-onnxconverter-common py3-skl2onnx py3-keras2onnx
-%define source0 https://github.com/onnx/onnxmltools/archive/%{realversion}.tar.gz
+%define source0 https://github.com/onnx/onnxmltools/archive/refs/tags/v%{realversion}.tar.gz

@@ -86,3 +86,4 @@ sed -ire 's| +(-fprofile-[^ ]+ )+||' %{i}/lib64/Geant4-*/Geant4Config.cmake %{i}
 %{relocateConfig}bin/geant4-config
 %{relocateConfig}bin/geant4.*
 %{relocateConfig}share/Geant4*/geant4make/geant4make.*
+%{relocateConfig}lib64/pkgconfig/G4ptl.pc
