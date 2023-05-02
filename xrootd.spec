@@ -1,57 +1,70 @@
-### RPM external xrootd 4.8.5
+### RPM external xrootd 5.5.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 
-%define tag 72b7fd30afaec0328b4f3693ee60346f8e13802e
-%define branch cms/v%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define strip_files %i/lib
+%define tag %{realversion}
+%define branch master
+%define github_user xrootd
+Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-BuildRequires: cmake
-Requires: zlib
+BuildRequires: cmake gmake autotools
+Requires: zlib libuuid curl davix
+Requires: python py2-setuptools
+Requires: libxml2
+#Requires: scitokens-cpp
 Requires: openssl
-Requires: python
+
+%define soext so
+%ifarch darwin
+%define soext dylib
+%endif
 
 %prep
 %setup -n %n-%{realversion}
-
-# need to fix these from xrootd git
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/loadRTDataToMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCollector.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/prepareMySQLStats.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCreateMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonLoadMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareStats.pl
+sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 
 %build
-mkdir build
-cd build
 
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
 # libfuse and libperl are not produced by CMSDIST.
-cmake ../ \
+
+rm -rf ../build; mkdir ../build; cd ../build
+
+PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:$PYTHONPATH \
+cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
-  -DZLIB_ROOT:PATH=${ZLIB_ROOT} \
-  -DENABLE_PYTHON=FALSE \
+  -DUSER_VERSION=%{realversion} \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
+  -DENABLE_VOMS=FALSE \
+  -DXRDCL_ONLY=TRUE \
   -DENABLE_KRB5=TRUE \
-  -DENABLE_READLINE=FALSE \
+  -DENABLE_READLINE=TRUE \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
-  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
+  -DENABLE_HTTP=TRUE \
+  -DENABLE_SCITOKENS=OFF \
+  -DXRD_PYTHON_REQ_VERSION=2 \
+  -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
+  -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
+  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+  -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
 
-# Use makeprocess macro, it uses compiling_processes defined by
-# build configuration file or build argument
+PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:$PYTHONPATH \
 make %makeprocesses VERBOSE=1
 
 %install
-cd build
+cd ../build
+mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
+PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:$PYTHONPATH \
 make install
-cd ..
+%{relocatePy2SitePackages}
 
-%define strip_files %i/lib
-%define keep_archives true
-
+%post
+%{relocateConfig}bin/xrootd-config
+%{relocateConfig}${PYTHON_LIB_SITE_PACKAGES}/xrootd-%{realvesion}-*.egg/EGG-INFO/SOURCES.txt
