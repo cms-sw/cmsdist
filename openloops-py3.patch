@@ -1,0 +1,53 @@
+diff --git a/download_dummy.py b/download_dummy.py
+new file mode 100755
+index 0000000..fdb847a
+--- /dev/null
++++ b/download_dummy.py
+@@ -0,0 +1,3 @@
++#!/usr/bin/env python3
++import sys
++print(sys.argv)
+diff --git a/openloops b/openloops
+index 2588bf7..74465b6 100755
+--- a/openloops
++++ b/openloops
+@@ -60,6 +60,7 @@ else
+ 
+ fi
+ 
++export PYTHON3PATH=${PYTHONPATH}
+ if [ -n "$OLPYTHON" ]; then
+   # OLPYTHON is set. Assume it points to a Python executable and use it
+   # both to run Python scripts and SCons.
+@@ -67,7 +68,7 @@ if [ -n "$OLPYTHON" ]; then
+   # Use scons-local (shipped with OpenLoops) with $OLPYTHON.
+   SCONS="$OLPYTHON $BASEDIR/scons -Q"
+ else
+-  PYTHON="python"
++  PYTHON="python3"
+   # If SCons is installed on the system, use this installation.
+   # Otherwise use scons-local shipped with OpenLoops.
+   command -v scons > /dev/null && SCONS="scons -Q" || SCONS="$BASEDIR/scons -Q"
+diff --git a/pyol/config/default.cfg b/pyol/config/default.cfg
+index bb3e57c..f5aaacc 100644
+--- a/pyol/config/default.cfg
++++ b/pyol/config/default.cfg
+@@ -146,7 +146,7 @@ definition_processor_script = pyol/build/define_process.scons
+ definition_processor_prg = %(generator_dir)s/PreProcess.m
+ code_generator_script = pyol/build/generate_process.scons
+ code_generator_prg = %(generator_dir)s/RunGenerator.m
+-process_download_script = pyol/bin/download_process.py
++process_download_script = download_dummy.py
+ remote_process_url = http://www.physik.uzh.ch/data/openloops/repositories
+ local_server_path =
+ process_repositories = public
+diff --git a/scons-local/scons.py b/scons-local/scons.py
+index c0fe872..1ac6b9b 100755
+--- a/scons-local/scons.py
++++ b/scons-local/scons.py
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env python
++#! /usr/bin/env python3
+ #
+ # SCons - a Software Constructor
+ #
