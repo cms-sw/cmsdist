@@ -12,7 +12,7 @@ BuildRequires: cmake gmake autotools
 Requires: zlib libuuid curl davix
 Requires: python py2-setuptools
 Requires: libxml2
-#Requires: scitokens-cpp
+Requires: scitokens-cpp
 Requires: openssl
 
 %define soext so
@@ -46,7 +46,6 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
-  -DENABLE_SCITOKENS=OFF \
   -DXRD_PYTHON_REQ_VERSION=2 \
   -DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT} \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
