@@ -2,16 +2,14 @@
 ### RPM external openloops %{openloop_version}
 
 BuildRequires: openloops-process
+Patch0: openloops-py3
 
 %define keep_archives true
 %define runpath_opts -m proclib
 
 %prep
 %setup -n %{n}-%{realversion}
-
-#process_src should be available via $OPENLOOPS_PROCESS_ROOT
-echo 'import sys;print(sys.argv)' > download_dummy.py
-sed -i -e 's|^ *process_download_script *=.*|process_download_script = download_dummy.py|' pyol/config/default.cfg
+%patch0 -p1
 
 #Remove conditional processes
 %ifarch aarch64
