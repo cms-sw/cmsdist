@@ -2,6 +2,7 @@
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
+
 %define strip_files %i/lib
 %define tag %{realversion}
 %define branch master
