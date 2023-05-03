@@ -1,10 +1,10 @@
-### RPM external fastjet 3.4.0
+### RPM external fastjet 3.4.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE compilation_flags
 
 BuildRequires: autotools
 Requires: python3
-%define tag 2423e8c763b7d7b73f77c5a0c71c8638df362246
+%define tag e843c303828cd0b882d386decc35ad8c1b19df3d
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
