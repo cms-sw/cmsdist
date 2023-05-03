@@ -1,4 +1,4 @@
-### RPM external xrootd 5.5.3
+### RPM external xrootd 5.5.4
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -12,7 +12,6 @@ BuildRequires: cmake gmake autotools
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
 Requires: libxml2
-Requires: scitokens-cpp
 
 %define soext so
 %ifarch darwin
@@ -46,8 +45,7 @@ cmake ../%n-%{realversion} \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
-  -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
 
 make %makeprocesses VERBOSE=1
 
