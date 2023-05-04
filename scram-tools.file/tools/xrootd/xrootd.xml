@@ -10,5 +10,4 @@
   <runtime name="PATH" value="$XROOTD_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
-  <use name="scitokens-cpp"/>
 </tool>
