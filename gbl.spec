@@ -1,6 +1,6 @@
-### RPM external gbl V02-04-01
+### RPM external gbl V03-01-00
 
-%define tag 31e726d777fe93cdbed0c363dc15f803f7767f40
+%define tag 45bba8092133fefad57e82e7b91fb783075bb978
 Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 
