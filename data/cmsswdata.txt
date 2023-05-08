@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DataFormats-L1TGlobal=V00-01-00
 RecoBTag-Combined=V01-17-00
 DataFormats-FEDRawData=V00-01-00
 DataFormats-Common=V00-01-00
