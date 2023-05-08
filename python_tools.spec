@@ -127,7 +127,7 @@ Requires: py2-idna
 Requires: py2-Werkzeug
 Requires: py2-pytest
 Requires: py2-avro
-Requires: py2-fs
+# Requires: py2-fs
 Requires: py2-lizard
 Requires: py2-flawfinder
 Requires: py2-python-ldap
