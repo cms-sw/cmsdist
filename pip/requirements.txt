@@ -40,7 +40,6 @@ entrypoints==0.3
 enum34==1.1.6
 flake8==3.7.7
 flawfinder==2.0.8
-fs==0.5.5a1
 funcsigs==1.0.2
 functools32==3.2.3-2
 future==0.17.1
@@ -192,4 +191,3 @@ Werkzeug==0.15.2
 wheel==0.33.1
 widgetsnbextension==3.4.2
 xgboost==0.82
-xrootdpyfs==0.1.5
