@@ -1,10 +1,11 @@
-### RPM cms cmsswdata 41.0
+### RPM cms cmsswdata 42.0
 ## NOCOMPILER
 Source: none
 
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-RecoPPS-Local
 Requires: data-DataFormats-L1TGlobal
 Requires: data-DataFormats-FEDRawData
 Requires: data-DataFormats-Common
