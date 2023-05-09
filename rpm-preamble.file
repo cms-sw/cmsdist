@@ -287,3 +287,17 @@ fi
 %endif
 
 %define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done)
+
+#CMS Data packages can have download.url file with extra URLS to the data files.
+#This macro process those urls in download then in the data package
+%define process_download_url \
+  if [ -f download.url ] ; then \
+    for line in $(grep '=' download.url | grep -v '^ *#') ; do \
+      url=$(echo $line | cut -d= -f2-) && \
+      outfile=$(echo $url | sed 's|.*/||') &&\
+      rm -f ${outfile} &&\
+      curl -L -k -s -o ${outfile} ${url} &&\
+      if [ "$(echo $line | cut -d= -f1)" != "$(md5sum ${outfile}  | cut -d' ' -f1)" ] ; then exit 1; fi ;\
+    done ;\
+    rm -f download.url;\
+  fi
