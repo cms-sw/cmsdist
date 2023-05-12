@@ -40,7 +40,7 @@ Requires: py2-uproot
 Requires: py2-oamap
 
 #this DOES NOT depend on numpy..
-Requires: py2-xrootdpyfs
+# Requires: py2-xrootdpyfs
 
 Requires: root curl python openldap
 
@@ -127,7 +127,7 @@ Requires: py2-idna
 Requires: py2-Werkzeug
 Requires: py2-pytest
 Requires: py2-avro
-Requires: py2-fs
+# Requires: py2-fs
 Requires: py2-lizard
 Requires: py2-flawfinder
 Requires: py2-python-ldap

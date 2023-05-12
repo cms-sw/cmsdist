@@ -262,3 +262,10 @@ if [ -f $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/.autodependencies ] ; then \
   %{relocateConfig}etc/profile.d/dependencies-setup.sh \
   %{relocateConfig}etc/profile.d/dependencies-setup.csh \
 fi
+
+%define relocatePy2SitePackages \
+  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep -v '\.pyc') ; do \
+    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
+    sed -i -e "${lnum}c#!/usr/bin/env python" $py \
+  done
+
