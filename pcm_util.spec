@@ -1,4 +1,4 @@
-### RPM external pcm_util 1.0
+### RPM external pcm_util 2.0
 
 Source: none 
 Requires: root clhep tinyxml2 boost fftw3 cuda python3 hepmc tbb gcc py3-pybind11 fmt xerces-c dd4hep hls
@@ -22,9 +22,6 @@ HEPMC_MM_NAME="hepmc.modulemap"
 BOOST_MM_NAME="module.modulemap"
 HLS_MM_NAME="hls.modulemap"
 
-PYBIND11_INCDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
-
-PYBIND11_MODDIR="${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include"
 BOOST_MODDIR="include/boost"
  
 PYBIND11_MODPACK="py3_pybind11"
