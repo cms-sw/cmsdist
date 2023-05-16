@@ -5,6 +5,8 @@ module pybind11 { \
   requires cplusplus \
   umbrella "pybind11" \
   exclude header "pybind11/eigen.h" \
+  exclude header "pybind11/eigen/matrix.h" \
+  exclude header "pybind11/eigen/tensor.h" \
   exclude header "pybind11/common.h" \
   module * { export *} \
 } \
