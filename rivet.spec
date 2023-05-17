@@ -37,6 +37,7 @@ CXXFLAGS="-std=c++17"
 %ifarch x86_64
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
+sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 
 PYTHON=$(which python3) \
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
