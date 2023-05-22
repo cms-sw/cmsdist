@@ -1,4 +1,4 @@
-### RPM external rivet 3.1.7
+### RPM external rivet 3.1.8
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -6,14 +6,9 @@ Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}
 Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python3 py3-cython autotools
 
-Patch0: rivet-140-313
-Patch1: rivet-disable-doc
-
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
-%patch0 -p0
-%patch1 -p0
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
@@ -42,6 +37,7 @@ CXXFLAGS="-std=c++17"
 %ifarch x86_64
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
+sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 
 PYTHON=$(which python3) \
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
