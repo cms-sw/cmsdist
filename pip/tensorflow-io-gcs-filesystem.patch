@@ -1,0 +1,11 @@
+--- io-0.32.0/setup.py.orig	2023-05-26 11:55:15.700996077 +0200
++++ io-0.32.0/setup.py	2023-05-26 11:55:29.979871551 +0200
+@@ -46,7 +46,7 @@
+     sys.argv.remove("--project")
+     sys.argv.pop(project_idx)
+ else:
+-    project = "tensorflow-io"
++    project = "tensorflow-io-gcs-filesystem"
+ 
+ assert (
+     project.replace("_", "-") == "tensorflow-io"

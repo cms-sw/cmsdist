@@ -1,4 +1,4 @@
-### RPM external flatbuffers 1.12.0
+### RPM external flatbuffers 2.0.8
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 %define tag v%{realversion}
@@ -29,3 +29,6 @@ make -v %{makeprocesses}
 cd ../build
 
 make %{makeprocesses} install
+
+%post
+%{relocateConfig}lib64/pkgconfig/flatbuffers.pc

@@ -1,0 +1,3 @@
+%define source0 https://github.com/tensorflow/io/archive/refs/tags/v%{realversion}.tar.gz
+%define PipPreBuild export PIP_GLOBAL_OPTION="--project tensorflow-io-gcs-filesystem"
+Patch0: pip/tensorflow-io-gcs-filesystem
