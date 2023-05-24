@@ -1,15 +1,15 @@
-### RPM cms t0 3.0.8
+### RPM cms t0 3.1.0
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 2.1.6.3
+%define wmcver 2.2.0.4
 %define wmcpkg WMCore
 %define pkg T0
 
-Source0: git+https://github.com/dmwm/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
+Source0: git+https://github.com/LinaresToine/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
 Source1: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
 
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
