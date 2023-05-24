@@ -49,17 +49,17 @@ Source10: oracle-license
 %prep
 rm -rf instantclient_*
 
-%setup -D -T -b 0 -n %{client_dir} %(echo %{source0} | sed 's|.*/||')
-%setup -D -T -b 1 -n %{client_dir} %(echo %{source1} | sed 's|.*/||')
-%setup -D -T -b 2 -n %{client_dir} %(echo %{source2} | sed 's|.*/||')
-%setup -D -T -b 3 -n %{client_dir} %(echo %{source3} | sed 's|.*/||')
-%setup -D -T -b 4 -n %{client_dir} %(echo %{source4} | sed 's|.*/||')
-%setup -D -T -b 5 -n %{client_dir} %(echo %{source5} | sed 's|.*/||')
-%setup -D -T -b 6 -n %{client_dir} %(echo %{source6} | sed 's|.*/||')
+%setup -D -T -b 0 -n %{client_dir} %(echo %{source0} | sed 's|.*/||)
+%setup -D -T -b 1 -n %{client_dir} %(echo %{source1} | sed 's|.*/||)
+%setup -D -T -b 2 -n %{client_dir} %(echo %{source2} | sed 's|.*/||)
+%setup -D -T -b 3 -n %{client_dir} %(echo %{source3} | sed 's|.*/||)
+%setup -D -T -b 4 -n %{client_dir} %(echo %{source4} | sed 's|.*/||)
+%setup -D -T -b 5 -n %{client_dir} %(echo %{source5} | sed 's|.*/||)
+%setup -D -T -b 6 -n %{client_dir} %(echo %{source6} | sed 's|.*/||)
 
 %ifarch x86_64
 #OCCI lib with new C++ ABI (GCC 5 and above)
-%setup -D -T -c -a 7 -n %{client_dir} %(echo %{source7} | sed 's|.*/||')
+%setup -D -T -c -a 7 -n %{client_dir} %(echo %{source7} | sed 's|.*/||)
 %endif
 
 %build
