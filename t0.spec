@@ -9,7 +9,7 @@
 %define wmcpkg WMCore
 %define pkg T0
 
-Source0: git+https://github.com/LinaresToine/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
+Source0: git+https://github.com/dmwm/T0.git?obj=master/%{realversion}&export=T0-%{realversion}&output=/T0-%{realversion}.tar.gz
 Source1: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcver&export=%{wmcpkg}_%n&output=/%{wmcpkg}_%n.tar.gz
 
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
