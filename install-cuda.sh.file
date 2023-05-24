@@ -1,0 +1,19 @@
+#!/bin/bash
+CUDA_VERSION=$1
+[ "${CUDA_VERSION}" != "" ] || CUDA_VERSION=@CUDA_VERSION@
+if [ "${USER_CUDA_BASE}" != "" ] ; then
+  echo "ERROR: environment variable USER_CUDA_BASE is not set." >&2
+  exit 1
+elif [ ! -d "${USER_CUDA_BASE}" ] ; then
+  echo "ERROR: ${USER_CUDA_BASE} does not exist." >&2
+fi
+TMPDIR=${USER_CUDA_BASE}/tmp
+DOWNLOAD_DIR=${USER_CUDA_BASE}/download/$(uname -m)
+mkdir -p ${TMPDIR} ${DOWNLOAD_DIR}
+EL_VER=rhel$(cmsos | cut -d_ -f1 | sed 's|[a-z]*||')
+$(dirname $0)/install-cuda.py -v \
+  -i ${USER_CUDA_BASE}/$(uname -m)/${EL_VER}/external/cuda/${CUDA_VERSION} \
+  -o ${EL_VER} -a $(uname -m) \
+  -d ${DOWNLOAD_DIR} \
+  -t ${TMPDIR} \
+  ${CUDA_VERSION}

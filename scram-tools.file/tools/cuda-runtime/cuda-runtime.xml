@@ -1,0 +1,8 @@
+<tool name="cuda-runtime" version="@TOOL_VERSION@">
+  <info url="https://docs.nvidia.com/cuda/index.html"/>
+  <client>
+    <environment name="CUDA_RUNTIME_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"    default="$CUDA_RUNTIME_BASE/lib64"/>
+  </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+</tool>

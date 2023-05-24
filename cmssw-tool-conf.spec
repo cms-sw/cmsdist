@@ -145,6 +145,7 @@ Requires: openldap
 Requires: gperftools
 Requires: cuda
 Requires: cuda-compatible-runtime
+Requires: cuda-runtime
 Requires: alpaka
 
 %if "%{cmsos}" != "slc7_aarch64"
