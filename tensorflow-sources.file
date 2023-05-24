@@ -39,6 +39,9 @@ BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
+%ifarch ppc64le
+BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false"
+%endif
 
 %if %{enable_gpu}
 BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
@@ -85,10 +88,9 @@ echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
 echo "pybind11:${PY3_PYBIND11_ROOT}"        >> ${TF_CMS_EXTERNALS}
 echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
-echo "enum34_archive:"                      >> ${TF_CMS_EXTERNALS}
 echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
 echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
-echo "absl_py:"                             >> ${TF_CMS_EXTERNALS}
+echo "absl_py:${PY3_ABSL_PY_ROOT}"          >> ${TF_CMS_EXTERNALS}
 echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
 echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
@@ -187,6 +189,7 @@ copy_headers() {
 copy_headers "$PWD" tensorflow/compiler
 copy_headers "$PWD" tensorflow/core/profiler/internal
 copy_headers "$PWD" tensorflow/core/profiler/lib
+copy_headers "$PWD" tensorflow/core/util/tensor_bundle
 
 # do not copy the protobuf headers as we use the version in cmsdist
 # copy_headers "$PWD/tensorflow/contrib/makefile/downloads/protobuf/src" google
@@ -196,6 +199,15 @@ pushd $outdir
 popd
 
 %endif
+
+#FIXME: for some reason farmhash_gpu.h is a broken symlink
+optdir=$(ls -d $PWD/bazel-out/*-%{build_type})
+if [ -L ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
+  if [ ! -e ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
+    ln -sf ${optdir}/bin/tensorflow/tools/pip_package/build_pip_package.runfiles/org_tensorflow/external/farmhash_gpu_archive/src/farmhash_gpu.h \
+       ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h
+  fi
+fi
 
 # create the wheel file that is installed in py2-tensorflow
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}

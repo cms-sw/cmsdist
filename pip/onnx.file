@@ -1,3 +1,4 @@
+Patch0: py3-onnx
 Requires: cmake protobuf py3-protobuf py3-six py3-typing-extensions py3-numpy py3-pytest-runner
 %define runpath_opts -n pb -n onnx
-%define PipPreBuild export ONNX_ML=1
+%define PipPreBuild export ONNX_ML=1;export CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17 -DONNX_USE_PROTOBUF_SHARED_LIBS=ON -DProtobuf_USE_STATIC_LIBS=OFF -DCMAKE_PREFIX_PATH=%{cmake_prefix_path}"

@@ -1,0 +1,10 @@
+--- a/CepGen/Utils/Drawer.h.orig	2023-06-05 11:45:35.916095554 +0200
++++ b/CepGen/Utils/Drawer.h	2023-06-05 11:46:11.721935669 +0200
+@@ -20,6 +20,7 @@
+ #define CepGen_Utils_Drawer_h
+ 
+ #include "CepGen/Modules/NamedModule.h"
++#include <cstdint>
+ 
+ namespace cepgen {
+   namespace utils {

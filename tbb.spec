@@ -25,7 +25,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DCMAKE_HWLOC_2_5_INCLUDE_PATH=$HWLOC_ROOT/include \
   -DCMAKE_HWLOC_2_5_LIBRARY_PATH=$HWLOC_ROOT/lib/libhwloc.so \
-  -DTBB_CPF=ON
+  -DTBB_CPF=ON \
+  -DTBB_TEST=OFF
 
 make %{makeprocesses}
 

@@ -1,4 +1,4 @@
-### RPM external giflib 5.2.0
+### RPM external giflib 5.2.1
 
 Source: https://sourceforge.net/projects/giflib/files/giflib-%{realversion}.tar.gz
 BuildRequires: autotools

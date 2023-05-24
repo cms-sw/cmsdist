@@ -1,0 +1,1 @@
+Requires: py3-ml_dtypes py3-numpy py3-opt-einsum py3-scipy py3-importlib-metadata
