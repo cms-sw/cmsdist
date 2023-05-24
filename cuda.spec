@@ -1,3 +1,4 @@
+BuildRequires: cuda-runtime
 ## INCLUDE cuda-version
 ### RPM external cuda %{cuda_version}
 
