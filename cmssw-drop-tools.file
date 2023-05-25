@@ -1,1 +1,1 @@
-%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune icx-cxxcompiler icx-ccompiler icx-f77compiler
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp intel-vtune icx-cxxcompiler icx-ccompiler icx-f77compiler
