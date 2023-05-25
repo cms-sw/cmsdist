@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Configuration-Generator=V01-06-00
 RecoTauTag-TrainingFiles=V00-07-00
 RecoTracker-MkFit=V00-10-00
 RecoEgamma-PhotonIdentification=V01-06-00
