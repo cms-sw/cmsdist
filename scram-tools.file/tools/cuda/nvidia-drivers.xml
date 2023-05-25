@@ -4,4 +4,5 @@
     <environment name="NVIDIA_DRIVERS_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"              default="$NVIDIA_DRIVERS_BASE/drivers"/>
   </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>
