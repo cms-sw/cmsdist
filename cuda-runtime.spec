@@ -12,6 +12,8 @@ for lib in %runtime_libs ; do
 done
 for lib in %runtime_stubs; do
   cp -P %{cuda_install_dir}/lib64/stubs/lib${lib}.so* %i/lib64/stubs
+  soname=$(objdump -p %i/lib64/stubs/lib${lib}.so | grep ' SONAME ' | sed "s|.*lib${lib}|lib${lib}|")
+  [ -e %i/lib64/stubs/${soname} ] || ln -sf lib${lib}.so %i/lib64/stubs/${soname}
 done
 mkdir %i/bin
 cp %{cuda_install_dir}/.cms/install-cuda.py %i/bin
