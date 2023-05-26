@@ -20,10 +20,7 @@ Patch0: bazel-3.7.0-patches
 Patch1: bazel-3.7.2-gcc11
 
 %prep
-
-%define __unzip unzip -d bazel-%{realversion}
-
-%setup -q -n bazel-%{realversion}
+%setup -q -c -n bazel-%{realversion}
 
 %patch0 -p1
 %patch1 -p1
