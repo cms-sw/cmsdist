@@ -41,7 +41,7 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-c
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
 
 #FIXME: GCC 12.2 workaround
-if [[ "$GCC_VERSION" =~ ^12\.2\. ]] ; then
+if [[ "$GCC_VERSION" =~ ^12\.[23]\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"
 fi
 
