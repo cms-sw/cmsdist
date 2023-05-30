@@ -22,7 +22,7 @@
 %define cuda_flags_0 -O3
 
 # generate debugging information for device code
-%define cuda_flags_1 --generate-line-info --source-in-ptx --display-error-number
+%define cuda_flags_1 --generate-line-info --display-error-number
 
 # imply __host__, __device__ attributes in constexpr functions
 %define cuda_flags_2 --expt-relaxed-constexpr
