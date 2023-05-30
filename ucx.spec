@@ -1,5 +1,7 @@
-### RPM external ucx 1.14.1
-Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
+### RPM external ucx 1.14.x
+%define branch v1.14.x
+%define tag bb39346ac1aebc67cb88c4419429de78a1260bda
+Source: git+https://github.com/openucx/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/v%{realversion}.tar.gz
 BuildRequires: autotools
 Requires: cuda gdrcopy
 Requires: numactl
