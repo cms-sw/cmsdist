@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
-%define tag d6d09d371713e5ce0fd57180cd4e9b68140c15be
-%define branch cms/master/2d1b57767f
+%define tag 36b480f3ddd032992a3a1c1d5d765f073cc35a3b
+%define branch cms/master/d4d1df86b0
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
