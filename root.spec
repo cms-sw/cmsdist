@@ -1,9 +1,9 @@
-### RPM lcg root 6.26.11
+### RPM lcg root 6.28.05
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
-%define tag fe824a0d8806a5484c3cc1530d60107774c59257
-%define branch cms/v6-26-00-patches/a25c523160
+%define tag abe0599002216a947a5569657d18fc4c32266479
+%define branch cms/v6-28-00-patches/8c75af517c
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -40,7 +40,7 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
@@ -89,7 +89,7 @@ cmake ../%{n}-%{realversion} \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
   -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
-  -DCMAKE_CXX_STANDARD=17 \
+  -DCMAKE_CXX_STANDARD=20 \
   -Dssl=ON \
   -Dpyroot=ON \
   -Dxrootd=ON \
