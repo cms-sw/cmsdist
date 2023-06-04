@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DataFormats-Scouting=V00-01-00
 Configuration-Generator=V01-06-00
 L1Trigger-Phase2L1ParticleFlow=V00-06-00
 DataFormats-HLTReco=V00-01-00
