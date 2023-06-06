@@ -1,9 +1,9 @@
-### RPM lcg root 6.26.11
+### RPM lcg root 6.28.05
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
-%define tag fe824a0d8806a5484c3cc1530d60107774c59257
-%define branch cms/v6-26-00-patches/a25c523160
+%define tag 13c2aadc0f7281f0d9e359ebce523b1e8945c690
+%define branch cms/v6-28-00-patches/a13590901c
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -40,7 +40,7 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
