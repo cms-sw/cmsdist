@@ -1,20 +1,28 @@
-### RPM external hdf5 1.10.6
-Source: git+https://github.com/HDFGroup/%{n}.git?obj=master/5b9cf732caab9daa6ed1e00f2df4f5a792340196&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM external hdf5 1.14.1
+%define hdf5_tag hdf5-%(echo %realversion | tr '.' '_')
+Source: https://github.com/HDFGroup/hdf5/archive/refs/tags/%{hdf5_tag}.tar.gz
 Requires: zlib openmpi
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-%{hdf5_tag}
 
 %build
 rm -f ./bin/config.{sub,guess}
 %get_config_sub ./bin/config.sub
 %get_config_guess ./bin/config.guess
 chmod +x ./bin/config.{sub,guess}
-./configure --enable-shared --enable-parallel --with-zlib=${ZLIB_ROOT} --prefix %{i}
-make %{makeprocesses} VERBOSE=1
+CXXFLAGS=-I${OPENMPI_ROOT}/include \
+LDFLAGS="-L${OPENMPI_ROOT}/lib -lmpi" \
+./configure --prefix %{i} \
+            --disable-sharedlib-rpath \
+            --disable-static--enable-shared \
+            --enable-parallel \
+            --enable-cxx --enable-unsupported --with-zlib=${ZLIB_ROOT}
+
+make %{makeprocesses} V=1
 
 %install
-make install
+make install V=1
 
 %post
 %{relocateConfig}bin/h5pcc
