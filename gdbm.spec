@@ -1,5 +1,6 @@
 ### RPM external gdbm 1.10
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
