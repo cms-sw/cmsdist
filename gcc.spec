@@ -282,3 +282,13 @@ find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %{i}/lib/pkg-config
+
+%post
+%{relocateConfig}bin/eu-make-debug-archive
+%{relocateConfig}etc/profile.d/debuginfod.*sh
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/auto-host.h
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/configargs.h
+%{relocateConfig}lib64/libstdc++*-gdb.py
+%{relocateConfig}libexec/gcc/*/%{realversion}/install-tools/mkheaders
+%{relocateConfig}libexec/gcc/*/%{realversion}/liblto_plugin.la
+for f in $(find $RPM_INSTALL_PREFIX/%{pkgrel}/*/lib/ldscripts -type f) ; do %{relocateCmsFiles} $f || true ; done

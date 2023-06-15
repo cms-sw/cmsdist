@@ -56,4 +56,4 @@ make install
 
 %post
 %{relocateConfig}bin/xrootd-config
-%{relocateConfig}${PYTHON3_LIB_SITE_PACKAGES}/xrootd-%{realvesion}-*.egg/EGG-INFO/SOURCES.txt
+%{relocateConfig}lib/python*/site-packages/xrootd-%{realversion}-*.egg/EGG-INFO/SOURCES.txt
