@@ -1,7 +1,5 @@
 ### RPM external bz2lib 1.0.6
 Source: http://www.bzip.org/%{realversion}/bzip2-%{realversion}.tar.gz
-%define cpu %(echo "%{cmsplatf}" | cut -f2 -d_)
-
 
 %prep
 %setup -n bzip2-%{realversion}

@@ -6,10 +6,11 @@ Requires: zlib
 %setup -n %{n}-%{realversion}
 
 %build
-case %{cmsplatf} in
-  osx*) KERBEROS_ROOT=/usr/heimdal ;;
-  *) KERBEROS_ROOT=/usr ;;
-esac
+%ifos darwin
+  KERBEROS_ROOT=/usr/heimdal
+%else
+  KERBEROS_ROOT=/usr
+%endif
 
 ./configure \
   --prefix=%{i} \
@@ -27,10 +28,6 @@ make %{makeprocesses}
 
 %install
 make install
-case %{cmsos} in 
-  osx*) SONAME=dylib ;;
-  *) SONAME=so ;;
-esac
 
 # Trick to get our version of curl pick up our version of its associated shared
 # library (which is different from the one coming from the system!).
