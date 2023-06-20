@@ -2,7 +2,6 @@
 %define projectname trackerDAQ
 %define releasename %{projectname}-4.2-tkonline
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
-Patch0: tkonlinesw-2.7.0-macosx
 Patch1: tkonlinesw-4.0-clang-hash_map
 Patch2: tkonlinesw-bring-pvf
 # NOTE: given how broken the standard build system is
@@ -10,7 +9,8 @@ Patch2: tkonlinesw-bring-pvf
 #       The 4 libraries we need can be built with the
 #       attached 118 lines of cmakefile, at least on macosx 
 #       (and without dependencies on xdaq).
-%if "%(echo %cmsos | grep osx >/dev/null && echo true)" == "true"
+%ifos darwin
+Patch0: tkonlinesw-2.7.0-macosx
 Source1: tkonlinesw-cmake-build
 Requires: cmake
 %endif
@@ -24,11 +24,9 @@ Requires: root
 %setup -q -n %releasename
 %patch1 -p1
 %patch2 -p1
-case %cmsos in 
-  osx*)
+%ifos darwin
 %patch0 -p1
-  ;;
-esac
+%endif
 # Clean up some mysterious old build within the sources that screws
 # up the install by copying in an old libFed9UUtils.so 
 # (this is really needed) 

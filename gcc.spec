@@ -1,10 +1,10 @@
-### RPM external gcc 11.2.1
+### RPM external gcc 11.4.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag a0a0499b8bb920fdd98e791804812f001f0b4fe8
+%define gccTag d41085966d842e54fd4b528c719ed5af2e51c473
 %define gccBranch releases/gcc-11
 
 %define moduleName %{n}-%{realversion}
@@ -13,20 +13,22 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %define gmpVersion 6.2.1
-%define mpfrVersion 4.1.0
-%define mpcVersion 1.2.1
-%define islVersion 0.24
-%define zlibVersion 1.2.11
+%define mpfrVersion 4.2.0
+%define mpcVersion 1.3.1
+%define islVersion 0.26
+%define zlibVersion 1.2.13
+%define zstdVersion 1.4.5
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
-Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
+Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
+Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
 
 %ifos linux
-%define bisonVersion 3.7.6
-%define binutilsVersion 2.36.1
-%define elfutilsVersion 0.183
+%define bisonVersion 3.8.2
+%define binutilsVersion 2.40
+%define elfutilsVersion 0.189
 %define m4Version 1.4.19
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -38,12 +40,10 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
-Patch2: gcc-03af8492bee6243a9d10e78fea1a3e423bd5f9cd
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-%patch2 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
@@ -96,6 +96,7 @@ EOF_CMS_H
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
 %setup -D -T -b 12 -n zlib-%{zlibVersion}
+%setup -D -T -b 13 -n zstd-%{zstdVersion}
 
 %ifos linux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
@@ -139,6 +140,10 @@ CFLAGS="${CONF_FLAGS}" ./configure --static --prefix=%{i}/tmp/sw
 make %{makeprocesses}
 make install
 
+#Build and install zstd static library
+make -C ../zstd-%{zstdVersion}/lib %{makeprocesses} \
+  install-static install-includes prefix=%{i}/tmp/sw \
+  CPPFLAGS="-fPIC" CFLAGS="-fPIC"
 %ifos linux
   CONF_BINUTILS_OPTS="--enable-ld=default --enable-lto --enable-plugins --enable-threads"
   CONF_GCC_WITH_LTO="--enable-ld=default --enable-lto"
@@ -166,19 +171,12 @@ make install
   # Build Flex (for building)
   cd ../flex-%{flexVersion}
   ./configure --disable-nls --prefix=%{i}/tmp/sw \
+              --enable-static --disable-shared \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
   make install
   hash -r
-
-  # Build Flex
-  cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i} \
-              --build=%{_build} --host=%{_host} \
-              CC="$CC" CXX="$CXX"
-  make %{makeprocesses}
-  make install
 
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
@@ -263,13 +261,15 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
              --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
-             --enable-shared --disable-libgcj CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
+             --enable-shared --disable-libgcj \
+             --with-zstd=%{i}/tmp/sw \
+             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
              CFLAGS="-I%{i}/tmp/sw/include" CXXFLAGS="-I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/tmp/sw/lib"
 
 make %{makeprocesses} profiledbootstrap
 
 %install
-cd %_builddir/%{moduleName}/obj && make install 
+cd %_builddir/%{moduleName}/obj && make install
 
 ln -s gcc %{i}/bin/cc
 find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
@@ -282,3 +282,13 @@ find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %{i}/lib/pkg-config
+
+%post
+%{relocateConfig}bin/eu-make-debug-archive
+%{relocateConfig}etc/profile.d/debuginfod.*sh
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/auto-host.h
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/configargs.h
+%{relocateConfig}lib64/libstdc++*-gdb.py
+%{relocateConfig}libexec/gcc/*/%{realversion}/install-tools/mkheaders
+%{relocateConfig}libexec/gcc/*/%{realversion}/liblto_plugin.la
+for f in $(find $RPM_INSTALL_PREFIX/%{pkgrel}/*/lib/ldscripts -type f) ; do %{relocateCmsFiles} $f || true ; done
