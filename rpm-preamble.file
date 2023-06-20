@@ -137,8 +137,10 @@
 # Define the variable name for dynamic linker search path.
 %ifos darwin
 %define dynamic_path_var DYLD_FALLBACK_LIBRARY_PATH
+%define dynamic_lib_ext  dylib
 %else
 %define dynamic_path_var LD_LIBRARY_PATH
+%define dynamic_lib_ext  so
 %endif
 
 # We are now done with locations.  Move to other things.
