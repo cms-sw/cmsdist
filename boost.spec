@@ -10,10 +10,12 @@ Requires: python3 bz2lib zlib openmpi xz zstd
 %setup -n %{n}-%{realversion}
 
 %build
-case %cmsos in 
-  osx*) TOOLSET=darwin ;;
-  *) TOOLSET=gcc ;;
-esac
+
+%ifos darwin
+  TOOLSET=darwin
+%else
+  TOOLSET=gcc
+%endif
 
 %if "%{?arch_build_flags}"
 echo 'using gcc : : : <cxxflags>"%{arch_build_flags}" <cflags>"%{arch_build_flags}" ;' > user-config.jam
@@ -67,21 +69,17 @@ b2 -q \
    stage
 
 %install
-case %{cmsos} in
-  osx*) so=dylib ;;
-     *) so=so ;;
-esac
 mkdir -p %{i}/lib %{i}/include
 # copy files around in their final location.
 # We use tar to reduce the number of processes required
 # and because we need to build the build hierarchy for
 # the files that we are copying.
 pushd stage/lib
-  find . -name "*.${so}*" -type f | tar cf - -T - | (cd %{i}/lib; tar xfp -)
+  find . -name "*.%{dynamic_lib_ext}*" -type f | tar cf - -T - | (cd %{i}/lib; tar xfp -)
 popd
 find boost -name '*.[hi]*' | tar cf - -T - | ( cd %{i}/include; tar xfp -)
 
-for l in $(find %{i}/lib -name "*.${so}.*")
+for l in $(find %{i}/lib -name "*.%{dynamic_lib_ext}.*")
 do
-  ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]${so}[.].*|.${so}|")
+  ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]%{dynamic_lib_ext}[.].*|.%{dynamic_lib_ext}|")
 done

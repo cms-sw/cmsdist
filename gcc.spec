@@ -13,15 +13,15 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %define gmpVersion 6.2.1
-%define mpfrVersion 4.1.0
-%define mpcVersion 1.2.1
-%define islVersion 0.24
-%define zlibVersion 1.2.11
+%define mpfrVersion 4.2.0
+%define mpcVersion 1.3.1
+%define islVersion 0.26
+%define zlibVersion 1.2.13
 %define zstdVersion 1.4.5
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
-Source4: http://isl.gforge.inria.fr/isl-%{islVersion}.tar.bz2
+Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
 #Fix for array-bound
@@ -29,8 +29,8 @@ Source14: https://github.com/gcc-mirror/gcc/commit/49ba4fdeb648c149fa7d964ba8120
 
 %ifos linux
 %define bisonVersion 3.8.2
-%define binutilsVersion 2.37
-%define elfutilsVersion 0.186
+%define binutilsVersion 2.40
+%define elfutilsVersion 0.189
 %define m4Version 1.4.19
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -285,3 +285,13 @@ find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
 %define keep_archives yes
 # This avoids having a dependency on the system pkg-config.
 rm -rf %{i}/lib/pkg-config
+
+%post
+%{relocateConfig}bin/eu-make-debug-archive
+%{relocateConfig}etc/profile.d/debuginfod.*sh
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/auto-host.h
+%{relocateConfig}lib/gcc/*/%{realversion}/plugin/include/configargs.h
+%{relocateConfig}lib64/libstdc++*-gdb.py
+%{relocateConfig}libexec/gcc/*/%{realversion}/install-tools/mkheaders
+%{relocateConfig}libexec/gcc/*/%{realversion}/liblto_plugin.la
+for f in $(find $RPM_INSTALL_PREFIX/%{pkgrel}/*/lib/ldscripts -type f) ; do %{relocateCmsFiles} $f || true ; done

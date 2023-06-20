@@ -17,13 +17,11 @@ rm -f ./config/config.{sub,guess}
 chmod +x ./config/config.{sub,guess}
 
 export VERBOSE=1
-case %cmsplatf in
-  osx108_*)
-    # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
-    export CXXFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
-    export CFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
-  ;;
-esac
+%ifos darwin
+  # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
+  export CXXFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
+  export CFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
+%endif
 
 ./configure \
   --prefix=%{i} \
