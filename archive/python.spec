@@ -85,9 +85,7 @@ sed -ibak "s|LIBFFI_INCLUDEDIR=.*|LIBFFI_INCLUDEDIR=\"${LIBFFI_ROOT}/include\"|g
 # in CMSSW and pyconfig.h is not smart enough to detect already defined
 # macros on Linux. The following problem does not exists on BSD machines as
 # cdefs.h does not define these macros.
-case %cmsplatf in
-  osx*);;
-  *)
+%ifnos darwin
     rm -f cms_configtest.cpp
     cat <<CMS_EOF > cms_configtest.cpp
 #include <features.h>
@@ -106,8 +104,7 @@ CMS_EOF
 
     sed -ibak "s/\(#define _POSIX_C_SOURCE \)\(.*\)/\1${POSIX_C_SOURCE}/g" pyconfig.h
     sed -ibak "s/\(#define _XOPEN_SOURCE \)\(.*\)/\1${XOPEN_SOURCE}/g" pyconfig.h
-  ;;
-esac
+%endif
 
 # Modify pyconfig.h to disable GCC format attribute as it is used incorrectly.
 # Triggers an error if -Werror=format is used with GNU GCC 4.8.0+.
@@ -127,8 +124,7 @@ export LIBFFI_ROOT
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
-case %cmsplatf in
-  osx*)
+%ifos darwin
    make install prefix=%i 
    (cd Misc; /bin/rm -rf RPM)
    mkdir -p %i/share/doc/%n
@@ -145,8 +141,7 @@ case %cmsplatf in
     perl -p -i -e 's|-fno-common||g' Makefile)
 
    find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv -f {} %i/lib \;
-  ;;
-esac
+%endif
 
  perl -p -i -e "s|^#!.*python|#!/usr/bin/env python|" %{i}/bin/idle \
                      %{i}/bin/pydoc \
