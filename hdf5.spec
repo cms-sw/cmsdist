@@ -26,4 +26,7 @@ make install V=1
 
 %post
 %{relocateConfig}bin/h5pcc
+%{relocateConfig}bin/h5c++
+%{relocateConfig}share/hdf5_examples/c*/run-*-ex.sh
+%{relocateConfig}share/hdf5_examples/hl/c*/run-*-ex.sh
 %{relocateConfig}lib/libhdf5.settings

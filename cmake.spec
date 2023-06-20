@@ -29,15 +29,11 @@ EOF
 export CMAKE_PREFIX_PATH=$CURL_ROOT:$ZLIB_ROOT:$EXPAT_ROOT:$BZ2LIB_ROOT
 # For OS X 10.8 ("Mountain Lion") do not use Objective-C in
 # C and C++ code.
-case %cmsplatf in
-  osx108_*)
-    CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
-      ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
-  ;;
-  *)
-    ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
-  ;;
-esac
+%ifos darwin
+  CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
+%endif
+  ./configure --prefix=%{i} --init=build-flags.cmake --parallel=%{compiling_processes}
+
 make %makeprocesses
 
 %install
