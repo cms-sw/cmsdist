@@ -1,4 +1,4 @@
 %define PipBuildOptions --global-option="build_ext" --global-option="--disable-xcb"
-Requires: libjpeg-turbo zlib libtiff 
-%define PipPreBuild export LDFLAGS="-L${LIBJPEG_TURBO_ROOT}/lib64 -L${ZLIB_ROOT}/lib -L${LIBTIFF_ROOT}/lib"; \
-                    export CFLAGS="-I${LIBJPEG_TURBO_ROOT}/include -I${ZLIB_ROOT}/include -I${LIBTIFF_ROOT}/include"
+Requires: libjpeg-turbo zlib libtiff freetype 
+%define PipPreBuild export LDFLAGS="-L${LIBJPEG_TURBO_ROOT}/lib64 -L${ZLIB_ROOT}/lib -L${LIBTIFF_ROOT}/lib -L${FREETYPE_ROOT}/lib"; \
+                    export CFLAGS="-I${LIBJPEG_TURBO_ROOT}/include -I${ZLIB_ROOT}/include -I${LIBTIFF_ROOT}/include -I${FREETYPE_ROOT}/include"
