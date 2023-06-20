@@ -9,11 +9,9 @@ BuildRequires: autotools gmake
 
 %build
 CONF_OPTS="--enable-only64bit"
-case %{cmsplatf} in
-  osx*)
-    CFLAGS="-D__private_extern__=extern"
-    ;;
-esac
+%ifos darwin
+  CFLAGS="-D__private_extern__=extern"
+%endif
 
 ./autogen.sh
 ./configure --prefix=%{i} --without-mpicc --disable-static ${CONF_OPTS}
