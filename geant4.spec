@@ -6,7 +6,7 @@
 #%define branch cms/v%{realversion}
 #%define github_user cms-externals
 %define tag cf4c6712c60cdf2b4d8799e34e176917c2de358d
-%define branch v%{realversion}
+%define branch master
 %define github_user Geant4
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
