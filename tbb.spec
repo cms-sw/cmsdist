@@ -18,7 +18,7 @@ mkdir %{_builddir}/build
 cd %{_builddir}/build
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCMAKE_CXX_FLAGS="-Wno-error=array-bounds -Wno-error=use-after-free -Wno-error=address -Wno-error=uninitialized " \
+  -DCMAKE_CXX_FLAGS="-Wno-error=array-bounds -Wno-error=use-after-free -Wno-error=address -Wno-error=uninitialized -Wno-error=stringop-overflow" \
   -DCMAKE_CXX_STANDARD=17 \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_LIBDIR=lib \
