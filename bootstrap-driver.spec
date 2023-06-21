@@ -59,7 +59,7 @@ packagesWithBuildProvides=""
 platformSeeds+=" libaio"
 %endif
 
-%if "%{rhel}" == "7"
+%if "%{rhel}" == "9"
 platformSeeds+=" libgcc"
 %endif
 
