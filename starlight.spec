@@ -20,7 +20,7 @@ mkdir ../build
 cd ../build
 
 export CLHEP_PARAM_PATH=${CLHEP_ROOT}
-CXXFLAGS="-Wno-error=deprecated-declarations -Wno-error=deprecated-copy"
+CXXFLAGS="-Wno-error=deprecated-declarations -Wno-error=deprecated-copy -std=c++%{cms_cxx_standard}"
 
 cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \

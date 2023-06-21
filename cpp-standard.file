@@ -1,0 +1,4 @@
+# C++ standard to use for CMS externals
+# Notice: do not forget to change 
+# C++ standard flag in professor2-ppc64-flag-change.patch
+%define cms_cxx_standard 20

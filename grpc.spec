@@ -1,4 +1,5 @@
 ### RPM external grpc 1.35.0
+## INCLUDE cpp-standard
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: https://patch-diff.githubusercontent.com/raw/grpc/grpc/pull/28212.patch
@@ -22,7 +23,7 @@ cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DgRPC_INSTALL=ON \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DgRPC_ABSL_PROVIDER=package \

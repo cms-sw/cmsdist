@@ -2,6 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
+## INCLUDE cpp-standard
 %define tag db7e72a4eb2cb9207083adfa61f4da5276d4ba7d
 %define branch cms/v6-28-00-patches/9248a09753
 
@@ -89,7 +90,7 @@ cmake ../%{n}-%{realversion} \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
   -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
-  -DCMAKE_CXX_STANDARD=20 \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -Dssl=ON \
   -Dpyroot=ON \
   -Dxrootd=ON \
