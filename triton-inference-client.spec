@@ -40,6 +40,7 @@ cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=17 \
     -DTRITON_ENABLE_CC_HTTP=OFF \
     -DTRITON_ENABLE_CC_GRPC=ON \
     -DTRITON_ENABLE_PYTHON_HTTP=OFF \
@@ -56,7 +57,7 @@ cmake ${PROJ_DIR} \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
     -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build

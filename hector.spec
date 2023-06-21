@@ -13,9 +13,9 @@ mkdir -p obj lib
 %build
 # Correct link path for root.
 #perl -p -i -e "s|^ROOTLIBS.*$|ROOTLIBS=-L$ROOT_ROOT/lib -lCore -lRint -lMatrix -lPhysics -lCling -lMathCore -pthread -lm -ldl -rdynamic|" Makefile
-case %cmsplatf in
-  osx*) perl -p -i -e 's|-rdynamic||g' Makefile ;;
-esac
+%ifos darwin
+  perl -p -i -e 's|-rdynamic||g' Makefile
+%endif
 
 # Add CXX and CXXFLAGS to Makefile and increase output versbose level
 sed -ibak "s/@g++/\$(CXX) \$(CXXFLAGS)/g" Makefile
