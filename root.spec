@@ -25,7 +25,6 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 rm -rf ../build
