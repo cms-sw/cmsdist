@@ -59,6 +59,10 @@ packagesWithBuildProvides=""
 platformSeeds+=" libaio"
 %endif
 
+%if "%{rhel}" == "7"
+platformSeeds+=" libgcc"
+%endif
+
 defaultPkgs="cms+cms-common+1.0 cms+fakesystem+1.0"
 
 mkdir -p %{i}/etc/profile.d
