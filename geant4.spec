@@ -43,8 +43,6 @@ export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
