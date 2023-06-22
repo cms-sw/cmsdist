@@ -9,7 +9,6 @@ Requires: py3-anyio
 Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
-Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
@@ -22,9 +21,7 @@ Requires: py3-numexpr
 Requires: py3-histogrammar
 Requires: py3-pandas
 Requires: py3-Bottleneck
-Requires: py3-downhill
 Requires: py3-xgboost
-Requires: py3-hep_ml
 Requires: py3-uncertainties
 Requires: py3-seaborn
 Requires: py3-h5py
