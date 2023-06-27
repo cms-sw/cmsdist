@@ -1,4 +1,4 @@
-%define cuda_version 11.5.2
+%define cuda_version 11.8.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 %define cuda_install_dir /cvmfs/projects.cern.ch/cms-restricted/%{_arch}/rhel%{rhel}/external/cuda/%{cuda_version}
 
