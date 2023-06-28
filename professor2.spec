@@ -15,7 +15,7 @@ Patch0: professor2-ppc64-flag-change
 %patch0 -p1
 %endif
 
-#Make sure the default c++sdt stand is c++11 in Makefile
+#Make sure the default c++sdt stand is c++11 in pyext/setup.py
 grep -q 'std=c++11' pyext/setup.py
 #Change c++ std to %{cms_cxx_standard}
 sed  -e 's|-std=c++11|-std=c++%{cms_cxx_standard}|' pyext/setup.py
