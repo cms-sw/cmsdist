@@ -5,19 +5,14 @@
 %if "%{?crabserver_packages:set}" != "set"
   %define crabserver_packages ServerUtilities.py
 %endif
-%if "%{?dbs_packages:set}" != "set"
-  %define dbs_packages Client/src/python/dbs PycurlClient/src/python/RestClient
-%endif
 
 Source0: git://github.com/dmwm/CRABClient.git?obj=master/%{crabclient_version}&export=CRABClient&output=/CRABClient-%{crabclient_version}.tar.gz
 Source1: git://github.com/dmwm/CRABServer.git?obj=master/%{crabserver_version}&export=CRABServer&output=/CRABServer-%{crabserver_version}.tar.gz
-Source2: git://github.com/dmwm/DBS.git?obj=master/%{dbs_version}&export=DBS&output=/DBS-%{dbs_version}.tar.gz
 
 %prep
 %{?check_version_suffix:%check_version_suffix}
 %setup -D -T -b 0 -n CRABClient
 %setup -D -T -b 1 -n CRABServer
-%setup -D -T -b 2 -n DBS
 
 %build
 
@@ -47,16 +42,6 @@ for pkg in %{crabserver_packages} ; do
     cp %{_builddir}/CRABServer/src/python/${pkg} %{i}/lib/${pkg}
   fi
 done
-
-#Copy DBS
-for pkg in %{dbs_packages} ; do
-  if [ -d %{_builddir}/DBS/${pkg} ] ; then
-    rsync -a %{_builddir}/DBS/${pkg} %{i}/lib/
-  else
-    cp %{_builddir}/DBS/${pkg} %{i}/lib/${pkg}
-  fi
-done
-rsync -a %{_builddir}/DBS/Client/utils/ %{i}/examples/
 
 if [ $(grep '_UseCrab' %{i}/etc/crab-bash-completion.sh | wc -l) -gt 0 ] && [ $(grep ' filenames  *crab' %{i}/etc/crab-bash-completion.sh |wc -l) -gt 0 ] ; then
   sed -i -e 's|_UseCrab|_UseCrab_%{crab_type}|g;s| filenames  *crab| filenames crab-%{crab_type}|' %{i}/etc/crab-bash-completion.sh

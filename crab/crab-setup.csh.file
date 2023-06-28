@@ -24,4 +24,3 @@ if (${?CRABCLIENT_TYPE}) then
   endif
   unset crab_shared_dir
 endif
-setenv DBS3_CLIENT_ROOT `python -c 'from CRABClient import CRABInstallationPath as p; print(p)'`
