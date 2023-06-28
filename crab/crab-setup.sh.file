@@ -12,7 +12,6 @@ esac
 export CRABCLIENT_TYPE
 crab_shared_dir="@CMS_PATH@/share/cms/crab/@CRAB_COMMON_VERSION@"
 export PYTHONPATH="${crab_shared_dir}/lib/${CRABCLIENT_TYPE}${PYTHONPATH:+:$PYTHONPATH}"
-export DBS3_CLIENT_ROOT=$(python -c 'from CRABClient import CRABInstallationPath as p; print(p)')
 if [ "$(ps -p$$ -ocmd=)" = "zsh" ] ; then
   autoload -U +X compinit && compinit
   autoload -U +X bashcompinit && bashcompinit
