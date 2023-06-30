@@ -1,15 +1,17 @@
-### RPM external tbb v2021.9.0
+### RPM external tbb v2021.8.0
 
 %define tag %{realversion}
 %define branch onetbb_2021
 %define github_user oneapi-src
 %define github_repo oneTBB
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
+Patch0: tbb-782
 Requires: hwloc
 BuildRequires: cmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf %{_builddir}/build
