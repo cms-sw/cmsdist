@@ -1,4 +1,4 @@
-### RPM external hwloc 2.9.1
+### RPM external hwloc 2.9.2
 Source: https://download.open-mpi.org/release/%{n}/v2.9/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
