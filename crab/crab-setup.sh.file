@@ -1,5 +1,5 @@
 #!/bin/bash
-#CMSDIST_FILE_REVISION=4
+#CMSDIST_FILE_REVISION=5
 case "X$1Y" in
   XprodY|XdevY|XpreY) CRABCLIENT_TYPE="$1" ;;
   XY ) CRABCLIENT_TYPE="prod" ;;
