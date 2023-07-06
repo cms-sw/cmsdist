@@ -1,5 +1,5 @@
 #!/bin/tcsh
-#CMSDIST_FILE_REVISION=2
+#CMSDIST_FILE_REVISION=3
 setenv CRABCLIENT_TYPE ""
 switch ("X$1Y")
   case XprodY:
