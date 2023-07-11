@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-L1TMuon=V01-08-00
 DataFormats-Scouting=V00-02-00
 Configuration-Generator=V01-06-00
 L1Trigger-Phase2L1ParticleFlow=V00-06-00
@@ -30,7 +31,6 @@ RecoEgamma-PhotonIdentification=V01-06-00
 Alignment-OfflineValidation=V00-03-00
 RecoTracker-FinalTrackSelectors=V01-04-00
 L1Trigger-L1TGlobal=V00-04-00
-L1Trigger-L1TMuon=V01-07-00
 CalibTracker-SiPixelESProducers=V02-03-00
 RecoHGCal-TICL=V00-03-00
 Validation-HGCalValidation=V00-05-00
