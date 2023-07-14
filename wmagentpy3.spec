@@ -1,4 +1,4 @@
-### RPM cms wmagentpy3 2.2.2
+### RPM cms wmagentpy3 2.2.3.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -30,3 +30,4 @@ find %i -name '*.egg-info' -exec rm {} \;
 mkdir %i/data/couchapps/WMStats/vendor/
 cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
   %i/data/couchapps/WMStats/vendor/
+
