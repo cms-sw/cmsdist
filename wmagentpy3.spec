@@ -30,4 +30,3 @@ find %i -name '*.egg-info' -exec rm {} \;
 mkdir %i/data/couchapps/WMStats/vendor/
 cp -rp $COUCHSKEL_ROOT/data/couchapps/couchskel/vendor/{couchapp,jquery,datatables} \
   %i/data/couchapps/WMStats/vendor/
-
