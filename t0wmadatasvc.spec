@@ -1,10 +1,10 @@
-### RPM cms t0wmadatasvc 2.0.0
+### RPM cms t0wmadatasvc 2.0.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
-%define wmcver 2.1.4
+%define wmcver 2.2.2
 
 Source0: git+https://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
 Source1: git+https://github.com/germanfgv/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
