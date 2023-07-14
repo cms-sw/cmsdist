@@ -7,7 +7,7 @@
 %define wmcver 2.2.2
 
 Source0: git+https://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
-Source1: git+https://github.com/germanfgv/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source1: git+https://github.com/dmwm/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: py3-cherrypy py3-cx-oracle py3-pycurl py3-future rotatelogs
 BuildRequires: wmcorepy3-devtools
