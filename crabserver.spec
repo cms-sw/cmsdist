@@ -15,7 +15,7 @@
 %define wmcver 1.5.7
 %define crabrepo dmwm
 Requires: python3 py3-cherrypy py3-pycurl py3-cx-oracle py3-memory-profiler
-Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL py3-htcondor rotatelogs jemalloc
+Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL rotatelogs jemalloc
 BuildRequires: py3-sphinx
 
 Source0: git://github.com/%{wmcrepo}/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
@@ -26,8 +26,6 @@ Source1: git://github.com/%{crabrepo}/CRABServer.git?obj=master/%{realversion}&e
 %setup -T -b 0 -n WMCore-%{wmcver}
 
 %build
-touch $PWD/condor_config
-export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 %{python_runtime} setup.py build_system -s crabserver --skip-docs
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
@@ -39,8 +37,6 @@ echo -e "\n__version__ = \"%{realversion}\"#Automatically added during RPM build
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-touch $PWD/condor_config
-export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 %{python_runtime} setup.py install_system -s crabserver --prefix=%i
 cd ../CRABServer-%{realversion}

@@ -15,7 +15,7 @@
 %define wmcver 1.5.7.pre4
 %define crabrepo dmwm
 Requires: p5-time-hires
-Requires: python3 py3-dbs3-client py3-pycurl py3-httplib2 condorpy3 
+Requires: python3 py3-dbs3-client py3-pycurl py3-httplib2 py3-htcondor
 Requires: py3-ldap 
 Requires: py3-retry
 Requires: py3-rucio-clients py3-future
@@ -29,8 +29,6 @@ Source1: git://github.com/%{crabrepo}/CRABServer.git?obj=master/%{realversion}&e
 %setup -T -b 0 -n WMCore-%{wmcver}
 
 %build
-touch $PWD/condor_config
-export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 %{python_runtime} setup.py build_system -s crabtaskworker --skip-docs
 PYTHONPATH=$PWD/build/lib:$PYTHONPATH
@@ -48,8 +46,6 @@ RPM_RELEASE=1 ./bin/htcondor_make_runtime.sh
 
 %install
 mkdir -p %i/etc/profile.d %i/{x,}{bin,lib,data,doc} %i/{x,}$PYTHON_LIB_SITE_PACKAGES
-touch $PWD/condor_config
-export CONDOR_CONFIG=$PWD/condor_config
 cd ../WMCore-%{wmcver}
 %{python_runtime} setup.py install_system -s  crabtaskworker --prefix=%i
 cd ../CRABServer-%{realversion}
