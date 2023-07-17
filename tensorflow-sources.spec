@@ -1,5 +1,5 @@
-### RPM external tensorflow-sources 2.6.4
-%define tag         88c18549eb072773f551e3332f718b33db67a46d
+### RPM external tensorflow-sources 2.12.0
+%define tag         bb361a0a183d45222d8ff7dbf4a04c44c0e094bd
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 %define python_cmd python3
@@ -8,4 +8,3 @@
 %define pythonOnly no
 %define vectorize_flag -msse3
 ## INCLUDE tensorflow-sources
-

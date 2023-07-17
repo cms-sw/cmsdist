@@ -74,11 +74,11 @@ contextvars==2.4
 coverage==7.2.2
 cppy==1.2.1
 # Newer versions of py3-cryptography require OpenSSL 1.1.0+, see https://github.com/pyca/cryptography/issues/5906
-cryptography==40.0.2
+cryptography==41.0.1
 cryptography==3.2.1 ; cmsos_name=='slc7'
 cx-Oracle==8.3.0
 cycler==0.11.0
-cython==0.29.34
+cython==0.29.35
 dask==2023.4.0
 dask-awkward==2023.4.1
 decorator==5.1.1
@@ -147,6 +147,7 @@ ipython==8.12.0
 ipywidgets==8.0.6
 isort==5.12.0
 jaraco-classes==3.2.3
+jax==0.4.12
 jedi==0.18.2
 jeepney==0.8.0
 Jinja2==3.1.2
@@ -165,7 +166,7 @@ jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.4.4
 jupyterlab-widgets==3.0.7
 #NO_AUTO_UPDATE: needs newer TF
-keras==2.6.0
+keras==2.11.0
 keras-applications==1.0.8
 keras-preprocessing==1.1.2
 keras2onnx==1.7.0
@@ -192,6 +193,7 @@ mdurl==0.1.2
 meson==1.1.0
 meson-python==0.12.1
 mistune==2.0.5
+ml_dtypes==0.2.0
 mock==5.0.1
 more-itertools==9.1.0
 mpld3==0.5.9
@@ -216,16 +218,16 @@ notebook-shim==0.2.2
 numexpr==2.8.4
 # setuptools version <64 is needed by numpy: https://github.com/pypa/setuptools/issues/3549
 # NO_AUTO_UPDATE: update together with tensorflow
-numpy==1.23.5
+numpy==1.24.3
 # NO_AUTO_UPDATE:1
-onnx==1.12.0
+onnx==1.14.0
 onnxmltools==1.11.2
 onnxconverter-common==1.13.0
 oauthlib==3.2.2
 opt-einsum==3.3.0
 pkginfo==1.9.6
 packaging==23.0
-pandas==2.0.0
+pandas==2.0.1
 pandocfilters==1.5.0
 parsimonious==0.10.0
 parso==0.8.3
@@ -251,7 +253,7 @@ prettytable==3.6.0
 prometheus-client==0.16.0
 prompt_toolkit==3.0.38
 #NO_AUTO_UPDATE:1: Update together with Tensorflow
-protobuf==4.21.7
+protobuf==4.21.9
 prwlock==0.4.1
 psutil==5.9.4
 ptyprocess==0.7.0
@@ -340,8 +342,9 @@ sympy==1.11.1
 tables==3.8.0
 tenacity==8.2.2
 #NO_AUTO_UPDATE:1: Force to use tensorflow 2.6.4; this should match the version in tensorflow-sources.spec
-tensorflow==2.6.4
+tensorflow==2.12.0
 tensorboard==2.12.1
+tensorflow-io-gcs-filesystem==0.32.0
 tensorflow-estimator==2.12.0
 tensorboard-data-server==0.7.0
 tensorboard-plugin-wit==1.8.1

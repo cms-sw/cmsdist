@@ -5,11 +5,13 @@
 %define branch master
 %define github_user google
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: flatbuffers-7422
 
 BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build
@@ -29,3 +31,6 @@ make -v %{makeprocesses}
 cd ../build
 
 make %{makeprocesses} install
+
+%post
+%{relocateConfig}lib64/pkgconfig/flatbuffers.pc

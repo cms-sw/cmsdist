@@ -1,11 +1,13 @@
-### RPM external libzmq 4.3.4
-Source: https://github.com/zeromq/libzmq/releases/download/v%{realversion}/zeromq-%{realversion}.tar.gz
-Source1: https://patch-diff.githubusercontent.com/raw/zeromq/libzmq/pull/4334.patch
+### RPM external libzmq 4.3.5-5bf04ee
+%define branch master
+%define tag 5bf04ee2ff207f0eaf34298658fe354ea61e1839
+Source: git+https://github.com/zeromq/libzmq.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools
 
 %prep
-%setup -n zeromq-%{realversion}
-patch -p1 < %{_sourcedir}/4334.patch
+%setup -n %{n}-%{realversion}
+
+./autogen.sh
 
 ./configure --prefix=%{i} \
             --without-docs \
