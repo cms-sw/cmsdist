@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_13_2_0_pre3_G4VECGEOM
 
 Requires: cmssw-tool-conf
 
