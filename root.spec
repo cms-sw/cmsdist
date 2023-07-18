@@ -40,7 +40,7 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-%if "%{?root_debug}"
+%if %{is_debug_build}
   -DCMAKE_BUILD_TYPE=Debug \
   -DLLVM_BUILD_TYPE=Debug \
 %else
