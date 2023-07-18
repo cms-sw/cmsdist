@@ -1,4 +1,4 @@
-### RPM external flatbuffers 1.12.0
+### RPM external flatbuffers 2.0.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 %define tag v%{realversion}

@@ -7,11 +7,13 @@
 %define github_user opencv
 
 Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: opencv-cpp20
 BuildRequires: cmake ninja
 Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build

@@ -19,13 +19,13 @@ mkdir %{_builddir}/build
 cd %{_builddir}/build
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCMAKE_CXX_FLAGS="-Wno-error=array-bounds -Wno-error=use-after-free -Wno-error=address -Wno-error=uninitialized " \
+  -DCMAKE_CXX_FLAGS="-Wno-error=array-bounds -Wno-error=use-after-free -Wno-error=address -Wno-error=uninitialized -Wno-error=stringop-overflow" \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DCMAKE_HWLOC_2_5_INCLUDE_PATH=$HWLOC_ROOT/include \
   -DCMAKE_HWLOC_2_5_LIBRARY_PATH=$HWLOC_ROOT/lib/libhwloc.so \
-  -DTBB_CPF=ON
+  -DTBB_CPF=ON \
 
 make %{makeprocesses}
 

@@ -3,7 +3,11 @@ BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
-## INCLUDE cpp-standard
+
+# TODO: wait for fix in LLVM upstream
+# # INCLUDE cpp-standard
+%define cms_cxx_standard 17
+
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
