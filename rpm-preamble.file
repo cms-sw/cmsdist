@@ -310,3 +310,9 @@ fi
 %else
 %define is_debug_build 0
 %endif
+
+%if %{is_debug_build}
+%define cmake_build_type Debug
+%else
+%define cmake_build_type Release
+%endif
