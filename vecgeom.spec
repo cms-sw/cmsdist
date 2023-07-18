@@ -25,7 +25,11 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_STANDARD:STRING="17" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
+%if %{is_debug_build}
+  -DCMAKE_BUILD_TYPE=Debug \
+%else
   -DCMAKE_BUILD_TYPE=Release \
+%endif
   -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \

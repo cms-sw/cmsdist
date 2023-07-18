@@ -44,7 +44,11 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_CXX_STANDARD:STRING="17" \
+%if %{is_debug_build}
+  -DCMAKE_BUILD_TYPE=Debug \
+%else
   -DCMAKE_BUILD_TYPE=Release \
+%endif
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \
