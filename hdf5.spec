@@ -16,7 +16,7 @@ LDFLAGS="-L${OPENMPI_ROOT}/lib -lmpi" \
 ./configure --prefix %{i} \
             --disable-sharedlib-rpath \
             --enable-parallel \
-            --enable-threadsafe --disable-hl \
+            --enable-threadsafe --enable-unsupported \
             --with-zlib=${ZLIB_ROOT}
 
 make %{makeprocesses} V=1
@@ -27,4 +27,5 @@ make install V=1
 %post
 %{relocateConfig}bin/h5pcc
 %{relocateConfig}share/hdf5_examples/c*/run-*-ex.sh
+%{relocateConfig}share/hdf5_examples/hl/c*/run-*-ex.sh
 %{relocateConfig}lib/libhdf5.settings
