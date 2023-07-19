@@ -40,8 +40,8 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DLLVM_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+  -DLLVM_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
