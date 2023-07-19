@@ -24,7 +24,7 @@ Requires: root boost clhep xerces-c geant4
   -DCMAKE_AR=$(which gcc-ar) \\\
   -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
   -DCMAKE_CXX_STANDARD=17 \\\
-  -DCMAKE_BUILD_TYPE=Release \\\
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
   -DDD4HEP_USE_GEANT4_UNITS=ON \\\
   -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\
   -DCMAKE_PREFIX_PATH="${CLHEP_ROOT};${XERCES_C_ROOT}"
