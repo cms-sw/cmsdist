@@ -15,7 +15,7 @@
 %define wmcver 1.5.7
 %define crabrepo dmwm
 Requires: python3 py3-cherrypy py3-pycurl py3-cx-oracle py3-memory-profiler
-Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL rotatelogs jemalloc
+Requires: py3-retry py3-boto3 py3-future py3-pyOpenSSL py3-htcondor rotatelogs jemalloc
 BuildRequires: py3-sphinx
 
 Source0: git://github.com/%{wmcrepo}/WMCore.git?obj=master/%{wmcver}&export=WMCore-%{wmcver}&output=/WMCore-%{n}-%{wmcver}.tar.gz
