@@ -306,12 +306,12 @@ fi
 
 #Enable debug mode for cmssw packages, e.g debug root, geant4, etc
 %if "%{?cms_debug_packages:set}" == "set"
-%define is_debug_build %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{pkgname}$' ; then echo 1 ; else echo 0; fi)
+%define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
 %else
 %define is_debug_build 0
 %endif
 
-%if %{is_debug_build}
+%if %{is_debug_build %{pkgname}}
 %define cmake_build_type Debug
 %else
 %define cmake_build_type Release

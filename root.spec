@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 092b82753e2a3bd48dd361155ba3dd5f2aa8e4c4
-%define branch cms/v6-28-00-patches/9afee25f3c
+%define tag b0158bacff2756f66b6f1282571c182dccf785a9
+%define branch cms/v6-28-00-patches/93394c3902
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -42,7 +42,11 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+%if %{is_debug_build root/llvm}
+  -DLLVM_BUILD_TYPE=Debug \
+%else
   -DLLVM_BUILD_TYPE=Release \
+%endif
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
