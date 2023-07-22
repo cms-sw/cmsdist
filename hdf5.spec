@@ -15,9 +15,9 @@ CXXFLAGS=-I${OPENMPI_ROOT}/include \
 LDFLAGS="-L${OPENMPI_ROOT}/lib -lmpi" \
 ./configure --prefix %{i} \
             --disable-sharedlib-rpath \
-            --disable-static--enable-shared \
             --enable-parallel \
-            --enable-cxx --enable-unsupported --with-zlib=${ZLIB_ROOT}
+            --enable-threadsafe --enable-unsupported \
+            --with-zlib=${ZLIB_ROOT}
 
 make %{makeprocesses} V=1
 
@@ -26,7 +26,6 @@ make install V=1
 
 %post
 %{relocateConfig}bin/h5pcc
-%{relocateConfig}bin/h5c++
 %{relocateConfig}share/hdf5_examples/c*/run-*-ex.sh
 %{relocateConfig}share/hdf5_examples/hl/c*/run-*-ex.sh
 %{relocateConfig}lib/libhdf5.settings
