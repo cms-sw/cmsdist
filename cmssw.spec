@@ -1,5 +1,5 @@
 ### RPM cms cmssw CMSSW_12_0_0
-
+#dummy comment
 Requires: cmssw-tool-conf
 
 %define runGlimpse      yes
