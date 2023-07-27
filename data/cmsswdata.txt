@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DQM-HcalTasks=V00-01-00
 RecoMuon-MuonIdentification=V01-15-00
 L1Trigger-L1TMuon=V01-08-00
 DataFormats-Scouting=V00-02-00
