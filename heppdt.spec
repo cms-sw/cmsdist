@@ -1,4 +1,5 @@
 ### RPM external heppdt 3.04.01
+## INCLUDE cpp-standard
 %define tag 2b499cfb4302d48d1fd91911fddec88e94219a44
 %define branch cms/%{realversion}
 %define github_user cms-externals
@@ -13,7 +14,7 @@ Requires: tbb
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -O2 -std=c++17
+%define cms_cxxflags -O2 -std=c++%{cms_cxx_standard}
 %endif
 
 %prep
