@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Geometry-TestReference=V00-12-00
 L1Trigger-L1TMuon=V01-09-00
 DQM-HcalTasks=V00-01-00
 RecoMuon-MuonIdentification=V01-15-00
@@ -19,7 +20,6 @@ DQM-EcalMonitorClient=V00-03-00
 RecoMuon-TrackerSeedGenerator=V00-05-00
 CondTools-Hcal=V00-01-00
 RecoEgamma-EgammaPhotonProducers=V00-03-00
-Geometry-TestReference=V00-11-00
 RecoEcal-EgammaClusterProducers=V00-03-00
 HeterogeneousCore-SonicTriton=V00-02-00
 RecoTracker-DisplacedRegionalTracking=V00-01-00
