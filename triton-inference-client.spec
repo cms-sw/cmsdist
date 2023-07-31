@@ -1,4 +1,5 @@
 ### RPM external triton-inference-client 2.25.0
+## INCLUDE cpp-standard
 %define branch r22.08
 %define github_user triton-inference-server
 %define client_tag b4f10a4650a6c3acd0065f063fd1b9c258f10b73
@@ -54,7 +55,8 @@ cmake ${PROJ_DIR} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
-    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
+    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}" \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
 
 make %{makeprocesses}
 

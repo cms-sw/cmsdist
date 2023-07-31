@@ -1,4 +1,5 @@
 ### RPM external bazel 3.7.2
+## INCLUDE cpp-standard
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
 
@@ -28,6 +29,7 @@ Patch1: bazel-3.7.2-gcc11
 %build
 
 export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
+export BAZEL_CXXOPTS="-std=c++%{cms_cxx_standard}"
 bash ./compile.sh
 
 %install
