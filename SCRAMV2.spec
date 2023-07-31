@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV2 V2_2_9_pre18
+### RPM lcg SCRAMV2 V2_2_9_pre19
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -62,14 +62,6 @@ echo "SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgr
 echo "SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "set SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-
-if [ ! -d $RPM_INSTALL_PREFIX/etc/scramrc ] ; then
-  mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc
-  touch $RPM_INSTALL_PREFIX/etc/scramrc/links.db
-  echo 'CMSSW=$SCRAM_ARCH/cms/cmssw/CMSSW_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw.map
-  echo 'CMSSW=$SCRAM_ARCH/cms/cmssw-patch/CMSSW_*' > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw-patch.map
-  echo 'CORAL=$SCRAM_ARCH/cms/coral/CORAL_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/coral.map
-fi
 
 if [ ! -d $RPM_INSTALL_PREFIX/%{cmsplatf}/%{scramv1_dir} ] ; then
   mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/%{scramv1_dir}
