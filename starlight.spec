@@ -27,7 +27,6 @@ cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
  -DCMAKE_BUILD_TYPE=Realease \
  -DENABLE_CLHEP=ON \
- -DCPP11=ON \
  -DCMAKE_CXX_FLAGS="$CXXFLAGS"
 
 make %{makeprocesses} VERBOSE=1
