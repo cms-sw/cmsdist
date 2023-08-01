@@ -1,4 +1,4 @@
-### RPM external bazel 3.7.2
+### RPM external bazel 5.3.0
 ## INCLUDE cpp-standard
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
@@ -18,7 +18,7 @@ BuildRequires: java-env python3 python-python3
 # configuration issue
 # https://github.com/bazelbuild/bazel/issues/9392
 Patch0: bazel-3.7.0-patches
-Patch1: bazel-3.7.2-gcc11
+Patch1: bazel-absl
 
 %prep
 %setup -q -c -n bazel-%{realversion}
