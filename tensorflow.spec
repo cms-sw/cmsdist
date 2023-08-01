@@ -1,4 +1,4 @@
-### RPM external tensorflow 2.6.4
+### RPM external tensorflow 2.12.0
 %if "%{?vectorized_package:set}" != "set"
 %define source_package tensorflow-sources
 %else

@@ -21,7 +21,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILTIN_BOOST=OFF \
   -DBUILTIN_EIGEN=OFF \
-  -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}"
+  -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}" \
+  -DCMAKE_CXX_STANDARD=17
 
 ninja -v %{makeprocesses}
 
