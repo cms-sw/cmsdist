@@ -1,11 +1,11 @@
-### RPM cms t0 3.1.0
+### RPM cms t0 3.1.1
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
 
 %define webdoc_files %{installroot}/%{pkgrel}/doc/
 
-%define wmcver 2.2.0.4
+%define wmcver 2.2.3.1
 %define wmcpkg WMCore
 %define pkg T0
 
@@ -15,7 +15,7 @@ Source1: git+https://github.com/dmwm/WMCore.git?obj=master/%wmcver&export=%{wmcp
 Requires: python3 py3-sqlalchemy py3-httplib2 py3-pycurl py3-rucio-clients
 Requires: py3-mysqlclient py3-cx-oracle py3-cheetah3 py3-pyOpenSSL py3-retry
 Requires: py3-dbs3-client py3-pyzmq py3-psutil py3-future py3-cmsmonitoring py3-pyjwt
-Requires: yui libuuid couchdb condorpy3 jemalloc
+Requires: yui libuuid couchdb py3-htcondor jemalloc
 
 BuildRequires: py3-sphinx py3-sphinxcontrib-websupport couchskel
 
