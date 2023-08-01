@@ -1,9 +1,10 @@
 ### RPM external fasthadd 2.4
 
 #Change the commit hash every time a new version is needed.
-%define commit ba00dc15fa708f29b9d1f84c2f62fa75b8e9ac5d
-Source0: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
-Source1: https://raw.githubusercontent.com/cms-sw/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
+%define commit 003102d8516b652d80e76d8ca1c4b5dc47c9015b
+%define user iarspider
+Source0: https://raw.githubusercontent.com/%user/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
+Source1: https://raw.githubusercontent.com/%user/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
 Requires: protobuf root abseil-cpp
 
 %prep

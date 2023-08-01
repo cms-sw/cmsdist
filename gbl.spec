@@ -20,7 +20,8 @@ cmake ../cpp \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_CXX_STANDARD=17 \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
-  -DSUPPORT_ROOT=False
+  -DSUPPORT_ROOT=False \
+  -DCMAKE_CXX_STANDARD=17
 
 make %{makeprocesses}
 

@@ -10,12 +10,13 @@
 
 %define keep_archives true
 
-Source: https://github.com/protocolbuffers/protobuf/archive/v3.21.9.zip
+Source: https://github.com/protocolbuffers/protobuf/archive/v%{realversion}.zip
 Requires: zlib
 BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
+sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD 17|' cmake/CMakeLists.txt
 %build
 rm -rf ../build
 mkdir ../build
@@ -42,4 +43,3 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 rm -rf %{i}/lib/pkgconfig
- # rebuild #
