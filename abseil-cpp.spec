@@ -1,4 +1,4 @@
-### RPM external abseil-cpp 20210324.2
+### RPM external abseil-cpp 20230125.3
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
 
 BuildRequires: cmake gmake
