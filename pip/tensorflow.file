@@ -2,9 +2,11 @@ Requires: py3-tensorboard py3-opt-einsum py3-tensorflow-estimator py3-wrapt py3-
 Requires: tensorflow-sources
 %define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
 %define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
+%define PipDepsPost | grep -v libclang
 ## INCLUDE tensorflow-requires
 Requires: py3-funcsigs py3-pbr py3-packaging py3-appdirs py3-pyparsing py3-mock py3-Werkzeug
-Requires: py3-grpcio py3-astunparse py3-keras
+Requires: py3-grpcio py3-astunparse py3-keras py3-jax
+Requires: py3-tensorflow-io-gcs-filesystem
 Requires: llvm
 %define source0 none
 %define source_file none

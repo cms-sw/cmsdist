@@ -19,6 +19,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_EIGEN=ON \
     -DBUILD_EXAMPLES=OFF \
