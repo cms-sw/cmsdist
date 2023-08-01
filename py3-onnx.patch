@@ -1,0 +1,25 @@
+--- a/setup.py	2023-06-09 13:38:14.496028111 +0200
++++ b/setup.py	2023-06-09 13:38:51.851715431 +0200
+@@ -30,7 +30,7 @@
+ 
+ WINDOWS = os.name == "nt"
+ 
+-CMAKE = find_executable("cmake3") or find_executable("cmake")
++CMAKE = find_executable("cmake")
+ MAKE = find_executable("make")
+ 
+ install_requires = []
+--- a/CMakeLists.txt	2023-06-09 13:48:24.057589186 +0200
++++ b/CMakeLists.txt	2023-06-09 13:48:36.130217133 +0200
+@@ -56,9 +56,9 @@
+ endif()
+ 
+ # Required to use /std:c++17 or higher on Windows
+-# For other platforms, set C++11 as standard for the whole project
++# For other platforms, set C++17 as standard for the whole project
+ if(NOT MSVC)
+-  set(CMAKE_CXX_STANDARD 11)
++  set(CMAKE_CXX_STANDARD 17)
+ else()
+   string(APPEND CMAKE_CXX_FLAGS " /std:c++17")
+ endif()

@@ -1,0 +1,2 @@
+%define source0 git+https://github.com/tensorflow/io?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/source.tar.gz
+Patch0: py3-tensorflow-io-gcs-filesystem
