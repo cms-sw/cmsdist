@@ -1,23 +1,23 @@
 diff --git a/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java b/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
-index 0ea30a9..8df189f 100755
+index 9f7fe1f..e584fb9 100755
 --- a/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
 +++ b/src/main/java/com/google/devtools/build/lib/starlarkbuildapi/StarlarkActionFactoryApi.java
-@@ -359,7 +359,7 @@ public interface StarlarkActionFactoryApi extends StarlarkValue {
+@@ -377,7 +377,7 @@ public interface StarlarkActionFactoryApi extends StarlarkValue {
+                     + " the former are more efficient."),
          @Param(
              name = "use_default_shell_env",
-             type = Boolean.class,
 -            defaultValue = "False",
 +            defaultValue = "True",
              named = true,
              positional = false,
              doc = "Whether the action should use the built in shell environment or not."),
 diff --git a/tools/cpp/unix_cc_configure.bzl b/tools/cpp/unix_cc_configure.bzl
-index d48485b..40ca051 100755
+index bfb37bd..45e311c 100755
 --- a/tools/cpp/unix_cc_configure.bzl
 +++ b/tools/cpp/unix_cc_configure.bzl
-@@ -193,6 +193,7 @@ def _find_gold_linker_path(repository_ctx, cc):
+@@ -184,6 +184,7 @@ def _find_linker_path(repository_ctx, cc, linker, is_clang):
      Returns:
-       String to put as value to -fuse-ld= flag, or None if gold couldn't be found.
+       String to put as value to -fuse-ld= flag, or None if linker couldn't be found.
      """
 +    return None
      result = repository_ctx.execute([
