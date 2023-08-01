@@ -28,7 +28,6 @@
   <lib name="absl_hash"/>
   <lib name="absl_hashtablez_sampler"/>
   <lib name="absl_int128"/>
-  <lib name="absl_leak_check_disable"/>
   <lib name="absl_leak_check"/>
   <lib name="absl_log_severity"/>
   <lib name="absl_malloc_internal"/>
@@ -60,7 +59,6 @@
   <lib name="absl_throw_delegate"/>
   <lib name="absl_time"/>
   <lib name="absl_time_zone"/>
-  <lib name="absl_wyhash"/>
   <client>
     <environment name="ABSEIL_CPP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$ABSEIL_CPP_BASE/lib"/>
