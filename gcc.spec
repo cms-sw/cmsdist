@@ -12,6 +12,8 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 
 %define keep_archives true
 
+# avalenzu: testing
+
 %define gmpVersion 6.2.1
 %define mpfrVersion 4.2.0
 %define mpcVersion 1.3.1
