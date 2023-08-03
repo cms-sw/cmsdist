@@ -2,12 +2,12 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 0
-#%define tag 35f304cde19a3e2dfe3bb941d4fc76c2fe45fa26
-#%define branch cms/v%{realversion}
-#%define github_user cms-externals
 %define tag d35b0306a837c2b3640b250c1af599688eee8df1
-%define branch master
-%define github_user Geant4
+#%define branch cms/v%{realversion}
+%define github_user cms-externals
+#%define tag d35b0306a837c2b3640b250c1af599688eee8df1
+#%define branch master
+#%define github_user Geant4
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
