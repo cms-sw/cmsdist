@@ -159,7 +159,7 @@ Requires: py3-pillow
 Requires: py3-pydot
 
 Requires: py3-astroid
-Requires: py3-hepdata-lib
+#Requires: py3-hepdata-lib
 Requires: py3-isort
 Requires: py3-lazy-object-proxy
 Requires: py3-pytest-cov
