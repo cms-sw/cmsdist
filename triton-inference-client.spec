@@ -41,6 +41,7 @@ cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DTRITON_ENABLE_CC_HTTP=OFF \
     -DTRITON_ENABLE_CC_GRPC=ON \
     -DTRITON_ENABLE_PYTHON_HTTP=OFF \
@@ -55,8 +56,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
-    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}" \
-    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
+    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
 make %{makeprocesses}
 

@@ -17,6 +17,8 @@ BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
+# Make sure the default c++sdt stand is c++11
+grep -q 'CMAKE_CXX_STANDARD  *11' cmake/CMakeLists.txt
 sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' cmake/CMakeLists.txt
 %build
 rm -rf ../build

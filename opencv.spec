@@ -20,7 +20,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_EIGEN=ON \
     -DBUILD_EXAMPLES=OFF \
@@ -30,8 +30,7 @@ cmake ../%{n}-%{realversion} \
     -DPYTHON3_INCLUDE_DIR:PATH="${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version}" \
     -DPYTHON3_LIBRARY:FILEPATH="${PYTHON3_ROOT}/lib/libpython%{cms_python3_major_minor_version}.so" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}" \
-    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
+    -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}"
 
 ninja -v %{makeprocesses}
 
