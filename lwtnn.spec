@@ -1,4 +1,5 @@
 ### RPM external lwtnn 2.13
+## INCLUDE cpp-standard
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 BuildRequires: ninja cmake
@@ -22,7 +23,7 @@ cmake ../%{n}-%{realversion} \
   -DBUILTIN_BOOST=OFF \
   -DBUILTIN_EIGEN=OFF \
   -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}" \
-  -DCMAKE_CXX_STANDARD=17
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
 
 ninja -v %{makeprocesses}
 
