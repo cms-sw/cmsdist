@@ -10,7 +10,9 @@
   <lib name="G4materials"/>
   <lib name="G4parmodels"/>
   <lib name="G4particles"/>
-  <lib name="G4persistency"/>
+  <lib name="G4geomtext"/>
+  <lib name="G4mctruth"/>
+  <lib name="G4gdml"/>
   <lib name="G4physicslists"/>
   <lib name="G4processes"/>
   <lib name="G4readout"/>
