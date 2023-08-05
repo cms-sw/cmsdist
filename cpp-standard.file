@@ -1,0 +1,2 @@
+# C++ standard to use for CMS externals
+%define cms_cxx_standard 17

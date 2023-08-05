@@ -1,6 +1,7 @@
 ### RPM external dd4hep v01-23x
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
 
 %define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
 %define branch master
@@ -23,7 +24,7 @@ Requires: root boost clhep xerces-c geant4
   -DDD4HEP_USE_PYROOT=ON \\\
   -DCMAKE_AR=$(which gcc-ar) \\\
   -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
-  -DCMAKE_CXX_STANDARD=17 \\\
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
   -DDD4HEP_USE_GEANT4_UNITS=ON \\\
   -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\

@@ -1,4 +1,5 @@
 ### RPM external triton-inference-client 2.25.0
+## INCLUDE cpp-standard
 %define branch r22.08
 %define github_user triton-inference-server
 %define client_tag b4f10a4650a6c3acd0065f063fd1b9c258f10b73
@@ -40,6 +41,7 @@ cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DTRITON_ENABLE_CC_HTTP=OFF \
     -DTRITON_ENABLE_CC_GRPC=ON \
     -DTRITON_ENABLE_PYTHON_HTTP=OFF \
