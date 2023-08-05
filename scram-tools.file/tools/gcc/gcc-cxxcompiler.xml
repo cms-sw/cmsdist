@@ -23,7 +23,7 @@
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
-    <flags LTO_FLAGS="@LTO_FLAGS@  -flto=auto"/>
+    <flags LTO_FLAGS="@LTO_FLAGS@  -flto=jobserver"/>
     <flags PGO_FLAGS="@PGO_FLAGS@"/>
     <flags LDFLAGS="@GCC_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@GCC_SHAREDFLAGS@"/>
