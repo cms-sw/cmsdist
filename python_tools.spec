@@ -121,7 +121,6 @@ Requires: py3-autopep8
 Requires: py3-pycodestyle
 Requires: py3-lz4
 Requires: py3-ply
-Requires: py3-py
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs
