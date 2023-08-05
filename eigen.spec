@@ -1,6 +1,7 @@
 ### RPM external eigen 3bb6a48d8c171cf20b5f8e48bfb4e424fbd4f79e
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
+## INCLUDE cpp-standard
 %define tag fe7e6a8ef4921dd6c7b5b893a9972948f1b451d3
 %define branch cms/master/%{realversion}
 %define github_user cms-externals
@@ -13,7 +14,7 @@ BuildRequires: cmake
 %build
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=%{i} -DBUILD_TESTING=OFF -DCMAKE_CXX_STANDARD=17 ../
+cmake -DCMAKE_INSTALL_PREFIX=%{i} -DBUILD_TESTING=OFF -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} ../
 
 %install
 cd build
