@@ -4,6 +4,7 @@
 ## INCLUDE compilation_flags
 %define tag dee15bff44bc2427f13b002f94ad680a937afe72
 %define branch cms/v6-28-00-patches/6fc4f0f403
+## INCLUDE cpp-standard
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -93,7 +94,7 @@ cmake ../%{n}-%{realversion} \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
   -DGSL_CBLAS_LIBRARY="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
   -DGSL_CBLAS_LIBRARY_DEBUG="${OPENBLAS_ROOT}/lib/libopenblas.%{soext}" \
-  -DCMAKE_CXX_STANDARD=17 \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -Dssl=ON \
   -Dpyroot=ON \
   -Dxrootd=ON \

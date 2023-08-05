@@ -1,4 +1,5 @@
 ### FILE cuda-flags
+## INCLUDE cpp-standard
 # define the CUDA compilation flags in a way that can be shared by SCRAM-based and regular tools
 
 # on X86 and Power, build support for Pascal, Volta and Turing
@@ -16,7 +17,7 @@
 %define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
 
 # C++ standard to use for building host and device code with nvcc
-%define nvcc_stdcxx -std=c++17
+%define nvcc_stdcxx -std=c++%{cms_cxx_standard}
 
 # generate optimised code
 %define cuda_flags_0 -O3
