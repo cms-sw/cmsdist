@@ -1,4 +1,5 @@
 ### RPM external protobuf 3.21.9
+## INCLUDE cpp-standard
 #============= IMPORTANT NOTE ========================#
 # When changing the version of protobuf, remember to regenerate protobuf objects in CMSSW
 # current recipe for this is:
@@ -16,7 +17,9 @@ BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
-sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD 17|' cmake/CMakeLists.txt
+# Make sure the default c++sdt stand is c++11
+grep -q 'CMAKE_CXX_STANDARD  *11' CMakeLists.txt
+sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt
 %build
 rm -rf ../build
 mkdir ../build
