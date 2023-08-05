@@ -1,7 +1,6 @@
 ### RPM external opencv 4.7.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cpp-standard
-
 %define tag %{realversion}
 %define branch master
 %define github_user opencv
@@ -23,6 +22,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -GNinja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_EIGEN=ON \
     -DBUILD_EXAMPLES=OFF \

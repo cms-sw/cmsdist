@@ -2,7 +2,6 @@
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 ## INCLUDE cpp-standard
-
 %define tag fe7e6a8ef4921dd6c7b5b893a9972948f1b451d3
 %define branch cms/master/%{realversion}
 %define github_user cms-externals
