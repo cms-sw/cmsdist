@@ -3,6 +3,7 @@
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 0
 %define tag d35b0306a837c2b3640b250c1af599688eee8df1
+## INCLUDE cpp-standard
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
@@ -43,7 +44,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_CXX_STANDARD:STRING="17" \
+  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
