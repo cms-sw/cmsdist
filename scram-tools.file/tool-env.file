@@ -1,10 +1,12 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cuda-flags
+## INCLUDE cpp-standard
 
 export ROOT_CXXMODULES="0"
 export PKG_VECTORIZATION="%{?package_vectorization}"
 export CMSDIST_DIR="%{cmsdist_directory}"
+export CMS_CXX_STANDARD=%{cms_cxx_standard}
 
 %ifarch x86_64
 export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"

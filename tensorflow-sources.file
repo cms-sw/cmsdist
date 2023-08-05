@@ -3,6 +3,7 @@ BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
+## INCLUDE cpp-standard
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
@@ -37,7 +38,7 @@ BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' 
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 %endif
-BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 %{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false --define tflite_kernel_use_xnnpack=false"
