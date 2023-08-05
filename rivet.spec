@@ -1,4 +1,5 @@
 ### RPM external rivet 3.1.8
+## INCLUDE cpp-standard
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -33,7 +34,7 @@ autoreconf -fiv
 %ifarch aarch64
 sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
 %endif
-CXXFLAGS="-std=c++17"
+CXXFLAGS="-std=c++%{cms_cxx_standard}"
 %ifarch x86_64
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif

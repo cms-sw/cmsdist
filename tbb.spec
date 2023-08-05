@@ -1,4 +1,5 @@
 ### RPM external tbb v2021.9.0
+## INCLUDE cpp-standard
 
 %define tag %{realversion}
 %define branch onetbb_2021
@@ -18,7 +19,7 @@ mkdir %{_builddir}/build
 cd %{_builddir}/build
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCMAKE_CXX_STANDARD=17 \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DCMAKE_HWLOC_2_5_INCLUDE_PATH=$HWLOC_ROOT/include \
