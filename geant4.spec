@@ -1,6 +1,7 @@
 ### RPM external geant4 11.1.1
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
 %define use_vecgeom 1
 %define tag 35f304cde19a3e2dfe3bb941d4fc76c2fe45fa26
 %define branch cms/v%{realversion}
@@ -43,7 +44,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_CXX_STANDARD:STRING="17" \
+  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
