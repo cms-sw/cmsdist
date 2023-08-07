@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV1 V3_00_61
+### RPM lcg SCRAMV1 V3_00_62
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -66,7 +66,6 @@ if [ ! -d $RPM_INSTALL_PREFIX/etc/scramrc ] ; then
   echo 'CMSSW=$SCRAM_ARCH/cms/cmssw/CMSSW_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw.map
   echo 'CMSSW=$SCRAM_ARCH/cms/cmssw-patch/CMSSW_*' > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw-patch.map
   echo 'CORAL=$SCRAM_ARCH/cms/coral/CORAL_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/coral.map
-  [ ! -f $RPM_INSTALL_PREFIX/%{OldDB} ] || grep '%{OldDB} *$' $RPM_INSTALL_PREFIX/%{OldDB} | awk '{print $2}' | sed 's|%{OldDB}.*||' > $RPM_INSTALL_PREFIX/etc/scramrc/links.db
 fi
 
 touch $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg
