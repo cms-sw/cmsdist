@@ -1,9 +1,9 @@
 ##Tensorflow Common build files
 BuildRequires: bazel java-env git
 #Keep all requires in separate file, so that can be included in py-tensorflow too
+## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
-## INCLUDE cpp-standard
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
