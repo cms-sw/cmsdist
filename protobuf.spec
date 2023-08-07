@@ -28,8 +28,6 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
     -Dprotobuf_BUILD_TESTS=OFF \
     -Dprotobuf_BUILD_SHARED_LIBS=ON \
     -Dutf8_range_ENABLE_INSTALL=ON \
@@ -46,4 +44,3 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 rm -rf %{i}/lib/pkgconfig
- 
