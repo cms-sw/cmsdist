@@ -19,8 +19,6 @@
 ## INITENV SET ORACLE_HOME %{i}
 ## INITENV +PATH SQLPATH %{i}/bin
 
-AutoReq: no
-
 %define http_mirror https://download.oracle.com/otn_software/linux/instantclient/%{ver_num}
 %define client_dir instantclient_%(echo %{oc_ver} | cut -d. -f1,2 | tr '.' '_')
 
