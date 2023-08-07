@@ -5,11 +5,6 @@ BuildRequires: bazel java-env git
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 
-# TODO: wait for fix in LLVM upstream
-# # INCLUDE cpp-standard
-%define cms_cxx_standard 17
-
-
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
 %if "%{?build_type:set}" != "set"
