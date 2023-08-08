@@ -13,4 +13,5 @@ Requires: llvm
 
 %define PipPostPost \
     %{relocateConfig}lib/python*/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h ; \
+    %{relocateConfig}lib/python*/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h ; \
     %{relocateConfig}lib/python*/site-packages/tensorflow/python/platform/build_info.py
