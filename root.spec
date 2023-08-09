@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i} 
 ## INCLUDE compilation_flags
-%define tag 4fc05cd0b6184d14c3a538d3cba92ac8073b609c
-%define branch cms/master/f215692b3d
+%define tag 5c1a99793e1d2becf67217d6c9cf7a22db456bc9
+%define branch cms/master/77299a2c34
 ## INCLUDE cpp-standard
 
 %define github_user cms-sw
@@ -197,7 +197,7 @@ cp -P interpreter/llvm/src/bin/clang-* %{i}/etc/cling/bin/.
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
-for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin %i/etc) ; do
   lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
   sed -i -e "${lnum}c#!/usr/bin/env python3" $p
 done
