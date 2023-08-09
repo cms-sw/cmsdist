@@ -14,7 +14,6 @@ Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
 %endif
 Requires: python3
-AutoReq: no
 
 %prep
 
