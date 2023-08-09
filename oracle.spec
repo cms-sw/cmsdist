@@ -41,6 +41,11 @@ Source6: %{http_mirror}/%{source6}
 Source7: http://cmsrep.cern.ch/cmssw/download/oracle-mirror/x64/%{source7}
 Source10: oracle-license
 
+# FIXME: Needed by oracle. Pkg in container image, to be added as seed for new archs.
+Requires: libnsl
+# Needed by oracle. Provided by unixODBC.
+Requires: libodbcinst
+
 %prep
 rm -rf instantclient_*
 #RPM 4.18 does not allow to override build-in %%__unzip, so we explicitly use it instead of calling %%setup
