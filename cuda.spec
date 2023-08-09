@@ -15,6 +15,13 @@ Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local
 %endif
 Requires: python3
 
+# FIXME: Needed by cuda when using default AutoReq. Provided by glibc, but not by glibc in our image.
+Provides: ld-linux.so.2
+Provides: ld-linux.so.2(GLIBC_2.3)
+Provides: libc.so.6(GLIBC_2.0)
+Provides: libc.so.6(GLIBC_2.1)
+Provides: libc.so.6(GLIBC_2.1.3)
+
 %prep
 
 %build
