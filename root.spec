@@ -178,7 +178,7 @@ ninja -v %{makeprocesses} install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
-for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin %I/etc) ; do
   lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
   sed -i -e "${lnum}c#!/usr/bin/env python3" $p
 done
