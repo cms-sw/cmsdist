@@ -42,9 +42,9 @@ Source7: http://cmsrep.cern.ch/cmssw/download/oracle-mirror/x64/%{source7}
 Source10: oracle-license
 
 # FIXME: Needed by oracle. Pkg in container image, to be added as seed for new archs.
-Requires: libnsl
+Provides: libnsl.so.1()(64bit)
 # Needed by oracle. Provided by unixODBC.
-Requires: libodbcinst
+Provides: libodbcinst.so.2()(64bit)
 
 %prep
 rm -rf instantclient_*
