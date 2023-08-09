@@ -44,8 +44,6 @@ platformBuildSeeds="git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libc
 #platformBuildSeeds+=" perl-Carp perl-Data-Dumper perl-Digest-MD5 perl-Exporter perl-File-Path perl-File-Temp perl-Getopt-Long perl-PathTools perl-Text-ParseWords perl-constant"
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
-#needed by oracle
-platformBuildSeeds+=" libnsl"
 packagesWithBuildProvides=""
 
 %ifnarch aarch64
