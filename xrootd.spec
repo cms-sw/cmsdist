@@ -6,7 +6,7 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://xrootd.slac.stanford.edu/download/v%{realversion}/%{name}-%{realversion}.tar.gz
 
 BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
@@ -19,7 +19,7 @@ Requires: libxml2
 %endif
 
 %prep
-%setup -n %n-%{realversion}
+%setup -n %{n}-%{realversion}
 sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 
 %build
@@ -29,7 +29,6 @@ sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DXRootD_VERSION_STRING=%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
