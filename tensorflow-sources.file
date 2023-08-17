@@ -11,9 +11,9 @@ Source1: relocate_wheel
 %if "%{?build_type:set}" != "set"
 %define build_type opt
 %endif
-#%if "%{?pythonOnly:set}" != "set"
-%define pythonOnly yes
-#%endif
+%if "%{?pythonOnly:set}" != "set"
+%define pythonOnly no
+%endif
 
 %define majorversion %(echo %realversion | cut -d . -f 1)
 
