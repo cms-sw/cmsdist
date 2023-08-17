@@ -21,8 +21,6 @@ Source1: relocate_wheel
 
 %setup -q -n tensorflow-%{realversion}
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
-ls %{_sourcedir}
-#mv %{_sourcedir}/relocate_wheel %{_sourcedir}/relocate_wheel.py
 
 %build
 
