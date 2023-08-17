@@ -12,6 +12,7 @@ Requires: llvm
 %define source_file none
 
 %define PipPostPost \
-    %{relocateConfig}lib/python*/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h ; \
-    %{relocateConfig}lib/python*/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h ; \
-    %{relocateConfig}lib/python*/site-packages/tensorflow/python/platform/build_info.py
+    sed -i -e 's/%{installroot}/$CMS_INSTALL_PREFIX' \
+         lib/python*/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h \
+         lib/python*/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h \
+         lib/python*/site-packages/tensorflow/python/platform/build_info.py

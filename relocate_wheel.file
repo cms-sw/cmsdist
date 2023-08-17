@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+import argparse
+
+import os
+import shutil
+import tempfile
+import zipfile
+
+
+import os
+import shutil
+import tempfile
+import zipfile
+
+
+def is_text_file(file_path):
+    try:
+        with open(file_path, "r") as file:
+            file.read()
+            return True
+    except UnicodeDecodeError:
+        return False
+
+
+def replace_in_wheel(
+    wheel_path, filenames, search_str, replace_str
+):
+    with tempfile.TemporaryDirectory() as temp_dir:
+        with zipfile.ZipFile(wheel_path, "r") as wheel:
+            wheel.extractall(temp_dir)
+            for root, dirs, files in os.walk(temp_dir):
+                for filename in files:
+                    file_path = os.path.join(root, filename)
+                    relpath = os.path.relpath(file_path, temp_dir)
+                    if relpath in filenames and is_text_file(file_path):
+                        with open(file_path, "r") as file:
+                            content = file.read()
+                            content = content.replace(search_str, replace_str)
+                        with open(file_path, "w") as file:
+                            file.write(content)
+        shutil.make_archive("new_wheel", "zip", temp_dir)
+        shutil.move("new_wheel.zip", wheel_path)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-w", "--wheelfile", help="Path to input file")
+    parser.add_argument("-f", "--files", nargs="+", help="Path inside wheel to patch")
+    parser.add_argument("-s", "--search_str", help="String to search for")
+    parser.add_argument("-r", "--replace_str", help="Replacement string")
+    args = parser.parse_args()
+
+    replace_in_wheel(args.wheelfile, args.files, args.search_str, args.replace_str)
+
+
+if __name__ == "__main__":
+    main()

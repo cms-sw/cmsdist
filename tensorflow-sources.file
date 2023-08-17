@@ -5,14 +5,15 @@ BuildRequires: bazel java-env git
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
 
-Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Source0: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Source1: relocate_wheel
 
 %if "%{?build_type:set}" != "set"
 %define build_type opt
 %endif
-%if "%{?pythonOnly:set}" != "set"
-%define pythonOnly no
-%endif
+#%if "%{?pythonOnly:set}" != "set"
+%define pythonOnly yes
+#%endif
 
 %define majorversion %(echo %realversion | cut -d . -f 1)
 
@@ -20,6 +21,8 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 
 %setup -q -n tensorflow-%{realversion}
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
+ls %{_sourcedir}
+#mv %{_sourcedir}/relocate_wheel %{_sourcedir}/relocate_wheel.py
 
 %build
 
@@ -213,3 +216,6 @@ fi
 
 # create the wheel file that is installed in py2-tensorflow
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+
+# Patch the wheel
+%{_sourcedir}/relocate_wheel -w %{i}/*.whl -f "tensorflow/python/platform/build_info.py" "tensorflow/include/third_party/gpus/cuda/cuda_config.h" "tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h" -s %{cmsroot} -r %{installroot}
