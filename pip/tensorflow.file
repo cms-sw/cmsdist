@@ -18,10 +18,10 @@ Requires: llvm
 
 %define PipPostInstall \
   for f in %{RelocateFile} ; do \
-    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f; \
+    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f; \
   done
 
 %define PipPostPost \
   for f in %{RelocateFile} ; do \
-    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f
+    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f \
   done
