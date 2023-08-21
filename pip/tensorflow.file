@@ -23,5 +23,5 @@ Requires: llvm
 
 %define PipPostPost \
   for f in %{RelocateFile} ; do \\\
-    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f \\\
+    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f; \\\
   done
