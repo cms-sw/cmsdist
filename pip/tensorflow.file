@@ -1,10 +1,5 @@
 Requires: py3-tensorboard py3-opt-einsum py3-tensorflow-estimator py3-wrapt py3-google-pasta py3-scipy
 Requires: tensorflow-sources
-%define RelocateFile \\\
-    lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h \\\
-         lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h \\\
-         lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/python/platform/build_info.py
-
 %define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
 %define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
 %define PipDepsPost | grep -v libclang
@@ -16,12 +11,17 @@ Requires: llvm
 %define source0 none
 %define source_file none
 
+%define RelocateFiles $(echo "\
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h \
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h \
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/python/platform/build_info.py")
+
 %define PipPostInstall \
-  for f in %{RelocateFile} ; do \\\
-    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f; \\\
+  for f in %{RelocateFiles} ; do \
+    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f \
   done
 
 %define PipPostPost \
-  for f in %{RelocateFile} ; do \\\
-    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f; \\\
+  for f in %{RelocateFiles} ; do \
+    [ ! -f $RPM_INSTALL_PREFIX/$f ] || %{relocateConfig}/$f \
   done
