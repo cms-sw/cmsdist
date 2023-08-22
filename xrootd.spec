@@ -20,7 +20,7 @@ Requires: libxml2
 
 %prep
 %setup -n %{n}-%{realversion}
-sed -i -e '/^ *unset(UUID_${var} CACHE)/d' cmake/Findlibuuid.cmake
+sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_libuuid True)|' cmake/Findlibuuid.cmake
 
 %build
 # By default xrootd has fuse, krb5, readline, and crypto enabled.
@@ -40,11 +40,9 @@ cmake ../%n-%{realversion} \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DWITH_OPENSSL3=TRUE \
   -DPIP_OPTIONS="--verbose" \
-  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
-  -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
-  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
+  -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
 
 make %makeprocesses VERBOSE=1
