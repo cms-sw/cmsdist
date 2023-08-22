@@ -11,6 +11,17 @@ Requires: llvm
 %define source0 none
 %define source_file none
 
+%define RelocateFiles $(echo "\
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h \
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/third_party/gpus/cuda/cuda_config.h \
+  lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/python/platform/build_info.py")
+
+%define PipPostInstall \
+  for f in %{RelocateFiles} ; do \
+    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f \
+  done
+
 %define PipPostPost \
-    %{relocateConfig}lib/python*/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h ; \
-    %{relocateConfig}lib/python*/site-packages/tensorflow/python/platform/build_info.py
+  for f in %{RelocateFiles} ; do \
+    [ ! -f $RPM_INSTALL_PREFIX/%{pkgrel}/$f ] || %{relocateConfig}/$f \
+  done
