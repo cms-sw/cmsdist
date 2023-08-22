@@ -40,7 +40,6 @@ cmake ../%n-%{realversion} \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DWITH_OPENSSL3=TRUE \
   -DPIP_OPTIONS="--verbose" \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
