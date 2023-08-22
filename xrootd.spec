@@ -20,7 +20,7 @@ Requires: libxml2
 
 %prep
 %setup -n %{n}-%{realversion}
-sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
+sed -i -e '/^ *unset(UUID_${var} CACHE)/d' cmake/Findlibuuid.cmake
 
 %build
 # By default xrootd has fuse, krb5, readline, and crypto enabled.
