@@ -8,7 +8,6 @@ Requires: rdma-core
 Requires: rocm
 %endif
 Requires: xpmem
-AutoReq: no
 
 Patch0: ucx-gcc13
 
