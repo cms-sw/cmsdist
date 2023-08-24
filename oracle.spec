@@ -19,8 +19,6 @@
 ## INITENV SET ORACLE_HOME %{i}
 ## INITENV +PATH SQLPATH %{i}/bin
 
-AutoReq: no
-
 %define http_mirror https://download.oracle.com/otn_software/linux/instantclient/%{ver_num}
 %define client_dir instantclient_%(echo %{oc_ver} | cut -d. -f1,2 | tr '.' '_')
 
@@ -42,6 +40,11 @@ Source5: %{http_mirror}/%{source5}
 Source6: %{http_mirror}/%{source6}
 Source7: http://cmsrep.cern.ch/cmssw/download/oracle-mirror/x64/%{source7}
 Source10: oracle-license
+
+# FIXME: Needed by oracle. Pkg in container image, to be added as seed for new archs.
+Provides: libnsl.so.1()(64bit)
+# Needed by oracle. Provided by unixODBC.
+Provides: libodbcinst.so.2()(64bit)
 
 %prep
 rm -rf instantclient_*
