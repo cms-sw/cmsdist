@@ -1,4 +1,4 @@
-### RPM external rocm 5.4.3
+### RPM external rocm 5.6.0
 ## NOCOMPILER
 
 %if "%{rhel}" == "7"
@@ -10,16 +10,21 @@
 %define repository repo.radeon.com/rocm/rhel%{rhel}
 %endif
 
-Source0: https://%{repository}/%{realversion}/main/comgr-2.4.0.50403-121.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{realversion}/main/hip-devel-5.4.22804.50403-121.el%{rhel}.%{_arch}.rpm
-Source2: https://%{repository}/%{realversion}/main/hip-runtime-amd-5.4.22804.50403-121.el%{rhel}.%{_arch}.rpm
-Source3: https://%{repository}/%{realversion}/main/hsa-rocr-1.7.0.50403-121.el%{rhel}.%{_arch}.rpm
-Source4: https://%{repository}/%{realversion}/main/rocm-core-5.4.3.50403-121.el%{rhel}.%{_arch}.rpm
-Source5: https://%{repository}/%{realversion}/main/rocm-dbgapi-0.68.0.50403-121.el%{rhel}.%{_arch}.rpm
-Source6: https://%{repository}/%{realversion}/main/rocm-device-libs-1.0.0.50403-121.el%{rhel}.%{_arch}.rpm
-Source7: https://%{repository}/%{realversion}/main/rocm-llvm-15.0.0.23045.50403-121.el%{rhel}.%{_arch}.rpm
-Source8: https://%{repository}/%{realversion}/main/rocm-smi-lib-5.0.0.50403-121.el%{rhel}.%{_arch}.rpm
-Source9: https://%{repository}/%{realversion}/main/rocminfo-1.0.0.50403-121.el%{rhel}.%{_arch}.rpm
+# AMD repositories are numbered 5.5, 5.5.1, 5.5.2, ..., 5.6
+# without any .0 in the directory name
+%define repoversion %(echo %{realversion} | sed -e's/\.0$//')
+
+Source0: https://%{repository}/%{repoversion}/main/comgr-2.5.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/hipcc-1.0.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source2: https://%{repository}/%{repoversion}/main/hip-devel-5.6.31061.50600-67.el%{rhel}.%{_arch}.rpm
+Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-5.6.31061.50600-67.el%{rhel}.%{_arch}.rpm
+Source4: https://%{repository}/%{repoversion}/main/hsa-rocr-1.9.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source5: https://%{repository}/%{repoversion}/main/rocm-core-5.6.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source6: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.70.1.50600-67.el%{rhel}.%{_arch}.rpm
+Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-16.0.0.23243.50600-67.el%{rhel}.%{_arch}.rpm
+Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-5.0.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50600-67.el%{rhel}.%{_arch}.rpm
 Requires: numactl
 Requires: python3
 
@@ -36,6 +41,7 @@ rpm2cpio %{SOURCE6} | cpio -idmv
 rpm2cpio %{SOURCE7} | cpio -idmv
 rpm2cpio %{SOURCE8} | cpio -idmv
 rpm2cpio %{SOURCE9} | cpio -idmv
+rpm2cpio %{SOURCE10} | cpio -idmv
 
 %install
 rmdir %{i}
