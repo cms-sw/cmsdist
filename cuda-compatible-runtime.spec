@@ -5,7 +5,6 @@
 
 Source: git+https://:@gitlab.cern.ch:8443/cms-patatrack/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&filter=./test.cu&output=/%{n}-%{realversion}.tgz
 Requires: cuda
-AutoReq: no
 
 %prep
 %setup -n %{n}

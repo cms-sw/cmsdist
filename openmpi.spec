@@ -8,7 +8,6 @@ Requires: rdma-core
 Requires: xpmem
 Requires: ucx
 Requires: zlib
-AutoReq: no
 
 # external libraries are needed for additional protocols:
 #   --with-ofi:         Open Fabric Interface's libfabric
