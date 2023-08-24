@@ -5,7 +5,6 @@
 BuildRequires: cmake ninja
 Requires: gcc zlib python3
 Requires: cuda
-AutoReq: no
 
 %define llvmCommit 8d7c2f5a53d88d769afb6b46f42bcbd8353014d0
 %define llvmBranch cms/release/16.x/464bda7
