@@ -1,5 +1,4 @@
 ### RPM external rocm 5.6.0
-## NOCOMPILER
 
 %if "%{rhel}" == "7"
 # allow rpm2cpio dependency on the bootstrap bundle
