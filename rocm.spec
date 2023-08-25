@@ -25,7 +25,7 @@ Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.50600-
 Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-16.0.0.23243.50600-67.el%{rhel}.%{_arch}.rpm
 Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-5.0.0.50600-67.el%{rhel}.%{_arch}.rpm
 Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50600-67.el%{rhel}.%{_arch}.rpm
-Requires: numactl
+Requires: numactl zstd
 Requires: python3
 
 %prep
