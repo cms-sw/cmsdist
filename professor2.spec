@@ -14,8 +14,6 @@ Patch0: professor2-ppc64-flag-change
 %ifarch ppc64le
 %patch0 -p1
 %endif
-sed -i -e 's|^ *CXXSTD  *:=.*|CXXSTD:=c++17|' Makefile
-sed -i -e 's|std=c++11|std=c++17|' pyext/setup.py
 
 # Make sure the default c++sdt stand is c++11 in pyext/setup.py
 grep -q 'std=c[+][+]11' pyext/setup.py
