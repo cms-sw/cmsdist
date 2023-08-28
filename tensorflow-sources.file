@@ -20,6 +20,8 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 
 %setup -q -n tensorflow-%{realversion}
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
+# must be kept consistent with abseil-cpp.spec and bazel-absl.patch
+sed -i 's/lts_20220623/lts_20230125/g' tensorflow/tools/def_file_filter/def_file_filter.py.tpl
 
 %build
 
