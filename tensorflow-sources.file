@@ -22,6 +22,12 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
 # must be kept consistent with abseil-cpp.spec and bazel-absl.patch
 sed -i 's/lts_20220623/lts_20230125/g' tensorflow/tools/def_file_filter/def_file_filter.py.tpl
+# bazel-absl.patch doesn't seem to override local workspace file
+# -> copy changes from upstream https://github.com/tensorflow/tensorflow/commit/ad938db0da16d00d7f14da3de2a4abb97b1bc340
+sed -i '/^    ABSL_COMMIT/c\    ABSL_COMMIT = "c2435f8342c2d0ed8101cb43adfd605fdc52dca2"' third_party/absl/workspace.bzl
+sed -i '/^    ABSL_SHA256/c\    ABSL_SHA256 = "9892836ab0d3f099b8c15076c6f4168144f452d097bd49da215fe0df36a2d48c"' third_party/absl/workspace.bzl
+sed -i '/^        patch_file/c\' third_party/absl/workspace.bzl
+rm third_party/absl/com_google_absl_fix_mac_and_nvcc_build.patch
 
 %build
 
