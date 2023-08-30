@@ -2,7 +2,7 @@
 %define git_repo igprof
 %define git_user cms-externals
 %define git_branch cms/master/c6882f4
-%define git_commit a505ed31e9fd8aa7b1484358268917d2c68ad7fe
+%define git_commit 67f31868ae84f4ec0f3362ee93e3cf89d51f0a07
 Source0: git://github.com/%{git_user}/igprof.git?obj=%{git_branch}/%{git_commit}&export=igprof-%{git_commit}&output=/igprof-%{git_commit}.tgz
 Requires: pcre libunwind
 BuildRequires: cmake
