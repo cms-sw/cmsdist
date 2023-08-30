@@ -1,9 +1,8 @@
 ### RPM external heaptrack 1.4.0
-## NO_AUTO_DEPENDENCY
 Source: https://github.com/KDE/heaptrack/archive/refs/tags/v%{realversion}.tar.gz
 Requires: boost libunwind zstd bz2lib zlib
 BuildRequires: cmake
-
+Provides: libc.so.6(GLIBC_PRIVATE)(64bit)
 %prep
 %setup -n %{n}-%{realversion}
 
