@@ -24,6 +24,9 @@ Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.50600-
 Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-16.0.0.23243.50600-67.el%{rhel}.%{_arch}.rpm
 Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-5.0.0.50600-67.el%{rhel}.%{_arch}.rpm
 Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-16.56.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.0.50600-67.el%{rhel}.%{_arch}.rpm
 Requires: numactl zstd
 Requires: python3
 
@@ -41,6 +44,9 @@ rpm2cpio %{SOURCE7} | cpio -idmv
 rpm2cpio %{SOURCE8} | cpio -idmv
 rpm2cpio %{SOURCE9} | cpio -idmv
 rpm2cpio %{SOURCE10} | cpio -idmv
+rpm2cpio %{SOURCE11} | cpio -idmv
+rpm2cpio %{SOURCE12} | cpio -idmv
+rpm2cpio %{SOURCE13} | cpio -idmv
 
 %install
 rmdir %{i}
