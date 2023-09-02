@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_13_2_2_FWLITE
+### RPM cms fwlite CMSSW_13_2_2_SKYLAKEAVX512_FWLITE
 
 Requires: fwlite-tool-conf
 
