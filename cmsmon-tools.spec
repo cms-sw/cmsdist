@@ -1,4 +1,4 @@
-### RPM cms cmsmon-tools go-0.6.3
+### RPM cms cmsmon-tools 0.6.3
 ## NOCOMPILER
 
 %define arch amd64
@@ -14,7 +14,7 @@
 %define monit_commands monit alert annotationManager nats-sub nats-pub dbs_vm
 %define common_commands promtool amtool prometheus hey stern trivy k8s_info gocurl
 %define flags -ldflags="-s -w -extldflags -static" -p %{compiling_processes}
-Source0: https://github.com/dmwm/CMSMonitoring/releases/download/%{realversion}/cmsmon-tools.tar.gz
+Source0: https://github.com/dmwm/CMSMonitoring/releases/download/go-%{realversion}/cmsmon-tools.tar.gz
 Source1: https://github.com/prometheus/prometheus/releases/download/v%promv/prometheus-%promv.linux-amd64.tar.gz
 Source2: https://github.com/prometheus/alertmanager/releases/download/v%amver/alertmanager-%amver.linux-amd64.tar.gz
 Source3: https://github.com/vkuznet/hey/releases/download/%heyver/hey-tools.tar.gz
