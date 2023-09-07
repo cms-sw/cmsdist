@@ -1,0 +1,8 @@
+  <tool name="heaptrack" version="@TOOL_VERSION@">
+    <info url="https://invent.kde.org/sdk/heaptrack/"/>
+    <client>
+      <environment name="HEAPTRACK_BASE" default="@TOOL_ROOT@"/>
+      <environment name="LIBDIR" default="$HEAPTRACK_BASE/lib"/>
+    </client>
+    <runtime name="PATH" value="$HEAPTRACK_BASE/bin" type="path"/>
+  </tool>
