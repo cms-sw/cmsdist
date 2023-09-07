@@ -154,6 +154,7 @@ Requires: cudnn
 Requires: libunwind
 %ifnarch ppc64le
 Requires: igprof
+Requires: heaptrack
 Requires: openloops
 %endif
 
