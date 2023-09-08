@@ -113,7 +113,7 @@ funcsigs==1.0.2
 future==0.18.3
 gast==0.5.3
 gitdb==4.0.10
-GitPython==3.1.32
+GitPython==3.1.35
 google-auth==2.17.2
 google-auth-oauthlib==1.0.0
 google-pasta==0.2.0
@@ -153,16 +153,16 @@ jinja2-time==0.2.0
 joblib==1.2.0
 jsonpickle==3.0.1
 jsonschema==4.17.3
-jupyter-client==8.1.0
+jupyter-client==8.3.1
 jupyter-console==6.6.3
-jupyter-core==5.3.0
+jupyter-core==5.3.1
 jupyter-events==0.6.3
 jupyter-packaging==0.12.3
 jupyterlab-pygments==0.2.2
-jupyter-server==2.5.0
+jupyter-server==2.7.2
 jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.4.4
-jupyterlab-widgets==3.0.7
+jupyterlab-widgets==3.0.8
 #NO_AUTO_UPDATE: needs newer TF
 keras==2.11.0
 keras-applications==1.0.8
