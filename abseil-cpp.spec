@@ -1,7 +1,10 @@
-### RPM external abseil-cpp 20230125.3
+### RPM external abseil-cpp 20230125.4
 ## INCLUDE cpp-standard
 
-Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
+%define tag c2435f8342c2d0ed8101cb43adfd605fdc52dca2
+%define branch lts_2023_01_25
+%define github_user abseil
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
 
 BuildRequires: cmake gmake
 
