@@ -1,3 +1,7 @@
+##################################################################
+# Version policy: [0-9]+.[0-9]+.[0-9]+ e.g 0.5.9, 0.5.10 etc.    #
+# Finding the latest version depend on this version policy       #
+##################################################################
 ### RPM cms cmsmon-tools 0.6.3
 ## NOCOMPILER
 
@@ -97,12 +101,12 @@ cd -
 #####################################################
 cat << \EOF > %i/.cmsmon-tools
 #!/bin/bash -e
-#CMSDIST_FILE_REVISION=1
+#CMSDIST_FILE_REVISION=2
 eval $(scram unsetenv -sh)
 THISDIR=$(dirname $0)
 SHARED_ARCH=$(cmsos)
 CMD=$(basename $0)
-LATEST_VERSION=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/*/$CMD 2>/dev/null | sed -e 's|.*/%{pkgcategory}/%{pkgname}/||;s|/.*||' | sort | tail -1)
+LATEST_VERSION=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/*/$CMD 2>/dev/null | sed -e 's|.*/%{pkgcategory}/%{pkgname}/||;s|/.*||' | sort -t. -k 1,1n -k 2,2n -k 3,3n | tail -1)
 [ -z $LATEST_VERSION ] && >&2 echo "ERROR: Unable to find command '$CMD' for '$SHARED_ARCH' architecture." && exit 1
 TOOL=$(ls -d ${THISDIR}/../${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_VERSION}/$CMD 2>/dev/null | sort | tail -1)
 $TOOL "$@"
