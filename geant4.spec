@@ -2,7 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 0
-%define tag 08f40361fa54cd44eeca63a53ccc0f9eb1de6014
+%define tag b2bd8c7c04a3cf2d6bbdbff27e499be83cf14e45
 ## INCLUDE cpp-standard
 %define branch cms/v%{realversion}
 %define github_user cms-externals
