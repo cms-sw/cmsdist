@@ -1,4 +1,4 @@
-### RPM external abseil-cpp 20230125.3
+### RPM external abseil-cpp 20220623.1
 ## INCLUDE cpp-standard
 
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
