@@ -2,7 +2,7 @@
 # Version policy: [0-9]+.[0-9]+.[0-9]+ e.g 0.5.9, 0.5.10 etc.    #
 # Finding the latest version depend on this version policy       #
 ##################################################################
-### RPM cms cmsmon-tools 0.6.3
+### RPM cms cmsmon-tools 0.6.5
 ## NOCOMPILER
 
 %define arch amd64
