@@ -2,8 +2,9 @@
 # Version policy: [0-9]+.[0-9]+.[0-9]+ e.g 0.5.9, 0.5.10 etc.    #
 # Finding the latest version depend on this version policy       #
 ##################################################################
-### RPM cms cmsmon-tools 0.6.3
+### RPM cms cmsmon-tools 0.6.6
 ## NOCOMPILER
+## NO_VERSION_SUFFIX
 
 %define arch amd64
 %define linuxarch linux-amd64
@@ -28,7 +29,6 @@ Source6: https://github.com/vkuznet/k8s_info/releases/download/%k8s_info_ver/k8s
 Source7: https://github.com/aquasecurity/trivy/releases/download/v%trivyver/trivy_%{trivyver}_Linux-64bit.tar.gz
 Source8: https://github.com/vkuznet/gocurl/releases/download/%gocurlver/gocurl-tools.tar.gz
 AutoReq: no
-BuildRequires: go
 
 # RPM macros documentation
 # http://www.rpm.org/max-rpm/s1-rpm-inside-macros.html
@@ -45,8 +45,6 @@ BuildRequires: go
 %setup -D -T -b 8 -n gocurl-tools
 
 %build
-export CGO_ENABLED=0
-export GOCACHE=%{_builddir}/gocache
 
 %install
 cd %{_builddir}/cmsmon-tools
