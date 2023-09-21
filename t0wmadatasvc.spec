@@ -1,4 +1,4 @@
-### RPM cms t0wmadatasvc 2.0.5
+### RPM cms t0wmadatasvc 2.0.7
 ## INITENV +PATH PATH %i/xbin
 ## INITENV +PATH PYTHONPATH %i/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHONPATH %i/x${PYTHON_LIB_SITE_PACKAGES}
@@ -7,7 +7,7 @@
 %define wmcver 2.2.3.2
 
 Source0: git+https://github.com/dmwm/WMCore?obj=master/%wmcver&export=wmcore_%n&output=/wmcore_%n.tar.gz
-Source1: git+https://github.com/dmwm/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
+Source1: git+https://github.com/LinaresToine/t0wmadatasvc?obj=master/%realversion&export=%n&output=/%n.tar.gz
 
 Requires: py3-cherrypy py3-cx-oracle py3-pycurl py3-future rotatelogs
 BuildRequires: wmcorepy3-devtools
