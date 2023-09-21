@@ -51,16 +51,9 @@ packagesWithBuildProvides=""
 platformSeeds+=" libaio"
 %endif
 
-case %cmsplatf in
-slc*)
-#  platformBuildSeeds+=" perl-Switch"
-  true
-  ;;
-*)
-  #platformSeeds+=" perl-IO"
+%if "%{rhel}" != "7"
   platformSeeds+=" libxcrypt perl-libs"
-  ;;
-esac
+%endif
 
 defaultPkgs="cms+cms-common+1.0 cms+fakesystem+1.0"
 

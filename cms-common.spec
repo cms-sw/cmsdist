@@ -1,8 +1,8 @@
 ### RPM cms cms-common 1.0
-## REVISION 1225
+## REVISION 1229
 ## NOCOMPILER
 
-%define tag 95b0189e600d95325eee5dc0d1d184f208097b5a
+%define tag bddc90f7262c8d93d294c95ccc0beba4ad6fc269
 Source:  git+https://github.com/cms-sw/cms-common.git?obj=master/%{tag}&export=%{n}-%{realversion}-%{tag}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %prep
@@ -37,7 +37,9 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-for file in $(find . -name '*'); do
+mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc
+[ -d ./etc/scramrc/SCRAM ] && rsync -a --delete ./etc/scramrc/SCRAM/ $RPM_INSTALL_PREFIX/etc/scramrc/SCRAM/
+for file in $(find . -name '*' | grep -v '^./etc/scramrc/SCRAM' ); do
   if [ -d $file ] ; then
     mkdir -p $RPM_INSTALL_PREFIX/$file
   else

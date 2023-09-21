@@ -1,4 +1,4 @@
-### RPM external xrootd 5.5.4
+### RPM external xrootd 5.6.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -6,9 +6,9 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://xrootd.slac.stanford.edu/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake gmake autotools
+BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
 Requires: libxml2
@@ -19,17 +19,16 @@ Requires: libxml2
 %endif
 
 %prep
-%setup -n %n-%{realversion}
-sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
+%setup -n %{n}-%{realversion}
+sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_libuuid True)|' cmake/Findlibuuid.cmake
 
 %build
-# By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
-# libfuse and libperl are not produced by CMSDIST.
+# By default xrootd has fuse, krb5, readline, and crypto enabled.
+# libfuse is not produced by CMSDIST.
 
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DUSER_VERSION=%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
@@ -37,14 +36,13 @@ cmake ../%n-%{realversion} \
   -DXRDCL_ONLY=TRUE \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=TRUE \
-  -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
-  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
-  -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
-  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
+  -DPIP_OPTIONS="--verbose" \
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
+  -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
 
 make %makeprocesses VERBOSE=1
@@ -56,4 +54,3 @@ make install
 
 %post
 %{relocateConfig}bin/xrootd-config
-%{relocateConfig}${PYTHON3_LIB_SITE_PACKAGES}/xrootd-%{realvesion}-*.egg/EGG-INFO/SOURCES.txt

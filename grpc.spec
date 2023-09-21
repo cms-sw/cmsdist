@@ -1,8 +1,8 @@
 ### RPM external grpc 1.35.0
+## INCLUDE cpp-standard
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: grpc-ssl-fix
-Patch1: grpc-gcc11
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
@@ -13,7 +13,6 @@ Requires: protobuf zlib pcre c-ares abseil-cpp re2
 if [ ! -z "$OPENSSL_ROOT" ]; then
 %patch0 -p1
 fi
-%patch1 -p1
 
 %build
 rm -rf ../build
@@ -26,7 +25,7 @@ cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DgRPC_INSTALL=ON \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DgRPC_ABSL_PROVIDER=package \

@@ -1,10 +1,11 @@
-### RPM external geant4 11.1.1
+### RPM external geant4 11.1.2
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
 %define use_vecgeom 1
-%define tag 35f304cde19a3e2dfe3bb941d4fc76c2fe45fa26
-%define branch cms/v%{realversion}
-%define github_user cms-externals
+%define tag cf4c6712c60cdf2b4d8799e34e176917c2de358d
+%define branch master
+%define github_user Geant4
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
@@ -40,13 +41,11 @@ export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_CXX_STANDARD:STRING="17" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DGEANT4_USE_GDML=ON \
   -DGEANT4_BUILD_TLS_MODEL:STRING="global-dynamic" \
   -DGEANT4_ENABLE_TESTING=OFF \

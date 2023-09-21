@@ -137,8 +137,10 @@
 # Define the variable name for dynamic linker search path.
 %ifos darwin
 %define dynamic_path_var DYLD_FALLBACK_LIBRARY_PATH
+%define dynamic_lib_ext  dylib
 %else
 %define dynamic_path_var LD_LIBRARY_PATH
+%define dynamic_lib_ext  so
 %endif
 
 # We are now done with locations.  Move to other things.
@@ -287,3 +289,30 @@ fi
 %endif
 
 %define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done)
+
+#CMS Data packages can have download.url file with extra URLS to the data files.
+#This macro process those urls in download then in the data package
+%define process_download_url \
+  if [ -f download.url ] ; then \
+    for line in $(grep '=' download.url | grep -v '^ *#') ; do \
+      url=$(echo $line | cut -d= -f2-) && \
+      outfile=$(echo $url | sed 's|.*/||') &&\
+      rm -f ${outfile} &&\
+      curl -L -k -s -o ${outfile} ${url} &&\
+      if [ "$(echo $line | cut -d= -f1)" != "$(md5sum ${outfile}  | cut -d' ' -f1)" ] ; then exit 1; fi ;\
+    done ;\
+    rm -f download.url;\
+  fi
+
+#Enable debug mode for cmssw packages, e.g debug root, geant4, etc
+%if "%{?cms_debug_packages:set}" == "set"
+%define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
+%else
+%define is_debug_build 0
+%endif
+
+%if %{is_debug_build %{pkgname}}
+%define cmake_build_type Debug
+%else
+%define cmake_build_type Release
+%endif

@@ -1,8 +1,9 @@
-### RPM external dd4hep v01-23x
+### RPM external dd4hep v01-25x
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
 
-%define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
+%define tag b07fa115c59d80d37154cf205cf00dff8137ee36
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
@@ -23,8 +24,8 @@ Requires: root boost clhep xerces-c geant4
   -DDD4HEP_USE_PYROOT=ON \\\
   -DCMAKE_AR=$(which gcc-ar) \\\
   -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
-  -DCMAKE_CXX_STANDARD=17 \\\
-  -DCMAKE_BUILD_TYPE=Release \\\
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
   -DDD4HEP_USE_GEANT4_UNITS=ON \\\
   -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\
   -DCMAKE_PREFIX_PATH="${CLHEP_ROOT};${XERCES_C_ROOT}"

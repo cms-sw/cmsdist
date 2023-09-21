@@ -1,6 +1,7 @@
 ### RPM external vecgeom v1.2.1
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
 %define tag 12fc8ba12efe93de5aaa9ff8e51e093ae93a1633
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
@@ -22,10 +23,10 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_CXX_STANDARD:STRING="17" \
+  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
@@ -48,6 +49,3 @@ make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
 make %{makeprocesses} install VERBOSE=1
-
-%post
-%{relocateConfig}lib/cmake/VecGeom/*.cmake
