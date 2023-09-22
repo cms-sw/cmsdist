@@ -113,8 +113,6 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: gmp-static
-Requires: mpfr-static
 Requires: fastjet-contrib
 Requires: opencl
 Requires: opencl-cpp

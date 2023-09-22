@@ -1,8 +1,0 @@
-<tool name="mpfr" version="@TOOL_VERSION@">
-  <lib name="mpfr"/>
-  <client>
-    <environment name="MPFR_BASE"  default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"   default="$MPFR_BASE/include"/>
-    <environment name="LIBDIR"    default="$MPFR_BASE/lib"/>
-  </client>
-</tool>
