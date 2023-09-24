@@ -24,7 +24,10 @@
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
     <flags LTO_FLAGS="@LTO_FLAGS@"/>
-    <flags PGO_FLAGS="@PGO_FLAGS@"/>
+    <flags PGO_FLAGS="-fprofile-prefix-path=$(LOCALTOP) -fprofile-update=prefer-atomic -fprofile-correction"/>
+    <flags PGO_FLAGS="-fprofile-dir=%q{CMSSW_PGO_DIRECTORY}/PGO-Profiles/cmssw/%q{CMSSW_CPU_TYPE}"/>
+    <flags PGO_GENERATE_FLAGS="-fprofile-generate"/>
+    <flags PGO_USE_FLAGS="-fprofile-use -fprofile-partial-training -Wno-missing-profile"/>
     <flags LDFLAGS="@GCC_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@GCC_SHAREDFLAGS@"/>
     <flags LD_UNIT="@GCC_LD_UNIT@"/>
