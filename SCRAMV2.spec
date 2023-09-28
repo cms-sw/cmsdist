@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV2 V2_2_9_pre17
+### RPM lcg SCRAMV2 V2_2_9_pre19
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -9,7 +9,7 @@ Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag fce83e9b457c3c34373e4e2c1eec7854f33e17fa
+%define tag 158cdbe2c93768caf002fdb06e9c51ce6c5c1b56
 %define branch SCRAMV2
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -62,14 +62,6 @@ echo "SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgr
 echo "SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
 echo "set SCRAMV1_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
 echo "set SCRAMV1_VERSION='%v'" >> $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
-
-if [ ! -d $RPM_INSTALL_PREFIX/etc/scramrc ] ; then
-  mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc
-  touch $RPM_INSTALL_PREFIX/etc/scramrc/links.db
-  echo 'CMSSW=$SCRAM_ARCH/cms/cmssw/CMSSW_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw.map
-  echo 'CMSSW=$SCRAM_ARCH/cms/cmssw-patch/CMSSW_*' > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw-patch.map
-  echo 'CORAL=$SCRAM_ARCH/cms/coral/CORAL_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/coral.map
-fi
 
 if [ ! -d $RPM_INSTALL_PREFIX/%{cmsplatf}/%{scramv1_dir} ] ; then
   mkdir -p $RPM_INSTALL_PREFIX/%{cmsplatf}/%{scramv1_dir}
