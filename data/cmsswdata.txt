@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoTracker-TkSeedGenerator=V00-03-00
 DataFormats-SiStripCluster=V00-01-00
 RecoMuon-TrackerSeedGenerator=V00-06-00
 Configuration-Generator=V01-07-00
@@ -62,7 +63,6 @@ PhysicsTools-PatUtils=V00-05-00
 RecoJets-JetProducers=V05-14-00
 L1Trigger-DTTriggerPhase2=V00-02-00
 EgammaAnalysis-ElectronTools=V00-03-01
-RecoTracker-TkSeedGenerator=V00-02-00
 Geometry-DTGeometryBuilder=V00-01-00
 L1Trigger-TrackFindingTMTT=V00-02-00
 SimTransport-PPSProtonTransport=V00-02-00
