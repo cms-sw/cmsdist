@@ -1,5 +1,5 @@
 ### RPM external tensorflow-sources 9ec9136
-%define tag         27555d909fcf2e113694c3f0c8f8d6516b440278
+%define tag         38f3e565fcc38c18eab636f289cd43810c8187a4
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 %define python_cmd python3
