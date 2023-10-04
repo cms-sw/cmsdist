@@ -1,4 +1,4 @@
-### RPM external bazel 5.4.0
+### RPM external bazel 6.1.0
 ## INCLUDE cpp-standard
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
