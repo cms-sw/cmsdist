@@ -1,0 +1,48 @@
+diff --git a/include/lwtnn/generic/Graph.tcc b/include/lwtnn/generic/Graph.tcc
+index decf355..b0ba0ef 100644
+--- a/include/lwtnn/generic/Graph.tcc
++++ b/include/lwtnn/generic/Graph.tcc
+@@ -5,6 +5,7 @@
+ #include "lwtnn/generic/Graph.hh"
+ #include "lwtnn/Exceptions.hh"
+ 
++#include <cassert>
+ #include <set>
+ #include <memory>
+ 
+diff --git a/include/lwtnn/generic/LightweightNeuralNetwork.tcc b/include/lwtnn/generic/LightweightNeuralNetwork.tcc
+index 3ad9a00..25e4680 100644
+--- a/include/lwtnn/generic/LightweightNeuralNetwork.tcc
++++ b/include/lwtnn/generic/LightweightNeuralNetwork.tcc
+@@ -6,6 +6,7 @@
+ #include "lwtnn/generic/Stack.hh"
+ #include "lwtnn/generic/eigen_typedefs.hh"
+ 
++#include <cassert>
+ #include <set>
+ 
+ namespace lwt {
+diff --git a/include/lwtnn/generic/Stack.tcc b/include/lwtnn/generic/Stack.tcc
+index 41ebb73..6a45995 100644
+--- a/include/lwtnn/generic/Stack.tcc
++++ b/include/lwtnn/generic/Stack.tcc
+@@ -4,6 +4,7 @@
+ #include "lwtnn/generic/Stack.hh"
+ 
+ #include <set>
++#inclide <cassert>
+ 
+ namespace lwt {
+ namespace generic {
+diff --git a/src/lwtnn-test-arbitrary-net.cxx b/src/lwtnn-test-arbitrary-net.cxx
+index 7678ac1..b72789c 100644
+--- a/src/lwtnn-test-arbitrary-net.cxx
++++ b/src/lwtnn-test-arbitrary-net.cxx
+@@ -6,6 +6,7 @@
+ 
+ #include <Eigen/Dense>
+ 
++#include <cassert>
+ #include <iostream>
+ #include <sstream>
+ #include <string>

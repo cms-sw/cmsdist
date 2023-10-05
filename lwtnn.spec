@@ -4,9 +4,12 @@
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 BuildRequires: ninja cmake
 Requires: eigen boost
+# Add missing <cassert> include
+Patch0: lwtnn-cassert
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 
