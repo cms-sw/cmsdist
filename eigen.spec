@@ -2,7 +2,7 @@
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 ## INCLUDE cpp-standard
-%define tag 7cacff3d1cfde870b1a5dd3c065729c9ff7665bb
+%define tag 44c0fd88c1459a9d0e10870a6285a6c7a2943bb5
 %define branch cms/master/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/eigen-git-mirror.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
