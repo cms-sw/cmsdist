@@ -30,7 +30,7 @@ index 41ebb73..6a45995 100644
  #include "lwtnn/generic/Stack.hh"
  
  #include <set>
-+#inclide <cassert>
++#include <cassert>
  
  namespace lwt {
  namespace generic {
