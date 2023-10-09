@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DQM-Integration=V00-04-00
 DataFormats-DetId=V00-01-00
 RecoTracker-TkSeedGenerator=V00-03-00
 DataFormats-SiStripCluster=V00-01-00
@@ -10,7 +11,6 @@ RecoMuon-TrackerSeedGenerator=V00-06-00
 Configuration-Generator=V01-07-00
 L1Trigger-L1THGCal=V01-08-00
 L1Trigger-L1TCalorimeter=V01-02-00
-DQM-Integration=V00-03-00
 L1Trigger-TrackTrigger=V00-03-00
 Geometry-TestReference=V00-12-00
 L1Trigger-L1TMuon=V01-09-00
