@@ -1,8 +1,8 @@
-### RPM external geant4 11.1.ref08
+### RPM external geant4 11.1.ref09
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 %define use_vecgeom 1
-%define tag b2bd8c7c04a3cf2d6bbdbff27e499be83cf14e45
+%define tag 276261e43f81b92453d03db08ffaaf85af27d8ec
 ## INCLUDE cpp-standard
 %define branch cms/v%{realversion}
 %define github_user cms-externals
