@@ -1,0 +1,24 @@
+diff --git a/plugins/PCLPixelAlignmentRenderPlugin.cc b/plugins/PCLPixelAlignmentRenderPlugin.cc
+index be08575..f4a544d 100644
+--- a/plugins/PCLPixelAlignmentRenderPlugin.cc
++++ b/plugins/PCLPixelAlignmentRenderPlugin.cc
+@@ -12,6 +12,7 @@
+ #include "TList.h"
+ #include "TLine.h"
+ #include <cassert>
++#include <array>
+ 
+ class PCLPixelAlignmentRenderPlugin : public DQMRenderPlugin {
+   std::array<double, 6> sigCut_;
+diff --git a/plugins/RPCRenderPlugin.cc b/plugins/RPCRenderPlugin.cc
+index 98032ed..6c7daa1 100644
+--- a/plugins/RPCRenderPlugin.cc
++++ b/plugins/RPCRenderPlugin.cc
+@@ -6,6 +6,7 @@
+ #include "TColor.h"
+ #include <iostream>
+ #include <cassert>
++#include <array>
+ #include "TLine.h"
+ #include "TText.h"
+ #include "TPaletteAxis.h"
