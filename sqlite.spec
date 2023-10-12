@@ -1,4 +1,5 @@
 ### RPM external sqlite 3.36.0
+Requires: zlib
 Source: https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
 Requires: zlib
 
