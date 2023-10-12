@@ -1,11 +1,11 @@
-### RPM external gcc 11.4.1
+### RPM external gcc 12.3.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag d41085966d842e54fd4b528c719ed5af2e51c473
-%define gccBranch releases/gcc-11
+%define gccTag 10ebb8b9db2ec7ad53e4fc1f2900d9a8c8ddeaea
+%define gccBranch releases/gcc-12
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
@@ -24,6 +24,8 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
+#Fix for array-bound
+Source14: https://github.com/gcc-mirror/gcc/commit/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 %ifos linux
 %define bisonVersion 3.8.2
@@ -44,6 +46,7 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+patch -p1 < %{_sourcedir}/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req

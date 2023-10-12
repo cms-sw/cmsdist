@@ -58,7 +58,7 @@ cmake ${PROJ_DIR} \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
     -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
