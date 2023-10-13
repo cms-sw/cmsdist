@@ -1,19 +1,11 @@
 #Enable/disable LTO builds
-%define enable_lto 1
+%define enable_lto 0
 
-#Disable LTO for ppc64le
+#LTO related flags
 %ifarch ppc64le
 %undefine enable_lto
 %define enable_lto 0
 %endif
-
-#Disable LTO for ASAN
-%if "%(case %realversion in (*_ASAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
-%undefine enable_lto
-%define enable_lto 0
-%endif
-
-#LTO related flags
 %if "%{enable_lto}" == "1"
 %define lto_build_flags -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
 %else
