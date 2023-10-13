@@ -17,7 +17,10 @@ additionalProvides=""
 ##############################
 # Packages to seed for runtime
 ##############################
-platformSeeds="  bash glibc glibc-headers python3 openssl-libs"
+platformSeeds="  bash glibc libgcc glibc-devel python3 openssl-libs"
+%ifnarch aarch64
+platformSeeds+=" glibc-headers"
+%endif
 platformSeeds+=" libbrotli libX11 libxcrypt"
 
 # Needed by python runtime
