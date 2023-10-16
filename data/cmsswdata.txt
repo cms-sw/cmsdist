@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+IOPool-Input=V00-02-00
 GeneratorInterface-EvtGenInterface=V02-07-00
 RecoBTag-Combined=V01-18-00
 RecoEgamma-EgammaPhotonProducers=V00-04-00
@@ -75,7 +76,6 @@ SimPPS-PPSPixelDigiProducer=V00-00-02
 CalibCalorimetry-EcalTrivialCondModules=V00-03-00
 RecoLocalCalo-EcalDeadChannelRecoveryAlgos=V01-01-00
 FWCore-Modules=V00-01-00
-IOPool-Input=V00-01-00
 RecoCTPPS-TotemRPLocal=V00-02-00
 SLHCUpgradeSimulations-Geometry=V01-00-10
 SimTransport-TotemRPProtonTransportParametrization=V00-01-00
