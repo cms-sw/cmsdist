@@ -1,5 +1,5 @@
 ### FILE rpm-preamble
-
+#testing
 #When build with non-empty buildroot rpm runs some post scripts
 #to strip the binary. Following two definition avoid running those
 #scripts. These scripts were not doing anything in past as we always
