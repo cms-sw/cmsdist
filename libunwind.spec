@@ -1,5 +1,5 @@
-### RPM external libunwind 1.6.2-master
-%define tag 7cf6e84bb86ff5840896b4910ccc3865d4f00ffb
+### RPM external libunwind 1.7.2-master
+%define tag 24947191d61dda869e039e0414fe97e9f594acd5
 %define branch master
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
