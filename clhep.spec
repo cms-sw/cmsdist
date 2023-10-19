@@ -17,7 +17,7 @@ cd ../build
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \
-  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
+  -DCLHEP_BUILD_CXXSTD="-std=c++%{cms_cxx_standard}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
