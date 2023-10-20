@@ -1,7 +1,6 @@
 ### RPM external geant4 11.1.ref09
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
-%define use_vecgeom 0
 %define tag c129aefe07822b4921e79fdf67b2dc0de7f4bde2
 ## INCLUDE cpp-standard
 %define branch cms/v%{realversion}
@@ -13,6 +12,7 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
+%define use_vecgeom 0
 %if %{use_vecgeom}
 Requires: vecgeom
 %endif
