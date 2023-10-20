@@ -27,6 +27,7 @@ Requires: dcap
 %prep
 %setup -n %{n}-%{realversion}
 
+
 %build
 rm -rf ../build
 mkdir ../build
