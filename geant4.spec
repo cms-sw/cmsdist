@@ -1,7 +1,7 @@
-### RPM external geant4 11.1.ref08
+### RPM external geant4 11.1.ref09
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
-%define tag b2bd8c7c04a3cf2d6bbdbff27e499be83cf14e45
+%define tag c129aefe07822b4921e79fdf67b2dc0de7f4bde2
 ## INCLUDE cpp-standard
 %define branch cms/v%{realversion}
 %define github_user cms-externals
