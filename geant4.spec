@@ -2,7 +2,6 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define use_vecgeom 1
 %define tag cf4c6712c60cdf2b4d8799e34e176917c2de358d
 %define branch master
 %define github_user Geant4
@@ -13,6 +12,7 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
+%define use_vecgeom 1
 %if %{use_vecgeom}
 Requires: vecgeom
 %endif
