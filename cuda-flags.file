@@ -2,16 +2,8 @@
 ## INCLUDE cpp-standard
 # define the CUDA compilation flags in a way that can be shared by SCRAM-based and regular tools
 
-# on X86 and Power, build support for Pascal, Volta and Turing
-%ifarch x86_64 ppc64le
-%define cuda_arch 60 70 75
-%endif
-
-# on ARM, build support for Volta, Xavier SoC and Turing
-%ifarch aarch64
-%define cuda_arch 70 72 75
-%endif
-
+# build support for Pascal (6.x), Volta (7.0), Turing (7.5), Ampere (8.x) and Lovelace (8.9)
+%define cuda_arch 60 70 75 80 89
 
 # LLVM style for listing the supported CUDA compute architectures
 %define llvm_cuda_arch %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
