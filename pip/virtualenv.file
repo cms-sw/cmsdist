@@ -1,2 +1,3 @@
 Requires: py3-appdirs py3-distlib py3-filelock py3-six py3-importlib-metadata py3-importlib-resources
 Requires: py3-backports-entry-points-selectable py3-platformdirs
+BuildRequires: py3-hatchling py3-hatch-vcs

@@ -1,9 +1,9 @@
-### RPM external onnxruntime 1.10.0
+### RPM external onnxruntime 1.14.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag 7a6355a2780cd18ed0cb3f4a1ceb664391a0bf0c
+%define tag e4c6aa2984c7c71409f4c6d0db865117afa66932
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
@@ -46,12 +46,17 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
+   -Donnxruntime_BUILD_UNIT_TESTS=OFF \
    -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
    -DCMAKE_CUDA_FLAGS="-cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
-   -DRE2_INCLUDE_DIR="${RE2_ROOT}/include"
+   -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow"
+
+# False positive string overflow
+# https://github.com/google/flatbuffers/issues/7366
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build

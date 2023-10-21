@@ -34,11 +34,19 @@ source ${SCRAM_TOOLS_BIN_DIR}/os_libdir.sh
 # optimizations as they become available in gcc.
 
 GCC_CXXFLAGS=""
-GCC_CXXFLAGS="$GCC_CXXFLAGS -std=c++17 -ftree-vectorize"
+GCC_CXXFLAGS="$GCC_CXXFLAGS -std=c++${CMS_CXX_STANDARD} -ftree-vectorize"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Werror=array-bounds -Werror=format-contains-nul -Werror=type-limits"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fvisibility-inlines-hidden"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
+
+#FIXME: GCC 12.2 workaround
+if [[ "$GCC_VERSION" =~ ^12\.[23]\. ]] ; then
+  GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"
+fi
+
+# Explicitly use the GNU binutils ld.bfd linker
+GCC_CXXFLAGS="$GCC_CXXFLAGS -fuse-ld=bfd"
 
 case $(uname -m) in
   aarch64 ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;

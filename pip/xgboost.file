@@ -1,6 +1,8 @@
 Requires: py3-scipy xgboost
-%define patchsrc sed -i -e 's|^        outfiles = super().install()|        return super().install()|' setup.py
-%define PipBuildOptions --install-option="--use-system-libxgboost"
+%define patchsrc \
+        sed -i -e 's|^\\(  *\\)outfiles *= *super().install()|\\1return super().install()|' setup.py ;\
+        sed -i -e "s|^\\(.*'use-system-libxgboost':.*\\)0[)]|\\11)|" setup.py
+
 %define PipPostInstall \
   mkdir -p "%{i}/${PYTHON3_LIB_SITE_PACKAGES}/xgboost/lib" && \
   ( cd "%{i}/${PYTHON3_LIB_SITE_PACKAGES}/xgboost/lib" && \

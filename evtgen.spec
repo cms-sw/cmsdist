@@ -30,12 +30,6 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-
-case %cmsplatf in
-  osx*)
-  ;;
-esac
-
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
       -DEVTGEN_HEPMC3:BOOL=OFF -DHEPMC2_ROOT_DIR:PATH=$HEPMC_ROOT \
       -DEVTGEN_PYTHIA:BOOL=ON  -DPYTHIA8_ROOT_DIR:PATH=$PYTHIA8_ROOT \
@@ -43,11 +37,9 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
       -DEVTGEN_TAUOLA:BOOL=ON  -DTAUOLAPP_ROOT_DIR:PATH=$TAUOLAPP_ROOT
 
 # One more fix-up for OSX (in addition to the patch above)
-case %cmsplatf in
-  osx*)
-perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc
-  ;;
-esac
+%ifos darwin
+ perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc
+%endif
 
 make
 

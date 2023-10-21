@@ -2,14 +2,13 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
-Requires: root curl python3 xrootd llvm hdf5 mxnet-predict yoda opencv
+Requires: root curl python3 xrootd llvm hdf5 yoda opencv
 Requires: professor2 rivet frontier_client onnxruntime openldap pacparser
 
 Requires: py3-anyio
 Requires: py3-sniffio
 Requires: py3-scipy
 Requires: py3-keras
-Requires: py3-Theano
 Requires: py3-scikit-learn
 #save for the end
 Requires: py3-tensorflow
@@ -23,11 +22,7 @@ Requires: py3-numexpr
 Requires: py3-histogrammar
 Requires: py3-pandas
 Requires: py3-Bottleneck
-Requires: py3-downhill
 Requires: py3-xgboost
-Requires: py3-llvmlite
-Requires: py3-numba
-Requires: py3-hep_ml
 Requires: py3-uncertainties
 Requires: py3-seaborn
 Requires: py3-h5py
@@ -127,7 +122,6 @@ Requires: py3-autopep8
 Requires: py3-pycodestyle
 Requires: py3-lz4
 Requires: py3-ply
-Requires: py3-py
 Requires: py3-defusedxml
 Requires: py3-atomicwrites
 Requires: py3-attrs

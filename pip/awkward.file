@@ -1,2 +1,3 @@
-Requires: py3-numpy py3-pytest-runner py3-pybind11 py3-PyYAML cmake
+Requires: py3-numpy py3-pytest-runner py3-pybind11 py3-PyYAML cmake py3-awkward-cpp
+BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme
 %define source0 git+https://github.com/scikit-hep/awkward?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/source.tar.gz

@@ -1,8 +1,8 @@
-### RPM lcg SCRAMV1 V3_00_59
+### RPM lcg SCRAMV1 V3_00_63
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define tag e8f47d278bafb41f8ea16e2ae7247c709ee9d591
+%define tag de3b7c8b5aae73b098929a05bc5c6ac9a3d7b5ac
 %define branch SCRAMV3
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -66,7 +66,6 @@ if [ ! -d $RPM_INSTALL_PREFIX/etc/scramrc ] ; then
   echo 'CMSSW=$SCRAM_ARCH/cms/cmssw/CMSSW_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw.map
   echo 'CMSSW=$SCRAM_ARCH/cms/cmssw-patch/CMSSW_*' > $RPM_INSTALL_PREFIX/etc/scramrc/cmssw-patch.map
   echo 'CORAL=$SCRAM_ARCH/cms/coral/CORAL_*'       > $RPM_INSTALL_PREFIX/etc/scramrc/coral.map
-  [ ! -f $RPM_INSTALL_PREFIX/%{OldDB} ] || grep '%{OldDB} *$' $RPM_INSTALL_PREFIX/%{OldDB} | awk '{print $2}' | sed 's|%{OldDB}.*||' > $RPM_INSTALL_PREFIX/etc/scramrc/links.db
 fi
 
 touch $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg

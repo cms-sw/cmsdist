@@ -1,4 +1,4 @@
-### RPM external ucx 1.14.0
+### RPM external ucx 1.14.1
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 Requires: cuda gdrcopy
@@ -8,7 +8,6 @@ Requires: rdma-core
 Requires: rocm
 %endif
 Requires: xpmem
-AutoReq: no
 
 %prep
 %setup -q -n %{n}-%{realversion}

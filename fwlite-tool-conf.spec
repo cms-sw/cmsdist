@@ -47,6 +47,7 @@ Requires: OpenBLAS
 Requires: py3-pybind11
 Requires: fwlite_python_tools
 Requires: zstd
+Requires: utm
 
 # Only for Darwin platform.
 %ifarch darwin

@@ -7,7 +7,7 @@ index 0d6c856..e51b906 100644
      message(STATUS "GCC_VERSION>=4.6")
      if(CPP11)
 -      set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-error=unused-but-set-variable -Wno-error=unused-but-set-parameter -Wno-error=maybe-uninitialized -Wno-error=unused-variable -std=c++11")
-+      set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-error=unused-but-set-variable -Wno-error=unused-but-set-parameter -Wno-error=maybe-uninitialized -Wno-error=unused-variable -std=c++11 ${CMAKE_CXX_FLAGS}")
++      set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-error=unused-but-set-variable -Wno-error=unused-but-set-parameter -Wno-error=maybe-uninitialized -Wno-error=unused-variable ${CMAKE_CXX_FLAGS}")
        message(STATUS "Enabling usage of C++11 features")
      else()
 -      set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-error=unused-but-set-variable -Wno-error=unused-but-set-parameter -Wno-error=maybe-uninitialized -Wno-error=unused-variable")

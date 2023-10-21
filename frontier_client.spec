@@ -1,14 +1,11 @@
-### RPM external frontier_client 2.9.1
+### RPM external frontier_client 2.10.2
 ## INITENV +PATH PYTHON3PATH %{i}/python/lib
 
-%define tag 9a63575736ae2da49b51e630796a3b3a65e9bd37
-%define branch cms/%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source: http://frontier.cern.ch/dist/frontier_client__%{realversion}__src.tar.gz
 Requires: expat pacparser zlib
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}__%{realversion}__src
 
 %define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
 
@@ -22,19 +19,13 @@ mkdir -p %i/lib
 mkdir -p %i/include
 export MAKE_ARGS=%{makeargs}
 make $MAKE_ARGS CXXFLAGS="-ldl" distdir=%i dist
-
-case $(uname) in 
-  Darwin ) 
+cp -r python %i
+%ifos darwin 
     so=dylib 
     ln -sf libfrontier_client.%{realversion}.$so %i/lib/libfrontier_client.$so
     ln -sf libfrontier_client.$so.%{realversion} %i/libfrontier_client.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/").$so
-    ;; 
-  * ) 
+%else
     so=so 
     ln -sf libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so
     ln -sf libfrontier_client.$so.%{realversion} %i/lib/libfrontier_client.$so.%(echo %v | sed -e "s/\([0-9]*\)\..*/\1/")
-    ;; 
-esac
-
-cp -r python %i
-
+%endif

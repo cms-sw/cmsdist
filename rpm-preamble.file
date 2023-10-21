@@ -66,7 +66,7 @@
 %define cmsbuildApiVersion 0
 %endif
 
-%define pkgdir		%{pkgcategory}/%{n}/%{v}
+%define pkgdir		%{pkgcategory}/%{pkgname}/%{pkgversion}
 
 # Architecture comes first by default.  Run with "--define 'archfirst no'"
 # to change this.
@@ -137,8 +137,10 @@
 # Define the variable name for dynamic linker search path.
 %ifos darwin
 %define dynamic_path_var DYLD_FALLBACK_LIBRARY_PATH
+%define dynamic_lib_ext  dylib
 %else
 %define dynamic_path_var LD_LIBRARY_PATH
+%define dynamic_lib_ext  so
 %endif
 
 # We are now done with locations.  Move to other things.
@@ -164,13 +166,14 @@
 %define drop_bootstrap_lib  export %{dynamic_path_var}=$(echo $%{dynamic_path_var} | tr ':' '\\n' | grep -v '/external/bootstrap-bundle/' | tr '\\n' ':' | sed 's|:*$||')
 %define disable_recursive_env %{drop_bootstrap_path}; %{drop_bootstrap_lib}; export _CMSBUILD_BUILD_ENV_=1
 %if "%archfirst" == "yes"
-%define initenv_all	%{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	%{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all     %{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct1 %{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/%{cmsplatf}/$x/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %else
-%define initenv_all	%{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
-%define initenv_direct	%{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_all     %{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
+%define initenv_direct1 %{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
-%define initenv		%initenv_all
+%define initenv_direct  %{initenv_direct1} %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
+%define initenv         %{initenv_all}     %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
 
 %if "%{?compiling_processes:set}" == "set"
 %define makeprocesses -j %compiling_processes 
@@ -279,10 +282,37 @@ fi
 %define check_version_suffix echo "%%allow_version_suffix defined, skipping version suffix check."
 %else
 %define check_version_suffix \
-  if [ "%{v}" != "%{realversion}" ] ; then \
-    echo "ERROR: %{v} not same as %{realversion}. Automatic version suffix was added, please update the version explicitly for %{n}.spec to avoid this error." ;\
+  if [ "%{pkgversion}" != "%{realversion}" ] ; then \
+    echo "ERROR: %{pkgversion} not same as %{realversion}. Automatic version suffix was added, please update the version explicitly for %{pkgname}.spec to avoid this error." ;\
     exit 1 ;\
   fi
 %endif
 
 %define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done)
+
+#CMS Data packages can have download.url file with extra URLS to the data files.
+#This macro process those urls in download then in the data package
+%define process_download_url \
+  if [ -f download.url ] ; then \
+    for line in $(grep '=' download.url | grep -v '^ *#') ; do \
+      url=$(echo $line | cut -d= -f2-) && \
+      outfile=$(echo $url | sed 's|.*/||') &&\
+      rm -f ${outfile} &&\
+      curl -L -k -s -o ${outfile} ${url} &&\
+      if [ "$(echo $line | cut -d= -f1)" != "$(md5sum ${outfile}  | cut -d' ' -f1)" ] ; then exit 1; fi ;\
+    done ;\
+    rm -f download.url;\
+  fi
+
+#Enable debug mode for cmssw packages, e.g debug root, geant4, etc
+%if "%{?cms_debug_packages:set}" == "set"
+%define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
+%else
+%define is_debug_build 0
+%endif
+
+%if %{is_debug_build %{pkgname}}
+%define cmake_build_type Debug
+%else
+%define cmake_build_type Release
+%endif

@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 55.0
+### RPM cms cmssw-tool-conf 57.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -95,6 +95,7 @@ Requires: grpc
 Requires: onnxruntime
 Requires: triton-inference-client
 Requires: hdf5
+Requires: yaml-cpp
 Requires: yoda
 Requires: fftw3
 Requires: fftjet
@@ -112,15 +113,12 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
-Requires: gmp-static
-Requires: mpfr-static
 Requires: fastjet-contrib
 Requires: opencl
 Requires: opencl-cpp
 Requires: qd
 Requires: blackhat
 Requires: sherpa
-Requires: geant4-parfullcms
 Requires: fasthadd
 Requires: eigen
 Requires: gdb
@@ -137,7 +135,6 @@ Requires: gosam
 Requires: madgraph5amcatnlo
 Requires: python_tools
 Requires: dasgoclient
-Requires: mxnet-predict
 Requires: dablooms
 
 # Only for Linux platform.
@@ -155,6 +152,7 @@ Requires: cudnn
 Requires: libunwind
 %ifnarch ppc64le
 Requires: igprof
+Requires: heaptrack
 Requires: openloops
 %endif
 
@@ -165,6 +163,7 @@ Requires: icc
 Requires: icx
 Requires: intel-vtune
 Requires: rocm
+Requires: rocm-rocrand
 Requires: cmsmon-tools
 Requires: dip
 %else
