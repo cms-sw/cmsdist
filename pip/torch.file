@@ -16,7 +16,7 @@ export MAX_JOBS=%compiling_processes \
 %endif \
 export COLORIZE_OUTPUT=OFF \
 export BUILD_TEST=OFF \
-export USE_CUDA=ON \
+export USE_CUDA=OFF \
 export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
  \
 export CUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
