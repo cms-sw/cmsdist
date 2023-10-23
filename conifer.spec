@@ -2,6 +2,7 @@
 ## NOCOMPILER
 
 Source: https://github.com/thesps/%{n}/archive/v%{realversion}.tar.gz
+Requires: json
 
 %prep
 %setup -n %{n}-%{realversion}
