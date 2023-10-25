@@ -17,6 +17,7 @@ Requires: bz2lib
 Requires: cepgen
 Requires: classlib
 Requires: clhep
+Requires: conifer
 Requires: coral
 Requires: cppunit
 Requires: cpu_features
