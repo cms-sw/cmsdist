@@ -1,0 +1,12 @@
+diff --git a/interpreter/cling/lib/Interpreter/Interpreter.cpp b/interpreter/cling/lib/Interpreter/Interpreter.cpp
+index 681dbffc95..739f170d4e 100644
+--- a/interpreter/cling/lib/Interpreter/Interpreter.cpp
++++ b/interpreter/cling/lib/Interpreter/Interpreter.cpp
+@@ -1727,6 +1727,7 @@ namespace cling {
+     // Return a symbol's address, and whether it was jitted.
+     std::string mangledName;
+     utils::Analyze::maybeMangleDeclName(GD, mangledName);
++    printf("mangled name=%s\n", mangledName.c_str());
+ #if defined(_WIN32)
+     // For some unknown reason, Clang 5.0 adds a special symbol ('\01') in front
+     // of the mangled names on Windows, making them impossible to find
