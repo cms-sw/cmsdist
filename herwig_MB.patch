@@ -1,0 +1,24 @@
+diff -ur Herwig-7.2.1/MatrixElement/Hadron/MEDiffraction.cc Herwig-7.2.1_patched/MatrixElement/Hadron/MEDiffraction.cc
+--- Herwig-7.2.1/MatrixElement/Hadron/MEDiffraction.cc	2023-10-19 19:10:16.254957366 +0200
++++ Herwig-7.2.1_patched/MatrixElement/Hadron/MEDiffraction.cc	2023-10-19 19:14:18.639389061 +0200
+@@ -620,7 +620,7 @@
+   // given by the MPIHandler. 
+   
+   // First get the eventhandler to get the current cross sections. 
+-  static Ptr<StandardEventHandler>::tptr eh =
++  Ptr<StandardEventHandler>::tptr eh =
+   dynamic_ptr_cast<Ptr<StandardEventHandler>::tptr>(generator()->eventHandler());
+ 
+   // All diffractive processes make use of this ME. 
+diff -ur Herwig-7.2.1/MatrixElement/MEMinBias.cc Herwig-7.2.1_patched/MatrixElement/MEMinBias.cc
+--- Herwig-7.2.1/MatrixElement/MEMinBias.cc	2023-10-19 19:08:46.414751420 +0200
++++ Herwig-7.2.1_patched/MatrixElement/MEMinBias.cc	2023-10-19 19:14:19.199390134 +0200
+@@ -113,7 +113,7 @@
+   // given by the MPIHandler. 
+   
+   // First get the eventhandler to get the current cross sections. 
+-  static Ptr<StandardEventHandler>::tptr eh =
++  Ptr<StandardEventHandler>::tptr eh =
+   dynamic_ptr_cast<Ptr<StandardEventHandler>::tptr>(generator()->eventHandler());
+ 
+   // All diffractive processes make use of this ME. 
