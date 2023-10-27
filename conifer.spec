@@ -1,4 +1,4 @@
-### RPM external conifer 1.2
+### RPM external conifer 1.3
 ## NOCOMPILER
 
 Source: https://github.com/thesps/%{n}/archive/v%{realversion}.tar.gz
