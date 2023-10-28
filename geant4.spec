@@ -2,9 +2,9 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define tag cf4c6712c60cdf2b4d8799e34e176917c2de358d
-%define branch master
-%define github_user Geant4
+%define tag 2d5992376773d172321f01710a82943ead5bb435
+%define branch cms/v%{realversion}
+%define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake gmake
