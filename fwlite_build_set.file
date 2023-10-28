@@ -82,6 +82,7 @@ DataFormats/SiPixelDigi
 DataFormats/SiStripCluster
 DataFormats/SiStripDetId
 DataFormats/SiStripDigi
+DataFormats/SoATemplate
 DataFormats/StdDictionaries
 DataFormats/TauReco
 DataFormats/TrackCandidate
