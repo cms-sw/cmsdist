@@ -70,6 +70,7 @@ DataFormats/ParticleFlowReco
 DataFormats/PatCandidates
 DataFormats/Phase2TrackerCluster
 DataFormats/Phase2TrackerDigi
+DataFormats/Portable
 DataFormats/Provenance
 DataFormats/RPCDigi
 DataFormats/RPCRecHit
@@ -125,6 +126,7 @@ Geometry/CaloGeometry
 Geometry/CommonDetUnit
 Geometry/CommonTopologies
 Geometry/GEMGeometry
+HeterogeneousCore/AlpakaInterface
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
