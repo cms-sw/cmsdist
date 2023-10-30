@@ -16,11 +16,13 @@ Requires: openloops
 BuildRequires: autotools
 
 Patch0: LHEEventNumFxFx
+Patch1: herwig_MB
 
 %prep
 %setup -q -n Herwig-%{realversion}
 
 %patch0 -p1
+%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
