@@ -251,7 +251,7 @@ prettytable==3.6.0
 prometheus-client==0.16.0
 prompt_toolkit==3.0.38
 #NO_AUTO_UPDATE:1: Update together with Tensorflow
-protobuf==4.21.9
+protobuf==4.24.4
 prwlock==0.4.1
 psutil==5.9.4
 ptyprocess==0.7.0
@@ -338,12 +338,12 @@ subprocess32==3.5.4
 sympy==1.11.1
 tables==3.8.0
 tenacity==8.2.2
-#NO_AUTO_UPDATE:1: Force to use tensorflow 2.6.4; this should match the version in tensorflow-sources.spec
-tensorflow==2.12.0
-tensorboard==2.12.1
-tensorflow-io-gcs-filesystem==0.32.0
-tensorflow-estimator==2.12.0
-tensorboard-data-server==0.7.0
+#NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
+tensorflow==2.15-ac5003a
+tensorboard==2.15.0
+tensorflow-io-gcs-filesystem==0.34.0
+tensorflow-estimator==2.14.0
+tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
 termcolor==2.2.0
 terminado==0.17.1

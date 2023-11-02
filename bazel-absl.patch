@@ -1,6 +1,8 @@
---- bazel/distdir_deps.bzl.orig	2023-06-12 11:36:07.650810578 +0200
-+++ bazel/distdir_deps.bzl	2023-06-12 11:37:10.490300045 +0200
-@@ -162,17 +162,17 @@
+diff --git a/distdir_deps.bzl b/distdir_deps.bzl
+index b896f1b..0646f73 100755
+--- a/distdir_deps.bzl
++++ b/distdir_deps.bzl
+@@ -229,17 +229,17 @@ DIST_DEPS = {
          ],
      },
      "com_google_absl": {
@@ -22,4 +24,4 @@
 +        "strip_prefix": "abseil-cpp-20230125.3",
      },
      "zstd-jni": {
-         "archive": "v1.5.0-4.zip",
+         "archive": "v1.5.2-3.zip",
