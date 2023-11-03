@@ -193,5 +193,19 @@ pushd $outdir
   tar cfz %{i}/libtensorflow_cc.tar.gz .
 popd
 
+#FIXME: Create missing externals links
+pushd bazel-%{realversion}/external
+  srcdir=$(dirname $(readlink zlib))
+  for e in ducc farmhash_gpu_archive stablehlo ; do
+    echo "Check external link"
+    if [ -e ${srcdir}/$e ] ; then
+      if [ ! -e $e ] ; then
+        echo "Creating symlink ${srcdir}/$e->$e"
+        ln -s ${srcdir}/$e $
+      fi
+    fi
+  done
+popd
+
 # create the wheel file that is installed in py2-tensorflow
 bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
