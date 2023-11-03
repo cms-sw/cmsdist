@@ -1,5 +1,5 @@
 ##Tensorflow Common build files
-BuildRequires: bazel java-env git
+BuildRequires: bazel java-env git patchelf
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires

@@ -1,4 +1,4 @@
-### RPM external patchelf 0.13
+### RPM external patchelf 0.18.0
 ## NO_AUTO_RUNPATH
 
 %define git_branch master
