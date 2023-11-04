@@ -339,7 +339,7 @@ sympy==1.11.1
 tables==3.8.0
 tenacity==8.2.2
 #NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
-tensorflow==2.15-ac5003a
+tensorflow==2.16.0
 tensorboard==2.15.0
 tensorflow-io-gcs-filesystem==0.34.0
 tensorflow-estimator==2.14.0

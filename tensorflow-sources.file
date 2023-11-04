@@ -194,18 +194,18 @@ pushd $outdir
 popd
 
 #FIXME: Create missing externals links
-pushd bazel-%{realversion}/external
+pushd bazel-tensorflow-%{realversion}/external
   srcdir=$(dirname $(readlink zlib))
   for e in ducc farmhash_gpu_archive stablehlo ; do
-    echo "Check external link"
+    echo "Check external link: $e"
     if [ -e ${srcdir}/$e ] ; then
       if [ ! -e $e ] ; then
         echo "Creating symlink ${srcdir}/$e->$e"
-        ln -s ${srcdir}/$e $
+        ln -s ${srcdir}/$e .
       fi
     fi
   done
 popd
 
 # create the wheel file that is installed in py2-tensorflow
-bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
