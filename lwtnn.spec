@@ -1,12 +1,14 @@
-### RPM external lwtnn 2.13
+### RPM external lwtnn 2.14.1
 ## INCLUDE cpp-standard
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
+Patch0: lwtnn-assert-fix
 BuildRequires: ninja cmake
 Requires: eigen boost
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 
@@ -17,7 +19,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_CXX_COMPILER="g++" \
-  -DCMAKE_CXX_FLAGS="-fPIC" \
+  -DCMAKE_CXX_FLAGS="-fPIC -DBOOST_DISABLE_ASSERTS" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILTIN_BOOST=OFF \

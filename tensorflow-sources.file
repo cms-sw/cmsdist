@@ -1,5 +1,5 @@
 ##Tensorflow Common build files
-BuildRequires: bazel java-env git
+BuildRequires: bazel java-env git patchelf
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires
@@ -10,11 +10,12 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %if "%{?build_type:set}" != "set"
 %define build_type opt
 %endif
-%if "%{?pythonOnly:set}" != "set"
-%define pythonOnly no
+%if "%{?tfversion:set}" != "set"
+%define tfversion %{realversion}
 %endif
 
-%define majorversion %(echo %realversion | cut -d . -f 1)
+
+%define majorversion %(echo %tfversion | cut -d . -f 1)
 
 %prep
 
@@ -23,7 +24,7 @@ sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_
 
 %build
 
-export PYTHON_BIN_PATH="$(which %{python_cmd})"
+export PYTHON_BIN_PATH="$(which python3)"
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 export GCC_HOST_COMPILER_PATH="$(which gcc)"
 export CC_OPT_FLAGS="-Wno-sign-compare"
@@ -55,6 +56,7 @@ export TF_CUDA_CLANG=0
 export cuda=Y
 %endif
 export TF_NEED_CUDA=%{enable_gpu}
+export TF_NEED_CLANG=0
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export TF_NEED_GCP=0
@@ -73,6 +75,7 @@ export TF_DOWNLOAD_CLANG=0
 export TF_NEED_IGNITE=0
 export TF_NEED_ROCM=0
 export TF_NEED_TENSORRT=0
+export TF_PYTHON_VERSION=%{cms_python3_major_minor_version}
 export TEST_TMPDIR=%{_builddir}/build
 export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 
@@ -98,7 +101,6 @@ echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
 echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
 echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
 echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
-echo "opt_einsum_archive:"                  >> ${TF_CMS_EXTERNALS}
 echo "boringssl:"                           >> ${TF_CMS_EXTERNALS}
 
 export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
@@ -108,28 +110,18 @@ if [ -d ../build ] ; then
   chmod -R u+w  ../build
   rm -rf ../build
 fi
+
+export PYTHONPATH=$PYTHON3PATH
+
 ./configure
-
-#Generate Python wrappers so that we can use PYTHON*PATH env
-rm -rf %{_builddir}/cms-pytool ; mkdir %{_builddir}/cms-pytool
-echo '#!/bin/bash'                             > %{_builddir}/cms-pytool/python3
-echo "export PYTHON3PATH=\"${PYTHON3PATH}\""  >> %{_builddir}/cms-pytool/python3
-echo "$(which python3) \"\$@\""               >> %{_builddir}/cms-pytool/python3
-
-chmod +x %{_builddir}/cms-pytool/python3
-ln -s python3 %{_builddir}/cms-pytool/python
-export PATH=%{_builddir}/cms-pytool:$PATH
-
 # build tensorflow python targets
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
 
-%if "%{pythonOnly}" == "no"
 bazel $BAZEL_OPTS //tensorflow:tensorflow
 bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
 bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
-bazel $BAZEL_OPTS //tensorflow/compiler/xla:cpu_function_runtime
-bazel $BAZEL_OPTS //tensorflow/compiler/xla:executable_run_options
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiler
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
 #bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
 bazel $BAZEL_OPTS //tensorflow/core/profiler
@@ -137,15 +129,17 @@ bazel $BAZEL_OPTS //tensorflow:install_headers
 
 # rebuild *.pb.{h|cc} files using the external protobuf compiler
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
+# create symlinks for third-part protobuf
+
+for d in third_party/xla/third_party/tsl/tsl third_party/xla/xla ; do
+  ln -s $d .
+done
 for f in $(find tensorflow -name "*.proto")
 do
   protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
 done
-%endif
 
 %install
-
-%if "%{pythonOnly}" == "no"
 
 # define and create empty target directories
 outdir="$PWD/out"
@@ -160,15 +154,14 @@ srcdir="$PWD/bazel-bin/tensorflow"
 
 cp -p $srcdir/libtensorflow*.so* $libdir/
 cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
-cp -p $srcdir/compiler/xla/lib*.so* $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
   # check if the actual lib exists
-  [ -f $libdir/lib${l}.so.%{realversion} ] || exit 1
+  [ -f $libdir/lib${l}.so.%{tfversion} ] || exit 1
 
-  # link from majorversion to realversion
+  # link from majorversion to tfversion
   rm -f $libdir/lib${l}.so.%{majorversion}
-  ln -s lib${l}.so.%{realversion} $libdir/lib${l}.so.%{majorversion}
+  ln -s lib${l}.so.%{tfversion} $libdir/lib${l}.so.%{majorversion}
 
   # link from default lib to majorversion
   rm -f $libdir/lib${l}.so
@@ -176,7 +169,7 @@ for l in tensorflow_cc tensorflow_framework tensorflow ; do
 done
 
 #cp -p $srcdir/compiler/aot/tfcompile $bindir
-for name in tensorflow absl re2 third_party ; do
+for name in tensorflow absl re2 ; do
     cp -r -p $srcdir/include/$name $incdir
 done
 
@@ -200,16 +193,19 @@ pushd $outdir
   tar cfz %{i}/libtensorflow_cc.tar.gz .
 popd
 
-%endif
-
-#FIXME: for some reason farmhash_gpu.h is a broken symlink
-optdir=$(ls -d $PWD/bazel-out/*-%{build_type})
-if [ -L ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
-  if [ ! -e ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h ] ; then
-    ln -sf ${optdir}/bin/tensorflow/tools/pip_package/build_pip_package.runfiles/org_tensorflow/external/farmhash_gpu_archive/src/farmhash_gpu.h \
-       ${optdir}/bin/external/farmhash_gpu_archive/_virtual_includes/farmhash_gpu/third_party/farmhash_gpu/src/farmhash_gpu.h
-  fi
-fi
+#FIXME: Create missing externals links
+pushd bazel-tensorflow-%{realversion}/external
+  srcdir=$(dirname $(readlink zlib))
+  for e in ducc farmhash_gpu_archive stablehlo ; do
+    echo "Check external link: $e"
+    if [ -e ${srcdir}/$e ] ; then
+      if [ ! -e $e ] ; then
+        echo "Creating symlink ${srcdir}/$e->$e"
+        ln -s ${srcdir}/$e .
+      fi
+    fi
+  done
+popd
 
 # create the wheel file that is installed in py2-tensorflow
-bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
