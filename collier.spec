@@ -1,6 +1,6 @@
 ### RPM external collier 1.2.8
-Source: http://www.hepforge.org/archive/collier/%{n}-%realversion.tar.gz
- # https://collier.hepforge.org/downloads/?f=collier-%{realversion}.tar.gz
+# Source: http://www.hepforge.org/archive/collier/%{n}-%{realversion}.tar.gz
+Source: https://cmsrep.cern.ch/cmssw/download/collier/%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: gmake cmake
 
 %define keep_archives true
