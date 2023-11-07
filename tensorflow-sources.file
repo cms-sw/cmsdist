@@ -175,19 +175,18 @@ done
 
 # copy headers from downloaded dependencies
 copy_headers() {
-  for header_file in $(find $1/$2 -name *.h | sed "s|$1/||") ; do
+  for header_file in $(find $1/$2 -name *.h | grep -v '_virtual_includes' | sed "s|$1/||") ; do
     header_dir="${incdir}/$(dirname ${header_file})"
     mkdir -p "${header_dir}"
-    cp -p "${header_file}" "${header_dir}/"
+    cp -p "$1/${header_file}" "${header_dir}/"
   done
 }
 copy_headers "$PWD" tensorflow/compiler
 copy_headers "$PWD" tensorflow/core/profiler/internal
 copy_headers "$PWD" tensorflow/core/profiler/lib
 copy_headers "$PWD" tensorflow/core/util/tensor_bundle
-
-# do not copy the protobuf headers as we use the version in cmsdist
-# copy_headers "$PWD/tensorflow/contrib/makefile/downloads/protobuf/src" google
+copy_headers "${PWD}/bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles/local_tsl" tsl
+copy_headers "${PWD}/bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles" ml_dtypes
 
 pushd $outdir
   tar cfz %{i}/libtensorflow_cc.tar.gz .
