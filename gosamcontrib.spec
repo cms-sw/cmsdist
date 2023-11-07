@@ -4,6 +4,8 @@ Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.g
 Requires: qgraf
 Requires: form
 
+%define keep_archives true
+
 %prep
 %setup -q -n gosam-contrib-2.0
 
