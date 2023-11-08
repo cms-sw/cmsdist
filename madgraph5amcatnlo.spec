@@ -67,3 +67,5 @@ rm -f  %{i}/Source/StdHEP/log.*
 %{relocateConfig}basiceventgeneration/Source/make_opts
 %{relocateConfig}HEPTools/ninja/lib/lib*.la
 %{relocateConfig}HEPTools/collier/COLLIER-*/collierConfig.cmake
+
+#
