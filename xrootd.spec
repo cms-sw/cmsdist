@@ -54,3 +54,4 @@ make install
 
 %post
 %{relocateConfig}bin/xrootd-config
+%{relocateConfig}share/xrootd/cmake/XRootDConfig.cmake
