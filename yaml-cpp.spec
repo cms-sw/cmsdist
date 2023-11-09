@@ -1,4 +1,4 @@
-### RPM external yaml-cpp 0.7.0
+### RPM external yaml-cpp 0.8.0
 
 Source: https://github.com/jbeder/yaml-cpp/archive/refs/tags/%{n}-%{realversion}.tar.gz
 
