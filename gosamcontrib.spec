@@ -24,8 +24,8 @@ PLATF_CONF_OPTS="--enable-shared --enable-static"
 make %makeprocesses all
 
 %install
-make install 
+make install
+rm %{i}/lib/*.la
 
 %post
 %{relocateConfig}share/gosam-contrib/gosam.conf
-
