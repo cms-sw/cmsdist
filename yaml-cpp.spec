@@ -1,18 +1,18 @@
-### RPM external yaml-cpp 0.7.0
+### RPM external yaml-cpp 0.8.0
 
-Source: https://github.com/jbeder/yaml-cpp/archive/refs/tags/%{n}-%{realversion}.tar.gz
+Source: https://github.com/jbeder/yaml-cpp/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
 
 %prep
-%setup -n %{n}-%{n}-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake ../%{n}-%{n}-%{realversion} \
+cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -26,4 +26,4 @@ cd ../build
 ninja %{makeprocesses} install
 
 %post
-%{relocateConfig}share/pkgconfig/yaml-cpp.pc
+%{relocateConfig}lib64/pkgconfig/yaml-cpp.pc
