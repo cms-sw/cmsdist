@@ -1,0 +1,10 @@
+<tool name="clang-uml" version="@TOOL_VERSION@">
+  <info url="https://github.com/jbeder/clang-uml/"/>
+  <lib name="clang-utml"/>
+  <client>
+    <environment name="CLANG_UML_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$CLANG_UML_BASE/lib64"/>
+  </client>
+  <runtime name="PATH" value="$CLANG_UML_BASE/bin" type="path"/>
+  <use name="yaml-cpp"/>
+</tool>
