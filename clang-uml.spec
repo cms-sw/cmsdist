@@ -24,12 +24,10 @@ CMAKE_PREFIX_PATH=${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp/ cmake ../%{n}-%{realver
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_FLAGS="" \
-  -DCMAKE_EXE_LINKER_FLAGS="" \
-  -DLLVM_VERSION= \
-  -DCMAKE_VERBOSE_MAKEFILE=true \
-  -DGIT_VERSION="0.4.1-9-g205d6de" \
-  -DLLVM_CONFIG_PATH= 
+%ifarch aarch64
+-DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
+%endif
+  -DGIT_VERSION="0.4.1-9-g205d6de" 
 
 ninja -v %{makeprocesses}
 
