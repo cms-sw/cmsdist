@@ -15,7 +15,6 @@ Requires: py3-tensorflow
 Requires: py3-cmsml
 Requires: py3-law
 Requires: py3-protobuf
-Requires: py3-torch
 
 Requires: py3-tables
 Requires: py3-numexpr
