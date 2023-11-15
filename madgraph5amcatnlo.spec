@@ -16,6 +16,7 @@ Requires: gosamcontrib
 Requires: fastjet
 Requires: pythia8
 Requires: thepeg
+Requires: collier
 
 %prep
 %setup -n MG5_aMC_v%{versiontag}_py3
@@ -28,6 +29,7 @@ sed -i -e "s|\${LHAPDF_ROOT}|${LHAPDF_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${FASTJET_ROOT}|${FASTJET_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${GOSAMCONTRIB_ROOT}|${GOSAMCONTRIB_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${THEPEG_ROOT}|${THEPEG_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${COLLIER_ROOT}|${COLLIER_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|@MADGRAPH5AMCATNLO_ROOT@|%{i}|g" input/mg5_configuration.txt
 sed -i -e "s|SHFLAG = \-fPIC|SHFLAG = \-fPIC \-fcommon|g" vendor/StdHEP/src/stdhep_arch
 
@@ -43,27 +45,17 @@ set nevents 5
 EOF
 ./bin/mg5_aMC ./basiceventgeneration.txt
 
-# Remove all downloaded tgz files before building the package
-find . -type f -name '*.tgz' -delete
-rm -rf HEPTools/ninja/Ninja HEPTools/ninja/ninja_install.log \
-       ME5_debug basiceventgeneration/run*debug.log \
-       basiceventgeneration/Source/StdHEP/log.mcfio.*
-find HEPTools/oneloop -type f -print | xargs chmod a+r
-
 %install
 rsync -avh %{_builddir}/MG5_aMC_v%{versiontag}_py3/ %{i}/
 sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
 find %{i} -name '*deleteme' -delete
-rm -rf %{i}/HEPTools/collier/COLLIER-*/build
-rm -f  %{i}/HEPTools/collier/collier_install.log
-rm -f  %{i}/Source/StdHEP/log.*
+rm -f %{i}/basiceventgeneration/*.log
+rm -f %{i}/basiceventgeneration/Source/StdHEP/log.mcfio.*
 
 %post
 %relocateConfigAll . py.py
 %{relocateConfig}input/mg5_configuration.txt
 %{relocateConfig}basiceventgeneration/Cards/amcatnlo_configuration.txt
 %{relocateConfig}basiceventgeneration/Source/make_opts
-%{relocateConfig}HEPTools/ninja/lib/lib*.la
-%{relocateConfig}HEPTools/collier/COLLIER-*/collierConfig.cmake
