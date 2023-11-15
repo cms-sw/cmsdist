@@ -4,6 +4,8 @@ Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.g
 Requires: qgraf
 Requires: form
 
+%define keep_archives true
+
 %prep
 %setup -q -n gosam-contrib-2.0
 
@@ -22,8 +24,8 @@ PLATF_CONF_OPTS="--enable-shared --enable-static"
 make %makeprocesses all
 
 %install
-make install 
+make install
+rm %{i}/lib/*.la
 
 %post
 %{relocateConfig}share/gosam-contrib/gosam.conf
-
