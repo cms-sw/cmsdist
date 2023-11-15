@@ -7,6 +7,7 @@
 
 Source: git+https://github.com/pytorch/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: pytorch-ignore-different-cuda-include-dir
+Patch1: pytorch-missing-braces
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
@@ -15,6 +16,7 @@ Requires: cuda cudnn OpenBLAS zlib protobuf
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build && mkdir ../build && cd ../build
