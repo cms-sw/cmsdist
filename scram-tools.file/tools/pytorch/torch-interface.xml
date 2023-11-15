@@ -7,5 +7,4 @@
   </client>
   <use name="protobuf"/>
   <use name="zlib"/>
-  <use name="cuda"/>
 </tool>
