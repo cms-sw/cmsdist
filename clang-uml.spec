@@ -28,7 +28,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
 %endif
   -DGIT_VERSION="%{realversion}" \
-  -DCMAKE_PREFIX_PATH="${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp:${ZLIB_ROOT}"
+  -DCMAKE_PREFIX_PATH="${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp;${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses}
 
