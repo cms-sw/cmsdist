@@ -15,6 +15,7 @@ Requires: alpgen
 Requires: boost
 Requires: bz2lib
 Requires: cepgen
+Requires: clang-uml
 Requires: classlib
 Requires: clhep
 Requires: conifer
