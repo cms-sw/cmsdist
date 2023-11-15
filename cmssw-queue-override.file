@@ -30,9 +30,8 @@
 %define release_usercxxflags    -fexceptions -fstack-protector-all --param=ssp-buffer-size=4 -Wp,-D_FORTIFY_SOURCE=2
 %endif
 
-%if "%(case %realversion in (*_UBSAN_X*) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %realversion in (*UBSAN*) echo true ;; (*) echo false ;; esac)" == "true"
 %define release_usercxxflags    -g
-%define patchsrc20   sed -i -e 's|</tool>|  <runtime name="UBSAN_OPTIONS" value="print_stacktrace=1"/>\\n</tool>|' config/Self.xml
 %endif
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
