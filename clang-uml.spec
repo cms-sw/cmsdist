@@ -6,7 +6,7 @@
 %define github_user bkryza
 Source: git+https://github.com/%{github_user}/clang-uml.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: cmake ninja 
-Requires: yaml-cpp llvm
+Requires: yaml-cpp llvm zlib
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -20,20 +20,18 @@ cd ../build
 #it is required as the current default in clang-uml cmake system is not
 #correctly formated (issue opened)
 
-CMAKE_PREFIX_PATH=${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp/ cmake ../%{n}-%{realversion} \
+cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
 %ifarch aarch64
--DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
+  -DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
 %endif
-  -DGIT_VERSION="0.4.1-9-g205d6de" 
+  -DGIT_VERSION="%{realversion}" \
+  -DCMAKE_PREFIX_PATH="${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp:${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses}
 
 %install
 cd ../build
 ninja %{makeprocesses} install
-
-%post
-%{relocateConfig}share/pkgconfig/yaml-cpp.pc
