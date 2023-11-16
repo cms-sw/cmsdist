@@ -264,6 +264,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
              --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             -enable-libstdcxx-backtrace=yes \
              --enable-shared --disable-libgcj \
              --with-zstd=%{i}/tmp/sw \
              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
