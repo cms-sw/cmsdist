@@ -9,8 +9,12 @@ Requires: rocm
 %endif
 Requires: xpmem
 
+Patch0: ucx-gcc13
+
 %prep
 %setup -q -n %{n}-%{realversion}
+
+%patch0 -p1
 
 # regenerate the configure files and Makefiles
 ./autogen.sh
