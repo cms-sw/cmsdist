@@ -21,6 +21,13 @@ Requires: cuda cudnn OpenBLAS zlib protobuf
 %build
 rm -rf ../build && mkdir ../build && cd ../build
 
+USE_CUDA=OFF
+%if "%{cmsos}" != "slc7_aarch64"
+if [ "%{cuda_gcc_support}" = "true" ] ; then
+USE_CUDA=ON
+fi
+%endif
+
 cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -28,7 +35,7 @@ cmake ../%{n}-%{realversion} \
     -DBUILD_TEST=OFF \
     -DBUILD_BINARY=OFF \
     -DBUILD_PYTHON=OFF \
-    -DUSE_CUDA=ON \
+    -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
     -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
     -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
