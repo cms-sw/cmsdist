@@ -1,0 +1,31 @@
+--- grpc/third_party/abseil-cpp/absl/synchronization/internal/graphcycles.cc.orig	2023-06-12 13:50:04.615712549 +0200
++++ grpc/third_party/abseil-cpp/absl/synchronization/internal/graphcycles.cc	2023-06-12 13:50:21.878566886 +0200
+@@ -37,6 +37,7 @@
+ 
+ #include <algorithm>
+ #include <array>
++#include <limits>
+ #include "absl/base/internal/hide_ptr.h"
+ #include "absl/base/internal/raw_logging.h"
+ #include "absl/base/internal/spinlock.h"
+--- grpc/third_party/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake.orig	2023-06-12 13:50:35.303453601 +0200
++++ grpc/third_party/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake	2023-06-12 13:51:05.358200009 +0200
+@@ -202,6 +202,7 @@
+ 
+ list(APPEND ABSL_RANDOM_HWAES_ARM64_FLAGS
+     "-march=armv8-a+crypto"
++    "-mno-outline-atomics"
+ )
+ 
+ list(APPEND ABSL_RANDOM_HWAES_MSVC_X64_FLAGS
+--- grpc/third_party/abseil-cpp/absl/debugging/failure_signal_handler.cc.orig	2023-06-12 13:51:27.063016878 +0200
++++ grpc/third_party/abseil-cpp/absl/debugging/failure_signal_handler.cc	2023-06-12 13:52:05.133695671 +0200
+@@ -125,7 +125,7 @@
+ #else
+   const size_t page_mask = sysconf(_SC_PAGESIZE) - 1;
+ #endif
+-  size_t stack_size = (std::max(SIGSTKSZ, 65536) + page_mask) & ~page_mask;
++  size_t stack_size = (std::max<size_t>(SIGSTKSZ, 65536) + page_mask) & ~page_mask;
+ #if defined(ADDRESS_SANITIZER) || defined(MEMORY_SANITIZER) || \
+     defined(THREAD_SANITIZER)
+   // Account for sanitizer instrumentation requiring additional stack space.

@@ -1,0 +1,10 @@
+--- a/test/common/utils_assert.h.orig	2023-05-26 14:40:58.707932592 +0200
++++ b/test/common/utils_assert.h	2023-05-26 14:41:17.954766142 +0200
+@@ -19,6 +19,7 @@
+ 
+ #include "config.h"
+ #include "utils_report.h"
++#include <cstdlib>
+ 
+ #define REPORT_FATAL_ERROR REPORT
+ 
