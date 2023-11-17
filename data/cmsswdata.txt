@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEgamma-ElectronIdentification=V01-13-00
 RecoTauTag-TrainingFiles=V00-08-00
 IOPool-Input=V00-03-00
 RecoBTag-Combined=V01-19-00
@@ -36,7 +37,6 @@ RecoTracker-DisplacedRegionalTracking=V00-01-00
 RecoTracker-MkFit=V00-12-00
 PhysicsTools-NanoAOD=V01-03-00
 CalibTracker-SiStripDCS=V01-01-00
-RecoEgamma-ElectronIdentification=V01-12-00
 L1Trigger-TrackFindingTracklet=V00-03-00
 RecoEgamma-PhotonIdentification=V01-06-00
 Alignment-OfflineValidation=V00-03-00
