@@ -90,16 +90,8 @@ echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
 echo "pybind11:${PY3_PYBIND11_ROOT}"        >> ${TF_CMS_EXTERNALS}
-#echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
-#echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
-#echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:${PY3_ABSL_PY_ROOT}"          >> ${TF_CMS_EXTERNALS}
-#echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
-#echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
-#echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
-#echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
-#echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
 echo "boringssl:"                           >> ${TF_CMS_EXTERNALS}
 
 export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
@@ -138,7 +130,7 @@ bazel $BAZEL_OPTS //tensorflow:install_headers
 
 # rebuild *.pb.{h|cc} files using the external protobuf compiler
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
-# create symlinks for third-part protobuf
+# create symlinks for third-party packages
 
 for d in third_party/xla/third_party/tsl/tsl third_party/xla/xla ; do
   ln -s $d .
@@ -216,4 +208,5 @@ pushd bazel-tensorflow-%{realversion}/external
 popd
 
 # create the wheel file that is installed in py2-tensorflow
+export PYTHONPATH=$PYTHON3PATH
 bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
