@@ -1,4 +1,4 @@
-### RPM external valgrind 3.17.0
+### RPM external valgrind 3.22.0
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 Source: https://sourceware.org/pub/valgrind/%{n}-%{realversion}.tar.bz2
 
