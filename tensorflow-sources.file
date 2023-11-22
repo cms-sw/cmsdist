@@ -42,11 +42,10 @@ BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
 %ifarch ppc64le
-BAZEL_OPTS="$BAZEL_OPTS --define tflite_kernel_use_xnnpack=false --define tflite_with_xnnpack_explicit=false"
+BAZEL_OPTS="$BAZEL_OPTS --define tflite_with_xnnpack=false"
 %endif
 
 %if %{enable_gpu}
-BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
 export GCC_HOST_COMPILER_PREFIX=${GCC_ROOT}/bin
 export GCC_HOST_COMPILER_PATH=$(which gcc)
 export TF_CUDA_COMPUTE_CAPABILITIES=$(echo "compute_%{cuda_arch}" | sed 's|\s\s*|,compute_|g')
@@ -91,19 +90,30 @@ echo "org_sqlite:${SQLITE_ROOT}"            >> ${TF_CMS_EXTERNALS}
 echo "cython:"                              >> ${TF_CMS_EXTERNALS}
 echo "flatbuffers:${FLATBUFFERS_ROOT}"      >> ${TF_CMS_EXTERNALS}
 echo "pybind11:${PY3_PYBIND11_ROOT}"        >> ${TF_CMS_EXTERNALS}
-echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
-echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
-echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
+#echo "functools32_archive:"                 >> ${TF_CMS_EXTERNALS}
+#echo "astor_archive:"                       >> ${TF_CMS_EXTERNALS}
+#echo "six_archive:"                         >> ${TF_CMS_EXTERNALS}
 echo "absl_py:${PY3_ABSL_PY_ROOT}"          >> ${TF_CMS_EXTERNALS}
-echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
-echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
+#echo "termcolor_archive:"                   >> ${TF_CMS_EXTERNALS}
+#echo "typing_extensions_archive:"           >> ${TF_CMS_EXTERNALS}
 echo "pasta:"                               >> ${TF_CMS_EXTERNALS}
-echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
-echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
-echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
+#echo "wrapt:"                               >> ${TF_CMS_EXTERNALS}
+#echo "gast_archive:"                        >> ${TF_CMS_EXTERNALS}
+#echo "org_python_pypi_backports_weakref:"   >> ${TF_CMS_EXTERNALS}
 echo "boringssl:"                           >> ${TF_CMS_EXTERNALS}
 
 export TF_SYSTEM_LIBS=$(cat ${TF_CMS_EXTERNALS} | sed 's|:.*||' | tr "\n" "," | sed 's|,*$||')
+
+echo "pypi_numpy:${PY3_NUMPY_ROOT}"         >> ${TF_CMS_EXTERNALS}
+
+#Create local repos for pypi_* packages required by TF
+tf_requirement=requirements_lock_%{cms_python3_major_version}_%{cms_python3_minor_version}.txt
+for name in $( grep '^[a-zA-Z].*==' ${tf_requirement} | sed 's| *==.*||;s|-|_|g') ; do
+  bfile="pypi"
+  [ -f third_party/cms/${name}.BUILD ] && bfile="${name}"
+  sed -i -e "s|def repos():|def pypi_${name}():\n  cms_new_local_repository(name = \"pypi_${name}\",build_file = \"//third_party/cms:${bfile}.BUILD\")\n\ndef repos():\n    pypi_${name}()|" third_party/cms/workspace.bzl
+done
+rm -f ${tf_requirement}; touch ${tf_requirement}
 
 # clear the build dir and configure
 if [ -d ../build ] ; then
@@ -116,7 +126,6 @@ export PYTHONPATH=$PYTHON3PATH
 ./configure
 # build tensorflow python targets
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
-
 bazel $BAZEL_OPTS //tensorflow:tensorflow
 bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
 bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph

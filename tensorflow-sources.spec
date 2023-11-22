@@ -1,6 +1,6 @@
 ### RPM external tensorflow-sources 2.15.0
 #FIXME: Set tfversion only for non-tagged TF versions
-%define tag         b47a1dc0032b63c98d63d5b5b78e9a9942e8d379
+%define tag         9be80c88ecdd559940e6467fb780369e4740c8e4
 %define branch      cms/v%{realversion}
 %define github_user cms-externals
 %define build_type opt
