@@ -1,4 +1,5 @@
 ### RPM external hepmc 2.06.10
+## INCLUDE cpp-standard
 
 %define tag 91c4c217572ac25669e9ad8fdc0111d1d5c82289
 %define branch cms/%{realversion}
@@ -22,6 +23,7 @@ cmake ../HepMC-%{realversion} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DCMAKE_CXX_FLAGS="-fPIC" \
     -DCMAKE_BUILD_TYPE="Release" \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -Dmomentum:STRING=GEV \
     -Dlength:STRING=MM 
 
