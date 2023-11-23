@@ -1,0 +1,19 @@
+--- a/include/etc/ap_private.h	2022-05-16 15:05:19.000000000 +0200
++++ b/include/etc/ap_private.h	2023-11-23 14:53:55.052958667 +0100
+@@ -1590,7 +1590,7 @@
+   }
+ 
+  public:
+-  INLINE ap_private() {
++  INLINE ap_private(): VAL(0) {
+     set_canary();
+     clearUnusedBits();
+     check_canary();
+@@ -3302,6 +3302,7 @@
+   ///  for object deserialization (pair this with the static method Read).
+   INLINE ap_private() {
+     set_canary();
++    memset(pVal, 0, _AP_N * sizeof(uint64_t));
+     clearUnusedBits();
+     check_canary();
+   }
