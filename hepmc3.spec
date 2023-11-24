@@ -1,6 +1,6 @@
 ### RPM external hepmc3 3.2.7
 
-Source: https://gitlab.cern.ch/hepmc/HepMC3/-/archive/3.2.5/HepMC3-%{realversion}.tar.gz
+Source: https://gitlab.cern.ch/hepmc/HepMC3/-/archive/%{realversion}/HepMC3-%{realversion}.tar.gz
 
 BuildRequires: cmake
 
