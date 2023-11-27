@@ -4,9 +4,7 @@ AutoProv: no
 
 %define PipPreBuild \
   export NPY_NUM_BUILD_JOBS=%{compiling_processes} ;\
-  if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then \
-     export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC" ; \
-  fi
+  export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
 
 %ifarch aarch64
 Provides: python%{cms_python3_major_minor_version}dist(scipy) = %{realversion}
