@@ -3,6 +3,7 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
+
 %define tag c46ae6ee75ad719fac8c77db4a1bb83ba7245d28
 %define branch cms/v6-26-00-patches/9583d15fbe
 
