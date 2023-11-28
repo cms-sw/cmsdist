@@ -15,7 +15,7 @@ make install
 # which we neither need nor use at this time.
 rm -rf %i/lib/pkgconfig
 
-# Strip libraries, we are not going to debug them.
+# Strip libraries ; we are not going to debug them.
 %define strip_files %i/lib
 # Read documentation online.
 %define drop_files %i/share
