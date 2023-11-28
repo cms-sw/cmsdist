@@ -89,7 +89,8 @@ ninja -v  %{makeprocesses} install
 #ln -s ${pytorch_core}/include %{i}/c-api
 
 %post
-%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
+%{relocateConfig}include/caffe2/core/macros.h
+%{relocateConfig}share/cmake/ATen/ATenConfig.cmake
 
 # For ROCm, pre-build
 # NOTICE: can't build with both cuda and rocm
