@@ -76,17 +76,12 @@ cmake ../%{n}-%{realversion} \
     -DUSE_SYSTEM_BENCHMARK=ON \
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
-#    -DEigen3_DIR=${EIGEN_ROOT}/share/eigen3/cmake \
 
 ninja -v  %{makeprocesses}
 
 %install
 cd ../build
 ninja -v  %{makeprocesses} install
-#mkdir -p %{i}/c-api
-#pytorch_core=$(ls -d %{i}/lib/python*/site-packages/torch | sed 's|%{i}/|../|')
-#ln -s ${pytorch_core}/lib %{i}/c-api
-#ln -s ${pytorch_core}/include %{i}/c-api
 
 %post
 %{relocateConfig}include/caffe2/core/macros.h
