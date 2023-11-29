@@ -1,4 +1,4 @@
-### RPM external CICADA 1.2.0
+### RPM external CICADA 1.2.1
 Source: https://github.com/cms-hls4ml/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Requires: hls4mlEmulatorExtras hls
 BuildRequires: gmake
