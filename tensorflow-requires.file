@@ -5,16 +5,12 @@ Requires: py3-flatbuffers
 Requires: py3-psutil py3-lit py3-tblib py3-portpicker
 Requires: eigen protobuf zlib libpng libjpeg-turbo curl giflib sqlite grpc flatbuffers py3-pybind11
 BuildRequires: py3-wheel
-%ifnarch ppc64le
+%ifarch x86_64
 %define enable_gpu 1
 %else
 %define enable_gpu 0
 %endif
 %if %{enable_gpu}
-%if "%{cmsos}" != "slc7_aarch64"
 ## INCLUDE cuda-flags
 Requires: cuda cudnn
-%else
-%define enable_gpu 0
-%endif
 %endif
