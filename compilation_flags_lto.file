@@ -7,7 +7,7 @@
 %define enable_lto 0
 %endif
 %if "%{enable_lto}" == "1"
-%define lto_build_flags -flto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
+%define lto_build_flags -flto=auto -fipa-icf -flto-odr-type-merging -fno-fat-lto-objects -Wodr
 %else
 %define lto_build_flags %{nil}
 %endif
