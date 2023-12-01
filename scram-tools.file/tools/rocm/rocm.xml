@@ -2,6 +2,7 @@
   <info url="https://docs.amd.com/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
+  <lib name="rocm_smi64"/>
   <client>
     <environment name="ROCM_BASE" default="@TOOL_ROOT@"/>
     <environment name="HIPCC"     default="$ROCM_BASE/bin/hipcc"/>
