@@ -8,9 +8,11 @@ Requires: python3
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/fastjet.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Patch0: fastjet-deprecated-warn
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config.{sub,guess} ./plugins/SISCone/siscone/config.{sub,guess}
