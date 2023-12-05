@@ -40,6 +40,7 @@ BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
+BAZEL_OPTS="$BAZEL_OPTS --config=mkl"
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false --define tflite_kernel_use_xnnpack=false"
 %endif
