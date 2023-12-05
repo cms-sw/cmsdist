@@ -1,0 +1,16 @@
+diff -Naur a/include/YODA/Utils/BinSearcher.h b/include/YODA/Utils/BinSearcher.h
+--- a/include/YODA/Utils/BinSearcher.h	2023-12-03 01:04:33.000000000 +0100
++++ b/include/YODA/Utils/BinSearcher.h	2023-12-04 12:04:02.243759129 +0100
+@@ -145,12 +145,6 @@
+         _est = std::make_shared<LinEstimator>(0, 0, 1);
+       }
+ 
+-      /// Copy constructor
+-      BinSearcher(const BinSearcher& bs) {
+-        _est = bs._est;
+-        _edges = bs._edges;
+-      }
+-
+       // /// Explicit constructor, specifying the edges and estimation strategy
+       // BinSearcher(const std::vector<double>& edges, bool log) {
+       //   _updateEdges(edges);
