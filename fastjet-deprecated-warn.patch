@@ -1,0 +1,75 @@
+diff -Naur a/plugins/ATLASCone/fastjet/ATLASConePlugin.hh b/plugins/ATLASCone/fastjet/ATLASConePlugin.hh
+--- a/plugins/ATLASCone/fastjet/ATLASConePlugin.hh	2023-06-21 12:27:07.000000000 +0200
++++ b/plugins/ATLASCone/fastjetATLASConePlugin.hh	2023-12-04 12:08:17.565793476 +0100
+@@ -66,11 +66,6 @@
+   ATLASConePlugin (double radius, double seedPt_in=2.0, double f_in=0.5)
+     : _radius(radius), _seedPt(seedPt_in), _f(f_in){}
+ 
+-  /// copy constructor
+-  ATLASConePlugin (const ATLASConePlugin & plugin) {
+-    *this = plugin;
+-  }
+-
+   // the things that are required by base class
+   virtual std::string description () const;
+   virtual void run_clustering(ClusterSequence &) const;
+diff -Naur a/pluginsi/CMSIterativeCone/fastjet/CMSIterativeConePlugin.hh b/plugins/CMSIterativeCone/fastjet/CMSIterativeConePlugin.hh
+--- a/plugins/CMSIterativeCone/fastjet/CMSIterativeConePlugin.hh	2023-06-21 12:27:07.000000000 +0200
++++ b/plugins/CMSIterativeCone/fastjet/CMSIterativeConePlugin.hh	2023-12-04 12:07:43.501856218 +0100
+@@ -62,11 +62,6 @@
+   CMSIterativeConePlugin (double ConeRadius, double SeedThreshold=1.0) :
+     theConeRadius(ConeRadius), theSeedThreshold(SeedThreshold){}
+ 
+-  /// copy constructor
+-  CMSIterativeConePlugin (const CMSIterativeConePlugin & plugin) {
+-    *this = plugin;
+-  }
+-
+   // the things that are required by base class
+   virtual std::string description () const;
+   virtual void run_clustering(ClusterSequence &) const;
+diff -Naur a/plugins/Jade/fastjet/JadePlugin.hh b/plugins/Jade/fastjet/JadePlugin.hh
+--- a/plugins/Jade/fastjet/JadePlugin.hh	2023-06-21 12:27:07.000000000 +0200
++++ b/plugins/Jade/fastjet/JadePlugin.hh	2023-12-04 12:07:23.806470684 +0100
+@@ -84,11 +84,6 @@
+   /// Main constructor for the Jade Plugin class.  
+   JadePlugin (Strategy strategy = strategy_NNFJN2Plain) : _strategy(strategy) {}
+ 
+-  /// copy constructor
+-  JadePlugin (const JadePlugin & plugin) {
+-    *this = plugin;
+-  }
+-
+   // the things that are required by base class
+   virtual std::string description () const;
+   virtual void run_clustering(ClusterSequence &) const;
+diff -Naur a/plugins/SISCone/fastjet/SISConeBasePlugin.hh b/plugins/SISCone/fastjet/SISConeBasePlugin.hh
+--- a/plugins/SISCone/fastjet/SISConeBasePlugin.hh	2023-06-21 12:27:07.000000000 +0200
++++ b/plugins/SISCone/fastjet/SISConeBasePlugin.hh	2023-12-04 12:08:46.765882478 +0100
+@@ -45,11 +45,6 @@
+     set_progressive_removal(false);
+   }
+ 
+-  /// copy constructor
+-  SISConeBasePlugin (const SISConeBasePlugin & plugin) {
+-    *this = plugin;
+-  }
+-
+   /// set whether to use SISCone with progressive removal instead of
+   /// the default split_merge step.
+   ///
+diff -Naur a/plugins/TrackJet/fastjet/TrackJetPlugin.hh b/plugins/TrackJet/fastjet/TrackJetPlugin.hh
+--- a/plugins/TrackJet/fastjet/TrackJetPlugin.hh	2023-06-21 12:27:07.000000000 +0200
++++ b/plugins/TrackJet/fastjet/TrackJetPlugin.hh	2023-12-04 12:06:50.670504475 +0100
+@@ -69,11 +69,6 @@
+     _track_recombiner = JetDefinition::DefaultRecombiner(track_recombination_scheme);
+   }
+ 
+-  /// copy constructor
+-  TrackJetPlugin (const TrackJetPlugin & plugin) {
+-    *this = plugin;
+-  }
+-
+   // the things that are required by base class
+   virtual std::string description () const;
+   virtual void run_clustering(ClusterSequence &) const;
