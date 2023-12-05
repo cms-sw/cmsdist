@@ -2,12 +2,13 @@
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: git+https://gitlab.com/hepcedar/yoda.git?obj=main/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+Patch0: yoda-deprecated-warn
 Requires: python3 root
 BuildRequires: py3-cython autotools python-python3
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 autoreconf -fiv
 

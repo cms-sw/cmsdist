@@ -4,6 +4,7 @@
 Source0: http://cms-trackerdaq-service.web.cern.ch/cms-trackerdaq-service/download/sources/trackerDAQ-%{realversion}.tgz
 Patch1: tkonlinesw-4.0-clang-hash_map
 Patch2: tkonlinesw-bring-pvf
+Patch3: tkonlinesw-deprecated-warn
 # NOTE: given how broken the standard build system is
 #       on macosx, it's not worth fixing it.
 #       The 4 libraries we need can be built with the
@@ -24,6 +25,7 @@ Requires: root
 %setup -q -n %releasename
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %ifos darwin
 %patch0 -p1
 %endif
