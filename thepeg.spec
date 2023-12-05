@@ -4,6 +4,8 @@
 
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
+Patch0: LHEEventNum
+Patch1: thepeg-deprecated-warn
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
@@ -20,13 +22,10 @@ BuildRequires: lhapdf
 %define cms_cxx c++
 %endif
 
-
-Patch0: LHEEventNum
-
 %prep
 %setup -q -n ThePEG-%{realversion}
-
 %patch0 -p1
+%patch1 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
