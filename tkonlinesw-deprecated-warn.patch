@@ -1,0 +1,12 @@
+diff --git a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
+index c7a6b45..3978dda 100644
+--- a/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
++++ b/TrackerOnline/Fed9U/Fed9USoftware/Fed9UUtils/include/Fed9UUtils.hh
+@@ -8041,6 +8041,7 @@ namespace Fed9U {
+     /** Standard constructor. */
+     Fed9USu8(u8 * dataPtr) : _dataPtr(dataPtr), _off(0), _initialOffset(0) {}
+     Fed9USu8(u8 * dataPtr, u32 offset) : _dataPtr(dataPtr), _off(offset), _initialOffset(offset) {}
++    Fed9USu8(const Fed9USu8&) = default;
+     /** Default destructor. */
+     ~Fed9USu8() {}
+ 

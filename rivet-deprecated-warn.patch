@@ -1,0 +1,38 @@
+diff -Naur /include/Rivet/Math/MatrixN.hh b/include/Rivet/Math/MatrixN.hh
+--- a/include/Rivet/Math/MatrixN.hh	2023-12-03 01:21:00.000000000 +0100
++++ b/include/Rivet/Math/MatrixN.hh	2023-12-04 12:13:12.539590815 +0100
+@@ -66,8 +66,6 @@
+ 
+     Matrix() : _matrix(EMatrix::Zero()) {}
+ 
+-    Matrix(const Matrix<N>& other) : _matrix(other._matrix) {}
+-
+     Matrix& set(const size_t i, const size_t j, const double value) {
+       if (i < N && j < N) {
+         _matrix(i, j) = value;
+diff -Naur a/include/Rivet/Math/VectorN.hh b/include/Rivet/Math/VectorN.hh
+--- a/include/Rivet/Math/VectorN.hh	2023-12-03 01:21:00.000000000 +0100
++++ b/include/Rivet/Math/VectorN.hh	2023-12-04 12:13:22.652275368 +0100
+@@ -27,9 +27,6 @@
+   public:
+     Vector() : _vec(EVector::Zero()) { }
+ 
+-    Vector(const Vector<N>& other)
+-      : _vec(other._vec) { }
+-
+     const double& get(const size_t index) const {
+       if (index >= N) {
+         throw std::runtime_error("Tried to access an invalid vector index.");
+diff -Naur a/include/Rivet/Projection.hh b/include/Rivet/Projection.hh
+--- a/include/Rivet/Projection.hh	2023-12-03 01:21:00.000000000 +0100
++++ b/include/Rivet/Projection.hh	2023-12-04 12:03:13.447281503 +0100
+@@ -43,6 +43,9 @@
+     /// The default constructor.
+     Projection();
+ 
++    /// Copy constructor
++    Projection(const Projection&) = default;
++
+     /// Clone on the heap.
+     virtual unique_ptr<Projection> clone() const = 0;
+ 
