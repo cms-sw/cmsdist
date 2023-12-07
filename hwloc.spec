@@ -1,5 +1,5 @@
-### RPM external hwloc 2.9.2
-Source: https://download.open-mpi.org/release/%{n}/v2.9/%{n}-%{realversion}.tar.bz2
+### RPM external hwloc 2.10.0
+Source: https://download.open-mpi.org/release/%{n}/v2.10/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
 Requires: cuda libpciaccess libxml2 numactl
@@ -23,7 +23,6 @@ Requires: rocm
   --with-cuda=$CUDA_ROOT \
   --enable-cuda \
   --enable-nvml \
-  --enable-plugins=cuda,nvml \
 %ifarch x86_64
   --with-rocm=$ROCM_ROOT \
   --enable-rsmi \
