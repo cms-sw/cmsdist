@@ -7,6 +7,7 @@ Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=
 BuildRequires: cmake gmake
 %define keep_archives true
 %define vecgeom_backend Scalar
+%define git_describe %(echo %{realversion} | sed -e 's|^v||')
 Patch0: vecgeom-fix-vector
 
 %define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
@@ -22,6 +23,7 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
+  -DVecGeom_GIT_DESCRIBE="%{git_describe};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
