@@ -3,9 +3,11 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-Requires: alpaka
+%ifarch x86_64
 Requires: rocm
 Requires: rocm-rocrand
+%endif
+Requires: alpaka
 Requires: cuda-compatible-runtime
 Requires: cuda
 Requires: eigen
