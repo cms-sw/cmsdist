@@ -1,13 +1,13 @@
-### RPM external vecgeom v1.2.6
+### RPM external vecgeom v2.0.0-rc2
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define tag e5e0c02b1b5f85188ef9164e7eda057aea80113a
+%define tag 9040a3a8322e5814615744bc428299b540e21c01
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
 %define vecgeom_backend Scalar
-%define git_describe %(echo %{realversion} | sed -e 's|^v||')
+%define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 Patch0: vecgeom-fix-vector
 
 %define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
@@ -23,7 +23,7 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
-  -DVecGeom_GIT_DESCRIBE="%{git_describe};;" \
+  -DVecGeom_GIT_DESCRIBE="%{vecgeom_version};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
