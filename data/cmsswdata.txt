@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1Trigger-DTTriggerPhase2=V00-03-00
 RecoTracker-FinalTrackSelectors=V01-05-00
 RecoEgamma-ElectronIdentification=V01-13-00
 RecoTauTag-TrainingFiles=V00-08-00
@@ -63,7 +64,6 @@ DataFormats-PatCandidates=V01-01-00
 DetectorDescription-Schema=V02-03-00
 PhysicsTools-PatUtils=V00-05-00
 RecoJets-JetProducers=V05-14-00
-L1Trigger-DTTriggerPhase2=V00-02-00
 EgammaAnalysis-ElectronTools=V00-03-01
 Geometry-DTGeometryBuilder=V00-01-00
 L1Trigger-TrackFindingTMTT=V00-02-00
