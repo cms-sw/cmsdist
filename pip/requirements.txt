@@ -359,6 +359,8 @@ toolz==0.7.1
 tornado==6.3.3
 tqdm==4.65.0
 traitlets==5.9.0
+# always sync version number with triton-inference-client.spec (C++ version)
+tritonclient==2.25.0
 trove-classifiers==2023.3.9
 typed-ast==1.5.4
 typing-extensions==4.5.0

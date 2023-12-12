@@ -1,3 +1,4 @@
+# always sync version number with tritonclient in pip/requirements.txt (python version)
 ### RPM external triton-inference-client 2.25.0
 ## INCLUDE cpp-standard
 %define branch r22.08
