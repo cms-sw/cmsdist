@@ -312,6 +312,9 @@ find external/%cmsplatf -type l | xargs ls -l
 %{?PatchReleaseSymlinkRelocate:%PatchReleaseSymlinkRelocate}
 echo "%{cmsroot}" > %{i}/config/scram_basedir
 
+# install checksum tool for local use (via scram)
+cp data/cmsTritonChecksumTool %i/bin/
+
 %post
 export SCRAM_ARCH=%cmsplatf
 cd $RPM_INSTALL_PREFIX/%pkgrel
