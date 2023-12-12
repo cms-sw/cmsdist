@@ -1,14 +1,10 @@
-### RPM external lhapdf 6.5.4
+### RPM external lhapdf 6.4.0
 %define setsversion 6.5.1c
 
 Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-%{realversion}.tar.gz
-
 Source1: lhapdf_makeLinks
-
 Source2: http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/MSTW2008nlo68cl.tar.gz
-
 Source3: lhapdf_pdfsetsindex
-
 Requires: python3
 BuildRequires: py3-cython
 
