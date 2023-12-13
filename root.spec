@@ -1,10 +1,10 @@
-### RPM lcg root 6.26.15
+### RPM lcg root 6.30.03
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag d4ff830a3be0f77ca2d7a3ed19e69eac7f1685ee
-%define branch cms/v6-26-00-patches/e8ff650e67
+%define tag 630493ea6a716fb08d9fd2e8ddc9f33cf62f59c7
+%define branch cms/v6-30-00-patches/33f75f0044
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -178,7 +178,7 @@ ninja -v %{makeprocesses} install
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
-for p in $(grep -rlI -m1 '^#\!.*python' %i/bin) ; do
+for p in $(grep -rlI -m1 '^#\!.*python' %i/bin %i/etc) ; do
   lnum=$(grep -n -m1 '^#\!.*python' $p | sed 's|:.*||')
   sed -i -e "${lnum}c#!/usr/bin/env python3" $p
 done
