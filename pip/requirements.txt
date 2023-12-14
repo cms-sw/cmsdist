@@ -12,7 +12,7 @@
 #flags or patching, please use package_name.file
 #############################################################################
 absl-py==1.4.0
-aiohttp==3.8.5
+aiohttp==3.9.1
 aiosqlite==0.18.0
 aiosignal==1.3.1
 anyio==3.6.2
@@ -75,7 +75,7 @@ coverage==7.2.2
 cppy==1.2.1
 # Newer versions of py3-cryptography require OpenSSL 1.1.0+, see https://github.com/pyca/cryptography/issues/5906
 cryptography==3.2.1 ; cmsos_name=='slc7'
-cryptography==41.0.3
+cryptography==41.0.7
 cx-Oracle==8.3.0
 cycler==0.11.0
 cython==0.29.35
@@ -159,7 +159,7 @@ jupyter-core==5.3.1
 jupyter-events==0.6.3
 jupyter-packaging==0.12.3
 jupyterlab-pygments==0.2.2
-jupyter-server==2.7.2
+jupyter-server==2.12.1
 jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.4.4
 jupyterlab-widgets==3.0.8
@@ -366,7 +366,7 @@ tzdata==2023.3
 uhi==0.3.3
 uncertainties==3.1.7
 uproot==5.0.7
-urllib3==1.26.17
+urllib3==1.26.18
 vector==1.0.0
 versioneer==0.28
 virtualenv-clone==0.5.7
@@ -375,7 +375,7 @@ virtualenvwrapper==4.8.4
 wcwidth==0.2.6
 webencodings==0.5.1
 websocket-client==1.5.1
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 #NO_AUTO_UPDATE:1: you need wheel to build wheel
 wheel==0.40.0
 widgetsnbextension==4.0.7
