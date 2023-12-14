@@ -1,0 +1,57 @@
+diff --git a/c10/CMakeLists.txt b/c10/CMakeLists.txt
+index feebad7cbb7..8a2ad840286 100644
+--- a/c10/CMakeLists.txt
++++ b/c10/CMakeLists.txt
+@@ -87,6 +87,7 @@ endif()
+ if(${USE_GLOG})
+     target_link_libraries(c10 PUBLIC glog::glog)
+ endif()
++find_package(fmt REQUIRED)
+ target_link_libraries(c10 PRIVATE fmt::fmt-header-only)
+ 
+ find_package(Backtrace)
+diff --git a/caffe2/CMakeLists.txt b/caffe2/CMakeLists.txt
+index 74d0d557190..ff3e94b1c4b 100644
+--- a/caffe2/CMakeLists.txt
++++ b/caffe2/CMakeLists.txt
+@@ -1363,6 +1363,8 @@ if($ENV{TH_BINARY_BUILD})
+   endif()
+ endif()
+ 
++find_package(fmt REQUIRED)
++
+ target_link_libraries(torch_cpu PUBLIC c10)
+ target_link_libraries(torch_cpu PUBLIC ${Caffe2_PUBLIC_DEPENDENCY_LIBS})
+ target_link_libraries(torch_cpu PRIVATE ${Caffe2_DEPENDENCY_LIBS})
+diff --git a/cmake/Dependencies.cmake b/cmake/Dependencies.cmake
+index c3abce52e4c..5e89d3eb43a 100644
+--- a/cmake/Dependencies.cmake
++++ b/cmake/Dependencies.cmake
+@@ -1832,9 +1832,13 @@ endif()
+ #
+ # End ATen checks
+ #
+-set(TEMP_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libs" FORCE)
+-add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
++find_package(FMT)
++if(FMT_FOUND)
++  message(STATUS "Found system FMT at " ${FMT_INCLUDE_DIR})
++else()
++  message(STATUS "Did not find system FMT. Using third party subdirectory.")
++  add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
++endif()
+ 
+ # Disable compiler feature checks for `fmt`.
+ #
+@@ -1843,10 +1847,8 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
+ # CMAKE_CXX_FLAGS in ways that break feature checks. Since we already know
+ # `fmt` is compatible with a superset of the compilers that PyTorch is, it
+ # shouldn't be too bad to just disable the checks.
+-set_target_properties(fmt-header-only PROPERTIES INTERFACE_COMPILE_FEATURES "")
+ 
+ list(APPEND Caffe2_DEPENDENCY_LIBS fmt::fmt-header-only)
+-set(BUILD_SHARED_LIBS ${TEMP_BUILD_SHARED_LIBS} CACHE BOOL "Build shared libs" FORCE)
+ 
+ # ---[ Kineto
+ # edge profiler depends on KinetoProfiler but it only does cpu
