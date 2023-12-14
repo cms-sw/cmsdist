@@ -1,0 +1,16 @@
+--- pytorch-2.1.0/cmake/public/cuda.cmake.orig	2023-11-07 13:17:24.113086707 +0100
++++ pytorch-2.1.0/cmake/public/cuda.cmake	2023-11-07 13:17:36.295966731 +0100
+@@ -60,13 +60,6 @@
+ 
+ cmake_policy(POP)
+ 
+-if(NOT CMAKE_CUDA_COMPILER_VERSION STREQUAL CUDAToolkit_VERSION OR
+-    NOT CUDA_INCLUDE_DIRS STREQUAL CUDAToolkit_INCLUDE_DIR)
+-  message(FATAL_ERROR "Found two conflicting CUDA installs:\n"
+-                      "V${CMAKE_CUDA_COMPILER_VERSION} in '${CUDA_INCLUDE_DIRS}' and\n"
+-                      "V${CUDAToolkit_VERSION} in '${CUDAToolkit_INCLUDE_DIR}'")
+-endif()
+-
+ if(NOT TARGET CUDA::nvToolsExt)
+   message(FATAL_ERROR "Failed to find nvToolsExt")
+ endif()
