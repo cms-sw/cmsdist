@@ -1,4 +1,4 @@
-### RPM external gbl V02-04-01
+### RPM external gbl V03-00-00
 ## INCLUDE cpp-standard
 
 %define tag 31e726d777fe93cdbed0c363dc15f803f7767f40

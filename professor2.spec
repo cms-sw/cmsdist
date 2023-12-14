@@ -23,7 +23,7 @@ sed -i -e 's|-std=c[+][+]11|-std=c++%{cms_cxx_standard}|' pyext/setup.py
 grep -q 'CXXSTD := c[+][+]11' Makefile
 sed -i -e 's|CXXSTD := c[+][+]11|CXXSTD := c++%{cms_cxx_standard}|' Makefile
 
-%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}
+%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}:./pyext/professor2
 
 %build
 make %{build_flags}

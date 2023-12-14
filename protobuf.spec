@@ -46,4 +46,3 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 rm -rf %{i}/lib/pkgconfig
- 
