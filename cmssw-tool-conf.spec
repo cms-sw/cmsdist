@@ -177,6 +177,7 @@ Requires: oracle-fake
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
+Requires: pytorch
 
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
