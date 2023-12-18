@@ -5,6 +5,8 @@
 %define branch cms/v6-14-00-patches/94610d9
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+#Fix for https://github.com/cms-sw/cmssw/issues/43590
+Source1: https://github.com/root-project/root/commit/65ed49a726bd293edd259f2ceccbd7dc8756808f.patch
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -30,6 +32,7 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/65ed49a726bd293edd259f2ceccbd7dc8756808f.patch
 
 %build
 rm -rf ../build
