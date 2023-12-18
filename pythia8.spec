@@ -1,4 +1,4 @@
-### RPM external pythia8 240
+### RPM external pythia8 310
 
 %define tag 8d04d8f5080ad06cf3806e32e20d08850fe123f0
 %define branch cms/%{realversion}
