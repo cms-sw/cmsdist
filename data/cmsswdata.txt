@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoTracker-MkFit=V00-13-00
 Configuration-Generator=V01-08-00
 L1Trigger-DTTriggerPhase2=V00-03-00
 RecoTracker-FinalTrackSelectors=V01-05-00
@@ -36,7 +37,6 @@ CondTools-Hcal=V00-01-00
 RecoEcal-EgammaClusterProducers=V00-03-00
 HeterogeneousCore-SonicTriton=V00-02-00
 RecoTracker-DisplacedRegionalTracking=V00-01-00
-RecoTracker-MkFit=V00-12-00
 PhysicsTools-NanoAOD=V01-03-00
 CalibTracker-SiStripDCS=V01-01-00
 L1Trigger-TrackFindingTracklet=V00-03-00
