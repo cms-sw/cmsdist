@@ -27,11 +27,10 @@ cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
 rm -rf ../build && mkdir ../build && cd ../build
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
 if [ "%{cuda_gcc_support}" = "true" ] ; then
 USE_CUDA=ON
+export ATEN_STATIC_CUDA=1
 fi
-%endif
 
 cmake ../%{n}-%{realversion} \
     -G Ninja \
