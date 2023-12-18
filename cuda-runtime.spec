@@ -1,4 +1,4 @@
-%define runtime_libs cublas cublasLt cudart cufft curand nvToolsExt cusolver cusparse nvrtc
+%define runtime_libs cublas cublasLt cudart cufft curand nvToolsExt cusolver cusparse nvrtc nvJitLink
 %define runtime_stubs nvidia-ml cuda
 %define cuda_incs nvrtc.h cufile.h cuda_fp16.h cuda_fp16.hpp cuda_occupancy.h
 Source99: install-cuda.sh
