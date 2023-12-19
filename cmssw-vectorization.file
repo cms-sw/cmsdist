@@ -1,2 +1,2 @@
-%define vectorized_packages zlib fastjet tensorflow-sources tensorflow OpenBLAS rivet gbl
+%define vectorized_packages zlib fastjet tensorflow-sources tensorflow tensorflow-xla-runtime OpenBLAS rivet gbl
 %{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
