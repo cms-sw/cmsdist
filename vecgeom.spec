@@ -1,8 +1,8 @@
-### RPM external vecgeom v1.2.6
+### RPM external vecgeom v1.2.7
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define tag e5e0c02b1b5f85188ef9164e7eda057aea80113a
+%define tag be99ff9e6b26fa5e0063f8bd21df23cb87911bf8
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
 %define keep_archives true
