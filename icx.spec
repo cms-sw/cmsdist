@@ -1,4 +1,4 @@
-### RPM external icx 2023.2.0
+### RPM external icx 2024.0
 ## NOCOMPILER
 
 %define year %(echo %realversion | cut -d. -f1)
