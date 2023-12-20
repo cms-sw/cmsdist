@@ -7,7 +7,7 @@ Requires: cmssw-tool-conf
 %define branch          master
 %define gitcommit       %{realversion}
 # build with debug symbols, and package them in a separate rpm
-%define subpackageDebug yes
+#subpackage debug disabledes
 
 ## INCLUDE cmssw-queue-override
 
