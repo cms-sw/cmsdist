@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_10_1_0_pre1_FWLITE
+### RPM cms fwlite CMSSW_13_0_16_HeavyIon_FWLITE
 
 Requires: fwlite-tool-conf
 
