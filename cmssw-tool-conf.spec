@@ -54,7 +54,7 @@ Requires: jemalloc-debug
 Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
-Required: L1METML
+Requires: L1METML
 Requires: lhapdf
 Requires: libjpeg-turbo
 Requires: libpng
