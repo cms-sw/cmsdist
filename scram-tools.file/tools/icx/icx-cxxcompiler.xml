@@ -3,7 +3,7 @@
     <client>
       <environment name="ICX_CXXCOMPILER_BASE" default="@TOOL_ROOT@/installation" handler="warn"/>
       <environment name="CXX" value="$ICX_CXXCOMPILER_BASE/bin/icpx" handler="warn"/>
-      <environment name="LIBDIR" default="$ICX_CXXCOMPILER_BASE/compiler/lib"/>
+      <environment name="LIBDIR" default="$ICX_CXXCOMPILER_BASE/lib"/>
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
@@ -23,6 +23,6 @@
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICX_CXXCOMPILER_BASE/compiler/lib" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICX_CXXCOMPILER_BASE/lib" type="path" handler="warn"/>
     <runtime name="PATH" value="$ICX_CXXCOMPILER_BASE/bin" type="path" handler="warn"/>
   </tool>
