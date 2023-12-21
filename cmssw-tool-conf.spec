@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 57.0
+### RPM cms cmssw-tool-conf 58.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -15,6 +15,7 @@ Requires: alpgen
 Requires: boost
 Requires: bz2lib
 Requires: cepgen
+Requires: clang-uml
 Requires: classlib
 Requires: clhep
 Requires: conifer
@@ -53,6 +54,7 @@ Requires: jemalloc-debug
 Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
+Requires: L1METML
 Requires: lhapdf
 Requires: libjpeg-turbo
 Requires: libpng
@@ -176,6 +178,7 @@ Requires: oracle-fake
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
+Requires: pytorch
 
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
