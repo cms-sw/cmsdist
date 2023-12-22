@@ -9,6 +9,8 @@ BuildRequires: cmake gmake
 %define vecgeom_backend Scalar
 Patch0: vecgeom-fix-vector
 
+
+
 %define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %prep
