@@ -16,7 +16,7 @@ export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.
 export COMPILER_CXXFLAGS="%{arch_build_flags}"
 %endif
 
-export COMOPILER_WARNINGS="%{?warning_flags}"
+export COMPILER_WARNINGS="%{?warning_flags}"
 export ORACLE_ENV_ROOT=""
 export CUDA_FLAGS="%{nvcc_cuda_flags}"
 export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
