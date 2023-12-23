@@ -36,9 +36,6 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
-%if %{enable_vecgeom}
-export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom 
-%endif
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -55,6 +52,8 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
 %if %{enable_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
+  -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
+  -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
 %endif
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
