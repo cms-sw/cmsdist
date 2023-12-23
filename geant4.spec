@@ -50,17 +50,15 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
 %if %{use_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
+  -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
+  -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
 %endif
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_SYSTEM_EXPAT=ON \
-%if %{use_vecgeom}
-  -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
-  -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
-%endif
-  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${ZLIB_ROOT};${VECGEOM_ROOT}" \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DGEANT4_USE_SYSTEM_ZLIB=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON
 
