@@ -1,0 +1,15 @@
+<tool name="celeritas" version="@TOOL_VERSION@">
+  <info url="https://github.com/celeritas-project/celeritas"/>
+  <lib name="celeritas"/>
+  <lib name="corecel"/>
+  <lib name="accel"/>
+  <client>
+    <environment name="CELERITAS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$CELERITAS_BASE/include"/>
+    <environment name="LIBDIR" default="$CELERITAS_BASE/lib64"/>
+  </client>
+  <flags REM_CXXFLAGS="-Werror=missing-braces"/>
+  <use name="vecgeom_interface"/>
+  <use name="geant4core"/>
+  <use name="vecgeom"/>
+</tool>
