@@ -34,9 +34,6 @@ fi
 rm -rf ../build
 mkdir ../build
 cd ../build
-%if %{use_vecgeom}
-export VecGeom_DIR=${VECGEOM_ROOT}/lib/cmake/VecGeom 
-%endif
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
@@ -59,6 +56,10 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_INSTALL_EXAMPLES=OFF \
   -DGEANT4_USE_SYSTEM_CLHEP=ON \
   -DGEANT4_USE_SYSTEM_EXPAT=ON \
+%if %{use_vecgeom}
+  -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
+  -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
+%endif
   -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT};${CLHEP_ROOT};${EXPAT_ROOT};${ZLIB_ROOT};${VECGEOM_ROOT}" \
   -DGEANT4_USE_SYSTEM_ZLIB=ON \
   -DGEANT4_BUILD_MULTITHREADED=ON
