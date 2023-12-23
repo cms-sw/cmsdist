@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 58.0
+### RPM cms cmssw-tool-conf 59.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -96,6 +96,7 @@ Requires: hls
 Requires: opencv
 Requires: grpc
 Requires: onnxruntime
+Requires: TOoLLiP
 Requires: triton-inference-client
 Requires: hdf5
 Requires: yaml-cpp

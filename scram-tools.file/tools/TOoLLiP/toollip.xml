@@ -1,0 +1,6 @@
+<tool name="toollip" version="@TOOL_VERSION@">
+  <client>
+    <environment name="TOOLLIP_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"       default="$TOOLLIP_BASE/lib64"/>
+  </client>
+</tool>
