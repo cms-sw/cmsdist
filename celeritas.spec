@@ -2,6 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
+%define keep_archives true
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 %define tag c0f4129c391a6d7cfad41f3e0e3ccd0445633732
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -48,3 +49,6 @@ make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
 make %{makeprocesses} install VERBOSE=1
+
+%post
+%{relocateConfig}lib64/cmake/Celeritas/CeleritasConfig.cmake
