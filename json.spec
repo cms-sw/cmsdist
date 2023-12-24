@@ -2,7 +2,7 @@
 ## NOCOMPILER
 
 Source: https://github.com/nlohmann/json/archive/refs/tags/v%{realversion}.tar.gz
-
+BuildRequires: cmake gmake
 %prep
 %setup -n %{n}-%{realversion}
 
