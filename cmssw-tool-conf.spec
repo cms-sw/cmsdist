@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 59.0
+### RPM cms cmssw-tool-conf 60.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -6,6 +6,7 @@
 
 Requires: AXOL1TL
 Requires: CICADA
+Requires: celeritas
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: google-benchmark
