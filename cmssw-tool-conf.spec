@@ -6,7 +6,7 @@
 
 Requires: AXOL1TL
 Requires: CICADA
-Requires: celeritas
+#Requires: celeritas
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: google-benchmark
