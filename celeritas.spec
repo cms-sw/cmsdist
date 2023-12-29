@@ -8,7 +8,7 @@
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 
-%define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+%define build_flags -Wall -Wextra -pedantic -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 Requires: json
 Requires: geant4
 Requires: vecgeom
