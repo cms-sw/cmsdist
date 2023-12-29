@@ -6,15 +6,17 @@
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 %define tag c0f4129c391a6d7cfad41f3e0e3ccd0445633732
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: https://github.com/celeritas-project/celeritas/pull/1075.patch
 BuildRequires: cmake
 
-%define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+%define build_flags -Wall -Wextra -pedantic -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 Requires: json
 Requires: geant4
 Requires: vecgeom
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/1075.patch
 
 %build
 
