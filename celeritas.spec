@@ -8,7 +8,7 @@
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 
-%define build_flags -Wall -Wextra -pedantic -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+%define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 Requires: json
 Requires: geant4
 Requires: vecgeom
@@ -32,6 +32,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
   -DCELERITAS_BUILD_TESTS=OFF \
   -DCELERITAS_DEBUG=OFF \
   -DCELERITAS_USE_CUDA=OFF \
