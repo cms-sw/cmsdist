@@ -1,2 +1,9 @@
+%if "%{?enable_vecgeom:set}" != "set"
+%define enable_vecgeom 1
+%endif
+%if %{enable_vecgeom}
 %define vectorized_packages zlib fastjet vecgeom tensorflow-sources tensorflow OpenBLAS rivet
+%else
+%define vectorized_packages zlib fastjet tensorflow-sources tensorflow OpenBLAS rivet
+%endif
 %{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
