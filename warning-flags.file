@@ -1,0 +1,9 @@
+%if "%{?enable_warnings:set}" != "set"
+%define enable_warnings 0
+%endif
+
+%if %{enable_warnings}
+%define warning_flags %{nil}
+%else
+%define warning_flags -Wno-deprecated-copy -Wno-deprecated
+%endif
