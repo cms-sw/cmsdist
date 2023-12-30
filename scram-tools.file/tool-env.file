@@ -2,6 +2,7 @@
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cuda-flags
 ## INCLUDE cpp-standard
+## INCLUDE warning-flags
 
 export ROOT_CXXMODULES="0"
 export PKG_VECTORIZATION="%{?package_vectorization}"
@@ -14,6 +15,8 @@ export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.
 %if "%{?arch_build_flags}"
 export COMPILER_CXXFLAGS="%{arch_build_flags}"
 %endif
+
+export COMPILER_WARNINGS="%{?warning_flags}"
 export ORACLE_ENV_ROOT=""
 export CUDA_FLAGS="%{nvcc_cuda_flags}"
 export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
