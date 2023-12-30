@@ -12,8 +12,10 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-%define use_vecgeom 1
-%if %{use_vecgeom}
+%if "%{?enable_vecgeom:set}" != "set"
+%define enable_vecgeom 1
+%endif
+%if %{enable_vecgeom}
 Requires: vecgeom
 %endif
 Requires: zlib
@@ -48,7 +50,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_ENABLE_TESTING=OFF \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
   -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
-%if %{use_vecgeom}
+%if %{enable_vecgeom}
   -DGEANT4_USE_USOLIDS="all" \
   -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
   -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
