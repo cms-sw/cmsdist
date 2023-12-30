@@ -1,4 +1,3 @@
-%define vectorized_packages zlib fastjet tensorflow-sources tensorflow OpenBLAS rivet
 %if "%{?enable_vecgeom:set}" != "set"
 %define enable_vecgeom 1
 %endif
