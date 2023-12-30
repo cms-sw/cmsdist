@@ -1,2 +1,4 @@
 # C++ standard to use for CMS externals
+%if "%{?cms_cxx_standard:set}" != "set"
 %define cms_cxx_standard 17
+%endif

@@ -10,8 +10,8 @@
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
     <flags CXXFLAGS="-Wextra -Wpessimizing-move -Wclass-memaccess"/>
-    <flags CXXFLAGS="-Wno-cast-function-type -Wno-unused-but-set-parameter -Wno-ignored-qualifiers -Wno-deprecated-copy -Wno-unused-parameter"/>
-    <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
+    <flags CXXFLAGS="-Wno-cast-function-type -Wno-unused-but-set-parameter -Wno-ignored-qualifiers -Wno-unused-parameter"/>
+    <flags CXXFLAGS="-Wunused -Wparentheses -Werror=return-type"/>
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
     <flags CXXFLAGS="-Werror=unused-label"/>
     <flags CXXFLAGS="-Werror=address -Werror=format -Werror=sign-compare"/>
@@ -23,6 +23,7 @@
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
+    <flags CXXFLAGS="@GCC_WARNINGS@"/>
     <flags LTO_FLAGS="@LTO_FLAGS@"/>
     <flags PGO_FLAGS="-fprofile-prefix-path=$(LOCALTOP) -fprofile-update=prefer-atomic -fprofile-correction"/>
     <flags PGO_FLAGS="-fprofile-dir=%q{CMSSW_PGO_DIRECTORY}/PGO-Profiles/cmssw/%q{CMSSW_CPU_TYPE}"/>
