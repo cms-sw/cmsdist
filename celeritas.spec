@@ -32,6 +32,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
   -DCELERITAS_BUILD_TESTS=OFF \
   -DCELERITAS_DEBUG=OFF \
   -DCELERITAS_USE_CUDA=OFF \
