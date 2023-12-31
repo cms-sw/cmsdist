@@ -4,7 +4,7 @@
 ## INCLUDE cpp-standard
 %define keep_archives true
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
-%define tag c0f4129c391a6d7cfad41f3e0e3ccd0445633732
+%define tag f9b51d72fc268bf22c5560b82d3dd3d7613a8106
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 
