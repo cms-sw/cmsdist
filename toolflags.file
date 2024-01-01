@@ -1,0 +1,5 @@
+## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
+## INCLUDE cuda-flags
+## INCLUDE cpp-standard
+## INCLUDE warning-flags
