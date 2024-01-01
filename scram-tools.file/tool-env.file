@@ -1,9 +1,3 @@
-## INCLUDE compilation_flags
-## INCLUDE compilation_flags_lto
-## INCLUDE cuda-flags
-## INCLUDE cpp-standard
-## INCLUDE warning-flags
-
 export ROOT_CXXMODULES="0"
 export PKG_VECTORIZATION="%{?package_vectorization}"
 export CMSDIST_DIR="%{cmsdist_directory}"
