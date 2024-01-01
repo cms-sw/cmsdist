@@ -2,6 +2,8 @@
 ## NOCOMPILER
 ## NO_AUTO_RUNPATH
 ## NO_AUTO_DEPENDENCY
+## INCLUDE toolflags
+
 BuildRequires: SCRAMV1
 Source99: scram-tools
 Source: none
