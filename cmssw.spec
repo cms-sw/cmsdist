@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_14_0_0_pre2_SKYLAKEAVX512
 
 Requires: cmssw-tool-conf
 
