@@ -3,6 +3,7 @@ Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
 Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi
 BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
+Patch1: sherpa-cpp20
 
 %ifos linux
 %ifnarch ppc64le
@@ -25,6 +26,7 @@ perl -p -i -e 's|-rdynamic||g' configure AddOns/Analysis/Scripts/Makefile.in
 %endif
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 export PYTHON=$(which python3)
