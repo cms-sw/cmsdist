@@ -1,0 +1,35 @@
+From 1de52ee230891277370fc4f787fc8cb4b7626ef2 Mon Sep 17 00:00:00 2001
+From: iarspider <iarspider@gmail.com>
+Date: Wed, 28 Jun 2023 07:35:10 +0000
+Subject: [PATCH] [ATOOLS] Fix C++20 compilation errors
+
+---
+ ATOOLS/Org/Getter_Function.H | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/ATOOLS/Org/Getter_Function.H b/ATOOLS/Org/Getter_Function.H
+index f68d190ca2..09340da390 100644
+--- a/ATOOLS/Org/Getter_Function.H
++++ b/ATOOLS/Org/Getter_Function.H
+@@ -84,7 +84,7 @@ namespace ATOOLS {
+       void PrintInfo(std::ostream &str,const size_t width) const;	\
+       Object_Type *operator()(const Parameter_Type &parameters) const;	\
+     public:								\
+-      Getter<OBJECT,PARAMETER,NAME,SORT>(const bool &d=true):		\
++      Getter(const bool &d=true):		\
+ 	Getter_Function<OBJECT,PARAMETER,SORT>(TAG)			\
+ 	{ SetDisplay(d); }						\
+     };									\
+@@ -107,8 +107,7 @@ namespace ATOOLS {
+       void PrintInfo(std::ostream &str,const size_t width) const;	\
+       Object_Type *operator()(const Parameter_Type &parameters) const;	\
+     public:								\
+-      Getter<OBJECT,PARAMETER,NAME,SORT>				\
+-	(const std::string &name,const bool d=true):			\
++      Getter(const std::string &name,const bool d=true):			\
+ 	Getter_Function<OBJECT,PARAMETER,SORT>(name)			\
+ 	{ SetDisplay(d); }						\
+     };									\
+-- 
+GitLab
+
