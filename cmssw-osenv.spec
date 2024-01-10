@@ -1,4 +1,4 @@
-### RPM cms cmssw-osenv 240109.0
+### RPM cms cmssw-osenv 240110.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -17,6 +17,7 @@ Source0: git://github.com/cms-sw/cmssw-osenv.git?obj=%{branch}/%{commit}&export=
 %build
 
 %install
+rm -rf tests .gitignore
 mkdir -p %{i}/common
 mv * %{i}/common
 
