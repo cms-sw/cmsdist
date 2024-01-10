@@ -14,6 +14,8 @@
 Source: https://github.com/protocolbuffers/protobuf/archive/v%{realversion}.zip
 Requires: zlib
 BuildRequires: cmake ninja
+# improves text_format printing
+Patch0: protobuf_text_format
 
 %prep
 %setup -n %{n}-%{realversion}
