@@ -1,8 +1,6 @@
-### RPM cms cmssw-osenv 240110.0
+### RPM cms cmssw-osenv 240111.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
-
-
 
 # ***Do not change minor number of the above version. ***
 
