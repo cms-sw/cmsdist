@@ -7,7 +7,7 @@
 ### RPM cms dasgoclient %{dasgoclient_tag}.rev%{version_suffix}
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
-
+AutoReq: no
 Source0: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_amd64
 Source1: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_aarch64
 Source2: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_ppc64le
