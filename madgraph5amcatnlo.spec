@@ -16,6 +16,7 @@ Requires: gosamcontrib
 Requires: fastjet
 Requires: pythia8
 Requires: thepeg
+Requires: collier
 
 %prep
 %setup -n MG5_aMC_v%{versiontag}_py3
@@ -28,6 +29,7 @@ sed -i -e "s|\${LHAPDF_ROOT}|${LHAPDF_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${FASTJET_ROOT}|${FASTJET_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${GOSAMCONTRIB_ROOT}|${GOSAMCONTRIB_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${THEPEG_ROOT}|${THEPEG_ROOT}|g" input/mg5_configuration.txt
+sed -i -e "s|\${COLLIER_ROOT}|${COLLIER_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|@MADGRAPH5AMCATNLO_ROOT@|%{i}|g" input/mg5_configuration.txt
 sed -i -e "s|SHFLAG = \-fPIC|SHFLAG = \-fPIC \-fcommon|g" vendor/StdHEP/src/stdhep_arch
 
@@ -52,6 +54,8 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
     %{i}/Template/LO/bin/internal/addmasses_optional.py \
     %{i}/madgraph/various/progressbar.py
 find %{i} -name '*deleteme' -delete
+rm -f %{i}/basiceventgeneration/*.log
+rm -f %{i}/basiceventgeneration/Source/StdHEP/log.mcfio.*
 
 %post
 %{relocateConfig}input/mg5_configuration.txt
