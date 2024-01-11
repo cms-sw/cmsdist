@@ -156,6 +156,7 @@ Requires: py3-subprocess32
 Requires: py3-kiwisolver
 Requires: py3-pillow
 Requires: py3-pydot
+Requires: py3-tritonclient
 
 Requires: py3-astroid
 Requires: py3-hepdata-lib
