@@ -3,9 +3,9 @@
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 
-%define tag 04bb629ddab5344c8df69070c35573f2f8095c69
-%define branch master
-%define github_user AIDASoft
+%define tag 23a341197c3d0c829a45575c9f4acdee6022f050
+%define branch patch-1
+%define github_user iarspider
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
