@@ -3,7 +3,7 @@
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 
-%define tag 23a341197c3d0c829a45575c9f4acdee6022f050
+%define tag 8d70f249220023f54198d39012889fae95b6f05b
 %define branch patch-1
 %define github_user iarspider
 %define keep_archives true
