@@ -3,7 +3,7 @@
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 
-%define tag 04bb629ddab5344c8df69070c35573f2f8095c69
+%define tag 5922c749937ab1e9c1d92537af8aba95177de42f
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
