@@ -1,4 +1,4 @@
-### RPM external dd4hep v01-27-01
+### RPM external dd4hep v01-27-02
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
