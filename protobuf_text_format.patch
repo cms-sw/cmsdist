@@ -1,0 +1,15 @@
+diff --git a/python/google/protobuf/text_format.py b/python/google/protobuf/text_format.py
+index a6d8bcf64..24da4cac5 100644
+--- a/python/google/protobuf/text_format.py
++++ b/python/google/protobuf/text_format.py
+@@ -470,9 +470,7 @@ class _Printer(object):
+           entry_submsg = value.GetEntryClass()(key=key, value=value[key])
+           self.PrintField(field, entry_submsg)
+       elif field.label == descriptor.FieldDescriptor.LABEL_REPEATED:
+-        if (self.use_short_repeated_primitives
+-            and field.cpp_type != descriptor.FieldDescriptor.CPPTYPE_MESSAGE
+-            and field.cpp_type != descriptor.FieldDescriptor.CPPTYPE_STRING):
++        if self.use_short_repeated_primitives:
+           self._PrintShortRepeatedPrimitivesValue(field, value)
+         else:
+           for element in value:
