@@ -1,5 +1,4 @@
 ### RPM external gsl 2.6
-## INITENV SET GSL_CBLAS_LIB -L${OPENBLAS_ROOT}/lib -lopenblas
 Source: ftp://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Requires: OpenBLAS
 %define runpath_opts -m cblas
@@ -52,6 +51,7 @@ rm -f %{i}/lib/*.la
 #https://github.com/cms-sw/cmsdist/issues/5528
 mkdir %i/cblas
 mv  %i/lib/libgslcblas* %i/cblas/
+sed -i -e "s|-lgslcblas|-L${OPENBLAS_ROOT}/lib -lopenblas|" %{i}/bin/gsl-config
 
 %post
 %{relocateConfig}bin/gsl-config
