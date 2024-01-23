@@ -51,6 +51,9 @@ rm -f %{i}/lib/*.la
 #https://github.com/cms-sw/cmsdist/issues/5528
 mkdir %i/cblas
 mv  %i/lib/libgslcblas* %i/cblas/
+
+#Make sure openblas library exists
+test ${OPENBLAS_ROOT}/lib/libopenblas.%{dynamic_lib_ext}
 sed -i -e "s|-lgslcblas|-L${OPENBLAS_ROOT}/lib -lopenblas|" %{i}/bin/gsl-config
 
 %post
