@@ -4,6 +4,9 @@
 #If there is no customization for the packae then remove its .spec and .file
 [default]
 RecoMET-METPUSubtraction=V01-03-00
+RecoEcal-EgammaClusterProducers=V00-04-00
+RecoBTag-Combined=V01-20-00
+HeterogeneousCore-SonicTriton=V00-03-00
 RecoMuon-MuonIdentification=V01-16-00
 DataFormats-L1Scouting=V00-01-00
 DataFormats-L1ScoutingRawData=V00-01-00
@@ -16,7 +19,6 @@ L1Trigger-DTTriggerPhase2=V00-03-00
 RecoTracker-FinalTrackSelectors=V01-05-00
 RecoTauTag-TrainingFiles=V00-08-00
 IOPool-Input=V00-03-00
-RecoBTag-Combined=V01-19-00
 DQM-Integration=V00-05-00
 RecoEgamma-EgammaPhotonProducers=V00-04-00
 DataFormats-DetId=V00-01-00
@@ -38,8 +40,6 @@ DataFormats-FEDRawData=V00-01-00
 DataFormats-Common=V00-01-00
 DQM-EcalMonitorClient=V00-03-00
 CondTools-Hcal=V00-01-00
-RecoEcal-EgammaClusterProducers=V00-03-00
-HeterogeneousCore-SonicTriton=V00-02-00
 RecoTracker-DisplacedRegionalTracking=V00-01-00
 PhysicsTools-NanoAOD=V01-03-00
 CalibTracker-SiStripDCS=V01-01-00
