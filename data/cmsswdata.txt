@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEcal-EgammaClusterProducers=V00-04-00
 RecoBTag-Combined=V01-20-00
 HeterogeneousCore-SonicTriton=V00-03-00
 RecoMuon-MuonIdentification=V01-16-00
@@ -38,7 +39,6 @@ DataFormats-FEDRawData=V00-01-00
 DataFormats-Common=V00-01-00
 DQM-EcalMonitorClient=V00-03-00
 CondTools-Hcal=V00-01-00
-RecoEcal-EgammaClusterProducers=V00-03-00
 RecoTracker-DisplacedRegionalTracking=V00-01-00
 PhysicsTools-NanoAOD=V01-03-00
 CalibTracker-SiStripDCS=V01-01-00
