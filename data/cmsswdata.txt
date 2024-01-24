@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoMET-METPUSubtraction=V01-03-00
 RecoMuon-MuonIdentification=V01-16-00
 DataFormats-L1Scouting=V00-01-00
 DataFormats-L1ScoutingRawData=V00-01-00
@@ -50,7 +51,6 @@ CalibTracker-SiPixelESProducers=V02-03-00
 RecoHGCal-TICL=V00-03-00
 Validation-HGCalValidation=V00-05-00
 L1Trigger-CSCTriggerPrimitives=V00-12-00
-RecoMET-METPUSubtraction=V01-02-00
 MagneticField-Interpolation=V01-02-00
 L1TriggerConfig-L1TConfigProducers=V00-01-00
 CondTools-SiStrip=V00-02-00
