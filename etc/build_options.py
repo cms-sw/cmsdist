@@ -1,6 +1,6 @@
 def get_build_options(options, *args):
   opts = {}
-  boolean_opts = ["vecgeom", "lto", "warnings"]
+  boolean_opts = ["vecgeom", "lto", "warnings", "tf_mkldnn"]
   for opt in boolean_opts:
     opts[opt] = ["enable_%s=1" % opt]
     opts["no-"+opt] = ["enable_%s=0" % opt]
