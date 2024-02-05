@@ -9,6 +9,7 @@ if machine() == "x86_64":
 ############ IMPORTANT NOTE #############
 # For any newly added vecrtorized packages here,
 # please also add scram-tools.file/tools/package/vectorized.tmpl file
+# and vectorized_packages list in cmssw-vectorization.file file
 #########################################
   MULTI_TARGET_PACKAGES = [
     "zlib",
