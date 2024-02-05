@@ -5,5 +5,6 @@
   </client>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags CPPDEFINES="EIGEN_DONT_PARALLELIZE"/>
+  <flags CPPDEFINES="EIGEN_MAX_ALIGN_BYTES=64"/>
   <flags CUDA_FLAGS="--diag-suppress 20014"/>
 </tool>
