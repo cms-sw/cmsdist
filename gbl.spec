@@ -20,7 +20,11 @@ cmake ../cpp \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DSUPPORT_ROOT=False \
+  %ifarch x86_64
   -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64 -msse3" \
+  %else
+  -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64" \
+  %endif
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
 
 make %{makeprocesses}
