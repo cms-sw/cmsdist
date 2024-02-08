@@ -1,10 +1,10 @@
-### RPM lcg root 6.30.03
+### RPM lcg root 6.30.05
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag b143ead57720e9abfbd156839e4c9cb1416367f3
-%define branch cms/v6-30-00-patches/0541c6f
+%define tag 40786bf93160c0ceeda10afa7a7d7d8044519d00
+%define branch cms/v6-30-00-patches/b9577a0bdf
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz

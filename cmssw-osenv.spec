@@ -1,10 +1,10 @@
-### RPM cms cmssw-osenv 230704.0
+### RPM cms cmssw-osenv 240110.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 91dae8c41187daaf11cb130c92bf9252af168183
+%define commit 5b0a846d3885a9037893eb628da5f2e9e444b6f6
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when there are dependencies.
@@ -17,6 +17,7 @@ Source0: git://github.com/cms-sw/cmssw-osenv.git?obj=%{branch}/%{commit}&export=
 %build
 
 %install
+rm -rf tests .gitignore
 mkdir -p %{i}/common
 mv * %{i}/common
 

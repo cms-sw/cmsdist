@@ -56,6 +56,6 @@ fi
 %post
 cd ${RPM_INSTALL_PREFIX}
 mkdir -p share/%{pkgdir}
-for dir in bin lib etc examples; do
+for dir in bin lib etc; do
   rsync -a %{pkgrel}/${dir}/ share/%{pkgdir}/${dir}/
 done

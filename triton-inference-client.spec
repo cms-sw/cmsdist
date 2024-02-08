@@ -1,4 +1,5 @@
 ### RPM external triton-inference-client 2.25.0
+## INITENV +PATH PYTHON3PATH %{pkginstroot}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cpp-standard
 %define branch r22.08
 %define github_user triton-inference-server
@@ -7,12 +8,14 @@
 
 Source0: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: git+https://github.com/%{github_user}/common.git?obj=%{branch}/%{common_tag}&export=common-%{realversion}&output=/common-%{realversion}.tgz
-BuildRequires: cmake git
-Requires: protobuf grpc cuda abseil-cpp re2
+BuildRequires: cmake git py3-wheel
+Requires: protobuf grpc cuda abseil-cpp re2 rapidjson
+Requires: py3-numpy py3-grpcio-tools py3-python-rapidjson
 
 %prep
 
 %setup -D -T -b 0 -n %{n}-%{realversion}
+sed -i -e 's|import os|import os,sys|' src/python/library/build_wheel.py
 %setup -D -T -b 1 -n common-%{realversion}
 
 %build
@@ -44,8 +47,6 @@ cmake ${PROJ_DIR} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DTRITON_ENABLE_CC_HTTP=OFF \
     -DTRITON_ENABLE_CC_GRPC=ON \
-    -DTRITON_ENABLE_PYTHON_HTTP=OFF \
-    -DTRITON_ENABLE_PYTHON_GRPC=OFF \
     -DTRITON_ENABLE_PERF_ANALYZER=OFF \
     -DTRITON_ENABLE_EXAMPLES=OFF \
     -DTRITON_ENABLE_TESTS=OFF \
@@ -53,16 +54,39 @@ cmake ${PROJ_DIR} \
     -DTRITON_KEEP_TYPEINFO=ON \
     -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
+    -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
+    -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
+    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT};${RAPIDJSON_ROOT}"
+
+make %{makeprocesses} VERBOSE=1
+
+rm -rf ../buildpy ; mkdir ../buildpy ; cd ../buildpy
+cmake ../%{n}-%{realversion}/src/python \
+    -DCMAKE_INSTALL_PREFIX="%{i}" \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
+    -DTRITON_ENABLE_PYTHON_HTTP=OFF \
+    -DTRITON_ENABLE_PYTHON_GRPC=ON \
+    -DTRITON_ENABLE_PERF_ANALYZER=OFF \
+    -DTRITON_ENABLE_EXAMPLES=OFF \
+    -DTRITON_ENABLE_TESTS=OFF \
+    -DTRITON_COMMON_REPO_TAG=${common_tag} \
+    -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
     -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
-    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT}"
+    -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT};${RAPIDJSON_ROOT}"
+
 
 make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
 make install
+cd ../buildpy
+mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+rsync -a ./library/linux/wheel/build/lib/ %{i}/${PYTHON3_LIB_SITE_PACKAGES}/
 
 if [ "%{cuda_gcc_support}" = "true" ] ; then
     # modify header for consistent definition of GPU support

@@ -9,15 +9,16 @@ if machine() == "x86_64":
 ############ IMPORTANT NOTE #############
 # For any newly added vecrtorized packages here,
 # please also add scram-tools.file/tools/package/vectorized.tmpl file
+# and vectorized_packages list in cmssw-vectorization.file file
 #########################################
   MULTI_TARGET_PACKAGES = [
     "zlib",
     "fastjet",
-    "vecgeom",
     "tensorflow-sources",
     "tensorflow",
     "OpenBLAS",
     "rivet",
+    "gbl",
   ]
   VALID_TARGETS = {
     "nehalem":     "-march=nehalem",
@@ -25,6 +26,9 @@ if machine() == "x86_64":
     "haswell":     "-march=haswell",
     "skylake-avx512":"-march=skylake-avx512",
   }
+  for v in range(2,5):
+    psABI = "x86-64-v%s" % v
+    VALID_TARGETS[psABI] = "-march=" + psABI
 
 def fix_tensorflow_sources(vec, value):
   return [(DEFAULT_TARGET_FLAG,"%s %s" % (value, "--distinct_host_configuration=true"))]
@@ -33,7 +37,10 @@ def fix_vecgeom(vec, value):
   return [(DEFAULT_TARGET_FLAG.replace("-m", ""), value.replace("-m", ""))]
 
 def fix_OpenBLAS(vec, value):
-  if vec=="skylake-avx512": vec="SKYLAKEX"
+  if   vec=="skylake-avx512": vec="SKYLAKEX"
+  elif vec=="x86-64-v2": vec="NEHALEM"
+  elif vec=="x86-64-v3": vec="HASWELL"
+  elif vec=="x86-64-v4": vec="SKYLAKEX"
   return [("TARGET=CORE2", "TARGET=%s" % vec.upper())]
 
 def packages(virtual_packages, *args):
