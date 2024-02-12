@@ -16,7 +16,7 @@ export CPATH="${CPATH}:%{i}/tensorflow/include"
 export CPATH="${CPATH}:%{i}/tensorflow/include/third_party/eigen3"
 
 pushd tensorflow/xla_aot_runtime_src
-  cmake . -DCMAKE_CXX_FLAGS="-fPIC"
+  cmake . -DCMAKE_CXX_FLAGS="-fPIC -msse3"
   make %{makeprocesses}
   # this builds a shared library, but when used some symbols are missig (e.g `tsl::mutex::unlock()')
   # so it does not seem intended to be used as a shared lib
