@@ -1,1 +1,4 @@
 Requires: py3-six re2
+%ifarch ppc64le
+%define PipPreBuild export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=true
+%endif
