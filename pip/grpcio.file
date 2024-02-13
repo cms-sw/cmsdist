@@ -1,1 +1,2 @@
 Requires: py3-six re2
+%define PipPreBuild export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=true
