@@ -2,7 +2,6 @@
   <client>
     <environment name="TENSORFLOW_XLA_RUNTIME_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_XLA_RUNTIME_BASE/lib/archive"/>
-    <environment name="INCLUDE" default="$TENSORFLOW_XLA_RUNTIME_BASE/include"/>
   </client>
   <lib name="tf_xla_runtime-static"/>
   <use name="eigen"/>
