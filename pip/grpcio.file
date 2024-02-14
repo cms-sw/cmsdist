@@ -5,6 +5,7 @@
   export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=True; \
   export GRPC_PYTHON_BUILD_SYSTEM_RE2=True; \
   export GRPC_PYTHON_BUILD_SYSTEM_ABSL=True; \
+  export ABSEIL_CPP_ROOT; \
   export LDFLAGS="-L${RE2_ROOT}/lib    -L${ZLIB_ROOT}/lib     -L${ABSEIL_CPP_ROOT}/lib -L${PYTHON3_ROOT}/lib"; \
   export CXXFLAGS="-I${RE2_ROOT}/include -I${ZLIB_ROOT}/include -I${ABSEIL_CPP_ROOT}/include -I${PYTHON3_ROOT}/include/python3.%{cms_python3_minor_version}" ;\
   export CFLAGS="-I${RE2_ROOT}/include   -I${ZLIB_ROOT}/include -I${ABSEIL_CPP_ROOT}/include -I${PYTHON3_ROOT}/include/python3.%{cms_python3_minor_version}"
