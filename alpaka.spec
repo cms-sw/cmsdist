@@ -1,9 +1,9 @@
-### RPM external alpaka develop-20230621
+### RPM external alpaka 1.1.0
 ## NOCOMPILER
 
-%define git_commit 0286cd8fa24e50179e24b62a48c89201e51eb80a
+%define git_commit 1.1.0
 
-Source: https://github.com/cms-patatrack/%{n}/archive/%{git_commit}.tar.gz
+Source: https://github.com/alpaka-group/%{n}/archive/%{git_commit}.tar.gz
 Requires: boost
 
 %prep
