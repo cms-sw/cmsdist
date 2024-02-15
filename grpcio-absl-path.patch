@@ -1,0 +1,11 @@
+--- a/setup.py	2024-02-14 12:21:26.788212443 +0100
++++ b/setup.py	2024-02-14 14:00:46.036665638 +0100
+@@ -378,7 +378,7 @@
+     EXTENSION_LIBRARIES += ("re2",)
+ if BUILD_WITH_SYSTEM_ABSL:
+     EXTENSION_LIBRARIES += tuple(
+-        lib.stem[3:] for lib in pathlib.Path("/usr").glob("lib*/libabsl_*.so")
++        lib.stem[3:] for lib in pathlib.Path(os.getenv("ABSEIL_CPP_ROOT")).glob("lib*/libabsl_*.so")
+     )
+ 
+ DEFINE_MACROS = (("_WIN32_WINNT", 0x600),)
