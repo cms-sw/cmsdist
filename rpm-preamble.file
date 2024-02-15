@@ -273,10 +273,14 @@ fi
   NEW_REV=$(grep '^#CMSDIST_FILE_REVISION=' %{1} | tail -1 | sed 's|.*=||;s| ||g') \
   if [ ${OLD_REV} -lt ${NEW_REV} ] ; then cp %{1} %{2}.tmp; mv %{2}.tmp %{2} ; fi
 
-%define cms_python2_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python/ | cut -d/ -f3 | cut -f1,2 -d.)
-%define cms_python2_major_minor $(echo %{cms_python2_major_minor_version} | sed 's|[.]||')
-%define cms_python3_major_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python3/ | cut -d/ -f3 | cut -f1,2 -d.)
-%define cms_python3_major_minor $(echo %{cms_python3_major_minor_version} | sed 's|[.]||')
+%define cms_python2_major_version 2
+%define cms_python3_major_version 3
+%define cms_python2_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python/ | cut -d/ -f3 | cut -f2 -d.)
+%define cms_python3_minor_version %(echo %{allpkgreqs} | tr ' ' '\\n' | grep /python3/ | cut -d/ -f3 | cut -f2 -d.)
+%define cms_python2_major_minor_version 2.%{cms_python2_minor_version}
+%define cms_python2_major_minor         2%{cms_python2_minor_version}
+%define cms_python3_major_minor_version 3.%{cms_python3_minor_version}
+%define cms_python3_major_minor         3%{cms_python3_minor_version}
 
 %if "%{?allow_version_suffix:set}" == "set"
 %define check_version_suffix echo "%%allow_version_suffix defined, skipping version suffix check."
