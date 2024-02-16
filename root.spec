@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
-%define tag 594f3935b4ea8871ecbe02b57e737dc47d179002
+%define tag 99dee1e616933e1e72f3f6efa022cef5f9c499bc
 %define branch cms/v6-24-00-patches/3c21b04
 
 %define github_user cms-sw
