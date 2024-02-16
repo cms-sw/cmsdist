@@ -5,7 +5,7 @@
 [default]
 Configuration-Generator=V01-08-00
 PhysicsTools-PatUtils=V00-05-00
-GeneratorInterface-EvtGenInterface=V02-06-00
+GeneratorInterface-EvtGenInterface=V02-09-00
 Alignment-OfflineValidation=V00-01-00
 CalibPPS-ESProducers=V01-03-00
 RecoMET-METPUSubtraction=V01-01-00
