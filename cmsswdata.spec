@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-L1Trigger-L1CaloTrigger
 Requires: data-DataFormats-L1Scouting
 Requires: data-DataFormats-L1ScoutingRawData
 Requires: data-SimCalorimetry-EcalEBTrigPrimProducers
