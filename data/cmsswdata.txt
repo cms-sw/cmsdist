@@ -3,6 +3,8 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+DataFormats-L1ScoutingRawData=V00-02-00
+DataFormats-L1Scouting=V00-02-00
 L1Trigger-L1CaloTrigger=V00-01-00
 L1Trigger-Phase2L1ParticleFlow=V00-07-00
 GeneratorInterface-EvtGenInterface=V02-09-00
@@ -14,8 +16,6 @@ RecoEcal-EgammaClusterProducers=V00-04-00
 RecoBTag-Combined=V01-20-00
 HeterogeneousCore-SonicTriton=V00-03-00
 RecoMuon-MuonIdentification=V01-16-00
-DataFormats-L1Scouting=V00-01-00
-DataFormats-L1ScoutingRawData=V00-01-00
 RecoEgamma-ElectronIdentification=V01-14-00
 SimCalorimetry-EcalEBTrigPrimProducers=V00-01-00
 RecoTracker-MkFit=V00-13-00
