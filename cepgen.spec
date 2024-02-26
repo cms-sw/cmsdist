@@ -1,4 +1,4 @@
-### RPM external cepgen 1.2.0
+### RPM external cepgen 1.2.1
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
