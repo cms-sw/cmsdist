@@ -1,13 +1,15 @@
-### RPM external rivet 3.1.8
+### RPM external rivet 3.1.10
 ## INCLUDE cpp-standard
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: rivet-deprecated-warn
+Patch0: rivet-analysis
+
 Requires: hepmc fastjet fastjet-contrib yoda
 BuildRequires: python3 py3-cython autotools
 
 %prep
+## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 
