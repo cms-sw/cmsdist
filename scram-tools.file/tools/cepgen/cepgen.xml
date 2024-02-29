@@ -2,7 +2,6 @@
   <info url="https://cepgen.hepforge.org/"/>
   <lib name="CepGen"/>
   <lib name="CepGenHepMC2"/>
-  <lib name="CepGenHepMC3"/>
   <lib name="CepGenLHAPDF"/>
   <lib name="CepGenProcesses"/>
   <lib name="CepGenPythia6"/>
@@ -16,7 +15,6 @@
   <use name="gsl"/>
   <use name="OpenBLAS"/>
   <use name="hepmc"/>
-  <use name="hepmc3"/>
   <use name="lhapdf"/>
   <use name="pythia6"/>
 </tool>
