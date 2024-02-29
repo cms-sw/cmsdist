@@ -23,6 +23,11 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_EIGEN=ON \
+    %ifarch x86_64
+    -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64 -msse3" \
+    %else
+    -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64" \
+     %endif
     -DBUILD_EXAMPLES=OFF \
     -DWITH_QT=OFF \
     -DWITH_GTK=OFF \

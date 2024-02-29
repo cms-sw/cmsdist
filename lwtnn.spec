@@ -17,7 +17,11 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_CXX_COMPILER="g++" \
-  -DCMAKE_CXX_FLAGS="-fPIC" \
+  %ifarch x86_64
+  -DCMAKE_CXX_FLAGS="-fPIC -DEIGEN_MAX_ALIGN_BYTES=64 -msse3" \
+  %else
+  -DCMAKE_CXX_FLAGS="-fPIC -DEIGEN_MAX_ALIGN_BYTES=64" \
+  %endif
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILTIN_BOOST=OFF \

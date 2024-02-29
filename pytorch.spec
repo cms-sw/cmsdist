@@ -74,6 +74,11 @@ cmake ../%{n}-%{realversion} \
     -DUSE_SYSTEM_FXDIV=ON \
     -DUSE_SYSTEM_PYBIND11=ON \
     -DUSE_SYSTEM_BENCHMARK=ON \
+    %ifarch x86_64
+    -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64 -msse3" \
+    %else
+    -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64" \
+    %endif
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
 
