@@ -27,6 +27,8 @@ Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50600-67.el%{
 Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-16.56.0.50600-67.el%{rhel}.%{_arch}.rpm
 Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.0.50600-67.el%{rhel}.%{_arch}.rpm
 Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50600-67.el%{rhel}.%{_arch}.rpm
+Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50600-67.el%{rhel}.%{_arch}.rpm
 Requires: numactl zstd
 Requires: python3
 
@@ -47,6 +49,8 @@ rpm2cpio %{SOURCE10} | cpio -idmv
 rpm2cpio %{SOURCE11} | cpio -idmv
 rpm2cpio %{SOURCE12} | cpio -idmv
 rpm2cpio %{SOURCE13} | cpio -idmv
+rpm2cpio %{SOURCE14} | cpio -idmv
+rpm2cpio %{SOURCE15} | cpio -idmv
 
 %install
 rmdir %{i}
