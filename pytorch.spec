@@ -2,10 +2,10 @@
 ## INCLUDE cuda-flags
 
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
-%define tag v%{realversion}
-%define branch release/2.1
+%define tag bb938bbe9f53414dda1e1159795b7536dbffd041
+%define branch cms/v%{realversion}
 
-Source: git+https://github.com/pytorch/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/cms-externals/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
 Source2: FindFMT.cmake
 Patch0: pytorch-ignore-different-cuda-include-dir
