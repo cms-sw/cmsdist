@@ -8,6 +8,8 @@ Requires: eigen
 
 %prep
 %setup -q -n %{n}-%{realversion}
+grep -q 'CMAKE_CXX_STANDARD  *11' cpp/CMakeLists.txt
+sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' cpp/CMakeLists.txt
 
 %build
 rm -rf build
@@ -21,11 +23,10 @@ cmake ../cpp \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DSUPPORT_ROOT=False \
   %ifarch x86_64
-  -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64 -msse3" \
+  -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64 -msse3" 
   %else
-  -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64" \
+  -DCMAKE_CXX_FLAGS="-DEIGEN_MAX_ALIGN_BYTES=64" 
   %endif
-  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
 
 make %{makeprocesses}
 
