@@ -1,4 +1,4 @@
-### RPM external lwtnn 2.13
+### RPM external lwtnn 2.14.1
 ## INCLUDE cpp-standard
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
