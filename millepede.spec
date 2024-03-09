@@ -1,4 +1,4 @@
-### RPM external millepede V04-14-00
+### RPM external millepede V04-16-00
 Source: https://gitlab.desy.de/claus.kleinwort/millepede-ii/-/archive/%{realversion}/%{n}-ii-%{realversion}.tar.gz
 Requires: zlib
 
