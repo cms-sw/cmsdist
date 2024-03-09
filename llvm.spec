@@ -29,7 +29,7 @@ sed -ibak '/add_clang_subdirectory(libclang)/a add_subdirectory(include-what-you
 
 %build
 ## INCLUDE cuda-flags
-# defines llvm_cuda_arch
+# defines omptarget_cuda_archs
 
 rm -rf %{_builddir}/build
 mkdir -p %{_builddir}/build
@@ -51,7 +51,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
-  -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%llvm_cuda_arch" \
+  -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 
