@@ -6,6 +6,8 @@
 %define github_user opencv
 
 Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source99: scram-tools.file/tools/eigen/env
+
 BuildRequires: cmake ninja
 Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 
@@ -16,6 +18,7 @@ Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 rm -rf ../build
 mkdir ../build
 cd ../build
+source %{_sourcedir}/env
 
 cmake ../%{n}-%{realversion} \
     -GNinja \
@@ -30,6 +33,11 @@ cmake ../%{n}-%{realversion} \
     -DPYTHON3_INCLUDE_DIR:PATH="${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version}" \
     -DPYTHON3_LIBRARY:FILEPATH="${PYTHON3_ROOT}/lib/libpython%{cms_python3_major_minor_version}.so" \
     -DCMAKE_BUILD_TYPE=Release \
+%ifarch x86_64
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS -msse3" \
+%else
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS" \
+%endif
     -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}"
 
 ninja -v %{makeprocesses}
