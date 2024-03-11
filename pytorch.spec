@@ -8,6 +8,7 @@
 Source: git+https://github.com/pytorch/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
 Source2: FindFMT.cmake
+Source99: scram-tools.file/tools/eigen/env
 Patch0: pytorch-ignore-different-cuda-include-dir
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
@@ -25,6 +26,7 @@ Requires: cuda cudnn OpenBLAS zlib protobuf fmt py3-pybind11
 %build
 cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
 rm -rf ../build && mkdir ../build && cd ../build
+source %{_sourcedir}/env
 
 USE_CUDA=OFF
 %if "%{cmsos}" != "slc7_aarch64"
@@ -74,6 +76,11 @@ cmake ../%{n}-%{realversion} \
     -DUSE_SYSTEM_FXDIV=ON \
     -DUSE_SYSTEM_PYBIND11=ON \
     -DUSE_SYSTEM_BENCHMARK=ON \
+%ifarch x86_64
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS -msse3" \
+%else
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS" \
+%endif
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
 
