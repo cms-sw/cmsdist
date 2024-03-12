@@ -29,7 +29,7 @@ tar xfz ${%{tf_root}}/libtensorflow_cc.tar.gz -C %{i}
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/tf_cuda_support.xml
   <tool name="tf_cuda_support" version="1.0">
-  <tool>
+  </tool>
 EOF_TOOLFILE
 %endif
 
