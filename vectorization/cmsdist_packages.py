@@ -20,6 +20,9 @@ if machine() == "x86_64":
     "OpenBLAS",
     "rivet",
     "gbl",
+    "lwtnn",
+    "opencv",
+    "pytorch",
   ]
   VALID_TARGETS = {
     "nehalem":     "-march=nehalem",

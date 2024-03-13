@@ -1,6 +1,17 @@
 #!/bin/bash -ex
 #Usage: get_tool <tool-install-dir> <tool-version> <directory-to-install-toolfiles> <toolname>
 
+function copy_tools (){
+    for xml in $(find $1 -type f -name "*.xml") ; do
+        bxml=$(basename $xml)
+        [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
+        [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
+        cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
+        perl -p -i -e 's|\@([a-zA-Z0-9_-]*)\@|$ENV{$1}|g' ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
+        echo "  Copied $bxml"
+    done
+}
+
 export TOOL_ROOT=$1
 export TOOL_VERSION=$2
 export TOOLFILES_INSTALL_DIR=$3
@@ -16,11 +27,7 @@ if [ -f $tool_script ]; then source $tool_script; fi
 
 #Copy all tools and replace the env placeholders @VARIABLES@
 [ -d ${TOOLFILES_INSTALL_DIR}/tools/selected ] || mkdir -p ${TOOLFILES_INSTALL_DIR}/tools/selected
-for xml in $(find $SCRAM_TOOL_SOURCE_DIR -type f -name "*.xml") ; do
-    bxml=$(basename $xml)
-    [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
-    [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
-    cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
-    perl -p -i -e 's|\@([a-zA-Z0-9_-]*)\@|$ENV{$1}|g' ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
-    echo "  Copied $bxml"
-done
+copy_tools $SCRAM_TOOL_SOURCE_DIR
+if [ -d ${TOOL_ROOT}/etc/scram.d ] ; then
+    copy_tools ${TOOL_ROOT}/etc/scram.d
+fi
