@@ -9,6 +9,7 @@ Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&ex
 BuildRequires: cmake
 
 %define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+Requires: python3
 Requires: json
 Requires: geant4
 Requires: vecgeom
