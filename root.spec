@@ -75,7 +75,6 @@ cmake ../%{n}-%{realversion} \
   -Dimt=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
-  -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
   -Dbuiltin_tbb=OFF \
