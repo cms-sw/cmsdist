@@ -19,7 +19,8 @@ Requires: llvm
 %define PipPostInstall \
   for f in %{RelocateFiles} ; do \
     [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f \
-  done
+  done ; \
+  sed -i 's/assert((arg_size(index)/assert(((size_t)arg_size(index)/' %{i}/lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/tensorflow/compiler/tf2xla/xla_compiled_cpu_function.h
 
 %define PipPostPost \
   for f in %{RelocateFiles} ; do \

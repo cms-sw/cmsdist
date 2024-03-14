@@ -56,7 +56,7 @@ charset-normalizer==3.3.0
 cleo==2.0.1
 click==8.1.3
 clikit==0.6.2
-cmsml==0.1.2
+cmsml==0.2.2
 contourpy==1.0.7
 correctionlib==2.2.2
 crashtest==0.4.1
@@ -94,6 +94,7 @@ docutils==0.19
 dulwich==0.21.3
 editables==0.3
 entrypoints==0.4
+execnet==2.0.2
 executing==1.2.0
 exceptiongroup==1.1.1
 fasteners==0.18
@@ -170,14 +171,14 @@ keras-preprocessing==1.1.2
 keras2onnx==1.7.0
 keyring==23.13.1
 kiwisolver==1.4.4
-law==0.1.12
+law==0.1.18
 lazy-object-proxy==1.9.0
 lit==16.0.6
 lizard==1.17.10
 #llvmlite==v0.41.0dev0
 locket==1.0.0
 lockfile==0.12.2
-luigi==3.2.1
+luigi==3.5.0
 lxml==4.9.2
 lz4==4.3.2
 make==0.1.6.post2
@@ -286,6 +287,7 @@ pysqlite3==0.5.0
 pytest==7.4.0
 pytest-cov==4.0.0
 pytest-runner==6.0.0
+pytest-xdist==3.5.0
 python-daemon==3.0.1
 python-dateutil==2.8.2
 python-json-logger==2.0.7
@@ -315,7 +317,7 @@ schema==0.7.5
 scikit-build==0.16.7
 scikit-build-core==0.3.0
 scikit-learn==1.2.2
-scinum==1.4.6
+scinum==2.0.2
 scipy==1.10.1
 secretstorage==3.3.3
 semantic-version==2.10.0
@@ -340,6 +342,7 @@ subprocess32==3.5.4
 sympy==1.11.1
 tables==3.8.0
 tblib==1.7.0
+tabulate==0.9.0
 tenacity==8.2.2
 #NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
 tensorflow==2.15.0
@@ -382,7 +385,8 @@ Werkzeug==3.0.1
 #NO_AUTO_UPDATE:1: you need wheel to build wheel
 wheel==0.40.0
 widgetsnbextension==4.0.7
-wrapt==1.15.0
+#NO_AUTO_UPDATE: wrapt >=1.15.0 breaks tensorflow saved model, https://github.com/GrahamDumpleton/wrapt/issues/231
+wrapt==1.14.1
 xgboost==1.7.5
 yarl==1.8.2
 zipp==3.17.0
