@@ -1,0 +1,6 @@
+<tool name="tensorflow-includes" version="@TOOL_VERSION@">
+  <client>
+    <environment name="TENSORFLOW_INCLUDES_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$TENSORFLOW_INCLUDES_BASE/@PYTHON3_LIB_SITE_PACKAGES@/tensorflow/include"/>
+  </client>
+</tool>
