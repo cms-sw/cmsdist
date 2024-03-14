@@ -97,6 +97,7 @@ Requires: hls
 Requires: opencv
 Requires: grpc
 Requires: onnxruntime
+Requires: tensorflow-xla-runtime
 Requires: TOoLLiP
 Requires: triton-inference-client
 Requires: hdf5

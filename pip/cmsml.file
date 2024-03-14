@@ -1,1 +1,1 @@
-Requires: py3-six
+Requires: py3-six py3-tabulate py3-pytest py3-pytest-xdist

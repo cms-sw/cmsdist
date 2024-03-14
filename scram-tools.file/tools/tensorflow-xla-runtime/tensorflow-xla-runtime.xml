@@ -1,0 +1,9 @@
+<tool name="tensorflow-xla-runtime" version="@TOOL_VERSION@">
+  <client>
+    <environment name="TENSORFLOW_XLA_RUNTIME_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$TENSORFLOW_XLA_RUNTIME_BASE/lib/archive"/>
+  </client>
+  <lib name="tf_xla_runtime-static"/>
+  <use name="eigen"/>
+  <use name="tensorflow-includes"/>
+</tool>
