@@ -12,8 +12,13 @@ cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-p
 
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
+%define cxxflags -fPIC
+%ifarch x86_64
+%define cxxflags -msse3 %{cxxflags}
+%endif
+
 pushd tensorflow/xla_aot_runtime_src
-  cmake . -DCMAKE_CXX_FLAGS="-fPIC -msse3" -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DBUILD_SHARED_LIBS=OFF
+  cmake . -DCMAKE_CXX_FLAGS=%{cxxflags} -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DBUILD_SHARED_LIBS=OFF
   make %{makeprocesses}
 popd
 
