@@ -5,5 +5,5 @@
 %if %{enable_warnings}
 %define warning_flags %{nil}
 %else
-%define warning_flags -Wno-deprecated-copy -Wno-deprecated
+%define warning_flags %{nil}
 %endif
