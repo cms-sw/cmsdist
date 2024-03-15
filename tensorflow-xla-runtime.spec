@@ -1,5 +1,6 @@
 ### RPM external tensorflow-xla-runtime 2.12.0
 ## INCLUDE cpp-standard
+## INCLUDE compilation_flags
 
 Requires: eigen py3-tensorflow
 BuildRequires: cmake
@@ -12,7 +13,7 @@ cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-p
 
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
-%define cxxflags -fPIC
+%define cxxflags -fPIC %{arch_build_flags}
 %ifarch x86_64
 %define cxxflags -msse3 %{cxxflags}
 %endif
