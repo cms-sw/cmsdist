@@ -19,9 +19,6 @@ CXXFLAGS="-fPIC %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS}"
 %ifarch x86_64
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
-%ifarch aarch64
-    CXXFLAGS="${CXXFLAGS} -DEIGEN_NEON_GEBP_NR=4"
-%endif
 
 pushd tensorflow/xla_aot_runtime_src
   cmake . -DCMAKE_CXX_FLAGS="${CXXFLAGS}" -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DBUILD_SHARED_LIBS=OFF
