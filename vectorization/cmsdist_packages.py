@@ -16,6 +16,7 @@ if machine() == "x86_64":
     "fastjet",
     "tensorflow-sources",
     "tensorflow",
+    "tensorflow-xla-runtime",
     "OpenBLAS",
     "rivet",
     "gbl",

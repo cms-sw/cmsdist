@@ -74,7 +74,7 @@ export TF_NEED_CUDA=%{enable_gpu}
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export TF_NEED_GCP=0
-export TF_ENABLE_XLA=0
+export TF_ENABLE_XLA=1
 export TF_NEED_OPENCL=0
 export TF_NEED_VERBS=0
 export TF_NEED_MKL=0
@@ -150,6 +150,7 @@ bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
 #bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
 bazel $BAZEL_OPTS //tensorflow/core/profiler
 bazel $BAZEL_OPTS //tensorflow:install_headers
+bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla_supported_ops
 
 # rebuild *.pb.{h|cc} files using the external protobuf compiler
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
@@ -192,8 +193,9 @@ for l in tensorflow_cc tensorflow_framework tensorflow ; do
 done
 
 #cp -p $srcdir/compiler/aot/tfcompile $bindir
+cp -p $srcdir/compiler/tf2xla/tf2xla_supported_ops $bindir
 for name in tensorflow absl re2 third_party ; do
-    cp -r -p $srcdir/include/$name $incdir
+  cp -r -p $srcdir/include/$name $incdir
 done
 
 # copy headers from downloaded dependencies
