@@ -21,7 +21,7 @@ CXXFLAGS="-fPIC %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS}"
 %endif
 
 pushd tensorflow/xla_aot_runtime_src
-  cmake . -DCMAKE_CXX_FLAGS=${CXXFLAGS} -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DBUILD_SHARED_LIBS=OFF
+  cmake . -DCMAKE_CXX_FLAGS="${CXXFLAGS}" -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DBUILD_SHARED_LIBS=OFF
   make %{makeprocesses}
 popd
 
