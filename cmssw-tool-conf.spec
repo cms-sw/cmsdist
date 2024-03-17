@@ -182,6 +182,9 @@ Requires: xtensor
 Requires: xtl
 Requires: xgboost
 Requires: pytorch
+Requires: pytorch-scatter
+Requires: pytorch-cluster
+Requires: pytorch-sparse
 
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
