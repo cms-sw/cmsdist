@@ -1,4 +1,4 @@
-### RPM external rdma-core 39.1
+### RPM external rdma-core 50.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 Source: https://github.com/linux-rdma/%{n}/releases/download/v%{realversion}/rdma-core-%{realversion}.tar.gz
