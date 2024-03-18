@@ -18,6 +18,7 @@ Requires: starlight-toolfile
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
+Requires: cepgen-toolfile
 Requires: charybdis-toolfile
 Requires: classlib-toolfile
 Requires: clhep-toolfile
