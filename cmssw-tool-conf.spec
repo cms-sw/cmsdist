@@ -183,6 +183,7 @@ Requires: xtl
 Requires: xgboost
 Requires: pytorch
 
+## INCLUDE tfaot-models
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf

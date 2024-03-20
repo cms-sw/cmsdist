@@ -1,0 +1,34 @@
+## tfaot common compilation and requirement file
+## specs including this file should provide
+## - a source archive named %{n}-%{realversion},
+## - a variable %{tool_name} that defines how tool files and include directories are named, and
+## - a variable %{aot_config} that points to the aot config file of the model.
+
+BuildRequires: py3-cms-tf-aot
+Requires: tensorflow-xla-runtime
+
+%prep
+%setup -n %{n}-%{realversion}
+
+%build
+cms_tf_aot_compile_model \
+  --aot-config "%{aot_config}" \
+  --tool-name "%{tool_name}" \
+  --tool-base "%{i}" \
+  --output-directory compiled_model
+
+%install
+model_name=$( python3 -c "import yaml; print(yaml.safe_load(open('%{aot_config}'))['model']['name'])" )
+
+mkdir -p %{i}/lib
+mv compiled_model/*.o %{i}/lib/
+
+incdir=%{i}/include/%{tool_name}
+mkdir -p ${incdir}
+mv compiled_model/*.h ${incdir}
+pushd ${incdir}
+  ln -s ${model_name}.h model.h
+popd
+
+mkdir -p %{i}/etc/scram.d
+mv compiled_model/%{tool_name}.xml %{i}/etc/scram.d/
