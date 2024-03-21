@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+Validation-HGCalValidation=V00-06-00
 RecoBTag-Combined=V01-21-00
 L1Trigger-L1TMuonEndCapPhase2=V00-01-00
 L1Trigger-L1TTrackMatch=V00-01-00
@@ -53,7 +54,6 @@ Alignment-OfflineValidation=V00-03-00
 L1Trigger-L1TGlobal=V00-04-00
 CalibTracker-SiPixelESProducers=V02-03-00
 RecoHGCal-TICL=V00-03-00
-Validation-HGCalValidation=V00-05-00
 L1Trigger-CSCTriggerPrimitives=V00-12-00
 MagneticField-Interpolation=V01-02-00
 L1TriggerConfig-L1TConfigProducers=V00-01-00
