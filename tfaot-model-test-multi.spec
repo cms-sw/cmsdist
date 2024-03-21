@@ -1,12 +1,5 @@
 ### RPM external tfaot-model-test-multi 1.0.0
 
-%define tool_name tfaot-model-test-multi
-
-%define github_user riga
-%define tag ac5e4ed8507ad63be5814247ef32cb9d0ecc21ff
-%define branch dev
-Source: git+https://github.com/%{github_user}/cms-tf-aot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
-%define aot_config test_models/multi/aot_config.yaml
+%define aot_config $PY3_CMS_TFAOT_ROOT/share/test_models/multi/aot_config.yaml
 
 ## INCLUDE tfaot-compile
