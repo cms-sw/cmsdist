@@ -1,9 +1,11 @@
 <tool name="tensorflow-xla-runtime" version="@TOOL_VERSION@">
   <client>
     <environment name="TENSORFLOW_XLA_RUNTIME_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$TENSORFLOW_XLA_RUNTIME_BASE/lib/archive"/>
+    <environment name="LIBDIR" default="$TENSORFLOW_XLA_RUNTIME_BASE/lib"/>
   </client>
-  <lib name="tf_xla_runtime-static"/>
+  <lib name="tf_xla_runtime"/>
+  <flags LDFLAGS="-Wl,--unresolved-symbols=ignore-in-shared-libs"/>
+
   <use name="eigen"/>
   <use name="tensorflow-includes"/>
 </tool>

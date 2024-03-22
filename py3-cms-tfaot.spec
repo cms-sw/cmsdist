@@ -7,7 +7,7 @@
 Source: git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: py3-pip py3-setuptools py3-wheel
-Requires: py3-tensorflow py3-cmsml
+Requires: py3-cmsml py3-tensorflow
 
 %prep
 %setup -n %{n}-%{realversion}
