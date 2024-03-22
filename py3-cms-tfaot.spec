@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
 %define github_user riga
-%define tag b5b7bb48a1dfe0ddee9277276bbba7f6af826c62
+%define tag a2bbd06cbed0efa1fa191cc2f50a6b03067e59d2
 %define branch master
 Source: git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
