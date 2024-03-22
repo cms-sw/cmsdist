@@ -2,8 +2,8 @@
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 %define tag f2d99195a0003ca2d2ba9ed50d0117e2f23360e0
-%define branch cms/v1.6.3
-%define github_user valsdav
+%define branch master
+%define github_user rusty1s
 
 Source: git+https://github.com/%{github_user}/pytorch_cluster.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 

@@ -2,9 +2,10 @@
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 %define tag c095c62e4334fcd05e4ac3c4bb09d285960d6be6
-%define branch cms/v2.1.2
+%define branch master
+%define github_user rusty1s
 
-Source: git+https://github.com/valsdav/pytorch_scatter.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/%{github_user}/pytorch_scatter.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
 Requires: pytorch cudnn

@@ -2,8 +2,8 @@
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 %define tag 2d559810c6af7f8b2cf88553dd5a5824a667a07d
-%define branch cms/v0.6.18
-%define github_user valsdav
+%define branch master
+%define github_user rusty1s
 
 Source: git+https://github.com/%{github_user}/pytorch_sparse.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
