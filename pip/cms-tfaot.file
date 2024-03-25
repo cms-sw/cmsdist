@@ -1,1 +1,12 @@
+BuildRequires: py3-pip py3-setuptools py3-wheel
 Requires: py3-PyYAML py3-cmsml
+
+%define github_user riga
+%define tag a2bbd06cbed0efa1fa191cc2f50a6b03067e59d2
+%define branch master
+%define source0 git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+
+# copy test models
+%define PipPostInstall \
+  mkdir -p %{i}/share; \
+  cp -r cmsdist-tmp/pip-req-build-*/test_models %{i}/share/
