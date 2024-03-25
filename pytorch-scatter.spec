@@ -13,7 +13,7 @@ Requires: pytorch cudnn
 
 %prep
 %setup -n %{n}-%{realversion}
-# Make sure the default c++sdt stand is c++11
+# Make sure the default c++sdt stand is c++14
 grep -q 'CMAKE_CXX_STANDARD  *14' CMakeLists.txt
 sed -i -e 's|CMAKE_CXX_STANDARD  *14|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt
 
@@ -41,5 +41,3 @@ make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
 make %{makeprocesses} install VERBOSE=1
-
-%post
