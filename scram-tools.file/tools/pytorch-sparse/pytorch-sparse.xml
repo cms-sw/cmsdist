@@ -1,9 +1,9 @@
 <tool name="pytorch-sparse" version="@TOOL_VERSION@">
   <client>
-    <environment name="TORCH_SPARSE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$TORCH_SPARSE_BASE/include"/>
-    <environment name="INCLUDE" default="$TORCH_SPARSE_BASE/include/torchsparse/"/>
-    <environment name="LIBDIR" default="$TORCH_SPARSE_BASE/lib"/>
+    <environment name="PYTORCH_SPARSE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PYTORCH_SPARSE_BASE/include"/>
+    <environment name="INCLUDE" default="$PYTORCH_SPARSE_BASE/include/torchsparse/"/>
+    <environment name="LIBDIR" default="$PYTORCH_SPARSE_BASE/lib"/>
   </client>
   <use name="pytorch"/>
   <lib name="torchsparse"/>
