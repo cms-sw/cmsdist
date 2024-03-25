@@ -1,0 +1,10 @@
+--- a/src/python/library/tritonclient/utils/cuda_shared_memory/cuda_shared_memory.cc	2023-03-02 23:13:11.000000000 +0100
++++ b/src/python/library/tritonclient/utils/cuda_shared_memory/cuda_shared_memory.cc	2024-03-25 12:11:15.562656475 +0100
+@@ -29,6 +29,7 @@
+ #include <cuda_runtime_api.h>
+ #include <cstring>
+ #include <iostream>
++#include <cstdint>
+ #include "../shared_memory/shared_memory_handle.h"
+ 
+ extern "C" {
