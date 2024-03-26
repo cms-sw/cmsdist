@@ -19,12 +19,15 @@ cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-p
 source %{_sourcedir}/env
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
-CXXFLAGS="-fPIC %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS}"
+CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS}"
 %ifarch x86_64
   CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
 
 pushd tensorflow/xla_aot_runtime_src
+  # remove unnecessary implementations that use symbols that are not even existing
+  rm tensorflow/compiler/xla/service/cpu/runtime_fork_join.cc
+
   cmake . \
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
