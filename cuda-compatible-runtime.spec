@@ -11,11 +11,11 @@ Requires: cuda
 
 %build
 ## INCLUDE cuda-flags
-# defines nvcc_stdcxx and cuda_flags_4
+# defines nvcc_flags_stdcxx and nvcc_flags_cuda_archs
 
 rm -rf %{_builddir}/build && mkdir %{_builddir}/build
 if
-  $CUDA_ROOT/bin/nvcc %{nvcc_stdcxx} -O2 -g %{cuda_flags_4} test.cu -I $CUDA_ROOT/include -L $CUDA_ROOT/lib64 -L $CUDA_ROOT/lib64/stubs --cudart static -ldl -lrt --compiler-options '-Wall -pthread' -o %{_builddir}/build/cuda-compatible-runtime
+  $CUDA_ROOT/bin/nvcc %{nvcc_flags_stdcxx} -O2 -g %{nvcc_flags_cuda_archs} test.cu -I $CUDA_ROOT/include -L $CUDA_ROOT/lib64 -L $CUDA_ROOT/lib64/stubs --cudart static -ldl -lrt --compiler-options '-Wall -pthread' -o %{_builddir}/build/cuda-compatible-runtime
 then
   true
 else

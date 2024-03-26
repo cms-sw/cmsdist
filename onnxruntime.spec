@@ -1,9 +1,9 @@
-### RPM external onnxruntime 1.14.1
+### RPM external onnxruntime 1.17.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag e4c6aa2984c7c71409f4c6d0db865117afa66932
+%define tag 5353412812a6f0409a15faff9a18640456ab1ff8
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
@@ -35,6 +35,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_USE_CUDA=${USE_CUDA} \
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
+   -Donnxruntime_NVCC_THREADS=0 \
    -Donnxruntime_BUILD_CSHARP=OFF \
    -Donnxruntime_USE_OPENMP=OFF \
    -Donnxruntime_USE_TVM=OFF \
@@ -53,10 +54,12 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
-   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow"
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized"
 
-# False positive string overflow
-# https://github.com/google/flatbuffers/issues/7366
+# -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
+# see https://github.com/google/flatbuffers/issues/7366
+
+# -Wno-error=maybe-uninitialized is needed for ONNX runtime 1.17.1 with cuDNN 8.9 or 9.0
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build

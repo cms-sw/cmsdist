@@ -13,7 +13,7 @@ export COMPILER_CXXFLAGS="%{arch_build_flags}"
 export COMPILER_WARNINGS="%{?warning_flags}"
 export ORACLE_ENV_ROOT=""
 export CUDA_FLAGS="%{nvcc_cuda_flags}"
-export CUDA_HOST_CXXFLAGS="%{nvcc_stdcxx}"
+export CUDA_HOST_CXXFLAGS="%{nvcc_flags_stdcxx}"
 export LTO_FLAGS="%{?lto_build_flags}"
 export PGO_FLAGS="%{?pgo_build_flags}"
 if [ $(echo ' %requiredtools ' | grep ' python3 ' |wc -l) -gt 0 ] ; then export PYTHON3_LIB_SITE_PACKAGES ; fi
