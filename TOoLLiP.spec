@@ -1,4 +1,4 @@
-### RPM external TOoLLiP 1.0.0
+### RPM external TOoLLiP 1.0.1
 Source: https://github.com/cms-hls4ml/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Requires: hls4mlEmulatorExtras hls
 BuildRequires: gmake
