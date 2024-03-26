@@ -54,12 +54,15 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
-   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized"
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
 # see https://github.com/google/flatbuffers/issues/7366
 
 # -Wno-error=maybe-uninitialized is needed for ONNX runtime 1.17.1 with cuDNN 8.9 or 9.0
+
+# -Wno-error=overloaded-virtual
+# See https://github.com/intel/neural-speed/issues/188
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build
