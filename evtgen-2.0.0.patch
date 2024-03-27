@@ -37,3 +37,42 @@
  
  template <class T>
  class EvtMatrix {
+
+--- a/EvtGenExternal/EvtPythiaEngine.hh
++++ b/EvtGenExternal/EvtPythiaEngine.hh
+@@ -82,7 +82,7 @@
+ 
+     bool _convertPhysCodes, _initialised, _useEvtGenRandom;
+ 
+-    std::unique_ptr<EvtPythiaRandom> _evtgenRandom;
++    std::shared_ptr<EvtPythiaRandom> _evtgenRandom;
+ 
+     std::map<int, int> _addedPDGCodes;
+ };
+
+--- a/src/EvtGenExternal/EvtPythiaEngine.cpp
++++ b/src/EvtGenExternal/EvtPythiaEngine.cpp
+@@ -75,7 +75,7 @@
+     // from EvtGen for Pythia 8.
+     _useEvtGenRandom = useEvtGenRandom;
+ 
+-    _evtgenRandom = std::make_unique<EvtPythiaRandom>();
++    _evtgenRandom = std::make_shared<EvtPythiaRandom>();
+ 
+     _initialised = false;
+ }
+@@ -128,8 +128,13 @@
+ 
+     // Set the random number generator
+     if ( _useEvtGenRandom == true ) {
++#if PYTHIA_VERSION_INTEGER < 8310
+         _genericPythiaGen->setRndmEnginePtr( _evtgenRandom.get() );
+         _aliasPythiaGen->setRndmEnginePtr( _evtgenRandom.get() );
++#else
++        _genericPythiaGen->setRndmEnginePtr( _evtgenRandom );
++        _aliasPythiaGen->setRndmEnginePtr( _evtgenRandom );
++#endif
+     }
+ 
+     _genericPythiaGen->init();
+
