@@ -1,0 +1,10 @@
+<tool name="pytorch-cluster" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PYTORCH_CLUSTER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PYTORCH_CLUSTER_BASE/include"/>
+    <environment name="INCLUDE" default="$PYTORCH_CLUSTER_BASE/include/torchcluster/"/>
+    <environment name="LIBDIR" default="$PYTORCH_CLUSTER_BASE/lib"/>
+  </client>
+  <use name="pytorch"/>
+  <lib name="torchcluster"/>
+</tool>
