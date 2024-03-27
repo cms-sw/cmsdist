@@ -31,3 +31,4 @@ mv compiled_model/%{n}.xml %{i}/etc/scram.d/
 
 %post
 %{relocateConfig}etc/scram.d/%{n}.xml
+%relocateConfigAll include/%{n} *.h
