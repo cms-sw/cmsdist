@@ -2,7 +2,7 @@ BuildRequires: py3-pip py3-setuptools py3-wheel
 Requires: py3-PyYAML py3-cmsml
 
 %define github_user riga
-%define tag 67ff5162a6030aad4f23aaacb67ea4f7f28109e1
+%define tag a9ee8f7d7091015a496f4be0880763a23b5287ab
 %define branch master
 %define source0 git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
