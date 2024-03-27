@@ -12,6 +12,8 @@ Source99: scram-tools.file/tools/eigen/env
 Patch0: pytorch-ignore-different-cuda-include-dir
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
+#https://gitlab.archlinux.org/archlinux/packaging/packages/python-pytorch/-/blob/main/python-pytorch-fix-cuda-12_4.patch?ref_type=heads
+Patch3: pytorch-cuda-12_4
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
@@ -22,6 +24,7 @@ Requires: cuda cudnn OpenBLAS zlib protobuf fmt py3-pybind11
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
