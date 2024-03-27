@@ -1,7 +1,6 @@
-### RPM external pythia8 310
+### RPM external pythia8 311
 
 Source: https://pythia.org/download/pythia83/%{n}%{realversion}.tgz
-# https://gitlab.com/Pythia8/releases/-/issues/289: fix compilation of C++20 code with pythia8
 
 Requires: hepmc hepmc3 lhapdf
 
