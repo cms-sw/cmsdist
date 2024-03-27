@@ -1,0 +1,10 @@
+<tool name="pytorch-scatter" version="@TOOL_VERSION@">
+  <client>
+    <environment name="PYTORCH_SCATTER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PYTORCH_SCATTER_BASE/include"/>
+    <environment name="INCLUDE" default="$PYTORCH_SCATTER_BASE/include/torchscatter/"/>
+    <environment name="LIBDIR" default="$PYTORCH_SCATTER_BASE/lib"/>
+  </client>
+  <use name="pytorch"/>
+  <lib name="torchscatter"/>
+</tool>
