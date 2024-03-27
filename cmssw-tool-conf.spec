@@ -182,6 +182,7 @@ Requires: xtensor
 Requires: xtl
 Requires: xgboost
 Requires: pytorch
+Requires: pytorch-custom-ops
 
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
