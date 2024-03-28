@@ -184,6 +184,7 @@ Requires: xgboost
 Requires: pytorch
 Requires: pytorch-custom-ops
 
+## INCLUDE tfaot-models
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram-tool-conf

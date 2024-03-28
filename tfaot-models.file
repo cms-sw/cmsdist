@@ -1,0 +1,3 @@
+# test models needed by unit tests in PhysicsTools/TensorFlowAOT
+Requires: tfaot-model-test-simple
+Requires: tfaot-model-test-multi
