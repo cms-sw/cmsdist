@@ -10,10 +10,12 @@
 <runtime name="RIVET_DATA_PATH" value="$RIVET_BASE/share/Rivet" type="path"/>
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-<runtime name="TEXMFHOME" value="$RIVET_BASE/share/Rivet/texmf" type="path"/>
 <use name="hepmc"/>
 <use name="fastjet"/>
 <use name="fastjet-contrib"/>
 <use name="gsl"/>
 <use name="yoda"/>
+<use name="hdf5"/>
+<use name="highfive"/>
+<use name="onnxruntime"/>
 </tool>

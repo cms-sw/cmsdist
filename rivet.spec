@@ -1,17 +1,15 @@
-### RPM external rivet 3.1.10
+### RPM external rivet 4.0.0
 ## INCLUDE cpp-standard
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: rivet-analysis
 
-Requires: hepmc fastjet fastjet-contrib yoda
+Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
 BuildRequires: python3 py3-cython autotools
 
 %prep
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
@@ -43,13 +41,14 @@ CXXFLAGS="-std=c++%{cms_cxx_standard}"
 sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 
 PYTHON=$(which python3) \
-./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
+./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC3_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
-            CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
+            --with-hdf5=${HDF5_ROOT}/bin/h5pcc --with-highfive=${HIGHFIVE_ROOT} --enable-onnxrt=${ONNXRUNTIME_ROOT} \
+            CXX="mpicxx" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
-perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
+perl -p -i -e "s|LIBS = $|LIBS = -lHepMC3|g" bin/Makefile
 %build
 make %{makeprocesses} all 
 %install
