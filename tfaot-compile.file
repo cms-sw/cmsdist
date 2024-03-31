@@ -1,0 +1,41 @@
+## tfaot common compilation and requirement file
+## specs including this file should provide:
+## 1. a variable %{aot_config}, pointing to the aot config file of the model to compile (required)
+## 2. a variable %{aot_source}, referring to a fetched source to unpack during %prep (optional)
+##    (in this case a "Source" should be defined and %{aot_source} is likely %{n}-%{realversion})
+
+BuildRequires: py3-cms-tfaot
+Requires: tensorflow-xla-runtime
+
+%ifarch ppc64le
+%define build_arch powerpc64le-unknown-linux-gnu
+%else
+%define build_arch %{_arch}-unknown-linux-gnu
+%endif
+
+%prep
+%if "%{?aot_source}"
+%setup -n %{aot_source}
+%endif
+
+%build
+cms_tfaot_compile \
+  --aot-config "%{aot_config}" \
+  --tool-name "%{n}" \
+  --tool-base "%{i}" \
+  --output-directory compiled_model \
+  --additional-flags="--target_triple %{build_arch}"
+
+%install
+mkdir -p %{i}/lib
+mv compiled_model/*.o %{i}/lib/
+
+mkdir -p %{i}/include/%{n}
+mv compiled_model/*.h %{i}/include/%{n}
+
+mkdir -p %{i}/etc/scram.d
+mv compiled_model/%{n}.xml %{i}/etc/scram.d/
+
+%post
+%{relocateConfig}etc/scram.d/%{n}.xml
+%relocateConfigAll include/%{n} *.h
