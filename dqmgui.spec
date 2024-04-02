@@ -17,6 +17,7 @@ Source0: git+https://github.com/cms-DQM/dqmgui_prod.git?obj=index128/%realversio
 Source2: svn://rotoglup-scratchpad.googlecode.com/svn/trunk/rtgu/image?module=image&revision=10&scheme=http&output=/rtgu.tar.gz
 Source3: http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.tar.gz
 Patch0: dqmgui-rtgu
+Patch1: dqmgui-index-size
 
 Requires: python cherrypy py2-cheetah yui extjs gmake pcre boost root rootjs libpng libjpg classlib rotatelogs py2-pycurl py2-cjson libuuid d3 protobuf py2-argparse py2-pytest py2-nose jemalloc
 BuildRequires: py2-sphinx

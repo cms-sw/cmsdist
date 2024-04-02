@@ -1,0 +1,15 @@
+diff --git a/src/cpp/DQM/VisDQMIndex.h b/src/cpp/DQM/VisDQMIndex.h
+index bbf1ba0..8b6b971 100644
+--- a/src/cpp/DQM/VisDQMIndex.h
++++ b/src/cpp/DQM/VisDQMIndex.h
+@@ -10,8 +10,8 @@
+ // Define the sizes to be used for the StringAtomTrees
+ 
+ #define OBJECTNAMES 5000000
+-#define PATHNAMES 1000000
+-#define DATASETNAMES 100000
++#define PATHNAMES 1500000   // Mostly affects DQMGUI offline deployment
++#define DATASETNAMES 200000 // Mostly affects DQMGUI dev deployment
+ #define CMSSWNAMES 10000
+ #define STREAMERS 100
+ 
