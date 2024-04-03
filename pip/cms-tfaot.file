@@ -2,7 +2,7 @@ BuildRequires: py3-pip py3-setuptools py3-wheel
 Requires: py3-PyYAML py3-cmsml
 
 %define github_user cms-externals
-%define tag a03ccef81c610e051d3d7d172d675fe6c1ff17e2
+%define tag df4bfd35dfed51d7c6ff0367ebc78093dfcc7d1d
 %define branch master
 %define source0 git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
