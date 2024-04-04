@@ -57,5 +57,4 @@ sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*
 
 %post
 %{relocateConfig}bin/rivet-config
-%{relocateConfig}bin/rivet-buildplugin
 %{relocateConfig}bin/rivet-build
