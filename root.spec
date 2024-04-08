@@ -1,10 +1,10 @@
-### RPM lcg root 6.30.07
+### RPM lcg root 6.31.99
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 5ccdd10f224eef86cef23d2c0fcad6f723bbddba
-%define branch cms/v6-30-00-patches/9be8ca1756
+%define tag 9ed47badd4dd03382fe1e4ee75d30b1576937977
+%define branch cms/v6-32-00-patches/72c816a353
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -75,7 +75,6 @@ cmake ../%{n}-%{realversion} \
   -Dimt=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
-  -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
   -Dbuiltin_tbb=OFF \
