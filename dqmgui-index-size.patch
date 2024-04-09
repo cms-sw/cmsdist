@@ -1,7 +1,7 @@
-diff --git a/DQM/VisDQMIndex.h b/DQM/VisDQMIndex.h
+diff --git a/src/cpp/DQM/VisDQMIndex.h b/src/cpp/DQM/VisDQMIndex.h
 index bbf1ba0..8b6b971 100644
---- a/DQM/VisDQMIndex.h
-+++ b/DQM/VisDQMIndex.h
+--- a/src/cpp/DQM/VisDQMIndex.h
++++ b/src/cpp/DQM/VisDQMIndex.h
 @@ -10,8 +10,8 @@
  // Define the sizes to be used for the StringAtomTrees
 
