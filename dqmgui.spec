@@ -27,6 +27,7 @@ BuildRequires: py2-sphinx
 #%setup -c    -T -a 1 -n stuff
 %setup -c -D -T -a 2 -n stuff/rtgu
 %patch0 -p1
+%patch1 -p1
 %setup -c -D -T -a 3 -n stuff/boost/gil/extension
 perl -p -i -e '/#include/ && s|\.\./\.\./|boost/gil/|' $(find . -name *.hpp)
 chmod 644 $(find . -name *.hpp)
