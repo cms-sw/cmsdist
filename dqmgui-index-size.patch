@@ -4,7 +4,7 @@ index f3e2000..0fe6d75 100644
 +++ b/src/cpp/DQM/VisDQMIndex.h
 @@ -10,8 +10,8 @@
  // Define the sizes to be used for the StringAtomTrees
-
+ 
  # define OBJECTNAMES 5000000
 -# define PATHNAMES   1000000
 -# define DATASETNAMES 100000
@@ -12,3 +12,4 @@ index f3e2000..0fe6d75 100644
 +# define DATASETNAMES 200000
  # define CMSSWNAMES    10000
  # define STREAMERS       100
+ 
