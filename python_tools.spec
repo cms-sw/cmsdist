@@ -52,6 +52,7 @@ Requires: py3-mistune
 Requires: py3-nbconvert
 Requires: py3-nbformat
 Requires: py3-notebook
+Requires: py3-nvidia-ml-py
 Requires: py3-packaging
 Requires: py3-pandocfilters
 Requires: py3-pathlib2
