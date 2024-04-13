@@ -3,8 +3,8 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoEgamma-PhotonIdentification=V01-08-00
 PhysicsTools-NanoAOD=V01-04-00
-RecoEgamma-PhotonIdentification=V01-07-00
 Validation-HGCalValidation=V00-06-00
 RecoBTag-Combined=V01-21-00
 L1Trigger-L1TMuonEndCapPhase2=V00-01-00
