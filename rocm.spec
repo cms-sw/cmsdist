@@ -29,6 +29,13 @@ Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.
 Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
 Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50601-93.el%{rhel}.%{_arch}.rpm
 Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source17: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source18: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source19: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/rocprofiler-samples-2.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source21: https://%{repository}/%{repoversion}/main/amd-smi-lib-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+
 Requires: numactl zstd
 Requires: python3
 AutoReq: no
@@ -52,6 +59,12 @@ rpm2cpio %{SOURCE12} | cpio -idmv
 rpm2cpio %{SOURCE13} | cpio -idmv
 rpm2cpio %{SOURCE14} | cpio -idmv
 rpm2cpio %{SOURCE15} | cpio -idmv
+rpm2cpio %{SOURCE16} | cpio -idmv
+rpm2cpio %{SOURCE17} | cpio -idmv
+rpm2cpio %{SOURCE18} | cpio -idmv
+rpm2cpio %{SOURCE19} | cpio -idmv
+rpm2cpio %{SOURCE20} | cpio -idmv
+rpm2cpio %{SOURCE21} | cpio -idmv
 
 %install
 rmdir %{i}
