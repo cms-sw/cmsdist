@@ -1,4 +1,4 @@
-### RPM external rocm 5.6.1
+### RPM external rocm 6.1.0
 
 %if "%{rhel}" == "7"
 # allow rpm2cpio dependency on the bootstrap bundle
@@ -13,22 +13,29 @@
 # without any .0 in the directory name
 %define repoversion %(echo %{realversion} | sed -e's/\.0$//')
 
-Source0: https://%{repository}/%{repoversion}/main/comgr-2.5.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{repoversion}/main/hipcc-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source2: https://%{repository}/%{repoversion}/main/hip-devel-5.6.31062.50601-93.el%{rhel}.%{_arch}.rpm
-Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-5.6.31062.50601-93.el%{rhel}.%{_arch}.rpm
-Source4: https://%{repository}/%{repoversion}/main/hsa-rocr-1.9.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source5: https://%{repository}/%{repoversion}/main/rocm-core-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source6: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.70.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-16.0.0.23332.50601-93.el%{rhel}.%{_arch}.rpm
-Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-5.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-16.56.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source0: https://%{repository}/%{repoversion}/main/comgr-2.7.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/hipcc-1.0.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source2: https://%{repository}/%{repoversion}/main/hip-devel-6.1.40091.60100-82.el%{rhel}.%{_arch}.rpm
+Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-6.1.40091.60100-82.el%{rhel}.%{_arch}.rpm
+Source4: https://%{repository}/%{repoversion}/main/hsa-rocr-1.13.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source5: https://%{repository}/%{repoversion}/main/rocm-core-6.1.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source6: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.71.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-17.0.0.24103.60100-82.el%{rhel}.%{_arch}.rpm
+Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-7.0.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-17.60.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-17.60.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-6.1.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-3.1.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.0.1.60100-82.el%{rhel}.%{_arch}.rpm
+Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.60100.60100-82.el%{rhel}.%{_arch}.rpm
+Source17: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.60100.60100-82.el%{rhel}.%{_arch}.rpm
+Source18: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.60100.60100-82.el%{rhel}.%{_arch}.rpm
+Source19: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.60100.60100-82.el%{rhel}.%{_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/rocprofiler-register-0.3.0.60100-82.el%{rhel}.%{_arch}.rpm
+Source21: https://%{repository}/%{repoversion}/main/amd-smi-lib-24.4.1.60100-82.el%{rhel}.%{_arch}.rpm
+
 Requires: numactl zstd
 Requires: python3
 AutoReq: no
@@ -52,6 +59,12 @@ rpm2cpio %{SOURCE12} | cpio -idmv
 rpm2cpio %{SOURCE13} | cpio -idmv
 rpm2cpio %{SOURCE14} | cpio -idmv
 rpm2cpio %{SOURCE15} | cpio -idmv
+rpm2cpio %{SOURCE16} | cpio -idmv
+rpm2cpio %{SOURCE17} | cpio -idmv
+rpm2cpio %{SOURCE18} | cpio -idmv
+rpm2cpio %{SOURCE19} | cpio -idmv
+rpm2cpio %{SOURCE20} | cpio -idmv
+rpm2cpio %{SOURCE21} | cpio -idmv
 
 %install
 rmdir %{i}
