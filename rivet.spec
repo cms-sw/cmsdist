@@ -3,6 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source99: scram-tools.file/tools/eigen/env
 Patch0: rivet-duplicate-libs
 
 Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
@@ -13,6 +14,8 @@ BuildRequires: python3 py3-cython autotools
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 
+%build
+source %{_sourcedir}/env
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
 %get_config_guess %{_tmppath}/config.guess
@@ -36,7 +39,7 @@ autoreconf -fiv
 %ifarch aarch64
 sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
 %endif
-CXXFLAGS="-std=c++%{cms_cxx_standard}"
+CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS"
 %ifarch x86_64
     CXXFLAGS="${CXXFLAGS} -msse3"
 %endif
@@ -51,8 +54,8 @@ PYTHON=$(which python3) \
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
 perl -p -i -e "s|LIBS = $|LIBS = -lHepMC3|g" bin/Makefile
-%build
-make %{makeprocesses} all 
+make %{makeprocesses} all
+
 %install
 make install 
 sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*

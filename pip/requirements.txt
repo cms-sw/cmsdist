@@ -56,7 +56,8 @@ charset-normalizer==3.1.0
 cleo==2.0.1
 click==8.1.3
 clikit==0.6.2
-cmsml==0.2.2
+cmsml==0.2.5
+cms-tfaot==1.0.1
 contourpy==1.0.7
 correctionlib==2.2.2
 crashtest==0.4.1
