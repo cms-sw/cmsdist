@@ -86,7 +86,6 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_glew=ON \
   -Dbuiltin_ftgl=ON \
   -Dbuiltin_gl2ps=ON \
-  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
@@ -124,7 +123,6 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %ifarch darwin
-  -Dbuiltin_afterimage=OFF \
   -Dcocoa=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
