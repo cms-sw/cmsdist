@@ -1,15 +1,12 @@
 diff --git a/CepGenAddOns/CMakeLists.txt b/CepGenAddOns/CMakeLists.txt
-index 27ac884a..9eb9d422 100644
+index 9b7db4e..4bf730a 100644
 --- a/CepGenAddOns/CMakeLists.txt
 +++ b/CepGenAddOns/CMakeLists.txt
-@@ -14,10 +14,8 @@ add_subdirectory(PhotosTauolaWrapper)
- add_subdirectory(ProMCWrapper)
- add_subdirectory(Pythia6Wrapper)
+@@ -17,7 +17,6 @@ add_subdirectory(Pythia6Wrapper)
  add_subdirectory(Pythia8Wrapper)
--add_subdirectory(PythonWrapper)
  add_subdirectory(REvolverWrapper)
  add_subdirectory(RivetWrapper)
 -add_subdirectory(ROOTWrapper)
  add_subdirectory(TopdrawerWrapper)
-
+ 
  add_subdirectory(Functionals)
