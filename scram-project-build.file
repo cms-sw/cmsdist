@@ -6,11 +6,16 @@
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
 %define scram_script_prefix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo .pl || echo .py)
+
 %if "%{?pkgname}" != "coral"
 %if "%{?package_vectorization}" != ""
 %define vectorized_build yes
+%if "%{?scram_target_default:set}" != "set"
+%define scram_target_default default
 %endif
 %endif
+%endif
+
 %if "%{?pgo_generate}"
 %undefine runGlimpse
 %undefine saveDeps
@@ -55,7 +60,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-04-03
+%define configtag       V09-04-04
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -123,10 +128,12 @@ echo %{configtag} > %_builddir/config/config_tag
 %else
   --keys ENABLE_PGO=0
 %endif
+
 %if "%{?vectorized_build:set}" == "set"
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
-sed -i -e 's|</tool>|<runtime name="SCRAM_TARGET" value="auto"/><runtime name="USER_TARGETS_ALL" value="1"/></tool>|' %_builddir/config/Self.xml
+sed -i -e 's|</tool>|<runtime name="SCRAM_TARGET" value="%{scram_target_default}"/><runtime name="USER_TARGETS_ALL" value="1"/></tool>|' %_builddir/config/Self.xml
 %endif
+
 %if "%{?release_usercxxflags:set}" == "set"
 echo '<flags CXXFLAGS="%{release_usercxxflags}"/>' >> %_builddir/config/BuildFile.xml
 %endif
