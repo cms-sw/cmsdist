@@ -64,3 +64,10 @@ Source22: irh.patch
   popd \ 
 %endif
 
+%if "%(case %realversion in (*MULTIARCH*) echo true ;; (*) echo false ;; esac)" == "true"
+%define scram_target_default auto
+%endif
+
+%if "%(case %realversion in (*SKYLAKE*) echo true ;; (*) echo false ;; esac)" == "true"
+%define scram_target_default auto
+%endif
