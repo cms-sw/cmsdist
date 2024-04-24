@@ -1,4 +1,4 @@
-### RPM external rocm-rocrand 6.1.0
+### RPM external rocm-rocrand 5.6.1
 ## NOCOMPILER
 
 %if "%{rhel}" == "7"
@@ -14,8 +14,8 @@
 # without any .0 in the directory name
 %define repoversion %(echo %{realversion} | sed -e's/\.0$//')
 
-Source0: https://%{repository}/%{repoversion}/main/rocrand-3.0.1.60100-82.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{repoversion}/main/rocrand-devel-3.0.1.60100-82.el%{rhel}.%{_arch}.rpm
+Source0: https://%{repository}/%{repoversion}/main/rocrand-2.10.17.50601-93.el%{rhel}.%{_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/rocrand-devel-2.10.17.50601-93.el%{rhel}.%{_arch}.rpm
 Requires: rocm
 AutoReq: no
 
