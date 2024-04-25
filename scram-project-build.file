@@ -131,7 +131,7 @@ echo %{configtag} > %_builddir/config/config_tag
 
 %if "%{?vectorized_build:set}" == "set"
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
-sed -i -e 's|</tool>|<runtime name="SCRAM_TARGET" value="%{scram_target_default}"/><runtime name="USER_TARGETS_ALL" value="1"/></tool>|' %_builddir/config/Self.xml
+sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n<runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
 %endif
 
 %if "%{?release_usercxxflags:set}" == "set"
