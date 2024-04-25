@@ -3,6 +3,7 @@
 %define branch master
 %define github_user gudrunhe
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Patch0: gosam-version
 
 Requires: qgraf
 Requires: form
@@ -12,6 +13,7 @@ Requires: python3 py3-cython
 %prep
 %setup -q -n %{n}-%{realversion}
 sed -i -e 's|^VERSION =.*|VERSION = "%{realversion}"|;s|^GIT_REVISION =.*|GIT_REVISION = "%{tag}"|' setup.py
+%patch0 -p1
 
 %build
 CXX="$(which c++) -fPIC"
