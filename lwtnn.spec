@@ -1,5 +1,6 @@
 ### RPM external lwtnn 2.14.1
 ## INCLUDE cpp-standard
+## INCLUDE microarch_flags
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 Source99: scram-tools.file/tools/eigen/env
@@ -20,11 +21,7 @@ source %{_sourcedir}/env
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_CXX_COMPILER="g++" \
-%ifarch x86_64
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS -msse3" \
-%else
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS" \
- %endif
+  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILTIN_BOOST=OFF \

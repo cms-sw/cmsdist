@@ -1,0 +1,11 @@
+%ifarch x86_64
+%define default_microarch -mx86-64-v2
+%if "%{?override_microarch:set}" == "set"
+%define selected_microarch %{override_microarch}
+%else
+%define selected_microarch %{default_microarch}
+%endif
+%else
+%define selected_microarch %{nil}
+%define default_microarch %{nil}
+%endif
