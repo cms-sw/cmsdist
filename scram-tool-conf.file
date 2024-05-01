@@ -56,7 +56,7 @@ for vec in %{package_vectorization}; do \
   done
   if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
     f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
-    sed -i -e "s#</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n</tool>#" %i/tools/selected/gcc-cxxcompiler.xml
+    sed -i -e "s# *</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n    <flags REM_CXXFLAGS_TARGETS_${ucvec}=\"%{default_microarch}\"/>\n  </tool>#" %i/tools/selected/gcc-cxxcompiler.xml
   fi
 done
 %endif
