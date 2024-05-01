@@ -39,6 +39,7 @@ for tool in %requiredtools; do
 done
 %{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
 
+default_microarch_flag=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)
 for vec in %{package_vectorization}; do \
   ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
   for tool in %{vectorized_packages}; do \
@@ -49,7 +50,7 @@ for vec in %{package_vectorization}; do \
   done
   if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
     f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
-    sed -i -e "s#</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n</tool>#" %i/tools/selected/gcc-cxxcompiler.xml
+    sed -i -e "s# *</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n    <flags REM_CXXFLAGS_TARGETS_${ucvec}=\"${default_microarch_flag}\"/>\n  </tool>#" %i/tools/selected/gcc-cxxcompiler.xml
   fi
 done
 
