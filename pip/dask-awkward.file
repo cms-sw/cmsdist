@@ -1,2 +1,2 @@
 BuildRequires: py3-hatchling py3-hatch-vcs
-Requires: py3-dask py3-awkward
+Requires: py3-dask py3-awkward py3-cachetools py3-typing-extensions
