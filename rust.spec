@@ -6,7 +6,6 @@
 %endif
 Source: https://static.rust-lang.org/dist/%{n}-%{realversion}-%{build_arch}.tar.gz
 Requires: zlib
-Provides: libLLVM.so.18.1-rust-1.78.0-stable()(64bit) libLLVM.so.18.1-rust-1.78.0-stable(LLVM_18.1)(64bit)
 
 %prep
 %setup -n %{n}-%{realversion}-%{build_arch}
@@ -20,7 +19,7 @@ Provides: libLLVM.so.18.1-rust-1.78.0-stable()(64bit) libLLVM.so.18.1-rust-1.78.
   --components=rustc,cargo,rust-std-%{build_arch}
 
 #set *.so permission so that rpmbuild can properly find the Provides
-chmod 0755 %{i}/lib/*.so
+chmod 0755 %{i}/lib/*.so %{i}/lib/libLLVM*stable
 
 #Remove doc/man
 rm -rf %{i}/share
