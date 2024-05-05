@@ -1,1 +1,2 @@
 BuildRequires: py3-setuptools py3-tomli py3-setuptools-rust
+Requires: bz2lib
