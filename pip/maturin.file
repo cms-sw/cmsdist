@@ -1,3 +1,3 @@
-BuildRequires: py3-setuptools py3-tomli py3-setuptools-rust rust
+BuildRequires: py3-setuptools py3-tomli py3-setuptools-rust
 Requires: bz2lib
 %define PipPreBuild export RUSTFLAGS="-L native=${BZ2LIB_ROOT}/lib"
