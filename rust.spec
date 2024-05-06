@@ -18,8 +18,12 @@ Requires: zlib
   --without=rust-docs \
   --components=rustc,cargo,rust-std-%{build_arch}
 
-#set *.so permission so that rpmbuild can properly find the Provides
-chmod 0755 %{i}/lib/*.so %{i}/lib/libLLVM*stable
+# set *.so permission so that rpmbuild can properly find the Provides
+chmod 0755 %{i}/lib/*.so 
+%ifarch x86_64
+# files doesn't exist on ARM
+chmod 0755 %{i}/lib/libLLVM*stable
+%endif
 
 #Remove doc/man
 rm -rf %{i}/share
