@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 60.0
+### RPM cms cmssw-tool-conf 61.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -6,6 +6,7 @@
 
 Requires: AXOL1TL
 Requires: CICADA
+Requires: OpenBLAS
 Requires: celeritas
 Requires: crab
 Requires: cmssw-wm-tools
@@ -120,6 +121,7 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
+Requires: fastjet
 Requires: fastjet-contrib
 Requires: opencl
 Requires: opencl-cpp
@@ -143,6 +145,9 @@ Requires: madgraph5amcatnlo
 Requires: python_tools
 Requires: dasgoclient
 Requires: dablooms
+Requires: zlib
+Requires: rivet
+
 
 # Only for Linux platform.
 %ifos linux
