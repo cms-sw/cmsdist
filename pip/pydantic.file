@@ -1,1 +1,2 @@
-Requires: py3-typing-extensions
+BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme
+Requires: py3-typing-extensions py3-annotated-types py3-pydantic-core

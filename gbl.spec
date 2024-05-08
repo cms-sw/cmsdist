@@ -1,5 +1,6 @@
 ### RPM external gbl V03-01-01
 ## INCLUDE cpp-standard
+## INCLUDE microarch_flags
 %define tag 59c2d99ea96bc739321fd251096504c91467be24
 Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source99: scram-tools.file/tools/eigen/env
@@ -24,11 +25,7 @@ cmake ../cpp \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DSUPPORT_ROOT=False \
-%ifarch x86_64
-  -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS -msse3"
-%else
-  -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS"
-%endif
+  -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{selected_microarch}"
 
 make %{makeprocesses}
 
