@@ -15,10 +15,11 @@ cmake ../%{n}-%{realversion} \
     -DRAPIDJSON_BUILD_TESTS=OFF \
     -DRAPIDJSON_BUILD_DOC=OFF \
     -DRAPIDJSON_BUILD_EXAMPLES=OFF
-  
+
 make %{makeprocesses}
 
 %install
 cd ../build
 make install
 
+%{relocateConfig}lib/cmake/RapidJSON/RapidJSONConfig.cmake

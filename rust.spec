@@ -27,3 +27,9 @@ chmod 0755 %{i}/lib/libLLVM*stable
 
 #Remove doc/man
 rm -rf %{i}/share
+rm -f %{i}/lib/rustlib/install.log
+
+%{relocateConfig}lib/rustlib/manifest-rust-std-x86_64-unknown-linux-gnu
+%{relocateConfig}lib/rustlib/manifest-cargo
+%{relocateConfig}lib/rustlib/manifest-rustc
+

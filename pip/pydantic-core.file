@@ -1,2 +1,3 @@
 BuildRequires: py3-maturin
 Requires: py3-typing-extensions
+%define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home

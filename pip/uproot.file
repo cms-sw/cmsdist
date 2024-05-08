@@ -1,2 +1,3 @@
+%define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home
 BuildRequires: py3-hatchling py3-hatch-vcs
 Requires: py3-awkward py3-pandas py3-boost-histogram py3-hist py3-dask py3-dask-awkward py3-awkward-pandas py3-cramjam

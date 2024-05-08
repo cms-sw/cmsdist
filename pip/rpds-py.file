@@ -1,1 +1,2 @@
 BuildRequires: py3-maturin
+%define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home

@@ -50,8 +50,10 @@ make %makeprocesses VERBOSE=1
 %install
 cd ../build
 make install
+ln -s lib64/cmake/XRootD/XRootDConfig.cmake share/xrootd/cmake/XRootDConfig.cmake
 %{relocatePy3SitePackages}
 
 %post
 %{relocateConfig}bin/xrootd-config
 %{relocateConfig}share/xrootd/cmake/XRootDConfig.cmake
+%{relocateConfig}lib64/cmake/XRootD/XRootDConfig.cmake
