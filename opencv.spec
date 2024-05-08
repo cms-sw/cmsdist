@@ -1,6 +1,8 @@
 ### RPM external opencv 4.9.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cpp-standard
+## INCLUDE microarch_flags
+
 %define tag %{realversion}
 %define branch master
 %define github_user opencv
@@ -33,11 +35,7 @@ cmake ../%{n}-%{realversion} \
     -DPYTHON3_INCLUDE_DIR:PATH="${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version}" \
     -DPYTHON3_LIBRARY:FILEPATH="${PYTHON3_ROOT}/lib/libpython%{cms_python3_major_minor_version}.so" \
     -DCMAKE_BUILD_TYPE=Release \
-%ifarch x86_64
-    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS -msse3" \
-%else
-    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS" \
-%endif
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
     -DCMAKE_PREFIX_PATH="${LIBPNG_ROOT};${LIBTIFF_ROOT};${LIBJPEG_TURBO_ROOT};${ZLIB_ROOT};${PYTHON3_ROOT};${PY2_NUMPY_ROOT};${PY3_NUMPY_ROOT};${EIGEN_ROOT};${OPENBLAS_ROOT}"
 
 ninja -v %{makeprocesses}

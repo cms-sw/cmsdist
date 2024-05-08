@@ -4,6 +4,7 @@ BuildRequires: bazel java-env git patchelf
 ## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
+## INCLUDE microarch_flags
 
 #Set tensorflow_mkldnn_contraction_kernel option
 #https://github.com/tensorflow/tensorflow/blob/v2.12.1/tensorflow/core/kernels/BUILD#L79-L89
@@ -43,14 +44,16 @@ export GCC_HOST_COMPILER_PATH="$(which gcc)"
 export CC_OPT_FLAGS="-Wno-sign-compare"
 
 BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --distinct_host_configuration=false"
-%ifarch x86_64
-BAZEL_OPTS="$BAZEL_OPTS --copt=%{vectorize_flag}"
-%else
+%if "%{selected_microarch}"
+BAZEL_OPTS="$BAZEL_OPTS --copt=%{selected_microarch}"
+%if "%{selected_microarch}" != "%{default_microarch}"
+BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=true"
+%endif
+%endif
 %if "%{?arch_build_flags}"
 BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' | sed -e 's|^|--copt=|' | tr '\n' ' ')"
 %else
 BAZEL_OPTS="$BAZEL_OPTS --copt=-mcpu=native --copt=-mtune=native"
-%endif
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
