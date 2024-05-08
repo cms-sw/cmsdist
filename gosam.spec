@@ -11,7 +11,10 @@ Requires: python3 py3-cython
 
 %prep
 %setup -q -n %{n}-%{realversion}
-sed -i -e 's|^VERSION =.*|VERSION = "%{realversion}"|;s|^GIT_REVISION =.*|GIT_REVISION = "%{tag}"|' setup.py
+grep -q '^VERSION *=' setup.py && grep -q '^GIT_REVISION *=' setup.py && grep -q '^TAR_VERSION *=' setup.py
+sed -i -r -e 's#^VERSION *=.*#VERSION = "%{realversion}"#' setup.py
+sed -i -r -e 's#^GIT_REVISION *=.*#GIT_REVISION = "%{realversion}"#' setup.py
+sed -i -r -e 's#^TAR_VERSION *=.*#TAR_VERSION = "%{realversion}"#' setup.py
 
 %build
 CXX="$(which c++) -fPIC"

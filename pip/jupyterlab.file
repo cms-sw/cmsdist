@@ -1,0 +1,2 @@
+BuildRequires: py3-hatchling py3-hatch-jupyter-builder
+Requires: py3-async-lru py3-httpx py3-importlib-metadata py3-ipykernel py3-Jinja2 py3-jupyter-core py3-jupyter-server py3-jupyter-lsp py3-jupyterlab-server py3-notebook-shim py3-packaging py3-tomli py3-tornado py3-traitlets

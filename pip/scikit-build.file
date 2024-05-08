@@ -1,1 +1,1 @@
-Requires: py3-distro py3-packaging py3-setuptools-scm
+Requires: py3-distro py3-packaging py3-setuptools py3-tomli py3-hatchling py3-hatch-fancy-pypi-readme py3-hatch-vcs

@@ -1,5 +1,6 @@
 ### RPM external rivet 3.1.10
 ## INCLUDE cpp-standard
+## INCLUDE microarch_flags
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -39,10 +40,7 @@ autoreconf -fiv
 %ifarch aarch64
 sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
 %endif
-CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS"
-%ifarch x86_64
-    CXXFLAGS="${CXXFLAGS} -msse3"
-%endif
+CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS %{selected_microarch}"
 sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 
 PYTHON=$(which python3) \
