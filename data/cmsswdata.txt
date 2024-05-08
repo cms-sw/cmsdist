@@ -10,6 +10,7 @@ RecoBTag-Combined=V01-22-00
 RecoEgamma-PhotonIdentification=V01-08-00
 PhysicsTools-NanoAOD=V01-04-00
 Validation-HGCalValidation=V00-06-00
+L1Trigger-L1TMuonEndCapPhase2=V00-01-00
 L1Trigger-L1TTrackMatch=V00-01-00
 L1Trigger-VertexFinder=V00-01-00
 DataFormats-L1ScoutingRawData=V00-02-00
