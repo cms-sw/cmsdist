@@ -55,5 +55,4 @@ ln -s lib64/cmake/XRootD/XRootDConfig.cmake share/xrootd/cmake/XRootDConfig.cmak
 
 %post
 %{relocateConfig}bin/xrootd-config
-%{relocateConfig}share/xrootd/cmake/XRootDConfig.cmake
 %{relocateConfig}lib64/cmake/XRootD/XRootDConfig.cmake

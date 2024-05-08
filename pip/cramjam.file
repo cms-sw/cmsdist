@@ -1,3 +1,3 @@
 BuildRequires: py3-maturin
 Requires: bz2lib
-%define PipPreBuild export RUSTFLAGS="-L native=${BZ2LIB_ROOT}/lib";export CARGO_HOME=%{_tmppath}/cargo_home
+%define PipPreBuild export RUSTFLAGS="-L native=${BZ2LIB_ROOT}/lib"
