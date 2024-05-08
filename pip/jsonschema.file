@@ -1,2 +1,2 @@
-Requires: py3-attrs py3-pyrsistent py3-rfc3339-validator py3-rfc3986-validator
+Requires: py3-attrs py3-jsonschema-specifications py3-referencing py3-rpds-py
 BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme py3-hatch-vcs

@@ -1,5 +1,6 @@
 ### RPM external pytorch 2.1.1
 ## INCLUDE cuda-flags
+## INCLUDE microarch_flags
 
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
 %define tag bb938bbe9f53414dda1e1159795b7536dbffd041
@@ -76,11 +77,7 @@ cmake ../%{n}-%{realversion} \
     -DUSE_SYSTEM_FXDIV=ON \
     -DUSE_SYSTEM_PYBIND11=ON \
     -DUSE_SYSTEM_BENCHMARK=ON \
-%ifarch x86_64
-    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS -msse3" \
-%else
-    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS" \
-%endif
+    -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
 

@@ -1,3 +1,2 @@
-Requires: py3-ipykernel py3-nbclassic
-Requires: py3-terminado py3-nbconvert py3-ipykernel py3-Send2Trash py3-ipaddress py3-prometheus-client py3-argon2-cffi
-
+BuildRequires: py3-hatchling py3-hatch-jupyter-builder 
+Requires: py3-jupyterlab py3-jupyterlab-server py3-notebook-shim py3-tornado

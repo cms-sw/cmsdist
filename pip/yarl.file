@@ -1,1 +1,1 @@
-Requires: py3-multidict py3-idna
+Requires: py3-multidict py3-idna py3-tomli py3-expandvars py3-cython

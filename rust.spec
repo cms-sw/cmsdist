@@ -1,4 +1,4 @@
-### RPM external rust 1.69.0
+### RPM external rust 1.78.0
 %ifarch ppc64le
 %define build_arch powerpc64le-unknown-linux-gnu
 %else
@@ -18,8 +18,12 @@ Requires: zlib
   --without=rust-docs \
   --components=rustc,cargo,rust-std-%{build_arch}
 
-#set *.so permission so that rpmbuild can properly find the Provides
-chmod 0755 %{i}/lib/*.so
+# set *.so permission so that rpmbuild can properly find the Provides
+chmod 0755 %{i}/lib/*.so 
+%ifarch x86_64
+# files doesn't exist on ARM
+chmod 0755 %{i}/lib/libLLVM*stable
+%endif
 
 #Remove doc/man
 rm -rf %{i}/share
