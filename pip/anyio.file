@@ -1,2 +1,2 @@
 BuildRequires: py3-setuptools-scm
-Requires: py3-idna py3-sniffio
+Requires: py3-idna py3-sniffio py3-exceptiongroup py3-typing-extensions
