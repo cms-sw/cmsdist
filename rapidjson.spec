@@ -22,4 +22,5 @@ make %{makeprocesses}
 cd ../build
 make install
 
+%post
 %{relocateConfig}lib/cmake/RapidJSON/RapidJSONConfig.cmake
