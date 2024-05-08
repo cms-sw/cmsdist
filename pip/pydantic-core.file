@@ -1,0 +1,2 @@
+BuildRequires: py3-maturin
+Requires: py3-typing-extensions

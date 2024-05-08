@@ -1,0 +1,2 @@
+BuildRequires: py3-setuptools py3-setuptools-scm
+Requires: py3-backports-tarfile

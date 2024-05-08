@@ -2,14 +2,15 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
+## INCLUDE microarch_flags
+
 %define tag be99ff9e6b26fa5e0063f8bd21df23cb87911bf8
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Patch0: vecgeom-fix-vector
 BuildRequires: cmake gmake
 %define keep_archives true
 %define vecgeom_backend Scalar
 %define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
-Patch0: vecgeom-fix-vector
-
 %define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %prep
@@ -18,6 +19,12 @@ Patch0: vecgeom-fix-vector
 %patch0 -p1
 
 %build
+%ifarch x86_64
+%if "%{vecgeom_backend}" == "Vc"
+SEL_ARCH=$(echo '%{selected_microarch}' | sed 's|^-m||')
+VECGEOM_VECTOR_INST="$(grep ' set(VECGEOM_ISAS ' CMakeLists.txt | tr ' ' '\n' | grep -E "^${SEL_ARCH}$")"
+%endif
+%endif
 rm -rf ../build
 mkdir ../build
 cd ../build
@@ -37,7 +44,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_C_FLAGS="%{build_flags}" \
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
-  -DVECGEOM_VECTOR=sse3 \
+  -DVECGEOM_VECTOR="${VECGEOM_VECTOR_INST}" \
 %endif
 %endif
   -DVECGEOM_NO_SPECIALIZATION=ON \

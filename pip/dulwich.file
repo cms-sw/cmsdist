@@ -1,1 +1,1 @@
-Requires: py3-urllib3
+Requires: py3-urllib3 py3-setuptools-rust

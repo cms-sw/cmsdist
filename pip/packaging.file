@@ -1,1 +1,1 @@
-Requires: py3-pyparsing py3-six py3-attrs
+Requires: py3-flit-core

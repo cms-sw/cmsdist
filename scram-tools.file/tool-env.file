@@ -1,11 +1,10 @@
+## INCLUDE microarch_flags
 export ROOT_CXXMODULES="1"
 export PKG_VECTORIZATION="%{?package_vectorization}"
 export CMSDIST_DIR="%{cmsdist_directory}"
 export CMS_CXX_STANDARD=%{cms_cxx_standard}
 
-%ifarch x86_64
-export COMPILER_CXXFLAGS="$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
-%endif
+export COMPILER_CXXFLAGS="%{selected_microarch}"
 %if "%{?arch_build_flags}"
 export COMPILER_CXXFLAGS="%{arch_build_flags}"
 %endif
