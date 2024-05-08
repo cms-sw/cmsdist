@@ -1,2 +1,1 @@
-BuildRequires: rust
-Requires: py3-setuptools-scm py3-semantic-version py3-toml py3-typing-extensions
+Requires: rust py3-setuptools-scm py3-semantic-version py3-toml py3-typing-extensions

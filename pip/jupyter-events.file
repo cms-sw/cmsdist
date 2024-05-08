@@ -1,2 +1,2 @@
 BuildRequires: py3-hatchling
-Requires: py3-jsonschema py3-python-json-logger py3-PyYAML py3-traitlets
+Requires: py3-jsonschema py3-python-json-logger py3-PyYAML py3-traitlets py3-rfc3339-validator py3-rfc3986-validator py3-referencing

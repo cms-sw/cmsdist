@@ -1,4 +1,5 @@
 ### RPM external zlib 1.2.11
+## INCLUDE microarch_flags
 %ifarch x86_64
 %define git_repo cms-externals
 %define git_branch cms/v%{realversion}
@@ -15,10 +16,7 @@ Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&e
 
 %build
 
-CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
-%ifarch x86_64
-CONF_FLAGS="${CONF_FLAGS} -msse3"
-%endif
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 %{selected_microarch}"
 CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
 make %{makeprocesses}

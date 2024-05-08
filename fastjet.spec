@@ -1,6 +1,7 @@
 ### RPM external fastjet 3.4.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE compilation_flags
+## INCLUDE microarch_flags
 
 BuildRequires: autotools
 Requires: python3
@@ -23,11 +24,8 @@ chmod +x ./config.{sub,guess}
 cp ./config.sub   ./plugins/SISCone/siscone/config.sub
 cp ./config.guess ./plugins/SISCone/siscone/config.guess
 
-CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize"
+CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize %{selected_microarch}"
 
-%ifarch x86_64
-CXXFLAGS="${CXXFLAGS} -msse3"
-%endif
 %if "%{?arch_build_flags}"
 CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 %endif

@@ -1,11 +1,11 @@
---- a/setup.py	2023-06-09 13:38:14.496028111 +0200
-+++ b/setup.py	2023-06-09 13:38:51.851715431 +0200
+--- a/setup.py	2024-04-24 14:45:57.575099922 +0200
++++ b/setup.py	2024-04-24 14:46:34.916770226 +0200
 @@ -30,7 +30,7 @@
  
  WINDOWS = os.name == "nt"
  
--CMAKE = find_executable("cmake3") or find_executable("cmake")
-+CMAKE = find_executable("cmake")
- MAKE = find_executable("make")
+-CMAKE = shutil.which("cmake3") or shutil.which("cmake")
++CMAKE = shutil.which("cmake")
  
- install_requires = []
+ ################################################################################
+ # Global variables for controlling the build variant
