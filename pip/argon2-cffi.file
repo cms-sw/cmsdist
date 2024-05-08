@@ -1,1 +1,1 @@
-Requires: py3-cffi py3-six py3-flit-core py3-argon2-cffi-bindings
+Requires: py3-argon2-cffi-bindings py3-hatchling py3-hatch-vcs py3-hatch-fancy-pypi-readme

@@ -1,0 +1,2 @@
+BuildRequires: py3-setuptools
+Requires: py3-importlib-metadata py3-jupyter-server
