@@ -3,14 +3,18 @@
 ## NO_AUTO_RUNPATH
 ## NO_AUTO_DEPENDENCY
 ## INCLUDE toolflags
+## INCLUDE microarch_flags
 
 BuildRequires: SCRAMV1
 Source99: scram-tools
 Source: none
-%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
 
+%if "%{package_vectorization}"
 %if "%{?vectorized_packages:set}" != "set"
 %define vectorized_packages %{nil}
+%else
+%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
+%endif
 %endif
 
 %prep
@@ -39,7 +43,9 @@ for tool in %requiredtools; do
 done
 %{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
 
-default_microarch_flag=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py)
+%if "%{package_vectorization}"
+%if "%{vectorized_packages}"
+echo %{vectorized_packages} > %i/vectorized_packages.txt
 for vec in %{package_vectorization}; do \
   ucvec=`echo $vec | tr '[a-z-]' '[A-Z_]'`
   for tool in %{vectorized_packages}; do \
@@ -50,9 +56,11 @@ for vec in %{package_vectorization}; do \
   done
   if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
     f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
-    sed -i -e "s# *</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n    <flags REM_CXXFLAGS_TARGETS_${ucvec}=\"${default_microarch_flag}\"/>\n  </tool>#" %i/tools/selected/gcc-cxxcompiler.xml
+    sed -i -e "s# *</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n    <flags REM_CXXFLAGS_TARGETS_${ucvec}=\"%{default_microarch}\"/>\n  </tool>#" %i/tools/selected/gcc-cxxcompiler.xml
   fi
 done
+%endif
+%endif
 
 for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   [ -f %i/tools/selected/${stool}.xml ] || continue

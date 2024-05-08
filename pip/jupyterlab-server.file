@@ -1,0 +1,2 @@
+BuildRequires: py3-hatchling
+Requires: py3-babel py3-importlib-metadata py3-Jinja2 py3-json5 py3-jsonschema py3-jupyter-server py3-packaging py3-requests

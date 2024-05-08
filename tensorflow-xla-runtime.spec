@@ -1,6 +1,7 @@
 ### RPM external tensorflow-xla-runtime 2.12.0
 ## INCLUDE cpp-standard
 ## INCLUDE compilation_flags
+## INCLUDE microarch_flags
 
 Source99: scram-tools.file/tools/eigen/env
 
@@ -19,10 +20,7 @@ cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-p
 source %{_sourcedir}/env
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
-CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS}"
-%ifarch x86_64
-  CXXFLAGS="${CXXFLAGS} -msse3"
-%endif
+CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS} %{selected_microarch}"
 
 pushd tensorflow/xla_aot_runtime_src
   # remove unnecessary implementations that use symbols that are not even existing
