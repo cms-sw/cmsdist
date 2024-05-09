@@ -19,3 +19,7 @@ make %makeprocesses VERBOSE=1
 %install
 cd ../build
 make install
+
+%post
+%{relocateConfig}share/pkgconfig/nlohmann_json.pc
+
