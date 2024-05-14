@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 61.0
+### RPM cms cmssw-tool-conf 62.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -169,6 +169,7 @@ Requires: openloops
 %endif
 
 %ifarch x86_64
+Requires: mozsearch
 Requires: tkonlinesw
 Requires: oracle
 Requires: icc
