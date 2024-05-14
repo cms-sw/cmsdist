@@ -1,0 +1,30 @@
+diff --git a/clang-plugin/Makefile b/clang-plugin/Makefile
+index 014e311..07ed438 100644
+--- a/clang-plugin/Makefile
++++ b/clang-plugin/Makefile
+@@ -2,9 +2,9 @@ CC = clang
+ CXX = clang++
+ LLVM_CONFIG ?= llvm-config
+ LLVM_LDFLAGS := $(shell ${LLVM_CONFIG} --ldflags)
+-CXXFLAGS := $(shell ${LLVM_CONFIG} --cxxflags) -fPIC -Wall -Wno-strict-aliasing \
++CXXFLAGS := $(shell ${LLVM_CONFIG} --cxxflags) -fPIC -Wall -Wno-strict-aliasing --gcc-toolchain=$(GCC_ROOT) \
+ 	$(if $(DEBUG),-O0 -g)
+-LDFLAGS := -fPIC -g -Wl,-R -Wl,'$$ORIGIN' $(LLVM_LDFLAGS) -shared
++LDFLAGS := -fPIC -g -Wl,-R -Wl,'$$ORIGIN' $(LLVM_LDFLAGS)  --gcc-toolchain=$(GCC_ROOT) -shared
+ 
+ build: libclang-index-plugin.so
+ 
+diff --git a/clang-plugin/MozsearchIndexer.cpp b/clang-plugin/MozsearchIndexer.cpp
+index e9b7af3..818496e 100644
+--- a/clang-plugin/MozsearchIndexer.cpp
++++ b/clang-plugin/MozsearchIndexer.cpp
+@@ -2445,9 +2445,6 @@ protected:
+     }
+     Objdir += PATHSEP_STRING;
+ 
+-    printf("MOZSEARCH: %s %s %s\n", Srcdir.c_str(), Outdir.c_str(),
+-           Objdir.c_str());
+-
+     return true;
+   }
+ 
