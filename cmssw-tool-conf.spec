@@ -170,6 +170,7 @@ Requires: openloops
 %endif
 
 %ifarch x86_64
+Requires: mozsearch
 Requires: tkonlinesw
 Requires: oracle
 Requires: icc
