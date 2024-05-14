@@ -1,0 +1,14 @@
+<tool name="mozsearch" version="1.0">
+  <client>
+    <environment name="MOZSEARCH_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$MOZSEARCH_BASE/lib64"/>
+  </client>
+  <flags INDEX_FLAGS="
+    -Xclang -load
+    -Xclang libclang-index-plugin.so
+    -Xclang -add-plugin                 -Xclang mozsearch-index
+    -Xclang -plugin-arg-mozsearch-index -Xclang src/
+    -Xclang -plugin-arg-mozsearch-index -Xclang mozsearch/
+    -Xclang -plugin-arg-mozsearch-index -Xclang tmp/$SCRAM_ARCH/src/
+  "/>
+</tool>
