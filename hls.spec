@@ -5,11 +5,13 @@
 %define runpath_opts -m examples
 Source: git+https://github.com/%{github_user}/HLS_arbitrary_Precision_Types.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: hls-fix-uninitialized
+Patch1: hls-fix-constexpr
 Requires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 
