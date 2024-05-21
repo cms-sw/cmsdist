@@ -59,7 +59,7 @@ charset-normalizer==3.3.2
 cleo==2.1.0
 click==8.1.7
 clikit==0.6.2
-cmsml==0.2.5
+cmsml==0.2.6
 cms-tfaot==1.0.1
 contourpy==1.2.1
 correctionlib==2.5.0
