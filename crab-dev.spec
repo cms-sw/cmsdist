@@ -3,8 +3,8 @@
 #For any other change, increment version_suffix
 ##########################################
 %define version_suffix 00
-%define crabclient_version v3.240416
+%define crabclient_version v3.240520
 ### RPM cms crab-dev %{crabclient_version}.%{version_suffix}
-%define crabserver_version v3.240325
+%define crabserver_version v3.240517
 
 ## IMPORT crab-build
