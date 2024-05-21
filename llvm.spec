@@ -1,4 +1,4 @@
-### RPM external llvm 17.0.3
+### RPM external llvm 18.1.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -6,9 +6,9 @@ BuildRequires: cmake ninja
 Requires: gcc zlib python3
 Requires: cuda
 
-%define llvmCommit 83204dfcd4277154e46a5c6094aee389a7f260e8
-%define llvmBranch cms/release/17.x/afbe354
-%define iwyuCommit db886395c3884c4e7d948746b2a9e845b507c200
+%define llvmCommit 0a498c5f36995dfa2810d831f7e42804003a3672
+%define llvmBranch cms/release/18.x/1118c2e
+%define iwyuCommit bc86a8fd570cb8344795564f74f2a5a27a6ea925
 %define iwyuBranch master
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
