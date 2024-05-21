@@ -13,7 +13,8 @@ Requires: cuda
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
-Patch0: https://github.com/llvm/llvm-project/pull/85916.patch
+Source2: https://patch-diff.githubusercontent.com/raw/llvm/llvm-project/pull/85916.patch
+
 %define keep_archives true
 
 %prep
@@ -26,7 +27,7 @@ sed -ibak '/add_clang_subdirectory(libclang)/a add_subdirectory(include-what-you
 
 # move back to the main setup directory
 %setup -T -D -n llvm-%{realversion}-%{llvmCommit}
-%patch0 -p1
+patch -p1 <%{_sourcedir}/85916.patch
 
 %build
 ## INCLUDE cuda-flags
