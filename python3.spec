@@ -47,6 +47,7 @@ make %{makeprocesses} install
 sed -i -e "s|^#!.*python%{pythonv} *$|#!/usr/bin/env python%{python_major}|" %{i}/bin/* %{i}/lib/python*/*.py
 sed -i -e 's|^#!/.*|#!/usr/bin/env python%{pythonv}m|' %{i}/lib/python*/config-*/python-config.py
 sed -i -e 's|^#! */usr/local/bin/python|#!/usr/bin/env python|' %{i}/lib/python*/cgi.py
+sed -i -e 's|^ENABLE_USER_SITE = .*|ENABLE_USER_SITE = False|g' %{i}/lib/python*/site.py
 
 # is executable, but does not start with she-bang so not valid
 # executable; this avoids problems with rpm 4.8+ find-requires
