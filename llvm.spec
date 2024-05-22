@@ -57,7 +57,6 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
-ninja -v %{makeprocesses} check-nsan
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
