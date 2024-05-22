@@ -8,8 +8,8 @@ Requires: cuda
 
 %define llvmCommit 0a498c5f36995dfa2810d831f7e42804003a3672
 %define llvmBranch cms/release/18.x/1118c2e
-%define iwyuCommit bc86a8fd570cb8344795564f74f2a5a27a6ea925
-%define iwyuBranch master
+%define iwyuCommit 377eaef70cdda47368939f4d9beabfabe3f628f0
+%define iwyuBranch clang_18
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
@@ -57,6 +57,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
+ninja -v %{makeprocesses} check-nsan
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
