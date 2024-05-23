@@ -4,7 +4,7 @@
 BuildRequires: cmssw SCRAMV1
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: https://raw.githubusercontent.com/cms-sw/cms-bot/d68d86f103b7220765342a567d86b8aea42a4256/buildLogAnalyzer.py
+Source: https://raw.githubusercontent.com/cms-sw/cms-bot/4f5f4c51a5ccffd5b98e99a33d9a729949ad779a/buildLogAnalyzer.py
 
 %prep
 %{?check_version_suffix:%check_version_suffix}
