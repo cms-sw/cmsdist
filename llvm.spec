@@ -6,7 +6,7 @@ BuildRequires: cmake ninja
 Requires: gcc zlib python3
 Requires: cuda
 
-%define llvmCommit 0a498c5f36995dfa2810d831f7e42804003a3672
+%define llvmCommit 02c7568fc9f555b2c72fc169c8c68e2116d97382
 %define llvmBranch cms/release/18.x/1118c2e
 %define iwyuCommit 377eaef70cdda47368939f4d9beabfabe3f628f0
 %define iwyuBranch clang_18
