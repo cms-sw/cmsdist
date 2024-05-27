@@ -4,5 +4,5 @@
       <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
     </client>
     <flags CSHAREDOBJECTFLAGS="-fPIC @GCC_CSHAREDOBJECTFLAGS@"/>
-    <flags CFLAGS="-O2 -pthread @GCC_CFLAGS@"/>
+    <flags CFLAGS="-O3 -pthread @GCC_CFLAGS@"/>
   </tool>
