@@ -1,0 +1,5 @@
+<tool name="collier" version="@TOOL_VERSION@">
+  <client>
+    <environment name="COLLIER_BASE" default="@TOOL_ROOT@"/>
+  </client>
+</tool>
