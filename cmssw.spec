@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_14_0_7_MULTIARCHS
+### RPM cms cmssw CMSSW_14_0_7_HLTTest_MULTIARCHS
 
 Requires: cmssw-tool-conf
 
