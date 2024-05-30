@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_14_0_7_FWLITE
+### RPM cms fwlite CMSSW_14_0_7_HLTTest_FWLITE
 
 Requires: fwlite-tool-conf
 

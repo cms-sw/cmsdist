@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_14_0_7
+### RPM cms cmssw CMSSW_14_0_7_HLTTest
 
 Requires: cmssw-tool-conf
 
