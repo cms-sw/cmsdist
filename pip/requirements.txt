@@ -128,7 +128,7 @@ google-pasta==0.2.0
 # NO_AUTO_UPDATE: update together with TF
 grpcio==1.60.1
 # NO_AUTO_UPDATE: update together with grpcio
-grpcio-tools==1.63.0
+grpcio-tools==1.60.1
 hatch-fancy-pypi-readme==24.1.0
 hatch-jupyter-builder==0.9.1
 hatch-nodejs-version==0.3.2
