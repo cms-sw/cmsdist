@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 62.0
+### RPM cms cmssw-tools 1.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools SCRAMV2
@@ -76,7 +76,6 @@ Requires: sherpa
 Requires: libpciaccess
 Requires: numactl
 Requires: hwloc
-Requires: gdrcopy
 Requires: rdma-core
 Requires: ucx
 Requires: openmpi
@@ -153,14 +152,9 @@ Requires: rivet
 %ifos linux
 Requires: openldap
 Requires: gperftools
-Requires: cuda
-Requires: cuda-compatible-runtime
+%{!?without_cuda:Requires: cuda cuda-compatible-runtime gdrcopy cudnn}
+
 Requires: alpaka
-
-%if "%{cmsos}" != "slc7_aarch64"
-Requires: cudnn
-%endif
-
 Requires: libunwind
 %ifnarch ppc64le
 Requires: igprof
@@ -175,8 +169,7 @@ Requires: oracle
 Requires: icc
 Requires: icx
 Requires: intel-vtune
-Requires: rocm
-Requires: rocm-rocrand
+%{!?without_rocm:Requires: rocm rocm-rocrand}
 Requires: cmsmon-tools
 Requires: dip
 %else
@@ -194,4 +187,4 @@ Requires: pytorch-custom-ops
 ## INCLUDE tfaot-models
 ## INCLUDE cmssw-vectorization
 ## INCLUDE cmssw-drop-tools
-## INCLUDE scram-tool-conf
+## INCLUDE scram/tool-conf-src

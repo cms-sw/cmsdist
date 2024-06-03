@@ -2,14 +2,15 @@
 Source: https://download.open-mpi.org/release/%{n}/v2.10/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
-Requires: cuda libpciaccess libxml2 numactl
-%ifarch x86_64
-Requires: rocm
-%endif
+Requires: libpciaccess libxml2 numactl
+%{!?without_rocm:Requires: rocm}
+%{!?without_cuda:Requires: cuda}
+
 
 %prep
 %setup -n %{n}-%{realversion}
 
+%build
 ./configure \
   --prefix %{i} \
   --enable-shared \
@@ -20,15 +21,10 @@ Requires: rocm
   --disable-cairo \
   --disable-doxygen \
   --disable-opencl \
-  --with-cuda=$CUDA_ROOT \
-  --enable-cuda \
-  --enable-nvml \
-%ifarch x86_64
-  --with-rocm=$ROCM_ROOT \
-  --enable-rsmi \
-  --enable-plugins=cuda,nvml,rsmi \
-%else
-  --enable-plugins=cuda,nvml \
+  %{!?without_cuda:--with-cuda=$CUDA_ROOT --enable-cuda --enable-nvml} \
+  %{!?without_rocm:--with-rocm=$ROCM_ROOT --enable-rsmi} \
+%if 0%{!?without_cuda:1}%{!?without_rocm:1}
+  --enable-plugins=$(echo %{!?without_cuda:cuda,nvml,}%{!?without_rocm:rsmi} | sed 's|,$||') \
 %endif
   --with-pic \
   --with-gnu-ld \
@@ -40,7 +36,6 @@ Requires: rocm
   HWLOC_NUMA_CFLAGS="-I$NUMACTL_ROOT/include" \
   HWLOC_NUMA_LIBS="-L$NUMACTL_ROOT/lib -lnuma"
 
-%build
 make %{makeprocesses} 
 
 %install

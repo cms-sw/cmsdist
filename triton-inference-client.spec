@@ -9,8 +9,9 @@
 Source0: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: git+https://github.com/%{github_user}/common.git?obj=%{branch}/%{common_tag}&export=common-%{realversion}&output=/common-%{realversion}.tgz
 BuildRequires: cmake git py3-wheel
-Requires: protobuf grpc cuda abseil-cpp re2 rapidjson
+Requires: protobuf grpc abseil-cpp re2 rapidjson
 Requires: py3-numpy py3-grpcio-tools py3-python-rapidjson
+%{!?without_cuda:Requires: cuda}
 
 %prep
 
@@ -34,11 +35,7 @@ CML_COM=${COMMON_DIR}/CMakeLists.txt
 # get shared libraries
 sed -i '/^project/a option(BUILD_SHARED_LIBS "Build using shared libraries" ON)' ${CML_COM}
 
-if [ "%{cuda_gcc_support}" = "true" ] ; then
-    TRITON_ENABLE_GPU_VALUE=ON
-else
-    TRITON_ENABLE_GPU_VALUE=OFF
-fi
+TRITON_ENABLE_GPU_VALUE=%{?without_cuda:ON}%{!?without_cuda:OFF}
 
 cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \

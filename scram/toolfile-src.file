@@ -1,0 +1,34 @@
+## NOCOMPILER
+## NO_AUTO_RUNPATH
+## NO_AUTO_DEPENDENCY
+## INCLUDE toolflags
+
+Source: scram-tools
+%define tool   %(echo %{n}    | sed 's|-toolfile-src$||')
+%define uctool %(echo %{tool} | tr '[a-z-]' '[A-Z_]')
+
+%prep
+
+%build
+
+%install
+## INCLUDE scram-tools.file/tool-env
+%{cmsdist_directory}/scram-tools.file/bin/get_tools "${%{uctool}_ROOT}" "${%{uctool}_VERSION}" %{i} "%{tool}"
+tmpl=%{i}/tools.tmpl
+rm -f ${tmpl}
+touch ${tmpl}
+if [ -d %{i}/tools/selected ] ; then
+  for xml in $(ls %{i}/tools/selected/*.xml) ; do
+    tool=$(basename $xml)
+    echo "cat << \\EOF_TOOLFILE >> %%{i}/etc/scram.d/${tool}" >> ${tmpl}
+    cat $xml            >> ${tmpl}
+    echo "EOF_TOOLFILE" >> ${tmpl}
+    echo ""             >> ${tmpl}
+  done
+fi
+
+%post
+if [ "X$CMS_INSTALL_PREFIX" = "X" ] ; then CMS_INSTALL_PREFIX=$RPM_INSTALL_PREFIX; export CMS_INSTALL_PREFIX; fi
+%{relocateConfig}tools.tmpl
+echo "%{uctool}_TOOLFILE_SRC_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'"     > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{uctool}_TOOLFILE_SRC_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
