@@ -1,0 +1,13 @@
+## NOCOMPILER
+%define auto_dependencies no
+%define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
+%prep
+%build
+%install
+mkdir -p %{i}/etc/scram.d
+%{expand:%(cat %{cmsroot}/%{cmsplatf}/%{buildpkgreqs}/tools.tmpl)}
+
+%post
+echo "%{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'"     > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/etc/scram.d -type f)
