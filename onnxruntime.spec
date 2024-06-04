@@ -17,11 +17,9 @@ Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
 rm -rf ../build; mkdir ../build; cd ../build
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=%{!?without_cuda:ON}
+  USE_CUDA=ON
 fi
-%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \

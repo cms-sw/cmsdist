@@ -35,7 +35,7 @@ CML_COM=${COMMON_DIR}/CMakeLists.txt
 # get shared libraries
 sed -i '/^project/a option(BUILD_SHARED_LIBS "Build using shared libraries" ON)' ${CML_COM}
 
-TRITON_ENABLE_GPU_VALUE=%{?without_cuda:ON}%{!?without_cuda:OFF}
+TRITON_ENABLE_GPU_VALUE=%{?without_cuda:OFF}%{!?without_cuda:ON}
 
 cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
