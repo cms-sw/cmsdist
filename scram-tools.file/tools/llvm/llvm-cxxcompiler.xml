@@ -31,6 +31,7 @@
     <flags CXXFLAGS="-ftemplate-depth=512"/>
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
+    <flags CXXFLAGS="-Wno-vla-cxx-extension"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
     <flags CXXFLAGS="--gcc-toolchain=@GCC_ROOT@"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
