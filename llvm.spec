@@ -49,7 +49,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
   -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
-  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64%{!?without_cuda:;NVPTX}" \
+  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
 %if 0%{!?without_cuda:1}
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
