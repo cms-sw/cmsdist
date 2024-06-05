@@ -5,7 +5,7 @@
 ## NOCOMPILER
 
 %define java_home /usr/lib/jvm/java
-%if %{?rhel:1}
+%if 0%{?rhel:1}
 %if 0%{?rhel} < 9
 # /usr/lib/jvm/java on EL8 contains java 1.8, and Bazel requires java 11
 %define java_home /usr/lib/jvm/java-11
