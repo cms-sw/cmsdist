@@ -7,10 +7,8 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 cuda re2
-%if "%{cmsos}" != "slc7_aarch64"
-Requires: cudnn
-%endif
+Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
+%{!?without_cuda:Requires: cuda cudnn}
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -19,11 +17,9 @@ Requires: cudnn
 rm -rf ../build; mkdir ../build; cd ../build
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=ON
+  USE_CUDA=ON
 fi
-%endif
 
 cmake ../%{n}-%{realversion}/cmake -GNinja \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
@@ -33,9 +29,15 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_ENABLE_PYTHON=ON \
    -Donnxruntime_BUILD_SHARED_LIB=ON \
    -Donnxruntime_USE_CUDA=${USE_CUDA} \
+%if 0%{!?without_cuda:1}
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
    -Donnxruntime_NVCC_THREADS=0 \
+   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
+   -DCMAKE_CUDA_FLAGS="-cudart shared" \
+   -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
+   -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
+%endif
    -Donnxruntime_BUILD_CSHARP=OFF \
    -Donnxruntime_USE_OPENMP=OFF \
    -Donnxruntime_USE_TVM=OFF \
@@ -48,10 +50,6 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
-   -DCMAKE_CUDA_FLAGS="-cudart shared" \
-   -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
-   -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
    -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual"

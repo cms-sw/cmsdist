@@ -18,7 +18,8 @@ Patch3: pytorch-cuda-12_4
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
-Requires: cuda cudnn OpenBLAS zlib protobuf fmt py3-pybind11
+Requires: OpenBLAS zlib protobuf fmt py3-pybind11
+%{!?without_cuda:Requires: cuda cudnn}
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -35,7 +36,7 @@ source %{_sourcedir}/env
 USE_CUDA=OFF
 %if "%{cmsos}" != "slc7_aarch64"
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=ON
+USE_CUDA=%{!?without_cuda:ON}
 fi
 %endif
 
@@ -46,10 +47,12 @@ cmake ../%{n}-%{realversion} \
     -DBUILD_TEST=OFF \
     -DBUILD_BINARY=OFF \
     -DBUILD_PYTHON=OFF \
+%if 0%{!?without_cuda:1}
     -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
     -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
     -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
+%endif
     -DUSE_NCCL=OFF \
     -DUSE_FBGEMM=OFF \
     -DUSE_KINETO=OFF \

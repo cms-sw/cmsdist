@@ -1,4 +1,4 @@
-### RPM external cpu_features 0.7.0
+### RPM external cpu_features 0.9.0
 
 Source: https://github.com/google/cpu_features/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: gmake cmake

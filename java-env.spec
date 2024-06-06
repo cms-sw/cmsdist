@@ -4,11 +4,12 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib
 ## NOCOMPILER
 
-%if %{rhel} < 9
+%define java_home /usr/lib/jvm/java
+%if 0%{?rhel:1}
+%if 0%{?rhel} < 9
 # /usr/lib/jvm/java on EL8 contains java 1.8, and Bazel requires java 11
 %define java_home /usr/lib/jvm/java-11
-%else
-%define java_home /usr/lib/jvm/java
+%endif
 %endif
 Source: none
 
