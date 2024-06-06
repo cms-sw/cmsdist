@@ -174,7 +174,7 @@ Requires: py3-importlib-resources
 Requires: py3-smmap
 Requires: py3-zipp
 
-Requires: py3-pycuda
+%{!?without_cuda:Requires: py3-pycuda}
 
 Requires: py3-boost-histogram
 Requires: py3-hist

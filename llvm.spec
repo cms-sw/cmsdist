@@ -4,7 +4,7 @@
 
 BuildRequires: cmake ninja
 Requires: gcc zlib python3
-Requires: cuda
+%{!?without_cuda:Requires: cuda}
 
 %define llvmCommit 83204dfcd4277154e46a5c6094aee389a7f260e8
 %define llvmBranch cms/release/17.x/afbe354
@@ -50,8 +50,10 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
   -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
+%if 0%{!?without_cuda:1}
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
+%endif
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT}"
 

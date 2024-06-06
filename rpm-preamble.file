@@ -114,11 +114,7 @@
 # Guess compiler version.  "gccver" is defined by install.sh when
 # producing the spec file from the version of the gcc spec.
 %if "%cmscompiler" == "gcc"
-%if "%{?use_system_gcc:set}" == "set"
-%{expand:%%define cmscompilerv	%(gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .)}
-%else
 %{expand:%%define cmscompilerv	%(echo %gccver | cut -d. -f1,2,3 | tr -d .)}
-%endif
 %endif
 
 %if "%cmscompiler" != "gcc"
@@ -225,6 +221,7 @@
 
 # Generate dependencies-setup.{sh,csh} so init.{sh,csh} picks full environment.
 %define AutoSetupDependencies \
+if [ "%{?auto_dependencies}" != "no" ] ; then \
 if [ ! -e %i/etc/profile.d/dependencies-setup.sh ] ; then \
 mkdir -p %i/etc/profile.d \
 : > %i/etc/profile.d/dependencies-setup.sh \
@@ -240,6 +237,7 @@ mkdir -p %i/etc/profile.d \
   done \
   echo "fi" >> %i/etc/profile.d/dependencies-setup.sh \
   touch %i/etc/profile.d/.autodependencies \
+fi \
 fi
 
 #Relocate dependencies
@@ -258,6 +256,7 @@ fi
 %define is_cmsarch()  %(case %{cmsos} in (*_%{1}) echo 1 ;; (*) echo 0 ;; esac)
 %define is_ncmsarch() %(case %{cmsos} in (*_%{1}) echo 0 ;; (*) echo 1 ;; esac)
 
+%if 0%{!?without_cuda:1}
 %define cuda_gcc_support $(\
   if [ ! -f %{_tmppath}/cache/cuda_gcc_supported.txt ] ; then \
     touch %{_builddir}/cuda_gcc_supported.cu &&\
@@ -266,6 +265,9 @@ fi
     if [ $(grep -i 'unsupported ' %{_builddir}/cuda_gcc_supported.log | wc -l) -gt 0 ] ; then echo false > %{_builddir}/cuda_gcc_supported.txt ; fi;\
     mv %{_builddir}/cuda_gcc_supported.txt %{_tmppath}/cache/cuda_gcc_supported.txt ;\
   fi; cat %{_tmppath}/cache/cuda_gcc_supported.txt)
+%else
+%define cuda_gcc_support false
+%endif
 
 %define common_revision_script() \
   OLD_REV=0 \
@@ -320,3 +322,10 @@ fi
 %else
 %define cmake_build_type Release
 %endif
+
+%ifnarch x86_64
+%{!?without_rocm:%define without_rocm 1}
+%endif
+%{?without_cuda:%{!?without_gdrcopy:%define without_gdrcopy 1}}
+%{?without_cuda:%{!?without_cudnn:%define without_cudnn 1}}
+%{?without_rocm:%{!?without_rocm_rocrand:%define without_rocm_rocrand 1}}
