@@ -1,0 +1,18 @@
+## NOCOMPILER
+%define auto_dependencies no
+%define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
+%prep
+%build
+%install
+mkdir -p %{i}/tools/selected %{i}/tools/available
+if [ -d %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/lib ] ; then
+  cp -r %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/lib %{i}/lib
+fi
+%{expand:%(cat %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/tools/selected.tmpl)}
+%{expand:%(cat %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/tools/available.tmpl)}
+
+%post
+echo "%{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'"     > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+[ -d $RPM_INSTALL_PREFIX/%{pkgrel}/tools ] && %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
+[ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib ]   && %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
