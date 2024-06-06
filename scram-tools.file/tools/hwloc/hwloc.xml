@@ -6,5 +6,7 @@
     <environment name="LIBDIR"      default="$HWLOC_BASE/lib"/>
   </client>
   <runtime name="PATH" value="$HWLOC_BASE/bin" type="path"/>
+%if 0%{!?without_cuda:1}%{!?without_rocm:1}
   <runtime name="HWLOC_PLUGINS_PATH" value="$HWLOC_BASE/lib/hwloc" type="path"/>
+%endif
 </tool>
