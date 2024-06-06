@@ -8,7 +8,7 @@
 Source: git+https://github.com/%{github_user}/pytorch_cluster.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-Requires: pytorch cudnn
+Requires: pytorch
 %define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} 
 
 %prep
