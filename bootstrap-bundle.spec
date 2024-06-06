@@ -30,6 +30,7 @@ mkdir %{i}/share/misc
 cp ${FILE_BOOTSTRAP_ROOT}/share/misc/magic.mgc  %{i}/share/misc/magic.mgc
 rm -f %{i}/bin/xml2-config %{i}/lib/xml2Conf.sh
 
+%if 0%{!?use_system_gcc:1}
 #Bundle libstd and libgcc_s and libelf
 %ifos darwin
 cp -P $GCC_ROOT/lib/lib{stdc++,gcc_s}*.%{soname} %{i}/lib
@@ -40,6 +41,7 @@ cp -P $GCC_ROOT/lib/libelf-*.%{soname} %{i}/lib
 cp -P $GCC_ROOT/lib/libdw.%{soname}* %{i}/lib
 cp -P $GCC_ROOT/lib/libdw-*.%{soname} %{i}/lib
 cp -P $GCC_ROOT/bin/readelf %{i}/bin
+%endif
 %endif
 
 find %{i}/bin -type f -writable -exec %{strip} {} \;

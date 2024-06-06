@@ -41,11 +41,13 @@ USER_CXXFLAGS="-ggdb -O0"
 # On SLCx add $GCC_ROOT to various paths because that's where elflib is to be
 # found.  Not required (and triggers a warning about missing include path) on
 # mac.
+%if 0%{!?use_system_gcc:1}
 %ifos linux
     OS_CFLAGS="-I$GCC_ROOT/include"
     OS_CXXFLAGS="-I$GCC_ROOT/include"
     OS_CPPFLAGS="-I$GCC_ROOT/include"
     OS_LDFLAGS="-L$GCC_ROOT/lib"
+%endif
 %endif
 
 perl -p -i -e's|-O2|-O0|' ./configure

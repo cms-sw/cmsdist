@@ -1,12 +1,10 @@
 ### RPM external ucx 1.15.0
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
-Requires: cuda gdrcopy
+%{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
 Requires: rdma-core
-%ifarch x86_64
-Requires: rocm
-%endif
+%{!?without_rocm:Requires: rocm}
 Requires: xpmem
 
 %prep
@@ -35,13 +33,18 @@ Requires: xpmem
   --with-sse42 \
   --without-go \
   --without-java \
+%if 0%{!?without_cuda:1}
   --with-cuda=$CUDA_ROOT \
-%ifarch x86_64
+  --with-gdrcopy=$GDRCOPY_ROOT \
+%else
+  --without-cuda \
+  --without-gdrcopy \
+%endif
+%if 0%{!?without_rocm:1}
   --with-rocm=$ROCM_ROOT \
 %else
   --without-rocm \
 %endif
-  --with-gdrcopy=$GDRCOPY_ROOT \
   --with-verbs=$RDMA_CORE_ROOT \
   --with-rc \
   --with-ud \

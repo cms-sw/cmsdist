@@ -1,7 +1,7 @@
 ### RPM external rocm-rocrand 5.6.1
 ## NOCOMPILER
 
-%if "%{rhel}" == "7"
+%if 0%{?rhel} == 7
 # allow rpm2cpio dependency on the bootstrap bundle
 %undefine drop_bootstrap_lib
 %define drop_bootstrap_lib true

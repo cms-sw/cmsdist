@@ -62,6 +62,19 @@ packagesWithBuildProvides=""
 platformSeeds+=" libaio"
 %endif
 
+%if "%{rhel}" != "7"
+  platformSeeds+=" libxcrypt perl-libs"
+%endif
+
+platformSeeds+=" %{?rhel:libgcc}"
+%if 0%{?fedora:1}
+platformSeeds+=" libgcc libstdc++ elfutils-libelf libgfortran"
+#Needed by millepede
+platformSeeds+=" libgomp"
+#Needed by gdb
+platformSeeds+=" elfutils-debuginfod-client gmp mpfr"
+%endif
+
 defaultPkgs="cms+cms-common+1.0 cms+fakesystem+1.0"
 
 mkdir -p %{i}/etc/profile.d
