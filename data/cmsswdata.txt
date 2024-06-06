@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+RecoTracker-LSTCore=V00-01-00
 L1Trigger-L1TMuon=V01-12-00
 RecoMuon-TrackerSeedGenerator=V00-07-00
 DQM-Integration=V00-06-00
