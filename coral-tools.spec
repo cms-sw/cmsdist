@@ -1,4 +1,4 @@
-### RPM cms coral-tool-conf 10.0
+### RPM cms coral-tools 1.0
 
 Requires: pcre
 Requires: python3
@@ -18,4 +18,4 @@ Requires: oracle
 
 %define skipreqtools jcompiler
 
-## INCLUDE scram-tool-conf
+## INCLUDE scram/tool-conf-src
