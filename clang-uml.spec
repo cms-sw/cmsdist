@@ -1,6 +1,6 @@
-### RPM external clang-uml 0.4.1
+### RPM external clang-uml 0.5.2
 
-%define tag 429e1c47a9669438651076a719de29c00fd18f7b
+%define tag cd6dce2b0b34d55534d3de512ab088b9ad71bc76
 %define branch master
 
 %define github_user bkryza
