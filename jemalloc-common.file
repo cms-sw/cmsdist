@@ -7,7 +7,7 @@ BuildRequires: autotools gmake
 
 %if "%{n}" != "jemalloc"
 %ifarch x86_64
-%if "%{rhel}" == "7"
+%if 0%{?rhel} == 7
 BuildRequires: patchelf
 %endif
 %endif

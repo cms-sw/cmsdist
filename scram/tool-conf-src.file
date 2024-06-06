@@ -1,10 +1,11 @@
-### FILE scram-tool-conf
+### FILE scram-tool-conf-src
 ## NOCOMPILER
 ## NO_AUTO_RUNPATH
 ## NO_AUTO_DEPENDENCY
 ## INCLUDE toolflags
 ## INCLUDE microarch_flags
-
+%define auto_dependencies no
+%define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
 BuildRequires: SCRAMV1
 Source99: scram-tools
 Source: none
@@ -139,10 +140,24 @@ if [ -e %{i}/tools/selected/cuda-gcc-support.xml ] ; then
     echo "WARNING: CUDA does not support this GCC version, removing cuda-gcc-support.xml tool file"
   fi
 fi
-[ -d %{i}/tools/selected ] && chmod a+r -R %{i}/tools/selected
-[ -d %{i}/tools/available  ] && chmod a+r -R %i/tools/available
+
+mkdir -p %{i}/tools
+for type in selected available ; do
+  rm -f %{i}/tools/${type}.tmpl
+  touch %{i}/tools/${type}.tmpl
+  [ -d %{i}/tools/${type} ] || continue
+  for xml in $(ls %{i}/tools/${type}/*.xml) ; do
+    tool=$(basename $xml)
+    echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" >> %{i}/tools/${type}.tmpl
+    cat $xml            >> %{i}/tools/${type}.tmpl
+    echo "EOF_TOOLFILE" >> %{i}/tools/${type}.tmpl
+    echo ""             >> %{i}/tools/${type}.tmpl
+  done
+  rm -rf %{i}/tools/${type}
+done
 
 %post
-
-%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
-%{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)
+echo "%{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'"     > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
+echo "set %{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'" > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.csh
+[ -d $RPM_INSTALL_PREFIX/%{pkgrel}/tools ] && %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
+[ -d $RPM_INSTALL_PREFIX/%{pkgrel}/lib ]   && %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)

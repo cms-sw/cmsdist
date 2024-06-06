@@ -2,7 +2,7 @@
 ## INITENV SET OPAL_PREFIX %{i}
 Source: https://download.open-mpi.org/release/open-mpi/v4.1/%{n}-%{realversion}.tar.bz2
 BuildRequires: autotools
-Requires: cuda
+%{!?without_cuda:Requires: cuda}
 Requires: hwloc
 Requires: rdma-core
 Requires: xpmem
@@ -31,7 +31,7 @@ Requires: zlib
   --disable-mpi-java \
   --enable-openib-rdmacm-ibaddr \
   --with-zlib=$ZLIB_ROOT \
-  --with-cuda=$CUDA_ROOT \
+  %{!?without_cuda:--with-cuda=$CUDA_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
   --without-ofi \
   --without-portals4 \

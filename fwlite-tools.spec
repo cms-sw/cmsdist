@@ -1,15 +1,12 @@
-### RPM cms fwlite-tool-conf 20.0
+### RPM cms fwlite-tools 1.0
 # with cmsBuild, change the above version only when a new
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-%ifarch x86_64
-Requires: rocm
-Requires: rocm-rocrand
-%endif
+%{!?without_rocm:Requires: rocm rocm-rocrand}
+%{!?without_cuda:Requires: cuda cuda-compatible-runtime}
+
 Requires: alpaka
-Requires: cuda-compatible-runtime
-Requires: cuda
 Requires: eigen
 Requires: fmt
 Requires: tbb
@@ -62,4 +59,4 @@ Requires: freetype
 %endif
 
 ## INCLUDE cmssw-drop-tools
-## INCLUDE scram-tool-conf
+## INCLUDE scram/tool-conf-src

@@ -1,6 +1,8 @@
 ### RPM external rust 1.78.0
 %ifarch ppc64le
 %define build_arch powerpc64le-unknown-linux-gnu
+%elifarch riscv64
+%define build_arch %{_arch}gc-unknown-linux-gnu
 %else
 %define build_arch %{_arch}-unknown-linux-gnu
 %endif
@@ -30,7 +32,6 @@ rm -rf %{i}/share
 rm -f %{i}/lib/rustlib/install.log
 
 %post
-%{relocateConfig}lib/rustlib/manifest-rust-std-x86_64-unknown-linux-gnu
+%{relocateConfig}lib/rustlib/manifest-rust-std-%{build_arch}
 %{relocateConfig}lib/rustlib/manifest-cargo
 %{relocateConfig}lib/rustlib/manifest-rustc
-
