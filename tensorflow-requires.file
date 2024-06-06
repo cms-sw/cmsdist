@@ -5,6 +5,7 @@ Requires: py3-opt-einsum py3-flatbuffers
 Requires: eigen protobuf zlib libpng libjpeg-turbo curl giflib sqlite grpc flatbuffers py3-pybind11
 BuildRequires: py3-wheel
 %define enable_gpu 0
+%{?without_cuda:%define enable_gpu 0}
 %if %{enable_gpu}
 %if "%{cmsos}" != "slc7_aarch64"
 ## INCLUDE cuda-flags
