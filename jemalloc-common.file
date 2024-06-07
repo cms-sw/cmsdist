@@ -39,6 +39,7 @@ make %{makeprocesses}
 %{?PostBuild:%PostBuild}
 
 %install
+
 %{?PreInstall:%PreInstall}
 make install
 %if "%{n}" != "jemalloc"
