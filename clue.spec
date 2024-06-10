@@ -1,7 +1,7 @@
 ### RPM external clue 1.0.0
 ## NOCOMPILER
 
-%define git_commit V_1_0_0
+%define git_commit V_%(echo %{realversion} | tr '.' '_')
 
 Source: https://gitlab.cern.ch/kalos/%{n}/-/archive/%{git_commit}/%{n}-%{git_commit}.tar.gz
 Requires: alpaka
