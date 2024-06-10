@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_12_4_21_HLT
 
 Requires: cmssw-tool-conf
 
