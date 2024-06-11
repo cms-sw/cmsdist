@@ -1,3 +1,4 @@
+BuildRequires: py3-meson-python
 Requires: py3-cython
 Requires: zlib OpenBLAS
 

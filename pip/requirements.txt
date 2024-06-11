@@ -84,7 +84,7 @@ cryptography==42.0.5
 cx-Oracle==8.3.0
 cycler==0.12.1
 # NO_AUTO_UPDATE: numpy 1.24.3 doesn't support cython 3.x
-cython==0.29.35
+cython==3.0.3
 dask==2024.4.2
 dask-awkward==2024.3.0
 decorator==5.1.1
@@ -244,7 +244,7 @@ nvidia-ml-py==12.550.52
 numexpr==2.8.4
 # setuptools version <64 is needed by numpy: https://github.com/pypa/setuptools/issues/3549
 # NO_AUTO_UPDATE: update together with tensorflow
-numpy==1.24.3
+numpy==1.26.4
 # NO_AUTO_UPDATE:1
 onnx==1.16.0
 onnxmltools==1.12.0
@@ -376,9 +376,9 @@ tables==3.8.0
 tblib==1.7.0
 tabulate==0.9.0
 tenacity==8.2.3
-#NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
-tensorflow==2.15.0
-tensorboard==2.16.2
+#NO_AUTO_UPDATE:1: Force to use tensorflow 2.16.1; this should match the version in tensorflow-sources.spec
+tensorflow==2.16.1
+tensorboard==2.17.0
 tensorflow-io-gcs-filesystem==0.37.0
 tensorflow-estimator==2.15.0
 tensorboard-data-server==0.7.2
