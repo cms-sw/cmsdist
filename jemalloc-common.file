@@ -27,6 +27,7 @@ BuildRequires: patchelf
   --prefix %{i} \
   --disable-doc \
 %ifarch aarch64
+  --with-lg-page=16 \
   --with-lg-hugepage=24 \
 %endif
   --enable-shared \
