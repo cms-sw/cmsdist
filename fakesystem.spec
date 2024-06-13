@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1014
+## REVISION 1015
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -11,12 +11,16 @@
 #  Carp, Cwd, Data::Dumper, Errno, Exporter
 #  File::Path, File::Spec, File::Temp
 #  Getopt::Long, Text::ParseWords, constant
+Provides: perl(Autom4te::XFile)
+Provides: perl(Automake::Config)
+Provides: perl(Automake::XFile)
 ####################################
 # Needed by git
 ####################################
 # Carp, Cwd, DBI, Data::Dumper, Digest::MD5, Exporter
 # File::Path, File::Spec, File::Spec::Functions, File::Temp
 # Getopt::Long, Text::ParseWords, constant
+Provides: perl(Git)
 ####################################
 # Needed by xrootd
 ####################################
@@ -118,6 +122,12 @@ Provides: perl(URI::Encode)
 Provides: perl(FindBin)
 Provides: perl(Hash::Util)
 Provides: perl(Sys::Hostname)
+
+#################################
+# Needed by CMSSW
+#################################
+Provides: perl(Mpslib)
+Provides: perl(Tk)
 
 Provides: /bin/csh
 Provides: /bin/tcsh
