@@ -25,7 +25,7 @@ pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
   tar xzf src-logs.tgz
 popd
 for i in 0 1 2 3 4 ; do
-  curl -s -L -o $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py && break
+  curl -o $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py && break
   sleep 60
 done
 $PYTHON_CMD $CMSSW_ROOT/buildLogAnalyzer.py \
