@@ -12,6 +12,9 @@
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
+  <!-- Suppress volatile destination type for a compound assignment
+       expression warnings which has been de-deprecated -->
+  <flags CUDA_FLAGS="-diag-suppress=3012"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="@CUDA_HOST_CXXFLAGS@"/>
