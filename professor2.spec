@@ -1,6 +1,5 @@
 ### RPM external professor2 2.4.2
 ## INITENV +PATH PYTHON3PATH %i/lib/python%{cms_python3_major_minor_version}/site-packages
-## INITENV +PATH PROF_VERSION %{realversion}
 ## INCLUDE cpp-standard
 
 Source: git+https://gitlab.com/hepcedar/professor.git?obj=main/professor-%{realversion}&export=professor-%{realversion}&output=/professor-%{realversion}.tgz
