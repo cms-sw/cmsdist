@@ -4,7 +4,7 @@
 ## INCLUDE cpp-standard
 
 Source: http://www.hepforge.org/archive/professor/professor-professor-%{realversion}.tar.gz
-Requires: py3-matplotlib root yoda eigen
+Requires: py3-matplotlib root yoda eigen py3-iminuit
 BuildRequires: py3-cython py3-pip
 
 Patch0: professor2-ppc64-flag-change
