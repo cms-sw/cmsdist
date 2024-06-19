@@ -8,6 +8,4 @@
 <use name="yoda"/>
 <use name="eigen"/>
 <runtime name="PATH" value="$PROFESSOR2_BASE/bin" type="path"/>
-<runtime name="PYTHONPATH" value="$PROFESSOR2_BASE/lib/python3.9/site-packages" type="path"/>
-<runtime name="LD_LIBRARY_PATH" value="$LIBDIR" type="path"/>
 </tool>
