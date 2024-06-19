@@ -3,14 +3,14 @@
 ## INITENV +PATH PROF_VERSION %{realversion}
 ## INCLUDE cpp-standard
 
-Source: http://www.hepforge.org/archive/professor/professor-professor-%{realversion}.tar.gz
+Source: git+https://gitlab.com/hepcedar/professor.git?obj=main/professor-%{realversion}&export=professor-%{realversion}&output=/professor-%{realversion}.tgz
 Requires: py3-matplotlib root yoda eigen py3-iminuit
 BuildRequires: py3-cython py3-pip
 
 Patch0: professor2-ppc64-flag-change
 
 %prep
-%setup -n professor-professor-%{realversion}
+%setup -n professor-%{realversion}
 
 %ifarch ppc64le
 %patch0 -p1
