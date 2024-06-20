@@ -426,3 +426,4 @@ wrapt==1.14.1
 xgboost==1.7.5
 yarl==1.9.4
 zipp==3.18.1
+iminuit==1.2
