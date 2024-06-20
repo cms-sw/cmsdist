@@ -31,7 +31,8 @@
 
 # various cuda diag-suppress flags e.g.
 #   3012: suppress volatile destination type for a compound assignment expression is deprecated
-%define nvcc_flags_cuda_diag_suppress -diag-suppress=3012
+#   3189: suppress "module" is parsed as an identifier rather than a keyword because the tokens that follow it do not match those of a preprocessor directive
+%define nvcc_flags_cuda_diag_suppress -diag-suppress=3012 -diag-suppress=3189
 
 # disable warnings about attributes on defaulted methods
 %define nvcc_flags_cudafe_diag -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored
