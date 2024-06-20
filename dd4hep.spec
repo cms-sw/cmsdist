@@ -1,9 +1,9 @@
-### RPM external dd4hep v01-27-02
+### RPM external dd4hep v01-29-00
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 
-%define tag 5922c749937ab1e9c1d92537af8aba95177de42f
+%define tag d119e3f8f5da75bd87632467df088197f84ed1b8
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
