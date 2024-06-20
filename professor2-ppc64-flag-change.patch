@@ -15,7 +15,7 @@ diff --git a/pyext/setup.py b/pyext/setup.py
 index adf3b19..fabdbf0 100644
 --- a/pyext/setup.py
 +++ b/pyext/setup.py
-@@ -14,7 +14,7 @@ ext = Extension("professor2.core",
+@@ -19,7 +19,7 @@ ext = Extension("professor2.core",
                  language="C++",
                  depends=glob("../include/*.h"),
                  include_dirs=[incdir, os.path.join(srcdir, "pyext", "professor2")],
