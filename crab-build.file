@@ -43,14 +43,17 @@ for pkg in %{crabserver_packages} ; do
   fi
 done
 
-#complete command in crab-bash-completion.sh should match '^\s*complete\s+-F\s+.*\s_UseCrab\s.*\scrab\s*$'
-COMPLETE_CMD=$(grep '^\s*complete\s\s*-F\s' %{i}/etc/crab-bash-completion.sh | grep '\s_UseCrab\s' | grep '\scrab\s*$')
+#complete command in crab-bash-completion.sh should match '^\s*complete\s+-F\s+.*\s<Crab-function-Name>\s.*\scrab\s*$'
+COMPLETE_CMD=$(grep '^\s*complete\s\s*-F\s' %{i}/etc/crab-bash-completion.sh | grep '\scrab\s*$')
 if [ "${COMPLETE_CMD}" != "" ] ; then
+  CRAB_FUNC=$(echo "${COMPLETE_CMD}" | sed 's|^.*\s-F\s\s*||;s|\s.*||')
   sed -i -e 's|^\s*complete\s\s*-F\s.*$|@COMPLETE_CMD@|' %{i}/etc/crab-bash-completion.sh
-  if [ "%{crab_type}" != "prod" ] ; then
+  if [ "%{crab_type}" = "prod" ] ; then
+    COMPLETE_CMD=$(echo "${COMPLETE_CMD}" | sed "s/\scrab\s*$/ crab-%{crab_type}\\\n${COMPLETE_CMD}/")
+  else
     COMPLETE_CMD=$(echo "${COMPLETE_CMD}" | sed 's/\scrab\s*$/ crab-%{crab_type}/')
   fi
-  sed -i -e "s/@COMPLETE_CMD@/${COMPLETE_CMD}/;s|_UseCrab|_UseCrab_%{crab_type}|" %{i}/etc/crab-bash-completion.sh
+  sed -i -e "s/@COMPLETE_CMD@/${COMPLETE_CMD}/;s|${CRAB_FUNC}|${CRAB_FUNC}_%{crab_type}|g" %{i}/etc/crab-bash-completion.sh
 else
   echo "ERROR: Unable to fix crab use function _UseCrab"
   exit 1
