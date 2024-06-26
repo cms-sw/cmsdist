@@ -57,3 +57,7 @@ Source20: CXXModules.mk
 %if "%(case %realversion in (*SKYLAKE*) echo true ;; (*) echo false ;; esac)" == "true"
 %define scram_target_default auto
 %endif
+
+%if "%(case %realversion in (*ASNEEDED*) echo true ;; (*) echo false ;; esac)" == "true"
+%define release_userldflags -Wl,--as-needed
+%endif

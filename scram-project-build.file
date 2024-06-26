@@ -135,6 +135,10 @@ fi
 %if "%{?release_usercxxflags:set}" == "set"
 echo '<flags CXXFLAGS="%{release_usercxxflags}"/>' >> %_builddir/config/BuildFile.xml
 %endif
+%if "%{?release_userldflags:set}" == "set"
+echo '<flags LDFLAGS="%{release_userldflags}"/>' >> %_builddir/config/BuildFile.xml
+%endif
+
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
