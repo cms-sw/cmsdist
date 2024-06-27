@@ -4,7 +4,7 @@
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag c891d8dc23e1a46ad9f3e757d09e57b500d40044
+%define gccTag b71f1de6e9cf7181a288c0f39f9b1ef6580cf5c8
 %define gccBranch releases/gcc-13
 
 %define moduleName %{n}-%{realversion}
