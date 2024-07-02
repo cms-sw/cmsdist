@@ -155,6 +155,7 @@ Requires: gperftools
 %{!?without_cuda:Requires: cuda cuda-compatible-runtime gdrcopy cudnn}
 
 Requires: alpaka
+Requires: clue
 Requires: libunwind
 %ifnarch ppc64le
 Requires: igprof
