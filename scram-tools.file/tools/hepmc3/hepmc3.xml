@@ -7,4 +7,5 @@
     <environment name="INCLUDE" default="$HEPMC3_BASE/include"/>
   </client>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$HEPMC3_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
 </tool>

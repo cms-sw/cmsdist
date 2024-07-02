@@ -1,13 +1,13 @@
-### RPM external rivet 3.1.10
+### RPM external rivet 4.0.0
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source99: scram-tools.file/tools/eigen/env
-Patch0: rivet-analysis
+Patch0: rivet-duplicate-libs
 
-Requires: hepmc fastjet fastjet-contrib yoda
+Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
 BuildRequires: python3 py3-cython autotools
 
 %prep
@@ -44,13 +44,14 @@ CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS %{selected_microarch}
 sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 
 PYTHON=$(which python3) \
-./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC_ROOT} \
+./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC3_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
             --disable-doxygen --disable-pdfmanual --with-pic \
-            CXX="$(which g++)" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
+            --with-hdf5=${HDF5_ROOT}/bin/h5pcc --with-highfive=${HIGHFIVE_ROOT} --enable-onnxrt=${ONNXRUNTIME_ROOT} \
+            CXX="mpicxx" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
-perl -p -i -e "s|LIBS = $|LIBS = -lHepMC|g" bin/Makefile
+perl -p -i -e "s|LIBS = $|LIBS = -lHepMC3|g" bin/Makefile
 make %{makeprocesses} all
 
 %install
@@ -59,5 +60,4 @@ sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*
 
 %post
 %{relocateConfig}bin/rivet-config
-%{relocateConfig}bin/rivet-buildplugin
 %{relocateConfig}bin/rivet-build
