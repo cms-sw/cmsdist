@@ -1,0 +1,7 @@
+<tool name="clue" version="@TOOL_VERSION@">
+  <use name="alpaka"/>
+  <client>
+    <environment name="CLUE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"   default="$CLUE_BASE/include"/>
+  </client>
+</tool>
