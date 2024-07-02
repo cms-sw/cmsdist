@@ -24,6 +24,14 @@ mv * %{i}/cat
 cd ${RPM_INSTALL_PREFIX}/%{pkgrel}
 mkdir -p ${RPM_INSTALL_PREFIX}/cat ${RPM_INSTALL_PREFIX}/etc/%{pkgname}
 
+# Check if a newer revision is already installed
+if [ -f ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version ] ; then
+  oldrev=$(cat ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version )
+  if [ ${oldrev} -ge %{fakerevision} ] ; then
+    exit 0
+  fi
+fi
+
 rsync -a --delete ${RPM_INSTALL_PREFIX}/%{pkgrel}/cat/ ${RPM_INSTALL_PREFIX}/cat/
 
 echo %{fakerevision} > ${RPM_INSTALL_PREFIX}/etc/%{pkgname}/version
