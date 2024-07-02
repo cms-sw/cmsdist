@@ -1,0 +1,37 @@
+diff --git a/include/Rivet/AnalysisLoader.hh b/include/Rivet/AnalysisLoader.hh
+index d95c5d3a5..7ed7db87d 100644
+--- a/include/Rivet/AnalysisLoader.hh
++++ b/include/Rivet/AnalysisLoader.hh
+@@ -98,6 +98,7 @@ namespace Rivet {
+ 
+     /// List of Rivet*.so plugin library paths to load from
+     static vector<string> _pluginpaths;
++    static vector<string> _pluginnames;
+ 
+     typedef map<string, const AnalysisBuilderBase*> AnalysisBuilderMap;
+     /// Canonical analysis builder functors
+diff --git a/src/Core/AnalysisLoader.cc b/src/Core/AnalysisLoader.cc
+index 137383b12..e2a1cc91a 100644
+--- a/src/Core/AnalysisLoader.cc
++++ b/src/Core/AnalysisLoader.cc
+@@ -14,6 +14,7 @@ namespace Rivet {
+ 
+   // Initialise static-function ptrs
+   vector<string> AnalysisLoader::_pluginpaths;
++  vector<string> AnalysisLoader::_pluginnames;
+   AnalysisLoader::AnalysisBuilderMap AnalysisLoader::_ptrs;
+   AnalysisLoader::AnalysisBuilderMap AnalysisLoader::_aliasptrs;
+ 
+@@ -159,6 +160,11 @@ namespace Rivet {
+           if (filename.find("Rivet") != 0) continue;
+           size_t posn = filename.find(libsuffix);
+           if (posn == string::npos || posn != filename.length()-libsuffix.length()) continue;
++          // Ensure not duplicate libs
++          if (find(_pluginnames.begin(), _pluginnames.end(), filename) != _pluginnames.end()) {
++            continue;
++          }
++          _pluginnames += filename;
+           /// @todo Make sure this is an abs path
+           /// @todo Sys-dependent path separator instead of "/"
+           const string path = d + "/" + filename;
+
