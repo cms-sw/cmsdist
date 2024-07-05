@@ -44,7 +44,7 @@ for pkg in %{crabserver_packages} ; do
 done
 
 #complete command in crab-bash-completion.sh should match '^\s*complete\s+-F\s+.*\s<Crab-function-Name>\s.*\scrab\s*$'
-COMPLETE_CMD=$(grep '^\s*complete\s\s*-F\s' %{i}/etc/crab-bash-completion.sh | grep '\scrab\s*$')
+COMPLETE_CMD=$(grep '^\s*complete\s\s*-F\s' %{i}/etc/crab-bash-completion.sh | grep '\scrab\s*$' | sed 's|-o\s\s*nosort||')
 if [ "${COMPLETE_CMD}" != "" ] ; then
   CRAB_FUNC=$(echo "${COMPLETE_CMD}" | sed 's|^.*\s-F\s\s*||;s|\s.*||')
   sed -i -e 's|^\s*complete\s\s*-F\s.*$|@COMPLETE_CMD@|' %{i}/etc/crab-bash-completion.sh
