@@ -1,4 +1,4 @@
-### RPM external catch2 2.13.6
+### RPM external catch2 3.6.0
 Source: https://raw.githubusercontent.com/catchorg/Catch2/v%{realversion}/single_include/catch2/catch.hpp
 
 %prep
