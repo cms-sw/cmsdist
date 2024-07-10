@@ -1,9 +1,9 @@
-### RPM external pytorch 2.1.1
+### RPM external pytorch 2.3.1
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
-%define tag bb938bbe9f53414dda1e1159795b7536dbffd041
+%define tag 63d5e9221bedd1546b7d364b5ce4171547db12a9
 %define branch cms/v%{realversion}
 
 Source: git+https://github.com/cms-externals/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
@@ -16,13 +16,14 @@ Patch2: pytorch-system-fmt
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
-Requires: OpenBLAS zlib protobuf fmt py3-pybind11
+Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %{!?without_cuda:Requires: cuda cudnn}
+%{!?without_rocm:Requires: rocm}
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
+#%patch0 -p1
+#%patch1 -p1
 %patch2 -p1
 
 %build
@@ -49,6 +50,9 @@ cmake ../%{n}-%{realversion} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
     -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
     -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
+%endif
+%if 0%{!?without_rocm:1}
+    -DUSE_ROCM=ON \
 %endif
     -DUSE_NCCL=OFF \
     -DUSE_FBGEMM=OFF \
