@@ -65,7 +65,7 @@ contourpy==1.2.1
 correctionlib==2.5.0
 cramjam==2.8.3
 crashtest==0.4.1
-certifi==2024.2.2
+certifi==2024.07.04
 cffi==1.16.0
 chardet==5.2.0
 Click==8.1.7
