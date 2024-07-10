@@ -422,5 +422,5 @@ wrapt==1.14.1
 #NO_AUTO_UPDATE: New versions require nvidia-nccl-cu12, which is a binary .whl package
 xgboost==1.7.5
 yarl==1.9.4
-zipp==3.18.1
+zipp==3.19.2
 iminuit==1.2
