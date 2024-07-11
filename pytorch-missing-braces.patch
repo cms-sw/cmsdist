@@ -19,3 +19,23 @@ index a1a956f1327..a4e02c795d9 100644
 +    "instructions" }};
  } // namespace profiler
  } // namespace torch
+
+diff --git a/c10/util/typeid.h b/c10/util/typeid.h
+index 2c6ac38882f..d165059a956 100644
+--- a/c10/util/typeid.h
++++ b/c10/util/typeid.h
+@@ -303,12 +303,12 @@ class _Uninitialized final {};
+ //
+ 
+ // item sizes for TypeMeta::itemsize() fast path
+-static constexpr std::array<uint8_t, NumScalarTypes> scalarTypeItemSizes = {
++static constexpr std::array<uint8_t, NumScalarTypes> scalarTypeItemSizes = {{
+ #define SCALAR_TYPE_SIZE(T, name) sizeof(T),
+     AT_FORALL_SCALAR_TYPES_WITH_COMPLEX_AND_QINTS(SCALAR_TYPE_SIZE)
+ #undef SCALAR_TYPE_SIZE
+         0, // Undefined
+-};
++}};
+ 
+ /**
+  * TypeMeta is a thin class that allows us to store the type of a container such
