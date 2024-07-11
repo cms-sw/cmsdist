@@ -18,12 +18,12 @@ BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %{!?without_cuda:Requires: cuda cudnn}
-%{!?without_rocm:Requires: rocm}
+#%{!?without_rocm:Requires: rocm rocm-rocrand}
 
 %prep
 %setup -n %{n}-%{realversion}
 #%patch0 -p1
-#%patch1 -p1
+%patch1 -p1
 %patch2 -p1
 
 %build
@@ -38,6 +38,11 @@ USE_CUDA=%{!?without_cuda:ON}
 fi
 %endif
 
+#%if 0%{!?without_rocm:1}
+#export ROCM_PATH=${ROCM_ROOT}
+#export PYTORCH_ROCM_ARCH=gfx900,gfx906,gfx908,gfx90a,gfx1030
+#%endif
+
 cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -50,9 +55,6 @@ cmake ../%{n}-%{realversion} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
     -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
     -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
-%endif
-%if 0%{!?without_rocm:1}
-    -DUSE_ROCM=ON \
 %endif
     -DUSE_NCCL=OFF \
     -DUSE_FBGEMM=OFF \
@@ -98,6 +100,4 @@ ninja -v  %{makeprocesses} install
 %{relocateConfig}include/caffe2/core/macros.h
 %{relocateConfig}share/cmake/ATen/ATenConfig.cmake
 
-# For ROCm, pre-build
-# NOTICE: can't build with both cuda and rocm
-# python @{_builddir}/tools/amd_build/build_amd.py
+# NOTICE: can't build with both cuda and rocm - see aten/CMakeLists.txt
