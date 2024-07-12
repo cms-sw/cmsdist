@@ -4,14 +4,17 @@
 Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: autotools gmake
-Requires: zlib
+Requires: zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
 autoreconf -fiv
-./configure CFLAGS="-g -O3 -fcommon" --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo
+./configure CFLAGS="-g -O3 -fcommon" \
+  CPPFLAGS="-I${ZLIB_ROOT}/include -I${XZ_ROOT}/include" \
+  LDFLAGS="-L${ZLIB_ROOT}/lib -L${XZ_ROOT}/lib" \
+  --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo
 make %{makeprocesses}
 
 %install
