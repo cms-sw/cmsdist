@@ -24,6 +24,9 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
+#Avoid C++20 build errors
+#FIXME: This should be dropped when we are ready to move to newer GCC 13 supported by cuda
+Source14: https://github.com/gcc-mirror/gcc/commit/96482ffe60d9bdec802fcad705c69641b2a3e040.patch
 
 %ifos linux
 %define bisonVersion 3.8.2
@@ -44,6 +47,7 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+patch -p1 <%{_sourcedir}/96482ffe60d9bdec802fcad705c69641b2a3e040.patch
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
