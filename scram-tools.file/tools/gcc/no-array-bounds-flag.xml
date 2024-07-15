@@ -1,0 +1,7 @@
+<tool name="no-array-bounds-flag" version="1.0">
+  <!-- work around a GCC bug that makes LTO ignore diagnostic #pragma:
+    - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80922
+    - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109916
+  -->
+  <flags CXXFLAGS="-Wno-error=array-bounds -Wno-array-bounds"/>
+</tool>
