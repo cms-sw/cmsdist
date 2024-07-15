@@ -39,3 +39,32 @@ index 2c6ac38882f..d165059a956 100644
  
  /**
   * TypeMeta is a thin class that allows us to store the type of a container such
+--- a/c10/util/order_preserving_flat_hash_map.h
++++ b/c10/util/order_preserving_flat_hash_map.h
+@@ -177,11 +177,11 @@ struct sherwood_v3_entry {
+ };
+ 
+ inline int8_t log2(uint64_t value) {
+-  static constexpr std::array<int8_t, 64> table = {
++  static constexpr std::array<int8_t, 64> table = {{
+       63, 0,  58, 1,  59, 47, 53, 2,  60, 39, 48, 27, 54, 33, 42, 3,
+       61, 51, 37, 40, 49, 18, 28, 20, 55, 30, 34, 11, 43, 14, 22, 4,
+       62, 57, 46, 52, 38, 26, 32, 41, 50, 36, 17, 19, 29, 10, 13, 21,
+-      56, 45, 25, 31, 35, 16, 9,  12, 44, 24, 15, 8,  23, 7,  6,  5};
++      56, 45, 25, 31, 35, 16, 9,  12, 44, 24, 15, 8,  23, 7,  6,  5}};
+   value |= value >> 1;
+   value |= value >> 2;
+   value |= value >> 4;
+--- a/torch/csrc/jit/runtime/operator.h
++++ b/torch/csrc/jit/runtime/operator.h
+@@ -35,8 +35,8 @@ using ::c10::Symbol;
+ using OperationCreator = Operation (*)(const Node*);
+ 
+ namespace {
+-const std::array<at::Tag, 1> kJitOnlyOperatorTags = {
+-    at::Tag::pt2_compliant_tag};
++const std::array<at::Tag, 1> kJitOnlyOperatorTags = {{
++    at::Tag::pt2_compliant_tag}};
+ }
+ 
+ /*
