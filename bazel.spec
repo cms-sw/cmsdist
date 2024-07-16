@@ -29,7 +29,7 @@ Patch1: bazel-absl
 %build
 
 export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
-export BAZEL_CXXOPTS="-std=c++%{cms_cxx_standard}"
+export BAZEL_CXXOPTS="-Wno-error=deprecated:-std=c++%{cms_cxx_standard}"
 bash ./compile.sh
 
 %install
