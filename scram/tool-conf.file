@@ -10,6 +10,7 @@ if [ -d %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/lib ] ; then
 fi
 %{expand:%(cat %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/tools/selected.tmpl)}
 %{expand:%(cat %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/tools/available.tmpl)}
+[ ! -e %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/vectorized_packages.txt ] || cp %{cmsroot}/%{cmsplatf}/%{directpkgreqs}/vectorized_packages.txt %{i}/
 
 %post
 echo "%{uctool}_ROOT='$CMS_INSTALL_PREFIX/%{pkgrel}'"     > $RPM_INSTALL_PREFIX/%{pkgrel}/etc/profile.d/init.sh
