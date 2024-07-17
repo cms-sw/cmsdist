@@ -1,3 +1,6 @@
 Requires: py3-pybind11 py3-numpy py3-meson-python py3-meson
+%define PipPreBuild \
+  export CXXFLAGS="-Wno-error=array-bounds"
+
 %define PipPostPost \
   %{relocateConfig}lib/python*/site-packages/contourpy/util/_build_config.py
