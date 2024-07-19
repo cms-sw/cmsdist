@@ -7,7 +7,6 @@ Requires: gsl OpenBLAS hepmc lhapdf pythia6 bz2lib zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch -p1
 
 %build
 rm -rf ../build
