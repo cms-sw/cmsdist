@@ -1,14 +1,10 @@
-### RPM external OpenBLAS 0.3.15
+### RPM external OpenBLAS 0.3.27
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
 Source: https://github.com/xianyi/OpenBLAS/archive/v%{realversion}.tar.gz
-Patch0: OpenBLAS-fix-dynamic-arch
-Patch1: OpenBLAS-disable-tests
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
 
 %build
 
@@ -41,6 +37,9 @@ make %{build_opts} TARGET=ARMV8 CFLAGS="%{arch_build_flags}"
 %endif
 %ifarch ppc64le
 make %{build_opts} CFLAGS="%{arch_build_flags}"
+%endif
+%ifarch riscv64
+make %{build_opts} TARGET=RISCV64_GENERIC shared
 %endif
 
 %install
