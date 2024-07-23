@@ -1,14 +1,12 @@
-### RPM external cepgen 1.2.3_gcc710
+### RPM external cepgen 1.2.5_gcc710
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
-Patch: cepgen_noroot
 
 BuildRequires: cmake gmake
 Requires: gsl OpenBLAS hepmc lhapdf pythia6 bz2lib zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch -p1
 
 %build
 rm -rf ../build
