@@ -7,7 +7,7 @@ index 091552a..1d30fea 100644
    typedef typename retval<AP_MAX((_AP_W + 7) / 8, 8), _AP_S>::Type RetType;
  
 -  static const int width = _AP_W;
-+  constexpr static const int width = _AP_W;
++  constexpr static int width = _AP_W;
  
    template <int _AP_W2, bool _AP_S2>
    struct RType {
@@ -32,7 +32,7 @@ index 0c29a0a..1684b13 100644
 -  static const int width = _AP_W;
 +  static constexpr uint32_t BitWidth = _AP_W;
 +  static constexpr uint32_t _AP_N = (_AP_W + 63) / 64;
-+  constexpr static const int width = _AP_W;
++  constexpr static int width = _AP_W;
  
   private:
    /// This constructor is used only internally for speed of construction of
