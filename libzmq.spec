@@ -3,6 +3,7 @@
 %define tag 5bf04ee2ff207f0eaf34298658fe354ea61e1839
 Source: git+https://github.com/zeromq/libzmq.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools
+Requires: libunwind
 
 %prep
 %setup -n %{n}-%{realversion}
