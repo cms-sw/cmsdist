@@ -4,14 +4,12 @@
 %define github_user Xilinx
 %define runpath_opts -m examples
 Source: git+https://github.com/%{github_user}/HLS_arbitrary_Precision_Types.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Patch0: hls-fix-uninitialized
-Patch1: hls-fix-constexpr
+Patch0: hls-fix
 Requires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
-%patch1 -p1
 
 %build
 
@@ -26,5 +24,3 @@ rm -rf examples/ap_int examples/ap_fixed
 %install
 
 cp -r * %{i}/
-
-
