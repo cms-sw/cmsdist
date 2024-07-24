@@ -8,7 +8,7 @@
 %else
 %define download_arch   %{_arch}
 %endif
-Source: /https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
+Source: https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
 
 %prep
 %setup -n go
