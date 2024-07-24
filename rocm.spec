@@ -29,6 +29,31 @@ Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.
 Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
 Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50601-93.el%{rhel}.%{_arch}.rpm
 Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source16: https://%{repository}/%{repoversion}/main/hsa-rocr-devel-1.9.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source17: https://%{repository}/%{repoversion}/main/rocblas-devel-3.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source18: https://%{repository}/%{repoversion}/main/rocblas-3.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source19: https://%{repository}/%{repoversion}/main/hipblas-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/hipblas-devel-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source21: https://%{repository}/%{repoversion}/main/hipblaslt-0.2.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source22: https://%{repository}/%{repoversion}/main/hipblaslt-devel-0.2.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source23: https://%{repository}/%{repoversion}/main/miopen-hip-2.20.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source24: https://%{repository}/%{repoversion}/main/miopen-hip-devel-2.20.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source25: https://%{repository}/%{repoversion}/main/rocfft-1.0.23.50601-93.el%{rhel}.%{_arch}.rpm
+Source26: https://%{repository}/%{repoversion}/main/rocfft-devel-1.0.23.50601-93.el%{rhel}.%{_arch}.rpm
+Source27: https://%{repository}/%{repoversion}/main/hipfft-1.0.12.50601-93.el%{rhel}.%{_arch}.rpm
+Source28: https://%{repository}/%{repoversion}/main/hipfft-devel-1.0.12.50601-93.el%{rhel}.%{_arch}.rpm
+Source29: https://%{repository}/%{repoversion}/main/hipsparse-2.3.7.50601-93.el%{rhel}.%{_arch}.rpm
+Source30: https://%{repository}/%{repoversion}/main/hipsparse-devel-2.3.7.50601-93.el%{rhel}.%{_arch}.rpm
+Source31: https://%{repository}/%{repoversion}/main/rccl-2.16.5.50601-93.el%{rhel}.%{_arch}.rpm
+Source32: https://%{repository}/%{repoversion}/main/rccl-devel-2.16.5.50601-93.el%{rhel}.%{_arch}.rpm
+Source33: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source34: https://%{repository}/%{repoversion}/main/hipcub-devel-2.13.1.50601-93.el%{rhel}.%{_arch}.rpm
+Source35: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source36: https://%{repository}/%{repoversion}/main/hipsolver-1.8.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source37: https://%{repository}/%{repoversion}/main/hipsolver-devel-1.8.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source38: https://%{repository}/%{repoversion}/main/roctracer-4.1.0.50601-93.el%{rhel}.%{_arch}.rpm
+Source39: https://%{repository}/%{repoversion}/main/roctracer-devel-4.1.0.50601-93.el%{rhel}.%{_arch}.rpm
+
 Requires: numactl zstd
 Requires: python3
 AutoReq: no
@@ -52,6 +77,30 @@ rpm2cpio %{SOURCE12} | cpio -idmv
 rpm2cpio %{SOURCE13} | cpio -idmv
 rpm2cpio %{SOURCE14} | cpio -idmv
 rpm2cpio %{SOURCE15} | cpio -idmv
+rpm2cpio %{SOURCE16} | cpio -idmv
+rpm2cpio %{SOURCE17} | cpio -idmv
+rpm2cpio %{SOURCE18} | cpio -idmv
+rpm2cpio %{SOURCE19} | cpio -idmv
+rpm2cpio %{SOURCE20} | cpio -idmv
+rpm2cpio %{SOURCE21} | cpio -idmv
+rpm2cpio %{SOURCE22} | cpio -idmv
+rpm2cpio %{SOURCE23} | cpio -idmv
+rpm2cpio %{SOURCE24} | cpio -idmv
+rpm2cpio %{SOURCE25} | cpio -idmv
+rpm2cpio %{SOURCE26} | cpio -idmv
+rpm2cpio %{SOURCE27} | cpio -idmv
+rpm2cpio %{SOURCE28} | cpio -idmv
+rpm2cpio %{SOURCE29} | cpio -idmv
+rpm2cpio %{SOURCE30} | cpio -idmv
+rpm2cpio %{SOURCE31} | cpio -idmv
+rpm2cpio %{SOURCE32} | cpio -idmv
+rpm2cpio %{SOURCE33} | cpio -idmv
+rpm2cpio %{SOURCE34} | cpio -idmv
+rpm2cpio %{SOURCE35} | cpio -idmv
+rpm2cpio %{SOURCE36} | cpio -idmv
+rpm2cpio %{SOURCE37} | cpio -idmv
+rpm2cpio %{SOURCE38} | cpio -idmv
+rpm2cpio %{SOURCE39} | cpio -idmv
 
 %install
 rmdir %{i}
