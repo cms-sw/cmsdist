@@ -8,6 +8,7 @@
 %else
 %define download_arch   %{_arch}
 %endif
+Provides: /bin/rc
 Source: https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
 
 %prep
