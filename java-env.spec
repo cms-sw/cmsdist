@@ -1,4 +1,4 @@
-### RPM external java-env 11.0
+### RPM external java-env 17.0
 ## INITENV SET JAVA_HOME %{java_home}
 ## INITENV +PATH PATH %{java_home}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib
@@ -8,7 +8,7 @@
 %if 0%{?rhel:1}
 %if 0%{?rhel} < 9
 # /usr/lib/jvm/java on EL8 contains java 1.8, and Bazel requires java 11
-%define java_home /usr/lib/jvm/java-11
+%define java_home /usr/lib/jvm/java-17
 %endif
 %endif
 Source: none
