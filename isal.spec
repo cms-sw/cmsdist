@@ -6,6 +6,8 @@
 %define github_user xrootd
 Source: https://github.com/intel/isa-l/archive/refs/tags/v%{realversion}.tar.gz
 
+BuildRequires: nasm
+
 %prep
 %setup -n isa-l-%{realversion}
 
