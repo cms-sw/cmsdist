@@ -1,8 +1,8 @@
 diff --git a/torch/csrc/profiler/events.h b/torch/csrc/profiler/events.h
-index a1a956f1327..a4e02c795d9 100644
+index 78bac1fea19..f08683223f0 100644
 --- a/torch/csrc/profiler/events.h
 +++ b/torch/csrc/profiler/events.h
-@@ -11,7 +11,7 @@ namespace profiler {
+@@ -11,7 +11,7 @@ namespace torch::profiler {
  using perf_counters_t = std::vector<uint64_t>;
  
  /* Standard list of performance events independent of hardware or backend */
@@ -11,15 +11,13 @@ index a1a956f1327..a4e02c795d9 100644
      /*
       * Number of Processing Elelement (PE) cycles between two points of interest
       * in time. This should correlate positively with wall-time. Measured in
-@@ -25,6 +25,6 @@ constexpr std::array<const char*, 2> ProfilerPerfEvents = {
+@@ -25,5 +25,5 @@ constexpr std::array<const char*, 2> ProfilerPerfEvents = {
       * (i.e. work). Across repeat executions, the number of instructions should
       * be more or less invariant. Measured in uint64_t. PE can be non cpu.
       */
 -    "instructions"};
-+    "instructions" }};
- } // namespace profiler
- } // namespace torch
-
++    "instructions"}};
+ } // namespace torch::profiler
 diff --git a/c10/util/typeid.h b/c10/util/typeid.h
 index 2c6ac38882f..d165059a956 100644
 --- a/c10/util/typeid.h
@@ -68,3 +66,5 @@ index 2c6ac38882f..d165059a956 100644
  }
  
  /*
+
+
