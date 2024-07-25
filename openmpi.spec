@@ -45,7 +45,8 @@ Requires: zlib
   --with-xpmem=$XPMEM_ROOT \
   --without-x \
   --with-pic \
-  --with-gnu-ld
+  --with-gnu-ld \
+  --with-pmix=internal
 
 %build
 make %{makeprocesses} 
