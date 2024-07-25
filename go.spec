@@ -1,19 +1,15 @@
-### RPM external go 1.16
+### RPM external go 1.22.5
 ## NOCOMPILER
 
-Provides: libc.so.6(GLIBC_2.2.5)(64bit)
 %ifarch x86_64
-Source: https://storage.googleapis.com/golang/go%{realversion}.linux-amd64.tar.gz
+%define download_arch amd64
+%elifarch aarch64
+%define download_arch arm64
+%else
+%define download_arch   %{_arch}
 %endif
-%ifarch ppc64le
-Provides: libc.so.6(GLIBC_2.2.5)(64bit)
-Source: https://storage.googleapis.com/golang/go%{realversion}.linux-ppc64le.tar.gz
-%endif
-%ifarch aarch64
-Source: https://storage.googleapis.com/golang/go%{realversion}.linux-arm64.tar.gz
-%endif
-
 Provides: /bin/rc
+Source: https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
 
 %prep
 %setup -n go
