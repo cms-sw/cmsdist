@@ -1,7 +1,11 @@
   <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
     <client>
-      <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
-      <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
+	    <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
+%if 0%{!?use_system_gcc:1}
+	    <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
+%else
+	    <environment name="CXX" value="c++@COMPILER_NAME_SUFFIX@"/>
+%endif
     </client>
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @GCC_CPPDEFINES@"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC @GCC_CXXSHAREDOBJECTFLAGS@"/>
@@ -31,9 +35,11 @@
     <flags LDFLAGS="@GCC_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@GCC_SHAREDFLAGS@"/>
     <flags LD_UNIT="@GCC_LD_UNIT@"/>
+    <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
+%if 0%{!?use_system_gcc:1}
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
-    <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
+    <runtime name="COMPILER_PATH" value="@TOOL_ROOT@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
     <ifrelease name="ASAN">
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libasan.so" type="path"/>
@@ -44,5 +50,5 @@
     <elif name="TSAN"/>
       <runtime name="GCC_RUNTIME_TSAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libtsan.so" type="path"/>
     </ifrelease>
-    <runtime name="COMPILER_PATH" value="@TOOL_ROOT@"/>
+%endif
   </tool>
