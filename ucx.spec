@@ -1,4 +1,4 @@
-### RPM external ucx 1.15.0
+### RPM external ucx 1.17.0
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
