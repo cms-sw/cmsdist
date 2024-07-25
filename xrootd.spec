@@ -44,7 +44,7 @@ cmake ../%n-%{realversion} \
   -DPIP_OPTIONS="--verbose" \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
-  -DCMAKE_PREFIX_PATH=%{cmake_prefix_path}
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1
 
