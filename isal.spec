@@ -4,7 +4,7 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: https://github.com/intel/isa-l/archive/refs/tags/%{realversion}.tar.gz
+Source: https://github.com/intel/isa-l/archive/refs/tags/v%{realversion}.tar.gz
 
 %prep
 %setup -n %{n}-%{realversion}
