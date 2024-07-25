@@ -39,6 +39,7 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
+  -DENABLE_XRDEC=FALSE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DPIP_OPTIONS="--verbose" \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
