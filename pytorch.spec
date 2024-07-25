@@ -1,16 +1,13 @@
-### RPM external pytorch 2.3.1
+### RPM external pytorch 2.4.0
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
-%define tag 63d5e9221bedd1546b7d364b5ce4171547db12a9
-%define branch cms/v%{realversion}
 
-Source: git+https://github.com/cms-externals/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
 Source2: FindFMT.cmake
 Source99: scram-tools.file/tools/eigen/env
-Patch0: pytorch-ignore-different-cuda-include-dir
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
 
@@ -18,11 +15,9 @@ BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %{!?without_cuda:Requires: cuda cudnn}
-#%{!?without_rocm:Requires: rocm rocm-rocrand}
 
 %prep
 %setup -n %{n}-%{realversion}
-#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
@@ -32,16 +27,11 @@ rm -rf ../build && mkdir ../build && cd ../build
 source %{_sourcedir}/env
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
+%if 0%{!?without_cuda:1}
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=%{!?without_cuda:ON}
+USE_CUDA=ON
 fi
 %endif
-
-#%if 0%{!?without_rocm:1}
-#export ROCM_PATH=${ROCM_ROOT}
-#export PYTORCH_ROCM_ARCH=gfx900,gfx906,gfx908,gfx90a,gfx1030
-#%endif
 
 cmake ../%{n}-%{realversion} \
     -G Ninja \
