@@ -11,9 +11,7 @@ Requires: fastjet
 Requires: gosamcontrib gosam
 Requires: madgraph5amcatnlo
 Requires: python3
-%ifnarch ppc64le
-Requires: openloops
-%endif
+%{!?without_openloops:Requires: openloops}
 BuildRequires: autotools
 Patch0: herwig_Matchbox_mg_py3
 Patch1: herwig7-fxfx-fix
@@ -49,12 +47,15 @@ PYTHON=python3 ./configure --prefix=%i \
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
             --with-hepmc=$HEPMC_ROOT \
-%ifnarch ppc64le
-            --with-openloops=$OPENLOOPS_ROOT \
-%endif
+            ${OPENLOOPS_ROOT+--with-openloops=$OPENLOOPS_ROOT} \
             $PLATF_CONF_OPTS \
             CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" \
             FCFLAGS="$FCFLAGS"
+
+%ifarch riscv64
+sed -i -e 's|^install-data-hook:|install-data-hook:\n\techo Skip data\n\ninstall-data-hookX:|' src/Makefile
+%endif
+
 make %makeprocesses all
 
 %install

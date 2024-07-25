@@ -1,3 +1,5 @@
 # test models needed by unit tests in PhysicsTools/TensorFlowAOT
+%if 0%{!?without_tensorflow:1}
 Requires: tfaot-model-test-simple
 Requires: tfaot-model-test-multi
+%endif
