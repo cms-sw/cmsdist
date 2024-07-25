@@ -11,6 +11,7 @@ BuildRequires: autotools
 
 ./configure --prefix=%{i} \
             --without-docs \
+            --enable-libunwind=no \
             --disable-dependency-tracking
 
 %build

@@ -1,6 +1,10 @@
   <tool name="llvm-f77compiler" version="@TOOL_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>
     <client>
+%if 0%{!?use_system_gcc:1}
       <environment name="FC" default="@GCC_ROOT@/bin/gfortran"/>
+%else
+      <environment name="FC" default="gfortran"/>
+%endif
     </client>
   </tool>
