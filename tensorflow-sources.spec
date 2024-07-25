@@ -4,4 +4,5 @@
 %define github_user cms-externals
 %define build_type opt
 %define pythonOnly no
+# REBUILD #
 ## INCLUDE tensorflow-sources
