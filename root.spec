@@ -26,6 +26,9 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+%get_config_sub graf2d/asimage/src/libAfterImage/config.sub
+%get_config_guess graf2d/asimage/src/libAfterImage/config.guess
+chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
 
 %build
 rm -rf ../build
