@@ -17,6 +17,7 @@ Requires: zlib
   --disable-silent-rules \
   --disable-static \
   --without-libidn \
+  --without-zstd \
   --disable-ldap \
   --with-zlib=${ZLIB_ROOT} \
   --without-nss \
