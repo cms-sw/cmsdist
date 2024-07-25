@@ -1,8 +1,8 @@
 diff --git a/torch/csrc/profiler/events.h b/torch/csrc/profiler/events.h
-index a1a956f1327..a4e02c795d9 100644
+index 78bac1fea19..f08683223f0 100644
 --- a/torch/csrc/profiler/events.h
 +++ b/torch/csrc/profiler/events.h
-@@ -11,7 +11,7 @@ namespace profiler {
+@@ -11,7 +11,7 @@ namespace torch::profiler {
  using perf_counters_t = std::vector<uint64_t>;
  
  /* Standard list of performance events independent of hardware or backend */
@@ -11,11 +11,60 @@ index a1a956f1327..a4e02c795d9 100644
      /*
       * Number of Processing Elelement (PE) cycles between two points of interest
       * in time. This should correlate positively with wall-time. Measured in
-@@ -25,6 +25,6 @@ constexpr std::array<const char*, 2> ProfilerPerfEvents = {
+@@ -25,5 +25,5 @@ constexpr std::array<const char*, 2> ProfilerPerfEvents = {
       * (i.e. work). Across repeat executions, the number of instructions should
       * be more or less invariant. Measured in uint64_t. PE can be non cpu.
       */
 -    "instructions"};
-+    "instructions" }};
- } // namespace profiler
- } // namespace torch
++    "instructions"}};
+ } // namespace torch::profiler
+diff --git a/c10/util/typeid.h b/c10/util/typeid.h
+index 2c6ac38882f..d165059a956 100644
+--- a/c10/util/typeid.h
++++ b/c10/util/typeid.h
+@@ -303,12 +303,12 @@ class _Uninitialized final {};
+ //
+ 
+ // item sizes for TypeMeta::itemsize() fast path
+-static constexpr std::array<uint8_t, NumScalarTypes> scalarTypeItemSizes = {
++static constexpr std::array<uint8_t, NumScalarTypes> scalarTypeItemSizes = {{
+ #define SCALAR_TYPE_SIZE(T, name) sizeof(T),
+     AT_FORALL_SCALAR_TYPES_WITH_COMPLEX_AND_QINTS(SCALAR_TYPE_SIZE)
+ #undef SCALAR_TYPE_SIZE
+         0, // Undefined
+-};
++}};
+ 
+ /**
+  * TypeMeta is a thin class that allows us to store the type of a container such
+--- a/c10/util/order_preserving_flat_hash_map.h
++++ b/c10/util/order_preserving_flat_hash_map.h
+@@ -177,11 +177,11 @@ struct sherwood_v3_entry {
+ };
+ 
+ inline int8_t log2(uint64_t value) {
+-  static constexpr std::array<int8_t, 64> table = {
++  static constexpr std::array<int8_t, 64> table = {{
+       63, 0,  58, 1,  59, 47, 53, 2,  60, 39, 48, 27, 54, 33, 42, 3,
+       61, 51, 37, 40, 49, 18, 28, 20, 55, 30, 34, 11, 43, 14, 22, 4,
+       62, 57, 46, 52, 38, 26, 32, 41, 50, 36, 17, 19, 29, 10, 13, 21,
+-      56, 45, 25, 31, 35, 16, 9,  12, 44, 24, 15, 8,  23, 7,  6,  5};
++      56, 45, 25, 31, 35, 16, 9,  12, 44, 24, 15, 8,  23, 7,  6,  5}};
+   value |= value >> 1;
+   value |= value >> 2;
+   value |= value >> 4;
+--- a/torch/csrc/jit/runtime/operator.h
++++ b/torch/csrc/jit/runtime/operator.h
+@@ -35,8 +35,8 @@ using ::c10::Symbol;
+ using OperationCreator = Operation (*)(const Node*);
+ 
+ namespace {
+-const std::array<at::Tag, 1> kJitOnlyOperatorTags = {
+-    at::Tag::pt2_compliant_tag};
++const std::array<at::Tag, 1> kJitOnlyOperatorTags = {{
++    at::Tag::pt2_compliant_tag}};
+ }
+ 
+ /*
+
+

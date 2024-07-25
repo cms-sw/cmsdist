@@ -1,16 +1,13 @@
-### RPM external pytorch 2.1.1
+### RPM external pytorch 2.4.0
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
-%define tag bb938bbe9f53414dda1e1159795b7536dbffd041
-%define branch cms/v%{realversion}
 
-Source: git+https://github.com/cms-externals/pytorch.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
 Source2: FindFMT.cmake
 Source99: scram-tools.file/tools/eigen/env
-Patch0: pytorch-ignore-different-cuda-include-dir
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
 #https://gitlab.archlinux.org/archlinux/packaging/packages/python-pytorch/-/blob/main/python-pytorch-fix-cuda-12_4.patch?ref_type=heads
@@ -18,12 +15,11 @@ Patch3: pytorch-cuda-12_4
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
-Requires: OpenBLAS zlib protobuf fmt py3-pybind11
+Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %{!?without_cuda:Requires: cuda cudnn}
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -34,9 +30,9 @@ rm -rf ../build && mkdir ../build && cd ../build
 source %{_sourcedir}/env
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
+%if 0%{!?without_cuda:1}
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=%{!?without_cuda:ON}
+USE_CUDA=ON
 fi
 %endif
 
@@ -97,6 +93,4 @@ ninja -v  %{makeprocesses} install
 %{relocateConfig}include/caffe2/core/macros.h
 %{relocateConfig}share/cmake/ATen/ATenConfig.cmake
 
-# For ROCm, pre-build
-# NOTICE: can't build with both cuda and rocm
-# python @{_builddir}/tools/amd_build/build_amd.py
+# NOTICE: can't build with both cuda and rocm - see aten/CMakeLists.txt
