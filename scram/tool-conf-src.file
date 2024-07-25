@@ -34,8 +34,7 @@ mkdir -p %{i}/tools/selected %{i}/tools/available
 %endif
 
 ## INCLUDE scram-tools.file/tool-env
-
-for tool in %requiredtools; do
+for tool in %requiredtools %{?use_system_gcc:gcc}; do
   echo ">> Copying tool files from: $tool"
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`

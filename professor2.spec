@@ -14,6 +14,9 @@ Patch0: professor2-ppc64-flag-change
 %ifarch ppc64le
 %patch0 -p1
 %endif
+%ifarch riscv64
+sed -i -e 's|-march=native||' Makefile
+%endif
 
 # Make sure the default c++sdt stand is c++11 in pyext/setup.py
 grep -q 'std=c[+][+]11' pyext/setup.py
