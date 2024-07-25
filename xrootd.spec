@@ -11,7 +11,7 @@ Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-
 BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
-Requires: libxml2
+Requires: libxml2 isal
 
 %define soext so
 %ifarch darwin
@@ -39,7 +39,7 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
-  -DENABLE_XRDEC=FALSE \
+  -DENABLE_XRDEC=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DPIP_OPTIONS="--verbose" \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
