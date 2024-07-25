@@ -21,9 +21,9 @@ grep -q 'CMAKE_CXX_STANDARD  *14' CMakeLists.txt
 sed -i -e 's|CMAKE_CXX_STANDARD  *14|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt
 
 USE_CUDA=OFF
-%if "%{cmsos}" != "slc7_aarch64"
+%if 0%{!?without_cuda:1}
 if [ "%{cuda_gcc_support}" = "true" ] ; then
-USE_CUDA=%{!?without_cuda:ON}
+USE_CUDA=ON
 fi
 %endif
 
