@@ -6,7 +6,7 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: https://xrootd.slac.stanford.edu/download/v%{realversion}/%{n}-%{realversion}.tar.gz
+Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 
 BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
