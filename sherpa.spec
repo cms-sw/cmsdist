@@ -5,11 +5,7 @@ BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.10-hepmcshort
 Patch1: sherpa-cpp20
 
-%ifos linux
-%ifnarch ppc64le
-Requires: openloops
-%endif
-%endif
+%{!?without_openloops:Requires: openloops}
 
 %prep
 %setup -q -n SHERPA-MC-%{realversion}

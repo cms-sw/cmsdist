@@ -11,7 +11,7 @@ Requires: py3-scipy
 Requires: py3-keras
 Requires: py3-scikit-learn
 #save for the end
-Requires: py3-tensorflow
+%{!?without_tensorflow:Requires: py3-tensorflow}
 Requires: py3-cms-tfaot
 Requires: py3-cmsml
 Requires: py3-law
