@@ -37,19 +37,21 @@ cd %{_builddir}/build
 
 cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -G Ninja \
+%if 0%{!?use_system_gcc:1}
   -DGCC_INSTALL_PREFIX="${GCC_ROOT}" \
+  -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
+%endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
-  -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
   -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
   -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
   -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
-  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;NVPTX" \
+  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;RISCV;NVPTX" \
 %if 0%{!?without_cuda:1}
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \

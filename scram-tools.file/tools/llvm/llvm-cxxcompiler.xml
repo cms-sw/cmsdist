@@ -32,7 +32,9 @@
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
+%if 0%{!?use_system_gcc:1}
     <flags CXXFLAGS="--gcc-toolchain=@GCC_ROOT@"/>
+%endif
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>

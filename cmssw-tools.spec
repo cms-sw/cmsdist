@@ -1,4 +1,4 @@
-### RPM cms cmssw-tools 1.0
+### RPM cms cmssw-tools 2.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
@@ -72,7 +72,6 @@ Requires: pythia6
 Requires: pythia8
 Requires: python3
 Requires: root
-Requires: sherpa
 Requires: libpciaccess
 Requires: numactl
 Requires: hwloc
@@ -90,15 +89,14 @@ Requires: frontier_client
 Requires: xrootd
 Requires: xrdcl-record
 Requires: dd4hep
-Requires: valgrind
+%{!?without_valgrind:Requires: valgrind}
 Requires: cmsswdata
 Requires: zstd
 Requires: hls
 Requires: opencv
 Requires: grpc
 Requires: onnxruntime
-Requires: tensorflow-xla-runtime
-Requires: tensorflow
+%{!?without_tensorflow:Requires: tensorflow tensorflow-xla-runtime}
 Requires: TOoLLiP
 Requires: triton-inference-client
 Requires: hdf5
@@ -142,7 +140,7 @@ Requires: gosamcontrib
 Requires: gosam
 Requires: madgraph5amcatnlo
 Requires: python_tools
-Requires: dasgoclient
+%{!?without_dasgoclient:Requires: dasgoclient}
 Requires: dablooms
 Requires: pcm_util
 Requires: zlib
@@ -159,9 +157,11 @@ Requires: alpaka
 Requires: clue
 Requires: libunwind
 %ifnarch ppc64le
+%ifnarch riscv64
 Requires: igprof
 Requires: heaptrack
-Requires: openloops
+%endif
+%{!?without_openloops:Requires: openloops}
 %endif
 
 %ifarch x86_64
