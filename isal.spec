@@ -7,7 +7,7 @@
 Source: https://github.com/intel/isa-l/archive/refs/tags/v%{realversion}.tar.gz
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n isa-l-%{realversion}
 
 %build
 ./autogen.sh
