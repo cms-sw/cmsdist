@@ -1,10 +1,10 @@
   <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
     <client>
-	    <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
 %if 0%{!?use_system_gcc:1}
-	    <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
+      <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
 %else
-	    <environment name="CXX" value="c++@COMPILER_NAME_SUFFIX@"/>
+      <environment name="CXX" value="c++@COMPILER_NAME_SUFFIX@"/>
 %endif
     </client>
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @GCC_CPPDEFINES@"/>
