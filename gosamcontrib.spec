@@ -18,6 +18,9 @@ PLATF_CONF_OPTS="--enable-shared --enable-static"
 ./configure $PLATF_CONF_OPTS \
             --prefix=%i \
             --bindir=%i/bin \
+%ifarch riscv64
+            --build=%{_arch}-unknown-linux-gnu \
+%endif
             --libdir=%i/lib \
             CXX="$CXX" CC="$CC" FC="$FC" F77="${FC}"
 

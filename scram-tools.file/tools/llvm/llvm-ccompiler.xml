@@ -4,5 +4,7 @@
       <environment name="LLVM_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
       <environment name="CC" value="$LLVM_CCOMPILER_BASE/bin/clang"/>
     </client>
+%if 0%{!?use_system_gcc:1}
     <flags CFLAGS="--gcc-toolchain=@GCC_ROOT@"/>
+%endif
   </tool>

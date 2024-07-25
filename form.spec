@@ -18,6 +18,9 @@ CC="$(which gcc)"
 ./configure --prefix=%i \
             --bindir=%i/bin \
             --without-gmp \
+%ifarch riscv64
+            --build=%{_arch}-unknown-linux-gnu \
+%endif
             --with-zlib=${ZLIB_ROOT} \
             CXX="$CXX" CC="$CC" CXXFLAGS=-fpermissive
 
