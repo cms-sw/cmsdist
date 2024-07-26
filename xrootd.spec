@@ -11,7 +11,11 @@ Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-
 BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
-Requires: libxml2 isal
+Requires: libxml2
+
+%ifarch x86_64
+Requires: isal
+%endif
 
 %define soext so
 %ifarch darwin
