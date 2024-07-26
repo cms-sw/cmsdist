@@ -10,8 +10,6 @@ Source2: FindFMT.cmake
 Source99: scram-tools.file/tools/eigen/env
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
-#https://gitlab.archlinux.org/archlinux/packaging/packages/python-pytorch/-/blob/main/python-pytorch-fix-cuda-12_4.patch?ref_type=heads
-Patch3: pytorch-cuda-12_4
 
 BuildRequires: cmake ninja
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
@@ -22,7 +20,6 @@ Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %setup -n %{n}-%{realversion}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
