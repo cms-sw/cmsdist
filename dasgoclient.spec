@@ -2,15 +2,13 @@
 #For new dasgoclient_tag, set the version_suffix to 00
 #For any other change, increment version_suffix
 ##########################################
-%define version_suffix 01
-%define dasgoclient_tag v02.04.51
+%define version_suffix 00
+%define dasgoclient_tag v02.04.52
 ### RPM cms dasgoclient %{dasgoclient_tag}.rev%{version_suffix}
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-Source0: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_amd64
-Source1: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_aarch64
-Source2: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_ppc64le
+Source: https://github.com/dmwm/dasgoclient/releases/download/%{dasgoclient_tag}/dasgoclient_%{cms_arch}
 
 %prep
 %build
@@ -31,9 +29,8 @@ DASGOCLIENT=`ls %{instroot}/${SHARED_ARCH}_*/%{pkgcategory}/%{pkgname}/${LATEST_
 $DASGOCLIENT "$@"
 EOF
 
-chmod +x %i/etc/dasgoclient
-cp -pL %{_sourcedir}/dasgoclient_$(echo %{cmsplatf} | cut -d_ -f2) %{i}/bin/dasgoclient
-chmod +x %{i}/bin/dasgoclient
+cp -pL %{_sourcedir}/dasgoclient_%{cms_arch} %{i}/bin/dasgoclient
+chmod +x %{i}/bin/dasgoclient %i/etc/dasgoclient
 
 %post
 %{relocateConfig}etc/dasgoclient
