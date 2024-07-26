@@ -59,6 +59,12 @@
 %define builddirectpkgreqs       %{nil}
 %endif
 
+%ifarch x86_64
+%define cms_arch amd64
+%else
+%define cms_arch %{_arch}
+%endif
+
 # We define cmsbuildApiVersion to be 0 in the case we are not using 
 # a recent enough version of cmsBuild/install.sh, which does not
 # set cmsbuildApiVersion.
