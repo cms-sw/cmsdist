@@ -1,10 +1,10 @@
-### RPM lcg root 6.32.03
+### RPM lcg root 6.33.01
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 39e8b3a9f885af39b4374db288a6e4875499c0d3
-%define branch cms/v6-32-00-patches/bbc6b0dd55
+%define tag 436eb184d2b22126946537ba456cfa591751eec3
+%define branch cms/master/e1abcf1e17
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -89,7 +89,6 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_glew=ON \
   -Dbuiltin_ftgl=ON \
   -Dbuiltin_gl2ps=ON \
-  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Dbuiltin_nlohmannjson=ON \
   -Darrow=OFF \
@@ -127,7 +126,6 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %ifarch darwin
-  -Dbuiltin_afterimage=OFF \
   -Dcocoa=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
