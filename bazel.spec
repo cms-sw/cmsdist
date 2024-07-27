@@ -28,8 +28,12 @@ Patch1: bazel-absl
 
 %build
 
-export EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk --jobs %{compiling_processes}"
+export EXTRA_BAZEL_ARGS="--define=ABSOLUTE_JAVABASE=${JAVA_HOME} --jobs %{compiling_processes}"
 export BAZEL_CXXOPTS="-std=c++%{cms_cxx_standard}"
+${JAVA_HOME}/bin/java -version 2>&1 | grep -E -i 'openjdk version "[1-9]'
+if [ $(${JAVA_HOME}/bin/java -version 2>&1 | grep -E -i 'openjdk version "[1-9]' | sed -E 's|.* "([0-9]+)[.].*|\1|') -ge 17 ] ; then
+  export JNI_FLAGS="--add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
+fi
 bash ./compile.sh
 
 %install
