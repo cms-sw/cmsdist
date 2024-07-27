@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
 BuildRequires: cmake ninja
-Requires: gcc zlib python3 libxml2
+Requires: gcc zlib python3 libxml2 zstd
 %{!?without_cuda:Requires: cuda}
 
 %define llvmCommit 83204dfcd4277154e46a5c6094aee389a7f260e8
@@ -57,7 +57,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
 %endif
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
