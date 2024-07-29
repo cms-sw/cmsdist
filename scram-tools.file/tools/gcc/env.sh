@@ -48,8 +48,9 @@ fi
 # Explicitly use the GNU binutils ld.bfd linker
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fuse-ld=bfd"
 
+# https://github.com/cms-sw/cmssw/pull/45575#issuecomment-2256118786
+#   -fsigned-char -fsigned-bitfields
 case $(uname -m) in
-  # https://github.com/cms-sw/cmssw/pull/45575#issuecomment-2256118786
   aarch64 ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
   ppc64le ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
   riscv64 ) GCC_CXXFLAGS="$GCC_CXXFLAGS -fsigned-char -fsigned-bitfields" ;;
