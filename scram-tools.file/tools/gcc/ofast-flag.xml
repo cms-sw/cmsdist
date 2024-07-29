@@ -1,6 +1,6 @@
   <tool name="ofast-flag" version="1.0">
     <flags CXXFLAGS="-Ofast -fno-reciprocal-math"/>
-    <ifarch value="!aarch64">
+    <ifarch match="ppc64le|amd64|x86_64">
       <flags CXXFLAGS="-mrecip=none"/>
     </ifarch>
     <ifarchitecture name="slc6_">
