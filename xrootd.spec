@@ -13,9 +13,7 @@ Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
 Requires: libxml2
 
-%ifarch x86_64
 Requires: isal
-%endif
 
 %define soext so
 %ifarch darwin
