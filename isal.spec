@@ -6,7 +6,10 @@
 %define github_user xrootd
 Source: https://github.com/intel/isa-l/archive/refs/tags/v%{realversion}.tar.gz
 
+%ifarch x86_64
 BuildRequires: nasm
+%endif
+BuildRequires: autotools
 
 %prep
 %setup -n isa-l-%{realversion}
