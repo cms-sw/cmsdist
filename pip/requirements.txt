@@ -350,6 +350,7 @@ scikit-build-core==0.9.3
 scikit-learn==1.2.2
 scinum==2.1.0
 scipy==1.10.0
+scons==4.8.0
 secretstorage==3.3.3
 semantic-version==2.10.0
 threadpoolctl==3.5.0
