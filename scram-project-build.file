@@ -129,6 +129,8 @@ if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
   MULTIVEC_ENABLED=true
   sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
   sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
+else
+  sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 fi
 %endif
 
@@ -162,6 +164,9 @@ grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.
 cd %i/%{srctree}
 %if "%{?extra_tools:set}" == "set"
 for t in %{extra_tools}; do %scramcmd setup $t; done
+%endif
+%if "%{?remove_tools:set}" == "set"
+for t in %{remove_tools}; do  %scramcmd tool remove $t; done
 %endif
 %{?buildarch:%buildarch}
 
