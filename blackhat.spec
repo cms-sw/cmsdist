@@ -4,6 +4,7 @@
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: qd python3
+BuildRequires: autotools
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -17,6 +18,7 @@ rm -f ./config.{sub,guess}
 chmod +x ./config.{sub,guess}
 
 %build
+autoreconf -ivf
 PYTHON=$(which python3) ./configure --prefix=%i \
   --with-QDpath=$QD_ROOT \
   --enable-pythoninterface=no \
