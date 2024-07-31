@@ -18,7 +18,7 @@
 %ifarch ppc64le
 %define usercxxflags    -g
 %else
-%define release_usercxxflags    -g -O3 -DEDM_ML_DEBUG
+%define release_usercxxflags    -g -DEDM_ML_DEBUG
 %endif
 %endif
 
@@ -74,4 +74,8 @@ Source22: irh.patch
 
 %if "%(case %realversion in (*ASNEEDED*) echo true ;; (*) echo false ;; esac)" == "true"
 %define release_userldflags -Wl,--as-needed
+%endif
+
+%if "%(case %realversion in (*NOOFAST*) echo true ;; (*) echo false ;; esac)" == "true"
+%define remove_tools ofast-flag
 %endif
