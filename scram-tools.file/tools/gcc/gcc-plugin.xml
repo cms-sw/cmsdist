@@ -5,4 +5,7 @@
       <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
       <environment name="LIBDIR"    default="$GCC_PLUGIN_BASE"/>
     </client>
+%if 0%{?use_system_gcc:1}
+    <flags SKIP_TOOL_SYMLINKS="1"/>
+%endif
   </tool>
