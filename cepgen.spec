@@ -1,12 +1,13 @@
-### RPM external cepgen 1.2.3
+### RPM external cepgen 1.2.5
 
 Source: https://github.com/cepgen/cepgen/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: cmake ninja
-Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root bz2lib zlib xz
+Requires: gsl OpenBLAS hepmc hepmc3 lhapdf pythia6 root bz2lib zlib xz python3
 
 %prep
 %setup -n %{n}-%{realversion}
+sed -i -e 's|add_subdirectory(BoostWrapper)||' CepGenAddOns/CMakeLists.txt
 
 %build
 rm -rf ../build
@@ -25,6 +26,7 @@ cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
+  -DBoost_NO_SYSTEM_PATHS=ON \
   -DCMAKE_PREFIX_PATH="${BZ2LIB_ROOT};${ZLIB_ROOT};${XZ_ROOT}"
 
 ninja -v %{makeprocesses}

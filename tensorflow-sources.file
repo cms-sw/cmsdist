@@ -43,7 +43,15 @@ export USE_DEFAULT_PYTHON_LIB_PATH=1
 export GCC_HOST_COMPILER_PATH="$(which gcc)"
 export CC_OPT_FLAGS="-Wno-sign-compare"
 
-BAZEL_OPTS="--batch --output_user_root ../build build -s --verbose_failures --distinct_host_configuration=false"
+BAZEL_OPTS="--batch --output_user_root ../build"
+# For Java17+
+if [ $(${JAVA_HOME}/bin/java -version 2>&1 | grep -E -i 'openjdk version "[1-9]' | sed -E 's|.* "([0-9]+)[.].*|\1|') -ge 17 ] ; then
+BAZEL_OPTS="$BAZEL_OPTS --host_jvm_args=--add-opens=java.base/java.nio=ALL-UNNAMED"
+BAZEL_OPTS="$BAZEL_OPTS --host_jvm_args=--add-opens=java.base/java.lang=ALL-UNNAMED"
+fi
+
+BAZEL_OPTS="$BAZEL_OPTS build -s --verbose_failures --distinct_host_configuration=false"
+
 %if "%{selected_microarch}"
 BAZEL_OPTS="$BAZEL_OPTS --copt=%{selected_microarch}"
 %if "%{selected_microarch}" != "%{default_microarch}"

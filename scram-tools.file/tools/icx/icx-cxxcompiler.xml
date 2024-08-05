@@ -18,6 +18,7 @@
     <flags REM_CXXFLAGS="-Werror=return-local-addr"/>
     <flags REM_LDFLAGS="-Wl,--icf=all"/>
     <flags CXXFLAGS="-Wno-unknown-pragmas"/>
+    <flags CXXFLAGS="--target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH)"/>
     <flags SKIP_TOOL_SYMLINKS="1"/>
     <architecture name="_mic_">
       <flags CXXFLAGS="-mmic"/>

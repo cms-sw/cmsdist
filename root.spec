@@ -1,10 +1,10 @@
-### RPM lcg root 6.30.07
+### RPM lcg root 6.30.09
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag f1972bac46aba84b1fcf7bacf913434700819e66
-%define branch cms/v6-30-00-patches/27f8636819
+%define tag dfbc05f49cdc224b9eed5642008c6b24ffa3abc5
+%define branch cms/v6-30-00-patches/6235479059
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -26,6 +26,9 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+%get_config_sub graf2d/asimage/src/libAfterImage/config.sub
+%get_config_guess graf2d/asimage/src/libAfterImage/config.guess
+chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
 
 %build
 rm -rf ../build

@@ -65,7 +65,7 @@ contourpy==1.2.1
 correctionlib==2.5.0
 cramjam==2.8.3
 crashtest==0.4.1
-certifi==2024.2.2
+certifi==2024.07.04
 cffi==1.16.0
 chardet==5.2.0
 Click==8.1.7
@@ -394,7 +394,7 @@ tomli==2.0.1
 tomli-w==1.0.0
 tomlkit==0.12.4
 toolz==0.12.1
-tornado==6.4
+tornado==6.4.1
 tqdm==4.66.4
 traitlets==5.14.3
 trove-classifiers==2024.4.10
@@ -406,8 +406,8 @@ uhi==0.4.0
 uncertainties==3.1.7
 uproot==5.3.3
 # urllib3 v2 only supports OpenSSL 1.1.1+, see https://github.com/urllib3/urllib3/blob/b34619f94ece0c40e691a5aaf1304953d88089de/docs/v2-migration-guide.rst
-urllib3==1.26.18 ; cmsos_name=='slc7'
-urllib3==2.2.1
+urllib3==1.26.19 ; cmsos_name=='slc7'
+urllib3==2.2.2
 vector==1.4.0
 versioneer==0.29
 virtualenv-clone==0.5.7
@@ -425,4 +425,5 @@ wrapt==1.14.1
 #NO_AUTO_UPDATE: New versions require nvidia-nccl-cu12, which is a binary .whl package
 xgboost==1.7.5
 yarl==1.9.4
-zipp==3.18.1
+zipp==3.19.2
+iminuit==1.2

@@ -3,7 +3,11 @@
     <lib name="m"/>
     <client>
       <environment name="GCC_F77COMPILER_BASE" default="@TOOL_ROOT@"/>
+%if 0%{!?use_system_gcc:1}
       <environment name="FC" default="$GCC_F77COMPILER_BASE/bin/gfortran"/>
+%else
+      <environment name="FC" default="gfortran"/>
+%endif
     </client>
     <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O3 @GCC_FFLAGS@"/>
     <flags FFLAGS="-std=legacy"/>

@@ -51,7 +51,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-04-11
+%define configtag       V09-04-15
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -129,12 +129,18 @@ if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
   MULTIVEC_ENABLED=true
   sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
   sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
+else
+  sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 fi
 %endif
 
 %if "%{?release_usercxxflags:set}" == "set"
 echo '<flags CXXFLAGS="%{release_usercxxflags}"/>' >> %_builddir/config/BuildFile.xml
 %endif
+%if "%{?release_userldflags:set}" == "set"
+echo '<flags LDFLAGS="%{release_userldflags}"/>' >> %_builddir/config/BuildFile.xml
+%endif
+
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
@@ -158,6 +164,9 @@ grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.
 cd %i/%{srctree}
 %if "%{?extra_tools:set}" == "set"
 for t in %{extra_tools}; do %scramcmd setup $t; done
+%endif
+%if "%{?remove_tools:set}" == "set"
+for t in %{remove_tools}; do  %scramcmd tool remove $t; done
 %endif
 %{?buildarch:%buildarch}
 

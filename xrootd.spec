@@ -1,4 +1,4 @@
-### RPM external xrootd 5.6.4
+### RPM external xrootd 5.7.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -6,12 +6,14 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: https://xrootd.slac.stanford.edu/download/v%{realversion}/%{n}-%{realversion}.tar.gz
+Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 
 BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
 Requires: libxml2
+
+Requires: isal
 
 %define soext so
 %ifarch darwin
@@ -39,11 +41,12 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
+  -DENABLE_XRDEC=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DPIP_OPTIONS="--verbose" \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1
 

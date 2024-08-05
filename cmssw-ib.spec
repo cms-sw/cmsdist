@@ -1,10 +1,10 @@
-### RPM cms cmssw-ib 2.0.0
+### RPM cms cmssw-ib 3.0.0
 ## NO_AUTO_RUNPATH
 ## NO_VERSION_SUFFIX
 BuildRequires: cmssw SCRAMV1
 %define initenv	        %initenv_direct
 %define scram $SCRAMV1_ROOT/bin/scram --arch %cmsplatf
-Source: https://raw.githubusercontent.com/cms-sw/cms-bot/master/no-cmssdt-cache=1/buildLogAnalyzer.py
+Source: none
 
 %prep
 %{?check_version_suffix:%check_version_suffix}
@@ -24,8 +24,11 @@ pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
   cp -f src-logs.tgz $(echo $CMSSW_ROOT | sed 's|%cmsroot/|%cmsroot/BUILD/|')/src-logs.tgz
   tar xzf src-logs.tgz
 popd
-cp %{_sourcedir}/buildLogAnalyzer.py $CMSSW_ROOT/buildLogAnalyzer.py
-$PYTHON_CMD $CMSSW_ROOT//buildLogAnalyzer.py \
+for i in 0 1 2 3 4 ; do
+  wget -O $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py && break
+  sleep 60
+done
+$PYTHON_CMD $CMSSW_ROOT/buildLogAnalyzer.py \
             -r $CMSSW_VERSION \
             -p $CMSSW_ROOT/src/PackageList.cmssw \
             --logDir %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src \

@@ -29,6 +29,11 @@
 # build support for the various compute architectures
 %define nvcc_flags_cuda_archs %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=[sm_$ARCH,compute_$ARCH]"; done)) -Wno-deprecated-gpu-targets
 
+# various cuda diag-suppress flags e.g.
+#   3012: suppress volatile destination type for a compound assignment expression is deprecated
+#   3189: suppress "module" is parsed as an identifier rather than a keyword because the tokens that follow it do not match those of a preprocessor directive
+%define nvcc_flags_cuda_diag_suppress -diag-suppress=3012 -diag-suppress=3189
+
 # disable warnings about attributes on defaulted methods
 %define nvcc_flags_cudafe_diag -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored
 
@@ -40,4 +45,6 @@
 %define nvcc_flags_cudart --cudart shared
 
 # collect all CUDA flags
-%define nvcc_cuda_flags %{nvcc_flags_stdcxx} %{nvcc_flags_opt} %{nvcc_flags_debug} %{nvcc_flags_constexpr} %{nvcc_flags_lambda} %{nvcc_flags_cuda_archs} %{nvcc_flags_cudafe_diag} %{nvcc_flags_gnu_version} %{nvcc_flags_cudart}
+%define nvcc_cuda_flags \
+  %{nvcc_flags_stdcxx} %{nvcc_flags_opt} %{nvcc_flags_debug} %{nvcc_flags_constexpr} %{nvcc_flags_lambda} \
+  %{nvcc_flags_cuda_archs} %{nvcc_flags_cuda_diag_suppress} %{nvcc_flags_cudafe_diag} %{nvcc_flags_gnu_version} %{nvcc_flags_cudart}
