@@ -342,7 +342,7 @@ scandir==1.10.0
 schema==0.7.5
 scikit-build==0.16.7
 scikit-build-core==0.9.3
-scikit-learn==1.2.2
+scikit-learn==1.5.0
 scinum==2.1.0
 scipy==1.12.0
 scons==4.8.0

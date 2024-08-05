@@ -1,2 +1,4 @@
 Requires: py3-scipy py3-joblib py3-threadpoolctl
+BuildRequires: py3-meson-python
+Patch0: py3-scikit-learn
 %define PipPreBuild export SKLEARN_BUILD_PARALLEL=%{compiling_processes}

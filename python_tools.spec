@@ -14,7 +14,8 @@ Requires: py3-scikit-learn
 %{!?without_tensorflow:Requires: py3-tensorflow}
 Requires: py3-cms-tfaot
 Requires: py3-cmsml
-Requires: py3-law
+# Needs python-daemon update
+# Requires: py3-law
 Requires: py3-protobuf
 
 Requires: py3-tables
