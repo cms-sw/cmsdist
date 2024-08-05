@@ -131,7 +131,7 @@ hatch-fancy-pypi-readme==24.1.0
 hatch-jupyter-builder==0.9.1
 hatch-nodejs-version==0.3.2
 hatch-vcs==0.4.0
-hatchling==1.24.2
+hatchling==1.25.0
 h5py==3.11.0
 hepdata-lib==0.15.0
 hepdata-validator==0.3.5
@@ -189,14 +189,16 @@ keras-preprocessing==1.1.2
 keras2onnx==1.7.0
 keyring==25.2.0
 kiwisolver==1.4.5
-law==0.1.18
+# Needs luigi, which needs python-daemon update
+#law==0.1.18
 lit==16.0.6
 lazy-object-proxy==1.10.0
 lizard==1.17.10
 #llvmlite==v0.41.0dev0
 locket==1.0.0
 lockfile==0.12.2
-luigi==3.5.0
+# Needs python-daemon update
+#luigi==3.5.0
 lxml==5.2.1
 lz4==4.3.3
 make==0.1.6.post2
@@ -251,7 +253,7 @@ pandas==2.2.2
 pandocfilters==1.5.1
 parsimonious==0.10.0
 parso==0.8.4
-partd==1.4.1
+partd==1.4.2
 pastel==0.2.1
 patch-ng==1.17.4
 pathlib2==2.3.7.post1
@@ -309,7 +311,8 @@ pytest==8.2.0
 pytest-cov==5.0.0
 pytest-runner==6.0.1
 pytest-xdist==3.6.1
-python-daemon==3.0.1
+# Needs update
+# python-daemon==3.0.1
 python-dateutil==2.9.0.post0
 python-json-logger==2.0.7
 python-ldap==3.4.4
@@ -341,7 +344,7 @@ scikit-build==0.16.7
 scikit-build-core==0.9.3
 scikit-learn==1.2.2
 scinum==2.1.0
-scipy==1.14.0
+scipy==1.12.0
 scons==4.8.0
 secretstorage==3.3.3
 semantic-version==2.10.0
@@ -372,7 +375,7 @@ tenacity==8.2.3
 #NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
 tensorflow==2.15.0
 tensorboard==2.16.2
-tensorflow-io-gcs-filesystem==0.37.0
+tensorflow-io-gcs-filesystem==0.37.1
 tensorflow-estimator==2.15.0
 tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
@@ -411,7 +414,7 @@ webencodings==0.5.1
 websocket-client==1.8.0
 Werkzeug==3.0.3
 #NO_AUTO_UPDATE:1: you need wheel to build wheel
-wheel==0.40.0
+wheel==0.43.0
 widgetsnbextension==4.0.10
 #NO_AUTO_UPDATE: wrapt >=1.15.0 breaks tensorflow saved model, https://github.com/GrahamDumpleton/wrapt/issues/231
 wrapt==1.14.1

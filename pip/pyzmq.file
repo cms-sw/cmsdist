@@ -1,4 +1,5 @@
-Requires: libzmq py3-packaging
+Requires: libzmq py3-packaging py3-cython
+BuildRequires: py3-scikit-build-core
 
 %define patchsrc \
 cat > setup.cfg <<EOF \

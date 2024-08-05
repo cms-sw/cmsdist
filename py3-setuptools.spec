@@ -1,5 +1,5 @@
 # setuptools version <64 is needed by numpy: https://github.com/pypa/setuptools/issues/3549
-### RPM external py3-setuptools 69.5.1
+### RPM external py3-setuptools 72.1.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: https://github.com/pypa/setuptools/archive/v%{realversion}.tar.gz
