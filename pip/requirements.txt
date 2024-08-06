@@ -84,7 +84,7 @@ cryptography==42.0.5
 cx-Oracle==8.3.0
 cycler==0.12.1
 # NO_AUTO_UPDATE: numpy 1.24.3 doesn't support cython 3.x
-cython==3.0.3
+cython==3.0.10
 dask==2024.4.2
 dask-awkward==2024.3.0
 decorator==5.1.1
