@@ -45,7 +45,7 @@ beautifulsoup4==4.12.3
 beniget==0.4.1
 bleach==6.1.0
 # NO_AUTO_UPDATE: needs Python 3.10
-blosc2==2.2.0
+blosc2==2.5.1
 bokeh==3.4.1
 boost-histogram==1.4.1
 bottle==0.12.25
