@@ -4,7 +4,9 @@ Source: https://github.com/astral-sh/ruff/releases/download/%{realversion}/ruff-
 %prep
 
 %setup -n ruff-x86_64-unknown-linux-gnu
-mkdir -p %{i}/bin
-cp ruff %{i}/bin
 
 %build
+
+%install
+mkdir -p %{i}/bin
+cp ruff %{i}/bin
