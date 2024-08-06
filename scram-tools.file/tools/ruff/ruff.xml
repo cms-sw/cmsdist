@@ -2,7 +2,7 @@
   <info url="https://docs.astral.sh/ruff/"/>
   <client>
     <environment name="RUFF_BASE" default="@TOOL_ROOT@"/>
-  </client
+  </client>
   <runtime name="PATH" value="$RUFF_BASE/bin" type="path"/>
 </tool>
 
