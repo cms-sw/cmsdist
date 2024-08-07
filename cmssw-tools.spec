@@ -171,6 +171,7 @@ Requires: oracle
 Requires: icc
 Requires: icx
 Requires: intel-vtune
+Requires: ruff
 %{!?without_rocm:Requires: rocm rocm-rocrand}
 Requires: cmsmon-tools
 Requires: dip
