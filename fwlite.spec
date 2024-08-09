@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_10_1_0_pre1_FWLITE
+### RPM cms fwlite CMSSW_14_0_14_MULTIARCHS_FWLITE
 
 Requires: fwlite-tool-conf
 
