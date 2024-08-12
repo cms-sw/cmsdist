@@ -1,0 +1,11 @@
+diff --git a/sklearn/_build_utils/version.py b/sklearn/_build_utils/version.py
+index 49a3cfb82..124c6cc3a 100644
+--- a/sklearn/_build_utils/version.py
++++ b/sklearn/_build_utils/version.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ """Extract version number from __init__.py"""
+ 
+ import os
+
