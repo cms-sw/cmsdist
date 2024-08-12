@@ -225,7 +225,7 @@ popd
 #FIXME: Create missing externals links
 pushd bazel-tensorflow-%{realversion}/external
   srcdir=$(dirname $(readlink zlib))
-  for e in ducc farmhash_gpu_archive stablehlo ; do
+  for e in ducc farmhash_gpu_archive stablehlo cudnn_frontend_archive ; do
     echo "Check external link: $e"
     if [ -e ${srcdir}/$e ] ; then
       if [ ! -e $e ] ; then
