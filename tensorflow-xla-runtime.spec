@@ -25,6 +25,8 @@ CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS} %{selecte
 pushd tensorflow/xla_aot_runtime_src
   # remove unnecessary implementations that use symbols that are not even existing
   find . -type f -path '*/service/cpu/runtime_fork_join.cc' | xargs rm -f
+  find . -type f -path '*/service/cpu/runtime_fft.cc' | xargs rm -f
+  find . -type f -path '*/service/cpu/runtime_single_threaded_fft.cc' | xargs rm -f
 
   cmake . \
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
