@@ -360,7 +360,9 @@ if [ -f compile_commands.json ] ; then
 fi
 %{relocateConfig}external/%cmsplatf/links.DB
 
+#Run site specific updates
 if [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ] ; then
+  #Enable/Disable multi-targets if configured via site configuration
   if [ -e .SCRAM/%{cmsplatf}/multi-targets ] ; then
     site_scram_target=$(grep '^\s*scram-target\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
     if [ "${site_scram_target}" != "" ] && [ "${site_scram_target}" != "none" ] && [ "${site_scram_target}" != "%{scram_target_default}" ] ; then
@@ -368,10 +370,15 @@ if [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ] ; then
       $RPM_INSTALL_PREFIX/common/scram setup self
     fi
   fi
-  site_post_script=$(grep '^\s*%{lcprojtype}-post-install-script\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
-  if [ "${site_post_script}" != "" ] && [ -e "${site_post_script}" ] && [ -x "${site_post_script}" ] ; then
-    ${site_post_script}
-  fi
+  #Run post install site specific scripts
+  #scram: For all scram based projects e.g. coral, cmssw, cmssw-patch, fwlite etc.
+  #cmssw: For both full or patch release e.g. cmssw and cmssw-patch
+  for type in scram %{lcprojtype} ; do
+    script=$(grep "^\s*${type}-post-install-script\s*=" $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+    if [ "${script}" != "" ] && [ -e "${script}" ] && [ -x "${script}" ] ; then
+      ${script} %{cmsplatf}
+    fi
+  done
 fi
 
 %postun
