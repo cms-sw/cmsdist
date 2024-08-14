@@ -120,13 +120,11 @@ echo %{configtag} > %_builddir/config/config_tag
   --keys ENABLE_PGO=0
 %endif
 
-MULTIVEC_ENABLED=false
 %if "%{package_vectorization}"
 %if "%{?scram_target_default:set}" != "set"
 %define scram_target_default default
 %endif
 if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
-  MULTIVEC_ENABLED=true
   sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
   sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
 else
@@ -201,7 +199,7 @@ export SCRAM_NOSYMCHECK=true
 %if "%{?pgo_generate:set}" != "set"
 case %{n} in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
 %endif
-if $MULTIVEC_ENABLED ; then
+if grep 'name="SCRAM_TARGET"' %{i}/config/Self.xml ; then
   touch %{i}/.SCRAM/%{cmsplatf}/multi-targets
 fi
 %scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { touch ../build-errors && %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
@@ -361,5 +359,14 @@ if [ -f compile_commands.json ] ; then
   %{relocateConfig}compile_commands.json
 fi
 %{relocateConfig}external/%cmsplatf/links.DB
+
+if [ -e .SCRAM/%{cmsplatf}/multi-targets ] && [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ]; then
+  site_scram_target=$(grep '^\s*scram-target\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+  if [ "${site_scram_target}" != "" ] && [ "${site_scram_target}" != "none" ] && [ "${site_scram_target}" != "%{scram_target_default}" ] ; then
+    sed -i -e "/=\"SCRAM_TARGET\"/s/\"%{scram_target_default}\"/\"${site_scram_target}\"/" config/Self.xml
+    $RPM_INSTALL_PREFIX/common/scram setup self
+  fi
+fi
+
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
