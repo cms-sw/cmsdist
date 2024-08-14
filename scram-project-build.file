@@ -360,11 +360,17 @@ if [ -f compile_commands.json ] ; then
 fi
 %{relocateConfig}external/%cmsplatf/links.DB
 
-if [ -e .SCRAM/%{cmsplatf}/multi-targets ] && [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ]; then
-  site_scram_target=$(grep '^\s*scram-target\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
-  if [ "${site_scram_target}" != "" ] && [ "${site_scram_target}" != "none" ] && [ "${site_scram_target}" != "%{scram_target_default}" ] ; then
-    sed -i -e "/=\"SCRAM_TARGET\"/s/\"%{scram_target_default}\"/\"${site_scram_target}\"/" config/Self.xml
-    $RPM_INSTALL_PREFIX/common/scram setup self
+if [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ] ; then
+  if [ -e .SCRAM/%{cmsplatf}/multi-targets ] ; then
+    site_scram_target=$(grep '^\s*scram-target\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+    if [ "${site_scram_target}" != "" ] && [ "${site_scram_target}" != "none" ] && [ "${site_scram_target}" != "%{scram_target_default}" ] ; then
+      sed -i -e "/=\"SCRAM_TARGET\"/s/\"%{scram_target_default}\"/\"${site_scram_target}\"/" config/Self.xml
+      $RPM_INSTALL_PREFIX/common/scram setup self
+    fi
+  fi
+  site_post_script=$(grep '^\s*%{lcprojtype}-post-install-script\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+  if [ "${site_post_script}" != "" ] && [ -e "${site_post_script}" ] && [ -x "${site_post_script}" ] ; then
+    ${site_post_script}
   fi
 fi
 
