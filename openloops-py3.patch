@@ -15,7 +15,7 @@ index 2588bf7..74465b6 100755
  
  fi
  
-+export PYTHON3PATH=${PYTHONPATH}
++export PYTHON3PATH=${PYTHONPATH}:${PYTHON3PATH}
  if [ -n "$OLPYTHON" ]; then
    # OLPYTHON is set. Assume it points to a Python executable and use it
    # both to run Python scripts and SCons.
@@ -51,3 +51,20 @@ index c0fe872..1ac6b9b 100755
  #
  # SCons - a Software Constructor
  #
+diff --git a/pyol/tools/OLBaseConfig.py b/pyol/tools/OLBaseConfig.py
+index c2bb020a..b41685fd 100644
+--- a/pyol/tools/OLBaseConfig.py
++++ b/pyol/tools/OLBaseConfig.py
+@@ -101,10 +101,10 @@ def get_config(args=[]):
+           (if the same option is given more than once,
+            only the last set value is used)
+     """
+-    config = configparser.SafeConfigParser()
++    config = configparser.ConfigParser()
+     # default configuration
+     with open(os.path.join(prefix, default_config_file), 'r') as fh:
+-        config.readfp(fh)
++        config.read_file(fh)
+     # override with user configuration
+     config.read([os.path.join(prefix, user_config_file)])
+     config = dict(config.items('OpenLoops'))
