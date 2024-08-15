@@ -30,6 +30,7 @@ mkdir -p %{i}/tools/selected %{i}/tools/available
 
 ## INCLUDE scram-tools.file/tool-env
 
+if [ "%{vectorized_packages}" != "" ] ; then echo %{vectorized_packages} > %i/vectorized_packages.txt ; fi
 for tool in %requiredtools; do
   echo ">> Copying tool files from: $tool"
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
