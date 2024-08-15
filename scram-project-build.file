@@ -120,6 +120,7 @@ echo %{configtag} > %_builddir/config/config_tag
   --keys ENABLE_PGO=0
 %endif
 
+sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 %if "%{package_vectorization}"
 %if "%{?scram_target_default:set}" != "set"
 %define scram_target_default default
@@ -127,8 +128,6 @@ echo %{configtag} > %_builddir/config/config_tag
 if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
   sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
   sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
-else
-  sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 fi
 %endif
 
