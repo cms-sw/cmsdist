@@ -185,8 +185,7 @@ jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.5.3
 jupyterlab==4.1.8
 jupyterlab-widgets==3.0.10
-#NO_AUTO_UPDATE: needs newer TF
-keras==2.15.0
+keras==3.5.0
 keras-applications==1.0.8
 keras-preprocessing==1.1.2
 keras2onnx==1.7.0
