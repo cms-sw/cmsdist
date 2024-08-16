@@ -7,15 +7,6 @@
 %define scram_home_suffix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo /src || true)
 %define scram_script_prefix %(echo %{directpkgreqs} | grep -q /SCRAMV1/V2_ && echo .pl || echo .py)
 
-%if "%{?pkgname}" != "coral"
-%if "%{?package_vectorization}" != ""
-%define vectorized_build yes
-%if "%{?scram_target_default:set}" != "set"
-%define scram_target_default default
-%endif
-%endif
-%endif
-
 %if "%{?pgo_generate}"
 %undefine runGlimpse
 %undefine saveDeps
@@ -60,7 +51,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-02-20
+%define configtag       V09-02-21
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -129,16 +120,24 @@ echo %{configtag} > %_builddir/config/config_tag
   --keys ENABLE_PGO=0
 %endif
 
-%if "%{?vectorized_build:set}" == "set"
-sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
-sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
-%else
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
+%if "%{package_vectorization}"
+%if "%{?scram_target_default:set}" != "set"
+%define scram_target_default default
+%endif
+if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
+  sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
+  sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
+fi
 %endif
 
 %if "%{?release_usercxxflags:set}" == "set"
 echo '<flags CXXFLAGS="%{release_usercxxflags}"/>' >> %_builddir/config/BuildFile.xml
 %endif
+%if "%{?release_userldflags:set}" == "set"
+echo '<flags LDFLAGS="%{release_userldflags}"/>' >> %_builddir/config/BuildFile.xml
+%endif
+
 
 %{?PartialBootstrapPatch:%PartialBootstrapPatch}
 %{?patchsrc:%patchsrc}
@@ -162,6 +161,9 @@ grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.
 cd %i/%{srctree}
 %if "%{?extra_tools:set}" == "set"
 for t in %{extra_tools}; do %scramcmd setup $t; done
+%endif
+%if "%{?remove_tools:set}" == "set"
+for t in %{remove_tools}; do  %scramcmd tool remove $t; done
 %endif
 %{?buildarch:%buildarch}
 
@@ -196,9 +198,9 @@ export SCRAM_NOSYMCHECK=true
 %if "%{?pgo_generate:set}" != "set"
 case %{n} in (cmssw|cmssw-patch) %scramcmd b -f -k %{makeprocesses} llvm-ccdb </dev/null || true ;; esac
 %endif
-%if "%{?vectorized_build:set}" == "set"
-touch %{i}/.SCRAM/%{cmsplatf}/multi-targets
-%endif
+if grep 'name="SCRAM_TARGET"' %{i}/config/Self.xml ; then
+  touch %{i}/.SCRAM/%{cmsplatf}/multi-targets
+fi
 %scramcmd b --verbose -f %{compileOptions} %{extraOptions} %{makeprocesses} %{buildtarget} </dev/null || { touch ../build-errors && %scramcmd b -f outputlog && [ "%{?ignore_compile_errors:set}" == "set" ]; }
 
 %if "%{?additionalBuildTarget0:set}" == "set"
@@ -356,5 +358,27 @@ if [ -f compile_commands.json ] ; then
   %{relocateConfig}compile_commands.json
 fi
 %{relocateConfig}external/%cmsplatf/links.DB
+
+#Run site specific updates
+if [ -e $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg ] ; then
+  #Enable/Disable multi-targets if configured via site configuration
+  if [ -e .SCRAM/%{cmsplatf}/multi-targets ] ; then
+    site_scram_target=$(grep '^\s*scram-target\s*=' $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+    if [ "${site_scram_target}" != "" ] && [ "${site_scram_target}" != "none" ] && [ "${site_scram_target}" != "%{scram_target_default}" ] ; then
+      sed -i -e "/=\"SCRAM_TARGET\"/s/\"%{scram_target_default}\"/\"${site_scram_target}\"/" config/Self.xml
+      $RPM_INSTALL_PREFIX/common/scram setup self
+    fi
+  fi
+  #Run post install site specific scripts
+  #scram: For all scram based projects e.g. coral, cmssw, cmssw-patch, fwlite etc.
+  #cmssw: For both full or patch release e.g. cmssw and cmssw-patch
+  for type in scram %{lcprojtype} ; do
+    script=$(grep "^\s*${type}-post-install-script\s*=" $RPM_INSTALL_PREFIX/etc/scramrc/site.cfg | sed 's| ||g;s|.*=||')
+    if [ "${script}" != "" ] && [ -e "${script}" ] && [ -x "${script}" ] ; then
+      ${script} %{cmsplatf}
+    fi
+  done
+fi
+
 %postun
 rm -fR $RPM_INSTALL_PREFIX/%pkgrel
