@@ -1,0 +1,13 @@
+diff --git a/PyCoral/src/Attribute.cpp b/PyCoral/src/Attribute.cpp
+index 7b08bb9..eeda695 100644
+--- a/src/PyCoral/src/Attribute.cpp
++++ b/src/PyCoral/src/Attribute.cpp
+@@ -15,7 +15,7 @@
+     #define PyString_Check PyUnicode_Check
+     #define PyString_AsString PyUnicode_AsUTF8
+     #define PyString_AS_STRING PyUnicode_AsUTF8
+-    #define PyString_GET_SIZE PyUnicode_GET_SIZE
++    #define PyString_GET_SIZE PyUnicode_GET_LENGTH
+ #endif
+ 
+ // Ignore 'dereferencing type-punned pointer' warnings caused by
