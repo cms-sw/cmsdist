@@ -1,2 +1,2 @@
-Requires: py3-docutils py3-lockfile
-%define source0 https://pagure.io/python-daemon/archive/release/3.0.2/python-daemon-release/3.0.2.tar.gz
+Requires: py3-docutils py3-lockfile py3-packaging
+%define patchsrc0 sed -i -e "s|setuptools.extern.||" version.py

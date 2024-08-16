@@ -5,6 +5,7 @@
 
 Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-gcc8
+Patch5: coral-2_3_21-py312
 Requires: coral-tool-conf
 
 %define cvssrc          %{n}
@@ -24,6 +25,7 @@ Requires: coral-tool-conf
 %define patchsrc2       rm -rf ./src/OracleAccess
 %endif
 %define patchsrc4       %patch1 -p1
+%define patchsrc5       %patch5 -p1
 
 %define source1  git://github.com/%{github_user}/%{n}.git?protocol=https&obj=%{branch}/%{tag}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 ## SUBPACKAGE debug IF %subpackageDebug
