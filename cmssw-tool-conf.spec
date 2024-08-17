@@ -141,6 +141,7 @@ Requires: madgraph5amcatnlo
 Requires: python_tools
 Requires: dasgoclient
 Requires: dablooms
+Requires: tensorflow
 
 # Only for Linux platform.
 %ifos linux
