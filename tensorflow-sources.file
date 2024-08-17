@@ -155,6 +155,8 @@ bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
 bazel $BAZEL_OPTS //tensorflow/core/profiler
 bazel $BAZEL_OPTS //tensorflow:install_headers
 bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla_supported_ops
+bazel $BAZEL_OPTS @ducc//:fft
+bazel $BAZEL_OPTS @ducc//:fft_wrapper
 
 # rebuild *.pb.{h|cc} files using the external protobuf compiler
 chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
@@ -180,9 +182,12 @@ mkdir -p $bindir $incdir $libdir
 
 # copy targets
 srcdir="$PWD/bazel-bin/tensorflow"
+srcdir_ext="$PWD/bazel-bin/external"
 
 cp -p $srcdir/libtensorflow*.so* $libdir/
 cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
+
+cp -p ${srcdir_ext}/ducc/*.so $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
   # check if the actual lib exists
