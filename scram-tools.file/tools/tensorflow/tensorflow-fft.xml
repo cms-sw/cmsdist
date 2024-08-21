@@ -1,0 +1,5 @@
+<tool name="tensorflow-fft" version="@TOOL_VERSION@">
+  <lib name="fft"/>
+  <lib name="fft_wrapper"/>
+  <use name="tensorflow"/>
+</tool>
