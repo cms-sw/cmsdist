@@ -30,7 +30,7 @@ pushd tensorflow/xla_aot_runtime_src
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_PREFIX_PATH=${ABSEIL_CPP_ROOT} \
-    -DCMAKE_LINKER_FLAG=-L${TENSORFLOW_ROOT}/lib -lfft -lfft_wrapper
+    -DCMAKE_LINKER_FLAG="-L${TENSORFLOW_ROOT}/lib -lfft -lfft_wrapper" \
     -DBUILD_SHARED_LIBS=ON
   make %{makeprocesses}
 popd
