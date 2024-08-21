@@ -5,15 +5,15 @@
 
 Source99: scram-tools.file/tools/eigen/env
 
-Patch0: tensorflow-xla-runtime-absl
+Patch0: tensorflow-xla-runtime
 
-Requires: eigen py3-tensorflow abseil-cpp
+Requires: eigen py3-tensorflow abseil-cpp tensorflow
 BuildRequires: cmake
 
 %prep
 
 cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow .
-%patch -p0
+%patch0 -p0
 
 %build
 
@@ -32,6 +32,7 @@ pushd tensorflow/xla_aot_runtime_src
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_PREFIX_PATH=${ABSEIL_CPP_ROOT} \
+    -DLIBFFT_WRAPPER=${TENSORFLOW_ROOT}/lib/libfft_wrapper.so \
     -DBUILD_SHARED_LIBS=ON
   make %{makeprocesses}
 popd
