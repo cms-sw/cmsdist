@@ -7,5 +7,4 @@
 
   <use name="eigen"/>
   <use name="tensorflow-includes"/>
-  <use name="tensorflow-fft"/>
 </tool>
