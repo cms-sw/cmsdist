@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/eigen/env
 
 Patch0: tensorflow-xla-runtime-absl
 
-Requires: eigen py3-tensorflow abseil-cpp
+Requires: eigen py3-tensorflow abseil-cpp tensorflow
 BuildRequires: cmake
 
 %prep
