@@ -2,7 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define tag 773a021a5539f887ab2312e66518411f02cd060b
+%define tag 147a937ccd14312c1f9fb2a7e8543fcc4bc96744
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
