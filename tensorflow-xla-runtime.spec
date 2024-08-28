@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/eigen/env
 
 Patch0: tensorflow-xla-runtime-absl
 
-Requires: eigen py3-tensorflow abseil-cpp tensorflow
+Requires: eigen py3-tensorflow abseil-cpp
 BuildRequires: cmake
 
 %prep
@@ -30,7 +30,7 @@ pushd tensorflow/xla_aot_runtime_src
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_PREFIX_PATH=${ABSEIL_CPP_ROOT} \
-    -DCMAKE_SHARED_LINKER_FLAGS="-L${TENSORFLOW_ROOT}/lib -lfft -lfft_wrapper" \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L../lib -lfft -lfft_wrapper" \
     -DBUILD_SHARED_LIBS=ON
   make %{makeprocesses}
 popd
@@ -38,4 +38,5 @@ popd
 %install
 
 mkdir -p %{i}/lib
+mv tensorflow/lib/libfft*.so %{i}/lib/
 mv tensorflow/xla_aot_runtime_src/libtf_xla_runtime.so %{i}/lib/

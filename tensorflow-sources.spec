@@ -5,3 +5,4 @@
 %define build_type opt
 %define pythonOnly no
 ## INCLUDE tensorflow-sources
+# revision 1

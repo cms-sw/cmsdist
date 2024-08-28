@@ -243,4 +243,9 @@ popd
 
 # create the wheel file that is installed in py2-tensorflow
 export PYTHONPATH=$PYTHON3PATH
-bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+cp -r bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp
+SRCDIR="$(mktemp -d -t tmp.XXXXXXXXXX)"
+mkdir -p $SRCDIR/tensorflow/lib
+cp $outdir/lib/libfft.so $SRCDIR/tensorflow/lib
+cp $outdir/lib/libfft_wrapper.so $SRCDIR/tensorflow/lib
+bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package --src $SRCDIR --dst %{i}
