@@ -48,4 +48,6 @@ ninja -v %{makeprocesses}
 
 cd ../build
 ninja -v %{makeprocesses} install
+mkdir -p %{i}/include/python/google/protobuf
+cp ../%{n}-%{realversion}/python/google/protobuf/*.h %{i}/include/python/google/protobuf/
 rm -rf %{i}/lib/pkgconfig
