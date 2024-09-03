@@ -1,8 +1,8 @@
-### RPM external eigen 3bb6a48d8c171cf20b5f8e48bfb4e424fbd4f79e
+### RPM external eigen aa6964bf3a34fd607837dd8123bc42465185c4f8
 ## INITENV +PATH PKG_CONFIG_PATH %{i}/share/pkgconfig
 ## NOCOMPILER
 ## INCLUDE cpp-standard
-%define tag 4dce4ce667e0a8ed2a44f4ee4eafcc3972626f08
+%define tag c3c790ca28a2df90c602cda9cd591c0854777141
 %define branch cms/master/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/eigen-git-mirror.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz

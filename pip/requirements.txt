@@ -186,13 +186,14 @@ jupyter-server-terminals==0.5.3
 jupyterlab==4.1.8
 jupyterlab-widgets==3.0.10
 #NO_AUTO_UPDATE: needs newer TF
-keras==2.11.0
+keras==2.15.0
 keras-applications==1.0.8
 keras-preprocessing==1.1.2
 keras2onnx==1.7.0
 keyring==25.2.0
 kiwisolver==1.4.5
 law==0.1.18
+lit==16.0.6
 lazy-object-proxy==1.10.0
 lizard==1.17.10
 #llvmlite==v0.41.0dev0
@@ -272,6 +273,7 @@ platformdirs==4.2.1
 pluginbase==1.0.1
 pluggy==1.5.0
 ply==3.11
+portpicker==1.5.2
 poetry==1.8.2
 poetry-core==1.9.0
 poetry-plugin-export==1.7.1
@@ -279,7 +281,7 @@ prettytable==3.10.0
 prometheus-client==0.20.0
 prompt_toolkit==3.0.43
 #NO_AUTO_UPDATE:1: Update together with Tensorflow
-protobuf==4.21.9
+protobuf==4.23.4
 prwlock==0.4.1
 psutil==5.9.8
 ptyprocess==0.7.0
@@ -371,10 +373,11 @@ subprocess32==3.5.4
 sympy==1.12
 # NO_AUTO_UPDATE: Needs newer blosc2
 tables==3.8.0
+tblib==1.7.0
 tabulate==0.9.0
 tenacity==8.2.3
-#NO_AUTO_UPDATE:1: Force to use tensorflow 2.6.4; this should match the version in tensorflow-sources.spec
-tensorflow==2.12.0
+#NO_AUTO_UPDATE:1: Force to use tensorflow 2.15x; this should match the version in tensorflow-sources.spec
+tensorflow==2.15.0
 tensorboard==2.16.2
 tensorflow-io-gcs-filesystem==0.37.0
 tensorflow-estimator==2.15.0

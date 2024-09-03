@@ -5,11 +5,13 @@
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
 Source99: scram-tools.file/tools/eigen/env
 
+Patch0: lwtnn-assert-fix
 BuildRequires: ninja cmake
 Requires: eigen boost
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 
@@ -21,7 +23,7 @@ source %{_sourcedir}/env
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_CXX_COMPILER="g++" \
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
+  -DCMAKE_CXX_FLAGS="-fPIC -DBOOST_DISABLE_ASSERTS $CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILTIN_BOOST=OFF \
