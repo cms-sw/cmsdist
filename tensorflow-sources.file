@@ -36,6 +36,11 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %setup -q -n tensorflow-%{realversion}
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
 
+#EL7: Include stdarg.h before zlib.h to avoid 'va_list' has not been declared error.
+%if 0%{?rhel} == 7
+sed -i -e 's|#include <zlib.h>|#include <stdarg.h>\n#include <zlib.h>|' third_party/xla/third_party/tsl/tsl/lib/io/zlib_outputbuffer.h
+%endif
+
 %build
 
 export PYTHON_BIN_PATH="$(which python3)"
