@@ -38,7 +38,9 @@ sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_
 
 #EL7: Include stdarg.h before zlib.h to avoid 'va_list' has not been declared error.
 %if 0%{?rhel} == 7
-sed -i -e 's|#include <zlib.h>|#include <stdarg.h>\n#include <zlib.h>|' third_party/xla/third_party/tsl/tsl/lib/io/zlib_outputbuffer.h
+sed -i -e 's|#include <zlib.h>|#include <stdarg.h>\n#include <zlib.h>|' \
+  third_party/xla/third_party/tsl/tsl/lib/io/zlib_outputbuffer.h \
+  tensorflow/core/lib/png/png_io.cc
 %endif
 
 %build
