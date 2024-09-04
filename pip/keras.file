@@ -1,3 +1,4 @@
+## INITENV SET KERAS_BACKEND tensorflow
 %define PipDownloadSourceType none
 Requires: py3-PyYAML py3-six
 Requires: py3-h5py py3-keras-applications py3-keras-preprocessing
