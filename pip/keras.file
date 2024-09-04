@@ -2,4 +2,4 @@
 Requires: py3-PyYAML py3-six
 Requires: py3-h5py py3-keras-applications py3-keras-preprocessing
 Requires: py3-absl-py py3-ml_dtypes py3-namex py3-optree py3-rich
-Requires: py3-theano
+Requires: py3-Theano
