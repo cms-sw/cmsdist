@@ -31,6 +31,7 @@
     <flags CXXFLAGS="-ftemplate-depth=512"/>
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
+    <flags CXXFLAGS="-Wno-vla-cxx-extension"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
 %if 0%{!?use_system_gcc:1}
     <flags CXXFLAGS="--gcc-toolchain=@GCC_ROOT@"/>
