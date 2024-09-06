@@ -1,4 +1,4 @@
-### RPM cms cmssw-patch-tool-conf 5.0
+### RPM cms cmssw-patch-tool-conf CMSSW_14_0_15
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes
 
