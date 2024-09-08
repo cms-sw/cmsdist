@@ -241,11 +241,14 @@ pushd bazel-tensorflow-%{realversion}/external
   done
 popd
 
-# create the wheel file that is installed in py2-tensorflow
+# create the wheel file that is installed in py3-tensorflow
 export PYTHONPATH=$PYTHON3PATH
-cp -r bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp
-SRCDIR="$(mktemp -d -t tmp.XXXXXXXXXX)"
-mkdir -p $SRCDIR/tensorflow/lib
-cp $outdir/lib/libfft.so $SRCDIR/tensorflow/lib
-cp $outdir/lib/libfft_wrapper.so $SRCDIR/tensorflow/lib
-bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package --src $SRCDIR --dst %{i}
+bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+
+mkdir %{i}/lib-xla-runtime
+cp $outdir/lib/libfft.so %{i}/lib-xla-runtime
+cp $outdir/lib/libfft_wrapper.so %{i}/lib-xla-runtime
+find $srcdir/.. -name 'libmutex.pic.a' -path '*k8-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
+find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*k8-opt*' -exec cp {} %{i}/lib-xla-runtime \;
+[ -e %{i}/lib-xla-runtime/libmutex.pic.a ]
+[ -e %{i}/lib-xla-runtime/libnsync_cpp.pic.a ]
