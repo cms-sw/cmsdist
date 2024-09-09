@@ -29,8 +29,6 @@ EOF
   ln -s ${numpy_core} %{i}/c-api/core
 
 %define PipPostPost \
-  %{relocateConfig}lib/python*/site-packages/numpy/__config__.py \
-  %{relocateConfig}lib/python*/site-packages/numpy/distutils/__config__.py \
-  %{relocateConfig}lib/python*/site-packages/numpy/distutils/site.cfg
+  %{relocateConfig}lib/python*/site-packages/numpy/__config__.py
 
 %define PipPostBuildPy rm -f %{i}/bin/f2py
