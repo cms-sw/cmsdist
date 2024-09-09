@@ -3,8 +3,8 @@
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>
     <environment name="INCLUDE" default="$TENSORFLOW_BASE/include"/>
-    <environment name="KERAS_BACKEND" default="tensorflow"/>
   </client>
   <runtime name="PATH" value="$TENSORFLOW_BASE/bin" type="path"/>
+  <runtime name="KERAS_BACKEND" value="tensorflow"/>
   <flags SYSTEM_INCLUDE="1"/>
 </tool>
