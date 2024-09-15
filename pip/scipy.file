@@ -6,11 +6,15 @@ AutoProv: no
   export NPY_NUM_BUILD_JOBS=%{compiling_processes} ;\
   export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
 
+Provides: libsf_error_state.so()(64bit)
 %ifarch aarch64
 Provides: python%{cms_python3_major_minor_version}dist(scipy) = %{realversion}
 Provides: python3dist(scipy) = %{realversion}
 %define __find_provides true
 %endif
+
+%define PipPostBuild \
+  find %{i} -name 'libsf_error_state*.so*' -exec ls -l {} \\\;
 
 %define PipPostPost \
     %{relocateConfig}lib/python*/site-packages/scipy/__config__.py ; \
