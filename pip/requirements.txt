@@ -242,7 +242,7 @@ numexpr==2.10.1
 # NO_AUTO_UPDATE: update together with tensorflow
 numpy==1.26.4
 # NO_AUTO_UPDATE:1
-onnx==1.16.0
+onnx==1.16.2
 onnxmltools==1.12.0
 onnxconverter-common==1.14.0
 oauthlib==3.2.2
@@ -277,7 +277,7 @@ prettytable==3.11.0
 prometheus-client==0.20.0
 prompt_toolkit==3.0.47
 #NO_AUTO_UPDATE:1: Update together with Tensorflow
-protobuf==4.23.4
+protobuf==5.28.0
 prwlock==0.4.1
 psutil==6.0.0
 ptyprocess==0.7.0
@@ -368,8 +368,7 @@ stack-data==0.6.3
 stevedore==5.3.0
 subprocess32==3.5.4
 sympy==1.13.2
-# NO_AUTO_UPDATE: Needs newer blosc2
-tables==3.9.2
+tables==3.10.1
 tblib==3.0.0
 tabulate==0.9.0
 tenacity==9.0.0
