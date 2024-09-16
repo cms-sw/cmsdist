@@ -1,1 +1,1 @@
-Requires: py3-attrs py3-chardet py3-multidict py3-yarl py3-async-timeout py3-typing-extensions py3-aiosignal py3-charset-normalizer py3-frozenlist
+Requires: py3-attrs py3-chardet py3-multidict py3-yarl py3-async-timeout py3-typing-extensions py3-aiosignal py3-charset-normalizer py3-frozenlist py3-aiohappyeyeballs
