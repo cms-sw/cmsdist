@@ -1,6 +1,6 @@
 Requires: py3-tensorboard py3-opt-einsum py3-tensorflow-estimator py3-wrapt py3-google-pasta py3-scipy
 BuildRequires: tensorflow-sources
-%define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}*-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
+%define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}*-linux_%{_arch}.whl
 %define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
 %define PipDepsPost | grep -v libclang
 ## INCLUDE tensorflow-requires

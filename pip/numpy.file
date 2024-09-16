@@ -1,6 +1,7 @@
 BuildRequires: py3-meson-python
 Requires: py3-cython
 Requires: zlib OpenBLAS
+Patch0: numpy-f2py-main
 
 %define patchsrc \
 cat > site.cfg <<EOF \
@@ -26,7 +27,12 @@ EOF
 %define PipPostBuild \
   mkdir -p %{i}/c-api \
   numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/core | sed 's|%{i}/|../|') \
-  ln -s ${numpy_core} %{i}/c-api/core
+  ln -s ${numpy_core} %{i}/c-api/core \
+  echo "#!/bin/bash" > %{i}/bin/f2py \
+  echo "echo \$PYTHONPATH" >> %{i}/bin/f2py \
+  echo "python3 -m numpy.f2py \\$*" >> %{i}/bin/f2py \
+  chmod +x %{i}/bin/f2py
+#  ln -s ${numpy_core} %{i}/c-api/core
 
 %define PipPostPost \
   %{relocateConfig}lib/python*/site-packages/numpy/__config__.py

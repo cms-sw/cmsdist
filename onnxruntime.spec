@@ -1,9 +1,9 @@
-### RPM external onnxruntime 1.17.1
+### RPM external onnxruntime 1.18.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag 5353412812a6f0409a15faff9a18640456ab1ff8
+%define tag 654d14df825babb2363c6b9abe21c472c01ae64f
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake ninja

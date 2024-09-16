@@ -3,7 +3,6 @@
 
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
 Source2: https://patch-diff.githubusercontent.com/raw/abseil/abseil-cpp/pull/1732.diff
-
 BuildRequires: cmake gmake
 
 %prep

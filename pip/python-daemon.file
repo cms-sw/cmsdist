@@ -1,1 +1,2 @@
-Requires: py3-docutils py3-lockfile
+Requires: py3-docutils py3-lockfile py3-packaging
+%define patchsrc0 sed -i -e "s|setuptools.extern.||" version.py

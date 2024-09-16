@@ -255,7 +255,13 @@ bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
 mkdir %{i}/lib-xla-runtime
 cp $outdir/lib/libfft.so %{i}/lib-xla-runtime
 cp $outdir/lib/libfft_wrapper.so %{i}/lib-xla-runtime
+%ifarch x86_64
 find $srcdir/.. -name 'libmutex.pic.a' -path '*k8-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
 find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*k8-opt*' -exec cp {} %{i}/lib-xla-runtime \;
+%endif
+%ifarch aarch64
+find $srcdir/.. -name 'libmutex.pic.a' -path '*aarch64-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
+find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*aarch64-opt*' -exec cp {} %{i}/lib-xla-runtime \;
+%endif
 [ -e %{i}/lib-xla-runtime/libmutex.pic.a ]
 [ -e %{i}/lib-xla-runtime/libnsync_cpp.pic.a ]

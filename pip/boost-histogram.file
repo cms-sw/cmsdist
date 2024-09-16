@@ -1,1 +1,2 @@
+BuildRequires: py3-scikit-build-core
 Requires: py3-numpy
