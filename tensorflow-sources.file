@@ -36,6 +36,13 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %setup -q -n tensorflow-%{realversion}
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
 
+#EL7: Include stdarg.h before zlib.h to avoid 'va_list' has not been declared error.
+%if 0%{?rhel} == 7
+sed -i -e 's|#include <zlib.h>|#include <stdarg.h>\n#include <zlib.h>|' \
+  third_party/xla/third_party/tsl/tsl/lib/io/zlib_outputbuffer.h \
+  tensorflow/core/lib/png/png_io.cc
+%endif
+
 %build
 
 export PYTHON_BIN_PATH="$(which python3)"
@@ -144,6 +151,8 @@ export PYTHONPATH=$PYTHON3PATH
 
 ./configure
 # build tensorflow python targets
+bazel $BAZEL_OPTS @ducc//:fft
+bazel $BAZEL_OPTS @ducc//:fft_wrapper
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
 bazel $BAZEL_OPTS //tensorflow:tensorflow
 bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
@@ -180,9 +189,12 @@ mkdir -p $bindir $incdir $libdir
 
 # copy targets
 srcdir="$PWD/bazel-bin/tensorflow"
+srcdir_ext="$PWD/bazel-bin/external"
 
 cp -p $srcdir/libtensorflow*.so* $libdir/
 cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
+
+cp -p ${srcdir_ext}/ducc/*.so $libdir/
 
 for l in tensorflow_cc tensorflow_framework tensorflow ; do
   # check if the actual lib exists
@@ -225,7 +237,7 @@ popd
 #FIXME: Create missing externals links
 pushd bazel-tensorflow-%{realversion}/external
   srcdir=$(dirname $(readlink zlib))
-  for e in ducc farmhash_gpu_archive stablehlo ; do
+  for e in ducc farmhash_gpu_archive stablehlo cudnn_frontend_archive ; do
     echo "Check external link: $e"
     if [ -e ${srcdir}/$e ] ; then
       if [ ! -e $e ] ; then
@@ -236,6 +248,14 @@ pushd bazel-tensorflow-%{realversion}/external
   done
 popd
 
-# create the wheel file that is installed in py2-tensorflow
+# create the wheel file that is installed in py3-tensorflow
 export PYTHONPATH=$PYTHON3PATH
 bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+
+mkdir %{i}/lib-xla-runtime
+cp $outdir/lib/libfft.so %{i}/lib-xla-runtime
+cp $outdir/lib/libfft_wrapper.so %{i}/lib-xla-runtime
+find $srcdir/.. -name 'libmutex.pic.a' -path '*k8-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
+find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*k8-opt*' -exec cp {} %{i}/lib-xla-runtime \;
+[ -e %{i}/lib-xla-runtime/libmutex.pic.a ]
+[ -e %{i}/lib-xla-runtime/libnsync_cpp.pic.a ]
