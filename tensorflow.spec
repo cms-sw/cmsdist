@@ -1,4 +1,5 @@
 ### RPM external tensorflow 2.16.1
+### INITENV SETV KERAS_BACKEND tensorflow
 %if "%{?vectorized_package:set}" != "set"
 %define source_package tensorflow-sources
 %else
