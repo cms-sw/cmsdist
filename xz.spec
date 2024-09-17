@@ -1,10 +1,5 @@
-### RPM external xz 5.2.5
-
-%define tag 50f585dc3b7b9b94b6b7f7a4c29903602d1e2a2d
-%define branch cms/v%{realversion}
-%define github_user cms-externals
-Source0: git+https://github.com/%github_user/xz.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-
+### RPM external xz 5.6.2
+Source: https://github.com/tukaani-project/xz/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 
 %prep
@@ -12,7 +7,7 @@ BuildRequires: autotools
 
 %build
 ./autogen.sh --no-po4a
-./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
+./configure CFLAGS='-fPIC -Ofast -fno-fast-math' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 
 %install
