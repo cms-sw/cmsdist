@@ -1,8 +1,9 @@
-### RPM external bz2lib 1.0.6
-Source: http://www.bzip.org/%{realversion}/bzip2-%{realversion}.tar.gz
+### RPM external bz2lib 1.0.8
+Source: https://gitlab.com/bzip2/bzip2/-/archive/bzip2-%{realversion}/bzip2-bzip2-%{realversion}.tar.gz
+BuildRequires: gmake
 
 %prep
-%setup -n bzip2-%{realversion}
+%setup -n bzip2-bzip2-%{realversion}
 sed -e 's/ -shared/ -dynamiclib/' \
     -e 's/ -Wl,-soname -Wl,[^ ]*//' \
     -e 's/libbz2\.so/libbz2.dylib/g' \

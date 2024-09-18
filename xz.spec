@@ -1,6 +1,6 @@
 ### RPM external xz 5.6.2
 Source: https://github.com/tukaani-project/xz/archive/refs/tags/v%{realversion}.tar.gz
-BuildRequires: autotools
+BuildRequires: autotools gmake
 
 %prep
 %setup -n %{n}-%{realversion}

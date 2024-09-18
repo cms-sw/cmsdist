@@ -1,6 +1,7 @@
-### RPM external curl 7.79.0
+### RPM external curl 8.10.1
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -18,6 +19,7 @@ Requires: zlib
   --disable-static \
   --without-libidn \
   --without-zstd \
+  --without-libpsl \
   --disable-ldap \
   --with-zlib=${ZLIB_ROOT} \
   --without-nss \
