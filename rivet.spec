@@ -4,6 +4,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: https://gitlab.com/hepcedar/rivet/-/commit/9b9f49018fa2b3f2f3ee2f3f2bcba4e3a1d53f55.diff
 Source99: scram-tools.file/tools/eigen/env
 Patch0: rivet-duplicate-libs
 
@@ -14,6 +15,7 @@ BuildRequires: python3 py3-cython autotools
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+patch -p1 <%{_sourcedir}/9b9f49018fa2b3f2f3ee2f3f2bcba4e3a1d53f55.diff
 
 %build
 source %{_sourcedir}/env
