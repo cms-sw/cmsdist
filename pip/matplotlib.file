@@ -1,7 +1,6 @@
 Requires: py3-numpy py3-pillow py3-pybind11 freetype qhull
 BuildRequires: cmake ninja
-Patch0: mplsetup
-Patch1: matplotlib-freetype-slc7
+Patch0: matplotlib-freetype-slc7
 %define PipPreBuild \
   export CFLAGS="-I${FREETYPE_ROOT}/include/freetype2   -I${LIBPNG_ROOT}/include/libpng16 -I${QHULL_ROOT}/include" \
   export CXXFLAGS="-I${FREETYPE_ROOT}/include/freetype2 -I${LIBPNG_ROOT}/include/libpng16 -I${QHULL_ROOT}/include" \
@@ -12,7 +11,8 @@ Patch1: matplotlib-freetype-slc7
   --config-settings=setup-args="-Dsystem-freetype=true" \\\
   --config-settings=setup-args="-Dsystem-qhull=true" \\\
   --config-settings=setup-args="--backend=ninja" \\\
-  --config-settings=compile-args="-v"
+  --config-settings=compile-args="-v" \\\
+  --config-settings=compile-args="%{makeprocesses}"
 
 Requires: py3-cycler py3-kiwisolver py3-pyparsing py3-python-dateutil py3-certifi
 Requires: py3-fonttools py3-packaging

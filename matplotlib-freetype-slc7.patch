@@ -1,13 +1,17 @@
 diff --git a/extern/meson.build b/extern/meson.build
-index 662feb7..9908629 100644
+index 662feb7..96ea3ef 100644
 --- a/extern/meson.build
 +++ b/extern/meson.build
-@@ -8,7 +8,7 @@ subdir('ttconv')
+@@ -8,7 +8,11 @@ subdir('ttconv')
  # For FreeType>=2.4, there is a conversion table in docs/VERSIONS.txt in the
  # FreeType source tree.
  if get_option('system-freetype')
 -  freetype_dep = dependency('freetype2', version: '>=9.11.3')
 +  freetype_dep = dependency('freetype2', version: '>=9.11.3', required: false)
++  if not freetype_dep.found()
++    cc.check_header('freetype/freetype.h', required: true)
++    freetype_dep = cc.find_library('freetype')
++  endif
  else
    # This is the version of FreeType to use when building a local version. It
    # must match the value in `lib/matplotlib.__init__.py`. Also update the docs
