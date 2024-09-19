@@ -28,6 +28,14 @@ sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_
 # By default xrootd has fuse, krb5, readline, and crypto enabled.
 # libfuse is not produced by CMSDIST.
 
+%if 0%{?fedora:1}
+%define build_python 1
+%elif 0%{rhel} > 7
+%define build_python 1
+%else
+%define build_python 0
+%endif
+
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -39,11 +47,15 @@ cmake ../%n-%{realversion} \
   -DENABLE_KRB5=TRUE \
   -DENABLE_READLINE=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
+%if %{build_python}
   -DENABLE_PYTHON=TRUE \
-  -DENABLE_HTTP=TRUE \
-  -DENABLE_XRDEC=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DPIP_OPTIONS="--verbose" \
+%else
+  -DENABLE_PYTHON=FALSE \
+%endif
+  -DENABLE_HTTP=TRUE \
+  -DENABLE_XRDEC=TRUE \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
