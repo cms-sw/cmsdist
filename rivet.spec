@@ -15,6 +15,7 @@ BuildRequires: python3 py3-cython autotools
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 
+
 %build
 source %{_sourcedir}/env
 # Update config.{guess,sub} to detect aarch64 and ppc64le
