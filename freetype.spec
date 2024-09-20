@@ -1,4 +1,4 @@
-### RPM external freetype 2.13.3
+### RPM external freetype 2.13.2
 Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{realversion}.tar.gz
 Requires: bz2lib zlib libpng
 BuildRequires: gmake cmake
