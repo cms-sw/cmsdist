@@ -1,5 +1,7 @@
 ### RPM external db6 6.2.32
 Source: http://cmsrep.cern.ch/cmssw/download/db-%{realversion}.tar.gz
+BuildRequires: gmake
+
 %define drop_files %{i}/docs
 %define strip_files %{i}/lib
 

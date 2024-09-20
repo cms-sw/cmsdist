@@ -1,4 +1,4 @@
-### RPM external zstd 1.5.2
+### RPM external zstd 1.5.6
 ## INITENV SETV ZSTD_SOURCE %{source0}
 ## INITENV SETV ZSTD_STRIP_PREFIX %{source_prefix}
 

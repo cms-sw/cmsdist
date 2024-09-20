@@ -1,10 +1,10 @@
-### RPM external sqlite 3.36.0
+### RPM external sqlite 3.46.1
+Source: https://www.sqlite.org/2024/sqlite-autoconf-3460100.tar.gz
 Requires: zlib
-Source: https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
-Requires: zlib
+BuildRequires: gmake
 
 %prep
-%setup -n sqlite-autoconf-3360000
+%setup -n sqlite-autoconf-3460100
 
 %build
 CFLAGS=-I${ZLIB_ROOT}/include LDFLAGS=-L${ZLIB_ROOT}/lib \

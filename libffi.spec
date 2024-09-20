@@ -1,13 +1,8 @@
-### RPM external libffi 3.4.2
+### RPM external libffi 3.4.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
-%define tag v%{realversion}
-%define github_user libffi
-%define github_repo libffi
-%define branch master
-
-Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz 
-BuildRequires: autotools
+Source: https://github.com/libffi/libffi/archive/refs/tags/v%{realversion}.tar.gz
+BuildRequires: autotools gmake
 
 %prep
 %setup -n %{n}-%{realversion}
