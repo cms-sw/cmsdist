@@ -28,7 +28,7 @@ cd ../build
 make install
 
 %define strip_files %{i}/lib
-%{relocateConfig}lib64/cmake/freetype/freetype-config-release.cmake
-%{relocateConfig}lib64/cmake/freetype/freetype-config-version.cmake
-%{relocateConfig}lib64/cmake/freetype/freetype-config.cmake
-%{relocateConfig}lib64/pkgconfig/freetype2.pc
+%{relocateConfig}lib/cmake/freetype/freetype-config-release.cmake
+%{relocateConfig}lib/cmake/freetype/freetype-config-version.cmake
+%{relocateConfig}lib/cmake/freetype/freetype-config.cmake
+%{relocateConfig}lib/pkgconfig/freetype2.pc
