@@ -1,27 +1,34 @@
-### RPM external freetype 2.10.0
-Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{realversion}.tar.bz2
+### RPM external freetype 2.13.2
+Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{realversion}.tar.gz
 Requires: bz2lib zlib libpng
+BuildRequires: gmake cmake
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-./configure \
-  --prefix %{i} \
-  --with-bzip2==${BZ2LIB_ROOT} \
-  --with-zlib=${ZLIB_ROOT} \
-  --with-png=${LIBPNG_ROOT} \
-  --with-harfbuzz=no
+rm -rf ../build
+mkdir ../build
+cd ../build
 
-make %{makeprocesses}
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DFT_REQUIRE_ZLIB=TRUE \
+  -DFT_REQUIRE_BZIP2=TRUE \
+  -DFT_REQUIRE_PNG=TRUE \
+  -DCMAKE_PREFIX_PATH=%{cmake_prefix_path} \
+  -DBUILD_SHARED_LIBS=ON \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_INSTALL_PREFIX="%{i}"
+
+make %{makeprocesses} VERBOSE=1
 
 %install
+cd ../build
 make install
-%ifos darwin
-install_name_tool -id %{i}/lib/libfreetype-cms.dylib -change %{i}/lib/libfreetype.6.dylib %{i}/lib/libfreetype-cms.dylib %{i}/lib/libfreetype.6.dylib
-ln -s libfreetype.6.dylib %{i}/lib/libfreetype-cms.dylib
-perl -p -i -e 's|-lfreetype|-lfreetype-cms|' %{i}/bin/freetype-config
-%endif
 
-# Strip libraries, we are not going to debug them.
 %define strip_files %{i}/lib
+%{relocateConfig}lib/cmake/freetype/freetype-config-release.cmake
+%{relocateConfig}lib/cmake/freetype/freetype-config-version.cmake
+%{relocateConfig}lib/cmake/freetype/freetype-config.cmake
+%{relocateConfig}lib/pkgconfig/freetype2.pc
