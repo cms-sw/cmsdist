@@ -37,8 +37,7 @@ if [ -f $RPM_INSTALL_PREFIX/cmsset_default.csh ] && [ -f $RPM_INSTALL_PREFIX/etc
   fi
 fi
 
-mkdir -p $RPM_INSTALL_PREFIX/etc/scramrc
-mkdir -p $RPM_INSTALL_PREFIX/share
+mkdir -p $RPM_INSTALL_PREFIX/share $RPM_INSTALL_PREFIX/etc/scramrc
 [ -d ./etc/scramrc/SCRAM ] && rsync -a --delete ./etc/scramrc/SCRAM/ $RPM_INSTALL_PREFIX/etc/scramrc/SCRAM/
 [ -d ./share ] && rsync -a ./share/ $RPM_INSTALL_PREFIX/share/
 for file in $(find . -name '*' | grep -v '^./etc/scramrc/SCRAM' ); do
