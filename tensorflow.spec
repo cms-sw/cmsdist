@@ -21,6 +21,7 @@ wheel unpack ${%{tf_root}}/tensorflow-%{realversion}*-cp%{cms_python3_major_mino
 mv tensorflow-%{realversion}/tensorflow/include %{i}/include
 for l in libtensorflow_cc.so  libtensorflow_framework.so ; do
   mv tensorflow-%{realversion}/tensorflow/${l}.%{tf_major} %{i}/lib
+  chmod 0755 %{i}/lib/${l}.%{tf_major}
   ln -s ${l}.%{tf_major} %{i}/lib/${l}
 done
 mv tensorflow-%{realversion}/tensorflow/xla_aot_runtime_src %{i}/xla-aot-runtime/src
