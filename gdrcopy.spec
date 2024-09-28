@@ -1,4 +1,4 @@
-### RPM external gdrcopy 2.3
+### RPM external gdrcopy 2.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 Source: https://github.com/NVIDIA/%{n}/archive/v%{realversion}.tar.gz
 Requires: cuda
