@@ -146,7 +146,7 @@ bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 %ifarch x86_64
 %define bazel_dir k8-%{build_type}
 %else
-%define bazel_dir ${_arch}-%{build_type}
+%define bazel_dir %{_arch}-%{build_type}
 %endif
 
 mkdir %{i}/lib-xla-runtime
