@@ -1,5 +1,5 @@
-### RPM external hwloc 2.10.0
-Source: https://download.open-mpi.org/release/%{n}/v2.10/%{n}-%{realversion}.tar.bz2
+### RPM external hwloc 2.11.2
+Source: https://download.open-mpi.org/release/%{n}/v2.11/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
 Requires: libpciaccess libxml2 numactl
