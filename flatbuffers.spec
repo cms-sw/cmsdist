@@ -1,6 +1,6 @@
-### RPM external flatbuffers 23.5.26
+### RPM external flatbuffers 24.3.25
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-
+## INCLUDE cpp-standard
 %define tag v%{realversion}
 %define branch master
 %define github_user google
@@ -19,6 +19,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
    -DCMAKE_BUILD_TYPE=Release \
   -DFLATBUFFERS_BUILD_CPP17=ON \
+  -DFLATBUFFERS_CPP_STD=%{cms_cxx_standard}\
   -DFLATBUFFERS_BUILD_SHAREDLIB=ON \
   -DFLATBUFFERS_BUILD_TESTS=OFF \
   -DCMAKE_INSTALL_PREFIX="%{i}"

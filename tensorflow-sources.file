@@ -12,13 +12,6 @@ BuildRequires: bazel java-env git patchelf
 %define  enable_tf_mkldnn 1
 %endif
 
-
-#Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
-%if "%{cms_cxx_standard}" == "20"
-%undefine cms_cxx_standard
-%define cms_cxx_standard 17
-%endif
-
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
 %if "%{?build_type:set}" != "set"
@@ -141,118 +134,26 @@ fi
 export PYTHONPATH=$PYTHON3PATH
 
 ./configure
+# build numpy first to fix the pypi_numpy repo
+bazel $BAZEL_OPTS //third_party/py/numpy
+build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
+ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
 # build tensorflow python targets
-bazel $BAZEL_OPTS @ducc//:fft
-bazel $BAZEL_OPTS @ducc//:fft_wrapper
-bazel $BAZEL_OPTS //tensorflow/tools/pip_package:build_pip_package
-bazel $BAZEL_OPTS //tensorflow:tensorflow
-bazel $BAZEL_OPTS //tensorflow:tensorflow_cc
-bazel $BAZEL_OPTS //tensorflow/tools/graph_transforms:transform_graph
-bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla
-bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiler
-bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:xla_compiled_cpu_function
-#bazel $BAZEL_OPTS //tensorflow/compiler/aot:tfcompile
-bazel $BAZEL_OPTS //tensorflow/core/profiler
-bazel $BAZEL_OPTS //tensorflow:install_headers
-bazel $BAZEL_OPTS //tensorflow/compiler/tf2xla:tf2xla_supported_ops
-
-# rebuild *.pb.{h|cc} files using the external protobuf compiler
-chmod -R a+rwX $PWD/bazel-bin/tensorflow/include
-# create symlinks for third-party packages
-
-for d in third_party/xla/third_party/tsl/tsl third_party/xla/xla ; do
-  ln -s $d .
-done
-for f in $(find tensorflow -name "*.proto")
-do
-  protoc --cpp_out=$PWD/bazel-bin/tensorflow/include $f
-done
+bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 
 %install
 
-# define and create empty target directories
-outdir="$PWD/out"
-bindir="$outdir/bin"
-incdir="$outdir/include"
-libdir="$outdir/lib"
-rm -rf $bindir $incdir $libdir
-mkdir -p $bindir $incdir $libdir
-
-# copy targets
-srcdir="$PWD/bazel-bin/tensorflow"
-srcdir_ext="$PWD/bazel-bin/external"
-
-cp -p $srcdir/libtensorflow*.so* $libdir/
-cp -p $srcdir/compiler/tf2xla/lib*.so* $libdir/
-
-cp -p ${srcdir_ext}/ducc/*.so $libdir/
-
-for l in tensorflow_cc tensorflow_framework tensorflow ; do
-  # check if the actual lib exists
-  [ -f $libdir/lib${l}.so.%{tfversion} ] || exit 1
-
-  # link from majorversion to tfversion
-  rm -f $libdir/lib${l}.so.%{majorversion}
-  ln -s lib${l}.so.%{tfversion} $libdir/lib${l}.so.%{majorversion}
-
-  # link from default lib to majorversion
-  rm -f $libdir/lib${l}.so
-  ln -s lib${l}.so.%{majorversion} $libdir/lib${l}.so
-done
-
-#cp -p $srcdir/compiler/aot/tfcompile $bindir
-cp -p $srcdir/compiler/tf2xla/tf2xla_supported_ops $bindir
-for name in tensorflow absl re2 ; do
-    cp -r -p $srcdir/include/$name $incdir
-done
-
-# copy headers from downloaded dependencies
-copy_headers() {
-  for header_file in $(find $1/$2 -name *.h | grep -v '_virtual_includes' | sed "s|$1/||") ; do
-    header_dir="${incdir}/$(dirname ${header_file})"
-    mkdir -p "${header_dir}"
-    cp -p "$1/${header_file}" "${header_dir}/"
-  done
-}
-copy_headers "$PWD" tensorflow/compiler
-copy_headers "$PWD" tensorflow/core/profiler/internal
-copy_headers "$PWD" tensorflow/core/profiler/lib
-copy_headers "$PWD" tensorflow/core/util/tensor_bundle
-copy_headers "${PWD}/bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles/local_tsl" tsl
-copy_headers "${PWD}/bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles" ml_dtypes
-
-pushd $outdir
-  tar cfz %{i}/libtensorflow_cc.tar.gz .
-popd
-
-#FIXME: Create missing externals links
-pushd bazel-tensorflow-%{realversion}/external
-  srcdir=$(dirname $(readlink zlib))
-  for e in ducc farmhash_gpu_archive stablehlo cudnn_frontend_archive ; do
-    echo "Check external link: $e"
-    if [ -e ${srcdir}/$e ] ; then
-      if [ ! -e $e ] ; then
-        echo "Creating symlink ${srcdir}/$e->$e"
-        ln -s ${srcdir}/$e .
-      fi
-    fi
-  done
-popd
-
-# create the wheel file that is installed in py3-tensorflow
-export PYTHONPATH=$PYTHON3PATH
-bash -ex bazel-bin/tensorflow/tools/pip_package/build_pip_package %{i}
+%ifarch x86_64
+%define bazel_dir k8-%{build_type}
+%else
+%define bazel_dir %{_arch}-%{build_type}
+%endif
 
 mkdir %{i}/lib-xla-runtime
-cp $outdir/lib/libfft.so %{i}/lib-xla-runtime
-cp $outdir/lib/libfft_wrapper.so %{i}/lib-xla-runtime
-%ifarch x86_64
-find $srcdir/.. -name 'libmutex.pic.a' -path '*k8-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
-find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*k8-opt*' -exec cp {} %{i}/lib-xla-runtime \;
-%endif
-%ifarch aarch64
-find $srcdir/.. -name 'libmutex.pic.a' -path '*aarch64-opt/bin/external/local_tsl*' -exec cp {} %{i}/lib-xla-runtime \;
-find $srcdir/.. -name 'libnsync_cpp.pic.a' -path '*aarch64-opt*' -exec cp {} %{i}/lib-xla-runtime \;
-%endif
-[ -e %{i}/lib-xla-runtime/libmutex.pic.a ]
-[ -e %{i}/lib-xla-runtime/libnsync_cpp.pic.a ]
+find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
+find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+find bazel-out/%{bazel_dir}/bin -path '*/external/local_tsl/tsl/*/libmutex.pic.a' | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+find bazel-out/%{bazel_dir}/bin -path '*/external/nsync/libnsync_cpp.pic.a'       | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+for lib in libfft.pic.a libfft_wrapper.pic.a libmutex.pic.a libnsync_cpp.pic.a ; do
+  test -e %{i}/lib-xla-runtime/${lib}
+done
