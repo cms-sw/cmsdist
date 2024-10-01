@@ -13,8 +13,8 @@
  import six
  from six.moves import zip_longest
  from six.moves import range
---- madgraph/iolibs/export_fks.py	2020-06-28 10:51:38.000000000 +0200
-+++ /build/muz/x/w/el8_amd64_gcc12/external/madgraph5amcatnlo/2.7.3-18e134b507b8b2dad04a406dc5465835/madgraph/iolibs/export_fks.py	2024-10-01 23:32:31.429927325 +0200
+--- a/madgraph/iolibs/export_fks.py	2020-06-28 10:51:38.000000000 +0200
++++ b/madgraph/iolibs/export_fks.py	2024-10-01 23:32:31.429927325 +0200
 @@ -16,7 +16,7 @@
  
  from __future__ import absolute_import
@@ -46,8 +46,8 @@
                                 dir_path)
              # Copy plot_card
              for card in ['plot_card']:
---- madgraph/iolibs/export_v4.py	2024-09-30 10:37:29.000000000 +0200
-+++ /build/muz/x/w/el8_amd64_gcc12/external/madgraph5amcatnlo/2.7.3-18e134b507b8b2dad04a406dc5465835/madgraph/iolibs/export_v4.py	2024-10-01 23:30:32.657624474 +0200
+--- a/madgraph/iolibs/export_v4.py	2024-09-30 10:37:29.000000000 +0200
++++ b/madgraph/iolibs/export_v4.py	2024-10-01 23:30:32.657624474 +0200
 @@ -20,7 +20,7 @@
  
  import copy
