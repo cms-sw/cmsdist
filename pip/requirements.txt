@@ -62,7 +62,7 @@ clikit==0.6.2
 cmsml==0.2.6
 cms-tfaot==1.0.1
 contourpy==1.2.1
-correctionlib==2.6.4
+correctionlib==2.5.0
 cramjam==2.8.3
 crashtest==0.4.1
 certifi==2024.07.04
