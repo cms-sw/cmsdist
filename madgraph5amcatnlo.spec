@@ -60,5 +60,3 @@ rm -f %{i}/basiceventgeneration/Source/StdHEP/log.mcfio.*
 %post
 %relocateConfigAll . py.py
 %{relocateConfig}input/mg5_configuration.txt
-%{relocateConfig}basiceventgeneration/Cards/amcatnlo_configuration.txt
-%{relocateConfig}basiceventgeneration/Source/make_opts
