@@ -1,0 +1,92 @@
+--- a/madgraph/various/misc.py	2020-06-28 10:51:38.000000000 +0200
++++ b/madgraph/various/misc.py	2024-10-01 18:00:44.823794656 +0200
+@@ -29,7 +29,11 @@
+ import shutil
+ import traceback
+ import gzip as ziplib
+-from distutils.version import LooseVersion, StrictVersion
++try:
++    from distutils.version import LooseVersion, StrictVersion
++except ModuleNotFoundError:
++    from packaging.version import parse as LooseVersion
++    from packaging.version import Version as StrictVersion
+ import six
+ from six.moves import zip_longest
+ from six.moves import range
+--- a/madgraph/iolibs/export_fks.py	2020-06-28 10:51:38.000000000 +0200
++++ b/madgraph/iolibs/export_fks.py	2024-10-01 23:32:31.429927325 +0200
+@@ -16,7 +16,7 @@
+ 
+ from __future__ import absolute_import
+ from __future__ import print_function
+-from distutils import dir_util
++from shutil import copytree
+ import glob
+ import logging
+ import os
+@@ -99,8 +99,8 @@
+             logger.info('initialize a new directory: %s' % \
+                         os.path.basename(dir_path))
+             shutil.copytree(os.path.join(mgme_dir, 'Template', 'NLO'), dir_path, True)
+-            # distutils.dir_util.copy_tree since dir_path already exists
+-            dir_util.copy_tree(pjoin(self.mgme_dir, 'Template', 'Common'),dir_path)
++            # copytree since dir_path already exists
++            copytree(pjoin(self.mgme_dir, 'Template', 'Common'),dir_path)
+             # Copy plot_card
+             for card in ['plot_card']:
+                 if os.path.isfile(pjoin(self.dir_path, 'Cards',card + '.dat')):
+@@ -3393,8 +3393,8 @@
+             logger.info('initialize a new directory: %s' % \
+                         os.path.basename(dir_path))
+             shutil.copytree(os.path.join(mgme_dir, 'Template', 'NLO'), dir_path, True)
+-            # distutils.dir_util.copy_tree since dir_path already exists
+-            dir_util.copy_tree(pjoin(self.mgme_dir, 'Template', 'Common'),
++            # copytree since dir_path already exists
++            copytree(pjoin(self.mgme_dir, 'Template', 'Common'),
+                                dir_path)
+             # Copy plot_card
+             for card in ['plot_card']:
+--- a/madgraph/iolibs/export_v4.py	2024-09-30 10:37:29.000000000 +0200
++++ b/madgraph/iolibs/export_v4.py	2024-10-01 23:30:32.657624474 +0200
+@@ -20,7 +20,7 @@
+ 
+ import copy
+ from six import StringIO
+-from distutils import dir_util
++from shutil import copytree
+ import itertools
+ import fractions
+ import glob
+@@ -255,8 +255,8 @@
+                         os.path.basename(self.dir_path))
+             shutil.copytree(pjoin(self.mgme_dir, 'Template/LO'),
+                             self.dir_path, True)
+-            # distutils.dir_util.copy_tree since dir_path already exists
+-            dir_util.copy_tree(pjoin(self.mgme_dir, 'Template/Common'), 
++            # copytree since dir_path already exists
++            copytree(pjoin(self.mgme_dir, 'Template/Common'), 
+                                self.dir_path)
+             # copy plot_card
+             for card in ['plot_card']:
+@@ -269,8 +269,8 @@
+         elif os.getcwd() == os.path.realpath(self.dir_path):
+             logger.info('working in local directory: %s' % \
+                                                 os.path.realpath(self.dir_path))
+-            # distutils.dir_util.copy_tree since dir_path already exists
+-            dir_util.copy_tree(pjoin(self.mgme_dir, 'Template/LO'), 
++            # copytree since dir_path already exists
++            copytree(pjoin(self.mgme_dir, 'Template/LO'), 
+                                self.dir_path)
+ #            for name in misc.glob('Template/LO/*', self.mgme_dir):
+ #                name = os.path.basename(name)
+@@ -279,8 +279,8 @@
+ #                    files.cp(filename, pjoin(self.dir_path,name))
+ #                elif os.path.isdir(filename):
+ #                     shutil.copytree(filename, pjoin(self.dir_path,name), True)
+-            # distutils.dir_util.copy_tree since dir_path already exists
+-            dir_util.copy_tree(pjoin(self.mgme_dir, 'Template/Common'), 
++            # copytree since dir_path already exists
++            copytree(pjoin(self.mgme_dir, 'Template/Common'), 
+                                self.dir_path)
+             # Copy plot_card
+             for card in ['plot_card']:
