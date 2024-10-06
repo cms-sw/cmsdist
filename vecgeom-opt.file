@@ -1,0 +1,3 @@
+%if "%{?enable_vecgeom:set}" != "set"
+%define enable_vecgeom 1
+%endif

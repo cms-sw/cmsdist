@@ -2,6 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
+## INCLUDE vecgeom-opt
 %define tag 147a937ccd14312c1f9fb2a7e8543fcc4bc96744
 %define branch cms/v%{realversion}
 %define github_user cms-externals
@@ -12,9 +13,6 @@ BuildRequires: cmake gmake
 Requires: clhep
 Requires: expat
 Requires: xerces-c
-%if "%{?enable_vecgeom:set}" != "set"
-%define enable_vecgeom 1
-%endif
 %if %{enable_vecgeom}
 Requires: vecgeom
 %endif
