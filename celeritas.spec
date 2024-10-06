@@ -2,6 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
+## INCLUDE vecgeom-opt
 %define keep_archives true
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 %define tag f9b51d72fc268bf22c5560b82d3dd3d7613a8106
@@ -12,7 +13,10 @@ BuildRequires: cmake
 Requires: python3
 Requires: json
 Requires: geant4
+Requires: expat xerces-c
+%if %{enable_vecgeom}
 Requires: vecgeom
+%endif
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -45,7 +49,11 @@ cmake ../%{n}-%{realversion} \
   -DCELERITAS_USE_MPI=OFF \
   -DCELERITAS_USE_ROOT=OFF \
   -DCELERITAS_USE_SWIG=OFF \
+%if %{enable_vecgeom}
   -DCELERITAS_USE_VecGeom=ON
+%else
+  -DCELERITAS_USE_VecGeom=OFF
+%endif
 
 make %{makeprocesses} VERBOSE=1
 
