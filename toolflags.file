@@ -3,3 +3,4 @@
 ## INCLUDE cuda-flags
 ## INCLUDE cpp-standard
 ## INCLUDE warning-flags
+## INCLUDE vecgeom-opt
