@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 088d56806388a14c45ad78516fb50df91b85f9ab
-%define branch cms/master/0229d5d032
+%define tag 8a08938266b1e598da37693e35e6e7f2c4d87537
+%define branch cms/master/201f472dd3
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
