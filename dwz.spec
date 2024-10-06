@@ -1,7 +1,7 @@
-### RPM external dwz 0.14
-
-%define dwz_branch %{n}-%{realversion}-branch
-%define dwz_commit b612e38de2a1a376362cc2ac0da3c0938b8e0bca
+### RPM external dwz 0.15
+Requires: xxhash
+%define dwz_branch master
+%define dwz_commit 0171f3e7ac09fa44cb1eb299f2703faa113a207e
 
 Source: git://sourceware.org/git/dwz.git?obj=%{dwz_branch}/%{dwz_commit}&export=dwz-%{dwz_commit}&output=/dwz-%{dwz_commit}.tgz
 
@@ -9,7 +9,9 @@ Source: git://sourceware.org/git/dwz.git?obj=%{dwz_branch}/%{dwz_commit}&export=
 %setup -T -b 0 -n dwz-%{dwz_commit}
 
 %build
-make %{makeprocesses}
+make %{makeprocesses} \
+  CFLAGS="-I${XXHASH_ROOT}/include -O2" \
+  LDFLAGS="-L${XXHASH_ROOT}/lib"
 
 %install
 mkdir -p %{i}/bin
