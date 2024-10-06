@@ -9,7 +9,11 @@
     <environment name="LIBDIR" default="$CELERITAS_BASE/lib64"/>
   </client>
   <flags REM_CXXFLAGS="-Werror=missing-braces"/>
-  <use name="vecgeom_interface"/>
   <use name="geant4core"/>
+  <use name="expat"/>
+  <use name="xerces-c"/>
+%if %{enable_vecgeom}
+  <use name="vecgeom_interface"/>
   <use name="vecgeom"/>
+%endif
 </tool>

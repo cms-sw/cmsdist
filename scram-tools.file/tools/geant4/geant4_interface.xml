@@ -9,7 +9,9 @@
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags cppdefines="GNU_GCC G4V9"/>
   <use name="clhep"/>
-  @GEANT4_VECGEOM@
+%if %{enable_vecgeom}
+  <use name="vecgeom"/>
+%endif
   <use name="zlib"/>
   <use name="expat"/>
   <use name="xerces-c"/>
