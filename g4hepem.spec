@@ -8,7 +8,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 
 BuildRequires: cmake gmake
 
-Requires: geant4
+Requires: geant4 expat
 
 %define keep_archives true
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
@@ -29,7 +29,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH="${GEANT4_ROOT}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1
 
