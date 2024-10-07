@@ -8,7 +8,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 
 BuildRequires: cmake gmake
 
-Requires: geant4 expat
+Requires: geant4 expat xerces-c
 
 %define keep_archives true
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
