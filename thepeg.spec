@@ -1,7 +1,7 @@
 ### RPM external thepeg 2.2.2
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/ThePEG
 ## INITENV +PATH DYLD_LIBRARY_PATH %{i}/lib/ThePEG
-
+## INCLUDE cpp-standard
 # Download from official webpage
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
 Patch0: LHEEventNum
@@ -43,6 +43,7 @@ rm -f ./Config/config.{sub,guess}
 chmod +x ./Config/config.{sub,guess}
 
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
+COMPILE_FLAGS="-g0 -O2 -DNDEBUG -std=c++%{cms_cxx_standard}"
 ./configure $PLATF_CONF_OPTS \
             --with-lhapdf=$LHAPDF_ROOT \
             --with-boost=$BOOST_ROOT \
@@ -52,7 +53,7 @@ sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
             --with-fastjet=$FASTJET_ROOT \
             --without-javagui \
             --prefix=%{i} \
-            --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" CXXFLAGS="-g0 -O2 -DNDEBUG" CFLAGS="-g0 -O2 -DNDEBUG"
+            --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" CXXFLAGS="${COMPILE_FLAGS}" CFLAGS="${COMPILE_FLAGS}"
 
 make %{makeprocesses}
 
