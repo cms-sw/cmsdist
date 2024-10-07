@@ -12,7 +12,7 @@ Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&ex
 Source1: dd4hep_modulemap
 
 BuildRequires: cmake
-Requires: root boost clhep xerces-c geant4
+Requires: root boost clhep xerces-c expat geant4
 
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
@@ -30,7 +30,7 @@ Requires: root boost clhep xerces-c geant4
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
   -DDD4HEP_USE_GEANT4_UNITS=ON \\\
   -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\
-  -DCMAKE_PREFIX_PATH="${CLHEP_ROOT};${XERCES_C_ROOT}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 %prep
 
