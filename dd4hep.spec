@@ -17,11 +17,8 @@ Requires: root boost clhep xerces-c expat geant4
 %define cmake_fixed_args \\\
   -DCMAKE_INSTALL_PREFIX='%{i}' \\\
   -DCMAKE_CXX_FLAGS="%{build_flags}" \\\
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \\\
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \\\
   -DBoost_NO_BOOST_CMAKE=ON \\\
   -DDD4HEP_USE_XERCESC=ON \\\
-  -DDD4HEP_USE_PYROOT=ON \\\
   -DCMAKE_AR=$(which gcc-ar) \\\
   -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\

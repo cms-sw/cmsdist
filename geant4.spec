@@ -1,9 +1,9 @@
-### RPM external geant4 11.2.ref07
+### RPM external geant4 11.2.ref08
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 ## INCLUDE vecgeom-opt
-%define tag 147a937ccd14312c1f9fb2a7e8543fcc4bc96744
+%define tag 20b19ef6672d83d96299fc657a12f50c3198a970
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
