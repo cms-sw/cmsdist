@@ -55,7 +55,7 @@ COMPILE_FLAGS="-g0 -O2 -DNDEBUG -std=c++%{cms_cxx_standard}"
             --prefix=%{i} \
             --disable-readline CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" CXXFLAGS="${COMPILE_FLAGS}" CFLAGS="${COMPILE_FLAGS}"
 
-make %{makeprocesses}
+make %{makeprocesses} V=1
 
 %install
 make install
