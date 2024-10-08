@@ -1,0 +1,15 @@
+diff --git a/ninja-1.1.0/Makefile.in b/ninja-1.1.0/Makefile.in
+index 7ecdbf8..31dc69c 100644
+--- a/ninja-1.1.0/Makefile.in
++++ b/ninja-1.1.0/Makefile.in
+@@ -642,6 +642,10 @@ quadsources/rambo.lo: quadsources/$(am__dirstamp)
+ quadsources/ninja_wraps.lo: quadsources/$(am__dirstamp)
+ quadsources/avholo_wrapper.lo: quadsources/$(am__dirstamp)
+ 
++mninja.mod: mninja.lo
++ninjago_module.mod: ninjago.lo
++ninjavholo.mod: ninjavholo.lo
++
+ libninja.la: $(libninja_la_OBJECTS) $(libninja_la_DEPENDENCIES) $(EXTRA_libninja_la_DEPENDENCIES) 
+ 	$(AM_V_CXXLD)$(CXXLINK) -rpath $(libdir) $(libninja_la_OBJECTS) $(libninja_la_LIBADD) $(LIBS)
+ install-binPROGRAMS: $(bin_PROGRAMS)

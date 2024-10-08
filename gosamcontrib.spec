@@ -1,13 +1,14 @@
-### RPM external gosamcontrib 2.0-20150803
+### RPM external gosamcontrib 2.0-20180708
 Source: http://www.hepforge.org/archive/gosam/gosam-contrib-%{realversion}.tar.gz
-
-Requires: qgraf
-Requires: form
+Patch0: gosamcontrib-module-patch
+Requires: qgraf form
+BuildRequires: gmake
 
 %define keep_archives true
 
 %prep
 %setup -q -n gosam-contrib-2.0
+%patch0 -p1
 
 %build
 CXX="$(which c++) -fPIC"
