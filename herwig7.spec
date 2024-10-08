@@ -1,4 +1,5 @@
 ### RPM external herwig7 7.2.2
+## INCLUDE cpp-standard
 Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
 
 Requires: lhapdf
@@ -29,8 +30,8 @@ Patch3: herwig_MB
 autoreconf -fiv
 
 %build
-CXX="$(which g++) -fPIC"
-CC="$(which gcc) -fPIC"
+CXX="$(which g++) -fPIC -std=c++%{cms_cxx_standard}"
+CC="$(which gcc)  -fPIC -std=c++%{cms_cxx_standard}"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 FCFLAGS=""
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
@@ -56,7 +57,7 @@ PYTHON=python3 ./configure --prefix=%i \
 sed -i -e 's|^install-data-hook:|install-data-hook:\n\techo Skip data\n\ninstall-data-hookX:|' src/Makefile
 %endif
 
-make %makeprocesses all
+make %makeprocesses all V=1
 
 %install
 make %makeprocesses install LHAPDF_DATA_PATH=$LHAPDF_ROOT/share/LHAPDF
