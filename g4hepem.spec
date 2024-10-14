@@ -1,6 +1,8 @@
 ### RPM external g4hepem 20230309
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
+## INCLUDE vecgeom-opt
+
 %define tag %{realversion}
 %define branch master
 %define github_user mnovak42
@@ -9,6 +11,9 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 BuildRequires: cmake gmake
 
 Requires: geant4 expat xerces-c
+%if %{enable_vecgeom}
+Requires: vecgeom
+%endif
 
 %define keep_archives true
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
