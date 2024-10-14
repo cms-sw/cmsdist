@@ -2,6 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
+## INCLUDE vecgeom-opt
 
 %define tag d119e3f8f5da75bd87632467df088197f84ed1b8
 %define branch master
@@ -11,6 +12,9 @@
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c expat geant4
+%if %{enable_vecgeom}
+Requires: vecgeom
+%endif
 
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
@@ -40,7 +44,7 @@ export BOOST_ROOT
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
-cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON ../%{n}-%{realversion}
+cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
