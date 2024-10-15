@@ -2,7 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-## INCLUDE vecgeom-opt
+## INCLUDE g4deps
 
 %define tag d119e3f8f5da75bd87632467df088197f84ed1b8
 %define branch master
@@ -12,9 +12,6 @@
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake
 Requires: root boost clhep xerces-c expat geant4
-%if %{enable_vecgeom}
-Requires: vecgeom
-%endif
 
 %define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 

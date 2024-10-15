@@ -1,0 +1,4 @@
+## INCLUDE vecgeom-opt
+%if %{enable_vecgeom}
+Requires: vecgeom
+%endif
