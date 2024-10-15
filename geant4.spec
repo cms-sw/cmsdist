@@ -1,25 +1,10 @@
 ### RPM external geant4 11.2.ref08
-## INCLUDE compilation_flags
-## INCLUDE compilation_flags_lto
-## INCLUDE cpp-standard
-## INCLUDE vecgeom-opt
 %define tag 20b19ef6672d83d96299fc657a12f50c3198a970
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake gmake
-
-Requires: clhep
-Requires: expat
-Requires: xerces-c
-%if %{enable_vecgeom}
-Requires: vecgeom
-%endif
-Requires: zlib
-
-%define keep_archives true
-%define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+## INCLUDE geant4-deps
 
 %prep
 %setup -n %{n}.%{realversion}

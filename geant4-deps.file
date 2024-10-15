@@ -1,0 +1,16 @@
+## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
+## INCLUDE vecgeom-opt
+
+BuildRequires: cmake gmake
+Requires: clhep
+Requires: expat
+Requires: xerces-c
+%if %{enable_vecgeom}
+Requires: vecgeom
+%endif
+Requires: zlib
+
+%define keep_archives true
+%define build_flags %{?package_build_flags} -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
