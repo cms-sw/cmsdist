@@ -5,7 +5,6 @@ Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&ex
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
-BuildRequires: cmake
 Requires: python3 json geant4
 
 %prep
