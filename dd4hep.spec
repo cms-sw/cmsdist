@@ -1,18 +1,12 @@
 ### RPM external dd4hep v01-29-00
-## INCLUDE compilation_flags
-## INCLUDE compilation_flags_lto
-## INCLUDE cpp-standard
-
 %define tag d119e3f8f5da75bd87632467df088197f84ed1b8
 %define branch master
 %define github_user AIDASoft
-%define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-BuildRequires: cmake
-Requires: root boost clhep xerces-c expat geant4
+## INCLUDE geant4-deps
 
-%define build_flags -fPIC %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
+Requires: root boost geant4
 
 %define cmake_fixed_args \\\
   -DCMAKE_INSTALL_PREFIX='%{i}' \\\
@@ -37,7 +31,7 @@ export BOOST_ROOT
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
-cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON ../%{n}-%{realversion}
+cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
