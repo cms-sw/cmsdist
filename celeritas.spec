@@ -1,22 +1,11 @@
 ### RPM external celeritas v0.4.1
-## INCLUDE compilation_flags
-## INCLUDE compilation_flags_lto
-## INCLUDE cpp-standard
-## INCLUDE vecgeom-opt
-%define keep_archives true
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 %define tag f9b51d72fc268bf22c5560b82d3dd3d7613a8106
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-BuildRequires: cmake
 
-%define build_flags -Wall -Wextra -pedantic %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
-Requires: python3
-Requires: json
-Requires: geant4
-Requires: expat xerces-c
-%if %{enable_vecgeom}
-Requires: vecgeom
-%endif
+%define package_build_flags -Wall -Wextra -pedantic
+## INCLUDE geant4-deps
+Requires: python3 json geant4
 
 %prep
 %setup -n %{n}-%{realversion}
