@@ -1,10 +1,10 @@
-### RPM external gcc 12.3.1
+### RPM external gcc 12.4.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 10ebb8b9db2ec7ad53e4fc1f2900d9a8c8ddeaea
+%define gccTag 9e00ae3e23eef8bff497981e00853ca092772201
 %define gccBranch releases/gcc-12
 
 %define moduleName %{n}-%{realversion}
@@ -264,6 +264,7 @@ export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
              $CONF_GCC_OS_SPEC $CONF_GCC_WITH_LTO --with-gmp=%{i} --with-mpfr=%{i} --enable-bootstrap \
              --with-mpc=%{i} --with-isl=%{i} --enable-checking=release \
              --build=%{_build} --host=%{_host} --enable-libstdcxx-time=rt $CONF_GCC_ARCH_SPEC \
+             --enable-libstdcxx-backtrace=yes \
              --enable-shared --disable-libgcj \
              --with-zstd=%{i}/tmp/sw \
              CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" \
