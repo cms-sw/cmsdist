@@ -1,8 +1,18 @@
 diff --git a/include/sincos.h b/include/sincos.h
-index 563ae93..2ca2855 100644
+index 563ae93..e5708c5 100644
 --- a/include/sincos.h
 +++ b/include/sincos.h
-@@ -204,6 +204,9 @@ inline void fast_sincosf_m45_45( const float x, float & s, float &c ) {
+@@ -129,6 +129,9 @@ inline void fast_sincos_m45_45( const double z, double & s, double &c ) {
+ } // End namespace details
+ 
+ /// Double precision sincos
++#ifdef CMS_UNDEFINED_SANITIZER
++__attribute__((no_sanitize("signed-integer-overflow")))
++#endif
+ inline void fast_sincos( const double xx, double & s, double &c ) {
+     // I have to use doubles to make it vectorise...
+ 
+@@ -204,6 +207,9 @@ inline void fast_sincosf_m45_45( const float x, float & s, float &c ) {
  } // end details namespace
  
  /// Single precision sincos
