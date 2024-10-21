@@ -13,6 +13,7 @@ Requires: gcc zlib python3 libxml2 zstd
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
+Source2: https://patch-diff.githubusercontent.com/raw/llvm/llvm-project/pull/85916.patch
 
 %define keep_archives true
 
@@ -26,6 +27,7 @@ sed -ibak '/add_clang_subdirectory(libclang)/a add_subdirectory(include-what-you
 
 # move back to the main setup directory
 %setup -T -D -n llvm-%{realversion}-%{llvmCommit}
+patch -p1 <%{_sourcedir}/85916.patch
 
 %build
 ## INCLUDE cuda-flags
@@ -61,6 +63,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
+ninja -v %{makeprocesses} check-nsan
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
