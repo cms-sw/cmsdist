@@ -6,4 +6,5 @@
 %define python_env PYTHON3PATH
 %define build_type opt
 %define pythonOnly no
+%define enable_tf_mkldnn 1
 ## INCLUDE tensorflow-sources
