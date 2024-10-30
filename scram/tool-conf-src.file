@@ -78,16 +78,6 @@ if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
 fi
 
 echo '<tool name="python-paths" version="1.0">' > %{i}/tools/selected/python-paths.xml
-if [ "${PYTHON27PATH}" != "" ] ; then
-  py27List=`echo ${PYTHON27PATH} | tr ':' '\n'`
-  mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
-  touch %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
-  for pkg in ${py27List} ; do
-     echo "adding $pkg"
-     echo "$pkg" >> %{i}/${PYTHON_LIB_SITE_PACKAGES}/tool-deps.pth
-  done
-  echo '  <runtime name="PYTHON27PATH"  value="%{i}/'${PYTHON_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
-fi
 
 if [ "${PYTHON3PATH}" != "" ] ; then
   py3List=`echo ${PYTHON3PATH} | tr ':' '\n'`
@@ -99,6 +89,38 @@ if [ "${PYTHON3PATH}" != "" ] ; then
   done
   echo '  <runtime name="PYTHON3PATH"  value="%{i}/'${PYTHON3_LIB_SITE_PACKAGES}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
 fi
+
+%if "%{package_vectorization}"
+%if "%{vectorized_packages}"
+for pth in %{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth ; do
+  [ -f ${pth} ] ||  continue
+  dir=$(dirname $pth)
+  for tool in %{vectorized_packages} ; do
+    for vec in %{package_vectorization} ; do
+      uctool=`echo ${tool}_${vec}_ROOT | tr '[a-z-]' '[A-Z_]'`
+      toolbase=`eval echo \\$${uctool}`
+      if [ $(grep "${toolbase}/" ${pth} |wc -l) -gt 0 ] ; then
+        mkdir -p ${dir}/scram_${vec}
+        grep "${toolbase}/" ${pth} >> ${dir}/scram_${vec}/tool-deps.pth
+        sed -i -e "\#^${toolbase}#d" ${pth}
+      fi
+    done
+  done
+done
+for vec in default %{package_vectorization} ; do
+  xvar=`echo ${vec}_${vec}_ROOT | tr '[a-z-]' '[A-Z_]'`
+  for item in PYTHON3PATH:${PYTHON3_LIB_SITE_PACKAGES} ; do
+    pydir=$(echo $item | sed 's|.*:||')
+    dir=%{i}/${pydir}/${vec}
+    [ "${vec}" != "default" ] && dir=%{i}/${pydir}/scram_${vec}
+    [ -f ${dir}/tool-deps.pth ] ||  continue
+    var=$(echo $item | sed 's|:.*||')
+    xvar=`echo ${vec}_${var} | tr '[a-z-]' '[A-Z_]'`
+    echo '  <runtime name="'${xvar}'"  value="'${dir}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+  done
+done
+%endif
+%endif
 
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
