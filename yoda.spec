@@ -1,4 +1,4 @@
-### RPM external yoda 2.0.0
+### RPM external yoda 2.0.1
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: git+https://gitlab.com/hepcedar/yoda.git?obj=main/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -15,6 +15,7 @@ autoreconf -fiv
 
 PYTHON=$(which python3) ./configure --prefix=%i --enable-root
 sed -i "s|env python|env python3|" bin/*
+sed -i "s|env python|env python3|" pyext/yoda/plotting/script_generator.py
 make %{makeprocesses} all
 make install
 
