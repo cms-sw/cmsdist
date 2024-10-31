@@ -11,7 +11,7 @@ index d95c5d3a5..7ed7db87d 100644
      typedef map<string, const AnalysisBuilderBase*> AnalysisBuilderMap;
      /// Canonical analysis builder functors
 diff --git a/src/Core/AnalysisLoader.cc b/src/Core/AnalysisLoader.cc
-index 137383b12..e2a1cc91a 100644
+index e1bdd1226..dd836504f 100644
 --- a/src/Core/AnalysisLoader.cc
 +++ b/src/Core/AnalysisLoader.cc
 @@ -14,6 +14,7 @@ namespace Rivet {
@@ -22,7 +22,7 @@ index 137383b12..e2a1cc91a 100644
    AnalysisLoader::AnalysisBuilderMap AnalysisLoader::_ptrs;
    AnalysisLoader::AnalysisBuilderMap AnalysisLoader::_aliasptrs;
  
-@@ -159,6 +160,11 @@ namespace Rivet {
+@@ -160,6 +161,11 @@ namespace Rivet {
            if (filename.find("Rivet") != 0) continue;
            size_t posn = filename.find(libsuffix);
            if (posn == string::npos || posn != filename.length()-libsuffix.length()) continue;
@@ -33,5 +33,4 @@ index 137383b12..e2a1cc91a 100644
 +          _pluginnames += filename;
            /// @todo Make sure this is an abs path
            /// @todo Sys-dependent path separator instead of "/"
-           const string path = d + "/" + filename;
-
+           const string path = std::filesystem::canonical(f.path());
