@@ -241,12 +241,12 @@ notebook-shim==0.2.4
 nvidia-ml-py==12.550.52
 # numba==0.56.4
 # NO_AUTO_UPDATE: update together with numpy
-numexpr==2.8.4
+numexpr==2.8.5
 # setuptools version <64 is needed by numpy: https://github.com/pypa/setuptools/issues/3549
 # NO_AUTO_UPDATE: update together with tensorflow
 numpy==1.24.3
 # NO_AUTO_UPDATE:1
-onnx==1.16.0
+onnx==1.17.0
 onnxmltools==1.12.0
 onnxconverter-common==1.14.0
 oauthlib==3.2.2
@@ -414,7 +414,7 @@ virtualenvwrapper==6.1.0
 wcwidth==0.2.13
 webencodings==0.5.1
 websocket-client==1.8.0
-Werkzeug==3.0.3
+Werkzeug==3.0.6
 #NO_AUTO_UPDATE:1: you need wheel to build wheel
 wheel==0.40.0
 widgetsnbextension==4.0.10
