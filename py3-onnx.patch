@@ -1,6 +1,8 @@
---- a/setup.py	2024-04-24 14:45:57.575099922 +0200
-+++ b/setup.py	2024-04-24 14:46:34.916770226 +0200
-@@ -30,7 +30,7 @@
+diff --git a/setup.py b/setup.py
+index 029584c..32d3558 100644
+--- a/setup.py
++++ b/setup.py
+@@ -31,7 +31,7 @@ CMAKE_BUILD_DIR = os.path.join(TOP_DIR, ".setuptools-cmake-build")
  
  WINDOWS = os.name == "nt"
  
