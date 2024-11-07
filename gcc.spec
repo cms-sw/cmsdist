@@ -7,6 +7,8 @@
 %define gccTag 10ebb8b9db2ec7ad53e4fc1f2900d9a8c8ddeaea
 %define gccBranch releases/gcc-12
 
+
+
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
