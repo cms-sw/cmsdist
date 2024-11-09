@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_14_1_5_O2OTest
 
 Requires: cmssw-tool-conf
 
