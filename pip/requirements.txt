@@ -137,7 +137,6 @@ h5py==3.11.0
 hepdata-lib==0.16.0
 hepdata-validator==0.3.5
 hist==2.8.0
-histbook==1.2.5
 histoprint==2.4.0
 histogrammar==1.0.33
 html5lib==1.1
