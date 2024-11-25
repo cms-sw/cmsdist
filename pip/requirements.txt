@@ -134,7 +134,7 @@ hatch-nodejs-version==0.3.2
 hatch-vcs==0.4.0
 hatchling==1.25.0
 h5py==3.11.0
-hepdata-lib==0.16.0
+hepdata-lib==0.17.0
 hepdata-validator==0.3.5
 hist==2.8.0
 histoprint==2.4.0
