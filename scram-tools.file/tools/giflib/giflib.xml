@@ -1,4 +1,4 @@
-  <tool name="giflib" version="@TOOL_VERSION@">
+  <tool name="giflib" version="@TOOL_VERSION@" revision="1">
     <info url="http://giflib.sourceforge.net"/>
     <lib name="gif"/>
     <client>

@@ -1,4 +1,4 @@
-<tool name="l1metml" version="@TOOL_VERSION@">
+<tool name="l1metml" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="L1METML_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"       default="$L1METML_BASE/lib64"/>

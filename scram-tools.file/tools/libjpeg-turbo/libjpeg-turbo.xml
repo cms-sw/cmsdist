@@ -1,4 +1,4 @@
-<tool name="libjpeg-turbo" version="@TOOL_VERSION@">
+<tool name="libjpeg-turbo" version="@TOOL_VERSION@" revision="1">
   <info url="http://libjpeg-turbo.virtualgl.org"/>
   <lib name="jpeg"/>
   <lib name="turbojpeg"/>

@@ -1,4 +1,4 @@
-<tool name="xgboost" version="@TOOL_VERSION@">
+<tool name="xgboost" version="@TOOL_VERSION@" revision="1">
   <lib name="xgboost"/>
   <client>
     <environment name="XGBOOST_BASE" default="@TOOL_ROOT@"/>

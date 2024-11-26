@@ -1,4 +1,4 @@
-<tool name="xrootd" version="@TOOL_VERSION@">
+<tool name="xrootd" version="@TOOL_VERSION@" revision="1">
   <lib name="XrdUtils"/>
   <lib name="XrdCl"/>
   <client>

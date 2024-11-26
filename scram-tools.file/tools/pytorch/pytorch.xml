@@ -1,4 +1,4 @@
-<tool name="pytorch" version="@TOOL_VERSION@">
+<tool name="pytorch" version="@TOOL_VERSION@" revision="1">
   <lib name="torch"/>
   <lib name="torch_cpu"/>
   <lib name="c10"/>

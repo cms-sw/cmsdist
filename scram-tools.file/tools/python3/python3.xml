@@ -1,4 +1,4 @@
-<tool name="python3" version="@TOOL_VERSION@">
+<tool name="python3" version="@TOOL_VERSION@" revision="1">
   <lib name="python@PYTHON3V@"/>
   <client>
     <environment name="PYTHON3_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="catch2" version="@TOOL_VERSION@">
+<tool name="catch2" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="CATCH2_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"      default="$CATCH2_BASE/include"/>

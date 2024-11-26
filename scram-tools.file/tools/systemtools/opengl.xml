@@ -1,4 +1,4 @@
-  <tool name="opengl" version="system">
+  <tool name="opengl" version="system" revision="1">
     <lib name="GL"/>
     <lib name="GLU"/>
     <use name="x11"/>

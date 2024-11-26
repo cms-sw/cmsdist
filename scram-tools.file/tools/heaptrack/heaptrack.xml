@@ -1,4 +1,4 @@
-  <tool name="heaptrack" version="@TOOL_VERSION@">
+  <tool name="heaptrack" version="@TOOL_VERSION@" revision="1">
     <info url="https://invent.kde.org/sdk/heaptrack/"/>
     <client>
       <environment name="HEAPTRACK_BASE" default="@TOOL_ROOT@"/>

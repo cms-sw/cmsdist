@@ -1,4 +1,4 @@
-<tool name="c-ares" version="@TOOL_VERSION@">
+<tool name="c-ares" version="@TOOL_VERSION@" revision="1">
   <info url="https://c-ares.org/"/>
   <lib name="cares"/>
   <client>

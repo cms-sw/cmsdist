@@ -1,4 +1,4 @@
-<tool name="libtiff" version="@TOOL_VERSION@">
+<tool name="libtiff" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.libtiff.org/"/>
   <lib name="tiff"/>
   <client>

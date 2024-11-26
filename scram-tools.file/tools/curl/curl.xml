@@ -1,4 +1,4 @@
-<tool name="curl" version="@TOOL_VERSION@">
+<tool name="curl" version="@TOOL_VERSION@" revision="1">
   <lib name="curl"/>
   <client>
     <environment name="CURL_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="gdrcopy" version="@TOOL_VERSION@">
+<tool name="gdrcopy" version="@TOOL_VERSION@" revision="1">
   <lib name="gdrapi"/>
   <client>
     <environment name="GDRCOPY_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="cppunit" version="@TOOL_VERSION@">
+<tool name="cppunit" version="@TOOL_VERSION@" revision="1">
   <lib name="cppunit"/>
   <client>
     <environment name="CPPUNIT_BASE" default="@TOOL_ROOT@"/>

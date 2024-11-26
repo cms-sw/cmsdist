@@ -1,4 +1,4 @@
-<tool name="jemalloc-debug" version="@TOOL_VERSION@">
+<tool name="jemalloc-debug" version="@TOOL_VERSION@" revision="1">
   <lib name="jemalloc-debug"/>
   <client>
     <environment name="JEMALLOC_BASE" default="@TOOL_ROOT@"/>

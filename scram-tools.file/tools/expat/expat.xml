@@ -1,4 +1,4 @@
-<tool name="expat" version="@TOOL_VERSION@">
+<tool name="expat" version="@TOOL_VERSION@" revision="1">
   <lib name="expat"/>
   <client>
     <environment name="EXPAT_BASE" default="@TOOL_ROOT@"/>

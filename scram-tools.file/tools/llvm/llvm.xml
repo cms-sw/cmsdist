@@ -1,4 +1,4 @@
-  <tool name="llvm" version="@TOOL_VERSION@">
+  <tool name="llvm" version="@TOOL_VERSION@" revision="1">
     <lib name="clang"/>
     <client>
       <environment name="LLVM_BASE" default="@TOOL_ROOT@"/>

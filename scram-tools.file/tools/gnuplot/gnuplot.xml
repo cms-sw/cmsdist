@@ -1,4 +1,4 @@
-  <tool name="gnuplot" version="@TOOL_VERSION@">
+  <tool name="gnuplot" version="@TOOL_VERSION@" revision="1">
     <info url="http://gnuplot.sourceforge.net"/>
     <client>
       <environment name="GNUPLOT_BASE" default="@TOOL_ROOT@"/>

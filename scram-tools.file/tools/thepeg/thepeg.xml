@@ -1,4 +1,4 @@
-<tool name="thepeg" version="@TOOL_VERSION@">
+<tool name="thepeg" version="@TOOL_VERSION@" revision="1">
   <lib name="ThePEG"/>
   <lib name="LesHouches"/>
   <client>

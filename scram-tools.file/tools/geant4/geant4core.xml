@@ -1,4 +1,4 @@
-<tool name="geant4core" version="@TOOL_VERSION@">
+<tool name="geant4core" version="@TOOL_VERSION@" revision="1">
   <lib name="G4digits_hits"/>
   <lib name="G4error_propagation"/>
   <lib name="G4event"/>

@@ -1,4 +1,4 @@
-<tool name="numpy-c-api" version="@TOOL_VERSION@">
+<tool name="numpy-c-api" version="@TOOL_VERSION@" revision="1">
   <lib name="npymath"/>
   <client>
     <environment name="NUMPY_C_API_BASE" default="@TOOL_ROOT@"/>

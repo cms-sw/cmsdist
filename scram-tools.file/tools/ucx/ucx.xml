@@ -1,4 +1,4 @@
-<tool name="ucx" version="@TOOL_VERSION@">
+<tool name="ucx" version="@TOOL_VERSION@" revision="1">
   <lib name="ucp"/>
   <lib name="uct"/>
   <lib name="ucs"/>

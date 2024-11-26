@@ -1,4 +1,4 @@
-  <tool name="classlib" version="@TOOL_VERSION@">
+  <tool name="classlib" version="@TOOL_VERSION@" revision="1">
     <info url="http://cmsmac01.cern.ch/~lat/exports/"/>
     <client>
       <environment name="CLASSLIB_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="openloops" version="@TOOL_VERSION@">
+<tool name="openloops" version="@TOOL_VERSION@" revision="1">
 <client>
 <environment name="OPENLOOPS_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$OPENLOOPS_BASE/lib"/>

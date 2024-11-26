@@ -1,4 +1,4 @@
-<tool name="libpng" version="@TOOL_VERSION@">
+<tool name="libpng" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.libpng.org/"/>
   <lib name="png"/>
   <client>
