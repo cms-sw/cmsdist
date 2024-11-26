@@ -1,4 +1,4 @@
-<tool name="tbb" version="@TOOL_VERSION@">
+<tool name="tbb" version="@TOOL_VERSION@" revision="1">
   <info url="http://threadingbuildingblocks.org"/>
   <lib name="tbb"/>
   <client>

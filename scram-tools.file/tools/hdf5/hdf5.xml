@@ -1,4 +1,4 @@
-<tool name="hdf5" version="@TOOL_VERSION@">
+<tool name="hdf5" version="@TOOL_VERSION@" revision="1">
   <info url="https://support.hdfgroup.org/HDF5/"/>
   <lib name="hdf5"/>
   <lib name="hdf5_hl"/>

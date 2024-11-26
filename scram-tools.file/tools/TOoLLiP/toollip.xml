@@ -1,4 +1,4 @@
-<tool name="toollip" version="@TOOL_VERSION@">
+<tool name="toollip" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="TOOLLIP_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"       default="$TOOLLIP_BASE/lib64"/>

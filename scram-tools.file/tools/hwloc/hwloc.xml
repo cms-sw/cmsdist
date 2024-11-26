@@ -1,4 +1,4 @@
-<tool name="hwloc" version="@TOOL_VERSION@">
+<tool name="hwloc" version="@TOOL_VERSION@" revision="1">
   <lib name="hwloc"/>
   <client>
     <environment name="HWLOC_BASE"  default="@TOOL_ROOT@"/>

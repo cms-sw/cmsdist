@@ -1,4 +1,4 @@
-<tool name="utm" version="@TOOL_VERSION@">
+<tool name="utm" version="@TOOL_VERSION@" revision="1">
   <lib name="tmeventsetup"/>
   <lib name="tmtable"/>
   <lib name="tmxsd"/>

@@ -1,4 +1,4 @@
-<tool name="scitokens-cpp" version="@TOOL_VERSION@">
+<tool name="scitokens-cpp" version="@TOOL_VERSION@" revision="1">
   <lib name="SciTokens"/>
   <client>
     <environment name="LIBSCITOKENS_BASE" default="@TOOL_ROOT@"/>

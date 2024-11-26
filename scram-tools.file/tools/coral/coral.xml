@@ -1,4 +1,4 @@
-<tool name="coral" version="@TOOL_VERSION@" type="scram">
+<tool name="coral" version="@TOOL_VERSION@" type="scram" revision="1">
   <client>
     <environment name="CORAL_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CORAL_BASE/$SCRAM_ARCH/lib"/>

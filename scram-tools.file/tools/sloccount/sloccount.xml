@@ -1,4 +1,4 @@
-  <tool name="sloccount" version="@TOOL_VERSION@">
+  <tool name="sloccount" version="@TOOL_VERSION@" revision="1">
     <info url="http://www.dwheeler.com/sloccount/"/>
     <client>
       <environment name="SLOCCOUNT_BASE" default="@TOOL_ROOT@"/>

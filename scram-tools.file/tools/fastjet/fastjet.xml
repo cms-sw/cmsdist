@@ -1,4 +1,4 @@
-  <tool name="fastjet" version="@TOOL_VERSION@">
+  <tool name="fastjet" version="@TOOL_VERSION@" revision="1">
     <info url="http://fastjet.fr"/>
     <lib name="fastjetplugins"/>
     <lib name="fastjettools"/>
