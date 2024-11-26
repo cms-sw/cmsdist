@@ -1,4 +1,4 @@
-<tool name="libzmq" version="@TOOL_VERSION@">
+<tool name="libzmq" version="@TOOL_VERSION@" revision="1">
   <info url="https://zeromq.org"/>
   <lib name="zmq"/>
   <client>

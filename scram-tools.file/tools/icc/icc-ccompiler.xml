@@ -1,4 +1,4 @@
-  <tool name="icc-ccompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="icc-ccompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="ICC_CCOMPILER_BASE" default="@TOOL_ROOT@/installation" handler="warn"/>

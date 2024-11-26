@@ -1,4 +1,4 @@
-<tool name="clue" version="@TOOL_VERSION@">
+<tool name="clue" version="@TOOL_VERSION@" revision="1">
   <use name="alpaka"/>
   <client>
     <environment name="CLUE_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="vecgeom_interface" version="@TOOL_VERSION@">
+<tool name="vecgeom_interface" version="@TOOL_VERSION@" revision="1">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
   <client>
     <environment name="VECGEOM_INTERFACE_BASE" default="@TOOL_ROOT@"/>

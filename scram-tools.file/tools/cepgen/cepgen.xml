@@ -1,4 +1,4 @@
-<tool name="cepgen" version="@TOOL_VERSION@">
+<tool name="cepgen" version="@TOOL_VERSION@" revision="1">
   <info url="https://cepgen.hepforge.org/"/>
   <lib name="CepGen"/>
   <lib name="CepGenHepMC2"/>

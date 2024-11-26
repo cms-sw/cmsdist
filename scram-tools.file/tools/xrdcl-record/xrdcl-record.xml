@@ -1,4 +1,4 @@
-<tool name="xrdcl-record" version="@TOOL_VERSION@">
+<tool name="xrdcl-record" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="XRDCL_RECORD_BASE" default="@TOOL_ROOT@"/>
   </client>

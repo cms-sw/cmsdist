@@ -1,4 +1,4 @@
-<tool name="xpmem" version="@TOOL_VERSION@">
+<tool name="xpmem" version="@TOOL_VERSION@" revision="1">
   <lib name="xpmem"/>
   <client>
     <environment name="XPMEM_BASE" default="@TOOL_ROOT@"/>

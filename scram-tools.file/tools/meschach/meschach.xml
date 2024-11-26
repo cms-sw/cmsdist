@@ -1,4 +1,4 @@
-<tool name="meschach" version="@TOOL_VERSION@">
+<tool name="meschach" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.meschach.com"/>
   <lib name="meschach"/>
   <client>

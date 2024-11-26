@@ -1,4 +1,4 @@
-  <tool name="llvm-analyzer-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="llvm-analyzer-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="llvm-cxxcompiler"/>
     <client>
       <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>

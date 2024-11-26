@@ -1,4 +1,4 @@
-<tool name="db6" version="@TOOL_VERSION@">
+<tool name="db6" version="@TOOL_VERSION@" revision="1">
   <lib name="db"/>
   <client>
     <environment name="DB6_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="herwig7" version="@TOOL_VERSION@">
+<tool name="herwig7" version="@TOOL_VERSION@" revision="1">
   <lib name="HerwigAPI"/>
   <client>
     <environment name="HERWIGPP_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="gosam" version="@TOOL_VERSION@">
+<tool name="gosam" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="GOSAM_BASE" default="@TOOL_ROOT@"/>
     <environment name="BINDIR" default="$GOSAM_BASE/bin"/>

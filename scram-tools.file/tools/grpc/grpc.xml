@@ -1,4 +1,4 @@
-<tool name="grpc" version="@TOOL_VERSION@">
+<tool name="grpc" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/grpc/grpc"/>
   <lib name="grpc"/>
   <lib name="grpc++"/>

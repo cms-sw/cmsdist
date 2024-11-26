@@ -1,4 +1,4 @@
-<tool name="blackhat" version="@TOOL_VERSION@">
+<tool name="blackhat" version="@TOOL_VERSION@" revision="1">
 <lib name="Ampl_eval"/>
 <lib name="BG"/>
 <lib name="BH"/>

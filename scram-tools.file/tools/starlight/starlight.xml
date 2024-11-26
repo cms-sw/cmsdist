@@ -1,4 +1,4 @@
-<tool name="starlight" version="@TOOL_VERSION@">
+<tool name="starlight" version="@TOOL_VERSION@" revision="1">
   <lib name="Starlib"/>
   <client>
     <environment name="STARLIGHT_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="pyquen" version="@TOOL_VERSION@">
+<tool name="pyquen" version="@TOOL_VERSION@" revision="1">
   <lib name="pyquen"/>
   <client>
     <environment name="PYQUEN_BASE" default="@TOOL_ROOT@"/>

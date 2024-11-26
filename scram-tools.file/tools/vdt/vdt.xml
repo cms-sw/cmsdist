@@ -1,4 +1,4 @@
-<tool name="vdt" version="@TOOL_VERSION@">
+<tool name="vdt" version="@TOOL_VERSION@" revision="1">
   <lib name="vdt"/>
   <use name="vdt_headers"/>
   <client>

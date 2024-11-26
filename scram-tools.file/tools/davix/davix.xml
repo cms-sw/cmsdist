@@ -1,4 +1,4 @@
-  <tool name="davix" version="@TOOL_VERSION@">
+  <tool name="davix" version="@TOOL_VERSION@" revision="1">
     <info url="https://dmc.web.cern.ch/projects/davix/home"/>
     <lib name="davix"/>
     <client>
