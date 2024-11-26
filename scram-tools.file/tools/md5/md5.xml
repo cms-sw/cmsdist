@@ -1,4 +1,4 @@
-<tool name="md5" version="@TOOL_VERSION@">
+<tool name="md5" version="@TOOL_VERSION@" revision="1">
   <info url="https://tls.mbed.org/md5-source-code"/>
    <lib name="cms-md5"/>
   <client>

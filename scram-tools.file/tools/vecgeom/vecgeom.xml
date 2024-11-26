@@ -1,4 +1,4 @@
-<tool name="vecgeom" version="@TOOL_VERSION@">
+<tool name="vecgeom" version="@TOOL_VERSION@" revision="1">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
   <lib name="vecgeom"/>
   <client>

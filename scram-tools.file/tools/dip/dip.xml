@@ -1,4 +1,4 @@
-<tool name="dip" version="@TOOL_VERSION@">
+<tool name="dip" version="@TOOL_VERSION@" revision="1">
   <lib name="dip"/>
   <use name="dip-platform-dependent"/>
   <use name="log4cplus"/>

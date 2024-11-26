@@ -1,4 +1,4 @@
-<tool name="CSCTrackFinderEmulation" version="@TOOL_VERSION@">
+<tool name="CSCTrackFinderEmulation" version="@TOOL_VERSION@" revision="1">
   <lib name="CSCTrackFinderEmulation"/>
   <client>
     <environment name="CSCTRACKFINDEREMULATION_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="tauolapp" version="@TOOL_VERSION@">
+<tool name="tauolapp" version="@TOOL_VERSION@" revision="1">
   <lib name="TauolaCxxInterface"/>
   <lib name="TauolaFortran"/>
   <lib name="TauolaTauSpinner"/>

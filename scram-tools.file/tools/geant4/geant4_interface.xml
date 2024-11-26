@@ -1,4 +1,4 @@
-<tool name="geant4_interface" version="@TOOL_VERSION@">
+<tool name="geant4_interface" version="@TOOL_VERSION@" revision="1">
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <flags CXXFLAGS="-ftls-model=global-dynamic -pthread"/>
   <client>

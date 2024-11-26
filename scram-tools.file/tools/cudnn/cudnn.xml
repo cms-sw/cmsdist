@@ -1,4 +1,4 @@
-<tool name="cudnn" version="@TOOL_VERSION@">
+<tool name="cudnn" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/deeplearning/cudnn/index.html"/>
   <lib name="cudnn"/>
   <client>

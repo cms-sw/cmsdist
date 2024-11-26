@@ -1,4 +1,4 @@
-<tool name="cuda-cufft" version="@TOOL_VERSION@">
+<tool name="cuda-cufft" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cuda/cufft/index.html"/>
   <use name="cuda"/>
   <lib name="cufft"/>

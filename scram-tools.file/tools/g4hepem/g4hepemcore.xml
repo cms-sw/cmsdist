@@ -1,4 +1,4 @@
-<tool name="g4hepemcore" version="@TOOL_VERSION@">
+<tool name="g4hepemcore" version="@TOOL_VERSION@" revision="1">
   <lib name="g4HepEmData"/>
   <lib name="g4HepEmInit"/>
   <lib name="g4HepEmRun"/>

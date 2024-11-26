@@ -1,4 +1,4 @@
-<tool name="correctionlib" version="@TOOL_VERSION@">
+<tool name="correctionlib" version="@TOOL_VERSION@" revision="1">
   <lib name="correctionlib"/>
   <client>
     <environment name="CORRECTIONLIB_BASE" default="@TOOL_ROOT@"/>

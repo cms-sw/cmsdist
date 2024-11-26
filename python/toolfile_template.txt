@@ -9,7 +9,7 @@ Requires: <toolname>
 
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%{i}/etc/scram.d/<toolname>.xml
-<tool name="<toolname>" version="@TOOL_VERSION@">
+<tool name="<toolname>" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="<capsname>_BASE" default="@TOOL_ROOT@"/>
   </client>

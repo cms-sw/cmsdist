@@ -1,4 +1,4 @@
-<tool name="jemalloc-prof" version="@TOOL_VERSION@">
+<tool name="jemalloc-prof" version="@TOOL_VERSION@" revision="1">
   <lib name="jemalloc-prof"/>
   <client>
     <environment name="JEMALLOC_PROF_BASE" default="@TOOL_ROOT@"/>

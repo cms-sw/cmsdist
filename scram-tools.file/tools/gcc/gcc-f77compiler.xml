@@ -1,4 +1,4 @@
-  <tool name="gcc-f77compiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="gcc-f77compiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <lib name="gfortran"/>
     <lib name="m"/>
     <client>

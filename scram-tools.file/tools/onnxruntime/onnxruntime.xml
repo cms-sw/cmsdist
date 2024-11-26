@@ -1,4 +1,4 @@
-<tool name="onnxruntime" version="@TOOL_VERSION@">
+<tool name="onnxruntime" version="@TOOL_VERSION@" revision="1">
   <lib name="onnxruntime"/>
   <client>
     <environment name="ONNXRUNTIME_BASE" default="@TOOL_ROOT@"/>

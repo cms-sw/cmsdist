@@ -1,4 +1,4 @@
-<tool name="openmpi" version="@TOOL_VERSION@">
+<tool name="openmpi" version="@TOOL_VERSION@" revision="1">
   <lib name="mpi"/>
   <lib name="mpi_cxx"/>
   <client>

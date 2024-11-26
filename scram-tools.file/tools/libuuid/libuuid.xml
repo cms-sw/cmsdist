@@ -1,4 +1,4 @@
-<tool name="libuuid" version="@TOOL_VERSION@">
+<tool name="libuuid" version="@TOOL_VERSION@" revision="1">
   <lib name="uuid"/>
   <client>
     <environment name="LIBUUID_BASE" default="@TOOL_ROOT@"/>

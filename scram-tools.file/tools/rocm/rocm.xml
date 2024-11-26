@@ -1,4 +1,4 @@
-<tool name="rocm" version="@TOOL_VERSION@">
+<tool name="rocm" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.amd.com/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>

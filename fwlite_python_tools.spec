@@ -13,6 +13,6 @@ Requires: py3-numpy
 %install
 mkdir -p %{i}/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/python_tools.xml
-<tool name="%{n}" version="%{v}">
+<tool name="%{n}" version="%{v}" revision="1">
 </tool>
 EOF_TOOLFILE

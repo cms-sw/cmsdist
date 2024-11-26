@@ -1,4 +1,4 @@
-<tool name="lcov" version="@TOOL_VERSION@">
+<tool name="lcov" version="@TOOL_VERSION@" revision="1">
   <info url="http://ltp.sourceforge.net/coverage/lcov.php"/>
   <client>
     <environment name="LCOV_BASE" default="@TOOL_ROOT@"/>

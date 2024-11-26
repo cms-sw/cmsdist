@@ -1,4 +1,4 @@
-<tool name="mozsearch" version="1.0">
+<tool name="mozsearch" version="1.0" revision="1">
   <client>
     <environment name="MOZSEARCH_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"         default="$MOZSEARCH_BASE/lib64"/>

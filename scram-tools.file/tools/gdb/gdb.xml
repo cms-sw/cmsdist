@@ -1,4 +1,4 @@
-<tool name="gdb" version="@TOOL_VERSION@">
+<tool name="gdb" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="GDB_BASE" default="@TOOL_ROOT@"/>
   </client>

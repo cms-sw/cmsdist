@@ -1,4 +1,4 @@
-<tool name="libxml2" version="@TOOL_VERSION@">
+<tool name="libxml2" version="@TOOL_VERSION@" revision="1">
   <info url="http://xmlsoft.org/"/>
   <lib name="xml2"/>
   <client>

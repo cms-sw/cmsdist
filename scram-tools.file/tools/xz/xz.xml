@@ -1,4 +1,4 @@
-  <tool name="xz" version="@TOOL_VERSION@">
+  <tool name="xz" version="@TOOL_VERSION@" revision="1">
     <info url="http://tukaani.org/xz/"/>
     <lib name="lzma"/>
     <client>

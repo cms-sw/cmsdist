@@ -1,4 +1,4 @@
-<tool name="professor2" version="@TOOL_VERSION@">
+<tool name="professor2" version="@TOOL_VERSION@" revision="1">
 <client>
 <environment name="PROFESSOR2_BASE" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$PROFESSOR2_BASE/lib"/>

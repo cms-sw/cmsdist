@@ -1,4 +1,4 @@
-<tool name="fftw3" version="@TOOL_VERSION@">
+<tool name="fftw3" version="@TOOL_VERSION@" revision="1">
   <lib name="fftw3"/>
   <client>
     <environment name="FFTW3_BASE" default="@TOOL_ROOT@"/>

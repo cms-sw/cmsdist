@@ -1,4 +1,4 @@
-<tool name="abseil-cpp" version="@TOOL_VERSION@">
+<tool name="abseil-cpp" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/abseil/abseil-cpp"/>
   <lib name="absl_bad_any_cast_impl"/>
   <lib name="absl_bad_optional_access"/>

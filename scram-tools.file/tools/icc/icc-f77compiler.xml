@@ -1,4 +1,4 @@
-  <tool name="icc-f77compiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="icc-f77compiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-f77compiler"/>
     <client>
       <environment name="ICC_FCOMPILER_BASE" default="@TOOL_ROOT@/ifort" handler="warn"/>
