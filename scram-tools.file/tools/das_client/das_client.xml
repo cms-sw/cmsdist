@@ -1,4 +1,4 @@
-<tool name="das_client" version="@TOOL_VERSION@">
+<tool name="das_client" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="DAS_CLIENT_BASE" default="@TOOL_ROOT@"/>
   </client>

@@ -1,4 +1,4 @@
-<tool name="sqlite" version="@TOOL_VERSION@">
+<tool name="sqlite" version="@TOOL_VERSION@" revision="1">
   <lib name="sqlite3"/>
   <client>
     <environment name="SQLITE_BASE" default="@TOOL_ROOT@"/>

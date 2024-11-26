@@ -1,4 +1,4 @@
-<tool name="mxnet-predict" version="@TOOL_VERSION@">
+<tool name="mxnet-predict" version="@TOOL_VERSION@" revision="1">
   <lib name="mxnet"/>
   <client>
     <environment name="MXNET_PREDICT_BASE" default="@TOOL_ROOT@"/>

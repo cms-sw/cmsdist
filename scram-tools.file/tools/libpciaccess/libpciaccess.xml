@@ -1,4 +1,4 @@
-<tool name="libpciaccess" version="@TOOL_VERSION@">
+<tool name="libpciaccess" version="@TOOL_VERSION@" revision="1">
   <lib name="libpciaccess"/>
   <client>
     <environment name="LIBPCIACCESS_BASE" default="@TOOL_ROOT@"/>

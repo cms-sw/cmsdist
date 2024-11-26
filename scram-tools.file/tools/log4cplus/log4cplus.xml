@@ -1,4 +1,4 @@
-<tool name="log4cplus" version="@TOOL_VERSION@">
+<tool name="log4cplus" version="@TOOL_VERSION@" revision="1">
   <lib name="log4cplusS"/>
   <client>
     <environment name="LOG4CPLUS_BASE" default="@TOOL_ROOT@"/>

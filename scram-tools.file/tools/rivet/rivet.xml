@@ -1,4 +1,4 @@
-<tool name="rivet" version="@TOOL_VERSION@">
+<tool name="rivet" version="@TOOL_VERSION@" revision="1">
   <lib name="Rivet"/>
   <client>
     <environment name="RIVET_BASE" default="@TOOL_ROOT@"/>

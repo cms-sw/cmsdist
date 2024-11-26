@@ -1,4 +1,4 @@
-<tool name="gosamcontrib" version="@TOOL_VERSION@">
+<tool name="gosamcontrib" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="GOSAMCONTRIB_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GOSAMCONTRIB_BASE/lib"/>

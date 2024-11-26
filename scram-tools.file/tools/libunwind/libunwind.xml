@@ -1,4 +1,4 @@
-<tool name="libunwind" version="@TOOL_VERSION@">
+<tool name="libunwind" version="@TOOL_VERSION@" revision="1">
   <lib name="unwind"/>
   <client>
     <environment name="LIBUNWIND_BASE" default="@TOOL_ROOT@"/>

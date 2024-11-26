@@ -1,4 +1,4 @@
-<tool name="pytorch-cuda" version="@TOOL_VERSION@">
+<tool name="pytorch-cuda" version="@TOOL_VERSION@" revision="1">
   <lib name="torch_cuda"/>
   <lib name="c10_cuda"/>
   <use name="cuda"/>

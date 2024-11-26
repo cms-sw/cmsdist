@@ -1,4 +1,4 @@
-<tool name="g4hepemstatic" version="@TOOL_VERSION@">
+<tool name="g4hepemstatic" version="@TOOL_VERSION@" revision="1">
   <lib name="g4hepem-static"/>
   <client>
     <environment name="G4HEPEMSTATIC_BASE" default="@TOOL_ROOT@"/>

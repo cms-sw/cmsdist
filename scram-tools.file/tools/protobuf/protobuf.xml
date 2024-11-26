@@ -1,4 +1,4 @@
-<tool name="protobuf" version="@TOOL_VERSION@">
+<tool name="protobuf" version="@TOOL_VERSION@" revision="1">
   <lib name="protobuf"/>
   <client>
     <environment name="PROTOBUF_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-  <tool name="llvm-ccompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="llvm-ccompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="LLVM_CCOMPILER_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-  <tool name="fastjet-contrib" version="@TOOL_VERSION@">
+  <tool name="fastjet-contrib" version="@TOOL_VERSION@" revision="1">
     <info url="http://fastjet.hepforge.org/contrib/"/>
     <lib name="fastjetcontribfragile"/>
     <client>

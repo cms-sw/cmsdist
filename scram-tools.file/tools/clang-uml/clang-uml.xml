@@ -1,4 +1,4 @@
-<tool name="clang-uml" version="@TOOL_VERSION@">
+<tool name="clang-uml" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/bkryza/clang-uml/"/>
   <client>
     <environment name="CLANG_UML_BASE" default="@TOOL_ROOT@"/>

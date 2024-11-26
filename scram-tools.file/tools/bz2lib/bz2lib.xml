@@ -1,4 +1,4 @@
-<tool name="bz2lib" version="@TOOL_VERSION@">
+<tool name="bz2lib" version="@TOOL_VERSION@" revision="1">
   <info url="http://sources.redhat.com/bzip2/"/>
   <lib name="bz2"/>
   <client>

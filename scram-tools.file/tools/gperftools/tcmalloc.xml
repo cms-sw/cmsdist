@@ -1,4 +1,4 @@
-<tool name="tcmalloc" version="@TOOL_VERSION@">
+<tool name="tcmalloc" version="@TOOL_VERSION@" revision="1">
   <lib name="tcmalloc"/>
   <client>
     <environment name="TCMALLOC_BASE" default="@TOOL_ROOT@"/>

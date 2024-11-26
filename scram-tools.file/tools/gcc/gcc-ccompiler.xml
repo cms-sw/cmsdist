@@ -1,4 +1,4 @@
-  <tool name="gcc-ccompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="gcc-ccompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <client>
       <environment name="GCC_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
 %if 0%{!?use_system_gcc:1}

@@ -1,4 +1,4 @@
-<tool name="highfive" version="@TOOL_VERSION@">
+<tool name="highfive" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/BlueBrain/HighFive"/>
   <client>
     <environment name="HIGHFIVE_BASE" default="@TOOL_ROOT@"/>

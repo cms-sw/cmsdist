@@ -1,4 +1,4 @@
-<tool name="alpgen" version="@TOOL_VERSION@">
+<tool name="alpgen" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="ALPGEN_BASE" default="@TOOL_ROOT@"/>
   </client>

@@ -1,4 +1,4 @@
-  <tool name="igprof" version="@TOOL_VERSION@">
+  <tool name="igprof" version="@TOOL_VERSION@" revision="1">
     <info url="http://igprof.sourceforge.net/"/>
     <client>
       <environment name="IGPROF_BASE" default="@TOOL_ROOT@"/>
