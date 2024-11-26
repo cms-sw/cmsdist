@@ -1,4 +1,4 @@
-<tool name="py3-dxr" version="@TOOL_VERSION@">
+<tool name="py3-dxr" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="PY3_DXR_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PY3_DXR_BASE/lib"/>

@@ -1,4 +1,4 @@
-<tool name="heppdt" version="@TOOL_VERSION@">
+<tool name="heppdt" version="@TOOL_VERSION@" revision="1">
   <lib name="HepPDT"/>
   <lib name="HepPID"/>
   <client>

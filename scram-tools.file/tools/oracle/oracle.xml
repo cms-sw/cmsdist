@@ -1,4 +1,4 @@
-<tool name="oracle" version="@TOOL_VERSION@">
+<tool name="oracle" version="@TOOL_VERSION@" revision="1">
   <lib name="clntsh"/>
   @OS_LIBS@
   <client>

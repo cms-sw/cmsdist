@@ -1,4 +1,4 @@
-<tool name="gsl" version="@TOOL_VERSION@">
+<tool name="gsl" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.gnu.org/software/gsl/gsl.html"/>
   <lib name="gsl"/>
   <client>

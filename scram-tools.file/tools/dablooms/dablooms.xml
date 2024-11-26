@@ -1,4 +1,4 @@
-<tool name="dablooms" version="@TOOL_VERSION@">
+<tool name="dablooms" version="@TOOL_VERSION@" revision="1">
   <lib name="dablooms"/>
   <client>
     <environment name="DABLOOMS_BASE" default="@TOOL_ROOT@"/>

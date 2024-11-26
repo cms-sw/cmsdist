@@ -1,4 +1,4 @@
-<tool name="ktjet" version="@TOOL_VERSION@">
+<tool name="ktjet" version="@TOOL_VERSION@" revision="1">
   <info url="http://hepforge.cedar.ac.uk/ktjet"/>
   <lib name="KtEvent"/>
   <client>

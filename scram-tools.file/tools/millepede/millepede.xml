@@ -1,4 +1,4 @@
-<tool name="millepede" version="@TOOL_VERSION@">
+<tool name="millepede" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.wiki.terascale.de/index.php/Millepede_II"/>
   <client>
     <environment name="MILLEPEDE_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-  <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <client>
       <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
 %if 0%{!?use_system_gcc:1}

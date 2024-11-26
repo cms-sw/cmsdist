@@ -1,4 +1,4 @@
-<tool name="evtgen" version="@TOOL_VERSION@">
+<tool name="evtgen" version="@TOOL_VERSION@" revision="1">
   <lib name="EvtGen"/>
   <lib name="EvtGenExternal"/>
   <client>

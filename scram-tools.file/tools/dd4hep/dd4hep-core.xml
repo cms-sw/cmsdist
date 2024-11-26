@@ -1,4 +1,4 @@
-<tool name="dd4hep-core" version="@TOOL_VERSION@">
+<tool name="dd4hep-core" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/AIDASoft/DD4hep"/>
   <lib name="DDCore" />
   <lib name="DDParsers" />

@@ -1,4 +1,4 @@
-<tool name="glimpse" version="@TOOL_VERSION@">
+<tool name="glimpse" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="GLIMPSE_BASE" default="@TOOL_ROOT@"/>
   </client>

@@ -1,4 +1,4 @@
-<tool name="celeritas" version="@TOOL_VERSION@">
+<tool name="celeritas" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/celeritas-project/celeritas"/>
   <lib name="accel"/>
   <lib name="celeritas"/>

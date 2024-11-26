@@ -1,4 +1,4 @@
-<tool name="eigen" version="@TOOL_VERSION@">
+<tool name="eigen" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="EIGEN_BASE"   default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"      default="$EIGEN_BASE/include"/>

@@ -1,4 +1,4 @@
-<tool name="xerces-c" version="@TOOL_VERSION@">
+<tool name="xerces-c" version="@TOOL_VERSION@" revision="1">
   <info url="http://xml.apache.org/xerces-c/"/>
   <lib name="xerces-c"/>
   <client>

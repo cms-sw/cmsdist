@@ -1,4 +1,4 @@
-<tool name="root_cxxdefaults" version="@TOOL_VERSION@">
+<tool name="root_cxxdefaults" version="@TOOL_VERSION@" revision="1">
 %if 0%{!?use_system_gcc:1}
   <runtime name="ROOT_GCC_TOOLCHAIN" value="@GCC_ROOT@" type="path"/>
 %endif

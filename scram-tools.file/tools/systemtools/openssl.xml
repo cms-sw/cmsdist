@@ -1,4 +1,4 @@
-  <tool name="openssl" version="system">
+  <tool name="openssl" version="system" revision="1">
     <lib name="ssl"/>
     <lib name="crypto"/>
   </tool>

@@ -1,4 +1,4 @@
-<tool name="zstd" version="@TOOL_VERSION@">
+<tool name="zstd" version="@TOOL_VERSION@" revision="1">
   <info url="http://https://facebook.github.io/zstd"/>
   <lib name="zstd"/>
   <client>

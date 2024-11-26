@@ -1,4 +1,4 @@
-<tool name="photospp" version="@TOOL_VERSION@">
+<tool name="photospp" version="@TOOL_VERSION@" revision="1">
   <lib name="Photospp"/>
   <lib name="PhotosppHepMC"/>
   <lib name="PhotosppHEPEVT"/>

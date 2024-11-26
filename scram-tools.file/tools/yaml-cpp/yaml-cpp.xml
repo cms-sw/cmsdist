@@ -1,4 +1,4 @@
-<tool name="yaml-cpp" version="@TOOL_VERSION@">
+<tool name="yaml-cpp" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/jbeder/yaml-cpp/"/>
   <lib name="yaml-cpp"/>
   <client>

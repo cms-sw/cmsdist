@@ -1,4 +1,4 @@
-<tool name="cuda" version="@TOOL_VERSION@">
+<tool name="cuda" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <use name="cuda-stubs"/>
   <lib name="cudart"/>

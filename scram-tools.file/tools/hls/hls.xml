@@ -1,4 +1,4 @@
-<tool name="hls" version="@TOOL_VERSION@">
+<tool name="hls" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/Xilinx/HLS_arbitrary_Precision_Types"/>
   <client>
     <environment name="HLS_BASE" default="@TOOL_ROOT@"/>

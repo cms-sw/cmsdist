@@ -1,4 +1,4 @@
-  <tool name="gcc-plugin" version="@TOOL_VERSION@">
+  <tool name="gcc-plugin" version="@TOOL_VERSION@" revision="1">
     <lib name="cc1plugin cp1plugin"/>
     <client>
       <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>

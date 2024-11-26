@@ -1,4 +1,4 @@
-<tool name="clhepheader" version="@TOOL_VERSION@">
+<tool name="clhepheader" version="@TOOL_VERSION@" revision="1">
   <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
   <client>
     <environment name="CLHEPHEADER_BASE" default="@TOOL_ROOT@"/>

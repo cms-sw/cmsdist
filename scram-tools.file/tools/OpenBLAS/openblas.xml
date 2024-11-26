@@ -1,4 +1,4 @@
-<tool name="OpenBLAS" version="@TOOL_VERSION@">
+<tool name="OpenBLAS" version="@TOOL_VERSION@" revision="1">
   <lib name="openblas"/>
   <client>
     <environment name="OPENBLAS_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="libungif" version="@TOOL_VERSION@">
+<tool name="libungif" version="@TOOL_VERSION@" revision="1">
   <info url="http://sourceforge.net/projects/libungif"/>
   <lib name="ungif"/>
   <client>
