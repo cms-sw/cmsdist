@@ -1,4 +1,4 @@
-<tool name="sherpa" version="@TOOL_VERSION@">
+<tool name="sherpa" version="@TOOL_VERSION@" revision="1">
   <lib name="SherpaMain"/>
   <lib name="ToolsMath"/>
   <lib name="ToolsOrg"/>

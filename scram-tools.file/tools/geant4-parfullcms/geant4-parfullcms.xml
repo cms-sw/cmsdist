@@ -1,4 +1,4 @@
-  <tool name="geant4-parfullcms" version="@TOOL_VERSION@">
+  <tool name="geant4-parfullcms" version="@TOOL_VERSION@" revision="1">
     <client>
       <environment name="GEANT4_PARFULLCMS" default="@TOOL_ROOT@"/>
     </client>

@@ -1,4 +1,4 @@
-<tool name="pcre" version="@TOOL_VERSION@">
+<tool name="pcre" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.pcre.org"/>
   <lib name="pcre"/>
   <client>

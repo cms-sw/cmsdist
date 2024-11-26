@@ -1,4 +1,4 @@
-<tool name="torch-interface" version="@TOOL_VERSION@">
+<tool name="torch-interface" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="TORCH_INTERFACE_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$TORCH_INTERFACE_BASE/include"/>

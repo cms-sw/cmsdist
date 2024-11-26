@@ -1,4 +1,4 @@
-<tool name="dmtcp" version="@TOOL_VERSION@">
+<tool name="dmtcp" version="@TOOL_VERSION@" revision="1">
   <info url="http://dmtcp.sourceforge.net/"/>
   <client>
     <environment name="DMTCP_BASE" default="@TOOL_ROOT@"/>

@@ -1,4 +1,4 @@
-<tool name="isal" version="@TOOL_VERSION@">
+<tool name="isal" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/intel/isa-l/wiki"/>
   <lib name="isal"/>
   <client>

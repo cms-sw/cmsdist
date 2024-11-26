@@ -1,4 +1,4 @@
-<tool name="graphviz" version="@TOOL_VERSION@">
+<tool name="graphviz" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.research.att.com/sw/tools/graphviz/"/>
   <client>
     <environment name="GRAPHVIZ_BASE" default="@TOOL_ROOT@"/>

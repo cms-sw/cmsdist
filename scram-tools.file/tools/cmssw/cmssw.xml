@@ -1,4 +1,4 @@
-<tool name="cmssw" version="@TOOL_VERSION@" type="scram">
+<tool name="cmssw" version="@TOOL_VERSION@" type="scram" revision="1">
   <client>
     <environment name="CMSSW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CMSSW_BASE/biglib/$SCRAM_ARCH"/>

@@ -1,4 +1,4 @@
-<tool name="gdbm" version="@TOOL_VERSION@">
+<tool name="gdbm" version="@TOOL_VERSION@" revision="1">
   <lib name="gdbm"/>
   <client>
     <environment name="GDBM_BASE" default="@TOOL_ROOT@"/>

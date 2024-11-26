@@ -1,4 +1,4 @@
-<tool name="pacparser" version="@TOOL_VERSION@">
+<tool name="pacparser" version="@TOOL_VERSION@" revision="1">
   <info url="http://code.google.com/p/pacparser/"/>
   <lib name="pacparser"/>
   <client>

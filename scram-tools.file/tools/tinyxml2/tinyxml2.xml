@@ -1,4 +1,4 @@
-<tool name="tinyxml2" version="@TOOL_VERSION@">
+<tool name="tinyxml2" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/leethomason/tinyxml2"/>
   <lib name="tinyxml2"/>
   <client>

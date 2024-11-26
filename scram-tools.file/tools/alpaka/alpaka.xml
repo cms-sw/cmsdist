@@ -1,4 +1,4 @@
-<tool name="alpaka" version="@TOOL_VERSION@">
+<tool name="alpaka" version="@TOOL_VERSION@" revision="1">
   <use name="boost"/>
   <client>
     <environment name="ALPAKA_BASE" default="@TOOL_ROOT@"/>

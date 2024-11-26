@@ -1,4 +1,4 @@
-<tool name="hepmc3" version="@TOOL_VERSION@">
+<tool name="hepmc3" version="@TOOL_VERSION@" revision="1">
   <lib name="HepMC3"/>
   <lib name="HepMC3search"/>
   <client>

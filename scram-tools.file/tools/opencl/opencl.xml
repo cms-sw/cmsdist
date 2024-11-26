@@ -1,4 +1,4 @@
-<tool name="opencl" version="@TOOL_VERSION@">
+<tool name="opencl" version="@TOOL_VERSION@" revision="1">
   <info url="https://www.khronos.org/opencl/"/>
   <lib name="OpenCL"/>
   <client>

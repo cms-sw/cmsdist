@@ -1,4 +1,4 @@
-<tool name="dcap" version="@TOOL_VERSION@">
+<tool name="dcap" version="@TOOL_VERSION@" revision="1">
   <lib name="dcap"/>
   <client>
     <environment name="DCAP_BASE" default="@TOOL_ROOT@"/>

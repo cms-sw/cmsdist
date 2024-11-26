@@ -1,4 +1,4 @@
-<tool name="frontier_client" version="@TOOL_VERSION@">
+<tool name="frontier_client" version="@TOOL_VERSION@" revision="1">
   <lib name="frontier_client"/>
   <client>
     <environment name="FRONTIER_CLIENT_BASE" default="@TOOL_ROOT@"/>
