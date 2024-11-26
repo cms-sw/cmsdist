@@ -1,4 +1,4 @@
-<tool name="freetype" version="@TOOL_VERSION@">
+<tool name="freetype" version="@TOOL_VERSION@" revision="1">
   <lib name="freetype-cms"/>
   <client>
     <environment name="FREETYPE_BASE" default="@TOOL_ROOT@"/>

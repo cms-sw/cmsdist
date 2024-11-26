@@ -1,4 +1,4 @@
-<tool name="hydjet2" version="@TOOL_VERSION@">
+<tool name="hydjet2" version="@TOOL_VERSION@" revision="1">
   <lib name="hydjet2"/>
   <client>
     <environment name="HYDJET2_BASE" default="@TOOL_ROOT@"/>

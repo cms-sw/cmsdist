@@ -1,4 +1,4 @@
-<tool name="lwtnn" version="@TOOL_VERSION@">
+<tool name="lwtnn" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/lwtnn/lwtnn"/>
   <lib name="lwtnn"/>
   <client>

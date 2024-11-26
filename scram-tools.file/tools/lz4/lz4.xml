@@ -1,4 +1,4 @@
-  <tool name="lz4" version="@TOOL_VERSION@">
+  <tool name="lz4" version="@TOOL_VERSION@" revision="1">
     <info url="https://github.com/lz4/lz4"/>
     <lib name="lz4"/>
     <client>

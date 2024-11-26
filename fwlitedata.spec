@@ -11,7 +11,7 @@ Requires: data-DataFormats-PatCandidates
 # SCRAM ToolBox toolfile
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/%n.xml
-  <tool name="%n" version="%v">
+  <tool name="%n" version="%v" revision="1">
     <client>
       <environment name="CMSSWDATA_BASE" default="%{instroot}/%{cmsplatf}/%{pkgcategory}"/>
       <environment name="CMSSW_DATA_PATH" default="$CMSSWDATA_BASE"/>

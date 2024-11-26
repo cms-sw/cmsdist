@@ -1,4 +1,4 @@
-<tool name="sigcpp" version="@TOOL_VERSION@">
+<tool name="sigcpp" version="@TOOL_VERSION@" revision="1">
   <lib name="sigc-3.0"/>
   <client>
     <environment name="SIGCPP_BASE" default="@TOOL_ROOT@"/>

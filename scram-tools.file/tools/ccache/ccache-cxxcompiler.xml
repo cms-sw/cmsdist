@@ -1,4 +1,4 @@
-  <tool name="ccache-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="ccache-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="CXX" value="@TOOL_ROOT@/bin/c++"/>

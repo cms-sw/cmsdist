@@ -1,4 +1,4 @@
-  <tool name="icx-f77compiler" version="@TOOL_VERSION@" type="compiler">
+  <tool name="icx-f77compiler" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-f77compiler"/>
     <client>
 %if 0%{!?use_system_gcc:1}

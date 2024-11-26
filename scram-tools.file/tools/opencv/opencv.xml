@@ -1,4 +1,4 @@
-<tool name="opencv" version="@TOOL_VERSION@">
+<tool name="opencv" version="@TOOL_VERSION@" revision="1">
   <lib name="opencv_core"/>
   <client>
     <environment name="OPENCV_BASE" default="@TOOL_ROOT@"/>

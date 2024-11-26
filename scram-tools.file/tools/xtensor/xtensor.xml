@@ -1,4 +1,4 @@
-<tool name="xtensor" version="@TOOL_VERSION@">
+<tool name="xtensor" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/QuantStack/xtensor"/>
   <client>
     <environment name="XTENSOR_BASE" default="@TOOL_ROOT@"/>

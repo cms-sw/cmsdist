@@ -1,4 +1,4 @@
-<tool name="hepmc_headers" version="@TOOL_VERSION@">
+<tool name="hepmc_headers" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="HEPMC_HEADERS_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$HEPMC_HEADERS_BASE/include"/>

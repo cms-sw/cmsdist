@@ -1,4 +1,4 @@
-<tool name="git" version="@TOOL_VERSION@">
+<tool name="git" version="@TOOL_VERSION@" revision="1">
   <info url="http://git-scm.com"/>
   <client>
     <environment name="GIT_BASE" default="@TOOL_ROOT@"/>

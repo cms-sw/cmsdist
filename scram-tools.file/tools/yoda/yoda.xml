@@ -1,4 +1,4 @@
-<tool name="yoda" version="@TOOL_VERSION@">
+<tool name="yoda" version="@TOOL_VERSION@" revision="1">
   <lib name="YODA"/>
   <client>
     <environment name="YODA_BASE" default="@TOOL_ROOT@"/>

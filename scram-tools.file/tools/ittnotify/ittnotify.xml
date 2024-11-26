@@ -1,4 +1,4 @@
-<tool name="ittnotify" version="@TOOL_VERSION@">
+<tool name="ittnotify" version="@TOOL_VERSION@" revision="1">
  <lib name="ittnotify"/>
  <client>
     <environment name="ITTNOTIFY_BASE" default="@TOOL_ROOT@"/>

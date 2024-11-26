@@ -1,4 +1,4 @@
-<tool name="hls4mlemulatorextras" version="@TOOL_VERSION@">
+<tool name="hls4mlemulatorextras" version="@TOOL_VERSION@" revision="1">
   <lib name="emulator_interface"/>
   <use name="sockets"/>
   <client>
