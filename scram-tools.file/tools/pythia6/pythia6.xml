@@ -1,10 +1,11 @@
-<tool name="pythia6" version="@TOOL_VERSION@" revision="1">
+<tool name="pythia6" version="@TOOL_VERSION@" revision="2">
   <lib name="pythia6"/>
   <lib name="pythia6_dummy"/>
   <client>
     <environment name="PYTHIA6_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$PYTHIA6_BASE/lib"/>
   </client>
+  <use name="lhapdf"/>
   <use name="pythia6_headers"/>
   <use name="f77compiler"/>
 </tool>
