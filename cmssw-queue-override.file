@@ -72,10 +72,6 @@ Source22: irh.patch
 %define scram_target_default auto
 %endif
 
-%if "%(case %realversion in (*ASNEEDED*) echo true ;; (*) echo false ;; esac)" == "true"
-%define release_userldflags -Wl,--as-needed
-%endif
-
 %if "%(case %realversion in (*NOOFAST*) echo true ;; (*) echo false ;; esac)" == "true"
 %define remove_tools ofast-flag
 %endif
