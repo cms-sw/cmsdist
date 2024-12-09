@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1015
+## REVISION 1016
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -128,6 +128,8 @@ Provides: perl(Sys::Hostname)
 #################################
 Provides: perl(Mpslib)
 Provides: perl(Tk)
+
+Provides: perl(strict)
 
 Provides: /bin/csh
 Provides: /bin/tcsh
