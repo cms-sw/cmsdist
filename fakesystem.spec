@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1015
+## REVISION 1016
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -115,6 +115,7 @@ Provides: libdrm.so.2()(64bit)
 Provides: libdrm_amdgpu.so.1()(64bit)
 Provides: perl(File::Which)
 Provides: perl(URI::Encode)
+Provides: perl(strict)
 
 #################################
 # Needed by ROCm on EL9
