@@ -41,6 +41,9 @@
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
     <runtime name="COMPILER_PATH" value="@TOOL_ROOT@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
+%if 0%{?rhel} >= 9
+    <runtime name="GPROFNG_SYSCONFDIR" value="$GCC_CXXCOMPILER_BASE/etc"/>
+%endif
     <ifrelease name="ASAN">
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@/libasan.so" type="path"/>
     <elif name="LSAN"/>
