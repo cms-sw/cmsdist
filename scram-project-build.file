@@ -1,6 +1,7 @@
 ### FILE scram-project-build
 ## NO_AUTO_DEPENDENCY
 ## INCLUDE compilation_flags_lto
+## INCLUDE microarch_flags
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
@@ -51,7 +52,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-05-08
+%define configtag       V09-06-03
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -123,10 +124,12 @@ echo %{configtag} > %_builddir/config/config_tag
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 %if "%{package_vectorization}"
 %if "%{?scram_target_default:set}" != "set"
-%define scram_target_default default
+%define scram_target_default auto
 %endif
 if [ -e ${%{toolconf}}/vectorized_packages.txt ] ; then
   sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS="%{package_vectorization}"|' %_builddir/config/Self.xml
+  sed -i -e 's|</tool>| <runtime name="SCRAM_DEFAULT_MICROARCH" value="%{default_microarch_name}"/>\n</tool>|' %_builddir/config/Self.xml
+  sed -i -e 's|</tool>| <runtime name="SCRAM_MIN_SUPPORTED_MICROARCH" value="%{default_microarch_name}"/>\n</tool>|' %_builddir/config/Self.xml
   sed -i -e 's|</tool>| <runtime name="SCRAM_TARGET" value="%{scram_target_default}"/>\n <runtime name="USER_TARGETS_ALL" value="1"/>\n</tool>|' %_builddir/config/Self.xml
 fi
 %endif
