@@ -17,5 +17,5 @@ Requires: oracle
 %endif
 
 %define skipreqtools jcompiler
-
+%define override_microarch -march=x86-64-v2
 ## INCLUDE scram/tool-conf-src
