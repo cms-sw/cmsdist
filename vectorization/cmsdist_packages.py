@@ -11,7 +11,6 @@ if machine() == "x86_64":
   # and vectorized_packages list in cmssw-vectorization.file file
   #########################################
   MULTI_TARGET_PACKAGES = [
-    "zlib",
     "fastjet",
     "tensorflow-sources",
     "tensorflow",
