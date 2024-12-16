@@ -1,17 +1,17 @@
-### RPM lcg root 6.30.09
+### RPM lcg root 6.32.09
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag d6882f468de9bef067e0bbefb0cb8da696ac9888
-%define branch cms/v6-30-00-patches/38a47068ec
+%define tag 7ea1930f6ebb68c323246e2b349c544f111ccd1e
+%define branch cms/v6-32-00-patches/84b403702a
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
+Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
 
 %ifos linux
 Requires: dcap
@@ -78,7 +78,6 @@ cmake ../%{n}-%{realversion} \
   -Dimt=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
-  -Dminuit2=ON \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
   -Dbuiltin_tbb=OFF \
@@ -149,7 +148,7 @@ cmake ../%{n}-%{realversion} \
   -DZLIB_ROOT="${ZLIB_ROOT}" \
   -DZLIB_INCLUDE_DIR="${ZLIB_ROOT}/include" \
   -DZSTD_ROOT="${ZSTD_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${LZ4_ROOT};${GSL_ROOT};${XZ_ROOT};${GIFLIB_ROOT};${FREETYPE_ROOT};${PYTHON3_ROOT};${LIBPNG_ROOT};${PCRE2_ROOT};${TBB_ROOT};${OPENBLAS_ROOT};${DAVIX_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
 
 # For CMake cache variables: http://www.cmake.org/cmake/help/v3.2/manual/cmake-language.7.html#lists
 # For environment variables it's OS specific: http://www.cmake.org/Wiki/CMake_Useful_Variables
