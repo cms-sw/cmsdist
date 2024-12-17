@@ -52,7 +52,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-06-07
+%define configtag       V09-06-09
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -168,6 +168,8 @@ for t in %{extra_tools}; do %scramcmd setup $t; done
 %if "%{?remove_tools:set}" == "set"
 for t in %{remove_tools}; do  %scramcmd tool remove $t; done
 %endif
+echo -e '<tool name="cmssw-config" version="%{configtag}" revision="1">\n</tool>' > %{i}/config/toolbox/%{cmsplatf}/tools/selected/cmssw-config.xml
+%scramcmd setup cmssw-config
 %{?buildarch:%buildarch}
 
 export BUILD_LOG=yes
