@@ -118,6 +118,7 @@ Requires: sloccount
 Requires: millepede
 Requires: pacparser
 Requires: git
+Requires: git-lfs
 Requires: fastjet
 Requires: fastjet-contrib
 Requires: opencl
