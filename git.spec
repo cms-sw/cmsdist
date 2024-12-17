@@ -1,4 +1,4 @@
-### RPM external git 2.38.1
+### RPM external git 2.47.1
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
@@ -6,7 +6,7 @@
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Source1: https://raw.github.com/bagder/curl/curl-7_59_0/lib/mk-ca-bundle.pl
+Source1: https://raw.github.com/curl/curl/curl-8_11_1/scripts/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
 Requires: curl expat zlib pcre2 python3

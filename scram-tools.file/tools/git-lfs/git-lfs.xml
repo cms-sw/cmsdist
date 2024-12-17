@@ -1,0 +1,7 @@
+<tool name="git-lfs" version="@TOOL_VERSION@" revision="1">
+  <info url="https://git-lfs.com/"/>
+  <client>
+    <environment name="GIT_LFS_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$GIT_LFS_BASE/bin" type="path"/>
+</tool>
