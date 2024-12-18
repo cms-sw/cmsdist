@@ -64,7 +64,6 @@ perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/libexec/git-core/gi
 %post
 %{relocateConfig}bin/git-cvsserver
 %{relocateConfig}libexec/git-core/git-sh-i18n
-%{relocateConfig}libexec/git-core/git-add--interactive
 %{relocateConfig}libexec/git-core/git-archimport
 %{relocateConfig}libexec/git-core/git-cvsexportcommit
 %{relocateConfig}libexec/git-core/git-cvsimport
