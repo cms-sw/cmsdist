@@ -1,0 +1,9 @@
+<tool name="gperf_interface" version="@TOOL_VERSION@" revision="1">
+  <client>
+    <environment name="GPERF_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"        default="$GPERF_INTERFACE_BASE/lib"/>
+    <environment name="INCLUDE"       default="$GPERF_INTERFACE_BASE/include"/>
+  </client>
+  <use name="libunwind"/>
+  <runtime name="PATH" value="$GPERF_INTERFACE_BASE/bin" type="path"/>
+</tool>
