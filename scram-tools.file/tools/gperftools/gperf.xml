@@ -1,9 +1,3 @@
-<tool name="gperf" version="@TOOL_VERSION@" revision="1">
-  <lib name="profiler"/>
-  <client>
-    <environment name="GPERF_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"        default="$GPERF_BASE/lib"/>
-  </client>
-  <use name="libunwind"/>
-  <runtime name="PATH" value="$GPERF_BASE/bin" type="path"/>
+<tool name="gperf" version="@TOOL_VERSION@" revision="2">
+  <use name="gperf_profiler"/>
 </tool>
