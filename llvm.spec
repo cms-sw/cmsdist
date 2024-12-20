@@ -1,4 +1,4 @@
-### RPM external llvm 18.1.6
+### RPM external llvm 19.1.6
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -6,10 +6,10 @@ BuildRequires: cmake ninja
 Requires: gcc zlib python3 libxml2 zstd
 %{!?without_cuda:Requires: cuda}
 
-%define llvmCommit 02c7568fc9f555b2c72fc169c8c68e2116d97382
-%define llvmBranch cms/release/18.x/1118c2e
-%define iwyuCommit 377eaef70cdda47368939f4d9beabfabe3f628f0
-%define iwyuBranch clang_18
+%define llvmCommit 8b7cd04d9c367791750225cd6083b1bb02a1a944
+%define llvmBranch cms/release/19.x/e21dc4b
+%define iwyuCommit 30e221fad0967aa6bcb279600127748ed3dab7ad
+%define iwyuBranch clang_19
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
@@ -38,7 +38,6 @@ cd %{_builddir}/build
 cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -G Ninja \
 %if 0%{!?use_system_gcc:1}
-  -DGCC_INSTALL_PREFIX="${GCC_ROOT}" \
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
 %endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
