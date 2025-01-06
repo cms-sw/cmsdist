@@ -1,6 +1,6 @@
-### RPM external hydjet2 2.4.3 
+### RPM external hydjet2 2.4.4 
 
-Source: http://cern.ch/lokhtin/hydjet++/%{n}-%{realversion}.tar.gz
+Source: http://lav01.sinp.msu.ru/~igor/hydjet++/%{n}-%{realversion}.tar.gz
 
 
 BuildRequires: cmake gmake
