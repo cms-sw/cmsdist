@@ -1,6 +1,6 @@
 ### RPM lcg root 6.35.1
 ## INITENV +PATH PYTHON3PATH %{i}/lib
-## INITENV SET ROOTSYS %{i} 
+## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 %define tag 8fca99a9abc2ea6b83bf548ef08723d4b705a93b
@@ -12,11 +12,8 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 Patch0: root_lazy
 Patch2: root_cuda
 Patch3: root_modules_211215
-Patch4: root_avoid_load
+#Patch4: root_avoid_load
  
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-
 BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
@@ -41,7 +38,7 @@ chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
+#patch4 -p1
 
 %build
 rm -rf ../build
@@ -70,7 +67,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_LINKER=ld \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Druntime_cxxmodules=ON \
-  -DPython3_EXECUTABLE="${PYTHON3_ROOT}/bin/python3" \
   -Droot7=ON \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
@@ -175,7 +171,7 @@ done
 export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
-ninja -v %{makeprocesses} 
+ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} clang
 
 %install

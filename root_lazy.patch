@@ -1,8 +1,8 @@
-diff --git a/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h b/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
-index e9e9483..70e98a0 100644
---- a/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
-+++ b/interpreter/llvm/src/tools/clang/include/clang/AST/DeclTemplate.h
-@@ -750,10 +750,10 @@ class RedeclarableTemplateDecl : public TemplateDecl,
+diff --git a/interpreter/llvm-project/clang/include/clang/AST/DeclTemplate.h b/interpreter/llvm-project/clang/include/clang/AST/DeclTemplate.h
+index 26428aae..69d35d9d 100644
+--- a/interpreter/llvm-project/clang/include/clang/AST/DeclTemplate.h
++++ b/interpreter/llvm-project/clang/include/clang/AST/DeclTemplate.h
+@@ -764,10 +764,10 @@ class RedeclarableTemplateDecl : public TemplateDecl,
        return DeclID < Other.DeclID;
      }
      bool operator==(const LazySpecializationInfo &Other) const {
