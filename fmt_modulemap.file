@@ -30,10 +30,6 @@ module fmt {
     header "fmt/format-inl.h"
     export *
   }
-  module locale {
-    header "fmt/locale.h"
-    export *
-  }
   module os {
     header "fmt/os.h"
     export *
