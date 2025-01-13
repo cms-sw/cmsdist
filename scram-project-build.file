@@ -351,7 +351,7 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 ./config/SCRAM/projectAreaRename%{scram_script_prefix} %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
 %{?buildarch:%buildarch}
 
-xlibs=%{cmssw_libs}
+xlibs="%{cmssw_libs}"
 %if "%{package_vectorization}"
 for dir in %{cmssw_libs} ; do
   for arch in %{package_vectorization} ; do
