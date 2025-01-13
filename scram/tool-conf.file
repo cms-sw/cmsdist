@@ -1,7 +1,15 @@
 ## NOCOMPILER
 ## INCLUDE toolflags
+## INCLUDE microarch_flags
+
 %define auto_dependencies no
 %define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
+%if "%{default_microarch_name}"
+%define min_microarch_name %(echo '%{default_microarch_name} %{package_vectorization}' | tr ' ' '\\n' | grep -v '^$' | sort -r | tail -1)
+%else
+%define min_microarch_name %{nil}
+%endif
+
 %prep
 %build
 %install
