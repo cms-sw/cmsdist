@@ -242,6 +242,14 @@ for cmd in edmPluginRefresh ; do
       if [ -d %i/$lib ] ; then
         rm -f %i/$lib/.edmplugincache
         $cmd %i/$lib
+%if "%{package_vectorization}"
+        for arch in %{package_vectorization} ; do
+          rm -f %i/$lib/${arch}/.edmplugincache
+          if [ -e %i/$lib/.edmplugincache ] ; then
+            cp %i/$lib/.edmplugincache %i/$lib/${arch}/.edmplugincache
+          fi
+        done
+%endif
       fi
     done
   fi
@@ -343,7 +351,15 @@ if [ -d python ]; then %{relocateCmsFiles} $(find python -maxdepth 1 -type f); f
 ./config/SCRAM/projectAreaRename%{scram_script_prefix} %{cmsroot}  $CMS_INSTALL_PREFIX  %cmsplatf
 %{?buildarch:%buildarch}
 
-for lib in %{cmssw_libs} ; do
+xlibs=%{cmssw_libs}
+%if "%{package_vectorization}"
+for dir in %{cmssw_libs} ; do
+  for arch in %{package_vectorization} ; do
+    xlibs="{xlibs} ${dir}/${arch}"
+  done
+done
+%endif
+for lib in ${xlibs} ; do
   if [ -f $lib/.edmplugincache ] ; then
     find  $lib -name "*.edmplugin" -type f -exec touch {} \;
     touch $lib/.edmplugincache
