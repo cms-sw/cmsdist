@@ -1,4 +1,4 @@
-### RPM external CLUEstering 2.3.2
+### RPM external CLUEstering 2.3.3
 ## NOCOMPILER
 
 Source: https://github.com/cms-patatrack/%{n}/archive/%{realversion}.tar.gz
