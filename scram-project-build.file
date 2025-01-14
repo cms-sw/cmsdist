@@ -244,9 +244,9 @@ for cmd in edmPluginRefresh ; do
         $cmd %i/$lib
 %if "%{package_vectorization}"
         for arch in %{package_vectorization} ; do
-          rm -f %i/$lib/${arch}/.edmplugincache
+          rm -f %i/$lib/scram_${arch}/.edmplugincache
           if [ -e %i/$lib/.edmplugincache ] ; then
-            cp %i/$lib/.edmplugincache %i/$lib/${arch}/.edmplugincache
+            cp %i/$lib/.edmplugincache %i/$lib/scram_${arch}/.edmplugincache
           fi
         done
 %endif
@@ -355,7 +355,7 @@ xlibs="%{cmssw_libs}"
 %if "%{package_vectorization}"
 for dir in %{cmssw_libs} ; do
   for arch in %{package_vectorization} ; do
-    xlibs="{xlibs} ${dir}/${arch}"
+    xlibs="{xlibs} ${dir}/scram_${arch}"
   done
 done
 %endif
