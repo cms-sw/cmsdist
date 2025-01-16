@@ -1,0 +1,7 @@
+<tool name="CLUEstering" version="@TOOL_VERSION@" revision="1">
+  <use name="alpaka"/>
+  <client>
+    <environment name="CLUESTERING_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"   default="$CLUE_BASE/include"/>
+  </client>
+</tool>
