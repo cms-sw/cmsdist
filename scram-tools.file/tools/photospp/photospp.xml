@@ -1,6 +1,7 @@
-<tool name="photospp" version="@TOOL_VERSION@" revision="1">
+<tool name="photospp" version="@TOOL_VERSION@" revision="2">
   <lib name="Photospp"/>
   <lib name="PhotosppHepMC"/>
+  <lib name="PhotosppHepMC3"/>
   <lib name="PhotosppHEPEVT"/>
   <client>
     <environment name="PHOTOSPP_BASE" default="@TOOL_ROOT@"/>
@@ -8,4 +9,5 @@
     <environment name="INCLUDE" default="$PHOTOSPP_BASE/include"/>
   </client>
   <use name="hepmc"/>
+  <use name="hepmc3"/>
 </tool>
