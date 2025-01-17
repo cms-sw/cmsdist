@@ -1,4 +1,4 @@
-<tool name="rocm" version="@TOOL_VERSION@" revision="1">
+<tool name="rocm" version="@TOOL_VERSION@" revision="2">
   <info url="https://docs.amd.com/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
@@ -16,6 +16,12 @@
   <flags ROCM_FLAGS="--offload-arch=gfx1100"/>  <!-- Radeon Pro W7800/W7900 -->
   <flags ROCM_FLAGS="--offload-arch=gfx1102"/>  <!-- Radeon Pro W7600 -->
   <flags ROCM_FLAGS="-fgpu-rdc --target=@COMPILER_HOST@ --gcc-toolchain=$(COMPILER_PATH)"/>
+%if "%{default_microarch_name}"
+%if "%{default_microarch_name}" != "%{min_microarch_name}"
+  <flags REM_ROCM_HOST_CXXFLAGS="-march=%%"/>
+  <flags ROCM_HOST_CXXFLAGS="-march=%{min_microarch_name}"/>
+%endif
+%endif
   <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
