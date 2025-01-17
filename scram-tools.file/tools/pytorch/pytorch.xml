@@ -1,6 +1,7 @@
-<tool name="pytorch" version="@TOOL_VERSION@" revision="1">
+<tool name="pytorch" version="@TOOL_VERSION@" revision="2">
   <lib name="torch"/>
   <lib name="torch_cpu"/>
   <lib name="c10"/>
+  <flags FORCE_LINK="1"/>
   <use name="torch-interface"/>
 </tool>
