@@ -4,3 +4,10 @@
 ## INCLUDE cpp-standard
 ## INCLUDE warning-flags
 ## INCLUDE vecgeom-opt
+## INCLUDE microarch_flags
+
+%if "%{default_microarch_name}"
+%define min_microarch_name %(echo '%{default_microarch_name} %{package_vectorization}' | tr ' ' '\\n' | grep -v '^$' | sort -r | tail -1)
+%else
+%define min_microarch_name %{nil}
+%endif
