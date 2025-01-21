@@ -22,7 +22,7 @@ if [ $(uname -s) = "Darwin" ] ; then
   OS_LD_UNIT="-r"
 else
   OS_SHAREDFLAGS="-shared -Wl,-E"
-  OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu -Wl,--as-needed"
+  OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-z,noexecstack"
   OS_CXXFLAGS="-Werror=overflow"
   OS_FFLAGS="-cpp"
   OS_LD_UNIT="-r -z muldefs"

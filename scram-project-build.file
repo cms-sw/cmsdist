@@ -52,7 +52,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-07-03
+%define configtag       V09-07-04
 %endif
 
 %if "%{?buildarch:set}" != "set"
