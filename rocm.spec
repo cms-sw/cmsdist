@@ -1,13 +1,7 @@
 ### RPM external rocm 6.2.4
 
-%if 0%{?rhel} == 7
-# allow rpm2cpio dependency on the bootstrap bundle
-%undefine drop_bootstrap_lib
-%define drop_bootstrap_lib true
-%define repository repo.radeon.com/rocm/yum
-%else
+# AMD repository with RPM packages for RHEL 8 and 9
 %define repository repo.radeon.com/rocm/rhel%{rhel}
-%endif
 
 # AMD repositories are numbered 5.5, 5.5.1, 5.5.2, ..., 5.6
 # without any .0 in the directory name
