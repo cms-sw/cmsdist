@@ -1,14 +1,11 @@
-### RPM external cuda 12.4.1
+### RPM external cuda 12.6.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 550.54.15
+%define driversversion 560.35.05
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
-%endif
-%ifarch ppc64le
-Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_ppc64le.run
 %endif
 %ifarch aarch64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
@@ -67,7 +64,6 @@ rm -f %_builddir/build/bin/cuda-uninstaller
 rm -f %_builddir/build/bin/ncu*
 rm -f %_builddir/build/bin/nsight*
 rm -f %_builddir/build/bin/nsys*
-rm -f %_builddir/build/bin/nv-nsight*
 rm -f %_builddir/build/bin/nvvp
 mv %_builddir/build/bin %{i}/
 
@@ -105,6 +101,7 @@ ln -sf libnvidia-ptxjitcompiler.so.1                                        %{i}
 mv %_builddir/build/drivers/libnvidia-nvvm.so.%{driversversion}             %{i}/drivers/
 ln -sf libnvidia-nvvm.so.%{driversversion}                                  %{i}/drivers/libnvidia-nvvm.so.4
 ln -sf libnvidia-nvvm.so.4                                                  %{i}/drivers/libnvidia-nvvm.so
+mv %_builddir/build/drivers/nvidia-smi                                      %{i}/drivers/
 
 %post
 # let nvcc find its components when invoked from the command line
