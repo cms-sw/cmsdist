@@ -1,4 +1,4 @@
-### RPM external rocm-rocrand 5.6.1
+### RPM external rocm-rocrand 6.2.4
 ## NOCOMPILER
 
 %if 0%{?rhel} == 7
@@ -10,12 +10,12 @@
 %define repository repo.radeon.com/rocm/rhel%{rhel}
 %endif
 
-# AMD repositories are numbered 5.5, 5.5.1, 5.5.2, ..., 5.6
+# AMD repositories are numbered 6.1, 6.1.1, 6.1.2, ..., 6.2
 # without any .0 in the directory name
 %define repoversion %(echo %{realversion} | sed -e's/\.0$//')
 
-Source0: https://%{repository}/%{repoversion}/main/rocrand-2.10.17.50601-93.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{repoversion}/main/rocrand-devel-2.10.17.50601-93.el%{rhel}.%{_arch}.rpm
+Source0: https://%{repository}/%{repoversion}/main/rocrand-3.1.1.60204-139.el%{rhel}.%{_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/rocrand-devel-3.1.1.60204-139.el%{rhel}.%{_arch}.rpm
 Requires: rocm
 AutoReq: no
 
