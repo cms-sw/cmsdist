@@ -1,7 +1,7 @@
-### RPM external alpaka 1.1.0
+### RPM external alpaka 1.2.0
 ## NOCOMPILER
 
-%define git_commit 1c19cf9e647bbd550148b4b219c0b62255970204
+%define git_commit 1.2.0
 
 Source: https://github.com/cms-externals/%{n}/archive/%{git_commit}.tar.gz
 Requires: boost
