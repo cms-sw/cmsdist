@@ -78,16 +78,6 @@ rm -r -f %{i}/hip/
 # hip-devel postinstall
 ln -s -f amd_detail    %{i}/include/hip/hcc_detail
 ln -s -f nvidia_detail %{i}/include/hip/nvcc_detail
-# deprecated
-#ln -s -f amd_detail    %{i}/hip/include/hip/hcc_detail
-#ln -s -f nvidia_detail %{i}/hip/include/hip/nvcc_detail
-
-# hip-runtime-amd postinstall
-# deprecated
-#mkdir -p %{i}/hip/lib/cmake/hip
-#mkdir -p %{i}/hip/lib/cmake/hip-lang
-#ln -r -s -f %{i}/lib/cmake/hip/hip-targets*           %{i}/hip/lib/cmake/hip/
-#ln -r -s -f %{i}/lib/cmake/hip-lang/hip-lang-targets* %{i}/hip/lib/cmake/hip-lang/
 
 # rocm-llvm postinstall
 mkdir -p %{i}/bin
