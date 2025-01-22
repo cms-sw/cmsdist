@@ -28,4 +28,5 @@
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
   <runtime name="PATH" value="$ROCM_BASE/bin" type="path"/>
+  <use name="fmt"/>
 </tool>
