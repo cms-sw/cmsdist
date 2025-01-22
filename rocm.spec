@@ -1,4 +1,5 @@
 ### RPM external rocm 6.2.4
+## INCLUDE cpp-standard
 
 %if 0%{?rhel} == 7
 # allow rpm2cpio dependency on the bootstrap bundle
@@ -9,9 +10,17 @@
 %define repository repo.radeon.com/rocm/rhel%{rhel}
 %endif
 
-# AMD repositories are numbered 5.5, 5.5.1, 5.5.2, ..., 5.6
+# AMD repositories are numbered 6.2, 6.2.1, 6.2.2, ..., 6.3
 # without any .0 in the directory name
 %define repoversion %(echo %{realversion} | sed -e's/\.0$//')
+
+# ROCm branch, e.g. 5.6.x, 6.2.x
+%define rocm_branch %(echo %{realversion} | cut -d. -f1-2).x
+
+# git branch, tag and directory name for rocprofiler-register
+%define rocprofiler_register_branch rocm-%{rocm_branch}
+%define rocprofiler_register_tag    rocm-%{realversion}
+%define rocprofiler_register_pkg    rocprofiler-register-%{rocprofiler_register_tag}
 
 Source0: https://%{repository}/%{repoversion}/main/comgr-2.8.0.60204-139.el%{rhel}.%{_arch}.rpm
 Source1: https://%{repository}/%{repoversion}/main/hipcc-1.1.1.60204-139.el%{rhel}.%{_arch}.rpm
@@ -33,14 +42,21 @@ Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.60204.60204-
 Source17: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
 Source18: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
 Source19: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
-Source20: https://%{repository}/%{repoversion}/main/rocprofiler-register-0.4.0.60204-139.el%{rhel}.%{_arch}.rpm
-Source21: https://%{repository}/%{repoversion}/main/amd-smi-lib-24.6.3.60204-139.el%{rhel}.%{_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/amd-smi-lib-24.6.3.60204-139.el%{rhel}.%{_arch}.rpm
 
-Requires: numactl zstd
+# sources for rocprofiler-register
+Source21: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
+
+BuildRequires: gmake cmake
+Requires: numactl zstd fmt
 Requires: python3
 AutoReq: no
 
 %prep
+
+# unpack rocprofiler-register
+mkdir src
+tar xavf %{SOURCE21} -C src
 
 %build
 rpm2cpio %{SOURCE0} | cpio -idmv
@@ -64,7 +80,22 @@ rpm2cpio %{SOURCE17} | cpio -idmv
 rpm2cpio %{SOURCE18} | cpio -idmv
 rpm2cpio %{SOURCE19} | cpio -idmv
 rpm2cpio %{SOURCE20} | cpio -idmv
-rpm2cpio %{SOURCE21} | cpio -idmv
+
+# build rocprofiler-register
+sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
+%if %{cms_cxx_standard} != 17
+grep -q 'CMAKE_CXX_STANDARD  *17' src/%{rocprofiler_register_pkg}/cmake/rocprofiler_register_options.cmake
+sed -i -e  's|CMAKE_CXX_STANDARD  *17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' src/%{rocprofiler_register_pkg}/cmake/rocprofiler_register_options.cmake
+%endif
+
+mkdir -p build/rocprofiler-register
+cd build/rocprofiler-register
+cmake ../../src/%{rocprofiler_register_pkg} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -DROCPROFILER_REGISTER_BUILD_FMT=OFF \
+  -DCMAKE_PREFIX_PATH="${FMT_ROOT}"
+make all %{makeprocesses}
 
 %install
 rmdir %{i}
@@ -78,16 +109,6 @@ rm -r -f %{i}/hip/
 # hip-devel postinstall
 ln -s -f amd_detail    %{i}/include/hip/hcc_detail
 ln -s -f nvidia_detail %{i}/include/hip/nvcc_detail
-# deprecated
-#ln -s -f amd_detail    %{i}/hip/include/hip/hcc_detail
-#ln -s -f nvidia_detail %{i}/hip/include/hip/nvcc_detail
-
-# hip-runtime-amd postinstall
-# deprecated
-#mkdir -p %{i}/hip/lib/cmake/hip
-#mkdir -p %{i}/hip/lib/cmake/hip-lang
-#ln -r -s -f %{i}/lib/cmake/hip/hip-targets*           %{i}/hip/lib/cmake/hip/
-#ln -r -s -f %{i}/lib/cmake/hip-lang/hip-lang-targets* %{i}/hip/lib/cmake/hip-lang/
 
 # rocm-llvm postinstall
 mkdir -p %{i}/bin
@@ -102,5 +123,9 @@ ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
 find %{i}/bin/ %{i}/libexec/ %{i}/llvm/bin/ %{i}/llvm/lib/ -type f | xargs -r \
   grep '#! */usr/libexec/platform-python' -l | xargs -r \
   sed -e'1 s|#! */usr/libexec/platform-python|#!/usr/bin/env python3|' -s -i
+
+# instal rocprofiler-register
+cd build/rocprofiler-register
+make install
 
 %post
