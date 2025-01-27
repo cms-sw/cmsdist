@@ -6,6 +6,26 @@
 ## INCLUDE vecgeom-opt
 ## INCLUDE microarch_flags
 
+%if "%{default_microarch_name}" == ""
+  %if "%{arch_build_flags}"
+    %define default_microarch_name %(echo %{arch_build_flags} | tr ' ' '\\n' | grep -E '^-m(arch|cpu|tune)=' | tail -1 | sed 's|.*=||')
+  %endif
+  %if "%{default_microarch_name}" == ""
+    %ifarch x86_64
+      %define default_microarch_name x86-64-v3
+    %endif
+    %ifarch ppc64le
+      %define default_microarch_name power8
+    %endif
+    %ifarch aarch64
+      %define default_microarch_name armv8-a
+    %endif
+    %ifarch riscv64
+      %define default_microarch_name rv64g
+    %endif
+  %endif
+%endif
+
 %if "%{default_microarch_name}"
 %define min_microarch_name %(echo '%{default_microarch_name} %{package_vectorization}' | tr ' ' '\\n' | grep -v '^$' | sort -r | tail -1)
 %else
