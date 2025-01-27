@@ -1,4 +1,4 @@
-<tool name="pytorch-cluster" version="@TOOL_VERSION@" revision="1">
+<tool name="pytorch-cluster" version="@TOOL_VERSION@" revision="2">
   <client>
     <environment name="PYTORCH_CLUSTER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$PYTORCH_CLUSTER_BASE/include"/>
@@ -7,4 +7,5 @@
   </client>
   <use name="pytorch"/>
   <lib name="torchcluster"/>
+  <flags FORCE_LINK="1"/>
 </tool>
