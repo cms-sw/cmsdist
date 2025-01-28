@@ -1,4 +1,5 @@
-### RPM external rocm 5.6.1
+### RPM external rocm 6.2.4
+## INCLUDE cpp-standard
 
 %if 0%{?rhel} == 7
 # allow rpm2cpio dependency on the bootstrap bundle
@@ -9,31 +10,53 @@
 %define repository repo.radeon.com/rocm/rhel%{rhel}
 %endif
 
-# AMD repositories are numbered 5.5, 5.5.1, 5.5.2, ..., 5.6
+# AMD repositories are numbered 6.2, 6.2.1, 6.2.2, ..., 6.3
 # without any .0 in the directory name
 %define repoversion %(echo %{realversion} | sed -e's/\.0$//')
 
-Source0: https://%{repository}/%{repoversion}/main/comgr-2.5.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{repoversion}/main/hipcc-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source2: https://%{repository}/%{repoversion}/main/hip-devel-5.6.31062.50601-93.el%{rhel}.%{_arch}.rpm
-Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-5.6.31062.50601-93.el%{rhel}.%{_arch}.rpm
-Source4: https://%{repository}/%{repoversion}/main/hsa-rocr-1.9.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source5: https://%{repository}/%{repoversion}/main/rocm-core-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source6: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.70.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-16.0.0.23332.50601-93.el%{rhel}.%{_arch}.rpm
-Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-5.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-16.56.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-16.56.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-5.6.1.50601-93.el%{rhel}.%{_arch}.rpm
-Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-2.13.0.50601-93.el%{rhel}.%{_arch}.rpm
-Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-2.18.0.50601-93.el%{rhel}.%{_arch}.rpm
-Requires: numactl zstd
+# ROCm branch, e.g. 5.6.x, 6.2.x
+%define rocm_branch %(echo %{realversion} | cut -d. -f1-2).x
+
+# git branch, tag and directory name for rocprofiler-register
+%define rocprofiler_register_branch rocm-%{rocm_branch}
+%define rocprofiler_register_tag    rocm-%{realversion}
+%define rocprofiler_register_pkg    rocprofiler-register-%{rocprofiler_register_tag}
+
+Source0: https://%{repository}/%{repoversion}/main/comgr-2.8.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/hipcc-1.1.1.60204-139.el%{rhel}.%{_arch}.rpm
+Source2: https://%{repository}/%{repoversion}/main/hip-devel-6.2.41134.60204-139.el%{rhel}.%{_arch}.rpm
+Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-6.2.41134.60204-139.el%{rhel}.%{_arch}.rpm
+Source4: https://%{repository}/%{repoversion}/main/hsa-rocr-1.14.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source5: https://%{repository}/%{repoversion}/main/rocm-core-6.2.4.60204-139.el%{rhel}.%{_arch}.rpm
+Source6: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.76.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source7: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source8: https://%{repository}/%{repoversion}/main/rocm-llvm-18.0.0.24392.60204-139.el%{rhel}.%{_arch}.rpm
+Source9: https://%{repository}/%{repoversion}/main/rocm-smi-lib-7.3.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source10: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source11: https://%{repository}/%{repoversion}/main/openmp-extras-devel-18.62.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source12: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-18.62.0.60204-139.el%{rhel}.%{_arch}.rpm
+Source13: https://%{repository}/%{repoversion}/main/rocm-openmp-sdk-6.2.4.60204-139.el%{rhel}.%{_arch}.rpm
+Source14: https://%{repository}/%{repoversion}/main/rocprim-devel-3.2.2.60204-139.el%{rhel}.%{_arch}.rpm
+Source15: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.1.1.60204-139.el%{rhel}.%{_arch}.rpm
+Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
+Source17: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
+Source18: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
+Source19: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.60204.60204-139.el%{rhel}.%{_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/amd-smi-lib-24.6.3.60204-139.el%{rhel}.%{_arch}.rpm
+
+# sources for rocprofiler-register
+Source21: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
+
+BuildRequires: gmake cmake
+Requires: numactl zstd fmt
 Requires: python3
 AutoReq: no
 
 %prep
+
+# unpack rocprofiler-register
+mkdir src
+tar xavf %{SOURCE21} -C src
 
 %build
 rpm2cpio %{SOURCE0} | cpio -idmv
@@ -52,6 +75,27 @@ rpm2cpio %{SOURCE12} | cpio -idmv
 rpm2cpio %{SOURCE13} | cpio -idmv
 rpm2cpio %{SOURCE14} | cpio -idmv
 rpm2cpio %{SOURCE15} | cpio -idmv
+rpm2cpio %{SOURCE16} | cpio -idmv
+rpm2cpio %{SOURCE17} | cpio -idmv
+rpm2cpio %{SOURCE18} | cpio -idmv
+rpm2cpio %{SOURCE19} | cpio -idmv
+rpm2cpio %{SOURCE20} | cpio -idmv
+
+# build rocprofiler-register
+sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
+%if %{cms_cxx_standard} != 17
+grep -q 'CMAKE_CXX_STANDARD  *17' src/%{rocprofiler_register_pkg}/cmake/rocprofiler_register_options.cmake
+sed -i -e  's|CMAKE_CXX_STANDARD  *17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' src/%{rocprofiler_register_pkg}/cmake/rocprofiler_register_options.cmake
+%endif
+
+mkdir -p build/rocprofiler-register
+cd build/rocprofiler-register
+cmake ../../src/%{rocprofiler_register_pkg} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -DROCPROFILER_REGISTER_BUILD_FMT=OFF \
+  -DCMAKE_PREFIX_PATH="${FMT_ROOT}"
+make all %{makeprocesses}
 
 %install
 rmdir %{i}
@@ -65,16 +109,6 @@ rm -r -f %{i}/hip/
 # hip-devel postinstall
 ln -s -f amd_detail    %{i}/include/hip/hcc_detail
 ln -s -f nvidia_detail %{i}/include/hip/nvcc_detail
-# deprecated
-#ln -s -f amd_detail    %{i}/hip/include/hip/hcc_detail
-#ln -s -f nvidia_detail %{i}/hip/include/hip/nvcc_detail
-
-# hip-runtime-amd postinstall
-# deprecated
-#mkdir -p %{i}/hip/lib/cmake/hip
-#mkdir -p %{i}/hip/lib/cmake/hip-lang
-#ln -r -s -f %{i}/lib/cmake/hip/hip-targets*           %{i}/hip/lib/cmake/hip/
-#ln -r -s -f %{i}/lib/cmake/hip-lang/hip-lang-targets* %{i}/hip/lib/cmake/hip-lang/
 
 # rocm-llvm postinstall
 mkdir -p %{i}/bin
@@ -89,6 +123,10 @@ ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
 find %{i}/bin/ %{i}/libexec/ %{i}/llvm/bin/ %{i}/llvm/lib/ -type f | xargs -r \
   grep '#! */usr/libexec/platform-python' -l | xargs -r \
   sed -e'1 s|#! */usr/libexec/platform-python|#!/usr/bin/env python3|' -s -i
+
+# instal rocprofiler-register
+cd build/rocprofiler-register
+make install
 
 #Create clang cfg file for gcc-toolchain
 %if 0%{!?use_system_gcc:1}
