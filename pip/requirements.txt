@@ -408,7 +408,7 @@ urllib3==2.2.2
 vector==1.4.0
 versioneer==0.29
 virtualenv-clone==0.5.7
-virtualenv==20.26.1
+virtualenv==20.29.1
 virtualenvwrapper==6.1.0
 wcwidth==0.2.13
 webencodings==0.5.1
