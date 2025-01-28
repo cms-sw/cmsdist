@@ -5,6 +5,7 @@
 %define branch cms/v%{realversion}
 %define tag efe7f6a3859bedbad40a2991480be4e7584b1582
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: onnxruntime-gcc13
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
@@ -12,6 +13,7 @@ Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build

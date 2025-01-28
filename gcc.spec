@@ -1,10 +1,10 @@
-### RPM external gcc 13.2.0
+### RPM external gcc 13.3.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag c891d8dc23e1a46ad9f3e757d09e57b500d40044
+%define gccTag 2d6e33407c3d94e3aee6de235dc13373184a506f
 %define gccBranch releases/gcc-13
 
 %define moduleName %{n}-%{realversion}
@@ -24,9 +24,6 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
-#Avoid C++20 build errors
-#FIXME: This should be dropped when we are ready to move to newer GCC 13 supported by cuda
-Source14: https://github.com/gcc-mirror/gcc/commit/96482ffe60d9bdec802fcad705c69641b2a3e040.patch
 
 %ifos linux
 %define bisonVersion 3.8.2
@@ -47,7 +44,6 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-patch -p1 <%{_sourcedir}/96482ffe60d9bdec802fcad705c69641b2a3e040.patch
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
