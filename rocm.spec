@@ -90,4 +90,12 @@ find %{i}/bin/ %{i}/libexec/ %{i}/llvm/bin/ %{i}/llvm/lib/ -type f | xargs -r \
   grep '#! */usr/libexec/platform-python' -l | xargs -r \
   sed -e'1 s|#! */usr/libexec/platform-python|#!/usr/bin/env python3|' -s -i
 
+#Create clang cfg file for gcc-toolchain
+%if 0%{!?use_system_gcc:1}
+echo "--gcc-toolchain=$GCC_ROOT" > %{i}/llvm/bin/clang++.cfg
+%endif
+
 %post
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}/llvm/bin/clang++.cfg
+%endif
