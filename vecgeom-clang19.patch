@@ -1,0 +1,172 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 495795d..3fcaace 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -224,7 +224,7 @@ cmake_dependent_option(VECGEOM_TEST_COVERAGE "Enable coverage testing flags" OFF
+ 
+ ################################################################################
+ # Minimum version of VecCore we need.
+-set(VecCore_VERSION "0.8.0")
++set(VecCore_VERSION "0.8.2")
+ 
+ # Enable/Disable build/use of builtin veccore
+ if(VECGEOM_BUILTIN_VECCORE)
+diff --git a/cmake/modules/BuiltinVecCore.cmake b/cmake/modules/BuiltinVecCore.cmake
+index 7e6d09b..d45fe49 100644
+--- a/cmake/modules/BuiltinVecCore.cmake
++++ b/cmake/modules/BuiltinVecCore.cmake
+@@ -41,9 +41,9 @@ function (build_external_project target globpattern ) #FOLLOWING ARGUMENTS are t
+ endfunction()
+ 
+ 
+-set(VecCore_PROJECT "VecCore-${VecCore_VERSION}")
+-set(VecCore_SRC_URI "http://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources")
+-set(VecCore_SRC_MD5 "3e5b84d1b502ab7c7047c4b494ce640a")
++set(VecCore_PROJECT "VecCore-v${VecCore_VERSION}")
++set(VecCore_SRC_URI "https://gitlab.cern.ch/VecGeom/VecCore/-/archive")
++set(VecCore_SRC_MD5 "c91d00f16ea1fbfad0101e11b2386e34")
+ set(VecCore_DESTDIR "${PROJECT_BINARY_DIR}/installExternals/${VecCore_PROJECT}")
+ set(VecCore_ROOTDIR "${VecCore_DESTDIR}/${CMAKE_INSTALL_PREFIX}")
+ set(VecCore_SRC_TAG "v${VecCore_VERSION}")
+@@ -55,7 +55,7 @@ endif()
+ 
+ build_external_project(${VecCore_PROJECT}
+   "${VecCore_ROOTDIR}/include/VecCore/*.h;${VecCore_ROOTDIR}/include/VecCore/VecCore;${VecCore_ROOTDIR}/include/VecCore/Backend/*.h"
+-  "URL \"${VecCore_SRC_URI}/VecCore-${VecCore_VERSION}.tar.gz\"
++  "URL \"${VecCore_SRC_URI}/VecCore-v${VecCore_VERSION}.tar.gz ${VecCore_SRC_URI}/v${VecCore_VERSION}/VecCore-v${VecCore_VERSION}.tar.gz\"
+   URL_MD5 ${VecCore_SRC_MD5}
+   #GIT_REPOSITORY \"${VecCore_SRC_URI}\"
+   #GIT_TAG \"${VecCore_SRC_TAG}\"
+diff --git a/VecGeom/volumes/SpecializedPlacedVolImplHelper.h b/VecGeom/volumes/SpecializedPlacedVolImplHelper.h
+index 5f63971..496d177 100644
+--- a/VecGeom/volumes/SpecializedPlacedVolImplHelper.h
++++ b/VecGeom/volumes/SpecializedPlacedVolImplHelper.h
+@@ -153,7 +153,7 @@ public:
+ #endif
+     Transformation3D const *tr = this->GetTransformation();
+     Precision output(-1.);
+-    Specialization::template DistanceToOut(*this->GetUnplacedStruct(), tr->Transform<transC, rotC>(point),
++    Specialization::template DistanceToOut<>(*this->GetUnplacedStruct(), tr->Transform<transC, rotC>(point),
+                                            tr->TransformDirection<rotC>(direction), stepMax, output);
+ 
+ #ifdef VECGEOM_DISTANCE_DEBUG
+diff --git a/VecGeom/volumes/UnplacedVolumeImplHelper.h b/VecGeom/volumes/UnplacedVolumeImplHelper.h
+index 4b2f7b2..7cbf855 100644
+--- a/VecGeom/volumes/UnplacedVolumeImplHelper.h
++++ b/VecGeom/volumes/UnplacedVolumeImplHelper.h
+@@ -98,7 +98,7 @@ public:
+     assert(d.IsNormalized() && " direction not normalized in call to  DistanceToOut ");
+ #endif
+     Precision output = kInfLength;
+-    Implementation::template DistanceToOut(((UnplacedVolume_t *)this)->UnplacedVolume_t::GetStruct(), p, d, step_max,
++    Implementation::template DistanceToOut<>(((UnplacedVolume_t *)this)->UnplacedVolume_t::GetStruct(), p, d, step_max,
+                                            output);
+ 
+ // detect -inf responses which are often an indication for a real bug
+diff --git a/VecGeom/volumes/kernel/ImplAsImplementation.h b/VecGeom/volumes/kernel/ImplAsImplementation.h
+index a9d2cae..8cd3428 100644
+--- a/VecGeom/volumes/kernel/ImplAsImplementation.h
++++ b/VecGeom/volumes/kernel/ImplAsImplementation.h
+@@ -51,7 +51,7 @@ struct IndirectImplementation {
+   VECCORE_ATT_HOST_DEVICE
+   static void Contains(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Bool_v &inside)
+   {
+-    DispatchingImplementation::template Contains(s, point, inside);
++    DispatchingImplementation::template Contains<>(s, point, inside);
+   }
+ 
+   template <typename Real_v, typename Inside_t>
+@@ -59,7 +59,7 @@ struct IndirectImplementation {
+   VECCORE_ATT_HOST_DEVICE
+   static void Inside(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Inside_t &inside)
+   {
+-    DispatchingImplementation::template Inside(s, point, inside);
++    DispatchingImplementation::template Inside<>(s, point, inside);
+   }
+ 
+   template <typename Real_v>
+@@ -68,7 +68,7 @@ struct IndirectImplementation {
+   static void DistanceToIn(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Vector3D<Real_v> const &direction,
+                            Real_v const &stepMax, Real_v &distance)
+   {
+-    DispatchingImplementation::template DistanceToIn(s, point, direction, stepMax, distance);
++    DispatchingImplementation::template DistanceToIn<>(s, point, direction, stepMax, distance);
+   }
+ 
+   template <typename Real_v>
+@@ -77,7 +77,7 @@ struct IndirectImplementation {
+   static void DistanceToOut(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Vector3D<Real_v> const &direction,
+                             Real_v const &stepMax, Real_v &distance)
+   {
+-    DispatchingImplementation::template DistanceToOut(s, point, direction, stepMax, distance);
++    DispatchingImplementation::template DistanceToOut<>(s, point, direction, stepMax, distance);
+   }
+ 
+   template <typename Real_v>
+@@ -85,7 +85,7 @@ struct IndirectImplementation {
+   VECCORE_ATT_HOST_DEVICE
+   static void SafetyToIn(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Real_v &safety)
+   {
+-    DispatchingImplementation::template SafetyToIn(s, point, safety);
++    DispatchingImplementation::template SafetyToIn<>(s, point, safety);
+   }
+ 
+   template <typename Real_v>
+@@ -93,7 +93,7 @@ struct IndirectImplementation {
+   VECCORE_ATT_HOST_DEVICE
+   static void SafetyToOut(UnplacedStruct_t const &s, Vector3D<Real_v> const &point, Real_v &safety)
+   {
+-    DispatchingImplementation::template SafetyToOut(s, point, safety);
++    DispatchingImplementation::template SafetyToOut<>(s, point, safety);
+   }
+ 
+   template <typename Real_v>
+@@ -102,7 +102,7 @@ struct IndirectImplementation {
+   static Vector3D<Real_v> NormalKernel(UnplacedStruct_t const &s, Vector3D<Real_v> const &point,
+                                        typename vecCore::Mask_v<Real_v> &valid)
+   {
+-    DispatchingImplementation::template NormalKernel(s, point, valid);
++    DispatchingImplementation::template NormalKernel<>(s, point, valid);
+   }
+ };
+ 
+diff --git a/VecGeom/volumes/kernel/PolyhedronImplementation.h b/VecGeom/volumes/kernel/PolyhedronImplementation.h
+index 9a1a016..9f0de05 100644
+--- a/VecGeom/volumes/kernel/PolyhedronImplementation.h
++++ b/VecGeom/volumes/kernel/PolyhedronImplementation.h
+@@ -689,7 +689,7 @@ bool PolyhedronImplementation<innerRadiiT, phiCutoutT>::ScalarContainsKernel(Unp
+   {
+     bool inBounds;
+     // Correct tube algorithm obtained from trait class
+-    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains(
++    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains<>(
+         unplaced.fBoundingTube, Vector3D<Precision>(point[0], point[1], point[2] - unplaced.fBoundingTubeOffset),
+         inBounds);
+     if (!inBounds) return false;
+@@ -753,7 +753,7 @@ Inside_t PolyhedronImplementation<innerRadiiT, phiCutoutT>::ScalarInsideKernel(U
+     // FIX: the bounding tube was wrong. Since the fast UnplacedContains is
+     // used for early return, the bounding tube has to be larger than the
+     // ideal bounding tube to account for the tolerance (offset was wrong)
+-    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains(
++    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains<>(
+         unplaced.fBoundingTube, Vector3D<Precision>(point[0], point[1], point[2] - unplaced.fBoundingTubeOffset),
+         inBounds);
+     if (!inBounds) return EInside::kOutside;
+@@ -904,7 +904,7 @@ Precision PolyhedronImplementation<innerRadiiT, phiCutoutT>::ScalarDistanceToInK
+   Precision tubeDistance = 0.;
+   {
+     Vector3D<Precision> boundsPoint(point[0], point[1], point[2] - unplaced.fBoundingTubeOffset);
+-    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains(unplaced.fBoundingTube, boundsPoint, inBounds);
++    HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template Contains<>(unplaced.fBoundingTube, boundsPoint, inBounds);
+     // If the point is inside the bounding tube, the result of DistanceToIn is
+     // unreliable and cannot be used to reject rays.
+     // TODO: adjust tube DistanceToIn function to correctly return a negative
+@@ -913,7 +913,7 @@ Precision PolyhedronImplementation<innerRadiiT, phiCutoutT>::ScalarDistanceToInK
+     if (!inBounds) {
+       // If the point is outside the bounding tube, check if the ray misses
+       // the bounds
+-      HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template DistanceToIn(unplaced.fBoundingTube, boundsPoint,
++      HasInnerRadiiTraits<innerRadiiT>::TubeKernels::template DistanceToIn<>(unplaced.fBoundingTube, boundsPoint,
+                                                                            direction, stepMax, tubeDistance);
+       if (tubeDistance == InfinityLength<Precision>()) {
+         return InfinityLength<Precision>();

@@ -1,12 +1,12 @@
-### RPM external clang-uml 0.5.2
+### RPM external clang-uml 0.5.6
 
-%define tag cd6dce2b0b34d55534d3de512ab088b9ad71bc76
+%define tag 5e8d35f181d1818310fb337e133e9d7600280e1f
 %define branch master
 
 %define github_user bkryza
 Source: git+https://github.com/%{github_user}/clang-uml.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: cmake ninja 
-Requires: yaml-cpp llvm zlib
+Requires: yaml-cpp llvm zlib zstd libxml2
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -28,7 +28,8 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
 %endif
   -DGIT_VERSION="%{realversion}" \
-  -DCMAKE_PREFIX_PATH="${YAML_CPP_ROOT}/lib64/cmake/yaml-cpp;${ZLIB_ROOT}"
+  -DCMAKE_EXE_LINKER_FLAGS="-L${YAML_CPP_ROOT}/lib64" \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 ninja -v %{makeprocesses}
 

@@ -128,4 +128,12 @@ find %{i}/bin/ %{i}/libexec/ %{i}/llvm/bin/ %{i}/llvm/lib/ -type f | xargs -r \
 cd build/rocprofiler-register
 make install
 
+#Create clang cfg file for gcc-toolchain
+%if 0%{!?use_system_gcc:1}
+echo "--gcc-toolchain=$GCC_ROOT" > %{i}/llvm/bin/clang++.cfg
+%endif
+
 %post
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}/llvm/bin/clang++.cfg
+%endif

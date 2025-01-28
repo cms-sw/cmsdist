@@ -6,6 +6,7 @@
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source99: scram-tools.file/tools/eigen/env
 Patch0: rivet-duplicate-libs
+Patch1: rivet-clang19
 
 Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
 BuildRequires: python3 py3-cython autotools
@@ -14,6 +15,7 @@ BuildRequires: python3 py3-cython autotools
 ## OLD GENSER: %setup -n rivet/%{realversion}
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 source %{_sourcedir}/env
