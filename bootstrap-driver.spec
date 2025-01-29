@@ -17,8 +17,8 @@ additionalProvides=""
 ##############################
 # Packages to seed for runtime
 ##############################
-platformSeeds="  bash glibc glibc-headers python3 openssl-libs"
-platformSeeds+=" libbrotli libX11 libxcrypt"
+platformSeeds="  bash glibc glibc-headers openssl-libs"
+platformSeeds+=" libX11 libxcrypt"
 
 # Needed by python runtime
 platformSeeds+=" readline ncurses-libs tcl tk"
@@ -27,7 +27,11 @@ platformSeeds+=" readline ncurses-libs tcl tk"
 platformSeeds+=" mesa-libGLU libglvnd-glx libglvnd-opengl libXext libXft libXpm"
 
 #Various packages perl dependencies
-platformSeeds+=" perl perl-base perl-filetest perl-lib perl-libs perl-overload perl-vars"
+platformSeeds+=" perl perl-libs"
+%if "%{rhel}" == "9"
+platformSeeds+=" libbrotli python3"
+platformSeeds+=" perl-base perl-lib perl-filetest perl-overload perl-vars"
+%endif
   
 #Various packages required by xrootd with krb5 enabled
 platformSeeds+=" libcom_err krb5-libs"
@@ -39,9 +43,13 @@ packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr
 #Packages to seed for build
 ##############################
 platformBuildSeeds="  git patch make zip unzip bzip2 which rsync"
-platformBuildSeeds+=" openssl-devel brotli-devel libxcrypt-devel"
+platformBuildSeeds+=" openssl-devel libxcrypt-devel"
 platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
 platformBuildSeeds+=" java-1.8.0-openjdk-devel"
+
+%if "%{rhel}" == "9"
+platformBuildSeeds+=" brotli-devel"
+%endif
 
 #Various packages required by xrootd with krb5 enabled
 platformBuildSeeds+=" libcom_err-devel krb5-devel"
