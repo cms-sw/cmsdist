@@ -1,3 +1,7 @@
+%if "%{rhel}" == "8"
 %define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home
+%else
+%define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home; export CARGO_HTTP_CAINFO=/etc/ssl/cert.pem
+%endif
 BuildRequires: rust py3-maturin
 Requires: py3-setuptools-rust py3-cffi py3-six
