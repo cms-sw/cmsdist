@@ -34,7 +34,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
    -Donnxruntime_NVCC_THREADS=0 \
    -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
-   -DCMAKE_CUDA_FLAGS="-cudart shared" \
+   -DCMAKE_CUDA_FLAGS="-DTHRUST_IGNORE_DEPRECATED_API -DCUB_IGNORE_DEPRECATED_API -Wno-deprecated-gpu-targets --static-global-template-stub=false -cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
 %endif
