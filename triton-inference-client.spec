@@ -8,6 +8,7 @@
 
 Source0: git+https://github.com/%{github_user}/client.git?obj=%{branch}/%{client_tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: git+https://github.com/%{github_user}/common.git?obj=%{branch}/%{common_tag}&export=common-%{realversion}&output=/common-%{realversion}.tgz
+Patch0: triton-inference-client-uint8
 BuildRequires: cmake git py3-wheel
 Requires: protobuf grpc abseil-cpp re2 rapidjson
 Requires: py3-numpy py3-grpcio-tools py3-python-rapidjson
@@ -16,6 +17,7 @@ Requires: py3-numpy py3-grpcio-tools py3-python-rapidjson
 %prep
 
 %setup -D -T -b 0 -n %{n}-%{realversion}
+%patch0 -p1
 sed -i -e 's|import os|import os,sys|' src/python/library/build_wheel.py
 %setup -D -T -b 1 -n common-%{realversion}
 
@@ -71,7 +73,7 @@ cmake ../%{n}-%{realversion}/src/python \
     -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
-    -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
+    -DCMAKE_CXX_FLAGS="-Wno-error -Wno-error=sign-compare -Wno-error=deprecated-declarations -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
     -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT};${RAPIDJSON_ROOT}"
 
