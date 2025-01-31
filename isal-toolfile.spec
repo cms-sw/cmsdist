@@ -8,7 +8,7 @@ Requires: isal
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/isal.xml
-<tool name="isal" version="@TOOL_VERSION@" revision="1">
+<tool name="isal" version="@TOOL_VERSION@">
   <info url="https://github.com/intel/isa-l/wiki"/>
   <lib name="isal"/>
   <client>
