@@ -1,3 +1,5 @@
+Patch0: pybind11-array-bound
+
 %define PipPostBuild \
 cat > %{i}/${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include/module.modulemap << EOF \
 module pybind11 { \
