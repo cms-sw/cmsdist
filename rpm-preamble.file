@@ -320,7 +320,7 @@ fi
 %if "%{?cms_debug_packages:set}" == "set"
 %define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
 %else
-%define is_debug_build 0
+%define is_debug_build() 0
 %endif
 
 %if %{is_debug_build %{pkgname}}

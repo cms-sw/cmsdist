@@ -17,7 +17,7 @@ Patch2: meschach-1.2b-parallel-build
 %ifarch darwin
 perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
 %endif
-make %{makeprocesses}
+make %{makeprocesses} CFLAGS="-Wno-error=implicit-function-declaration"
 %install
 mkdir -p %i/include
 mkdir -p %i/lib

@@ -19,12 +19,14 @@ BuildRequires: java-env python3 python-python3
 # https://github.com/bazelbuild/bazel/issues/9392
 Patch0: bazel-3.7.0-patches
 Patch1: bazel-absl
+Patch2: bazel-gcc14
 
 %prep
 %setup -q -c -n bazel-%{realversion}
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 

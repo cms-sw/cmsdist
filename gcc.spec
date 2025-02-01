@@ -1,36 +1,34 @@
-### RPM external gcc 12.3.1
+### RPM external gcc 14.2.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
-%define gccTag 10ebb8b9db2ec7ad53e4fc1f2900d9a8c8ddeaea
-%define gccBranch releases/gcc-12
+%define gccTag a0550ff9f36a27a03c15d49383c6ec76fc6a8e99
+%define gccBranch releases/gcc-14
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 
 %define keep_archives true
 
-%define gmpVersion 6.2.1
-%define mpfrVersion 4.2.0
+%define gmpVersion 6.3.0
+%define mpfrVersion 4.2.1
 %define mpcVersion 1.3.1
-%define islVersion 0.26
+%define islVersion 0.27
 %define zlibVersion 1.2.13
-%define zstdVersion 1.4.5
+%define zstdVersion 1.5.4
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
-#Fix for array-bound
-Source14: https://github.com/gcc-mirror/gcc/commit/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 %ifos linux
 %define bisonVersion 3.8.2
-%define binutilsVersion 2.40
-%define elfutilsVersion 0.189
+%define binutilsVersion 2.43.1
+%define elfutilsVersion 0.192
 %define m4Version 1.4.19
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
@@ -46,7 +44,6 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
-patch -p1 < %{_sourcedir}/49ba4fdeb648c149fa7d964ba812084262c3d06f.patch
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req

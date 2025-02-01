@@ -1,3 +1,5 @@
 BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme py3-scikit-build-core py3-pyproject-metadata cmake
 Requires: py3-pybind11 py3-numpy
-%define PipPreBuild export CMAKE_PREFIX_PATH=%{cmake_prefix_path}
+%define PipPreBuild \
+   export CMAKE_PREFIX_PATH=%{cmake_prefix_path}; \
+   export CMAKE_BUILD_PARALLEL_LEVEL=%{compiling_processes}

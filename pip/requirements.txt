@@ -34,8 +34,8 @@ atomicwrites==1.4.1
 attrs==23.2.0
 autopep8==2.1.0
 avro==1.11.3
-awkward==2.6.3
-awkward-cpp==32
+awkward==2.7.4
+awkward-cpp==44
 # No 'release' versions exist
 awkward-pandas==2023.8.0
 babel==2.14.0
@@ -287,7 +287,7 @@ pure-eval==0.2.2
 py-cpuinfo==9.0.0
 pyasn1-modules==0.4.0
 pyasn1==0.6.0
-pybind11==2.12.0
+pybind11==2.13.6
 pybrain==0.3.3
 pycodestyle==2.11.1
 pycparser==2.22
@@ -318,7 +318,7 @@ python-daemon==3.0.1
 python-dateutil==2.9.0.post0
 python-json-logger==2.0.7
 python-ldap==3.4.4
-python-rapidjson==1.16
+python-rapidjson==1.20
 pythran==0.15.0
 pytoml==0.1.21
 pytools==2024.1.2
@@ -344,7 +344,7 @@ rsa==4.9
 scandir==1.10.0
 schema==0.7.5
 scikit-build==0.16.7
-scikit-build-core==0.9.3
+scikit-build-core==0.10.7
 scikit-learn==1.2.2
 scinum==2.1.0
 scipy==1.10.0
