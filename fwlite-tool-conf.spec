@@ -37,6 +37,7 @@ Requires: systemtools
 Requires: libuuid-toolfile
 Requires: xerces-c-toolfile
 Requires: xrootd-toolfile
+Requires: isal-toolfile
 Requires: xz-toolfile
 Requires: zlib-toolfile
 Requires: libxml2-toolfile
