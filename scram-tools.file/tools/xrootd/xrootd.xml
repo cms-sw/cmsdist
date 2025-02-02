@@ -1,4 +1,4 @@
-<tool name="xrootd" version="@TOOL_VERSION@" revision="1">
+<tool name="xrootd" version="@TOOL_VERSION@" revision="2">
   <lib name="XrdUtils"/>
   <lib name="XrdCl"/>
   <client>
@@ -10,4 +10,5 @@
   <runtime name="PATH" value="$XROOTD_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <use name="isal"/>
 </tool>
