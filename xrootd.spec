@@ -1,4 +1,4 @@
-### RPM external xrootd 5.5.1
+### RPM external xrootd 5.7.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -6,14 +6,13 @@
 %define tag %{realversion}
 %define branch master
 %define github_user xrootd
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/v%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: https://patch-diff.githubusercontent.com/raw/xrootd/xrootd/pull/1805.patch
+Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake gmake autotools
+BuildRequires: cmake gmake autotools py3-pip
 Requires: zlib libuuid curl davix
-Requires: python3
+Requires: python3 py3-setuptools
 Requires: libxml2
-Requires: scitokens-cpp
+Requires: isal
 
 %define soext so
 %ifarch darwin
@@ -23,7 +22,6 @@ Requires: scitokens-cpp
 %prep
 %setup -n %n-%{realversion}
 sed -i -e 's|UUID REQUIRED|UUID |' cmake/XRootDFindLibs.cmake
-patch -p1 < %{_sourcedir}/1805.patch
 
 %build
 # By default xrootd has perl, fuse, krb5, readline, and crypto enabled. 
@@ -44,12 +42,13 @@ cmake ../%n-%{realversion} \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
   -DENABLE_HTTP=TRUE \
+  -DENABLE_XRDEC=TRUE \
   -DXRD_PYTHON_REQ_VERSION=3 \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include -I${DAVIX_ROOT}/include" \
   -DUUID_INCLUDE_DIR="${LIBUUID_ROOT}/include" \
   -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
   -DSCITOKENS_CPP_DIR="${SCITOKENS_CPP_ROOT}" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT};${DAVIX_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${PYTHON3_ROOT};${LIBXML2_ROOT};${LIBUUID_ROOT};${SCITOKENS_CPP_ROOT};${CURL_ROOT};${DAVIX_ROOT};${ISAL_ROOT}"
 
 make %makeprocesses VERBOSE=1
 
@@ -60,3 +59,4 @@ make install
 
 %post
 %{relocateConfig}bin/xrootd-config
+%{relocateConfig}${PYTHON3_LIB_SITE_PACKAGES}/xrootd-%{realvesion}-*.egg/EGG-INFO/SOURCES.txt
