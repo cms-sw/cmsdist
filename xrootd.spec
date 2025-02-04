@@ -1,26 +1,16 @@
-### RPM external xrootd 4.6.1
+### RPM external xrootd 4.12.9
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag 406ec963de0c7d402ba766e6954ddda7f76c8449
-%define branch cms/v4.6.1
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://github.com/xrootd/xrootd/archive/refs/tags/v%{realversion}.tar.gz
 
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 Requires: python
+Requires: libuuid
 
 %prep
 %setup -n %n-%{realversion}
-
-# need to fix these from xrootd git
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/cleanup.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/loadRTDataToMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCollector.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/prepareMySQLStats.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonCreateMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonLoadMySQL.pl
-perl -p -i -e 's|^#!.*perl(.*)|#!/usr/bin/env perl$1|' src/XrdMon/xrdmonPrepareStats.pl
+sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_libuuid True)|' cmake/FindLibUuid.cmake
 
 %build
 mkdir build
@@ -39,7 +29,9 @@ cmake ../ \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
-  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
+  -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
+  -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT};${LIBUUID_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
