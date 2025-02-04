@@ -1,14 +1,12 @@
-### RPM external xrootd 4.5.0
+### RPM external xrootd 4.12.9
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
-%define tag af6aebbbbe7da7fd89f3698c1e485a79a5990037
-%define branch cms/v%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/xrootd.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://github.com/xrootd/xrootd/archive/refs/tags/v%{realversion}.tar.gz
 
 BuildRequires: cmake
 Requires: zlib
 Requires: openssl
 Requires: python
+Requires: libuuid
 
 %prep
 %setup -n %n-%{realversion}
@@ -39,7 +37,7 @@ cmake ../ \
   -DENABLE_CRYPTO=TRUE \
   -DCMAKE_SKIP_RPATH=TRUE \
   -DENABLE_PYTHON=TRUE \
-  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT}"
+  -DCMAKE_PREFIX_PATH="${PYTHON_ROOT};${LIBUUID_ROOT}"
 
 # Use makeprocess macro, it uses compiling_processes defined by
 # build configuration file or build argument
