@@ -10,7 +10,7 @@ Requires: libuuid
 
 %prep
 %setup -n %n-%{realversion}
-sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_libuuid True)|' cmake/Findlibuuid.cmake
+sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_libuuid True)|' cmake/FindLibUuid.cmake
 
 %build
 mkdir build
