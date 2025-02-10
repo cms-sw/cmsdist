@@ -6,6 +6,8 @@ Source99: install-cuda.sh
 ## INCLUDE cuda-version
 ### RPM external cuda-runtime %{cuda_version}
 
+Provides: libnvrtc-builtins.so.12.8()(64bit)
+
 %install
 #Copy runtime libs
 mkdir -p %i/lib64/stubs
