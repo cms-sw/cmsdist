@@ -24,6 +24,7 @@ Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
+Source14: https://github.com/gcc-mirror/gcc/commit/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 
 %ifos linux
 %define bisonVersion 3.8.2
@@ -44,6 +45,7 @@ Patch1: gcc-flex-disable-doc
 %prep
 
 %setup -T -b 0 -n %{moduleName}
+patch -p1 <%{_sourcedir}/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
