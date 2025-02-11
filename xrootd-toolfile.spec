@@ -21,6 +21,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/xrootd.xml
   <runtime name="PYTHONPATH" value="$XROOTD_BASE/@PYTHON_LIB_SITE_PACKAGES@" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
+  <use name="libuuid"/>
 </tool>
 EOF_TOOLFILE
 export PYTHON_LIB_SITE_PACKAGES

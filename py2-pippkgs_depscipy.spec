@@ -63,7 +63,7 @@ for pkg in %builddirectpkgreqs ; do
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
-    rsync -av $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
+    rsync -av --no-owner --no-group $SOURCE/ %{i}/${PYTHON_LIB_SITE_PACKAGES}/
   fi
 done
 
@@ -80,7 +80,7 @@ for pkg in %builddirectpkgreqs ; do
       fi
     done
     echo "Copying $SOURCE in %{pkgrel}"
-    rsync -av $SOURCE/ %{i}/bin/
+    rsync -av --no-owner --no-group $SOURCE/ %{i}/bin/
   fi
 done
 
