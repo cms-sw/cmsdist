@@ -43,6 +43,10 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
 #FIXME: GCC 12.2 workaround
 if [[ "$GCC_VERSION" =~ ^12\.[23]\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"
+elif [[ "$GCC_VERSION" =~ ^13\.[3]\. ]] ; then
+  GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
+elif [[ "$GCC_VERSION" =~ ^14\.[2]\. ]] ; then
+  GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
 fi
 
 # Explicitly use the GNU binutils ld.bfd linker
