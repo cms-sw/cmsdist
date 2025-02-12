@@ -10,7 +10,7 @@ index 1e11690..4550960 100644
 +  if (nary->length > gimple_match_op::MAX_NUM_OPS
 +      /* For CONSTRUCTOR the vn_nary_op_t and gimple_match_op representation
 +        does not match.  */
-+      || nary->code == CONSTRUCTOR)
++      || nary->opcode == CONSTRUCTOR)
      return NULL_TREE;
    gimple_match_op op (gimple_match_cond::UNCOND, nary->opcode,
  		      nary->type, nary->length);
