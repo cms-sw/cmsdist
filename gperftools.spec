@@ -3,8 +3,6 @@ Source: https://github.com/gperftools/gperftools/archive/refs/tags/gperftools-%{
 
 BuildRequires: autotools
 
-Requires: libunwind
-
 %prep
 %setup -n %{n}-%{n}-%{realversion}
 
@@ -15,10 +13,8 @@ Requires: libunwind
   --disable-dependency-tracking \
   --enable-sized-delete \
   --enable-dynamic-sized-delete-support \
-  --enable-libunwind \
-  --disable-debugalloc \
-  CPPFLAGS="-I${LIBUNWIND_ROOT}/include -pthread" \
-  LDFLAGS="-L${LIBUNWIND_ROOT}/lib -L${LIBUNWIND_ROOT}/lib64 -lpthread"
+  --disable-libunwind \
+  --disable-debugalloc 
 
 make %{makeprocesses}
 
