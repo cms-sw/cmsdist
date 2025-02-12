@@ -41,11 +41,14 @@ Source11: https://github.com/westes/flex/releases/download/v%{flexVersion}/flex-
 
 Patch0: gcc-flex-nonfull-path-m4
 Patch1: gcc-flex-disable-doc
+Patch2: gcc14-fix118817
 
 %prep
 
 %setup -T -b 0 -n %{moduleName}
 patch -p1 <%{_sourcedir}/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
+%patch2 -p1
+
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
