@@ -95,6 +95,7 @@ DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
+FWCore/AbstractServices
 FWCore/Common
 FWCore/Concurrency
 FWCore/FWLite
