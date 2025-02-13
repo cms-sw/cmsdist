@@ -56,7 +56,6 @@ Requires: xpmem
   --without-knem \
   --with-xpmem=$XPMEM_ROOT \
   --without-ugni \
-  CFLAGS="-Wno-error=array-bounds" \
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
   LDFLAGS="-L$NUMACTL_ROOT/lib"
 
