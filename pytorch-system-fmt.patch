@@ -8,6 +8,7 @@ index 82eb9690383..2f40c80a66e 100644
    endif()
 +  find_package(fmt REQUIRED)
    target_link_libraries(c10 PRIVATE fmt::fmt-header-only)
+   target_link_libraries(c10 PRIVATE nlohmann)
  
    if(C10_USE_NUMA)
 diff --git a/caffe2/CMakeLists.txt b/caffe2/CMakeLists.txt
