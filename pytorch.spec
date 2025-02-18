@@ -1,4 +1,4 @@
-### RPM external pytorch 2.4.0
+### RPM external pytorch 2.6.0
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
