@@ -68,3 +68,30 @@ index 2c6ac38882f..d165059a956 100644
  /*
 
 
+--- a/torch/csrc/profiler/orchestration/observer.h	2025-02-13 15:02:54.200761353 +0100
++++ b/torch/csrc/profiler/orchestration/observer.h	2025-02-13 15:03:09.951674440 +0100
+@@ -23,7 +23,7 @@
+   const std::array<
+       std::string,
+       static_cast<size_t>(ActivityType::NUM_KINETO_ACTIVITIES)>
+-      ActivityTypeNames = {"CPU", "XPU", "CUDA", "MTIA", "PrivateUse1"};
++      ActivityTypeNames = {{"CPU", "XPU", "CUDA", "MTIA", "PrivateUse1"}};
+   return ActivityTypeNames[static_cast<int>(t)];
+ }
+ 
+--- a/aten/src/ATen/Context.h	2025-02-13 15:04:06.599361881 +0100
++++ b/aten/src/ATen/Context.h	2025-02-13 15:04:40.724173592 +0100
+@@ -388,11 +388,11 @@
+   bool _deterministic_algorithms = false;
+   bool _deterministic_algorithms_warn_only = false;
+   bool _deterministic_fill_uninitialized_memory = true;
+-  std::array<at::SDPBackend, at::num_sdp_backends> sdp_priority_order = {
++  std::array<at::SDPBackend, at::num_sdp_backends> sdp_priority_order = {{
+       at::SDPBackend::flash_attention,
+       at::SDPBackend::efficient_attention,
+       at::SDPBackend::math,
+-      at::SDPBackend::cudnn_attention};
++      at::SDPBackend::cudnn_attention}};
+   bool enabled_flashSDP = true;
+   bool enabled_mem_efficientSDP = true;
+   bool enabled_mathSDP = true;
