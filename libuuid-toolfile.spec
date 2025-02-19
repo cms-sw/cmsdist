@@ -19,4 +19,11 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/libuuid.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE >%i/etc/scram.d/uuid.xml
+<tool name="uuid" version="@TOOL_VERSION@">
+  <use name="libuuid"/>
+</tool>
+EOF_TOOLFILE
+
+
 ## IMPORT scram-tools-post
