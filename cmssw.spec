@@ -1,5 +1,5 @@
 ### RPM cms cmssw CMSSW_5_3_23
-Requires: cmssw-tool-conf python cms-git-tools
+Requires: cmssw-tool-conf python
 
 %define runGlimpse yes
 %define useCmsTC yes
