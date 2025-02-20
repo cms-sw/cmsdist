@@ -1,4 +1,4 @@
-<tool name="zlib" version="@TOOL_VERSION@">
+<tool name="zlib" version="@TOOL_VERSION@" revision="1">
   <lib name="z"/>
   <client>
     <environment name="ZLIB_BASE" default="@TOOL_ROOT@"/>

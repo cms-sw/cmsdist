@@ -1,4 +1,4 @@
-<tool name="cupti" version="@TOOL_VERSION@">
+<tool name="cupti" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cupti/Cupti/index.html"/>
   <lib name="cupti"/>
   <client>

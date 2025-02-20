@@ -1,4 +1,4 @@
-<tool name="TkOnlineSw" version="@TOOL_VERSION@">
+<tool name="TkOnlineSw" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.cern.ch/"/>
   <lib name="ICUtils"/>
   <lib name="Fed9UUtils"/>

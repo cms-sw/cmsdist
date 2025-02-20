@@ -1,4 +1,4 @@
-<tool name="rocm-rocrand" version="@TOOL_VERSION@">
+<tool name="rocm-rocrand" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/ROCmSoftwarePlatform/rocRAND"/>
   <use name="rocm"/>
   <lib name="hiprand"/>

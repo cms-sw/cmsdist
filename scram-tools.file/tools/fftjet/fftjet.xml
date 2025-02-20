@@ -1,4 +1,4 @@
-<tool name="fftjet" version="@TOOL_VERSION@">
+<tool name="fftjet" version="@TOOL_VERSION@" revision="1">
   <lib name="fftjet"/>
   <client>
     <environment name="FFTJET_BASE" default="@TOOL_ROOT@"/>

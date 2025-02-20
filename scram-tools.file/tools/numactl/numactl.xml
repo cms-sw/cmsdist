@@ -1,4 +1,4 @@
-<tool name="numactl" version="@TOOL_VERSION@">
+<tool name="numactl" version="@TOOL_VERSION@" revision="1">
   <lib name="numa"/>
   <client>
     <environment name="NUMACTL_BASE" default="@TOOL_ROOT@"/>

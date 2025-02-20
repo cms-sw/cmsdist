@@ -1,4 +1,4 @@
-<tool name="tensorflow" version="@TOOL_VERSION@">
+<tool name="tensorflow" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$TENSORFLOW_BASE/lib"/>

@@ -1,4 +1,4 @@
-<tool name="geant4static" version="@TOOL_VERSION@">
+<tool name="geant4static" version="@TOOL_VERSION@" revision="1">
   <lib name="geant4-static"/>
   <client>
     <environment name="GEANT4STATIC_BASE" default="@TOOL_ROOT@"/>

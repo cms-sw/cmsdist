@@ -1,7 +1,8 @@
 ### RPM cms vdt 0.4.3
 
-Source: https://github.com/dpiparo/%{n}/archive/v%{realversion}.tar.gz 
-
+Source: https://github.com/dpiparo/%{n}/archive/v%{realversion}.tar.gz
+# To avoid UBSan runtime errors about signed integer overflow: cms-sw/cmssw#46417
+Patch0: vdt-integer-overflow
 BuildRequires: cmake python3
 
 
@@ -9,6 +10,7 @@ BuildRequires: cmake python3
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 cmake . \

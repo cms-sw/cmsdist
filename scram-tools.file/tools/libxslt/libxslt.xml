@@ -1,4 +1,4 @@
-<tool name="libxslt" version="@TOOL_VERSION@">
+<tool name="libxslt" version="@TOOL_VERSION@" revision="1">
   <info url="http://xmlsoft.org/libxslt"/>
   <lib name="xslt"/>
   <client>

@@ -118,7 +118,6 @@ Requires: py3-pip
 Requires: py3-cx-Oracle
 Requires: py3-cython
 Requires: py3-pybind11
-Requires: py3-histbook
 Requires: py3-flake8
 Requires: py3-autopep8
 Requires: py3-pycodestyle

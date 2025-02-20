@@ -1,4 +1,4 @@
-<tool name="axol1tl" version="@TOOL_VERSION@">
+<tool name="axol1tl" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="AXOL1TL_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR"       default="$AXOL1TL_BASE/lib64"/>

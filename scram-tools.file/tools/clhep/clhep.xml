@@ -1,4 +1,4 @@
-<tool name="clhep" version="@TOOL_VERSION@">
+<tool name="clhep" version="@TOOL_VERSION@" revision="1">
   <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
   <lib name="CLHEP"/>
   <client>

@@ -1,4 +1,4 @@
-<tool name="qd" version="@TOOL_VERSION@">
+<tool name="qd" version="@TOOL_VERSION@" revision="1">
   <lib name="qdmod"/>
   <lib name="qd"/>
   <client>

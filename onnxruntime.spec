@@ -1,10 +1,11 @@
-### RPM external onnxruntime 1.17.1
+### RPM external onnxruntime 1.20.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user cms-externals
 %define branch cms/v%{realversion}
-%define tag 5353412812a6f0409a15faff9a18640456ab1ff8
+%define tag efe7f6a3859bedbad40a2991480be4e7584b1582
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: onnxruntime-gcc13
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
@@ -12,6 +13,7 @@ Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
@@ -32,9 +34,9 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
 %if 0%{!?without_cuda:1}
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
-   -Donnxruntime_NVCC_THREADS=0 \
+   -Donnxruntime_NVCC_THREADS=1 \
    -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
-   -DCMAKE_CUDA_FLAGS="-cudart shared" \
+   -DCMAKE_CUDA_FLAGS="-DTHRUST_IGNORE_DEPRECATED_API -DCUB_IGNORE_DEPRECATED_API -Wno-deprecated-gpu-targets --static-global-template-stub=false -cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
 %endif
@@ -52,12 +54,15 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
-   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized"
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
 # see https://github.com/google/flatbuffers/issues/7366
 
 # -Wno-error=maybe-uninitialized is needed for ONNX runtime 1.17.1 with cuDNN 8.9 or 9.0
+
+# -Wno-error=overloaded-virtual
+# See https://github.com/intel/neural-speed/issues/188
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build

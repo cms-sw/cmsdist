@@ -1,4 +1,4 @@
-<tool name="cpu_features" version="@TOOL_VERSION@">
+<tool name="cpu_features" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/google/cpu_features"/>
   <lib name="cpu_features"/>
   <client>

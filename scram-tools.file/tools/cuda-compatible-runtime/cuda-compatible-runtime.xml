@@ -1,4 +1,4 @@
-<tool name="cuda-compatible-runtime" version="@TOOL_VERSION@">
+<tool name="cuda-compatible-runtime" version="@TOOL_VERSION@" revision="1">
   <info url="https://gitlab.cern.ch/cms-patatrack/cuda-compatible-runtime/"/>
   <use name="cuda"/>
   <use name="cuda-stubs"/>

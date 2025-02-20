@@ -34,7 +34,8 @@ do
    sed -i -e 's|/usr/bin/env python|/usr/bin/env python3|' "bin/${i}"
 done
 
-%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}
+%define build_flags CPPFLAGS=-I${EIGEN_ROOT}/include/eigen3 PYTHON=$(which python3) PROF_VERSION=%{realversion} PYTHONPATH=./${PYTHON3_LIB_SITE_PACKAGES}:./pyext/professor2
+
 %build
 make PREFIX=%{i} %{build_flags}
 

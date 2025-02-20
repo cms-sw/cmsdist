@@ -1,4 +1,4 @@
-<tool name="py3-tensorflow" version="@TOOL_VERSION@">
+<tool name="py3-tensorflow" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="PY3_TENSORFLOW_BASE" default="@TOOL_ROOT@"/>
   </client>
