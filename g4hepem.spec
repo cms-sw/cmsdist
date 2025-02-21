@@ -1,4 +1,4 @@
-### RPM external g4hepem 20250203
+### RPM external g4hepem 20250220
 %define tag %{realversion}
 %define branch master
 %define github_user mnovak42
