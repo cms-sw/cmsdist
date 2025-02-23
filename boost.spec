@@ -1,6 +1,6 @@
 ### RPM external boost 1.87.0
 ## INCLUDE compilation_flags
-%define tag 73492d3328ca4ae8fbf78b892085da56fb6d2c9b
+%define tag 2b1de165de9c88ee2bad8c9fc9db177c62991b13
 %define branch cms/v%realversion
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
