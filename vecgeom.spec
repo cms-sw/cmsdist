@@ -6,6 +6,7 @@
 
 %define tag bf8de1e0c18fb7b33c0871fab244de00d2bb2a44
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source1: https://gitlab.cern.ch/VecGeom/VecGeom/-/merge_requests/1262.patch
 Patch0: vecgeom-fix-vector
 BuildRequires: cmake gmake
 %define keep_archives true
@@ -15,8 +16,8 @@ BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
-
 %patch0 -p1
+patch -p1 <%{_sourcedir}/1262.patch
 
 %build
 %ifarch x86_64
