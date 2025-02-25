@@ -1,0 +1,13 @@
+diff --git a/src/google/protobuf/map_field.h b/src/google/protobuf/map_field.h
+index 287d58f..c243e4a 100644
+--- a/src/google/protobuf/map_field.h
++++ b/src/google/protobuf/map_field.h
+@@ -348,7 +348,7 @@ class PROTOBUF_EXPORT MapFieldBase {
+       : arena_(arena), repeated_field_(nullptr), state_(STATE_MODIFIED_MAP) {}
+ 
+  protected:
+-  ~MapFieldBase() {  // "protected" stops users from deleting a `MapFieldBase *`
++  virtual ~MapFieldBase() {  // "protected" stops users from deleting a `MapFieldBase *`
+     GOOGLE_DCHECK(repeated_field_ == nullptr);
+   }
+   void Destruct();
