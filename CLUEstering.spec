@@ -1,7 +1,7 @@
-### RPM external CLUEstering 2.5.0
+### RPM external CLUEstering 2.6.2
 ## NOCOMPILER
 
-Source: https://github.com/cms-patatrack/%{n}/archive/refs/tags/%{realversion}.tar.gz
+Source: https://gitlab.cern.ch/kalos/%{n}/-/archive/%{realversion}/%{n}-%{realversion}.tar.gz
 Requires: alpaka
 Requires: boost
 
