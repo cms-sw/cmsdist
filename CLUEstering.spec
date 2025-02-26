@@ -1,4 +1,4 @@
-### RPM external CLUEstering 2.6.2
+### RPM external CLUEstering 2.6.3
 ## NOCOMPILER
 
 Source: https://gitlab.cern.ch/kalos/%{n}/-/archive/%{realversion}/%{n}-%{realversion}.tar.gz
