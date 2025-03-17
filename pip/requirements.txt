@@ -245,6 +245,7 @@ onnxconverter-common==1.14.0
 oauthlib==3.2.2
 optree==0.12.1
 opt-einsum==3.3.0
+overrides==7.7.0
 pkginfo==1.11.1
 packaging==24.1
 pandas==2.2.2
