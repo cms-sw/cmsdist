@@ -65,6 +65,7 @@ BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=n
 %if "%{enable_tf_mkldnn}" == "0"
 BAZEL_OPTS="$BAZEL_OPTS --define tensorflow_mkldnn_contraction_kernel=0"
 %endif
+BAZEL_OPTS="$BAZEL_OPTS --config=mkl"
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false --define tflite_kernel_use_xnnpack=false"
 %endif
@@ -86,7 +87,7 @@ export TF_NEED_GCP=0
 export TF_ENABLE_XLA=1
 export TF_NEED_OPENCL=0
 export TF_NEED_VERBS=0
-export TF_NEED_MKL=0
+export TF_NEED_MKL=1
 export TF_NEED_MPI=0
 export TF_NEED_S3=0
 export TF_NEED_GDR=0
@@ -219,6 +220,7 @@ copy_headers "$PWD" tensorflow/compiler
 copy_headers "$PWD" tensorflow/core/profiler/internal
 copy_headers "$PWD" tensorflow/core/profiler/lib
 copy_headers "$PWD" tensorflow/core/util/tensor_bundle
+cp $PWD/bazel-out/*-%{build_type}/bin/external/llvm_openmp/libiomp*.so ${libdir}/
 
 # do not copy the protobuf headers as we use the version in cmsdist
 # copy_headers "$PWD/tensorflow/contrib/makefile/downloads/protobuf/src" google
