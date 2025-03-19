@@ -56,9 +56,9 @@ BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' 
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl --config=mkl"
-%if "%{enable_tf_mkldnn}" == "0"
+#%if "%{enable_tf_mkldnn}" == "0"
 BAZEL_OPTS="$BAZEL_OPTS --define tensorflow_mkldnn_contraction_kernel=0"
-%endif
+#%endif
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define tflite_with_xnnpack=false"
 %endif
@@ -77,7 +77,7 @@ export TF_NEED_CLANG=0
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export TF_NEED_GCP=0
-export TF_ENABLE_XLA=1
+export TF_ENABLE_XLA=0
 export TF_NEED_OPENCL=0
 export TF_NEED_VERBS=0
 export TF_NEED_MKL=1
@@ -149,11 +149,11 @@ bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 %define bazel_dir %{_arch}-%{build_type}
 %endif
 
-mkdir %{i}/lib-xla-runtime
-find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
-find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
-find bazel-out/%{bazel_dir}/bin -path '*/external/local_tsl/tsl/*/libmutex.pic.a' | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
-find bazel-out/%{bazel_dir}/bin -path '*/external/nsync/libnsync_cpp.pic.a'       | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
-for lib in libfft.pic.a libfft_wrapper.pic.a libmutex.pic.a libnsync_cpp.pic.a ; do
-  test -e %{i}/lib-xla-runtime/${lib}
-done
+#mkdir %{i}/lib-xla-runtime
+#find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
+#find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+#find bazel-out/%{bazel_dir}/bin -path '*/external/local_tsl/tsl/*/libmutex.pic.a' | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+#find bazel-out/%{bazel_dir}/bin -path '*/external/nsync/libnsync_cpp.pic.a'       | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+#for lib in libfft.pic.a libfft_wrapper.pic.a libmutex.pic.a libnsync_cpp.pic.a ; do
+#  test -e %{i}/lib-xla-runtime/${lib}
+#done
