@@ -1,4 +1,4 @@
-### RPM external rivet 4.0.2
+### RPM external rivet 4.1.0
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
@@ -6,7 +6,8 @@
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source99: scram-tools.file/tools/eigen/env
 Patch0: rivet-duplicate-libs
-Patch1: rivet-clang19
+Patch1: rivet-pyextfjcontrib
+Patch2: rivet-clang19
 
 Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
 BuildRequires: python3 py3-cython autotools
@@ -16,6 +17,7 @@ BuildRequires: python3 py3-cython autotools
 %setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 source %{_sourcedir}/env
