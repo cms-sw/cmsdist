@@ -8,6 +8,7 @@
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{branch}-%{tag}.tgz
 Requires: hwloc
 BuildRequires: cmake
+Source99: modulemaps/tbb_modulemap
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -33,3 +34,6 @@ make %{makeprocesses}
 %install
 cd %{_builddir}/build
 make install
+
+cp %{_sourcedir}/tbb_modulemap  %{i}/include/module.modulemap
+ls ../%{n}-%{realversion}/include/tbb

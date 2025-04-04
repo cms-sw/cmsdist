@@ -4,6 +4,7 @@
 %define github_user Xilinx
 %define runpath_opts -m examples
 Source: git+https://github.com/%{github_user}/HLS_arbitrary_Precision_Types.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source99: modulemaps/hls_modulemap
 Patch0: hls-fix
 Requires: gmake
 
@@ -24,3 +25,4 @@ rm -rf examples/ap_int examples/ap_fixed
 %install
 
 cp -r * %{i}/
+cp %{_sourcedir}/hls_modulemap  %{i}/include/module.modulemap

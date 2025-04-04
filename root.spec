@@ -12,7 +12,6 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
-%{!?without_cuda:Requires: cuda}
 
 %ifos linux
 Requires: dcap
@@ -178,11 +177,6 @@ export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} install
-
-# Generate cuda.pcm if CUDA is available
-%if 0%{!?without_cuda:1}
-echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
-%endif
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x

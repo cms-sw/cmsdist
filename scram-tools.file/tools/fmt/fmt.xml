@@ -6,5 +6,6 @@
     <environment name="LIBDIR" default="$FMT_BASE/lib"/>
     <environment name="INCLUDE" default="$FMT_BASE/include"/>
   </client>
+  <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/module.modulemap" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
 </tool>

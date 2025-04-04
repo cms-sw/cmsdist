@@ -1,5 +1,8 @@
 Patch0: pybind11-array-bound
+Source99: modulemaps/pybind11_modulemap
+
 %define PipPostInstall \
   ln -s ${PYTHON3_LIB_SITE_PACKAGES}/pybind11/share %{i}/share; \
-  ln -s ${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include %{i}/include
+  ln -s ${PYTHON3_LIB_SITE_PACKAGES}/pybind11/include %{i}/include; \
+  cp  %{_sourcedir}/pybind11_modulemap %{i}/include/module.modulemap
 %define PipPostPost %{relocateConfig}/share/cmake/pybind11/*.cmake

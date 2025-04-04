@@ -8,7 +8,7 @@
 %define github_user opencv
 
 Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 
 BuildRequires: cmake ninja
 Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
@@ -20,7 +20,7 @@ Requires: python3 py3-numpy libpng libjpeg-turbo libtiff zlib eigen OpenBLAS
 rm -rf ../build
 mkdir ../build
 cd ../build
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 
 cmake ../%{n}-%{realversion} \
     -GNinja \

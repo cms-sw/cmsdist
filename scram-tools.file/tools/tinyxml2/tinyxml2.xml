@@ -6,5 +6,6 @@
     <environment name="LIBDIR" default="$TINYXML2_BASE/lib64"/>
     <environment name="INCLUDE" default="$TINYXML2_BASE/include"/>
   </client>
+  <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/module.modulemap" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/> 
 </tool>

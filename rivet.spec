@@ -4,7 +4,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## OLD GENSER Source: http://cern.ch/service-spi/external/MCGenerators/distribution/rivet/rivet-%{realversion}-src.tgz
 Source: git+https://gitlab.com/hepcedar/rivet.git?obj=master/%{n}-%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 Patch0: rivet-duplicate-libs
 Patch1: rivet-pyextfjcontrib
 
@@ -18,7 +18,7 @@ BuildRequires: python3 py3-cython autotools
 %patch1 -p1
 
 %build
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 # Update config.{guess,sub} to detect aarch64 and ppc64le
 rm -f %{_tmppath}/config.{sub,guess}
 %get_config_guess %{_tmppath}/config.guess

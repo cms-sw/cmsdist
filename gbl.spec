@@ -3,7 +3,7 @@
 ## INCLUDE microarch_flags
 %define tag 59c2d99ea96bc739321fd251096504c91467be24
 Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 
 BuildRequires: cmake
 Requires: eigen
@@ -17,7 +17,7 @@ sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' cp
 rm -rf build
 mkdir build
 cd build
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 
 cmake ../cpp \
   -DCMAKE_INSTALL_PREFIX=%{i} \

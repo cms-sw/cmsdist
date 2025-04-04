@@ -10,6 +10,7 @@ Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local
 %ifarch aarch64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
 %endif
+Source99: modulemaps/cuda_modulemap
 Requires: python3
 AutoReq: no
 
@@ -52,6 +53,7 @@ mv %_builddir/build/lib64/* %{i}/lib64/
 # package the includes
 chmod a-x %_builddir/build/include/*.h*
 mv %_builddir/build/include/* %{i}/include/
+cp %{_sourcedir}/cuda_modulemap  %{i}/include/module.modulemap
 
 # package the CUDA Profiling Tools Interface includes and libraries
 chmod a+x %_builddir/build/extras/CUPTI/lib64/*.so*

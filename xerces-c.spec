@@ -1,6 +1,7 @@
 ### RPM external xerces-c 3.1.3
 %define xercesv %(echo %{realversion} | tr . _)
 Source: http://www-us.apache.org/dist//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz 
+Source99: modulemaps/xerces-c_modulemap
 
 %prep
 %setup -n xerces-c-%{realversion}
@@ -36,3 +37,4 @@ make %{makeprocesses}
 export XERCESCROOT=$PWD
 
 make install
+cp %{_sourcedir}/xerces-c_modulemap %{i}/include/module.modulemap

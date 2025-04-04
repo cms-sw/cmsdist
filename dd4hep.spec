@@ -4,6 +4,8 @@
 %define github_user AIDASoft
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source98: modulemaps/dd4hep_modulemap
+Source99: scram/tools/%{n}/%{n}_flags
 ## INCLUDE geant4-deps
 
 Requires: root boost geant4
@@ -20,7 +22,7 @@ Requires: root boost geant4
   -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
-  -DDD4HEP_USE_GEANT4_UNITS=ON \\\
+  ${CMS_DD4HEP_CMAKE_OPTS} \\\
   -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
@@ -29,9 +31,8 @@ Requires: root boost geant4
 %setup -n %{n}-%{realversion}
 
 %build
-
+source %{_sourcedir}/%{n}_flags
 export BOOST_ROOT
-
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
 cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
@@ -49,6 +50,7 @@ done
 mv ../../%{n}-%{realversion}/DDG4/include/DDG4 %i/include
 
 %install
+cp %{_sourcedir}/dd4hep_modulemap  %{i}/include/module.modulemap
 
 %post
 %{relocateConfig}bin/*.sh

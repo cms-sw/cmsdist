@@ -9,8 +9,9 @@
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="PATH" value="$DD4HEP_CORE_BASE/bin" type="path"/>
+  <runtime name="CLING_MODULEMAP_FILES" value="$INCLUDE/module.modulemap" type="path"/>
   <flags LISTCOMPONENTS="$(DD4HEP_CORE_BASE)/bin/listcomponents_dd4hep"/>
-  <flags cppdefines="DD4HEP_USE_GEANT4_UNITS=1"/>
+  <flags CPPFLAGS="@CMS_DD4HEP_CPPFLAGS@"/>
   <use name="root_cxxdefaults"/>
   <use name="root"/>
   <use name="boost"/>

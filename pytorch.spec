@@ -7,7 +7,7 @@
 Source: git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
 Source2: FindFMT.cmake
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
 
@@ -24,7 +24,7 @@ Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %build
 cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
 rm -rf ../build && mkdir ../build && cd ../build
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 
 USE_CUDA=OFF
 %if 0%{!?without_cuda:1}

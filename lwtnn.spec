@@ -3,7 +3,7 @@
 ## INCLUDE microarch_flags
 
 Source: https://github.com/lwtnn/lwtnn/archive/v%{realversion}.tar.gz
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 
 BuildRequires: ninja cmake
 Requires: eigen boost
@@ -16,7 +16,7 @@ Requires: eigen boost
 rm -rf ../build
 mkdir ../build
 cd ../build
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 
 cmake ../%{n}-%{realversion} \
   -G Ninja \

@@ -65,6 +65,7 @@ Requires: libungif
 Requires: libxml2
 Requires: lwtnn
 Requires: meschach
+Requires: pcm_util
 Requires: pcre2
 Requires: photospp
 Requires: pyquen

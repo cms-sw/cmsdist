@@ -3,7 +3,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
 
-Source99: scram-tools.file/tools/eigen/env
+Source99: scram/tools/eigen/eigen_flags
 
 Patch0: tensorflow-xla-runtime-absl
 
@@ -17,7 +17,7 @@ cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-p
 
 %build
 
-source %{_sourcedir}/env
+source %{_sourcedir}/eigen_flags
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
 CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS} %{selected_microarch}"

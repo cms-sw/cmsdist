@@ -1,6 +1,6 @@
 ### RPM external tinyxml2 6.2.0
 Source: https://github.com/leethomason/%{n}/archive/%{realversion}.tar.gz
-
+Source99: modulemaps/tinyxml2_modulemap
 BuildRequires: gmake cmake
 
 %prep
@@ -17,6 +17,7 @@ gmake %{makeprocesses}
 %install
 cd ../build
 gmake %{makeprocesses} install
+cp %{_sourcedir}/tinyxml2_modulemap  %{i}/include/module.modulemap
 
 %post
 %{relocateConfig}lib64/pkgconfig/tinyxml2.pc
