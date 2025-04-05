@@ -1,1 +1,1 @@
-source $(dirname $0)/tbb_flags.file
+source ${SCRAM_TOOL_SOURCE_DIR}/tbb_flags.file
