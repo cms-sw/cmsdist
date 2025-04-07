@@ -25,6 +25,8 @@ Requires: dcap
 
 %define keep_archives true
 
+
+
 %prep
 %setup -n %{n}-%{realversion}
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
