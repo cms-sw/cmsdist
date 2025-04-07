@@ -35,6 +35,7 @@ export BOOST_ROOT
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
 cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
+exit 1 
 make %{makeprocesses} VERBOSE=1
 make install
 
