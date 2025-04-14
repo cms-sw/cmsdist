@@ -27,6 +27,7 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+rm -f interpreter/cling/include/cling/cuda.modulemap
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
 %get_config_guess graf2d/asimage/src/libAfterImage/config.guess
 chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
@@ -177,7 +178,6 @@ export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} install
 
-rm -f %{i}/etc/cling/cuda.modulemap
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
 for p in $(grep -rlI -m1 '^#\!.*python' %i/bin %i/etc) ; do
