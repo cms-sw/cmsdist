@@ -177,11 +177,7 @@ export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} install
 
-# Generate cuda.pcm if CUDA is available
-%if 0%{!?without_cuda:1}
-echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
-%endif
-
+rm -f %{i}/etc/cling/cuda.modulemap
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
 for p in $(grep -rlI -m1 '^#\!.*python' %i/bin %i/etc) ; do
