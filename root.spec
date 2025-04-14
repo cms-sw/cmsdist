@@ -28,6 +28,7 @@ Requires: dcap
 %prep
 %setup -n %{n}-%{realversion}
 rm -f interpreter/cling/include/cling/cuda.modulemap
+sed -i -e 's| cuda.modulemap | |' core/clingutils/CMakeLists.txt
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
 %get_config_guess graf2d/asimage/src/libAfterImage/config.guess
 chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
