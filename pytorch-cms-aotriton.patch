@@ -1,0 +1,15 @@
+diff --git a/cmake/External/aotriton.cmake b/cmake/External/aotriton.cmake
+index de64370b37..986ad6c178 100644
+--- a/cmake/External/aotriton.cmake
++++ b/cmake/External/aotriton.cmake
+@@ -5,8 +5,8 @@ if(NOT __AOTRITON_INCLUDED)
+   set(__AOTRITON_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/aotriton/build")
+   set(__AOTRITON_INSTALL_DIR "${PROJECT_SOURCE_DIR}/torch")
+   ExternalProject_Add(aotriton_external
+-    GIT_REPOSITORY https://github.com/ROCm/aotriton.git
+-    GIT_TAG 24a3fe9cb57e5cda3c923df29743f9767194cc27
++    GIT_REPOSITORY https://github.com/cms-externals/aotriton.git
++    GIT_TAG 763f12b4cfb4fcb1460a635dd76094589efb10e9
+     SOURCE_DIR ${__AOTRITON_SOURCE_DIR}
+     BINARY_DIR ${__AOTRITON_BUILD_DIR}
+     PREFIX ${__AOTRITON_INSTALL_DIR}

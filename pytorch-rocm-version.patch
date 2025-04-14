@@ -1,0 +1,14 @@
+diff --git a/aten/src/ATen/cuda/tunable/TunableGemm.h b/aten/src/ATen/cuda/tunable/TunableGemm.h
+index 3ba0d76127..775a04b8e8 100644
+--- a/aten/src/ATen/cuda/tunable/TunableGemm.h
++++ b/aten/src/ATen/cuda/tunable/TunableGemm.h
+@@ -22,7 +22,7 @@
+ #include <c10/util/StringUtil.h>
+ 
+ #ifdef USE_ROCM
+-#include <rocm-core/rocm_version.h>
++#include <rocm_version.h>
+ #endif
+ 
+ #define STRINGIFY(s) #s
+
