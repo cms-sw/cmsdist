@@ -6,6 +6,7 @@
 %define tag 79a8d6548832b7dbf40903dace88bc1dba4b9126
 %define branch cms/master/121dc61e5d
 
+
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
