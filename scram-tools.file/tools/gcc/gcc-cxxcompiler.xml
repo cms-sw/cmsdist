@@ -10,6 +10,9 @@
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @GCC_CPPDEFINES@"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC @GCC_CXXSHAREDOBJECTFLAGS@"/>
     <flags CXXFLAGS="-O3 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
+%if 0%{?enable_frame_pointer}
+    <flags CXXFLAGS="-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer"/>
+%endif
     <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @GCC_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
