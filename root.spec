@@ -36,8 +36,8 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-export CFLAGS=-D__ROOFIT_NOBANNER
-export CXXFLAGS=-D__ROOFIT_NOBANNER
+export CFLAGS="-D__ROOFIT_NOBANNER"
+export CXXFLAGS="-D__ROOFIT_NOBANNER -DROOT_DISABLE_TCLASS_GET_CLASS_AUTOPARSING"
 %if "%{?arch_build_flags}"
 export CFLAGS="${CFLAGS} %{arch_build_flags}"
 export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
@@ -110,8 +110,8 @@ cmake ../%{n}-%{realversion} \
   -DDCAP_INCLUDE_DIR="${DCAP_ROOT}/include" \
   -DDCAP_DIR="${DCAP_ROOT}" \
 %endif
-  -DCMAKE_C_FLAGS="-D__ROOFIT_NOBANNER" \
-  -DCMAKE_C_FLAGS="-D__ROOFIT_NOBANNER" \
+  -DCMAKE_C_FLAGS="${CFLAGS}" \
+  -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
   -Dgviz=OFF \
   -Dbonjour=OFF \
   -Dodbc=OFF \
