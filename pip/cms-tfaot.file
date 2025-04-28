@@ -9,4 +9,4 @@ Requires: py3-PyYAML py3-cmsml
 # copy test models
 %define PipPostInstall \
   mkdir -p %{i}/share; \
-  cp -r cmsdist-tmp/pip-req-build-*/test_models %{i}/share/
+  cp -r %{pkgbuilddir}/pip-req-build-*/test_models %{i}/share/
