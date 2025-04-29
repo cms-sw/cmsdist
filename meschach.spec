@@ -1,6 +1,6 @@
 ### RPM external meschach 1.2.pCMS1
 Source: http://www.math.uiowa.edu/~dstewart/meschach/mesch12b.tar.gz
-Patch: meschach-1.2-slc4
+Patch0: meschach-1.2-slc4
 Patch1: meschach-1.2b-fPIC
 Patch2: meschach-1.2b-parallel-build
 
@@ -8,7 +8,7 @@ Patch2: meschach-1.2b-parallel-build
 
 %prep
 %setup -c -n meschach-1.2 -a 0
-%patch -p0
+%patch0 -p0
 %patch1 -p0
 %patch2 -p1
 
