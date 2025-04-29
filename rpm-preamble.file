@@ -12,6 +12,26 @@
 %define _source_payload w9.gzdio
 %define _binary_payload w9.gzdio
 
+%if "%{?rpmversion:set}" == "set"
+%define rpm_major_version %(echo %{rpmversion} | cut -d. -f1)
+%define rpm_minor_version %(echo %{rpmversion} | cut -d. -f1)
+%if %{rpm_major_version} >= 4
+%if %{rpm_minor_version} > 19
+#Disable use of unshare plugin
+%_build_use_unshare 0
+#Avoid: warning: private mounts in chroot not implemented
+%_build_use_chroot_private_mounts 0
+%endif
+%endif
+%endif
+
+#Disable setting of Compilation flags
+%if 0%{?_build_flags:1}
+%undefine _build_flags
+%endif
+%if 0%{?set_build_flags:1}
+%global set_build_flags :
+%endif
 
 #disable running find-debuginfo.sh
 %define  debug_package %{nil}
@@ -87,6 +107,7 @@
 %endif
 
 %define pkginstroot	%{instroot}/%{pkgrel}
+%define pkgbuilddir %{cmsroot}/BUILD/%{cmsplatf}/%{pkgdir}
 
 %define _sourcedir	%{cmsroot}/SOURCES/%{pkgdir}
 %define _builddir	%{cmsroot}/BUILD/%{cmsplatf}/%{pkgdir}
@@ -320,7 +341,7 @@ fi
 %if "%{?cms_debug_packages:set}" == "set"
 %define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
 %else
-%define is_debug_build 0
+%define is_debug_build() 0
 %endif
 
 %if %{is_debug_build %{pkgname}}
