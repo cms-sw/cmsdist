@@ -18,7 +18,7 @@ case ${TENSORFLOW_VERSION} in
 esac
 
 cp -r ${TENSORFLOW_ROOT}/xla-aot-runtime .
-%patch -p1
+%patch0 -p1
 
 %build
 
