@@ -1,4 +1,5 @@
-### RPM external file-bootstrap 5.46
+### RPM external file-bootstrap 5.45
+%define keep_archives true
 %define file_tag %(echo FILE%{realversion} | tr . _)
 AutoReqProv: no
 Source: https://github.com/file/file/archive/%{file_tag}.tar.gz
@@ -8,8 +9,13 @@ Source: https://github.com/file/file/archive/%{file_tag}.tar.gz
 
 %build
 autoreconf -fiv
-./configure --prefix=%{i}
-make
+./configure --prefix=%{i} \
+  --disable-shared \
+  --enable-static \
+  --disable-xzlib \
+  --disable-zstdlib
+
+make %{makeprocesses}
 
 %install
 make install

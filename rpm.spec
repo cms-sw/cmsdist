@@ -1,11 +1,12 @@
-### RPM external rpm 4.18.0
+### RPM external rpm 4.20.1
 ## INITENV SET RPM_CONFIGDIR %{i}/libx/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
 ## INITENV SET MAGIC %{i}/share/misc/magic.mgc
+## INITENV SET CMSPKG_RPM_OPTS --noplugins
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
 AutoReqProv: no
-%define tag 10c1f38c4c5e4c62a879801e34a0aa042207cd53
+%define tag 3ff2d9bf5a5562eb5d2428a905b73405b650eae0
 %define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
@@ -14,64 +15,60 @@ Source2: rpm-set_runpath
 
 BuildRequires: gcc
 BuildRequires: bootstrap-bundle patchelf-bootstrap
+BuildRequires: zstd-bootstrap xz-bootstrap libarchive-bootstrap
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
 
-# Reconfigure to drop pkg-config for lua
-autoreconf -fiv
+rm -rf ../build; mkdir ../build ; cd ../build
+#which cmake
+export PKG_CONFIG_PATH=${BOOTSTRAP_BUNDLE_ROOT}/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig:/usr/lib64/pkgconfig
+#export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+#export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+#export PKG_CONFIG_STATIC=1
+#export PKG_CONFIG_EXECUTABLE=`which pkg-config`
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_INSTALL_PREFIX="%{i}" \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_SKIP_RPATH=ON \
+  -DENABLE_CUTF8=OFF \
+  -DENABLE_NLS=ON \
+  -DENABLE_OPENMP=OFF \
+  -DENABLE_PYTHON=OFF \
+  -DENABLE_WERROR=OFF \
+  -DENABLE_SQLITE=ON \
+  -DENABLE_NDB=ON \
+  -DENABLE_BDB_RO=OFF \
+  -DENABLE_TESTSUITE=OFF \
+  -DENABLE_ASAN=OFF \
+  -DENABLE_UBSAN=OFF \
+  -DWITH_CAP=OFF \
+  -DWITH_ACL=OFF \
+  -DWITH_AUDIT=OFF \
+  -DWITH_SEQUOIA=OFF \
+  -DWITH_SELINUX=OFF \
+  -DWITH_DBUS=OFF \
+  -DWITH_OPENSSL=ON \
+  -DWITH_READLINE=ON \
+  -DWITH_ICONV=OFF \
+  -DWITH_BZIP2=ON \
+  -DWITH_LIBDW=ON \
+  -DWITH_LIBELF=ON \
+  -DWITH_ZSTD=ON \
+  -DWITH_LIBLZMA=ON \
+  -DWITH_DOXYGEN=OFF \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_EXE_LINKER_FLAGS="-static-libgcc -static-libstdc++ -lbz2 -lz" \
+  -DCMAKE_PREFIX_PATH="${BOOTSTRAP_BUNDLE_ROOT}"
 
-CFLAGS_PLATF="-fPIC"
-%ifos darwin
-CFLAGS_PLATF="-arch x86_64 -fPIC -D_FORTIFY_SOURCE=0"
-export LIBS_PLATF="-liconv"
-%else
-%ifarch aarch64
-LIBS_PLATF="-ldl -lrt -pthread"
-%endif
-%ifarch x86_64
-LIBS_PLATF="-ldl"
-%endif
-%endif
-
-USER_CFLAGS="-ggdb -O0"
-USER_CXXFLAGS="-ggdb -O0"
-# On SLCx add $GCC_ROOT to various paths because that's where elflib is to be
-# found.  Not required (and triggers a warning about missing include path) on
-# mac.
-%if 0%{!?use_system_gcc:1}
-%ifos linux
-    OS_CFLAGS="-I$GCC_ROOT/include"
-    OS_CXXFLAGS="-I$GCC_ROOT/include"
-    OS_CPPFLAGS="-I$GCC_ROOT/include"
-    OS_LDFLAGS="-L$GCC_ROOT/lib"
-%endif
-%endif
-
-perl -p -i -e's|-O2|-O0|' ./configure
-
-# Notice that libelf is now in $GCC_ROOT because also gcc LTO requires it.
-./configure --prefix %{i} --build="%{_build}" --host="%{_host}" \
-    --enable-ndb=yes --enable-sqlite=yes --disable-python --disable-nls --with-archive \
-    --disable-rpath --with-crypto=openssl  --enable-zstd --localstatedir=%{i}/var \
-    CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
-    ZSTD_CFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include" \
-    ZSTD_LIBS="-lzstd" \
-    CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include \
-            $OS_CFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
-    LDFLAGS="-L$BOOTSTRAP_BUNDLE_ROOT/lib $OS_LDFLAGS" \
-    CPPFLAGS="-I$BOOTSTRAP_BUNDLE_ROOT/include \
-              $OS_CPPFLAGS -I/usr/include/nspr4 -I/usr/include/nss3" \
-    LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
-          -llua -larchive -lsqlite3 $LIBS_PLATF"
-
-grep -R '#! */usr/bin/perl' . | sed 's|:.*||' | sort | uniq   | xargs --no-run-if-empty perl -p -i -e "s|#\!.*perl(.*)|#!/usr/bin/env perl$1|"
-grep -R '#! */usr/bin/python' . | sed 's|:.*||' | sort | uniq | xargs --no-run-if-empty perl -p -i -e "s|#\!.*python(.*)|#!/usr/bin/env python$1|"
+make %{makeprocesses} VERBOSE=1
 
 %install
+cd ../build
 make install
+
 # Remove unneeded documentation
 rm -rf %i/share
 
@@ -102,6 +99,10 @@ perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/libx/rpm$1|g' \
     %{i}/lib/rpm/rpmrc \
     %{i}/lib/rpm/find-provides \
     %{i}/lib/rpm/find-requires
+
+#Fix vendor
+grep -ElR '_vendor\s+vendor' %{i}/lib/rpm/platform | xargs perl -p -i -e 's|(_vendor\s+)vendor|${1}redhat|'
+perl -p -i -e 's|(_vendor\s+)vendor|${1}redhat|'  %{i}/lib/rpm/macros
 
 # Changes the shebang from /usr/bin/perl to /usr/bin/env perl
 perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \
@@ -141,8 +142,11 @@ cp -rf $BOOTSTRAP_BUNDLE_ROOT/share %i/share
 cp -rf $BOOTSTRAP_BUNDLE_ROOT/lib/* %{i}/libx
 
 MAGIC=%{i}/share/misc/magic.mgc  %{dynamic_path_var}=%{i}/libx PATH="%{i}/bin:${PATH}" \
-  %{i}/bin/set_runpath --prefix %{cmsroot}/%{cmsplatf} --package %{i} -m libx \
-  --force-rpath --rpath '$ORIGIN:$ORIGIN/..:$ORIGIN/../libx' --jobs %{compiling_processes}
+  %{i}/bin/set_runpath --prefix %{cmsroot}/%{cmsplatf} --package %{i} \
+  --force-rpath --rpath '$ORIGIN:$ORIGIN/..:$ORIGIN/../lib64:$ORIGIN/../libx' --jobs %{compiling_processes}
+MAGIC=%{i}/share/misc/magic.mgc  %{dynamic_path_var}=%{i}/libx PATH="%{i}/bin:${PATH}" \
+  %{i}/bin/set_runpath --prefix %{cmsroot}/%{cmsplatf} --package %{i} -M libx/rpm \
+  --force-rpath --rpath '$ORIGIN::$ORIGIN/../../lib64:$ORIGIN/../../libx' --jobs %{compiling_processes}
 
 #Create lib/rpm
 mkdir -p %{i}/lib
