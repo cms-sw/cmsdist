@@ -1,18 +1,18 @@
-### RPM external java-env 11_17
+### RPM external java-env 17_21
 ## INITENV SET JAVA_HOME %{java_home}
 ## INITENV +PATH PATH %{java_home}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{java_home}/lib
 ## NOCOMPILER
 
-#For RHEL: Use java 11 for el7 and java 17 for el8 and above
+#For RHEL: Use java 17 for el8/el9 and 21 for above
 #Nor non RHEL e.g FC: use default system java
 %define java_home /usr/lib/jvm/java
 %if 0%{?rhel:1}
-%if %{?rhel} < 8
-%define java_home /usr/lib/jvm/java-11
-%endif
-%if %{?rhel} > 7
+%if 0%{rhel} <= 10
 %define java_home /usr/lib/jvm/java-17
+%endif
+%if 0%{?rhel} > 10
+%define java_home /usr/lib/jvm/java-21
 %endif
 %endif
 Source: none
