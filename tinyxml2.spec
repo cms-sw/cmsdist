@@ -4,7 +4,7 @@ Source: https://github.com/leethomason/%{n}/archive/%{realversion}.tar.gz
 BuildRequires: gmake cmake
 
 %prep
-%setup -n %setup -q -n %{n}-%{realversion}
+%setup -q -n %{n}-%{realversion}
 
 %build
 rm -rf ../build; mkdir ../build ; cd ../build
