@@ -3,6 +3,7 @@
 Source: https://download.open-mpi.org/release/open-mpi/v4.1/%{n}-%{realversion}.tar.bz2
 BuildRequires: autotools
 %{!?without_cuda:Requires: cuda}
+Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
 Requires: xpmem
@@ -10,7 +11,6 @@ Requires: ucx
 Requires: zlib
 
 # external libraries are needed for additional protocols:
-#   --with-ofi:         Open Fabric Interface's libfabric
 #   --with-mxm:         Mellanox Messaging (depracated, use UCX instead)
 #   --with-fca:         Mellanox Fabric Collective Accelerator
 #   --with-hcoll:       Mellanox Hierarchical Collectives
@@ -33,7 +33,7 @@ Requires: zlib
   --with-zlib=$ZLIB_ROOT \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
-  --without-ofi \
+  --with-ofi=$LIBFABRIC_ROOT \
   --without-portals4 \
   --without-psm \
   --without-psm2 \
