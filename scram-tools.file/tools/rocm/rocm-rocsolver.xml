@@ -1,0 +1,6 @@
+<tool name="rocm-rocsolver" version="@TOOL_VERSION@" revision="1">
+  <info url="https://rocm.docs.amd.com/projects/rocSOLVER/en/docs-@TOOL_VERSION@/"/>
+  <use name="rocm"/>
+  <lib name="hipsolver"/>
+  <lib name="rocsolver"/>
+</tool>

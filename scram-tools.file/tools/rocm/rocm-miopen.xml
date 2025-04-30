@@ -1,0 +1,5 @@
+<tool name="rocm-miopen" version="@TOOL_VERSION@" revision="1">
+  <info url="https://rocm.docs.amd.com/projects/MIOpen/en/docs-@TOOL_VERSION@/"/>
+  <use name="rocm"/>
+  <lib name="MIOpen"/>
+</tool>

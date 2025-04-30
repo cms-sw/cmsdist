@@ -1,0 +1,6 @@
+<tool name="rocm-rocfft" version="@TOOL_VERSION@" revision="1">
+  <info url="https://rocm.docs.amd.com/projects/rocFFT/en/docs-@TOOL_VERSION@/"/>
+  <use name="rocm"/>
+  <lib name="hipfft"/>
+  <lib name="rocfft"/>
+</tool>

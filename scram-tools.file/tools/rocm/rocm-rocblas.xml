@@ -1,0 +1,7 @@
+<tool name="rocm-rocblas" version="@TOOL_VERSION@" revision="1">
+  <info url="https://rocm.docs.amd.com/projects/rocBLAS/en/docs-@TOOL_VERSION@/"/>
+  <use name="rocm"/>
+  <lib name="hipblas"/>
+  <lib name="hipblaslt"/>
+  <lib name="rocblas"/>
+</tool>
