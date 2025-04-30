@@ -77,6 +77,7 @@ Requires: numactl
 Requires: hwloc
 Requires: rdma-core
 Requires: ucx
+Requires: libfabric
 Requires: openmpi
 Requires: sigcpp
 Requires: sqlite
