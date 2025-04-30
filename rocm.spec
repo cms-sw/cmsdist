@@ -45,11 +45,17 @@ Source19: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.60302.6
 Source20: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.60302.60302-66.el%{rhel}.%{_arch}.rpm
 Source21: https://%{repository}/%{repoversion}/main/rocprofiler-register-0.4.0.60302-66.el%{rhel}.%{_arch}.rpm
 Source22: https://%{repository}/%{repoversion}/main/rocprofiler-systems-0.1.1.60302-66.el%{rhel}.%{_arch}.rpm
-Source23: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
-
+Source23: https://%{repository}/%{repoversion}/main/hipcub-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source24: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source25: https://%{repository}/%{repoversion}/main/hiprand-2.11.1.60302-66.el%{rhel}.%{_arch}.rpm
+Source26: https://%{repository}/%{repoversion}/main/hiprand-devel-2.11.1.60302-66.el%{rhel}.%{_arch}.rpm
+Source27: https://%{repository}/%{repoversion}/main/rocrand-3.2.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source28: https://%{repository}/%{repoversion}/main/rocrand-devel-3.2.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source29: https://%{repository}/%{repoversion}/main/rccl-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
+Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
 
 # sources for rocprofiler-register
-Source24: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
+Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
 
 BuildRequires: gmake cmake
 Requires: numactl zstd fmt
@@ -60,7 +66,7 @@ AutoReq: no
 
 # unpack rocprofiler-register
 mkdir src
-tar xavf %{SOURCE24} -C src
+tar xavf %{SOURCE99} -C src
 
 %build
 rpm2cpio %{SOURCE0} | cpio -idmv
@@ -87,6 +93,13 @@ rpm2cpio %{SOURCE20} | cpio -idmv
 rpm2cpio %{SOURCE21} | cpio -idmv
 rpm2cpio %{SOURCE22} | cpio -idmv
 rpm2cpio %{SOURCE23} | cpio -idmv
+rpm2cpio %{SOURCE24} | cpio -idmv
+rpm2cpio %{SOURCE25} | cpio -idmv
+rpm2cpio %{SOURCE26} | cpio -idmv
+rpm2cpio %{SOURCE27} | cpio -idmv
+rpm2cpio %{SOURCE28} | cpio -idmv
+rpm2cpio %{SOURCE29} | cpio -idmv
+rpm2cpio %{SOURCE30} | cpio -idmv
 
 # build rocprofiler-register
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
