@@ -5,7 +5,7 @@ BuildRequires: gmake cmake
 Requires: xrootd
 
 %prep
-%setup -n %setup -q -n %{n}-%{realversion}
+%setup -n -q -n %{n}-%{realversion}
 
 %build
 rm -rf ../build; mkdir ../build ; cd ../build

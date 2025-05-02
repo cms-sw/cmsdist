@@ -1,0 +1,6 @@
+<tool name="l1tsc4ngjetmodel" version="@TOOL_VERSION@" revision="1">
+  <client>
+    <environment name="L1TSC4NGJETMODEL_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"       default="$L1TSC4NGJETMODEL_BASE/lib64"/>
+  </client>
+</tool>

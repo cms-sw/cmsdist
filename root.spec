@@ -1,10 +1,10 @@
-### RPM lcg root 6.35.1
+### RPM lcg root 6.37.1
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 81b846e0378550f1e7df760c16f5fba8fae28ea7
-%define branch cms/master/2182efbb59
+%define tag a608ccdd1aad7703652b7116f72cf872b07464a5
+%define branch cms/master/5dbed33318
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz

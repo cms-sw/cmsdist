@@ -13,7 +13,7 @@ BuildRequires: cmake
 %prep
 
 cp -r ${PY3_TENSORFLOW_ROOT}/lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow .
-%patch -p0
+%patch0 -p0
 
 %build
 

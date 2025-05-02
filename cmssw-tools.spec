@@ -1,4 +1,4 @@
-### RPM cms cmssw-tools 2.0
+### RPM cms cmssw-tools 3.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
@@ -57,6 +57,7 @@ Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
 Requires: L1METML
+Requires: L1TSC4NGJetModel
 Requires: lhapdf
 Requires: libjpeg-turbo
 Requires: libpng
