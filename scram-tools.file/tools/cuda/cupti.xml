@@ -6,4 +6,5 @@
     <environment name="LIBDIR"     default="$CUPTI_BASE/lib64"/>
     <environment name="INCLUDE"    default="$CUPTI_BASE/include"/>
   </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>

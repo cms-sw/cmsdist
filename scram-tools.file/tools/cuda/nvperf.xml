@@ -7,4 +7,5 @@
     <environment name="LIBDIR"      default="$NVPERF_BASE/lib64"/>
     <environment name="INCLUDE"     default="$NVPERF_BASE/include"/>
   </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>

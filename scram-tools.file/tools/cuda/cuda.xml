@@ -11,6 +11,7 @@
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
