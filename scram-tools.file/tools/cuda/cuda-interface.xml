@@ -1,0 +1,13 @@
+<tool name="cuda-interface" version="@TOOL_VERSION@" revision="1">
+  <info url="https://docs.nvidia.com/cuda/index.html"/>
+  <client>
+    <environment name="CUDA_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR"              default="$CUDA_INTERFACE_BASE/bin"/>
+    <environment name="LIBDIR"              default="$CUDA_INTERFACE_BASE/lib64"/>
+    <environment name="INCLUDE"             default="$CUDA_INTERFACE_BASE/include"/>
+  </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LIBDIR"  type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH"        value="$INCLUDE" type="path"/>
+  <runtime name="PATH"                     value="$BINDIR"  type="path"/>
+</tool>
