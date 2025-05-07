@@ -1,4 +1,4 @@
-<tool name="cuda" version="@TOOL_VERSION@" revision="2">
+<tool name="cuda" version="@TOOL_VERSION@" revision="3">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <use name="cuda-stubs"/>
   <lib name="cudart"/>
@@ -11,6 +11,7 @@
     <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
     <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
+  <flags GENERATE_PCM="1"/> 
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
