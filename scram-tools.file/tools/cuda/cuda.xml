@@ -1,15 +1,13 @@
-<tool name="cuda" version="@TOOL_VERSION@" revision="2">
+<tool name="cuda" version="@TOOL_VERSION@" revision="3">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <use name="cuda-stubs"/>
   <lib name="cudart"/>
   <lib name="cudadevrt"/>
   <lib name="nvToolsExt"/>
+  <use name="cuda-interface"/>
   <client>
     <environment name="CUDA_BASE" default="@TOOL_ROOT@"/>
     <environment name="NVCC"      default="$CUDA_BASE/bin/nvcc"/>
-    <environment name="BINDIR"    default="$CUDA_BASE/bin"/>
-    <environment name="LIBDIR"    default="$CUDA_BASE/lib64"/>
-    <environment name="INCLUDE"   default="$CUDA_BASE/include"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
@@ -22,6 +20,4 @@
 %endif
 %endif
   <lib name="cudadevrt" type="cuda"/>
-  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
-  <runtime name="PATH" value="$CUDA_BASE/bin" type="path"/>
 </tool>
