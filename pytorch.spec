@@ -43,6 +43,7 @@ cmake ../%{n}-%{realversion} \
 %if 0%{!?without_cuda:1}
     -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
+    -Dnvtx3_dir=${CUDA_ROOT}/include \
     -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
     -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
 %endif
