@@ -1,6 +1,7 @@
 ### RPM external gcc-prerequisites 1.0
 ## NOCOMPILER
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+AutoReqProv: no
 
 %define keep_archives true
 %define gmpVersion 6.3.0
