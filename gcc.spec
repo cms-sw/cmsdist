@@ -101,7 +101,9 @@ export PATH=%{i}/tmp/sw/bin:$PATH
 
 CONF_GCC_ARCH_SPEC="--enable-frame-pointer"
 %ifarch x86_64
+%if 0%{?rhel} > 9
 CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC --with-arch=x86-64-v3"
+%endif
 %endif
 %ifarch aarch64
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
