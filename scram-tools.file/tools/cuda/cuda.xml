@@ -9,6 +9,7 @@
     <environment name="CUDA_BASE" default="@TOOL_ROOT@"/>
     <environment name="NVCC"      default="$CUDA_BASE/bin/nvcc"/>
   </client>
+  <flags GENERATE_PCM="1"/> 
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
