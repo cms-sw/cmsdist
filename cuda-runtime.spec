@@ -60,7 +60,6 @@
   fi
 
 AutoReq: no
-Provides: libnvidia-ml.so.1()(64bit)
 Source99: install-cuda.sh
 ## INCLUDE cuda-version
 ### RPM external cuda-runtime %{cuda_version}
