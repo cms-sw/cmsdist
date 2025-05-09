@@ -18,7 +18,7 @@
 %define cuda_fileio          cufile cufile_rdma
 
 #Cuda Driver libs
-%define cuda_driver          cuda nvidia-ptxjitcompiler
+%define cuda_driver          cuda nvidia-ptxjitcompiler nvidia-ml
 
 #Cuda nvvm libs
 %define nvvm_libs            nvvm
@@ -67,7 +67,7 @@ Source99: install-cuda.sh
 
 %install
 #Copy runtime libs
-mkdir -p %{i}/lib64/stubs %{i}/drivers/lib %{i}/nvvm/lib
+mkdir -p %{i}/lib64/stubs %{i}/drivers/lib %{i}/nvvm/lib64
 for lib in $(echo "%{all_libs}") ; do
   %find_and_install_lib lib64
 done
@@ -75,7 +75,7 @@ for lib in $(echo "%{cuda_driver}") ; do
   %find_and_install_lib drivers/lib
 done
 for lib in $(echo "%{nvvm_libs}") ; do
-  %find_and_install_lib nvvm/lib
+  %find_and_install_lib nvvm/lib64
 done
 for x in $(echo "%{extra_files}") ; do
   mkdir -p %{i}/$(dirname ${x})
