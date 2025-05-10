@@ -5,5 +5,7 @@
     <environment name="LIBDIR"         default="$RDMA_CORE_BASE/lib64"/>
     <environment name="INCLUDE"        default="$RDMA_CORE_BASE/include"/>
   </client>
+  <runtime name="PATH" value="$RDMA_CORE_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="VERBS_CONFIG_DIR" value="$RDMA_CORE_BASE/etc/libibverbs.d" type="path"/>
 </tool>
