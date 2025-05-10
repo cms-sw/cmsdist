@@ -1,0 +1,8 @@
+<tool name="libfabric" version="@TOOL_VERSION@" revision="1">
+  <lib name="fabric"/>
+  <client>
+    <environment name="LIBFABRIC_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$LIBFABRIC_BASE/lib"/>
+    <environment name="INCLUDE"        default="$LIBFABRIC_BASE/include"/>
+  </client>
+</tool>
