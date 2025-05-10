@@ -79,6 +79,7 @@ Requires: rdma-core
 Requires: ucx
 Requires: libfabric
 Requires: openmpi
+Requires: mpi
 Requires: sigcpp
 Requires: sqlite
 Requires: tauolapp
