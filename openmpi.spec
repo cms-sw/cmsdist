@@ -1,8 +1,11 @@
-### RPM external openmpi 4.1.6
+### RPM external openmpi 4.1.x-20250505
 ## INITENV SET OPAL_PREFIX %{i}
-Source: https://download.open-mpi.org/release/open-mpi/v4.1/%{n}-%{realversion}.tar.bz2
-BuildRequires: autotools
+%define branch v4.1.x
+%define tag e6d2cb856f3fc649aa01bd5b688a003b3b33db7d
+Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
+Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
 Requires: xpmem
@@ -10,7 +13,6 @@ Requires: ucx
 Requires: zlib
 
 # external libraries are needed for additional protocols:
-#   --with-ofi:         Open Fabric Interface's libfabric
 #   --with-mxm:         Mellanox Messaging (depracated, use UCX instead)
 #   --with-fca:         Mellanox Fabric Collective Accelerator
 #   --with-hcoll:       Mellanox Hierarchical Collectives
@@ -19,6 +21,8 @@ Requires: zlib
 
 %prep
 %setup -q -n %{n}-%{realversion}
+
+AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
 
 ./configure \
   --prefix=%i \
@@ -33,7 +37,7 @@ Requires: zlib
   --with-zlib=$ZLIB_ROOT \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
-  --without-ofi \
+  --with-ofi=$LIBFABRIC_ROOT \
   --without-portals4 \
   --without-psm \
   --without-psm2 \
