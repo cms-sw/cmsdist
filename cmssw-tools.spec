@@ -80,6 +80,7 @@ Requires: rdma-core
 Requires: ucx
 Requires: libfabric
 Requires: openmpi
+Requires: mpich
 Requires: mpi
 Requires: sigcpp
 Requires: sqlite
