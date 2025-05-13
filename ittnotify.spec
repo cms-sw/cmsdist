@@ -8,7 +8,10 @@ BuildRequires: cmake
 %setup -q -n IntelSEAPI-%{realversion}
 
 %build
-cmake -DCMAKE_INSTALL_PREFIX="%{i}" -DARCH_64=1 ittnotify
+#-Wno-implicit-function-declaration: avoid build errors for el8_aarch64_gcc14
+cmake -DCMAKE_INSTALL_PREFIX="%{i}" -DARCH_64=1 \
+  -DCMAKE_C_FLAGS="-Wno-implicit-function-declaration" \
+  ittnotify
  
 make %{makeprocesses} VERBOSE=1 all
 
