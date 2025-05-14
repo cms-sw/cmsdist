@@ -8,7 +8,7 @@
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
+Patch0: root-drop-cuda-pcm
 BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
@@ -26,6 +26,7 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
 %get_config_guess graf2d/asimage/src/libAfterImage/config.guess
 chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
