@@ -1,0 +1,16 @@
+diff --git a/interpreter/cling/lib/Interpreter/CIFactory.cpp b/interpreter/cling/lib/Interpreter/CIFactory.cpp
+index 82ebd2e0..9961118b 100644
+--- a/interpreter/cling/lib/Interpreter/CIFactory.cpp
++++ b/interpreter/cling/lib/Interpreter/CIFactory.cpp
+@@ -737,11 +737,6 @@ namespace {
+                               clingIncLoc.str().str(), MOverlay,
+                               /*RegisterModuleMap=*/ false,
+                               /*AllowModulemapOverride=*/ false);
+-    if (!cudaIncLoc.empty())
+-      maybeAppendOverlayEntry(cudaIncLoc.str(), "cuda.modulemap",
+-                              clingIncLoc.str().str(), MOverlay,
+-                              /*RegisterModuleMap=*/ true,
+-                              /*AllowModulemapOverride=*/ false);
+     #ifdef CLING_SUPPORT_VC
+     if (!vcVcIncLoc.empty())
+       maybeAppendOverlayEntry(vcVcIncLoc.str(), "vc.modulemap",
