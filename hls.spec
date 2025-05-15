@@ -1,16 +1,14 @@
-### RPM external hls 2019.08
-%define tag 200a9aecaadf471592558540dc5a88256cbf880f
-%define branch master
-%define github_user Xilinx
+### RPM external hls 2025.05
+%define tag a3c0b0b444984aadba245a3b1fdffacaccea3141
+%define branch cms/200a9ae
+%define github_user cms-externals
 %define runpath_opts -m examples
 Source: git+https://github.com/%{github_user}/HLS_arbitrary_Precision_Types.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source: hls_modulemap
-Patch0: hls-fix
-Requires: gmake
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 
