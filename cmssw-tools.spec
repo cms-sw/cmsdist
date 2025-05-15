@@ -175,7 +175,7 @@ Requires: icc
 Requires: icx
 Requires: intel-vtune
 Requires: ruff
-%{!?without_rocm:Requires: rocm rocm-rocrand}
+%{!?without_rocm:Requires: rocm}
 Requires: cmsmon-tools
 Requires: dip
 %else

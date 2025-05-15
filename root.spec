@@ -17,6 +17,7 @@ Patch3: root_modules_211215
 BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
+%{!?without_cuda:Requires: cuda}
 
 %ifos linux
 Requires: dcap
@@ -190,6 +191,11 @@ ninja -v %{makeprocesses} install
 mkdir -p %{i}/etc/cling/bin
 cp -P interpreter/llvm-project/llvm/bin/clang %{i}/etc/cling/bin/
 cp -P interpreter/llvm-project/llvm/bin/clang-* %{i}/etc/cling/bin/
+
+# Generate cuda.pcm if CUDA is available
+%if 0%{!?without_cuda:1}
+echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
+%endif
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x

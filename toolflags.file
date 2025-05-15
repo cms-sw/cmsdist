@@ -1,6 +1,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cuda-flags
+## INCLUDE rocm-flags
 ## INCLUDE cpp-standard
 ## INCLUDE warning-flags
 ## INCLUDE vecgeom-opt
