@@ -6,6 +6,7 @@ if [ "${USER_CUDA_BASE}" = "" ] ; then
   exit 1
 elif [ ! -d "${USER_CUDA_BASE}" ] ; then
   echo "ERROR: ${USER_CUDA_BASE} does not exist." >&2
+  exit 1
 fi
 TMPDIR=${USER_CUDA_BASE}/tmp
 DOWNLOAD_DIR=${USER_CUDA_BASE}/download/$(uname -m)
