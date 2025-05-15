@@ -8,7 +8,7 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 Patch0: onnxruntime-gcc13
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2
+Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2 eigen
 %{!?without_cuda:Requires: cuda cudnn}
 
 %prep
@@ -23,7 +23,9 @@ if [ "%{cuda_gcc_support}" = "true" ] ; then
   USE_CUDA=ON
 fi
 
-cmake ../%{n}-%{realversion}/cmake -GNinja \
+cmake ../%{n}-%{realversion}/cmake \
+   -G Ninja \
+   -Wno-dev \
    -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
    -DCMAKE_BUILD_TYPE=Release \
    -DCMAKE_INSTALL_PREFIX="%{i}" \
@@ -52,7 +54,7 @@ cmake ../%{n}-%{realversion}/cmake -GNinja \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT}" \
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
    -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual"
 
