@@ -1,5 +1,5 @@
 ### RPM cms cms-common 1.0
-## REVISION 1248
+## REVISION 1249
 ## NOCOMPILER
 
 %define tag 82405344f084df3db0d698f23aa8b862076ccb82
