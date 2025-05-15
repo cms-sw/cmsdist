@@ -10,7 +10,7 @@
 Source: git+https://github.com/%{github_user}/pytorch_cluster.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-Requires: pytorch
+Requires: pytorch %{!?without_cuda:cuda}
 %define build_flags -Wall -Wextra -pedantic %{?arch_build_flags}
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
 
@@ -20,14 +20,14 @@ Requires: pytorch
 grep -q 'CMAKE_CXX_STANDARD  *14' CMakeLists.txt
 sed -i -e 's|CMAKE_CXX_STANDARD  *14|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt
 
+%build
+
 USE_CUDA=OFF
 %if 0%{!?without_cuda:1}
 if [ "%{cuda_gcc_support}" = "true" ] ; then
 USE_CUDA=ON
 fi
 %endif
-
-%build
 
 rm -rf ../build && mkdir ../build && cd ../build
 
@@ -38,16 +38,12 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_CXX_FLAGS="%{build_flags}" \
-    -DBUILD_TEST=OFF \
     -DWITH_PYTHON=OFF \
-    -DWITH_CUDA=OFF \
-    -DBUILD_TEST=OFF \
 %if 0%{!?without_cuda:1}
-    -DUSE_CUDA=${USE_CUDA} \
+    -DWITH_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
 %endif
     -DBUILD_SHARED_LIBS=ON
-
 
 make %{makeprocesses} VERBOSE=1
 
