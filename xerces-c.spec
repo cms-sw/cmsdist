@@ -1,6 +1,6 @@
-### RPM external xerces-c 3.1.3
+### RPM external xerces-c 3.3.0
 %define xercesv %(echo %{realversion} | tr . _)
-Source: http://www-us.apache.org/dist//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz 
+Source: https://dlcdn.apache.org//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz 
 
 %prep
 %setup -n xerces-c-%{realversion}
