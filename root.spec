@@ -6,7 +6,6 @@
 %define tag 46810d502c9e99dc982e9fa8857bcdfb50a35e43
 %define branch cms/master/00bccd4b1f
 
-#test 1
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
@@ -196,3 +195,5 @@ rm -rf build
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
+
+#test 1
