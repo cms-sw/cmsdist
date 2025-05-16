@@ -2,12 +2,12 @@
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 Source: https://github.com/linux-rdma/%{n}/releases/download/v%{realversion}/rdma-core-%{realversion}.tar.gz
-Patch: rdma-core-VERBS_CONFIG_DIR
+Patch0: rdma-core-VERBS_CONFIG_DIR
 BuildRequires: cmake ninja
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch -p1
+%patch0 -p1
 
 %build
 rm -rf build
