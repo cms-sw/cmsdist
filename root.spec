@@ -196,4 +196,4 @@ rm -rf build
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
 
-#test 1
+#test 2
