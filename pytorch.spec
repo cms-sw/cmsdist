@@ -45,6 +45,7 @@ cmake ../%{n}-%{realversion} \
 %if 0%{!?without_cuda:1}
     -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
+    -Dnvtx3_dir=${CUDA_ROOT}/include \
     -DUSE_CUDNN=${USE_CUDA} \
     -DCUDNN_ROOT=${CUDNN_ROOT} \
 %else
