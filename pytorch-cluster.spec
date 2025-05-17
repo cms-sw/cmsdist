@@ -42,6 +42,7 @@ cmake ../%{n}-%{realversion} \
 %if 0%{!?without_cuda:1}
     -DWITH_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
+    -Dnvtx3_dir=${CUDA_ROOT}/include \
 %endif
     -DBUILD_SHARED_LIBS=ON
 
