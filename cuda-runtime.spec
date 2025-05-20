@@ -14,7 +14,6 @@
 %define nv_runtime           nvrtc nvrtc-builtins
 %define nv_jit               nvJitLink
 %define cuda_profile         cupti
-%define cuda_tools_ext       nvToolsExt
 %define cuda_fileio          cufile cufile_rdma
 
 #Cuda Driver libs
