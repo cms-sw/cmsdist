@@ -14,7 +14,6 @@
 %define nv_runtime           nvrtc nvrtc-builtins
 %define nv_jit               nvJitLink
 %define cuda_profile         cupti
-%define cuda_tools_ext       nvToolsExt
 %define cuda_fileio          cufile cufile_rdma
 
 #Cuda Driver libs
@@ -39,7 +38,7 @@
 
 %define all_libs \
   %{?cuda_runtime} %{?cuda_fft} %{?cuda_blas} %{?nv_dropin_blas} %{?cuda_sparse_matrix} %{?cuda_linear_solver} %{?cuda_random_number} \
-  %{?nv_performance} %{?nv_jpeg} %{?cuda_common} %{?nv_runtime} %{?nv_optimizing} %{?nv_jit} %{?cuda_profile} %{?cuda_tools_ext} \
+  %{?nv_performance} %{?nv_jpeg} %{?cuda_common} %{?nv_runtime} %{?nv_optimizing} %{?nv_jit} %{?cuda_profile} \
   %{?cuda_fileio}
 
 %define runtime_stubs cuda nvidia-ml
