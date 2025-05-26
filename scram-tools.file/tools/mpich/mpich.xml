@@ -1,0 +1,10 @@
+<tool name="mpich" version="@TOOL_VERSION@" revision="1">
+  <lib name="mpi"/>
+  <lib name="mpicxx"/>
+  <client>
+    <environment name="MPICH_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"     default="$MPICH_BASE/lib"/>
+    <environment name="INCLUDE"    default="$MPICH_BASE/include"/>
+  </client>
+  <runtime name="PATH" value="$MPICH_BASE/bin" type="path"/>
+</tool>
