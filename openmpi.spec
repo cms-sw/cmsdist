@@ -1,4 +1,4 @@
-### RPM external openmpi 4.1.x-20250505
+### RPM external openmpi 4.1.9a1-20250505
 ## INITENV SET OPAL_PREFIX %{i}
 %define branch v4.1.x
 %define tag e6d2cb856f3fc649aa01bd5b688a003b3b33db7d
