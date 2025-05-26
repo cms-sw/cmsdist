@@ -1,0 +1,4 @@
+  <tool name="resolv" version="system" revision="1">
+    <lib name="resolv"/>
+    <flags FORCE_LINK="1"/>
+  </tool>
