@@ -126,6 +126,7 @@ google-pasta==0.2.0
 grpcio==1.60.1
 # NO_AUTO_UPDATE: update together with grpcio
 grpcio-tools==1.60.1
+h11==0.16.0
 hatch-fancy-pypi-readme==24.1.0
 hatch-jupyter-builder==0.9.1
 hatch-nodejs-version==0.3.2
@@ -138,7 +139,6 @@ hist==2.8.0
 histoprint==2.4.0
 histogrammar==1.0.33
 html5lib==1.1
-h11==0.14.0
 httpcore==1.0.5
 httpx==0.27.2
 idna==3.8
@@ -160,7 +160,7 @@ jaraco-context==6.0.1
 jax==0.4.26
 jedi==0.19.1
 jeepney==0.8.0
-Jinja2==3.1.5
+Jinja2==3.1.6
 jinja2-time==0.2.0
 joblib==1.4.2
 json5==0.9.25
@@ -388,7 +388,7 @@ tomli==2.0.1
 tomli-w==1.0.0
 tomlkit==0.13.2
 toolz==0.12.1
-tornado==6.4.2
+tornado==6.5.1
 tqdm==4.66.5
 traitlets==5.14.3
 trove-classifiers==2024.7.2
