@@ -1,5 +1,6 @@
 ### RPM external rocm 6.3.2
 ## INCLUDE cpp-standard
+## INITENV SET HIP_PATH %{i}
 
 %if 0%{?rhel} == 7
 # allow rpm2cpio dependency on the bootstrap bundle
@@ -148,4 +149,14 @@ find %{i}/bin/ %{i}/libexec/ %{i}/llvm/bin/ %{i}/llvm/lib/ -type f | xargs -r \
 cd build/rocprofiler-register
 make install
 
+#Create clang cfg file for gcc-toolchain
+%if 0%{!?use_system_gcc:1}
+host_triple=$(gcc -dumpmachine)
+echo "--gcc-toolchain=$GCC_ROOT" > %{i}/llvm/bin/clang++.cfg
+echo "--target=$host_triple" >> %{i}/llvm/bin/clang++.cfg
+%endif
+
 %post
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}/llvm/bin/clang++.cfg
+%endif
