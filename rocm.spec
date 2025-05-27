@@ -150,7 +150,9 @@ make install
 
 #Create clang cfg file for gcc-toolchain
 %if 0%{!?use_system_gcc:1}
+host_triple=$(gcc -dumpmachine)
 echo "--gcc-toolchain=$GCC_ROOT" > %{i}/llvm/bin/clang++.cfg
+echo "--target=$host_triple" >> %{i}/llvm/bin/clang++.cfg
 %endif
 
 %post
