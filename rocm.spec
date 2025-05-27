@@ -1,5 +1,6 @@
 ### RPM external rocm 6.3.2
 ## INCLUDE cpp-standard
+## INITENV SET HIP_PATH %{i}
 
 %if 0%{?rhel} == 7
 # allow rpm2cpio dependency on the bootstrap bundle
