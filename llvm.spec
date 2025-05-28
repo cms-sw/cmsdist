@@ -90,10 +90,12 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
 
-#Create clang cfg file for gcc-toolchain
 %if 0%{!?use_system_gcc:1}
-echo "--gcc-toolchain=$GCC_ROOT" > %{i}/bin/clang++.cfg
-echo "--target=$host_triple"    >> %{i}/bin/clang++.cfg
+pushd %{i}/bin
+  echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
+  echo "--target=$host_triple"    >> clang++.cfg
+  ln -s clang++.cfg clang.cfg
+popd
 %endif
 
 %post
