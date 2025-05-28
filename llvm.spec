@@ -70,7 +70,6 @@ ninja -v %{makeprocesses} install
 
 #Create libomp symlink
 host_triple=$(gcc -dumpmachine)
-ln -s ${host_triple}/libomp.so %{i}/lib64/libomp.so
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
@@ -92,6 +91,8 @@ rm -f %{i}/bin/set-xcode-analyzer
 
 %if 0%{!?use_system_gcc:1}
 pushd %{i}/bin
+  [ -e clang++.cfg ] && exit 1
+  [ -e clang.cfg   ] && exit 1
   echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
   echo "--target=$host_triple"    >> clang++.cfg
   ln -s clang++.cfg clang.cfg
