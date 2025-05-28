@@ -1,4 +1,4 @@
-  <tool name="llvm-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="llvm-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="2">
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="LLVM_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
@@ -33,9 +33,6 @@
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
     <flags CXXFLAGS="-Wno-vla-cxx-extension"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
-%if 0%{!?use_system_gcc:1}
-    <flags CXXFLAGS="--gcc-toolchain=@GCC_ROOT@"/>
-%endif
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
