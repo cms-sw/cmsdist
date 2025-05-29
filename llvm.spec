@@ -3,7 +3,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
 BuildRequires: cmake ninja
-Requires: gcc zlib python3 libxml2 zstd
+Requires: gcc zlib python3 libxml2 zstd libunwind
 %{!?without_cuda:Requires: cuda}
 
 %define llvmCommit 02c7568fc9f555b2c72fc169c8c68e2116d97382
@@ -35,13 +35,14 @@ rm -rf %{_builddir}/build
 mkdir -p %{_builddir}/build
 cd %{_builddir}/build
 
+host_triple=$(gcc -dumpmachine)
 cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -G Ninja \
 %if 0%{!?use_system_gcc:1}
-  -DGCC_INSTALL_PREFIX="${GCC_ROOT}" \
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
 %endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
+  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
@@ -50,14 +51,14 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
-  -DLLVM_HOST_TRIPLE=$(gcc -dumpmachine) \
+  -DLLVM_HOST_TRIPLE=${host_triple} \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;RISCV;NVPTX" \
 %if 0%{!?without_cuda:1}
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
 %endif
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
-  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT}"
+  -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT};${LIBUNWIND_ROOT}"
 
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
@@ -66,6 +67,9 @@ bin/clang-tidy --checks=* --list-checks | grep cms-handle
 %install
 cd ../build
 ninja -v %{makeprocesses} install
+
+#Create libomp symlink
+host_triple=$(gcc -dumpmachine)
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
@@ -85,7 +89,20 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
 
+%if 0%{!?use_system_gcc:1}
+pushd %{i}/bin
+  [ -e clang++.cfg ] && exit 1
+  [ -e clang.cfg   ] && exit 1
+  echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
+  echo "--target=$host_triple"    >> clang++.cfg
+  ln -s clang++.cfg clang.cfg
+popd
+%endif
+
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
 %{relocateConfig}include/clang/Config/config.h
 %{relocateConfig}lib64/cmake/llvm/LLVMConfig.cmake
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}bin/clang++.cfg
+%endif
