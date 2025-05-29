@@ -92,6 +92,8 @@ rm -f %{i}/bin/set-xcode-analyzer
 
 %if 0%{!?use_system_gcc:1}
 pushd %{i}/bin
+  [ -e clang++.cfg ] && exit 1
+  [ -e clang.cfg   ] && exit 1
   echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
   echo "--target=$host_triple"    >> clang++.cfg
   ln -s clang++.cfg clang.cfg
