@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 4e50d5412e654c757fe78cb5475b30363541951a
-%define branch cms/v6-32-00-patches/4467b6916f
+%define tag 63c27767f1be350ef3d684242da34f0d396cf97d
+%define branch cms/v6-32-00-patches/69384a6a78
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -12,6 +12,7 @@ Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&expo
 BuildRequires: cmake ninja
 
 Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd
+%{!?without_cuda:Requires: cuda}
 
 %ifos linux
 Requires: dcap
@@ -177,6 +178,11 @@ export ROOT_INCLUDE_PATH
 export ROOTSYS="%{i}"
 
 ninja -v %{makeprocesses} install
+
+# Generate cuda.pcm if CUDA is available
+%if 0%{!?without_cuda:1}
+echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
+%endif
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
