@@ -1,0 +1,12 @@
+diff --git a/rootinterface/pythia6_common_address.c b/rootinterface/pythia6_common_address.c
+index e9e67d5..03cf20c 100644
+--- a/rootinterface/pythia6_common_address.c
++++ b/rootinterface/pythia6_common_address.c
+@@ -47,6 +47,7 @@
+ # define pybins PYBINS
+ #endif
+ 
++#include <string.h>
+ int pyjets[2+5*4000+2*2*5*4000];
+ int pydat1[200+2*200+200+2*200];
+ int pydat2[4*500+2*4*500+2*2000+2*4*4];

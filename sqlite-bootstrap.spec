@@ -1,9 +1,9 @@
-### RPM external sqlite-bootstrap 3.36.0
+### RPM external sqlite-bootstrap 3.48.0
 AutoReqProv: no
-Source: https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
+Source: https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz
 
 %prep
-%setup -n sqlite-autoconf-3360000
+%setup -n sqlite-autoconf-3480000
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \

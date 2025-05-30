@@ -32,7 +32,7 @@ platformSeeds+=" perl perl-libs"
 platformSeeds+=" libbrotli python3"
 platformSeeds+=" perl-base perl-lib perl-filetest perl-overload perl-vars"
 %endif
-  
+
 #Various packages required by xrootd with krb5 enabled
 platformSeeds+=" libcom_err krb5-libs"
 
@@ -53,7 +53,7 @@ platformBuildSeeds+=" brotli-devel"
 
 #Various packages required by xrootd with krb5 enabled
 platformBuildSeeds+=" libcom_err-devel krb5-devel"
-  
+
 #needed by python build
 platformBuildSeeds+=" readline-devel ncurses-devel tcl-devel tk-devel"
 

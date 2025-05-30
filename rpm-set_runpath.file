@@ -58,7 +58,8 @@ while [ ! X$# = X0 ]; do
     --package)     PACKAGE_PATH=$1   ; shift   ;;
     --force-rpath) FORCE_RPATH='--force-rpath' ;;
     --rpath)       SET_RUNPATH=$1    ; shift   ;;
-    -m|--match)    MATCH="$MATCH $1"; shift   ;; 
+    -m|--match)    MATCH="$MATCH $1";  shift   ;;
+    -M|--override-match ) MATCH="$1";  shift   ;;
     -n|--not-name) NAME="$NAME $1"   ; shift   ;;
     --jobs)        MAX_JOBS="$1"     ; shift   ;;
     --help)
