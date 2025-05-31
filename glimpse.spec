@@ -7,8 +7,9 @@ BuildRequires: autotools
 %prep
 %setup -n %{n}-%realversion
 %build
-
+%if %{cmscompilerv}>13
 CFLAGS="-Wno-error=return-mismatch -Wno-error=implicit-int -Wno-error=implicit-function-declaration" \
+%endif
   ./configure --prefix=%{i}
 # Turn off this part, it causes problems for 32-bit-on-64-bit and is only
 # needed for webglimpse
