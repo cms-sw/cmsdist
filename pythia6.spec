@@ -1,10 +1,11 @@
 ### RPM external pythia6 426
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-
+Patch0: pythia6-gcc14
 %define keep_archives true
 
 %prep
 %setup -q -n %{n}/%{realversion}
+%patch0 -p1
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config/config.{sub,guess}
@@ -20,7 +21,7 @@ chmod +x ./config/config.{sub,guess}
 perl -p -i -e 's|^CC=.*$|CC="gcc -fPIC"|' libtool
 
 %build
-make CFLAGS="-fPIC -fcommon"
+make %{makeprocesses} CFLAGS="-fPIC -fcommon"
 make install
 
 %install
