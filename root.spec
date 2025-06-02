@@ -46,7 +46,7 @@ export CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug \
-  -DLLVM_BUILD_TYPE=Release \
+  -DLLVM_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
@@ -176,9 +176,9 @@ export ROOTSYS="%{i}"
 ninja -v %{makeprocesses} install
 
 # Generate cuda.pcm if CUDA is available
-%if 0%{!?without_cuda:1}
-echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
-%endif
+#if 0%{!?without_cuda:1}
+#echo '#include <cuda_runtime.h>' | %{i}/bin/root -b -n -l
+#endif
 
 find %{i} -type f -name '*.py' | xargs chmod -x
 grep -rlI '#!.*python' %{i} | xargs chmod +x
