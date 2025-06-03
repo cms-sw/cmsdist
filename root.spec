@@ -8,6 +8,7 @@
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: root-llvm-cxx17
 
 BuildRequires: cmake ninja
 
@@ -27,6 +28,7 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
 %get_config_guess graf2d/asimage/src/libAfterImage/config.guess
 chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
