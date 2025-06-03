@@ -2,7 +2,7 @@
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
-%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
+%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ' | sed -e's/ *$/+PTX/')
 
 Source: git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
@@ -35,6 +35,8 @@ fi
 
 cmake ../%{n}-%{realversion} \
     -G Ninja \
+    -Wno-dev \
+    -L \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DBUILD_TEST=OFF \
@@ -43,14 +45,20 @@ cmake ../%{n}-%{realversion} \
 %if 0%{!?without_cuda:1}
     -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
-    -DCUDNN_INCLUDE_DIR=${CUDNN_ROOT}/include \
-    -DCUDNN_LIBRARY=${CUDNN_ROOT}/lib64/libcudnn.so \
+    -DUSE_CUDNN=${USE_CUDA} \
+    -DCUDNN_ROOT=${CUDNN_ROOT} \
+%else
+    -DUSE_CUDA=OFF \
+    -DUSE_CUDNN=OFF \
 %endif
+    -DUSE_CUSPARSELT=OFF \
+    -DUSE_CUDSS=OFF \
     -DUSE_NCCL=OFF \
+    -DUSE_ROCM=OFF \
+    -DUSE_XPU=OFF \
     -DUSE_FBGEMM=OFF \
     -DUSE_KINETO=OFF \
     -DUSE_MAGMA=OFF \
-    -DUSE_METAL=OFF \
     -DUSE_MPS=OFF \
     -DUSE_NNPACK=OFF \
     -DUSE_QNNPACK=OFF \
@@ -80,7 +88,7 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
     -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
 
-ninja -v  %{makeprocesses}
+ninja -v %{makeprocesses}
 
 %install
 cd ../build
