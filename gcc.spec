@@ -1,4 +1,4 @@
-### RPM external gcc 13.3.1
+### RPM external gcc 13.4.0
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag dc4ce20d7773512a351e9e81c31ac1d3d484e568
+%define gccTag 99677969d463d75a562f94460ea75e9f6a016b4f
 %define gccBranch releases/gcc-13
 
 %define moduleName %{n}-%{realversion}
