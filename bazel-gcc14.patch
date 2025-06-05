@@ -1,0 +1,12 @@
+diff --git a/third_party/zlib/BUILD b/third_party/zlib/BUILD
+index f1aa936..7317aff 100755
+--- a/third_party/zlib/BUILD
++++ b/third_party/zlib/BUILD
+@@ -29,6 +29,7 @@ distrib_cc_library(
+     # Use -Dverbose=-1 to turn off zlib's trace logging. (#3280)
+     copts = [
+         "-w",
++	"-Wno-error=implicit-function-declaration",
+         "-Dverbose=-1",
+     ],
+     includes = ["."],
