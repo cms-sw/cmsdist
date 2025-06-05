@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 42.0
+### RPM external bootstrap-driver 43.0
 ## NOCOMPILER
 Requires: rpm
 BuildRequires: cms-common fakesystem
@@ -28,7 +28,7 @@ platformSeeds+=" mesa-libGLU libglvnd-glx libglvnd-opengl libXext libXft libXpm"
 
 #Various packages perl dependencies
 platformSeeds+=" perl perl-libs"
-%if "%{rhel}" == "9"
+%if 0%{?rhel} >= 9
 platformSeeds+=" libbrotli python3"
 platformSeeds+=" perl-base perl-lib perl-filetest perl-overload perl-vars"
 %endif
@@ -45,10 +45,14 @@ packagesWithProvides=" /usr/bin/python3 /usr/bin/env /usr/bin/uname /bin/sh /usr
 platformBuildSeeds="  git patch make zip unzip bzip2 which rsync"
 platformBuildSeeds+=" openssl-devel libxcrypt-devel"
 platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
-platformBuildSeeds+=" java-1.8.0-openjdk-devel"
 
-%if "%{rhel}" == "9"
-platformBuildSeeds+=" brotli-devel"
+%if 0%{?rhel} >= 9
+platformBuildSeeds+=" brotli-devel java-17-openjdk-devel"
+%if 0%{?rhel} >= 10
+platformSeeds=$(echo ${platformSeeds} | sed 's| glibc-headers | glibc-devel |')
+%endif
+%else
+platformBuildSeeds+=" java-1.8.0-openjdk-devel"
 %endif
 
 #Various packages required by xrootd with krb5 enabled
@@ -67,7 +71,7 @@ packagesWithBuildProvides=""
 platformSeeds+=" libaio"
 %endif
 
-%if "%{rhel}" == "9"
+%if 0%{?rhel} >= 9
 platformSeeds+=" libgcc"
 %endif
 
