@@ -1,0 +1,3 @@
+<tool name="mpi" version="@TOOL_VERSION@" revision="1">
+  <use name="openmpi"/>
+</tool>
