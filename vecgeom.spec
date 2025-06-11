@@ -4,11 +4,13 @@
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
+
 %define tag b5abcecae3411e1f5c11a249c6d862efcbbed548
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector
 BuildRequires: cmake gmake
+Requires: xerces-c
 %define keep_archives true
 %define vecgeom_backend Scalar
 %define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
@@ -16,7 +18,7 @@ BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
+%patch0 -p1 
 
 %build
 %ifarch x86_64
@@ -51,7 +53,8 @@ cmake ../%{n}-%{realversion} \
   -DVECGEOM_BUILTIN_VECCORE=ON \
   -DVECGEOM_BACKEND=%{vecgeom_backend} \
   -DVECGEOM_GEANT4=OFF \
-  -DVECGEOM_ROOT=OFF
+  -DVECGEOM_ROOT=OFF \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT}"
 
 make %{makeprocesses} VERBOSE=1
 
