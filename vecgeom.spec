@@ -9,6 +9,7 @@
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector
 BuildRequires: cmake gmake
+Requires: xerces_c
 %define keep_archives true
 %define vecgeom_backend Scalar
 %define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
@@ -51,7 +52,8 @@ cmake ../%{n}-%{realversion} \
   -DVECGEOM_BUILTIN_VECCORE=ON \
   -DVECGEOM_BACKEND=%{vecgeom_backend} \
   -DVECGEOM_GEANT4=OFF \
-  -DVECGEOM_ROOT=OFF
+  -DVECGEOM_ROOT=OFF \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT}"
 
 make %{makeprocesses} VERBOSE=1
 
