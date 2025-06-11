@@ -16,6 +16,7 @@ BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 %ifarch x86_64
