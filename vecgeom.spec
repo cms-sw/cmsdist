@@ -4,9 +4,7 @@
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
-
-
-
+%define vecgeom_version %(echo %{realversion} | sed 's|^v||;s|-.*||')
 %define tag b5abcecae3411e1f5c11a249c6d862efcbbed548
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -36,6 +34,8 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -DVecGeom_GIT_DESCRIBE="%{vecgeom_version};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DBUILD_TESTING=OFF \
+  -DVecGeom_VERSION=%{vecgeom_version} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \

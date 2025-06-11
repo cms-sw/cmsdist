@@ -1,7 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index dad4bdc0b..66efd9f6e 100644
+index dad4bdc..2886ead 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -17,7 +17,7 @@ include(ExternalProject)
+ 
+ # Set VecGeom_VERSION using git tags or release metadata
+ include("${CMAKE_CURRENT_LIST_DIR}/cmake/CgvFindVersion.cmake")
+-cgv_find_version(VecGeom)
++#cgv_find_version(VecGeom)
+ message(STATUS "VecGeom version string: ${VecGeom_VERSION_STRING}")
+ 
+ project(VecGeom
 @@ -111,7 +111,7 @@ option(VECGEOM_SANITIZER "Enable memory sanitizer." OFF)
  
  set(VECGEOM_ISAS empty)
@@ -11,3 +20,12 @@ index dad4bdc0b..66efd9f6e 100644
  endif()
  
  enum_option(VECGEOM_VECTOR DOC "Vector instruction set to be used"
+@@ -964,7 +964,7 @@ install(EXPORT VecGeomTargets
+ 
+ ################################################################################
+ # Doxygen documentation
+-find_package(Doxygen)
++#find_package(Doxygen)
+ if(DOXYGEN_FOUND)
+   set(DOXYFILE_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/doxygen)
+   foreach(d doc/doxygen VecGeom persistency scripts source)
