@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e6a4329..7e77333 100644
+index dad4bdc0b..66efd9f6e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -92,7 +92,7 @@ endif()
- # - ISA
+@@ -111,7 +111,7 @@ option(VECGEOM_SANITIZER "Enable memory sanitizer." OFF)
+ 
  set(VECGEOM_ISAS empty)
  if(CMAKE_SYSTEM_PROCESSOR MATCHES "(i686|x86_64)")
 -  set(VECGEOM_ISAS sse2 sse3 ssse3 sse4.1 sse4.2 avx avx2 native empty)
