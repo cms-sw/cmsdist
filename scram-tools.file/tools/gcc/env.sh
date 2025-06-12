@@ -40,12 +40,12 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -fvisibility-inlines-hidden"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
 
-#FIXME: GCC 12.2 workaround
+#FIXME: GCC 12/13/14 workaround
 if [[ "$GCC_VERSION" =~ ^12\.[23]\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"
-elif [[ "$GCC_VERSION" =~ ^13\.[3]\. ]] ; then
+elif [[ "$GCC_VERSION" =~ ^13\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
-elif [[ "$GCC_VERSION" =~ ^14\.[2]\. ]] ; then
+elif [[ "$GCC_VERSION" =~ ^14\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
 fi
 
