@@ -1,2 +1,2 @@
-%define source0 https://github.com/dgasmith/opt_einsum/archive/v%{realversion}.tar.gz
 Requires: py3-numpy
+BuildRequires: py3-setuptools-scm py3-hatchling py3-hatch-fancy-pypi-readme py3-hatch-vcs

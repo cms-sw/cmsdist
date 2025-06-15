@@ -1,1 +1,1 @@
-BuildRequires: py3-hatchling
+BuildRequires: py3-hatchling py3-setuptools-scm
