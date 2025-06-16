@@ -13,5 +13,6 @@ python3 %{_sourcedir}/get-pip.py  --no-setuptools --no-wheel pip==%{realversion}
 
 %install
 %{relocatePy3SitePackages}
-perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/bin/*
 rm -f %{i}/bin/pip
+perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/bin/pip3*
+perl -p -i -e "s| %{cmsroot}/.*/python3 | python3 |" %{i}/bin/pip3*
