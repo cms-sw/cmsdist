@@ -18,7 +18,6 @@ aiosqlite==0.21.0
 aiosignal==1.3.2
 annotated-types==0.7.0
 anyio==4.9.0
->>>>>>> origin/IB/CMSSW_15_1_X/tf
 appdirs==1.4.4
 argon2-cffi==25.1.0
 argon2-cffi-bindings==21.2.0
