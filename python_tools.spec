@@ -1,10 +1,11 @@
-### RPM external python_tools 3.0
+### RPM external python_tools 3.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: none
 
 Requires: root curl python3 xrootd llvm hdf5 yoda opencv triton-inference-client
 Requires: professor2 rivet frontier_client onnxruntime openldap pacparser
 
+Requires: py3-multidict
 Requires: py3-anyio
 Requires: py3-sniffio
 Requires: py3-scipy
@@ -91,7 +92,7 @@ Requires: py3-sympy
 Requires: py3-tqdm
 Requires: py3-funcsigs
 Requires: py3-pkgconfig
-Requires: py3-Click
+Requires: py3-click
 Requires: py3-jsonpickle
 Requires: py3-prwlock
 Requires: py3-virtualenv
