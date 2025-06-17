@@ -1,1 +1,1 @@
-Requires: py3-soupsieve
+Requires: py3-soupsieve py3-typing-extensions
