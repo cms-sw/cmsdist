@@ -1,1 +1,1 @@
-Requires: py3-locket py3-toolz
+Requires: py3-locket py3-toolz py3-versioneer
