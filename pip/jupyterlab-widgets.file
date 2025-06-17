@@ -1,1 +1,1 @@
-Requires: py3-jupyter-packaging
+Requires: py3-jupyter-packaging py3-hatch-jupyter-builder
