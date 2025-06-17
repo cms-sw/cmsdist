@@ -1,5 +1,4 @@
-Requires: libzmq py3-packaging py3-cython
-BuildRequires: py3-scikit-build-core
+Requires: libzmq py3-packaging py3-scikit-build-core py3-typing-extensions py3-cython
 
 %define patchsrc \
 cat > setup.cfg <<EOF \
@@ -11,4 +10,5 @@ include_dirs = $LIBZMQ_ROOT/include\
 library_dirs = $LIBZMQ_ROOT/lib\
 EOF
 
+%define PipPreBuild  export CMAKE_BUILD_PARALLEL_LEVEL=%{compiling_processes}
 %define PipPostPost %{relocateConfig}lib/python*/site-packages/zmq/utils/*.json
