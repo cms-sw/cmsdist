@@ -1,2 +1,2 @@
-%define PipDownloadSourceType none
+%define PipDownloadSourceType none,arch=%{_arch}
 Requires: py3-ml_dtypes py3-numpy py3-scipy
