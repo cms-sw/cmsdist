@@ -236,3 +236,7 @@
 %else
 %define strip strip
 %endif
+
+#Some special urls to gets config.sub/config.guess
+%define get_config_guess() curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.guess
+%define get_config_sub()   curl -L -k -s -o %1 http://cmsrep.cern.ch/cmssw/download/config/config.sub

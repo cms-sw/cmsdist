@@ -22,8 +22,8 @@ esac
 
 # Update to detect aarch64 and ppc64le
 rm -f ./config/config.{sub,guess}
-curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+%get_config_sub ./config/config.sub
+%get_config_guess ./config/config.guess
 chmod +x ./config/config.{sub,guess}
 
 # Unfortunately we need the two cases because LDFLAGS= does not work on linux
