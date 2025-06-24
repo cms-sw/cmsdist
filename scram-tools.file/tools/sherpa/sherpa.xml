@@ -20,7 +20,7 @@
   <use name="blackhat"/>
   <use name="fastjet"/>
   <use name="sqlite"/>
-  <use name="openmpi"/>
+  <use name="mpi"/>
   <ifarchitecture name="!ppc64le">
     <use name="openloops"/>
   </ifarchitecture>
