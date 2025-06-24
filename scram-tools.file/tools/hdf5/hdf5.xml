@@ -7,5 +7,5 @@
     <environment name="LIBDIR" default="$HDF5_BASE/lib"/>
     <environment name="INCLUDE" default="$HDF5_BASE/include"/>
   </client>
-  <use name="openmpi"/>
+  <use name="mpi"/>
 </tool>
