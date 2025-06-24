@@ -405,7 +405,7 @@ tzdata==2025.2
 uhi==0.5.0
 uncertainties==3.2.3
 uproot==5.6.2
-urllib3==2.4.0
+urllib3==2.5.0
 vector==1.6.2
 versioneer==0.29
 virtualenv-clone==0.5.7
