@@ -1,6 +1,6 @@
-### RPM external celeritas v0.4.1
+### RPM external celeritas v0.6.0
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
-%define tag f9b51d72fc268bf22c5560b82d3dd3d7613a8106
+%define tag dfa4cde7d7d65bf656b17a24c59fcc030aa6b0d9 
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source1: https://patch-diff.githubusercontent.com/raw/celeritas-project/celeritas/pull/1110.diff
 
@@ -40,6 +40,7 @@ cmake ../%{n}-%{realversion} \
   -DCELERITAS_USE_MPI=OFF \
   -DCELERITAS_USE_ROOT=OFF \
   -DCELERITAS_USE_SWIG=OFF \
+  -DCELERITAS_USE_PNG=OFF \
 %if %{enable_vecgeom}
   -DCELERITAS_USE_VecGeom=ON
 %else
