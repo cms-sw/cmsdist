@@ -1,10 +1,10 @@
-### RPM cms cms-cat 240702.0
+### RPM cms cms-cat 250627.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 0e3b60982ec088096fa67c46db5e9de2290ea5fb
+%define commit 5cf28195a12d7c98bfccdb36a5fffa7b36247af5
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when there are dependencies.
