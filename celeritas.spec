@@ -2,7 +2,6 @@
 %define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 %define tag dfa4cde7d7d65bf656b17a24c59fcc030aa6b0d9 
 Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: https://patch-diff.githubusercontent.com/raw/celeritas-project/celeritas/pull/1110.diff
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
@@ -10,7 +9,6 @@ Requires: python3 json geant4
 
 %prep
 %setup -n %{n}-%{realversion}
-patch -p1 <%{_sourcedir}/1110.diff
 
 %build
 
