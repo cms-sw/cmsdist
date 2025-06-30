@@ -3,7 +3,7 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 2ac227091554ee96a82191852bb85e431fda748d
+%define tag 21c6009ba6f1900ee9ca4fd3e785e76decc50dcd
 %define branch cms/master/2ac2270915
 
 %define github_user cms-sw
