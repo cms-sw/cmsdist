@@ -285,7 +285,7 @@ prometheus-client==0.22.1
 prompt_toolkit==3.0.51
 propcache==0.3.2
 #NO_AUTO_UPDATE:1: Update together with Tensorflow
-protobuf==4.25.8
+protobuf==4.21.9
 prwlock==0.4.1
 psutil==7.0.0
 ptyprocess==0.7.0
