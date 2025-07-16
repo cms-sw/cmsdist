@@ -1,5 +1,6 @@
-<tool name="vecgeom" version="@TOOL_VERSION@" revision="2">
+<tool name="vecgeom" version="@TOOL_VERSION@" revision="3">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
+  <lib name="vecgeom_final"/>
   <lib name="vecgeom"/>
   <client>
     <environment name="VECGEOM_BASE" default="@TOOL_ROOT@"/>
