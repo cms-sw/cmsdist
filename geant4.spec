@@ -34,7 +34,7 @@ cmake ../%{n}.%{realversion} \
   -DGEANT4_BUILD_VERBOSE_CODE=OFF \
   -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF \
 %if %{enable_vecgeom}
-  -DGEANT4_USE_USOLIDS="all" \
+  -DGEANT4_USE_USOLIDS="OFF" \
   -DVecGeom_DIR=${VECGEOM_ROOT}/lib64/cmake/VecGeom \
   -DVecCore_DIR=${VECGEOM_ROOT}/lib64/cmake/VecCore \
 %endif

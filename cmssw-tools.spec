@@ -4,6 +4,7 @@
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
 ## UPLOAD_DEPENDENCIES dqmgui
 
+Requires: adept
 Requires: AXOL1TL
 Requires: CICADA
 Requires: OpenBLAS

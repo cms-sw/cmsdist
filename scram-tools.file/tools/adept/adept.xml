@@ -1,0 +1,4 @@
+<tool name="adept" version="@TOOL_VERSION@" revision="1">
+  <lib name="AdePT_G4_integration_final"/>
+  <use name="adept_interface"/>
+</tool>
