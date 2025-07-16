@@ -20,11 +20,15 @@ cd ../build
 
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
-  -DCMAKE_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_C_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
+  -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_BUILD_TYPE=Release \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \

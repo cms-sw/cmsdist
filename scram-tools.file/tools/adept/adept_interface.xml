@@ -7,5 +7,5 @@
   </client>
   <use name="geant4core"/>
   <use name="vecgeom"/>
-  <use name="g4hepme"/>
+  <use name="g4hepmecore"/>
 </tool>

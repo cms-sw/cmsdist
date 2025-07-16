@@ -41,8 +41,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
+  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG %{build_flags}" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
