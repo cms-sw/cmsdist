@@ -36,6 +36,13 @@ make %makeprocesses VERBOSE=1
 cd ../build
 make install
 find %i/lib64 -name "lib*.so" -delete
+mkdir -p tmp_archive
+pushd tmp_archive
+  find %i/lib64 -name "*.a" -exec gcc-ar x {} \;
+  gcc-ar rcs %i/lib64/libg4hepem-static.a *.o
+popd
+rm -rf tmp_archive
+find %i/lib64 -name "lib*.so" -delete
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel} -name '*.cmake')
