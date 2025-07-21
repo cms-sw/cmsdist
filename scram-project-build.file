@@ -16,6 +16,11 @@
 Requires: SCRAMV1
 BuildRequires: gcc
 
+# Biglib enable/disable
+%if "%{?enable_biglib:set}" != "set"
+%define enable_biglib 1
+%endif
+
 # For non-linux archs disable subpackageDebug otherwise add dwz.file build dependencies.
 %if "%{?subpackageDebug:set}" == "set"
 %ifos linux
@@ -165,6 +170,9 @@ grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.
 
 %scramcmd arch
 cd %i/%{srctree}
+%if "%{enable_biglib}" == "0"
+%scramcmd build disable-biglib || true
+%endif
 %if "%{?extra_tools:set}" == "set"
 for t in %{extra_tools}; do %scramcmd setup $t; done
 %endif
