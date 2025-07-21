@@ -24,6 +24,9 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_C_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
