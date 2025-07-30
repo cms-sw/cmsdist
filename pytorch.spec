@@ -68,7 +68,7 @@ cmake ../%{n}-%{realversion} \
     -DUSE_NUMA=ON \
     -DNUMA_ROOT_DIR=${NUMACTL_ROOT} \
     -DUSE_NUMPY=OFF \
-    -DUSE_OPENMP=ON \
+    -DUSE_OPENMP=OFF \
     -DUSE_QNNPACK=OFF \
     -DUSE_VALGRIND=OFF \
     -DUSE_XNNPACK=OFF \
