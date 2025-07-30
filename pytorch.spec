@@ -11,7 +11,7 @@ Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
 
 BuildRequires: cmake ninja
-Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
+Requires: eigen fxdiv numactl protobuf psimd python3 py3-PyYAML
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %{!?without_cuda:Requires: cuda cudnn}
 
@@ -67,7 +67,7 @@ cmake ../%{n}-%{realversion} \
     -DUSE_NUMA=ON \
     -DNUMA_ROOT_DIR=${NUMACTL_ROOT} \
     -DUSE_NUMPY=OFF \
-    -DUSE_OPENMP=ON \
+    -DUSE_OPENMP=OFF \
     -DUSE_QNNPACK=OFF \
     -DUSE_VALGRIND=OFF \
     -DUSE_XNNPACK=OFF \
