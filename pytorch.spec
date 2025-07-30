@@ -1,4 +1,4 @@
-### RPM external pytorch 2.6.0
+### RPM external pytorch 2.7.1
 ## INCLUDE cuda-flags
 ## INCLUDE microarch_flags
 
@@ -6,7 +6,6 @@
 
 Source: git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: FindEigen3.cmake
-Source2: FindFMT.cmake
 Source99: scram-tools.file/tools/eigen/env
 Patch1: pytorch-missing-braces
 Patch2: pytorch-system-fmt
@@ -22,7 +21,7 @@ Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 %patch2 -p1
 
 %build
-cp %{_sourcedir}/FindEigen3.cmake %{_sourcedir}/FindFMT.cmake cmake/Modules/
+cp %{_sourcedir}/FindEigen3.cmake cmake/Modules/
 rm -rf ../build && mkdir ../build && cd ../build
 source %{_sourcedir}/env
 
@@ -41,7 +40,7 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DBUILD_TEST=OFF \
     -DBUILD_BINARY=OFF \
-    -DBUILD_PYTHON=OFF \
+    -DBUILD_PYTHON=ON \
 %if 0%{!?without_cuda:1}
     -DUSE_CUDA=${USE_CUDA} \
     -DTORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
