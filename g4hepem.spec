@@ -11,6 +11,10 @@ Requires: geant4
 
 %prep
 %setup -n %{n}.%{realversion}
+grep 'BUILD_SHARED_LIBS ON' CMakeLists.txt && \
+  sed -i -e 's|BUILD_SHARED_LIBS ON|BUILD_SHARED_LIBS OFF|' CMakeLists.txt
+grep 'BUILD_STATIC_LIBS OFF' CMakeLists.txt && \
+  sed -i -e 's|BUILD_STATIC_LIBS OFF|BUILD_STATIC_LIBS ON|' CMakeLists.txt
 
 %build
 
@@ -28,6 +32,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_STATIC_LIBS=ON \
   -DBUILD_SHARED_LIBS=OFF \
   -DG4HepEm_EARLY_TRACKING_EXIT=ON \
 %if 0%{!?without_cuda:1}
@@ -44,14 +49,12 @@ make %makeprocesses VERBOSE=1
 
 cd ../build
 make install
-find %i/lib64 -name "lib*.so" -delete
 mkdir -p tmp_archive
 pushd tmp_archive
   find %i/lib64 -name "*.a" -exec gcc-ar x {} \;
   gcc-ar rcs %i/lib64/libg4hepem-static.a *.o
 popd
 rm -rf tmp_archive
-find %i/lib64 -name "lib*.so" -delete
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel} -name '*.cmake')
