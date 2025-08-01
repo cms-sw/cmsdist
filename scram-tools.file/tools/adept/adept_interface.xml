@@ -1,4 +1,4 @@
-<tool name="adept_interface" version="@TOOL_VERSION@" revision="1">
+<tool name="adept_interface" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/apt-sim/AdePT"/>
   <client>
     <environment name="ADEPT_INTERFACE_BASE" default="@TOOL_ROOT@"/>
@@ -7,5 +7,5 @@
   </client>
   <use name="geant4core"/>
   <use name="vecgeom"/>
-  <use name="g4hepmecore"/>
+  <use name="g4hepemcore"/>
 </tool>
