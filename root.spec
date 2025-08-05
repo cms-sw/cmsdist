@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag cde673346344ce5f48153a034abd2538902868e0
-%define branch cms/master/a9a81f1271
+%define tag 694f2e4c38cbfbae8f832030eece56da59227d71
+%define branch cms/master/6a7f6cbbc3
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -88,6 +88,7 @@ cmake ../%{n}-%{realversion} \
   -Dfftw3=ON \
   -Dtbb=ON \
   -Dimt=ON \
+  -Dtmva-pymva=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
   -Dmathmore=ON \
