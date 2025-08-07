@@ -1,10 +1,10 @@
-### RPM cms cms-git-tools 240926.0
+### RPM cms cms-git-tools 250807.0
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
 # ***Do not change minor number of the above version. ***
 
-%define commit 6c2564ab79f0efcddf06e322f5f93c4f13e7d203
+%define commit 62179e582d8d3dcb4f53027e8d8e1c360f307a08
 %define branch master
 # We do not use a revision explicitly, because revisioned packages do not get
 # updated automatically when they are dependencies.
