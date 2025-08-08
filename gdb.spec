@@ -30,18 +30,13 @@ cd ../build
 make install
 
 cd %i/bin/
-mv gdb gdb-%{realversion}
 cat << \EOF_GDBINIT > %{i}/share/gdbinit
-set substitute-path %{installroot} %{cmsroot}
+set substitute-path %{instroot} %{cmsroot}
+set python ignore-environment on
 EOF_GDBINIT
-
-echo "#!/bin/bash" > gdb
-echo "PYTHONHOME=${PYTHON3_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
-chmod +x gdb
 
 # To save space, clean up some things that we don't really need 
 %define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
-%{relocateConfig}/bin/gdb
