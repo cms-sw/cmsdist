@@ -18,6 +18,7 @@ rm -rf ../build; mkdir ../build; cd ../build
             --with-libexpat-prefix=${EXPAT_ROOT} \
             --with-zlib=yes \
             --with-python=$(which python3) \
+            --with-python-libdir="%{i}/../../python3/${PYTHON3_VERSION}/lib" \
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON3_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
@@ -30,18 +31,12 @@ cd ../build
 make install
 
 cd %i/bin/
-mv gdb gdb-%{realversion}
 cat << \EOF_GDBINIT > %{i}/share/gdbinit
 set substitute-path %{installroot} %{cmsroot}
 EOF_GDBINIT
-
-echo "#!/bin/bash" > gdb
-echo "PYTHONHOME=${PYTHON3_ROOT} gdb-%{realversion} \"\$@\"" >> gdb
-chmod +x gdb
 
 # To save space, clean up some things that we don't really need 
 %define drop_files %i/lib %i/bin/{gdbserver,gdbtui} %i/share/{man,info,locale}
 
 %post
 %{relocateConfig}/share/gdbinit
-%{relocateConfig}/bin/gdb
