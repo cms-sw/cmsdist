@@ -8,6 +8,8 @@
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+# Fix implementation of HS3 importers: https://github.com/root-project/root/pull/19608
+Source1: https://patch-diff.githubusercontent.com/raw/root-project/root/pull/19608.diff
 
 BuildRequires: cmake ninja
 
@@ -26,6 +28,7 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 < %{_sourcedir}/19608.diff
 %get_config_sub graf2d/asimage/src/libAfterImage/config.sub
 %get_config_guess graf2d/asimage/src/libAfterImage/config.guess
 chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
