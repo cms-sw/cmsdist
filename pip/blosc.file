@@ -1,0 +1,3 @@
+Requires: c-blosc
+BuildRequires: py3-scikit-build cmake ninja
+%define PipPreBuild export USE_SYSTEM_BLOSC=1; export Blosc_ROOT=${C_BLOSC_ROOT}; export CMAKE_ARGS="-DCMAKE_PREFIX_PATH=\"%{cmake_prefix_path}\""
