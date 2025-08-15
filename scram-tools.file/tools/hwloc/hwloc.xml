@@ -1,12 +1,12 @@
-<tool name="hwloc" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="hwloc"/>
   <client>
-    <environment name="HWLOC_BASE"  default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"     default="$HWLOC_BASE/include/hwloc"/>
-    <environment name="LIBDIR"      default="$HWLOC_BASE/lib"/>
+    <environment name="@TOOL_BASE@"  default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"     default="$@TOOL_BASE@/include/hwloc"/>
+    <environment name="LIBDIR"      default="$@TOOL_BASE@/lib"/>
   </client>
-  <runtime name="PATH" value="$HWLOC_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
 %if 0%{!?without_cuda:1}%{!?without_rocm:1}
-  <runtime name="HWLOC_PLUGINS_PATH" value="$HWLOC_BASE/lib/hwloc" type="path"/>
+  <runtime name="HWLOC_PLUGINS_PATH" value="$@TOOL_BASE@/lib/hwloc" type="path"/>
 %endif
 </tool>

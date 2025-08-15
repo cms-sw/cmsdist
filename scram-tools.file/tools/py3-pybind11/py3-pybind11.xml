@@ -1,7 +1,7 @@
-<tool name="py3-pybind11" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="PY3_PYBIND11_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$PY3_PYBIND11_BASE/@PYTHON3_LIB_SITE_PACKAGES@/pybind11/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/@PYTHON3_LIB_SITE_PACKAGES@/pybind11/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <flags ROOTCLING_ARGS="-moduleMapFile=$INCLUDE/module.modulemap"/>
