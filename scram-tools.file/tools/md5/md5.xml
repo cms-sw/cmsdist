@@ -1,9 +1,9 @@
-<tool name="md5" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://tls.mbed.org/md5-source-code"/>
    <lib name="cms-md5"/>
   <client>
-    <environment name="MD5_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$MD5_BASE/lib"/>
-    <environment name="INCLUDE" default="$MD5_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     </client>  
 </tool>
