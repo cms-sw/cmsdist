@@ -1,13 +1,13 @@
-<tool name="gsl" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="http://www.gnu.org/software/gsl/gsl.html"/>
   <lib name="gsl"/>
   <client>
-    <environment name="GSL_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$GSL_BASE/lib"/>
-    <environment name="INCLUDE" default="$GSL_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="PATH" value="$GSL_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <use name="OpenBLAS"/>
   <use name="root_cxxdefaults"/>
 </tool>

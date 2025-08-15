@@ -1,8 +1,8 @@
-<tool name="hydjet" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="hydjet"/>
   <client>
-    <environment name="HYDJET_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$HYDJET_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="pyquen"/>
   <use name="pythia6"/>

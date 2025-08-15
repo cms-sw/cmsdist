@@ -1,11 +1,11 @@
-<tool name="triton-inference-client" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/triton-inference-server/client"/>
   <lib name="grpcclient"/> 
   <lib name="tritoncommonmodelconfig"/> 
   <client>
-    <environment name="TRITON_INFERENCE_CLIENT_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$TRITON_INFERENCE_CLIENT_BASE/include"/>
-    <environment name="LIBDIR"  default="$TRITON_INFERENCE_CLIENT_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR"  default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="protobuf"/>
   <use name="grpc"/>

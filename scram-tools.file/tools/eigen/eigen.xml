@@ -1,8 +1,8 @@
-<tool name="eigen" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="EIGEN_BASE"   default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"      default="$EIGEN_BASE/include"/>
-    <environment name="INCLUDE"      default="$EIGEN_BASE/include/eigen3"/>
+    <environment name="@TOOL_BASE@"   default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"      default="$@TOOL_BASE@/include"/>
+    <environment name="INCLUDE"      default="$@TOOL_BASE@/include/eigen3"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
   <flags CXXFLAGS="@CMS_EIGEN_CXX_FLAGS@"/>

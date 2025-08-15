@@ -1,8 +1,8 @@
-<tool name="xpmem" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="xpmem"/>
   <client>
-    <environment name="XPMEM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"    default="$XPMEM_BASE/include"/>
-    <environment name="LIBDIR"     default="$XPMEM_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"    default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR"     default="$@TOOL_BASE@/lib"/>
   </client>
 </tool>
