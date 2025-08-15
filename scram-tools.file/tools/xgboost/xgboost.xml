@@ -1,10 +1,10 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="xgboost"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="BINDIR" default="$@UC_TOOL@_BASE/bin"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib64"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR" default="$@TOOL_BASE@/bin"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>

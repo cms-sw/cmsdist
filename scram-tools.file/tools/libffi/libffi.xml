@@ -1,8 +1,8 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="ffi"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib64"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
 </tool>

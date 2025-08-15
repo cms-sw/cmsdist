@@ -4,9 +4,9 @@
   <lib name="grpc++"/>
   <lib name="grpc++_reflection"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <flags SYSTEM_INCLUDE="1"/>
   <use name="protobuf"/>

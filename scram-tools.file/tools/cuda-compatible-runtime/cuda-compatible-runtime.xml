@@ -3,6 +3,6 @@
   <use name="cuda"/>
   <use name="cuda-stubs"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
 </tool>

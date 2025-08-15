@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="1.0" revision="2">
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"         default="$@UC_TOOL@_BASE/lib64"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$@TOOL_BASE@/lib64"/>
   </client>
   <flags INDEX_FLAGS="
     -Xclang -load

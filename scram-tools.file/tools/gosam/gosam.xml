@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="BINDIR" default="$@UC_TOOL@_BASE/bin"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR" default="$@TOOL_BASE@/bin"/>
   </client>
   <runtime name="PATH" default="$BINDIR" type="path"/>
 </tool>

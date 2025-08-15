@@ -1,14 +1,14 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="python@PYTHONV@"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include/python@PYTHONV@"/>
-    <environment name="PYTHON_COMPILE" default="$@UC_TOOL@_BASE/lib/python@PYTHONV@/compileall.py"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include/python@PYTHONV@"/>
+    <environment name="PYTHON_COMPILE" default="$@TOOL_BASE@/lib/python@PYTHONV@/compileall.py"/>
   </client>
-  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="PYTHON_VALGRIND_SUPP" value="$@UC_TOOL@_BASE/share/valgrind/valgrind-python.supp" type="path"/>
+  <runtime name="PYTHON_VALGRIND_SUPP" value="$@TOOL_BASE@/share/valgrind/valgrind-python.supp" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="sockets"/>
 </tool>

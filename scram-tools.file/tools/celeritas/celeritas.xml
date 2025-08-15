@@ -4,9 +4,9 @@
   <lib name="celeritas"/>
   <lib name="corecel"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib64"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
   </client>
   <flags CXXFLAGS="-Wno-error=missing-braces"/>
   <use name="geant4core"/>

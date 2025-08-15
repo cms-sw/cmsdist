@@ -1,8 +1,8 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://docs.astral.sh/ruff/"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
 </tool>
 

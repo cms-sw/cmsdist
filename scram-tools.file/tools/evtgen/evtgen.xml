@@ -2,11 +2,11 @@
   <lib name="EvtGen"/>
   <lib name="EvtGenExternal"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
-  <runtime name="EVTGENDATA" value="$@UC_TOOL@_BASE/share/EvtGen"/>
+  <runtime name="EVTGENDATA" value="$@TOOL_BASE@/share/EvtGen"/>
   <use name="hepmc"/>
   <use name="pythia8"/>
   <use name="tauolapp"/>

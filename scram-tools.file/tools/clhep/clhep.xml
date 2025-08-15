@@ -2,8 +2,8 @@
   <info url="http://wwwinfo.cern.ch/asd/lhc++/clhep"/>
   <lib name="CLHEP"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="clhepheader"/>
 </tool>

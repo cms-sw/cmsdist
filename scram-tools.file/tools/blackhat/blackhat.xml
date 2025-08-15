@@ -15,10 +15,10 @@
 <lib name="assembly"/>
 <lib name="ratext"/>
 <client>
-<environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-<environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib/blackhat"/>
-<environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+<environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+<environment name="LIBDIR" default="$@TOOL_BASE@/lib/blackhat"/>
+<environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
 </client>
 <use name="qd"/>
-<runtime name="WORKER_DATA_PATH" value="$@UC_TOOL@_BASE/share/blackhat/datafiles/" type="path"/>
+<runtime name="WORKER_DATA_PATH" value="$@TOOL_BASE@/share/blackhat/datafiles/" type="path"/>
 </tool>

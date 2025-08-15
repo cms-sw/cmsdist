@@ -16,7 +16,7 @@ export TOOL_ROOT=$1
 export TOOL_VERSION=$2
 export TOOLFILES_INSTALL_DIR=$3
 export TOOL=$4
-export UC_TOOL=$(echo $4 | tr 'a-z-' 'A-Z_')
+export TOOL_BASE=$(echo $4 | tr 'a-z-' 'A-Z_')_BASE
 export SCRAM_TOOLS_BIN_DIR=$(dirname $(realpath ${0}))
 export SCRAM_TOOL_SOURCE_DIR=$(realpath ${SCRAM_TOOLS_BIN_DIR}/../tools)/$4
 

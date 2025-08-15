@@ -5,11 +5,11 @@
   <lib name="tmgrammar"/>
   <lib name="tmutil"/>
   <client>
-    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
-    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="UTM_XSD_DIR" value="$@UC_TOOL@_BASE"/>
+  <runtime name="UTM_XSD_DIR" value="$@TOOL_BASE@"/>
   <use name="root_cxxdefaults"/>
 </tool>
