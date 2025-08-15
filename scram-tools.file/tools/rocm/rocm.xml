@@ -1,14 +1,14 @@
-<tool name="rocm" version="@TOOL_VERSION@" revision="5">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="6">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_VERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
   <lib name="rocm_smi64"/>
   <client>
-    <environment name="ROCM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="HIPCC"     default="$ROCM_BASE/bin/hipcc"/>
-    <environment name="BINDIR"    default="$ROCM_BASE/bin"/>
-    <environment name="LIBDIR"    default="$ROCM_BASE/lib"/>
-    <environment name="INCLUDE"   default="$ROCM_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="HIPCC"     default="$@UC_TOOL@_BASE/bin/hipcc"/>
+    <environment name="BINDIR"    default="$@UC_TOOL@_BASE/bin"/>
+    <environment name="LIBDIR"    default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="INCLUDE"   default="$@UC_TOOL@_BASE/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
@@ -22,7 +22,7 @@
   <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
-  <runtime name="PATH" value="$ROCM_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
   <runtime name="HSA_XNACK" value="1"/>
   <use name="fmt"/>
 </tool>

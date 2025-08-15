@@ -1,9 +1,9 @@
-<tool name="ittnotify" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
  <lib name="ittnotify"/>
  <client>
-    <environment name="ITTNOTIFY_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$ITTNOTIFY_BASE/include"/>
-    <environment name="LIBDIR" default="$ITTNOTIFY_BASE/lib"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
  </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   </tool>

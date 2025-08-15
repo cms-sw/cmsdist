@@ -1,12 +1,12 @@
-<tool name="cuda" version="@TOOL_VERSION@" revision="4">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="5">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <use name="cuda-interface"/>
   <use name="cuda-stubs"/>
   <lib name="cudart"/>
   <lib name="cudadevrt"/>
   <client>
-    <environment name="CUDA_BASE" default="@TOOL_ROOT@"/>
-    <environment name="NVCC"      default="$CUDA_BASE/bin/nvcc"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="NVCC"      default="$@UC_TOOL@_BASE/bin/nvcc"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>

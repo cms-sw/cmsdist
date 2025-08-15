@@ -1,10 +1,10 @@
-<tool name="isal" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/intel/isa-l/wiki"/>
   <lib name="isal"/>
   <client>
-    <environment name="ISAL_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$ISAL_BASE/lib"/>
-    <environment name="INCLUDE" default="$ISAL_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
   </client>
   <use name="eigen"/>
 </tool>

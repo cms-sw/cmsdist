@@ -1,7 +1,7 @@
-<tool name="conifer" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="CONIFER_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$CONIFER_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
   </client>
   <use name="json"/>
 </tool>

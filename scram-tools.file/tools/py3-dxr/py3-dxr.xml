@@ -1,7 +1,7 @@
-<tool name="py3-dxr" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="PY3_DXR_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY3_DXR_BASE/lib"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
   </client>
-  <runtime name="PATH" value="$PY3_DXR_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
 </tool>

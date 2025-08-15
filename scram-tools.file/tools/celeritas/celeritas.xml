@@ -1,12 +1,12 @@
-<tool name="celeritas" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
   <info url="https://github.com/celeritas-project/celeritas"/>
   <lib name="accel"/>
   <lib name="celeritas"/>
   <lib name="corecel"/>
   <client>
-    <environment name="CELERITAS_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$CELERITAS_BASE/include"/>
-    <environment name="LIBDIR" default="$CELERITAS_BASE/lib64"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib64"/>
   </client>
   <flags CXXFLAGS="-Wno-error=missing-braces"/>
   <use name="geant4core"/>

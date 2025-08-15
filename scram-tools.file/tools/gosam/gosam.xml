@@ -1,7 +1,7 @@
-<tool name="gosam" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="GOSAM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="BINDIR" default="$GOSAM_BASE/bin"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR" default="$@UC_TOOL@_BASE/bin"/>
   </client>
   <runtime name="PATH" default="$BINDIR" type="path"/>
 </tool>

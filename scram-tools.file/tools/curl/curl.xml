@@ -1,11 +1,11 @@
-<tool name="curl" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="curl"/>
   <client>
-    <environment name="CURL_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"      default="$CURL_BASE/include"/>
-    <environment name="LIBDIR"       default="$CURL_BASE/lib"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"      default="$@UC_TOOL@_BASE/include"/>
+    <environment name="LIBDIR"       default="$@UC_TOOL@_BASE/lib"/>
   </client>
-  <runtime name="PATH" value="$CURL_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>

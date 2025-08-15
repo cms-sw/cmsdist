@@ -1,9 +1,9 @@
-<tool name="onnxruntime" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="onnxruntime"/>
   <client>
-    <environment name="ONNXRUNTIME_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$ONNXRUNTIME_BASE/include"/>
-    <environment name="LIBDIR" default="$ONNXRUNTIME_BASE/lib"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
   </client>
   <use name="protobuf"/>
   <ifarchitecture name="!slc7_aarch64">

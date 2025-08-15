@@ -1,7 +1,7 @@
-<tool name="tensorflow-xla-runtime" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="TENSORFLOW_XLA_RUNTIME_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$TENSORFLOW_XLA_RUNTIME_BASE/lib"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
   </client>
   <lib name="tf_xla_runtime"/>
 

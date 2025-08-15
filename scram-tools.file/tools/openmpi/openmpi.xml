@@ -1,11 +1,11 @@
-<tool name="openmpi" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="mpi"/>
   <lib name="mpi_cxx"/>
   <client>
-    <environment name="OPENMPI_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"       default="$OPENMPI_BASE/lib"/>
-    <environment name="INCLUDE"      default="$OPENMPI_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"       default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="INCLUDE"      default="$@UC_TOOL@_BASE/include"/>
   </client>
-  <runtime name="PATH" value="$OPENMPI_BASE/bin" type="path"/>
-  <runtime name="OPAL_PREFIX" value="$OPENMPI_BASE"/>
+  <runtime name="PATH" value="$@UC_TOOL@_BASE/bin" type="path"/>
+  <runtime name="OPAL_PREFIX" value="$@UC_TOOL@_BASE"/>
 </tool>

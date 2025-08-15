@@ -1,10 +1,10 @@
-<tool name="sqlite" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="sqlite3"/>
   <client>
-    <environment name="SQLITE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$SQLITE_BASE/lib"/>
-    <environment name="BINDIR" default="$SQLITE_BASE/bin"/>
-    <environment name="INCLUDE" default="$SQLITE_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="BINDIR" default="$@UC_TOOL@_BASE/bin"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
   </client>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>

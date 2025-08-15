@@ -1,15 +1,15 @@
-<tool name="utm" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="tmeventsetup"/>
   <lib name="tmtable"/>
   <lib name="tmxsd"/>
   <lib name="tmgrammar"/>
   <lib name="tmutil"/>
   <client>
-    <environment name="UTM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$UTM_BASE/lib"/>
-    <environment name="INCLUDE" default="$UTM_BASE/include"/>
+    <environment name="@UC_TOOL@_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@UC_TOOL@_BASE/lib"/>
+    <environment name="INCLUDE" default="$@UC_TOOL@_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="UTM_XSD_DIR" value="$UTM_BASE"/>
+  <runtime name="UTM_XSD_DIR" value="$@UC_TOOL@_BASE"/>
   <use name="root_cxxdefaults"/>
 </tool>
