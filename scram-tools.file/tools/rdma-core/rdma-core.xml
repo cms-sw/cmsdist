@@ -1,11 +1,11 @@
-<tool name="rdma-core" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/linux-rdma/rdma-core/blob/master/README.md"/>
   <client>
-    <environment name="RDMA_CORE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"         default="$RDMA_CORE_BASE/lib64"/>
-    <environment name="INCLUDE"        default="$RDMA_CORE_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
   </client>
-  <runtime name="PATH" value="$RDMA_CORE_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="VERBS_CONFIG_DIR" value="$RDMA_CORE_BASE/etc/libibverbs.d" type="path"/>
+  <runtime name="VERBS_CONFIG_DIR" value="$@TOOL_BASE@/etc/libibverbs.d" type="path"/>
 </tool>

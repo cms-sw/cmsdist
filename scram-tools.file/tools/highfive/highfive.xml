@@ -1,8 +1,8 @@
-<tool name="highfive" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/BlueBrain/HighFive"/>
   <client>
-    <environment name="HIGHFIVE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$HIGHFIVE_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="boost"/>

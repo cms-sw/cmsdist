@@ -1,12 +1,12 @@
-  <tool name="davix" version="@TOOL_VERSION@" revision="1">
+  <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
     <info url="https://dmc.web.cern.ch/projects/davix/home"/>
     <lib name="davix"/>
     <client>
-      <environment name="DAVIX_BASE" default="@TOOL_ROOT@"/>
-      <environment name="LIBDIR" default="$DAVIX_BASE/lib64"/>
-      <environment name="INCLUDE" default="$DAVIX_BASE/include/davix"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+      <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+      <environment name="INCLUDE" default="$@TOOL_BASE@/include/davix"/>
     </client>
-    <runtime name="PATH" value="$DAVIX_BASE/bin" type="path"/>
+    <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
     <use name="boost_system"/>
     <use name="libxml2"/>
   </tool>
