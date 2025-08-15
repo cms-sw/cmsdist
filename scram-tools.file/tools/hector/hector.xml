@@ -1,10 +1,10 @@
-<tool name="Hector" version="@TOOL_VERSION@" revision="1">
+<tool name="Hector" version="@TOOL_VERSION@" revision="2">
   <info url="http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/"/>
   <lib name="Hector"/>
   <client>
-    <environment name="HECTOR_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$HECTOR_BASE/lib"/>
-    <environment name="INCLUDE" default="$HECTOR_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
