@@ -1,4 +1,4 @@
-<tool name="cepgen" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://cepgen.hepforge.org/"/>
   <lib name="CepGen"/>
   <lib name="CepGenHepMC2"/>
@@ -7,12 +7,12 @@
   <lib name="CepGenProcesses"/>
   <lib name="CepGenPythia6"/>
   <client>
-    <environment name="CEPGEN_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$CEPGEN_BASE/lib64"/>
-    <environment name="INCLUDE" default="$CEPGEN_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
-  <runtime name="PATH" value="$CEPGEN_BASE/bin" type="path"/>
-  <runtime name="CEPGEN_PATH" value="$CEPGEN_BASE/share/CepGen"/>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+  <runtime name="CEPGEN_PATH" value="$@TOOL_BASE@/share/CepGen"/>
   <use name="gsl"/>
   <use name="OpenBLAS"/>
   <use name="hepmc"/>

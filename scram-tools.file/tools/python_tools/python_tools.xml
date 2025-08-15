@@ -1,2 +1,2 @@
-<tool name="python_tools" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
 </tool>
