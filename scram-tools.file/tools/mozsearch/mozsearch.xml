@@ -1,7 +1,7 @@
-<tool name="mozsearch" version="1.0" revision="1">
+<tool name="@TOOL@" version="1.0" revision="2">
   <client>
-    <environment name="MOZSEARCH_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"         default="$MOZSEARCH_BASE/lib64"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"         default="$@TOOL_BASE@/lib64"/>
   </client>
   <flags INDEX_FLAGS="
     -Xclang -load

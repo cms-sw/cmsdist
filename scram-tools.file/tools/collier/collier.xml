@@ -1,5 +1,5 @@
-<tool name="collier" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <client>
-    <environment name="COLLIER_BASE" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
 </tool>
