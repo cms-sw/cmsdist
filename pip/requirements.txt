@@ -45,6 +45,7 @@ backports-tarfile==1.2.0
 beautifulsoup4==4.13.4
 beniget==0.4.2.post1
 bleach==6.2.0
+blosc==1.11.3
 # NO_AUTO_UPDATE: version >= 2.6.0 needs Python 3.10
 blosc2==2.5.1
 bokeh==3.7.3
