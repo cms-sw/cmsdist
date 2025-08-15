@@ -1,9 +1,9 @@
-  <tool name="llvm" version="@TOOL_VERSION@" revision="1">
+  <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
     <lib name="clang"/>
     <client>
-      <environment name="LLVM_BASE" default="@TOOL_ROOT@"/>
-      <environment name="LIBDIR" default="$LLVM_BASE/lib64"/>
-      <environment name="INCLUDE" default="$LLVM_BASE/include"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+      <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+      <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     </client>
     <flags LDFLAGS="-Wl,-undefined -Wl,suppress"/>
     <flags CXXFLAGS="-D_DEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS"/>

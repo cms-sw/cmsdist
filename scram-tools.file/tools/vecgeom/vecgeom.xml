@@ -1,9 +1,9 @@
-<tool name="vecgeom" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
   <lib name="vecgeom"/>
   <client>
-    <environment name="VECGEOM_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$VECGEOM_BASE/lib64"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
   </client>
   <use name="vecgeom_interface"/>
 </tool>
