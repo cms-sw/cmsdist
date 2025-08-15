@@ -1,9 +1,9 @@
-<tool name="jemalloc-prof" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="jemalloc-prof"/>
   <client>
-    <environment name="JEMALLOC_PROF_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"        default="$JEMALLOC_PROF_BASE/lib"/>
-    <environment name="INCLUDE"        default="$JEMALLOC_PROF_BASE/include"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"        default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <runtime name="PATH" value="$BINDIR" type="path" />
