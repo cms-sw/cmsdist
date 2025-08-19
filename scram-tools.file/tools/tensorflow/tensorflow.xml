@@ -5,7 +5,6 @@
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="KERAS_BACKEND" value="tensorflow"/>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <runtime name="TF_CPP_MIN_LOG_LEVEL" value="3"/>
   <flags SYSTEM_INCLUDE="1"/>
 </tool>
