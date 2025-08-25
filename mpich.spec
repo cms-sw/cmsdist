@@ -1,4 +1,4 @@
-### RPM external mpich v4.3.0
+### RPM external mpich v4.3.1
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
 %define branch 4.3.x
