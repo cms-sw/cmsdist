@@ -1,0 +1,47 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 25a8dfa..f443b2b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,7 +47,7 @@ endif()
+ 
+ find_package(Python3 ${AOTRITON_MIN_PYTHON} COMPONENTS Interpreter REQUIRED)
+ # Must set this otherwise hip-config-amd.cmake cannot find AMDDeviceLibs
+-list(APPEND CMAKE_PREFIX_PATH "/opt/rocm")
++list(APPEND CMAKE_PREFIX_PATH "$ENV{ROCM_ROOT}")
+ find_package(hip REQUIRED)
+ 
+ set(VENV_DIR "${CMAKE_CURRENT_BINARY_DIR}/venv" CACHE STRING "Virtual Environment Directory")
+@@ -89,8 +89,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/aotriton/config.h
+   DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/aotriton)
+ 
+ # Kernel Storage V2 uses xz/LZMA for compression
+-include(FindPkgConfig)
+-pkg_search_module(LZMA REQUIRED liblzma)
++#include(FindPkgConfig)
++#pkg_search_module(LZMA REQUIRED liblzma)
++find_package(LibLZMA REQUIRED)
+ add_library(lzma_interface INTERFACE)
+ target_link_libraries(lzma_interface INTERFACE ${LZMA_LIBRARIES})
+ target_link_directories(lzma_interface INTERFACE ${LZMA_LIBRARY_DIRS})
+@@ -103,7 +104,7 @@ endif()
+ set(Python_ARTIFACTS_INTERACTIVE TRUE)
+ 
+ # Not a target, we need to override Python3_EXECUTABLE later
+-execute_process(COMMAND "${Python3_EXECUTABLE}" -m venv "${VENV_DIR}")
++execute_process(COMMAND "${Python3_EXECUTABLE}" -m venv --system-site-packages "${VENV_DIR}")
+ 
+ set(ENV{VIRTUAL_ENV} "${VENV_DIR}")
+ message("VENV_DIR ${VENV_DIR}")
+diff --git a/v3python/base/typed_choice.py b/v3python/base/typed_choice.py
+index cca9dfb..2781203 100644
+--- a/v3python/base/typed_choice.py
++++ b/v3python/base/typed_choice.py
+@@ -295,7 +295,7 @@ class Guess(object):
+ 
+ class GuessNumpy(Guess):
+     FACTORY = {
+-        np.bool   : constexpr.bool_t,
++        np.bool_  : constexpr.bool_t,
+         np.int8   : constexpr.int8_t,
+         np.int16  : constexpr.int16_t,
+         np.int32  : constexpr.int32_t,
