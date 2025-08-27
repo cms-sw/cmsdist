@@ -5,7 +5,7 @@
     <environment name="INCLUDE" default="$@TOOL_BASE@/include/torchscatter/"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
-  <use name="pytorch"/>
+  <use name="py3-torch"/>
   <lib name="torchscatter"/>
   <flags FORCE_LINK="1"/>
 </tool>
