@@ -1,0 +1,12 @@
+diff --git a/torch/CMakeLists.txt b/torch/CMakeLists.txt
+index b123023d2fd..5ddcae95af0 100644
+--- a/torch/CMakeLists.txt
++++ b/torch/CMakeLists.txt
+@@ -49,6 +49,7 @@ if(BUILD_TEST)
+       )
+ endif()
+ 
++find_package(fmt REQUIRED)
+ set(TORCH_PYTHON_INCLUDE_DIRECTORIES
+     ${PYTHON_INCLUDE_DIR}
+ 

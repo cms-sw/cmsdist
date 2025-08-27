@@ -1,0 +1,7 @@
+BuildRequires: pytorch-sources
+%define PipPreBuildPy PIPFILE=${PYTORCH_SOURCES_ROOT}/torch-%{realversion}-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
+Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
+Requires: py3-filelock py3-iniconfig py3-packaging py3-packaging py3-pluggy py3-numpy py3-setuptools
+%{!?without_rocm:Requires: rocm}
+%define source0 none
+%define source_file none

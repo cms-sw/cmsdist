@@ -400,6 +400,7 @@ tomli==2.2.1
 tomli-w==1.2.0
 tomlkit==0.13.3
 toolz==1.0.0
+torch==2.8.0
 tornado==6.5.1
 tqdm==4.67.1
 traitlets==5.14.3
