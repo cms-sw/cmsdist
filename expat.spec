@@ -1,4 +1,4 @@
-### RPM external expat 2.6.3
+### RPM external expat 2.7.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 Source: http://downloads.sourceforge.net/project/%{n}/%{n}/%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: gmake
