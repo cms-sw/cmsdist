@@ -55,6 +55,37 @@ Source28: https://%{repository}/%{repoversion}/main/rocrand-devel-3.2.0.60302-66
 Source29: https://%{repository}/%{repoversion}/main/rccl-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
 Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
 
+# extra sources for pytorch
+Source34: https://%{repository}/%{repoversion}/main/hipblas-common-devel-1.0.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source35: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source36: https://%{repository}/%{repoversion}/main/hsa-rocr-devel-1.14.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source37: https://%{repository}/%{repoversion}/main/rocblas-devel-4.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source38: https://%{repository}/%{repoversion}/main/rocblas-4.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source39: https://%{repository}/%{repoversion}/main/hipblas-2.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source40: https://%{repository}/%{repoversion}/main/hipblas-devel-2.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source41: https://%{repository}/%{repoversion}/main/hipblaslt-0.10.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source42: https://%{repository}/%{repoversion}/main/hipblaslt-devel-0.10.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source43: https://%{repository}/%{repoversion}/main/miopen-hip-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source44: https://%{repository}/%{repoversion}/main/miopen-hip-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source45: https://%{repository}/%{repoversion}/main/rocfft-1.0.31.60302-66.el%{rhel}.%{_arch}.rpm
+Source46: https://%{repository}/%{repoversion}/main/rocfft-devel-1.0.31.60302-66.el%{rhel}.%{_arch}.rpm
+Source47: https://%{repository}/%{repoversion}/main/hipfft-1.0.17.60302-66.el%{rhel}.%{_arch}.rpm
+Source48: https://%{repository}/%{repoversion}/main/hipfft-devel-1.0.17.60302-66.el%{rhel}.%{_arch}.rpm
+Source49: https://%{repository}/%{repoversion}/main/hipsparse-3.1.2.60302-66.el%{rhel}.%{_arch}.rpm
+Source50: https://%{repository}/%{repoversion}/main/hipsparse-devel-3.1.2.60302-66.el%{rhel}.%{_arch}.rpm
+Source51: https://%{repository}/%{repoversion}/main/rccl-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
+Source52: https://%{repository}/%{repoversion}/main/rccl-devel-2.21.5.60302-66.el%{rhel}.%{_arch}.rpm
+Source53: https://%{repository}/%{repoversion}/main/rocprim-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source54: https://%{repository}/%{repoversion}/main/hipcub-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source55: https://%{repository}/%{repoversion}/main/rocthrust-devel-3.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source56: https://%{repository}/%{repoversion}/main/hipsolver-2.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source57: https://%{repository}/%{repoversion}/main/hipsolver-devel-2.3.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source58: https://%{repository}/%{repoversion}/main/roctracer-4.1.60302.60302-66.el%{rhel}.%{_arch}.rpm
+Source59: https://%{repository}/%{repoversion}/main/roctracer-devel-4.1.60302.60302-66.el%{rhel}.%{_arch}.rpm
+Source60: https://%{repository}/%{repoversion}/main/composablekernel-devel6.3.2-1.1.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source61: https://%{repository}/%{repoversion}/main/rocsolver-3.27.0.60302-66.el%{rhel}.%{_arch}.rpm
+Source62: https://%{repository}/%{repoversion}/main/rocsolver-devel-3.27.0.60302-66.el%{rhel}.%{_arch}.rpm
+
 # sources for rocprofiler-register
 Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
 
@@ -101,6 +132,36 @@ rpm2cpio %{SOURCE27} | cpio -idmv
 rpm2cpio %{SOURCE28} | cpio -idmv
 rpm2cpio %{SOURCE29} | cpio -idmv
 rpm2cpio %{SOURCE30} | cpio -idmv
+# pytorch
+rpm2cpio %{SOURCE34} | cpio -idmv
+rpm2cpio %{SOURCE35} | cpio -idmv
+rpm2cpio %{SOURCE36} | cpio -idmv
+rpm2cpio %{SOURCE37} | cpio -idmv
+rpm2cpio %{SOURCE38} | cpio -idmv
+rpm2cpio %{SOURCE39} | cpio -idmv
+rpm2cpio %{SOURCE40} | cpio -idmv
+rpm2cpio %{SOURCE41} | cpio -idmv
+rpm2cpio %{SOURCE42} | cpio -idmv
+rpm2cpio %{SOURCE43} | cpio -idmv
+rpm2cpio %{SOURCE44} | cpio -idmv
+rpm2cpio %{SOURCE45} | cpio -idmv
+rpm2cpio %{SOURCE46} | cpio -idmv
+rpm2cpio %{SOURCE47} | cpio -idmv
+rpm2cpio %{SOURCE48} | cpio -idmv
+rpm2cpio %{SOURCE49} | cpio -idmv
+rpm2cpio %{SOURCE50} | cpio -idmv
+rpm2cpio %{SOURCE51} | cpio -idmv
+rpm2cpio %{SOURCE52} | cpio -idmv
+rpm2cpio %{SOURCE53} | cpio -idmv
+rpm2cpio %{SOURCE54} | cpio -idmv
+rpm2cpio %{SOURCE55} | cpio -idmv
+rpm2cpio %{SOURCE56} | cpio -idmv
+rpm2cpio %{SOURCE57} | cpio -idmv
+rpm2cpio %{SOURCE58} | cpio -idmv
+rpm2cpio %{SOURCE59} | cpio -idmv
+rpm2cpio %{SOURCE60} | cpio -idmv
+rpm2cpio %{SOURCE61} | cpio -idmv
+rpm2cpio %{SOURCE62} | cpio -idmv
 
 # build rocprofiler-register
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt

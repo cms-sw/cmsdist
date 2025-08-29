@@ -1,0 +1,145 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 25a8dfa..896c38e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,10 +47,9 @@ endif()
+ 
+ find_package(Python3 ${AOTRITON_MIN_PYTHON} COMPONENTS Interpreter REQUIRED)
+ # Must set this otherwise hip-config-amd.cmake cannot find AMDDeviceLibs
+-list(APPEND CMAKE_PREFIX_PATH "/opt/rocm")
++list(APPEND CMAKE_PREFIX_PATH "$ENV{ROCM_ROOT}")
+ find_package(hip REQUIRED)
+ 
+-set(VENV_DIR "${CMAKE_CURRENT_BINARY_DIR}/venv" CACHE STRING "Virtual Environment Directory")
+ option(AOTRITON_NO_PYTHON "Disable python binding build" OFF)
+ option(AOTRITON_ENABLE_ASAN "Enable Address Sanitizer. Implies -g" OFF)
+ option(AOTRITON_BUILD_FOR_TUNING "Build all GPU kernels and set -DAOTRITON_BUILD_FOR_TUNING=1 (=0 otherwise)" OFF)
+@@ -89,8 +88,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/aotriton/config.h
+   DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/aotriton)
+ 
+ # Kernel Storage V2 uses xz/LZMA for compression
+-include(FindPkgConfig)
+-pkg_search_module(LZMA REQUIRED liblzma)
++#include(FindPkgConfig)
++#pkg_search_module(LZMA REQUIRED liblzma)
++find_package(LibLZMA REQUIRED)
+ add_library(lzma_interface INTERFACE)
+ target_link_libraries(lzma_interface INTERFACE ${LZMA_LIBRARIES})
+ target_link_directories(lzma_interface INTERFACE ${LZMA_LIBRARY_DIRS})
+@@ -102,20 +102,12 @@ endif()
+ 
+ set(Python_ARTIFACTS_INTERACTIVE TRUE)
+ 
+-# Not a target, we need to override Python3_EXECUTABLE later
+-execute_process(COMMAND "${Python3_EXECUTABLE}" -m venv "${VENV_DIR}")
+-
+-set(ENV{VIRTUAL_ENV} "${VENV_DIR}")
+-message("VENV_DIR ${VENV_DIR}")
+ # set(Python3_FIND_VIRTUALENV FIRST)
+ # unset(Python3_EXECUTABLE)
+ # find_package(Python3 COMPONENTS Interpreter REQUIRED)
+ 
+-execute_process(COMMAND ${CMAKE_COMMAND} -E env VIRTUAL_ENV=${VENV_DIR} "${VENV_DIR}/bin/python" -c "import site; print(site.getsitepackages()[0], end='')" OUTPUT_VARIABLE VENV_SITE)
++execute_process(COMMAND ${CMAKE_COMMAND} -E env "${Python3_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0], end='')" OUTPUT_VARIABLE VENV_SITE)
+ # string(STRIP "${VENV_SITE}" VENV_SITE)
+-message("VENV_SITE ${VENV_SITE}")
+-
+-execute_process(COMMAND ${CMAKE_COMMAND} -E env VIRTUAL_ENV=${VENV_DIR} "${VENV_DIR}/bin/python" -m pip install -r "${CMAKE_CURRENT_LIST_DIR}/requirements.txt")
+ 
+ # AOTRITON_NOIMAGE_MODE does not need Triton
+ if(NOT AOTRITON_NOIMAGE_MODE)
+@@ -126,7 +118,7 @@ if(NOT AOTRITON_NOIMAGE_MODE)
+   set(AOTRITON_TRITON_SO "${VENV_SITE}/triton/_C/libtriton.so")
+ 
+   add_custom_command(OUTPUT "${AOTRITON_TRITON_SO}"
+-    COMMAND ${CMAKE_COMMAND} -E env TRITON_BUILD_PROTON=OFF VIRTUAL_ENV=${VENV_DIR} TRITON_BUILD_DIR=${TRITON_BUILD_DIR} "${VENV_DIR}/bin/python" -m pip install .
++    COMMAND ${CMAKE_COMMAND} -E env TRITON_BUILD_PROTON=OFF TRITON_BUILD_DIR=${TRITON_BUILD_DIR} "${Python3_EXECUTABLE}" -m pip install .
+     # COMMAND ${CMAKE_COMMAND} -E env VIRTUAL_ENV=${VENV_DIR} python -m pip show triton
+     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/third_party/triton/"
+   )
+diff --git a/v3python/base/typed_choice.py b/v3python/base/typed_choice.py
+index cca9dfb..2781203 100644
+--- a/v3python/base/typed_choice.py
++++ b/v3python/base/typed_choice.py
+@@ -295,7 +295,7 @@ class Guess(object):
+ 
+ class GuessNumpy(Guess):
+     FACTORY = {
+-        np.bool   : constexpr.bool_t,
++        np.bool_  : constexpr.bool_t,
+         np.int8   : constexpr.int8_t,
+         np.int16  : constexpr.int16_t,
+         np.int32  : constexpr.int32_t,
+diff --git a/v3src/CMakeLists.txt b/v3src/CMakeLists.txt
+index 1ccb7ca..ef8ede7 100644
+--- a/v3src/CMakeLists.txt
++++ b/v3src/CMakeLists.txt
+@@ -13,9 +13,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory "${AOTRITON_V2_BUILD_
+ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory "${AOTRITON_KERNEL_STORAGE_V2_DIR}")
+ 
+ execute_process(COMMAND ${CMAKE_COMMAND}
+-  -E env VIRTUAL_ENV=${VENV_DIR}
+-  "${VENV_DIR}/bin/python" -m v3python.gpu_targets
+-  --target_arch ${AOTRITON_TARGET_ARCH}
++  -E env "${Python3_EXECUTABLE}" -m v3python.gpu_targets --target_arch ${AOTRITON_TARGET_ARCH}
+   --target_gpus ${AOTRITON_OVERRIDE_TARGET_GPUS}
+   WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/.."
+   OUTPUT_VARIABLE EFFECTIVE_TARGET_GPUS
+@@ -58,10 +56,8 @@ endif()
+ 
+ ## Generate Bare.* files and shim files
+ execute_process(
+-COMMAND ${CMAKE_COMMAND}
+--E env VIRTUAL_ENV=${VENV_DIR}
+-AOTRITON_ENABLE_FP32=${AOTRITON_ENABLE_FP32}
+-"${VENV_DIR}/bin/python" -m v3python.generate
++COMMAND ${CMAKE_COMMAND} -E env AOTRITON_ENABLE_FP32=${AOTRITON_ENABLE_FP32}
++"${Python3_EXECUTABLE}" -m v3python.generate
+ --target_gpus ${EFFECTIVE_TARGET_GPUS}
+ --build_dir "${AOTRITON_V2_BUILD_DIR}"
+ ${GENERATE_OPTION}
+@@ -93,10 +89,9 @@ if(NOT AOTRITON_NOIMAGE_MODE)
+     list(POP_FRONT RULE TGTGPU)
+     list(POP_FRONT RULE SIG)
+     add_custom_command(OUTPUT "${HSACO}"
+-      COMMAND ${CMAKE_COMMAND} -E env VIRTUAL_ENV=${VENV_DIR}
+-      TRITON_CACHE_DIR=${CMAKE_BINARY_DIR}/triton-cache
++      COMMAND ${CMAKE_COMMAND} -E env TRITON_CACHE_DIR=${CMAKE_BINARY_DIR}/triton-cache
+       TRITON_F32_DEFAULT="ieee"
+-      "${VENV_DIR}/bin/python"
++      "${Python3_EXECUTABLE}"
+       "${AOTRITON_COMPILER}"
+       "${SRC}"
+       "--kernel_name" "${KNAME}"
+@@ -135,8 +130,7 @@ if(NOT AOTRITON_NOIMAGE_MODE)
+       "${FONLY}.aks2")
+     # message(STATUS "Add AKS2 ${AKS2}")
+     add_custom_command(OUTPUT "${AKS2}"
+-      COMMAND ${CMAKE_COMMAND} -E env VIRTUAL_ENV=${VENV_DIR}
+-      "${VENV_DIR}/bin/python"
++      COMMAND ${CMAKE_COMMAND} -E env "${Python3_EXECUTABLE}"
+       -m v3python.aks2
+       -o "${AKS2}"
+       --
+@@ -155,9 +149,8 @@ if(AOTRITON_BUILD_FOR_TUNING)
+   # Regenerate with --ignore_missing_kernels
+   add_custom_target(aotriton_v2_regen_shim
+     COMMAND ${CMAKE_COMMAND}
+-    -E env VIRTUAL_ENV=${VENV_DIR}
+-    AOTRITON_ENABLE_FP32=${AOTRITON_ENABLE_FP32}
+-    "${VENV_DIR}/bin/python" -m v3python.generate
++    -E env AOTRITON_ENABLE_FP32=${AOTRITON_ENABLE_FP32}
++    "${Python3_EXECUTABLE}" -m v3python.generate
+     --target_gpus ${EFFECTIVE_TARGET_GPUS}
+     --build_dir "${AOTRITON_V2_BUILD_DIR}"
+     ${GENERATE_OPTION}
+@@ -203,8 +196,7 @@ set_target_properties(aotriton_v2 PROPERTIES VERSION
+ 
+ execute_process(
+   COMMAND ${CMAKE_COMMAND}
+-  -E env VIRTUAL_ENV=${VENV_DIR}
+-  "${VENV_DIR}/bin/python" -m v3python.ld_script
++  -E env "${Python3_EXECUTABLE}" -m v3python.ld_script
+   -o "${AOTRITON_V2_BUILD_DIR}/set_aotriton_version.ld"
+   ${AOTRITON_VERSION_MAJOR_INT}
+   ${AOTRITON_VERSION_MINOR_INT}

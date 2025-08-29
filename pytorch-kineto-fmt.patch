@@ -1,0 +1,10 @@
+--- third_party/kineto/libkineto/CMakeLists.txt.orig	2025-08-11 15:54:06.158448602 +0200
++++ third_party/kineto/libkineto/CMakeLists.txt	2025-08-11 15:55:00.380523906 +0200
+@@ -193,6 +193,7 @@
+ target_compile_options(kineto_base PRIVATE "${KINETO_COMPILE_OPTIONS}")
+ target_compile_options(kineto_api PRIVATE "${KINETO_COMPILE_OPTIONS}")
+ 
++find_package(fmt)
+ if(NOT TARGET fmt)
+   if(NOT FMT_SOURCE_DIR)
+     set(FMT_SOURCE_DIR "${LIBKINETO_THIRDPARTY_DIR}/fmt"

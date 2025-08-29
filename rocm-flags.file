@@ -3,6 +3,7 @@
 
 # build support for Instinct MI100 (gfx908), Instinct MI210/MI250X (gfx90a), Instinct MI300X (gfx942), Radeon Pro W6800 (gfx1030), Radeon Pro W7800/W7900 (gfx1100), and Radeon Pro W7600 (gfx1102)
 %define rocm_archs gfx908:sramecc+ gfx90a:sramecc+ gfx942:sramecc+ gfx1030 gfx1100 gfx1102
+%define rocm_gpus_cmake %(for ARCH in %{rocm_archs}; do printf "%s;" "${ARCH%%:*}"; done | sed 's/;$//')
 
 # LLVM/hipcc style for listing the supported ROCm compute architectures
 %define hipcc_flags_rocm_archs %(echo $(for ARCH in %rocm_archs; do echo "--offload-arch=$ARCH"; done))
