@@ -1,4 +1,4 @@
-### RPM external mpich v4.3.0
+### RPM external mpich v4.3.1
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
 %define branch 4.3.x
@@ -51,6 +51,16 @@ sed -e's/do_ucx=.*/do_ucx=no/' -i autogen.sh
 
 # Note: using --enable-fast=O2,ndebug,alwaysinline,sse2 the compilation hangs (or takes a very long time to complete).
 
+# For now we use build without ADM support due to an issue in the library (https://github.com/pmodels/yaksa/issues/262)
+# After it's resolved, replace --without-hip with the following:
+
+# %if 0%{!?without_rocm:1}
+#   --with-hip=$ROCM_ROOT \
+#   --with-hip-sm=%(echo %{rocm_archs} | sed -e's/ \+/,/g') \
+# %else
+#   --without-hip \
+# %endif
+
 ./configure \
   --prefix=%i \
   --enable-error-checking=all \
@@ -74,12 +84,7 @@ sed -e's/do_ucx=.*/do_ucx=no/' -i autogen.sh
 %else
   --without-cuda \
 %endif
-%if 0%{!?without_rocm:1}
-  --with-hip=$ROCM_ROOT \
-  --with-hip-sm=%(echo %{rocm_archs} | sed -e's/ \+/,/g') \
-%else
   --without-hip \
-%endif
   --without-ze \
   --with-pic \
   --with-gnu-ld \
@@ -89,7 +94,7 @@ sed -e's/do_ucx=.*/do_ucx=no/' -i autogen.sh
   --without-netloc \
   --with-xpmem=$XPMEM_ROOT \
   --with-yaksa=embedded \
-  --with-device=ch4:ofi
+  --with-device=ch4:ucx
 
 %build
 make %{makeprocesses} V=1
