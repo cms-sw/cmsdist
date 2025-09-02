@@ -8,7 +8,7 @@ Source1: https://gitlab.com/hepcedar/rivet/-/commit/8869db87de9d6c8cfe57e16b2c14
 Source99: scram-tools.file/tools/eigen/env
 Patch0: rivet-duplicate-libs
 
-Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive onnxruntime
+Requires: hepmc3 fastjet fastjet-contrib yoda hdf5 highfive
 BuildRequires: python3 py3-cython autotools
 
 %prep
@@ -48,8 +48,8 @@ sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/Particle
 PYTHON=$(which python3) \
 ./configure --disable-silent-rules --prefix=%{i} --with-hepmc=${HEPMC3_ROOT} \
             --with-fastjet=${FASTJET_ROOT} --with-fjcontrib=${FASTJET_CONTRIB_ROOT} --with-yoda=${YODA_ROOT} \
-            --disable-doxygen --disable-pdfmanual --with-pic \
-            --with-hdf5=${HDF5_ROOT}/bin/h5pcc --with-highfive=${HIGHFIVE_ROOT} --enable-onnxrt=${ONNXRUNTIME_ROOT} \
+            --disable-doxygen --with-pic \
+            --with-hdf5=${HDF5_ROOT}/bin/h5pcc --with-highfive=${HIGHFIVE_ROOT} \
             CXX="mpicxx" CPPFLAGS="-I${BOOST_ROOT}/include" CXXFLAGS="${CXXFLAGS}"
 # The following hack insures that the bins with the library linked explicitly
 # rather than indirectly, as required by the gold linker
@@ -57,7 +57,7 @@ perl -p -i -e "s|LIBS = $|LIBS = -lHepMC3|g" bin/Makefile
 make %{makeprocesses} all
 
 %install
-make install 
+make install
 sed -i -e 's|^#!.*python.*|#!/usr/bin/env python3|' %{i}/bin/*
 
 %post
