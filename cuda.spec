@@ -1,8 +1,8 @@
-### RPM external cuda 12.9.0
+### RPM external cuda 12.9.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 575.51.03
+%define driversversion 575.57.08
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
