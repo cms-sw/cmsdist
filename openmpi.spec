@@ -1,8 +1,8 @@
-### RPM external openmpi 4.1.9a1-20250505
+### RPM external openmpi 5.0.8
 ## INITENV SET OPAL_PREFIX %{i}
-%define branch v4.1.x
-%define tag e6d2cb856f3fc649aa01bd5b688a003b3b33db7d
-Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define branch v5.0.x
+%define tag v%{realversion}
+Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
 Requires: libfabric
@@ -28,12 +28,9 @@ AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
   --prefix=%i \
   --disable-dependency-tracking \
   --enable-ipv6 \
-  --enable-mpi-cxx \
   --enable-shared \
   --disable-static \
-  --enable-cxx-exceptions \
   --disable-mpi-java \
-  --enable-openib-rdmacm-ibaddr \
   --with-zlib=$ZLIB_ROOT \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
@@ -47,8 +44,8 @@ AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
   --with-cma \
   --without-knem \
   --with-xpmem=$XPMEM_ROOT \
-  --without-x \
   --with-pic \
+  --disable-io-romio \
   --with-gnu-ld \
   --with-pmix=internal
 
