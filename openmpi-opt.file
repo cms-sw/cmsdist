@@ -1,0 +1,2 @@
+%define HFI_NO_BACKTRACE 1
+%define IPATH_NO_BACKTRACE 1
