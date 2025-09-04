@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="4">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
   <lib name="mpi"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
@@ -12,6 +12,6 @@
   <runtime name="HFI_NO_BACKTRACE" value="%{HFI_NO_BACKTRACE}"/>
 %endif
 %if "%{?IPATH_NO_BACKTRACE:set}" == "set"
-  <runtime name="HFI_NO_BACKTRACE" value="%{HFI_NO_BACKTRACE}"/>
+  <runtime name="IPATH_NO_BACKTRACE" value="%{IPATH_NO_BACKTRACE}"/>
 %endif
 </tool>
