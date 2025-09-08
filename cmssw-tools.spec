@@ -188,7 +188,9 @@ Requires: oracle-fake
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
-Requires: py3-torch
+Requires: pytorch-cpu
+Requires: pytorch-cuda
+Requires: pytorch-rocm
 Requires: pytorch-custom-ops
 
 ## INCLUDE tfaot-models
