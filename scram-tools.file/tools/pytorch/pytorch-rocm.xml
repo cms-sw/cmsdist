@@ -1,6 +1,0 @@
-<tool name="pytorch-cuda" version="@TOOL_VERSION@" revision="1">
-  <lib name="torch_hip"/>
-  <lib name="c10_cuda"/>
-  <use name="rocm"/>
-  <use name="torch-interface"/>
-</tool>
