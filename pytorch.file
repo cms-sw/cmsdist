@@ -57,6 +57,7 @@ export AMDGPU_TARGETS="$(echo '%{rocm_archs}' | sed -e 's/,/ /g')"
 export PYTORCH_ROCM_ARCH="%{rocm_archs}"
 %endif
 
+export MAX_JOBS=%compiling_processes
 export AOTRITON_INSTALLED_PREFIX=${AOTRITON_ROOT}
 export GCC_ROOT=${GCC_ROOT}
 export LibLZMA_ROOT=${XZ_ROOT}
