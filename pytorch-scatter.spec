@@ -10,7 +10,11 @@
 Source: git+https://github.com/%{github_user}/pytorch_scatter.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-Requires: pytorch-cpu %{!?without_cuda:cuda}
+%if 0%{!?without_cuda:1}
+Requires: pytorch-cuda cuda
+%else
+Requires: pytorch-cpu
+%endif
 %define build_flags -Wall -Wextra -pedantic %{?arch_build_flags}
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
 
@@ -35,7 +39,7 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+    -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}:${PYTORCH_CPU_ROOT}/${PYTHON3_LIB_SITE_PACKAGES}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_CXX_FLAGS="%{build_flags}" \
     -DBUILD_TEST=OFF \
