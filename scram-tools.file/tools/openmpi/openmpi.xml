@@ -7,4 +7,11 @@
   </client>
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <runtime name="OPAL_PREFIX" value="$@TOOL_BASE@"/>
+  <runtime name="PMIX_PREFIX" value="$@TOOL_BASE@"/>
+%if "%{?HFI_NO_BACKTRACE:set}" == "set"
+  <runtime name="HFI_NO_BACKTRACE" value="%{HFI_NO_BACKTRACE}"/>
+%endif
+%if "%{?IPATH_NO_BACKTRACE:set}" == "set"
+  <runtime name="IPATH_NO_BACKTRACE" value="%{IPATH_NO_BACKTRACE}"/>
+%endif
 </tool>
