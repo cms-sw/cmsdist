@@ -1,8 +1,11 @@
 ### RPM external openmpi 5.0.8
+## INCLUDE openmpi-opt
 ## INITENV SET OPAL_PREFIX %{i}
+## INITENV SET PMIX_PREFIX %{i}
 %define branch v5.0.x
 %define tag v%{realversion}
 Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
 Requires: libfabric
@@ -21,6 +24,11 @@ Requires: zlib
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
+
+#Make sure IPATH_NO_BACKTRACE and HFI_NO_BACKTRACE default values match what we expect (see cmsdist/openmpi-opt.file)
+grep ' opal_setenv("IPATH_NO_BACKTRACE", "%{IPATH_NO_BACKTRACE}", true, &environ)' opal/runtime/opal_init.c
+grep ' opal_setenv("HFI_NO_BACKTRACE", "%{HFI_NO_BACKTRACE}", true, &environ)' opal/runtime/opal_init.c
 
 AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
 
