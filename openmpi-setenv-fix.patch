@@ -1,0 +1,17 @@
+diff --git a/ompi/runtime/ompi_mpi_init.c b/ompi/runtime/ompi_mpi_init.c
+index 19c0999..66e6553 100644
+--- a/ompi/runtime/ompi_mpi_init.c
++++ b/ompi/runtime/ompi_mpi_init.c
+@@ -349,8 +349,10 @@ int ompi_mpi_init(int argc, char **argv, int requested, int *provided,
+     /* deal with OPAL_PREFIX to ensure that an internal PMIx installation
+      * is also relocated if necessary */
+ #if OPAL_USING_INTERNAL_PMIX
+-    if (NULL != (evar = getenv("OPAL_PREFIX"))) {
+-        opal_setenv("PMIX_PREFIX", evar, true, &environ);
++    if (NULL == getenv("PMIX_PREFIX")) {
++        if (NULL != (evar = getenv("OPAL_PREFIX"))) {
++            opal_setenv("PMIX_PREFIX", evar, true, &environ);
++        }
+     }
+ #endif
+ 
