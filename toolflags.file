@@ -7,6 +7,7 @@
 ## INCLUDE vecgeom-opt
 ## INCLUDE microarch_flags
 ## INCLUDE frame_pointer-opt
+## INCLUDE openmpi-opt
 
 %if "%{default_microarch_name}" == ""
   %if "%{arch_build_flags}"
