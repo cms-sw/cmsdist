@@ -9,6 +9,7 @@ Requires: coral-tool-conf
 
 %define cvssrc          %{n}
 
+
 # Build with debug symbols, and package them in a separate rpm:
 %define subpackageDebug yes
 
