@@ -1,8 +1,10 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="4">
   <info url="https://github.com/celeritas-project/celeritas"/>
   <lib name="accel"/>
   <lib name="celeritas"/>
+  <lib name="geocel"/>
   <lib name="corecel"/>
+  <lib name="g4vg"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
