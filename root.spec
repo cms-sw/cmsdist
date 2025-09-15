@@ -50,7 +50,7 @@ cmake ../%{n}-%{realversion} \
   -DLLVM_BUILD_TYPE=Debug \
 %else
   -DLLVM_BUILD_TYPE=Release \
-%endif  
+%endif
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_C_COMPILER=gcc \
   -DCMAKE_CXX_COMPILER=g++ \
