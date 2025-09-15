@@ -135,3 +135,4 @@ find %{i} -type d -print | xargs chmod 0755
 # === end
 
 # NOTICE: can't build with both cuda and rocm - see aten/CMakeLists.txt
+# rebuild 1

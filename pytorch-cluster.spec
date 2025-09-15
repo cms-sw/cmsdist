@@ -41,7 +41,7 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_PREFIX_PATH="${PYTORCH_ROOT}/${PYTHON3_LIB_SITE_PACKAGES}:%{cmake_prefix_path}" \
+    -DCMAKE_PREFIX_PATH="${PYTORCH_ROOT}/${PYTHON3_LIB_SITE_PACKAGES}/torch;%{cmake_prefix_path}" \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_CXX_FLAGS="%{build_flags}" \
     -DWITH_PYTHON=OFF \
