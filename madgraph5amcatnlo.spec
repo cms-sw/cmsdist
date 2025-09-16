@@ -56,6 +56,7 @@ sed -ideleteme 's|#!.*/bin/python|#!/usr/bin/env python|' \
 find %{i} -name '*deleteme' -delete
 rm -f %{i}/basiceventgeneration/*.log
 rm -f %{i}/basiceventgeneration/Source/StdHEP/log.mcfio.*
+rm -f %{i}/MG5_debug
 
 %post
 %relocateConfigAll . py.py

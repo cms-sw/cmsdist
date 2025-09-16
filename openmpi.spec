@@ -67,4 +67,5 @@ make install
 find %{i}/lib/ -name '*.la' -delete
 
 %post
-%{relocateConfig}share/openmpi/*-wrapper-data.txt
+%{relocateConfig}share/*/*-wrapper-data.txt
+%{relocateConfig}include/pmix/src/include/pmix_config.h
