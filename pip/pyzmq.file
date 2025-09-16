@@ -11,4 +11,3 @@ library_dirs = $LIBZMQ_ROOT/lib\
 EOF
 
 %define PipPreBuild  export CMAKE_BUILD_PARALLEL_LEVEL=%{compiling_processes}
-%define PipPostPost %{relocateConfig}lib/python*/site-packages/zmq/utils/*.json
