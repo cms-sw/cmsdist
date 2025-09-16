@@ -1,5 +1,5 @@
 ### RPM external hls 2025.05
-%define tag a3c0b0b444984aadba245a3b1fdffacaccea3141
+%define tag 22a05fb9800df94678e642099c5c8e57fc2edb71
 %define branch cms/200a9ae
 %define github_user cms-externals
 %define runpath_opts -m examples
