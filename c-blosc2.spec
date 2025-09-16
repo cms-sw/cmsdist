@@ -28,3 +28,4 @@ ninja -v %{makeprocesses} install
 
 %post
 %{relocateConfig}lib64/pkgconfig/blosc2.pc
+%{relocateConfig}lib64/cmake/Blosc2/Blosc2Targets.cmake
