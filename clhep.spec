@@ -1,6 +1,6 @@
 ### RPM external clhep 2.4.7.1
 ## INCLUDE cpp-standard
-%define tag bfc29493e1b4928b1e6b0dff5f754565bcfd4795
+%define tag d5f0b7af1c3231ca63887ecaa9500e1b02c6b0fe
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
