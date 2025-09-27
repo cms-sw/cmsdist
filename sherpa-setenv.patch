@@ -1,0 +1,28 @@
+diff --git a/ATOOLS/Org/Exception.H b/ATOOLS/Org/Exception.H
+index 3306a31..33ec262 100644
+--- a/ATOOLS/Org/Exception.H
++++ b/ATOOLS/Org/Exception.H
+@@ -119,7 +119,7 @@ namespace ATOOLS {
+ 
+ }// end of namespace ATOOLS
+ 
+-#if defined(__sgi) || defined(__GNUC__)
++#if defined(__GNUC__)
+ #define THROW(exception,message)			\
+   throw(ATOOLS::Exception(ATOOLS::ex::exception,	\
+ 			  message,__PRETTY_FUNCTION__));
+diff --git a/ATOOLS/Org/Run_Parameter.C b/ATOOLS/Org/Run_Parameter.C
+index bdd3b4a..ce5a807 100644
+--- a/ATOOLS/Org/Run_Parameter.C
++++ b/ATOOLS/Org/Run_Parameter.C
+@@ -231,10 +231,6 @@ void Run_Parameter::Init(std::string path,std::string file,int argc,char* argv[]
+ 		<<"   SHERPA_LIB_PATH = "<<gen.m_variables["SHERPA_LIB_PATH"]<<"\n"
+ 		<<"   SHERPA_DAT_PATH = "<<gen.m_variables["SHERPA_DAT_PATH"]<<"\n"
+ 		<<"}"<<std::endl;
+-#ifndef __sgi
+-  setenv(LD_PATH_NAME,(gen.m_variables[LD_PATH_NAME]+std::string(":")+
+-			    gen.m_variables["SHERPA_LIB_PATH"]).c_str(),1);
+-#endif
+   gen.m_variables["EVENT_GENERATION_MODE"]="-1";
+   gen.m_analysis           = dr.GetValue<int>("ANALYSIS",0);
+   dr.SetAllowUnits(true);
