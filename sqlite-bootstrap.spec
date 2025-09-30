@@ -1,13 +1,11 @@
-### RPM external sqlite 3.48.0
-Requires: zlib
+### RPM external sqlite-bootstrap 3.48.0
+AutoReqProv: no
 Source: https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz
-Requires: zlib
 
 %prep
 %setup -n sqlite-autoconf-3480000
 
 %build
-CFLAGS=-I${ZLIB_ROOT}/include LDFLAGS=-L${ZLIB_ROOT}/lib \
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
             --disable-static --disable-dependency-tracking
 make %{makeprocesses}
