@@ -1,5 +1,10 @@
-### RPM external curl 7.79.0
-Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
+%if 0%{?rhel} > 9
+%define curl_version 8.13.0
+%else
+%define curl_version 7.79.0
+%endif
+### RPM external curl %{curl_version}
+Source: https://curl.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
 
 %prep
@@ -23,6 +28,7 @@ Requires: zlib
   --without-nss \
   --without-libssh2 \
   --with-gssapi=${KERBEROS_ROOT} \
+  --without-libpsl \
   --with-openssl
 
 make %{makeprocesses}
