@@ -1,4 +1,4 @@
-### RPM external curl 8.10.1
+### RPM external curl 8.13.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
 BuildRequires: gmake
@@ -25,6 +25,7 @@ BuildRequires: gmake
   --without-nss \
   --without-libssh2 \
   --with-gssapi=${KERBEROS_ROOT} \
+  --without-libpsl \
   --with-openssl
 
 make %{makeprocesses}

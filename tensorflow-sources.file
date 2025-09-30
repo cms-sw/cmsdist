@@ -14,6 +14,9 @@ BuildRequires: bazel java-env git patchelf
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
+#GCC14/Aarch64 Fix: https://github.com/google/XNNPACK/issues/7733
+Patch0: tensorflow-gcc14-aarch64
+
 %if "%{?build_type:set}" != "set"
 %define build_type opt
 %endif
@@ -27,6 +30,7 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %prep
 
 %setup -q -n tensorflow-%{realversion}
+%patch0 -p1
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
 
 %build
