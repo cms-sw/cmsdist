@@ -12,6 +12,7 @@ BuildRequires: autotools bison
 %patch1 -p1
 
 %build
+CFLAGS="-O2 -Wno-error=implicit-function-declaration -Wno-error=int-conversion" \
 ./configure --disable-dependency-tracking --disable-nls \
             --build=%{_build} --host="%{_host}" --prefix=%{i}
 make %{makeprocesses}
