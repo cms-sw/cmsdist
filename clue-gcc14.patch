@@ -1,0 +1,27 @@
+diff --git a/clueLib/include/TilesAlpaka.h b/clueLib/include/TilesAlpaka.h
+index b6ba9e50006616adcb2fee8642420a14fc698aba..0e7bcfd15f867a04c9e25e3534cfc199a01ece94 100644
+--- a/clueLib/include/TilesAlpaka.h
++++ b/clueLib/include/TilesAlpaka.h
+@@ -30,13 +30,20 @@ class TilesAlpaka {
+ 
+   ALPAKA_FN_HOST_ACC int getDim1Bin(float x) const {
+     int dim1Bin = (x - T::minDim1) * T::invDim1BinSize;
+-    dim1Bin = std::clamp(dim1Bin, 0, T::nColumns - 1);
++    // Equivalent of std::clamp(dim1Bin, 0, T::nColumns - 1);
++    // which doesn't compile with gcc14 due to reference to __glibcxx_assert
++    // See https://github.com/llvm/llvm-project/issues/95183
++    // and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115740
++    int new_max = std::max(dim1Bin, 0);
++    dim1Bin = std::min(T::nColumns - 1, new_max);
+     return dim1Bin;
+   }
+ 
+   ALPAKA_FN_HOST_ACC int getDim2Bin(float y) const {
+     int dim2Bin = (y - T::minDim2) * T::invDim2BinSize;
+-    dim2Bin = std::clamp(dim2Bin, 0, T::nRows - 1);
++    // See comment in getDim1Bin
++    int new_max = std::max(dim2Bin, 0);
++    dim2Bin = std::min(T::nRows - 1, new_max);
+     return dim2Bin;
+   }
+ 

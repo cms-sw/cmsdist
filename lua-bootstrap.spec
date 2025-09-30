@@ -1,4 +1,4 @@
-### RPM external lua-bootstrap 5.3.4
+### RPM external lua-bootstrap 5.4.7
 Source0: http://www.lua.org/ftp/lua-%{realversion}.tar.gz
 
 %define keep_archives true
