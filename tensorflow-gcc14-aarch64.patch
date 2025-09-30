@@ -1,0 +1,31 @@
+diff --git a/tensorflow/workspace2.bzl b/tensorflow/workspace2.bzl
+index e906f65b7ef..4580ceebda8 100644
+--- a/tensorflow/workspace2.bzl
++++ b/tensorflow/workspace2.bzl
+@@ -137,6 +137,7 @@ def _tf_repositories():
+         name = "XNNPACK",
+         sha256 = "0a7ad183dcb4db36e82c4c24376a28281c30e986bd2d71311e624405229a7618",
+         strip_prefix = "XNNPACK-659147817805d17c7be2d60bd7bbca7e780f9c82",
++        patch_file = ["//third_party:XNNPACK-aarch64-gcc14.patch"],
+         urls = tf_mirror_urls("https://github.com/google/XNNPACK/archive/659147817805d17c7be2d60bd7bbca7e780f9c82.zip"),
+     )
+     # LINT.ThenChange(//tensorflow/lite/tools/cmake/modules/xnnpack.cmake)
+diff --git a/third_party/XNNPACK-aarch64-gcc14.patch b/third_party/XNNPACK-aarch64-gcc14.patch
+new file mode 100644
+index 00000000000..014e47c44ae
+--- /dev/null
++++ b/third_party/XNNPACK-aarch64-gcc14.patch
+@@ -0,0 +1,13 @@
++diff --git a/BUILD.bazel b/BUILD.bazel
++index b2a3b58..3d7f6bc 100755
++--- a/BUILD.bazel
+++++ b/BUILD.bazel
++@@ -3378,7 +3378,7 @@ xnnpack_cc_library(
++         "-mfpu=neon-fp-armv8",
++     ],
++     aarch32_srcs = ["src/amalgam/neonfp16arith.c"],
++-    aarch64_copts = ["-march=armv8.2-a+fp16"],
+++    aarch64_copts = ["-march=armv8.2-a+fp16", "-Wno-error=incompatible-pointer-types"],
++     aarch64_srcs = [
++         "src/amalgam/neonfp16arith-aarch64.c",
++         "src/amalgam/neonfp16arith.c",
