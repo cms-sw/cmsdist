@@ -126,6 +126,11 @@ Provides: perl(Hash::Util)
 Provides: perl(Sys::Hostname)
 
 #################################
+# Needed by py3-cryptography on EL9
+#################################
+Provides: libcrypto.so.3(OPENSSL_3.2.0)(64bit)
+
+#################################
 # Needed by CMSSW
 #################################
 Provides: perl(Mpslib)
