@@ -1,10 +1,9 @@
-### RPM external clue 1.0.0
+### RPM external clue 1.1.0
 ## NOCOMPILER
 
 %define git_commit V_%(echo %{realversion} | tr '.' '_')
 
 Source: https://gitlab.cern.ch/kalos/%{n}/-/archive/%{git_commit}/%{n}-%{git_commit}.tar.gz
-Patch0: clue-gcc14
 Requires: alpaka
 
 %prep
