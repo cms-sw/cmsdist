@@ -8,7 +8,6 @@ Requires: alpaka
 
 %prep
 %setup -n %{n}-%{git_commit}
-%patch0 -p1
 
 %build
 
