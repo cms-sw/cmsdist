@@ -38,5 +38,6 @@ ninja -v %{makeprocesses}
 %install
 export TRITON_CACHE_DIR=$WORKSPACE/.triton/cache
 export TRITON_HOME=$WORKSPACE
+export PYTHONUSERBASE=%{i}
 cd ../build
 ninja -v %{makeprocesses} install
