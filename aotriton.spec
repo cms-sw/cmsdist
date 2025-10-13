@@ -15,7 +15,6 @@ Patch1: aotriton-cms
 %build
 export TRITON_CACHE_DIR=$WORKSPACE/.triton/cache
 export TRITON_HOME=$WORKSPACE
-export PYTHONUSERBASE=%{i}
 
 rm -rf $TRITON_HOME/.triton && mkdir -p $TRITON_HOME/.triton
 
