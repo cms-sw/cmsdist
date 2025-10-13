@@ -159,6 +159,7 @@ Requires: gperftools
 
 Requires: alpaka
 Requires: clue
+Requires: CLUEstering
 Requires: libunwind
 %ifnarch ppc64le
 %ifnarch riscv64
