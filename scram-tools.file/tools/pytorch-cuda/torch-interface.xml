@@ -1,0 +1,10 @@
+<tool name="torch-interface" version="@TOOL_VERSION@" revision="1">
+  <client>
+    <environment name="TORCH_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$TORCH_INTERFACE_BASE/include"/>
+    <environment name="INCLUDE" default="$TORCH_INTERFACE_BASE/include/torch/csrc/api/include"/>
+    <environment name="LIBDIR" default="$TORCH_INTERFACE_BASE/lib"/>
+  </client>
+  <use name="protobuf"/>
+  <use name="zlib"/>
+</tool>

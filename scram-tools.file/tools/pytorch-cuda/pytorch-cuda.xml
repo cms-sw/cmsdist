@@ -1,0 +1,17 @@
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
+  <client>
+    <environment name="PYTORCH_CUDA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$PYTORCH_CUDA_BASE/@PYTHON3_LIB_SITE_PACKAGES@/torch/include"/>
+    <environment name="LIBDIR" default="$PYTORCH_CUDA_BASE/@PYTHON3_LIB_SITE_PACKAGES@/torch/lib"/>
+    <environment name="BINDIR" default="$PYTORCH_CUDA_BASE/bin"/>
+  </client>
+
+  <lib name="torch"/>
+  <lib name="torch_cpu"/>
+  <lib name="torch_cuda"/>
+  <lib name="c10"/>
+  <lib name="c10_cuda"/>
+  <flags FORCE_LINK="1"/>
+  <use name="cuda"/>
+  <use name="torch-interface"/>
+</tool>

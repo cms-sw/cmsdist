@@ -1,0 +1,4 @@
+BuildRequires: cmake ninja
+Requires: eigen fxdiv numactl protobuf psimd python3 py3-PyYAML py3-pip xz aotriton
+Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
+Requires: py3-filelock py3-iniconfig py3-packaging py3-packaging py3-pluggy py3-numpy py3-setuptools
