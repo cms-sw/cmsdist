@@ -5,13 +5,11 @@
 %define branch master
 %define github_user google
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-Source1: https://patch-diff.githubusercontent.com/raw/google/flatbuffers/pull/7227.diff
 
 BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
-patch -p1 <%{_sourcedir}/7227.diff
 
 %build
 rm -rf ../build
