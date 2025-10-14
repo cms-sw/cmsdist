@@ -1,5 +1,5 @@
 <tool name="@TOOL@" version="1.0" revision="2">
-    <use name="pytorch"/>
+    <use name="pytorch-cpu"/>
     <use name="pytorch-scatter"/>
     <use name="pytorch-cluster"/>
     <use name="pytorch-sparse"/>

@@ -5,7 +5,7 @@
     <environment name="INCLUDE" default="$@TOOL_BASE@/include/torchsparse/"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
-  <use name="pytorch"/>
+  <use name="pytorch-cpu"/>
   <lib name="torchsparse"/>
   <flags FORCE_LINK="1"/>
 </tool>
