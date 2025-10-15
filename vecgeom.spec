@@ -51,6 +51,7 @@ cmake ../%{n}-%{realversion} \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
   -DVECGEOM_ENABLE_CUDA=ON \
+  -DCMAKE_CUDA_SEPARABLE_COMPILATION=ON \
 %endif
   -DVECGEOM_GDML=ON \
 %ifarch x86_64
