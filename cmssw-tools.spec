@@ -56,6 +56,7 @@ Requires: jemalloc-debug
 Requires: jemalloc-prof
 Requires: json
 Requires: ktjet
+Requires: EMTF_NN
 Requires: L1METML
 Requires: L1TSC4NGJetModel
 Requires: lhapdf
