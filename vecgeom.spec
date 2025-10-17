@@ -1,10 +1,10 @@
-### RPM external vecgeom v2.0.0-rc.6
+### RPM external vecgeom v2.0.0-rc.7
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
-%define tag 66be96401f3d3bcbd4dd8f9731fae825b12b003e
+%define tag 2aa7db7a4f95ec8058696c22dae57679999f8bd3
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector

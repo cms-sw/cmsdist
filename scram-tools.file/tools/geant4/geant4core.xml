@@ -1,4 +1,4 @@
-<tool name="geant4core" version="@TOOL_VERSION@" revision="1">
+<tool name="geant4core" version="@TOOL_VERSION@" revision="2">
   <lib name="G4digits_hits"/>
   <lib name="G4error_propagation"/>
   <lib name="G4event"/>
@@ -14,12 +14,14 @@
   <lib name="G4mctruth"/>
   <lib name="G4gdml"/>
   <lib name="G4physicslists"/>
-  <lib name="G4processes"/>
+  <lib name="G4processes_core"/>
+  <lib name="G4processes_hadronic"/>
   <lib name="G4readout"/>
   <lib name="G4run"/>
   <lib name="G4tracking"/>
   <lib name="G4track"/>
   <lib name="G4analysis"/>
+  <lib name="G4ptl"/>
   <client>
     <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib64"/>
