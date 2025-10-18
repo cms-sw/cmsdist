@@ -9,9 +9,9 @@ BuildRequires: bazel java-env git
 #Set tensorflow_mkldnn_contraction_kernel option
 #https://github.com/tensorflow/tensorflow/blob/v2.12.1/tensorflow/core/kernels/BUILD#L79-L89
 %if "%{?enable_tf_mkldnn:set}" != "set"
-%define  enable_tf_mkldnn 1
+#By default disable tf_mkldnn
+%define  enable_tf_mkldnn 0
 %endif
-
 
 #Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
 %if "%{cms_cxx_standard}" == "20"
@@ -66,8 +66,9 @@ BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' 
 %endif
 BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} %{makeprocesses}"
 BAZEL_OPTS="$BAZEL_OPTS --config=noaws --config=nogcp --config=nohdfs --config=nonccl"
-# always build tensorflow without mkldnn contraction kernel
+%if "%{enable_tf_mkldnn}" == "0"
 BAZEL_OPTS="$BAZEL_OPTS --define=zendnn=true --define=build_with_mkl_dnn_only=false --define=build_with_mkl=false --define=enable_mkl=false --define=tensorflow_mkldnn_contraction_kernel=0 --define=build_with_mkl_opensource=false"
+%endif
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define=tflite_with_xnnpack=false --define tflite_kernel_use_xnnpack=false"
 %endif
