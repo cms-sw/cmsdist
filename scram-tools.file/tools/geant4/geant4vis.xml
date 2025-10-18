@@ -5,7 +5,6 @@
   <lib name="G4Tree"/>
   <lib name="G4visHepRep"/>
   <lib name="G4vis_management"/>
-  <lib name="G4visXXX"/>
   <lib name="G4VRML"/>
   <lib name="G4GMocren"/>
   <use name="geant4core"/>

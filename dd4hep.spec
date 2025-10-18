@@ -1,13 +1,28 @@
-### RPM external dd4hep v01-23x
+### RPM external dd4hep v01-29-00
+## INCLUDE compilation_flags
 
-%define tag 5c3b494f047ee025b2e32303c16ad854bfbb342d
+%define tag 04bb629ddab5344c8df69070c35573f2f8095c69
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
 
 Source: git+https://github.com/%{github_user}/DD4hep.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-BuildRequires: cmake
-Requires: root boost clhep xerces-c geant4
+## INCLUDE geant4-deps
+
+Requires: root boost geant4
+
+%define cmake_fixed_args \\\
+  -DCMAKE_INSTALL_PREFIX='%{i}' \\\
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \\\
+  -DBoost_NO_BOOST_CMAKE=ON \\\
+  -DDD4HEP_USE_XERCESC=ON \\\
+  -DCMAKE_AR=$(which gcc-ar) \\\
+  -DCMAKE_RANLIB=$(which gcc-ranlib) \\\
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \\\
+  -DDD4HEP_USE_GEANT4_UNITS=ON \\\
+  -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \\\
+  -DCMAKE_PREFIX_PATH=%{cmake_prefix_path}
 
 %prep
 
@@ -16,25 +31,16 @@ Requires: root boost clhep xerces-c geant4
 %build
 
 export BOOST_ROOT
-CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX='%{i}' \
-      -DBoost_NO_BOOST_CMAKE=ON \
-      -DDD4HEP_USE_XERCESC=ON \
-      -DXERCESC_ROOT_DIR=${XERCES_C_ROOT} \
-      -DDD4HEP_USE_PYROOT=ON \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DDD4HEP_USE_GEANT4_UNITS=ON \
-      -DCMAKE_PREFIX_PATH=${CLHEP_ROOT};${XERCES_C_ROOT}"
 
 #Build normal Shared D4Hep without Geant4
 rm -rf ../build; mkdir ../build; cd ../build
-cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=ON ../%{n}-%{realversion}
+cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
 make install
 
 #Building DDG4 static
 rm -rf ../build-g4; mkdir ../build-g4; cd ../build-g4
-cmake $CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DDD4HEP_USE_GEANT4=ON ../%{n}-%{realversion}
+cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=OFF -DDD4HEP_USE_GEANT4=ON ../%{n}-%{realversion}
 cd DDG4
 make %{makeprocesses} VERBOSE=1
 for lib in $(ls ../lib/libDDG4*.a | sed 's|.a$||'); do

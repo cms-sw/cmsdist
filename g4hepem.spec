@@ -1,15 +1,11 @@
-### RPM external g4hepem 20221014
-## INCLUDE compilation_flags
+### RPM external g4hepem 20230309
 %define tag %{realversion}
 %define branch master
 %define github_user mnovak42
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake gmake
-
+## INCLUDE geant4-deps
 Requires: geant4
-
-%define keep_archives true
 
 %prep
 %setup -n %{n}.%{realversion}
@@ -31,7 +27,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH="${GEANT4_ROOT}"
+  -DCMAKE_PREFIX_PATH=%{cmake_prefix_path}
 
 make %makeprocesses VERBOSE=1
 
@@ -48,3 +44,4 @@ find . -name "*.o" -delete
 
 %post
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel} -name '*.cmake')
+:q

@@ -1,4 +1,4 @@
-### RPM external cmake 3.18.2
+### RPM external cmake 3.31.7
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 Requires: bz2lib curl expat zlib
@@ -20,6 +20,7 @@ cat > build-flags.cmake <<- EOF
 	SET(BUILD_CursesDialog FALSE CACHE BOOL "" FORCE)
 
 	# Use system libraries, not cmake bundled ones.
+	SET(CMAKE_USE_OPENSSL TRUE CACHE BOOL "" FORCE)
 	SET(CMAKE_USE_SYSTEM_LIBRARY_CURL TRUE CACHE BOOL "" FORCE)
 	SET(CMAKE_USE_SYSTEM_LIBRARY_ZLIB TRUE CACHE BOOL "" FORCE)
 	SET(CMAKE_USE_SYSTEM_LIBRARY_BZIP2 TRUE CACHE BOOL "" FORCE)
@@ -29,15 +30,11 @@ EOF
 export CMAKE_PREFIX_PATH=$CURL_ROOT:$ZLIB_ROOT:$EXPAT_ROOT:$BZ2LIB_ROOT
 # For OS X 10.8 ("Mountain Lion") do not use Objective-C in
 # C and C++ code.
-case %cmsplatf in
-  osx108_*)
-    CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
-      ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
-  ;;
-  *)
-    ./configure --prefix=%i --init=build-flags.cmake --parallel=%compiling_processes
-  ;;
-esac
+%ifos darwin
+  CXXFLAGS="-DOS_OBJECT_USE_OBJC=0" CFLAGS="-DOS_OBJECT_USE_OBJC=0" \
+%endif
+  ./configure --prefix=%{i} --init=build-flags.cmake --parallel=%{compiling_processes}
+
 make %makeprocesses
 
 %install

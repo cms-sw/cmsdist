@@ -1,11 +1,17 @@
-### RPM external vecgeom v1.1.17
+### RPM external vecgeom v2.0.0-rc.7
 ## INCLUDE compilation_flags
-%define tag ed9a40412c354652262ec80af449f5531206e52c
+## INCLUDE compilation_flags_lto
+## INCLUDE cpp-standard
+%define tag 2aa7db7a4f95ec8058696c22dae57679999f8bd3
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 BuildRequires: cmake gmake
+Requires: xerces-c
 %define keep_archives true
-
+%define vecgeom_backend Scalar
+%define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
 Patch0: vecgeom-fix-vector
+
+%define build_flags %{?arch_build_flags} %{?lto_build_flags} %{?pgo_build_flags}
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -18,30 +24,39 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
+  -DVecGeom_GIT_DESCRIBE="%{vecgeom_version};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_INSTALL_LIBDIR=%{i}/lib \
-  -DROOT=OFF \
+  -DBUILD_TESTING=OFF \
+  -DVecGeom_VERSION=%{vecgeom_version} \
+  -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
-  -DNO_SPECIALIZATION=ON \
-  -DBACKEND=Scalar \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG %{build_flags}" \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+  -DCMAKE_CXX_FLAGS="%{build_flags}" \
+  -DCMAKE_C_FLAGS="%{build_flags}" \
 %ifarch x86_64
+%if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR=sse3 \
 %endif
-  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
-  -DCMAKE_CXX_STANDARD=17 \
-%if "%{?arch_build_flags}"
-  -DCMAKE_CXX_FLAGS="%{arch_build_flags}" \
 %endif
-  -DGEANT4=OFF
+  -DVECGEOM_NO_SPECIALIZATION=ON \
+  -DVECGEOM_BUILTIN_VECCORE=ON \
+  -DVECGEOM_BACKEND=%{vecgeom_backend} \
+  -DVECGEOM_GEANT4=OFF \
+  -DVECGEOM_ROOT=OFF \
+  -DCMAKE_PREFIX_PATH="${XERCES_C_ROOT}"
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make %{makeprocesses} install
+make %{makeprocesses} install VERBOSE=1
+sed -i -e 's|set(VecCore_DIR .*|set(VecCore_DIR "%{i}/lib64/cmake/VecCore")|' %{i}/lib64/cmake/VecGeom/VecGeomConfig.cmake
 
 %post
-%{relocateConfig}lib/cmake/VecGeom/*.cmake
+%{relocateConfig}lib64/cmake/VecGeom/VecGeomConfig.cmake
