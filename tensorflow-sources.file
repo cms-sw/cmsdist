@@ -9,7 +9,8 @@ BuildRequires: bazel java-env git patchelf
 #Set tensorflow_mkldnn_contraction_kernel option
 #https://github.com/tensorflow/tensorflow/blob/v2.12.1/tensorflow/core/kernels/BUILD#L79-L89
 %if "%{?enable_tf_mkldnn:set}" != "set"
-%define  enable_tf_mkldnn 1
+#By default disable tf_mkldnn
+%define  enable_tf_mkldnn 0
 %endif
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
