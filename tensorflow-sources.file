@@ -9,9 +9,9 @@ BuildRequires: bazel java-env git
 #Set tensorflow_mkldnn_contraction_kernel option
 #https://github.com/tensorflow/tensorflow/blob/v2.12.1/tensorflow/core/kernels/BUILD#L79-L89
 %if "%{?enable_tf_mkldnn:set}" != "set"
-%define  enable_tf_mkldnn 1
+#By default disable tf_mkldnn
+%define  enable_tf_mkldnn 0
 %endif
-
 
 #Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
 %if "%{cms_cxx_standard}" == "20"
