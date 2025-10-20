@@ -20,13 +20,3 @@ index dad4bdc..2886ead 100644
  endif()
  
  enum_option(VECGEOM_VECTOR DOC "Vector instruction set to be used"
-@@ -964,7 +964,7 @@ install(EXPORT VecGeomTargets
- 
- ################################################################################
- # Doxygen documentation
--find_package(Doxygen)
-+#find_package(Doxygen)
- if(DOXYGEN_FOUND)
-   set(DOXYFILE_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/doxygen)
-   foreach(d doc/doxygen VecGeom persistency scripts source)
-   
