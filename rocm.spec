@@ -56,6 +56,14 @@ Source29: https://%{repository}/%{repoversion}/main/rccl-2.22.3.60403-128.el%{rh
 Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.22.3.60403-128.el%{rhel}.%{_arch}.rpm
 Source31: https://%{repository}/%{repoversion}/main/rocshmem-devel-2.0.1.60403-128.el%{rhel}.%{_arch}.rpm
 
+# FIXME: Remove following source/fix once it has been integrated in to ROCM
+# [CUDA][HIP] Add a __device__ version of std::__glibcxx_assert_fail()
+%ifarch x86_64
+%if 0%{?rhel} < 10
+Source98: https://raw.githubusercontent.com/llvm/llvm-project/8ec0552a7f1f50986dda6d13eae310d121d7e3ba/clang/lib/Headers/cuda_wrappers/bits/c++config.h
+%endif
+%endif
+
 # sources for rocprofiler-register
 Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
 
@@ -103,6 +111,10 @@ rpm2cpio %{SOURCE28} | cpio -idmv
 rpm2cpio %{SOURCE29} | cpio -idmv
 rpm2cpio %{SOURCE30} | cpio -idmv
 rpm2cpio %{SOURCE31} | cpio -idmv
+
+%if "%{?SOURCE98:set}" == "set"
+cp %{SOURCE98} opt/rocm-%{realversion}/llvm/lib/clang/19/include/cuda_wrappers/bits
+%endif
 
 # build rocprofiler-register
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
