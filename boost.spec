@@ -76,10 +76,19 @@ mkdir -p %{i}/lib %{i}/include
 # the files that we are copying.
 pushd stage/lib
   find . -name "*.%{dynamic_lib_ext}*" -type f | tar cf - -T - | (cd %{i}/lib; tar xfp -)
+  find . -name "*.cmake" -type f | tar cf - -T - | (cd %{i}/lib; tar xfp -)
 popd
 find boost -name '*.[hi]*' | tar cf - -T - | ( cd %{i}/include; tar xfp -)
+
+# relocate the CMake files
+find %{i}/lib/cmake -name '*.cmake' | xargs sed -i \
+  -e's#%{_builddir}/%{n}-%{realversion}/stage#%{i}#g' \
+  -e's#_BOOST_INCLUDEDIR "${_BOOST_CMAKEDIR}/../../../"#_BOOST_INCLUDEDIR "${_BOOST_CMAKEDIR}/../../include/"#g'
 
 for l in $(find %{i}/lib -name "*.%{dynamic_lib_ext}.*")
 do
   ln -s $(basename ${l}) $(echo ${l} | sed -e "s|[.]%{dynamic_lib_ext}[.].*|.%{dynamic_lib_ext}|")
 done
+
+%post
+%relocateConfigAll lib/cmake *.cmake
