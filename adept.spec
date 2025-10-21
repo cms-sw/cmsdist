@@ -3,6 +3,7 @@
 %define branch master
 %define github_user apt-sim
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+Source99: scram-tools.file/tools/adept/env
 
 ## INCLUDE geant4-deps
 ## INCLUDE cuda-flags
@@ -17,7 +18,7 @@ Requires: geant4 g4hepem
 rm -rf ../build
 mkdir ../build
 cd ../build
-
+source %{_sourcedir}/env
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
@@ -33,8 +34,7 @@ cmake ../%{n}.%{realversion} \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
 %endif
-  -DASYNC_MODE=ON \
-  -DADEPT_USE_EXT_BFIELD=ON \
+  $CMS_ADEPT_CXX_FLAGS \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1
