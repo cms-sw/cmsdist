@@ -8,6 +8,7 @@ Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n
 Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
+%{!?without_rocm:Requires: rocm}
 Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
@@ -40,14 +41,12 @@ AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
   --disable-static \
   --disable-mpi-java \
   --with-zlib=$ZLIB_ROOT \
-  %{!?without_cuda:--with-cuda=$CUDA_ROOT} \
+  %{!?without_cuda:--with-cuda=$CUDA_ROOT --with-cuda-libdir=$CUDA_ROOT/lib64/stubs} \
+  %{!?without_rocm:--with-rocm=$ROCM_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
   --with-ofi=$LIBFABRIC_ROOT \
   --without-portals4 \
-  --without-psm \
   --without-psm2 \
-  --with-verbs=$RDMA_CORE_ROOT \
-  --without-mxm \
   --with-ucx=$UCX_ROOT \
   --with-cma \
   --without-knem \
@@ -67,5 +66,6 @@ make install
 find %{i}/lib/ -name '*.la' -delete
 
 %post
-%{relocateConfig}share/*/*-wrapper-data.txt
-%{relocateConfig}include/pmix/src/include/pmix_config.h
+%{relocateConfig}share/openmpi/*-wrapper-data.txt
+%{relocateConfig}/share/pmix/pmixcc-wrapper-data.txt
+%{relocateConfig}/include/pmix/src/include/pmix_config.h
