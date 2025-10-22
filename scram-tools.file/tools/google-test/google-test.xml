@@ -1,0 +1,9 @@
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="1">
+  <info url="https://google.github.io/googletest/"/>
+  <lib name="gtest"/>
+  <client>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"      default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE"     default="$@TOOL_BASE@/include"/>
+  </client>
+</tool>
