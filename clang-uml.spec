@@ -1,15 +1,17 @@
-### RPM external clang-uml 0.5.6
+### RPM external clang-uml 0.6.2x
 
-%define tag 5e8d35f181d1818310fb337e133e9d7600280e1f
+%define tag 5e2993e75ebc88af6cb239f2ffae88da7431cb0d
 %define branch master
 
 %define github_user bkryza
 Source: git+https://github.com/%{github_user}/clang-uml.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: clang-uml-clang21
 BuildRequires: cmake ninja 
 Requires: yaml-cpp llvm zlib zstd libxml2
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build
