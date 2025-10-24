@@ -20,10 +20,11 @@ touch ${tmpl}
 if [ -d %{i}/tools/selected ] ; then
   for xml in $(ls %{i}/tools/selected/*.xml) ; do
     tool=$(basename $xml)
-    echo "cat << \\EOF_TOOLFILE >> %%{i}/etc/scram.d/${tool}" >> ${tmpl}
-    cat $xml            >> ${tmpl}
-    echo "EOF_TOOLFILE" >> ${tmpl}
-    echo ""             >> ${tmpl}
+    echo "cat << \\EOF_TOOLFILE >> %%{i}/etc/scram.d/${tool}" > tmp-tool.txt
+    cat $xml                     >> tmp-tool.txt
+    echo -e "\nEOF_TOOLFILE\n"   >> tmp-tool.txt
+    grep -v '^\s*$' tmp-tool.txt >> ${tmpl}
+    rm -f tmp-tool.txt
   done
 fi
 
