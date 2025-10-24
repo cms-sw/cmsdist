@@ -169,10 +169,11 @@ for type in selected available ; do
   [ -d %{i}/tools/${type} ] || continue
   for xml in $(ls %{i}/tools/${type}/*.xml) ; do
     tool=$(basename $xml)
-    echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" >> %{i}/tools/${type}.tmpl
-    cat $xml            >> %{i}/tools/${type}.tmpl
-    echo "EOF_TOOLFILE" >> %{i}/tools/${type}.tmpl
-    echo ""             >> %{i}/tools/${type}.tmpl
+    echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" > tmp-tool.txt
+    cat $xml                     >> tmp-tool.txt
+    echo -e "\nEOF_TOOLFILE\n"   >> tmp-tool.txt
+    grep -v '^\s*$' tmp-tool.txt >> %{i}/tools/${type}.tmpl
+    rm -f tmp-tool.txt
   done
   rm -rf %{i}/tools/${type}
 done
