@@ -5,6 +5,7 @@
 ## UPLOAD_DEPENDENCIES dqmgui
 
 Requires: AXOL1TL
+Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 Requires: celeritas
