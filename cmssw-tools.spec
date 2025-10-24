@@ -6,6 +6,7 @@
 
 Requires: adept
 Requires: AXOL1TL
+Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 Requires: celeritas
