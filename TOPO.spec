@@ -1,5 +1,4 @@
 ### RPM external TOPO 0.1.0
-Name: TOPO
 Source: https://github.com/cms-hls4ml/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 
 Requires: hls4mlEmulatorExtras hls
