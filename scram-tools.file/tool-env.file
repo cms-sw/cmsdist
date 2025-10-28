@@ -11,7 +11,7 @@ export COMPILER_CXXFLAGS="%{arch_build_flags}"
 
 export COMPILER_WARNINGS="%{?warning_flags}"
 export ORACLE_ENV_ROOT=""
-export CUDA_FLAGS="%{nvcc_cuda_flags}"
+export CUDA_FLAGS="%{nvcc_cuda_flags} --device-entity-has-hidden-visibility=true"
 export CUDA_HOST_CXXFLAGS="%{nvcc_flags_stdcxx}"
 export ROCM_FLAGS="%{rocm_flags}"
 export LTO_FLAGS="%{?lto_build_flags}"
