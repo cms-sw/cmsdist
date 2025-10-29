@@ -2,7 +2,7 @@
 ## NO_AUTO_RUNPATH
 ## NO_AUTO_DEPENDENCY
 ## INCLUDE toolflags
-
+AutoReqProv: no
 Source: scram-tools
 %define tool   %(echo %{n}    | sed 's|-toolfile-src$||')
 %define uctool %(echo %{tool} | tr '[a-z-]' '[A-Z_]')
