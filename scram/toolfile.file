@@ -1,5 +1,6 @@
 ## NOCOMPILER
 ## INCLUDE toolflags
+AutoReqProv: no
 %define auto_dependencies no
 %define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
 %prep
