@@ -7,6 +7,7 @@
 %define auto_dependencies no
 %define uctool %(echo %{n} | tr '[a-z-]' '[A-Z_]')
 BuildRequires: SCRAMV1
+AutoReqProv: no
 Source99: scram-tools
 Source: none
 
@@ -39,9 +40,11 @@ for tool in %requiredtools %{?use_system_gcc:gcc}; do
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
   toolver=`eval echo \\$${uctool}_VERSION`
-  %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}"
+  while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+  %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}" &
 done
 %{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
+wait
 
 %if "%{package_vectorization}"
 %if "%{vectorized_packages}"
@@ -52,8 +55,10 @@ for vec in %{package_vectorization}; do \
     uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
     toolbase=`eval echo \\$${uctool}_${ucvec}_ROOT`
     toolver=`eval echo \\$${uctool}_${ucvec}_VERSION`
-    %{_sourcedir}/scram-tools/bin/get_vectorized_tools "$toolbase" "$toolver" %i "${tool}" "${vec}"
+    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+    %{_sourcedir}/scram-tools/bin/get_vectorized_tools "$toolbase" "$toolver" %i "${tool}" "${vec}" &
   done
+  wait
   if [ -f %i/tools/selected/gcc-cxxcompiler.xml ] ; then
     f=$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $vec)
     sed -i -e "s# *</tool>#    <flags CXXFLAGS_TARGETS_${ucvec}=\"${f}\"/>\n    <flags REM_CXXFLAGS_TARGETS_${ucvec}=\"%{default_microarch}\"/>\n  </tool>#" %i/tools/selected/gcc-cxxcompiler.xml
@@ -130,19 +135,16 @@ for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep '/py[23]-') ; do
   pk_name=$(echo $pkg | cut -d/ -f2 | tr '[A-Z]' '[a-z]')
   if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
   pk_ver=$(echo $pkg | cut -d/ -f3)
-  uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
-  echo "<tool name=\"$pk_name\" version=\"$pk_ver\" revision=\"1\">" > %{i}/tools/selected/${pk_name}.xml
+  client_content=""
   if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
     for b in $(ls %{cmsroot}/%{cmsplatf}/$pkg/bin) ; do
       ALL_PY_BIN="${ALL_PY_BIN} ${b}"
       ALL_PY_BIN_PKGS="${ALL_PY_BIN_PKGS} ${b}:${pk_name}"
     done
-    echo "  <client>" >> %{i}/tools/selected/${pk_name}.xml
-    echo "    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>" >> %{i}/tools/selected/${pk_name}.xml
-    echo "  </client>" >> %{i}/tools/selected/${pk_name}.xml
-    echo "  <runtime name=\"PATH\" value=\"\$${uctool}_BASE/bin\" type=\"path\"/>" >> %{i}/tools/selected/${pk_name}.xml
+    uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
+    client_content="  <client>\n    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>\n  </client>\n  <runtime name=\"PATH\" value=\"\$${uctool}_BASE/bin\" type=\"path\"/>\n"
   fi
-  echo "</tool>" >> %{i}/tools/selected/${pk_name}.xml
+  echo -e "<tool name=\"$pk_name\" version=\"$pk_ver\" revision=\"1\">\n${client_content}</tool>" > %{i}/tools/selected/${pk_name}.xml
 done
 DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | grep -v '__pycache__' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
 
@@ -162,19 +164,26 @@ if [ -e %{i}/tools/selected/cuda-gcc-support.xml ] ; then
   fi
 fi
 
+function tool_content() {
+  tool=$(basename $xml)
+  echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" > ${xml}.tmp
+  cat $xml                     >> ${xml}.tmp
+  echo -e "\nEOF_TOOLFILE\n"   >> ${xml}.tmp
+  grep -v '^\s*$' ${xml}.tmp > $xml
+  rm -f ${xml}.tmp
+}
+
 mkdir -p %{i}/tools
 for type in selected available ; do
   rm -f %{i}/tools/${type}.tmpl
   touch %{i}/tools/${type}.tmpl
   [ -d %{i}/tools/${type} ] || continue
   for xml in $(ls %{i}/tools/${type}/*.xml) ; do
-    tool=$(basename $xml)
-    echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" > tmp-tool.txt
-    cat $xml                     >> tmp-tool.txt
-    echo -e "\nEOF_TOOLFILE\n"   >> tmp-tool.txt
-    grep -v '^\s*$' tmp-tool.txt >> %{i}/tools/${type}.tmpl
-    rm -f tmp-tool.txt
+    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+    tool_content $xml &
   done
+  wait
+  find %{i}/tools/${type} -name '*.xml' | xargs cat >> %{i}/tools/${type}.tmpl
   rm -rf %{i}/tools/${type}
 done
 
