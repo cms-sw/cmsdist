@@ -1,9 +1,11 @@
-### RPM external alpaka 2.0.0
+%define git_remote https://github.com/alpaka-group/alpaka
+%define git_branch develop
+%define git_commit %(git ls-remote %{git_remote}.git refs/heads/%{git_branch} | cut -c-40)
+%define git_short  %(echo %{git_commit} | cut -c-11)
+### RPM external alpaka %{git_branch}-%{git_short}
 ## NOCOMPILER
 
-%define git_commit %{realversion}
-
-Source: https://github.com/cms-externals/%{n}/archive/%{git_commit}.tar.gz
+Source: %{git_remote}/archive/%{git_commit}.tar.gz
 
 %prep
 %setup -n %{n}-%{git_commit}
