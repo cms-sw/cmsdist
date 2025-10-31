@@ -1,5 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
-  <use name="boost"/>
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
@@ -13,4 +12,12 @@
   <flags CXXFLAGS="-DALPAKA_DISABLE_VENDOR_RNG"/>
   <flags CUDA_FLAGS="-DALPAKA_DISABLE_VENDOR_RNG"/>
   <flags GENREFLEX_CPPFLAGS="-DALPAKA_DISABLE_VENDOR_RNG"/>
+  <!-- enable the use of std::atomic_ref -->
+  <flags CXXFLAGS="-DALPAKA_HAS_STD_ATOMIC_REF"/>
+  <flags CUDA_FLAGS="-DALPAKA_HAS_STD_ATOMIC_REF"/>
+  <flags GENREFLEX_CPPFLAGS="-DALPAKA_HAS_STD_ATOMIC_REF"/>
+  <!-- std::call_once is implemented using a pthread weak symbol on EL8 -->
+  <ifarchitecture name="el8">
+    <flags LDFLAGS="-Wl,-no-as-needed -lpthread -Wl,-as-needed"/>
+  </ifarchitecture>
 </tool>
