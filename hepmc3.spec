@@ -4,7 +4,7 @@ Source: https://gitlab.cern.ch/hepmc/HepMC3/-/archive/%{realversion}/HepMC3-%{re
 
 BuildRequires: cmake
 
-%define drop_files %i/share
+%define drop_files %i/share/doc
 
 %prep
 %setup -q -n HepMC3-%{realversion}
@@ -15,11 +15,16 @@ mkdir ../build
 cd ../build
 
 cmake ../HepMC3-%{realversion} \
-  -DHEPMC3_ENABLE_ROOTIO:BOOL=OFF -DHEPMC3_ENABLE_TEST:BOOL=OFF \
-  -DHEPMC3_INSTALL_INTERFACES:BOOL=ON -DHEPMC3_ENABLE_PYTHON:BOOL=OFF \
-  -DHEPMC3_BUILD_STATIC_LIBS:BOOL=OFF -DHEPMC3_BUILD_DOCS:BOOL=OFF \
-  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DHEPMC3_CXX_STANDARD=%{cms_cxx_standard} \
-  -DCMAKE_INSTALL_PREFIX:PATH="%i"
+  -DCMAKE_INSTALL_PREFIX="%i" \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
+  -DHEPMC3_CXX_STANDARD=%{cms_cxx_standard} \
+  -DHEPMC3_ENABLE_ROOTIO="OFF" \
+  -DHEPMC3_ENABLE_TEST="OFF" \
+  -DHEPMC3_ENABLE_PYTHON="OFF" \
+  -DHEPMC3_BUILD_STATIC_LIBS="OFF" \
+  -DHEPMC3_BUILD_DOCS="OFF" \
+  -DHEPMC3_INSTALL_INTERFACES="ON" \
+  -L
 
 make %{makeprocesses}
 
