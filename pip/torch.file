@@ -1,4 +1,11 @@
 ## INCLUDE  torch-requires
 
 %define PipPreBuild %{expand: %(cat %{_sourcedir}/torch-build-env)}
-%define PipPostInstall ln -sf python%{cms_python3_major_minor_version}/site-packages/torch/lib/*.so %{i}/lib/
+%define PipPostInstall \
+  pushd %{i} \
+    ln -sf ${PYTHON3_LIB_SITE_PACKAGES}/torch/share share \
+    ln -s ${PYTHON3_LIB_SITE_PACKAGES}/torch/include include \
+    pushd lib \
+      ln -sf python%{cms_python3_major_minor_version}/site-packages/torch/lib/*.so . \
+    popd \
+  popd
