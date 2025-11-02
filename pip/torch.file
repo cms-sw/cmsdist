@@ -9,3 +9,4 @@
       ln -sf python%{cms_python3_major_minor_version}/site-packages/torch/lib/*.so . \
     popd \
   popd
+%define PipPrePost %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake

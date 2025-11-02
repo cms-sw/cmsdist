@@ -318,7 +318,7 @@ pycparser==2.23
 pycuda==2025.1.2
 pycurl==7.45.7
 #NO_AUTO_UPDATE: version >= 2.35 requires new version of pydantic which does not use validate_core_schema
-pydantic-core==2.34.1
+pydantic-core==2.41.4
 pydot==4.0.1
 pyflakes==3.4.0
 Pygments==2.19.2
