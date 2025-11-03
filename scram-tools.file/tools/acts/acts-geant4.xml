@@ -1,0 +1,12 @@
+<tool name="acts-geant4" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/plugins/geant4.html"/>
+  <lib name="ActsPluginGeant4"/>
+  <use name="acts-core"/>
+  <use name="acts-root"/>
+  <use name="clhep"/>
+  <use name="expat"/>
+  <use name="geant4core"/>
+  <use name="geant4vis"/>
+  <use name="xerces-c"/>
+  <use name="zlib"/>
+</tool>

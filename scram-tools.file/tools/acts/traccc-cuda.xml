@@ -1,0 +1,8 @@
+<tool name="traccc-cuda" version="@TOOL_VERSION@" revision="1">
+  <info url="https://github.com/acts-project/traccc/"/>
+  <lib name="traccc_cuda"/>
+  <use name="acts-core"/>
+  <use name="cuda"/>
+  <use name="vecmem"/>
+  <use name="vecmem-cuda"/>
+</tool>
