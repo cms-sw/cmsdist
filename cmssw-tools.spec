@@ -191,7 +191,6 @@ Requires: oracle-fake
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
-Requires: pytorch
 Requires: pytorch-custom-ops
 
 ## INCLUDE tfaot-models
