@@ -1,1 +1,1 @@
-Requires: py3-setuptools py3-frozenlist
+Requires: py3-setuptools py3-frozenlist py3-typing-extensions

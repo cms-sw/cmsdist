@@ -1,1 +1,1 @@
-Requires: py3-pdm-backend py3-packaging
+Requires: py3-pdm-backend py3-packaging py3-platformdirs

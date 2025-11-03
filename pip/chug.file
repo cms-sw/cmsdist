@@ -1,0 +1,2 @@
+Requires: py3-webdataset py3-pypdfium2 py3-simple-parsing py3-timm
+BuildRequires: py3-pdm-backend
