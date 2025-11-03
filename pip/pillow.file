@@ -1,5 +1,5 @@
 %define PipBuildOptions --global-option="build_ext" -C xcb=disable
-Requires: libjpeg-turbo zlib libtiff freetype 
+Requires: libjpeg-turbo zlib libtiff freetype
 %define PipPreBuild \
   export MAX_CONCURRENCY=%{compiling_processes}; \
   export LDFLAGS="-L${LIBJPEG_TURBO_ROOT}/lib64 -L${ZLIB_ROOT}/lib -L${LIBTIFF_ROOT}/lib -L${FREETYPE_ROOT}/lib"; \
