@@ -10,7 +10,7 @@
 Source: git+https://github.com/%{github_user}/pytorch_sparse.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 
 BuildRequires: cmake
-Requires: pytorch %{!?without_cuda:cuda}
+Requires: py3-torch %{!?without_cuda:cuda}
 %define build_flags -Wall -Wextra -pedantic %{?arch_build_flags}
 %define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ')
 

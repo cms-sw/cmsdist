@@ -1,0 +1,68 @@
+source %{_sourcedir}/env
+
+USE_CUDA=OFF
+%if 0%{!?without_cuda:1}
+if [ "%{cuda_gcc_support}" = "true" ] ; then
+  USE_CUDA=ON
+fi
+%endif
+
+%if 0%{!?without_cuda:1}
+  export USE_CUDA=${USE_CUDA}
+  export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}"
+  export nvtx3_dir=${CUDA_ROOT}/include
+  export USE_CUDNN=${USE_CUDA}
+  export CUDNN_ROOT=${CUDNN_ROOT}
+%else
+  export USE_CUDA=OFF
+  export USE_CUDNN=OFF
+%endif
+
+export MAX_JOBS=%compiling_processes
+export GCC_ROOT=${GCC_ROOT}
+export LibLZMA_ROOT=${XZ_ROOT}
+export USE_SYSTEM_PSIMD=ON
+export PSIMD_SOURCE_DIR=${PSIMD_ROOT}
+export BUILD_CUSTOM_PROTOBUF=OFF
+export USE_SYSTEM_EIGEN_INSTALL=ON
+export USE_SYSTEM_PSIMD=ON
+export USE_SYSTEM_FXDIV=ON
+export USE_SYSTEM_PYBIND11=ON
+export PYBIND11_SYSPATH=${PY3_PYBIND11_ROOT}
+export USE_SYSTEM_BENCHMARK=ON
+
+export BUILD_TEST=OFF
+export BUILD_BINARY=OFF
+export BUILD_PYTHON=ON
+export USE_CUSPARSELT=OFF
+export USE_CUDSS=OFF
+export USE_NCCL=OFF
+export USE_XPU=OFF
+export USE_FBGEMM=OFF
+export USE_KINETO=OFF
+export USE_MAGMA=OFF
+export USE_MPS=OFF
+export USE_NNPACK=OFF
+export USE_QNNPACK=OFF
+export USE_PYTORCH_QNNPACK=OFF
+export USE_XNNPACK=OFF
+export USE_NUMA=ON
+export NUMA_ROOT_DIR=${NUMACTL_ROOT}
+export USE_NUMPY=OFF
+export USE_OPENMP=ON
+export USE_QNNPACK=OFF
+export USE_VALGRIND=OFF
+export USE_XNNPACK=OFF
+export USE_MKLDNN=OFF
+export USE_DISTRIBUTED=OFF
+export USE_MPI=ON
+export USE_GLOO=OFF
+export USE_TENSORPIPE=OFF
+export ONNX_ML=ON
+export BLAS=OpenBLAS
+export CMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{default_microarch}"
+export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+export LIBLZMA_ROOT=${XZ_ROOT}
+export PYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
+export BUILD_LIBTORCH_WHL=ON
+export CMAKE_VERBOSE_MAKEFILE=ON

@@ -1,2 +1,2 @@
 Requires: py3-numpy py3-onnx py3-protobuf py3-six
-%define source0 https://github.com/microsoft/onnxconverter-common/archive/v%{realversion}.tar.gz
+%define PipDownloadSourceType none
