@@ -1,0 +1,6 @@
+<tool name="acts-svg" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/plugins/plugins.html"/>
+  <lib name="ActsPluginActSVG"/>
+  <use name="acts-core"/>
+  <use name="actsvg"/>
+</tool>
