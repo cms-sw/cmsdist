@@ -1,0 +1,6 @@
+<tool name="vecmem-rocm" version="@TOOL_VERSION@" revision="1">
+  <info url="github.com/acts-project/vecmem/blob/main/README.md"/>
+  <lib name="vecmem_hip"/>
+  <use name="rocm"/>
+  <use name="vecmem"/>
+</tool>

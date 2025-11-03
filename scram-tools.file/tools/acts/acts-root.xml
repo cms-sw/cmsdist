@@ -1,0 +1,13 @@
+<tool name="acts-root" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/plugins/root.html"/>
+  <lib name="ActsPluginRoot"/>
+  <use name="acts-core"/>
+  <use name="rootcling"/>
+  <use name="rootcore"/>
+  <use name="rootgeom"/>
+  <use name="roothistmatrix"/>
+  <use name="rootimt"/>
+  <use name="rootmathcore"/>
+  <use name="rootrio"/>
+  <use name="rootthread"/>
+</tool>
