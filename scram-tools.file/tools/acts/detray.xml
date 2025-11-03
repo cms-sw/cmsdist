@@ -1,0 +1,7 @@
+<tool name="detray" version="@TOOL_VERSION@" revision="1">
+  <info url="https://github.com/acts-project/detray/blob/main/README.md"/>
+  <use name="acts-common"/>
+  <use name="json"/>
+  <flags CXXFLAGS="-DDETRAY_ALGEBRA_ARRAY"/>
+  <flags CXXFLAGS="-DDETRAY_CUSTOM_SCALARTYPE=double"/>
+</tool>

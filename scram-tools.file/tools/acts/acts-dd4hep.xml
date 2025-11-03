@@ -1,0 +1,18 @@
+<tool name="acts-dd4hep" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/plugins/dd4hep.html"/>
+  <lib name="ActsPluginDD4hep"/>
+  <use name="acts-core"/>
+  <use name="acts-root"/>
+  <use name="dd4hep-core"/>
+  <use name="rootcling"/>
+  <use name="rootcore"/>
+  <use name="rootgeom"/>
+  <use name="roothistmatrix"/>
+  <use name="rootimt"/>
+  <use name="rootmath"/>
+  <use name="rootphysics"/>
+  <use name="rootrint"/>
+  <use name="rootrio"/>
+  <use name="rootthread"/>
+  <use name="xerces-c"/>
+</tool>
