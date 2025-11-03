@@ -1,0 +1,16 @@
+<tool name="traccc-performance" version="@TOOL_VERSION@" revision="1">
+  <info url="https://github.com/acts-project/traccc/"/>
+  <lib name="traccc_performance"/>
+  <use name="acts-core"/>
+  <use name="cuda"/>
+  <use name="traccc"/>
+  <use name="traccc-io"/>
+  <use name="vecmem"/>
+  <use name="rootcling"/>
+  <use name="roothistmatrix"/>
+  <use name="rootimt"/>
+  <use name="rootmathcore"/>
+  <use name="rootcore"/>
+  <use name="rootthread"/>
+  <use name="rootrio"/>
+</tool>
