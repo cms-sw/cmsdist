@@ -1,0 +1,2 @@
+BuildRequires: py3-poetry-core
+Requires: py3-dunamai py3-Jinja2 py3-tomlkit
