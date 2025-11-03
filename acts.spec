@@ -1,0 +1,123 @@
+### RPM external acts v44.0.1
+## INCLUDE cpp-standard
+## INCLUDE microarch_flags
+## INCLUDE compilation_flags
+## INCLUDE compilation_flags_lto
+## INCLUDE cuda-flags
+## INCLUDE rocm-flags
+
+%define tag         2d4cf6938
+%define branch      cms/%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source99: scram-tools.file/tools/eigen/env
+
+# Do not build the Acts and Traccc tests
+%define build_test 0
+
+# ROCm support is not yet building correctly
+%define without_rocm 1
+
+BuildRequires: cmake
+Requires: boost
+Requires: dd4hep
+Requires: eigen
+Requires: expat
+Requires: geant4
+Requires: json
+Requires: python3
+Requires: root
+Requires: xerces-c
+Requires: zlib
+%{!?without_cuda:Requires: cuda}
+%{!?without_rocm:Requires: rocm}
+%if %{build_test}
+# These are ony used to build the examples and unit tests
+Requires: hepmc3
+Requires: tbb
+%endif
+
+%prep
+%setup -n %{n}-%{realversion}
+
+%build
+rm -rf ../build
+mkdir ../build
+cd ../build
+source %{_sourcedir}/env
+
+%define cuda_enabled %{?without_cuda:OFF}%{!?without_cuda:ON}
+%define rocm_enabled %{?without_rocm:OFF}%{!?without_rocm:ON}
+
+# Notes:
+#   - gcc-ar and gcc-ranlib are needed to build static libraries with LTO support.
+#   - building with RPATH enabled is necessary to build and run the tests; set CMAKE_SKIP_INSTALL_RPATH to strip the RPATH
+#     information after installing the libraries.
+#   - HIP/ROCm support is not yet working correctly.
+
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+  -DCMAKE_CXX_COMPILER="$GCC_ROOT/bin/g++" \
+  -DCMAKE_CXX_STANDARD="%{cms_cxx_standard}" \
+  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{arch_build_flags} %{selected_microarch} %{lto_build_flags}" \
+  -DCMAKE_AR="$GCC_ROOT/bin/gcc-ar" \
+  -DCMAKE_RANLIB="$GCC_ROOT/bin/gcc-ranlib" \
+  -DCMAKE_BUILD_TYPE="Release" \
+  -DCMAKE_INSTALL_PREFIX="%{i}" \
+  -DCMAKE_SKIP_INSTALL_RPATH="ON" \
+  -DCMAKE_CUDA_ARCHITECTURES="$(echo %{cuda_arch} | sed -e 's/ \+/;/g')" \
+  -DCMAKE_CUDA_FLAGS="-Wno-deprecated-gpu-targets --threads 0" \
+  -DCMAKE_HIP_ARCHITECTURES="$(echo %{rocm_archs} | sed -e 's/ \+/;/g')" \
+  -DAMDGPU_TARGETS="$(echo %{rocm_archs} | sed -e 's/ \+/;/g')" \
+  -DBUILD_SHARED_LIBS="ON" \
+  -DACTS_NLOHMANNJSON_SOURCE="" \
+  -DACTS_USE_SYSTEM_NLOHMANN_JSON="ON" \
+  -DACTS_BUILD_PLUGIN_ACTSVG="ON" \
+  -DACTS_BUILD_PLUGIN_JSON="ON" \
+  -DACTS_BUILD_PLUGIN_ROOT="ON" \
+  -DACTS_BUILD_PLUGIN_DD4HEP="ON" \
+  -DACTS_BUILD_PLUGIN_GEANT4="ON" \
+  -DACTS_BUILD_PLUGIN_TRACCC="ON" \
+  -DACTS_ENABLE_LOG_FAILURE_THRESHOLD="ON" \
+  -DCOVFIE_PLATFORM_CPU="ON" \
+  -DCOVFIE_PLATFORM_CUDA="%{cuda_enabled}" \
+  -DCOVFIE_PLATFORM_HIP="%{rocm_enabled}" \
+  -DDETRAY_SETUP_NLOHMANN="ON" \
+  -DDETRAY_USE_SYSTEM_NLOHMANN="ON" \
+  -DDETRAY_BUILD_HOST="ON" \
+  -DDETRAY_BUILD_CUDA="%{cuda_enabled}" \
+  -DDETRAY_BUILD_HIP="%{rocm_enabled}" \
+  -DTRACCC_BUILD_CUDA="%{cuda_enabled}" \
+  -DTRACCC_BUILD_HIP="%{rocm_enabled}" \
+  -DTRACCC_SETUP_THRUST="%{cuda_enabled}" \
+  -DTRACCC_SETUP_ROCTHRUST="%{rocm_enabled}" \
+  -DTRACCC_USE_SYSTEM_THRUST="%{cuda_enabled}" \
+  -DTRACCC_USE_SYSTEM_ROCTHRUST="%{rocm_enabled}" \
+  -DVECMEM_BUILD_CUDA_LIBRARY="%{cuda_enabled}" \
+  -DVECMEM_BUILD_HIP_LIBRARY="%{rocm_enabled}" \
+%if %{build_test}
+  -DACTS_BUILD_UNITTESTS="ON" \
+  -DACTS_BUILD_INTEGRATIONTESTS="ON" \
+  -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS="ON" \
+  -DTRACCC_BUILD_TESTING="ON" \
+%endif
+  -L
+
+make %{makeprocesses} VERBOSE=1
+
+%install
+cd ../build
+make install VERBOSE=1
+
+%if %{build_test}
+# download the traccc test data file to the .../data directory
+mkdir -p %{i}/data
+./_deps/traccc-src/data/traccc_data_get_files.sh -o %{i}/data
+%endif
+
+# remove the scripts used to set the Acts environment variables
+rm %{i}/bin/this_acts.sh
+rm %{i}/bin/this_acts_withdeps.sh
+
+%post
+%{relocateConfig}lib64/cmake/*/*.cmake

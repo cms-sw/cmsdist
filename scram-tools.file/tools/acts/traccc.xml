@@ -1,0 +1,12 @@
+<tool name="traccc" version="@TOOL_VERSION@" revision="1">
+  <info url="https://github.com/acts-project/traccc/"/>
+  <lib name="traccc_core"/>
+  <use name="acts-common"/>
+  <use name="covfie"/>
+  <use name="detray"/>
+  <use name="vecmem"/>
+  <flags CXXFLAGS="-DALGEBRA_PLUGINS_INCLUDE_ARRAY"/>
+  <flags CXXFLAGS="-DTRACCC_CUSTOM_SCALARTYPE=double"/>
+  <flags CXXFLAGS="-DTRACCC_HAVE_NVTX"/>
+  <flags CXXFLAGS="-DTRACCC_HAVE_ROOT"/>
+</tool>
