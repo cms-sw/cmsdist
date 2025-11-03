@@ -1,0 +1,7 @@
+<tool name="acts-core" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/index.html"/>
+  <lib name="ActsCore"/>
+  <use name="acts-common"/>
+  <use name="boost_header"/>
+  <use name="eigen"/>
+</tool>

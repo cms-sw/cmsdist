@@ -9,6 +9,7 @@ Requires: AXOL1TL
 Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
+Requires: acts
 Requires: celeritas
 Requires: crab
 Requires: cmssw-wm-tools
