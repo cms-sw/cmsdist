@@ -1,2 +1,2 @@
 Requires: py3-docutils py3-lockfile
-%define patchsrc sed -i -e 's|setuptools.extern.packaging.version|packaging.version|' version.py test_version.py
+%define PipDownloadOptions --no-deps%%20--no-binary%%3D:none:&download_wheel=1

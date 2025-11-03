@@ -1,0 +1,2 @@
+BuildRequires: py3-poetry-dynamic-versioning
+Requires: py3-docstring-parser py3-typing-extensions
