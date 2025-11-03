@@ -1,2 +1,2 @@
 BuildRequires: py3-flit-core
-Requires: py3-python-dateutil py3-types-python-dateutil
+Requires: py3-python-dateutil py3-types-python-dateutil py3-tzdata

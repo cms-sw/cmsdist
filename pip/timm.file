@@ -1,0 +1,2 @@
+BuildRequires: py3-pdm-backend
+Requires: py3-huggingface-hub py3-PyYAML py3-safetensors py3-torchvision
