@@ -6,7 +6,7 @@
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
 
-%define tag         a58a6d05ed4660d5644d14f49fa28b4d82b92396
+%define tag         cc436985e
 %define branch      cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
