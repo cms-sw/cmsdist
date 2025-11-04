@@ -5,6 +5,7 @@ Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&ex
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
+## INCLUDE cuda-flags
 Requires: python3 json geant4
 %{!?without_cuda:Requires: cuda}
 
