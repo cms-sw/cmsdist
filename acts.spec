@@ -65,10 +65,14 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE="Release" \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_SKIP_INSTALL_RPATH="ON" \
+%if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES="$(echo %{cuda_arch} | sed -e 's/ \+/;/g')" \
   -DCMAKE_CUDA_FLAGS="-Wno-deprecated-gpu-targets --threads 0" \
+%endif
+%if 0%{!?without_rocm:1}
   -DCMAKE_HIP_ARCHITECTURES="$(echo %{rocm_archs} | sed -e 's/ \+/;/g')" \
   -DAMDGPU_TARGETS="$(echo %{rocm_archs} | sed -e 's/ \+/;/g')" \
+%endif
   -DBUILD_SHARED_LIBS="ON" \
   -DACTS_NLOHMANNJSON_SOURCE="" \
   -DACTS_USE_SYSTEM_NLOHMANN_JSON="ON" \
