@@ -6,7 +6,7 @@
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
 
-%define tag         2d4cf6938
+%define tag         a58a6d05ed4660d5644d14f49fa28b4d82b92396
 %define branch      cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -102,6 +102,7 @@ cmake ../%{n}-%{realversion} \
 %if %{build_test}
   -DACTS_BUILD_UNITTESTS="ON" \
   -DACTS_BUILD_INTEGRATIONTESTS="ON" \
+  -DPython_EXECUTABLE=$(which python3) \
   -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS="ON" \
   -DTRACCC_BUILD_TESTING="ON" \
 %endif
