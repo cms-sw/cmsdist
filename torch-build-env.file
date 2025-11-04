@@ -18,7 +18,11 @@ fi
   export USE_CUDNN=OFF
 %endif
 
-export MAX_JOBS=%compiling_processes
+MEM_GB=$(/usr/bin/free -g | awk '/^Mem:/{print $2}')
+MAX_JOBS=$(( MEM_GB / 4 ))
+if [ $MAX_JOBS -gt %{compiling_processes} ] ; then MAX_JOBS=%{compiling_processes}; fi
+if [ $MAX_JOBS -lt 1 ]; then MAX_JOBS=1; fi
+export MAX_JOBS
 export GCC_ROOT=${GCC_ROOT}
 export LibLZMA_ROOT=${XZ_ROOT}
 export USE_SYSTEM_PSIMD=ON
