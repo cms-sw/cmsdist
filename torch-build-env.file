@@ -18,14 +18,17 @@ fi
   export USE_CUDNN=OFF
 %endif
 
-export MAX_JOBS=%compiling_processes
+MEM_GB=$(/usr/bin/free -g | awk '/^Mem:/{print $2}')
+MAX_JOBS=$(( MEM_GB / 4 ))
+if [ $MAX_JOBS -gt %{compiling_processes} ] ; then MAX_JOBS=%{compiling_processes}; fi
+if [ $MAX_JOBS -lt 1 ]; then MAX_JOBS=1; fi
+export MAX_JOBS
 export GCC_ROOT=${GCC_ROOT}
 export LibLZMA_ROOT=${XZ_ROOT}
 export USE_SYSTEM_PSIMD=ON
 export PSIMD_SOURCE_DIR=${PSIMD_ROOT}
 export BUILD_CUSTOM_PROTOBUF=OFF
 export USE_SYSTEM_EIGEN_INSTALL=ON
-export USE_SYSTEM_PSIMD=ON
 export USE_SYSTEM_FXDIV=ON
 export USE_SYSTEM_PYBIND11=ON
 export PYBIND11_SYSPATH=${PY3_PYBIND11_ROOT}
@@ -50,9 +53,7 @@ export USE_NUMA=ON
 export NUMA_ROOT_DIR=${NUMACTL_ROOT}
 export USE_NUMPY=OFF
 export USE_OPENMP=ON
-export USE_QNNPACK=OFF
 export USE_VALGRIND=OFF
-export USE_XNNPACK=OFF
 export USE_MKLDNN=OFF
 export USE_DISTRIBUTED=OFF
 export USE_MPI=ON
