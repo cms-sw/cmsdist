@@ -9,6 +9,8 @@ Source1: dd4hep_modulemap
 ## INCLUDE geant4-deps
 
 Requires: root boost geant4
+# ROOT uses the json package, and seems to require that it be availble also when other packages use ROOT
+Requires: json
 
 %define cmake_fixed_args \\\
   -DCMAKE_INSTALL_PREFIX='%{i}' \\\
