@@ -152,7 +152,7 @@ Requires: python_tools
 Requires: dablooms
 Requires: zlib
 Requires: rivet
-
+Requires: xtd
 
 # Only for Linux platform.
 %ifos linux
