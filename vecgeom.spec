@@ -3,12 +3,14 @@
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
+## INCLUDE cuda-flags
 
 %define tag 47dd602df7074fcc78036e93cd639ae6270207fd
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector
 BuildRequires: cmake gmake
 Requires: xerces-c
+%{!?without_cuda:Requires: cuda}
 %define keep_archives true
 %define vecgeom_backend Scalar
 %define vecgeom_version %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
@@ -45,6 +47,10 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
   -DCMAKE_CXX_FLAGS="%{build_flags}" \
   -DCMAKE_C_FLAGS="%{build_flags}" \
+%if 0%{!?without_cuda:1}
+  -DVECGEOM_ENABLE_CUDA=ON \
+  -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
+%endif
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
   -DVECGEOM_VECTOR="${VECGEOM_VECTOR_INST}" \
