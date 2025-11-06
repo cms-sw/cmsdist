@@ -1,0 +1,7 @@
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="1">
+  <client>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+</tool>
