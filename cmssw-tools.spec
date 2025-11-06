@@ -153,7 +153,7 @@ Requires: dablooms
 Requires: pcm_util
 Requires: zlib
 Requires: rivet
-
+Requires: xtd
 
 # Only for Linux platform.
 %ifos linux
