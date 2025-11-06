@@ -20,6 +20,7 @@ Source99: scram-tools.file/tools/eigen/env
 
 BuildRequires: cmake
 Requires: boost
+Requires: bz2lib
 Requires: dd4hep
 Requires: eigen
 Requires: expat
