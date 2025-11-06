@@ -49,12 +49,10 @@ Source29: https://%{repository}/%{repoversion}/main/rccl-2.26.6.70002-56.el%{rhe
 Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.26.6.70002-56.el%{rhel}.%{_arch}.rpm
 Source31: https://%{repository}/%{repoversion}/main/rocshmem-devel-3.0.0.70002-56.el%{rhel}.%{_arch}.rpm
 
-# FIXME: Remove following source/fix once it has been integrated in to ROCM
+# FIXME: Remove following source/fix once it has been integrated in to ROCm
 # [CUDA][HIP] Add a __device__ version of std::__glibcxx_assert_fail()
 %ifarch x86_64
-%if 0%{?rhel} < 10
 Source98: https://raw.githubusercontent.com/llvm/llvm-project/8ec0552a7f1f50986dda6d13eae310d121d7e3ba/clang/lib/Headers/cuda_wrappers/bits/c++config.h
-%endif
 %endif
 
 # sources for rocprofiler-register
@@ -106,7 +104,7 @@ rpm2cpio %{SOURCE30} | cpio -idmv
 rpm2cpio %{SOURCE31} | cpio -idmv
 
 %if "%{?SOURCE98:set}" == "set"
-cp %{SOURCE98} opt/rocm-%{realversion}/llvm/lib/clang/19/include/cuda_wrappers/bits
+cp %{SOURCE98} opt/rocm-%{realversion}/llvm/lib/clang/20/include/cuda_wrappers/bits
 %endif
 
 # build rocprofiler-register
