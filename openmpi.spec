@@ -5,7 +5,6 @@
 %define branch v5.0.x
 %define tag v%{realversion}
 Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
-Source1: https://github.com/open-mpi/ompi/commit/15d97a054a286c7bf8e4296f6fed2ca6cd43f063.diff
 Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
@@ -27,7 +26,6 @@ Requires: zlib
 %prep
 %setup -q -n %{n}-%{realversion}
 %patch0 -p1
-patch -p1 < %{SOURCE1}
 
 #Make sure IPATH_NO_BACKTRACE and HFI_NO_BACKTRACE default values match what we expect (see cmsdist/openmpi-opt.file)
 grep ' opal_setenv("IPATH_NO_BACKTRACE", "%{IPATH_NO_BACKTRACE}", true, &environ)' opal/runtime/opal_init.c
