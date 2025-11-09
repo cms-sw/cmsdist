@@ -1,10 +1,8 @@
 ### RPM external acts v44.0.1
-## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
-## INCLUDE compilation_flags
-## INCLUDE compilation_flags_lto
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
+## INCLUDE geant4-deps
 
 %define tag         cc436985e
 %define branch      cms/%{realversion}
