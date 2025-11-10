@@ -1,9 +1,8 @@
-<tool name="geant4vis" version="@TOOL_VERSION@" revision="1">
+<tool name="geant4vis" version="@TOOL_VERSION@" revision="2">
   <lib name="G4FR"/>
   <lib name="G4modeling"/>
   <lib name="G4RayTracer"/>
   <lib name="G4Tree"/>
-  <lib name="G4visHepRep"/>
   <lib name="G4vis_management"/>
   <lib name="G4VRML"/>
   <lib name="G4GMocren"/>
