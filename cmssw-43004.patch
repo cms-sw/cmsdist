@@ -1,0 +1,54 @@
+diff --git a/src/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h b/src/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
+index 06eaba3f52f79..801b46c21c7c0 100644
+--- a/src/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
++++ b/src/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
+@@ -4,8 +4,8 @@
+ #include <vector>
+ #include <map>
+ #include <string>
++#include <G4VTouchable.hh>
+ 
+-class G4VTouchable;
+ class G4VPhysicalVolume;
+ class GeometricDet;
+ 
+diff --git a/src/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h b/src/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
+index 102da9929e649..1c37edbaf4b53 100644
+--- a/src/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
++++ b/src/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
+@@ -3,6 +3,7 @@
+ #include <string>
+ #include <vector>
+ #include <fstream>
++#include <G4VTouchable.hh>
+ 
+ #include "SimG4Core/Watcher/interface/SimProducer.h"
+ #include "SimG4Core/Notification/interface/Observer.h"
+@@ -22,7 +23,6 @@ class EndOfTrack;
+ class G4Step;
+ 
+ class G4StepPoint;
+-class G4VTouchable;
+ class G4VPhysicalVolume;
+ class G4LogicalVolume;
+ class G4TouchableHistory;
+diff --git a/src/Validation/Geometry/interface/MaterialBudgetAction.h b/src/Validation/Geometry/interface/MaterialBudgetAction.h
+index 75272657de103..41df74b4c3448 100644
+--- a/src/Validation/Geometry/interface/MaterialBudgetAction.h
++++ b/src/Validation/Geometry/interface/MaterialBudgetAction.h
+@@ -19,6 +19,7 @@
+ #include "FWCore/ParameterSet/interface/ParameterSet.h"
+ 
+ #include <CLHEP/Vector/LorentzVector.h>
++#include <G4VTouchable.hh>
+ 
+ class BeginOfTrack;
+ class BeginOfRun;
+@@ -28,7 +29,6 @@ class G4Step;
+ class EndOfTrack;
+ class EndOfRun;
+ class G4StepPoint;
+-class G4VTouchable;
+ 
+ class MaterialBudgetAction : public SimWatcher,
+                              public Observer<const BeginOfRun*>,

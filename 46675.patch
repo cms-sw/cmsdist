@@ -1,0 +1,18 @@
+diff --git a/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc b/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
+index d1cb7c0a3f9..e4fbbae5d4c 100644
+--- a/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
++++ b/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
+@@ -107,11 +107,11 @@ void CMSG4CheckOverlap::makeReportForMaterials(std::ofstream& fout) {
+        << "\n";
+   fout << "ElementsDump:"
+        << "\n";
+-  G4ElementTable* elmtab = G4Element::GetElementTable();
++  const auto elmtab = G4Element::GetElementTable();
+   fout << *elmtab;
+   fout << "====================================================================="
+        << "\n";
+-  G4MaterialTable* mattab = G4Material::GetMaterialTable();
++  const auto mattab = G4Material::GetMaterialTable();
+   fout << "MaterialsDump:"
+        << "\n";
+   //fout << *mattab << "\n";
