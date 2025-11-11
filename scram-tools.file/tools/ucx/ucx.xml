@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
   <lib name="ucp"/>
   <lib name="uct"/>
   <lib name="ucs"/>
@@ -9,4 +9,5 @@
     <environment name="LIBDIR"   default="$@TOOL_BASE@/lib"/>
   </client>
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+  <runtime name="UCX_HANDLE_ERRORS" value="none"/>
 </tool>
