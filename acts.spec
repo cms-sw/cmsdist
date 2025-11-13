@@ -107,6 +107,7 @@ cmake ../%{n}-%{realversion} \
 %endif
   -L
 
+exit 1
 make %{makeprocesses} VERBOSE=1
 
 %install

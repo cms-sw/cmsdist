@@ -64,5 +64,7 @@ cd ../build
 make %{makeprocesses} install VERBOSE=1
 sed -i -e 's|set(VecCore_DIR .*|set(VecCore_DIR "%{i}/lib64/cmake/VecCore")|' %{i}/lib64/cmake/VecGeom/VecGeomConfig.cmake
 
+
+
 %post
 %{relocateConfig}lib64/cmake/VecGeom/VecGeomConfig.cmake
