@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag d9383d6f25e3368441d427522be421bf6ca5a970
-%define branch cms/v6-36-00-patches/ed529125ac
+%define tag f72ca89c8bf8b759ee7cfe89c4b9d180d7af9a37
+%define branch cms/v6-36-00-patches/56a08b5632f
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -201,3 +201,4 @@ rm -rf build
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
+%{relocateConfig}lib/cmake/CppInterOp/CppInterOpConfig.cmake
