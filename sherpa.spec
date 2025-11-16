@@ -9,7 +9,7 @@ Patch1: sherpa-setenv
 %{!?without_openloops:Requires: openloops}
 
 %prep
-%setup -q -n SHERPA-MC-%{realversion}
+%setup -q -n sherpa-%{realversion}
 
 autoreconf -i --force
 
@@ -24,7 +24,6 @@ perl -p -i -e 's|-rdynamic||g' configure AddOns/Analysis/Scripts/Makefile.in
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 export PYTHON=$(which python3)
@@ -36,6 +35,7 @@ export PYTHON=$(which python3)
             --enable-pyext \
             --enable-ufo \
             ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
+            ${RECOLA_ROOT+--enable-recola=$RECOLA_ROOT} \
             --enable-mpi \
             --with-sqlite3=$SQLITE_ROOT \
             --enable-analysis \

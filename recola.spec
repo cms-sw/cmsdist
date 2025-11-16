@@ -1,4 +1,4 @@
-### RPM external recola 1.4.4
+### RPM external recola 1.5.0
 Source: https://recola.hepforge.org/downloads/%{n}-%{realversion}.tar.gz
 Requires: collier
 BuildRequires: cmake
@@ -19,6 +19,7 @@ cmake --build build %{makeprocesses}
 
 %install
 cmake --install build
-mv %{i}/lib/cmake %{i}/cmake
+mkdir %{i}/cmake
+cp %{i}/lib/cmake/recolaConfig.cmake %{i}/cmake
 sed -i 's;^.*set(RECOLA_LIBRARY_DIR.*$;get_filename_component(RECOLA_LIBRARY_DIR "${CMAKE_CURRENT_LIST_DIR}/../lib" ABSOLUTE);' %{i}/cmake/recolaConfig.cmake
 sed -i 's;^.*set(RECOLA_INCLUDE_DIR.*$;get_filename_component(RECOLA_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../include" ABSOLUTE);' %{i}/cmake/recolaConfig.cmake
