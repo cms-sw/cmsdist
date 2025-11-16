@@ -5,7 +5,7 @@
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
 
-%define tag 2aa7db7a4f95ec8058696c22dae57679999f8bd3
+%define tag %{realversion}
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector
