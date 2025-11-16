@@ -20,8 +20,12 @@ cmake ../ \
 make -j1
 
 %install
-mkdir -p %{i}/lib %{i}/include
+mkdir -p %{i}/lib %{i}/include %{i}/cmake
 cp libcollier.a %{i}/lib
 cp modules/*.mod %{i}/include/
+cp collierConfig.cmake %{i}/cmake
+sed -i 's;^.*set(COLLIER_LIBRARY_DIR.*$;get_filename_component(COLLIER_LIBRARY_DIR "${CMAKE_CURRENT_LIST_DIR}/../lib" ABSOLUTE);' %{i}/cmake/collierConfig.cmake
+sed -i 's;^.*set(COLLIER_INCLUDE_DIR.*$;get_filename_component(COLLIER_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../include" ABSOLUTE);' %{i}/cmake/collierConfig.cmake
+
 
 
