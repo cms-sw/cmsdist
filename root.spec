@@ -1,10 +1,10 @@
-### RPM lcg root 6.32.13
+### RPM lcg root 6.36.05
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 63c27767f1be350ef3d684242da34f0d396cf97d
-%define branch cms/v6-32-00-patches/69384a6a78
+%define tag f72ca89c8bf8b759ee7cfe89c4b9d180d7af9a37
+%define branch cms/v6-36-00-patches/56a08b5632f
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -90,7 +90,6 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_glew=ON \
   -Dbuiltin_ftgl=ON \
   -Dbuiltin_gl2ps=ON \
-  -Dbuiltin_afterimage=ON \
   -Dbuiltin_xxhash=ON \
   -Dbuiltin_nlohmannjson=OFF \
   -Darrow=OFF \
@@ -128,7 +127,6 @@ cmake ../%{n}-%{realversion} \
   -Dalien=OFF \
   -Dmonalisa=OFF \
 %ifarch darwin
-  -Dbuiltin_afterimage=OFF \
   -Dcocoa=OFF \
   -Dx11=ON \
   -Dcastor=OFF \
@@ -203,3 +201,4 @@ rm -rf build
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
+%{relocateConfig}lib/cmake/CppInterOp/CppInterOpConfig.cmake
