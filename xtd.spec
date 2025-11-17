@@ -1,4 +1,4 @@
-### RPM external xtd be7dc5807e054ea9a4796c902b5076a7c36ca918
+### RPM external xtd c11bc33007a0ae3d7ea692090d695df1f3b93b27
 ## NOCOMPILER
 
 %define git_commit %{realversion}
