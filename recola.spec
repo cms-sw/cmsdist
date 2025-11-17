@@ -19,7 +19,5 @@ cmake --build build %{makeprocesses}
 
 %install
 cmake --install build
-mkdir %{i}/cmake
-cp %{i}/lib/cmake/recolaConfig.cmake %{i}/cmake
-sed -i 's;^.*set(RECOLA_LIBRARY_DIR.*$;get_filename_component(RECOLA_LIBRARY_DIR "${CMAKE_CURRENT_LIST_DIR}/../lib" ABSOLUTE);' %{i}/cmake/recolaConfig.cmake
-sed -i 's;^.*set(RECOLA_INCLUDE_DIR.*$;get_filename_component(RECOLA_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../include" ABSOLUTE);' %{i}/cmake/recolaConfig.cmake
+sed -i 's;^.*set(RECOLA_LIBRARY_DIR.*$;get_filename_component(RECOLA_LIBRARY_DIR "${CMAKE_CURRENT_LIST_DIR}/../../lib" ABSOLUTE);' %{i}/lib/cmake/recolaConfig.cmake
+sed -i 's;^.*set(RECOLA_INCLUDE_DIR.*$;get_filename_component(RECOLA_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../include" ABSOLUTE);' %{i}/lib/cmake/recolaConfig.cmake
