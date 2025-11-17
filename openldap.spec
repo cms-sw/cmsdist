@@ -19,8 +19,8 @@ chmod +x ./build/config.{sub,guess}
   --with-tls=openssl \
   --disable-static \
   --disable-slapd \
-  CPPFLAGS="-I${DB6_ROOT}/include" \
-  LDFLAGS="-L${DB6_ROOT}/lib"
+  CPPFLAGS="-I${DB6_ROOT}/include -I${LIBUUID_ROOT}/include" \
+  LDFLAGS="-L${DB6_ROOT}/lib -L${LIBUUID_ROOT}/lib"
 make depend
 make
 
