@@ -1,7 +1,7 @@
 ### RPM external openldap 2.5.19
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib
 Source: ftp://ftp.openldap.org/pub/OpenLDAP/%{n}-release/%{n}-%{realversion}.tgz
-Requires: db6
+Requires: db6 libuuid
 
 %prep
 %setup -q -n %{n}-%{realversion}
