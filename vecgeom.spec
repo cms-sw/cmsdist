@@ -1,4 +1,4 @@
-### RPM external vecgeom v2.0.0-rc.8
+### RPM external vecgeom v2.0.0-rc.9
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
