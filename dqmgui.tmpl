@@ -1,6 +1,7 @@
 %define dqmgui_tag 1.0.1
 ### RPM cms dqmgui %{dqmgui_tag}_R@ROOT_VERSION@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+## INCLUDE cpp-standard
 
 %define tag %{dqmgui_tag}
 %define branch master
@@ -16,6 +17,7 @@ BuildRequires: gmake
 %patch0 -p1
 
 %build
+sed -i 's/-std=c++17/-std=c++%{cms_cxx_standard}/g' Makefile
 gmake %{makeprocesses} all ROOT_ROOT=${ROOT_ROOT} BOOST_ROOT=${BOOST_ROOT}
 rm -rf objs
 
