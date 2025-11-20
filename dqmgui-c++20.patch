@@ -1,0 +1,36 @@
+diff --git a/plugins/L1TStage2CaloLayer1RenderPlugin.cc b/plugins/L1TStage2CaloLayer1RenderPlugin.cc
+index 7685582..723a9dc 100644
+--- a/plugins/L1TStage2CaloLayer1RenderPlugin.cc
++++ b/plugins/L1TStage2CaloLayer1RenderPlugin.cc
+@@ -14,6 +14,7 @@
+ #include "TStyle.h"
+ #include "TText.h"
+ #include <cassert>
++#include <cmath>
+ #include <iostream>
+ 
+ class L1T2016Layer1RenderPlugin : public DQMRenderPlugin {
+diff --git a/plugins/PCLPixelAlignmentRenderPlugin.cc b/plugins/PCLPixelAlignmentRenderPlugin.cc
+index f4a544d..f77bc08 100644
+--- a/plugins/PCLPixelAlignmentRenderPlugin.cc
++++ b/plugins/PCLPixelAlignmentRenderPlugin.cc
+@@ -12,6 +12,7 @@
+ #include "TList.h"
+ #include "TLine.h"
+ #include <cassert>
++#include <cmath>
+ #include <array>
+ 
+ class PCLPixelAlignmentRenderPlugin : public DQMRenderPlugin {
+diff --git a/plugins/SiPixelPhase1OnlineRenderPlugin.cc b/plugins/SiPixelPhase1OnlineRenderPlugin.cc
+index 976ab2e..dfccb74 100644
+--- a/plugins/SiPixelPhase1OnlineRenderPlugin.cc
++++ b/plugins/SiPixelPhase1OnlineRenderPlugin.cc
+@@ -47,6 +47,7 @@ logic for the Legend.
+ #include "TColor.h"
+ #include "TLegend.h"
+ #include <cassert>
++#include <cmath>
+ #include <string>
+ 
+ using namespace std;
