@@ -1,12 +1,14 @@
 %define dqmgui_tag 1.0.1
 ### RPM cms dqmgui %{dqmgui_tag}_R@ROOT_VERSION@
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
+## INCLUDE cpp-standard
 
 %define tag %{dqmgui_tag}
 %define branch master
 %define github_user cms-DQM
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: dqmgui-gcc12
+Patch1: dqmgui-c++20
 Requires: root boost python3
 Requires: py3-aiohttp py3-aiosqlite py3-async-lru py3-contextvars
 BuildRequires: gmake
@@ -14,6 +16,12 @@ BuildRequires: gmake
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
+
+#Make sure  dqmgui/Makefile has std=c++1z used
+grep 'std=c++1z' Makefile
+sed -i 's/-std=c++1z/-std=c++%{cms_cxx_standard}/g' Makefile
+
 
 %build
 gmake %{makeprocesses} all ROOT_ROOT=${ROOT_ROOT} BOOST_ROOT=${BOOST_ROOT}
