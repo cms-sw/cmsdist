@@ -77,6 +77,7 @@ cmake ../%{n}-%{realversion} \
   -Dfftw3=ON \
   -Dtbb=ON \
   -Dimt=ON \
+  -Dtmva-pymva=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
   -Dmathmore=ON \
@@ -197,7 +198,6 @@ rm -rf build
 %post
 %{relocateConfig}bin/root-config
 %{relocateConfig}cmake/ROOTConfig-targets.cmake
-%{relocateConfig}config/Makefile.config
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
