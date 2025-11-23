@@ -1,5 +1,5 @@
 ### RPM external millepede V04-16-00
-Source: https://gitlab.desy.de/claus.kleinwort/millepede-ii/-/archive/%{realversion}/%{n}-ii-%{realversion}.tar.gz
+Source: https://gitlab.desy.de/millepede/millepede-ii/-/archive/%{realversion}/%{n}-ii-%{realversion}.tar.gz
 Requires: zlib
 
 %prep
