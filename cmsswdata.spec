@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-PhysicsTools-PyTorchAlpakaTest
 Requires: data-RecoLocalCalo-HGCalRecProducers
 Requires: data-RecoTracker-LSTCore
 Requires: data-Geometry-HGCalMapping
