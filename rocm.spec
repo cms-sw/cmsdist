@@ -1,8 +1,16 @@
-### RPM external rocm 7.0.2
+### RPM external rocm 7.1.0
 ## INCLUDE cpp-standard
 ## INITENV SET HIP_PATH %{i}
 
 %define repository repo.radeon.com/rocm/rhel%{rhel}
+
+%if 0%{?rhel} == 9
+# See https://github.com/ROCm/ROCm/issues/5617
+# EL9 packages are actually EL8 artefacts
+%define rpm_arch el8.%{_arch}
+%else
+%define rpm_arch el%{rhel}.%{_arch}
+%endif
 
 # AMD repositories are numbered 6.2, 6.2.1, 6.2.2, ..., 6.3
 # without any .0 in the directory name
@@ -16,38 +24,38 @@
 %define rocprofiler_register_tag    rocm-%{realversion}
 %define rocprofiler_register_pkg    rocprofiler-register-%{rocprofiler_register_tag}
 
-Source0: https://%{repository}/%{repoversion}/main/amd-smi-lib-26.0.2.70002-56.el%{rhel}.%{_arch}.rpm
-Source1: https://%{repository}/%{repoversion}/main/comgr-3.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source2: https://%{repository}/%{repoversion}/main/hip-devel-7.0.51831.70002-56.el%{rhel}.%{_arch}.rpm
-Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-7.0.51831.70002-56.el%{rhel}.%{_arch}.rpm
-Source4: https://%{repository}/%{repoversion}/main/hipcc-1.1.1.70002-56.el%{rhel}.%{_arch}.rpm
-Source5: https://%{repository}/%{repoversion}/main/hsa-rocr-1.18.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source6: https://%{repository}/%{repoversion}/main/hsa-rocr-devel-1.18.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source7: https://%{repository}/%{repoversion}/main/openmp-extras-devel-20.70.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source8: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-20.70.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source9: https://%{repository}/%{repoversion}/main/rocm-core-7.0.2.70002-56.el%{rhel}.%{_arch}.rpm
-Source10: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.77.4.70002-56.el%{rhel}.%{_arch}.rpm
-Source11: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source12: https://%{repository}/%{repoversion}/main/rocm-llvm-20.0.0.25385.70002-56.el%{rhel}.%{_arch}.rpm
-Source13: https://%{repository}/%{repoversion}/main/rocm-smi-lib-7.8.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source14: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source15: https://%{repository}/%{repoversion}/main/rocprim-devel-4.0.1.70002-56.el%{rhel}.%{_arch}.rpm
-Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.70002.70002-56.el%{rhel}.%{_arch}.rpm
-Source17: https://%{repository}/%{repoversion}/main/rocprofiler-compute-3.2.3.70002-56.el%{rhel}.%{_arch}.rpm
-Source18: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.70002.70002-56.el%{rhel}.%{_arch}.rpm
-Source19: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.70002.70002-56.el%{rhel}.%{_arch}.rpm
-Source20: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.70002.70002-56.el%{rhel}.%{_arch}.rpm
-Source21: https://%{repository}/%{repoversion}/main/rocprofiler-register-0.6.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source22: https://%{repository}/%{repoversion}/main/rocprofiler-systems-1.1.1.70002-56.el%{rhel}.%{_arch}.rpm
-Source23: https://%{repository}/%{repoversion}/main/hipcub-devel-4.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source24: https://%{repository}/%{repoversion}/main/rocthrust-devel-4.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source25: https://%{repository}/%{repoversion}/main/hiprand-3.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source26: https://%{repository}/%{repoversion}/main/hiprand-devel-3.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source27: https://%{repository}/%{repoversion}/main/rocrand-4.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source28: https://%{repository}/%{repoversion}/main/rocrand-devel-4.0.0.70002-56.el%{rhel}.%{_arch}.rpm
-Source29: https://%{repository}/%{repoversion}/main/rccl-2.26.6.70002-56.el%{rhel}.%{_arch}.rpm
-Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.26.6.70002-56.el%{rhel}.%{_arch}.rpm
-Source31: https://%{repository}/%{repoversion}/main/rocshmem-devel-3.0.0.70002-56.el%{rhel}.%{_arch}.rpm
+Source0: https://%{repository}/%{repoversion}/main/amd-smi-lib-26.1.0.70100-20.%{rpm_arch}.rpm
+Source1: https://%{repository}/%{repoversion}/main/comgr-3.0.0.70100-20.%{rpm_arch}.rpm
+Source2: https://%{repository}/%{repoversion}/main/hip-devel-7.1.25424.70100-20.%{rpm_arch}.rpm
+Source3: https://%{repository}/%{repoversion}/main/hip-runtime-amd-7.1.25424.70100-20.%{rpm_arch}.rpm
+Source4: https://%{repository}/%{repoversion}/main/hipcc-1.1.1.70100-20.%{rpm_arch}.rpm
+Source5: https://%{repository}/%{repoversion}/main/hsa-rocr-1.18.0.70100-20.%{rpm_arch}.rpm
+Source6: https://%{repository}/%{repoversion}/main/hsa-rocr-devel-1.18.0.70100-20.%{rpm_arch}.rpm
+Source7: https://%{repository}/%{repoversion}/main/openmp-extras-devel-20.70.0.70100-20.%{rpm_arch}.rpm
+Source8: https://%{repository}/%{repoversion}/main/openmp-extras-runtime-20.70.0.70100-20.%{rpm_arch}.rpm
+Source9: https://%{repository}/%{repoversion}/main/rocm-core-7.1.0.70100-20.%{rpm_arch}.rpm
+Source10: https://%{repository}/%{repoversion}/main/rocm-dbgapi-0.77.4.70100-20.%{rpm_arch}.rpm
+Source11: https://%{repository}/%{repoversion}/main/rocm-device-libs-1.0.0.70100-20.%{rpm_arch}.rpm
+Source12: https://%{repository}/%{repoversion}/main/rocm-llvm-20.0.0.25425.70100-20.%{rpm_arch}.rpm
+Source13: https://%{repository}/%{repoversion}/main/rocm-smi-lib-7.8.0.70100-20.%{rpm_arch}.rpm
+Source14: https://%{repository}/%{repoversion}/main/rocminfo-1.0.0.70100-20.%{rpm_arch}.rpm
+Source15: https://%{repository}/%{repoversion}/main/rocprim-devel-4.1.0.70100-20.%{rpm_arch}.rpm
+Source16: https://%{repository}/%{repoversion}/main/rocprofiler-2.0.70100.70100-20.%{rpm_arch}.rpm
+Source17: https://%{repository}/%{repoversion}/main/rocprofiler-compute-3.3.0.70100-20.%{rpm_arch}.rpm
+Source18: https://%{repository}/%{repoversion}/main/rocprofiler-devel-2.0.70100.70100-20.%{rpm_arch}.rpm
+Source19: https://%{repository}/%{repoversion}/main/rocprofiler-docs-2.0.70100.70100-20.%{rpm_arch}.rpm
+Source20: https://%{repository}/%{repoversion}/main/rocprofiler-plugins-2.0.70100.70100-20.%{rpm_arch}.rpm
+Source21: https://%{repository}/%{repoversion}/main/rocprofiler-register-0.6.0.70100-20.%{rpm_arch}.rpm
+Source22: https://%{repository}/%{repoversion}/main/rocprofiler-systems-1.2.0.70100-20.%{rpm_arch}.rpm
+Source23: https://%{repository}/%{repoversion}/main/hipcub-devel-4.1.0.70100-20.%{rpm_arch}.rpm
+Source24: https://%{repository}/%{repoversion}/main/rocthrust-devel-4.1.0.70100-20.%{rpm_arch}.rpm
+Source25: https://%{repository}/%{repoversion}/main/hiprand-3.1.0.70100-20.%{rpm_arch}.rpm
+Source26: https://%{repository}/%{repoversion}/main/hiprand-devel-3.1.0.70100-20.%{rpm_arch}.rpm
+Source27: https://%{repository}/%{repoversion}/main/rocrand-4.1.0.70100-20.%{rpm_arch}.rpm
+Source28: https://%{repository}/%{repoversion}/main/rocrand-devel-4.1.0.70100-20.%{rpm_arch}.rpm
+Source29: https://%{repository}/%{repoversion}/main/rccl-2.27.7.70100-20.%{rpm_arch}.rpm
+Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.27.7.70100-20.%{rpm_arch}.rpm
+Source31: https://%{repository}/%{repoversion}/main/rocshmem-devel-3.0.0.70100-20.%{rpm_arch}.rpm
 
 # sources for rocprofiler-register
 Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
