@@ -6,7 +6,7 @@ Source: https://github.com/celeritas-project/celeritas/releases/download/v%{real
 Requires: python3 json geant4
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -c -n %{n}-%{realversion}
 
 %build
 
@@ -15,7 +15,6 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
-  -DCeleritas_GIT_DESCRIBE="%{realversion};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
