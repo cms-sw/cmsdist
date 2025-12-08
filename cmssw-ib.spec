@@ -1,4 +1,4 @@
-### RPM cms cmssw-ib 3.0.0
+### RPM cms cmssw-ib 3.1.0
 ## NO_AUTO_RUNPATH
 ## NO_VERSION_SUFFIX
 BuildRequires: cmssw SCRAMV1
@@ -25,7 +25,7 @@ pushd %cmsroot/WEB/build-logs/%cmsplatf/$CMSSW_VERSION/logs/src
   tar xzf src-logs.tgz
 popd
 for i in 0 1 2 3 4 ; do
-  wget -O $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py && break
+  wget --no-check-certificate -O $CMSSW_ROOT/buildLogAnalyzer.py https://raw.githubusercontent.com/cms-sw/cms-bot/master/buildLogAnalyzer.py && break
   sleep 60
 done
 $PYTHON_CMD $CMSSW_ROOT/buildLogAnalyzer.py \
