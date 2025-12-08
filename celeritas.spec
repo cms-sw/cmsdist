@@ -1,7 +1,5 @@
-### RPM external celeritas v0.6.0
-%define celeritas_gitversion %(echo %{realversion} | sed -e 's|^v||;s|-.*||')
-%define tag dfa4cde7d7d65bf656b17a24c59fcc030aa6b0d9 
-Source: git+https://github.com/celeritas-project/celeritas?obj=develop/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM external celeritas 0.6.3
+Source: https://github.com/celeritas-project/celeritas/releases/download/v%{realversion}/celeritas-%{realversion}.tar.gz
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
@@ -17,7 +15,7 @@ mkdir ../build
 cd ../build
 
 cmake ../%{n}-%{realversion} \
-  -DCeleritas_GIT_DESCRIBE="%{celeritas_gitversion};;" \
+  -DCeleritas_GIT_DESCRIBE="%{realversion};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
