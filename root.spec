@@ -201,4 +201,3 @@ rm -rf build
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
-%{relocateConfig}lib/cmake/CppInterOp/CppInterOpConfig.cmake
