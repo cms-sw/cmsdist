@@ -48,7 +48,8 @@ platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
 
 %if 0%{?fedora:1}
 platformSeeds=$(echo ${platformSeeds} | sed 's| glibc-headers | glibc-devel |')
-platformSeeds+=" java-21-openjdk-devel"
+platformSeeds+=" java-21-openjdk-devel libbrotli"
+platformBuildSeeds+=" brotli-devel"
 %else
 %if 0%{?rhel} >= 9
 platformBuildSeeds+=" brotli-devel java-17-openjdk-devel"
