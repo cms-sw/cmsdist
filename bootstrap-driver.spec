@@ -46,6 +46,10 @@ platformBuildSeeds="  git patch make zip unzip bzip2 which rsync"
 platformBuildSeeds+=" openssl-devel libxcrypt-devel"
 platformBuildSeeds+=" libX11-devel libXpm-devel libXft-devel mesa-libGLU-devel"
 
+%if 0%{?fedora:1}
+platformSeeds=$(echo ${platformSeeds} | sed 's| glibc-headers | glibc-devel |')
+platformSeeds+=" java-21-openjdk-devel"
+%else
 %if 0%{?rhel} >= 9
 platformBuildSeeds+=" brotli-devel java-17-openjdk-devel"
 %if 0%{?rhel} >= 10
@@ -53,6 +57,12 @@ platformSeeds=$(echo ${platformSeeds} | sed 's| glibc-headers | glibc-devel |')
 %endif
 %else
 platformBuildSeeds+=" java-1.8.0-openjdk-devel"
+%endif
+%endif
+
+%ifarch riscv64
+platformSeeds+=" rpm"
+platformBuildSeeds+=" rpm-build"
 %endif
 
 #Various packages required by xrootd with krb5 enabled
