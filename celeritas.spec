@@ -53,4 +53,3 @@ make %{makeprocesses} install VERBOSE=1
 
 %post
 %{relocateConfig}lib64/cmake/Celeritas/CeleritasConfig.cmake
-%{relocateConfig}lib64/cmake/G4VG/G4VGConfig.cmake
