@@ -6,6 +6,7 @@ Requires: curl
 Requires: numactl
 Requires: rdma-core
 Requires: xpmem
+BuildRequires: autotools
 
 %prep
 %setup -q -n %{n}-%{realversion}

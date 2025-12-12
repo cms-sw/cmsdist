@@ -14,7 +14,7 @@ BuildRequires: bazel java-env git
 %endif
 
 #Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
-%if "%{cms_cxx_standard}" == "20"
+%if "%{cms_cxx_standard}" == "20" || "%{cms_cxx_standard}" == "23"
 %undefine cms_cxx_standard
 %define cms_cxx_standard 17
 %endif

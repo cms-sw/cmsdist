@@ -4,6 +4,9 @@
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: https://patch-diff.githubusercontent.com/raw/grpc/grpc/pull/28212.patch
 Patch1: grpc-mno-outline-atomics
+Patch2: grpc-no-aligned-storage
+Patch3: grpc-no-std-iterator
+Patch4: grpc-cpp23
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
@@ -13,6 +16,9 @@ Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %setup -n %{n}-%{realversion}
 patch -p1 <%{_sourcedir}/28212.patch
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf ../build
