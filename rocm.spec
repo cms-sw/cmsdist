@@ -56,6 +56,9 @@ Source28: https://%{repository}/%{repoversion}/main/rocrand-devel-4.1.0.70100-20
 Source29: https://%{repository}/%{repoversion}/main/rccl-2.27.7.70100-20.%{rpm_arch}.rpm
 Source30: https://%{repository}/%{repoversion}/main/rccl-devel-2.27.7.70100-20.%{rpm_arch}.rpm
 Source31: https://%{repository}/%{repoversion}/main/rocshmem-devel-3.0.0.70100-20.%{rpm_arch}.rpm
+Source32: https://%{repository}/%{repoversion}/main/rocprofiler-sdk7.1.0-1.0.0.70100-20.%{rpm_arch}.rpm
+Source33: https://%{repository}/%{repoversion}/main/rocprofiler-sdk-rocpd7.1.0-1.0.0.70100-20.%{rpm_arch}.rpm
+Source34: https://%{repository}/%{repoversion}/main/rocprofiler-sdk-roctx7.1.0-1.0.0.70100-20.%{rpm_arch}.rpm
 
 # sources for rocprofiler-register
 Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
@@ -104,6 +107,9 @@ rpm2cpio %{SOURCE28} | cpio -idmv
 rpm2cpio %{SOURCE29} | cpio -idmv
 rpm2cpio %{SOURCE30} | cpio -idmv
 rpm2cpio %{SOURCE31} | cpio -idmv
+rpm2cpio %{SOURCE32} | cpio -idmv
+rpm2cpio %{SOURCE33} | cpio -idmv
+rpm2cpio %{SOURCE34} | cpio -idmv
 
 # build rocprofiler-register
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
