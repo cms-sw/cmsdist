@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="6">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="7">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_VERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
@@ -11,6 +11,7 @@
     <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
+  <flags ROCM_FLAGS="--rocm-path=$ROCM_BASE"/>
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
 %if "%{default_microarch_name}"
