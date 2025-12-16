@@ -6,7 +6,7 @@
 %define tag v%{realversion}
 Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: openmpi-setenv-fix
-BuildRequires: autotools flex
+BuildRequires: autotools flex python-python3
 %{!?without_cuda:Requires: cuda}
 %{!?without_rocm:Requires: rocm}
 Requires: libfabric
