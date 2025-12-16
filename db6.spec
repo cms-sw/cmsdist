@@ -9,6 +9,7 @@ Source: http://cmsrep.cern.ch/cmssw/download/db-%{realversion}.tar.gz
 %build
 mkdir ./obj
 cd ./obj
+CFLAGS="-Wno-incompatible-pointer-types" \
 ../dist/configure --prefix=%{i} --build="%{_build}" --host="%{_host}" \
                   --disable-java --disable-tcl --disable-static
 make %{makeprocesses}

@@ -433,7 +433,7 @@ tornado==6.5.2
 tqdm==4.67.1
 traitlets==5.14.3
 trove-classifiers==2025.9.11.17
-typed-ast==1.5.5
+#typed-ast==1.5.5
 types-python-dateutil==2.9.0.20251008
 typing-extensions==4.15.0
 typing-inspection==0.4.2

@@ -1,5 +1,5 @@
-### RPM external nasm 2.14.02
-Source: http://www.nasm.us/pub/nasm/releasebuilds/%{realversion}/%{n}-%{realversion}.tar.bz2
+### RPM external nasm 3.01
+Source: https://www.nasm.us/pub/nasm/releasebuilds/%{realversion}/%{n}-%{realversion}.tar.gz
 
 %prep
 %setup -n %{n}-%{realversion}

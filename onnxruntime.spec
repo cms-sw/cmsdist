@@ -56,7 +56,7 @@ cmake ../%{n}-%{realversion}/cmake \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT}" \
    -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
-   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual"
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual -Wno-error=cpp"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
 # see https://github.com/google/flatbuffers/issues/7366

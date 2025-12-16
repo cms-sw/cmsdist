@@ -13,11 +13,13 @@ Requires: gcc zlib python3 libxml2 zstd libunwind
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
-
+# GCC 15 fix: include cstdint
+Patch0: llvm-gcc15
 %define keep_archives true
 
 %prep
 %setup -T -b0 -n llvm-%{realversion}-%{llvmCommit}
+%patch0 -p1
 
 # include-what-you-see is not LLVM project, we add it explicitly to the clang tools
 %setup -T -D -a1 -c -n llvm-%{realversion}-%{llvmCommit}/clang/tools

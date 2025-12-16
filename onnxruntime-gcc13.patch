@@ -24,3 +24,15 @@ index 023cbcb..8fc17f0 100644
      ORT_RETURN_IF_ERROR(kernel_type_str_resolver.RegisterOpSchema(*op_schema));
    }
  
+diff --git a/onnxruntime/core/optimizer/transpose_optimization/optimizer_api.h b/onnxruntime/core/optimizer/transpose_optimization/optimizer_api.h
+index 7122aec..3cd291a 100644
+--- a/onnxruntime/core/optimizer/transpose_optimization/optimizer_api.h
++++ b/onnxruntime/core/optimizer/transpose_optimization/optimizer_api.h
+@@ -10,6 +10,7 @@
+ #include <string_view>
+ #include <unordered_map>
+ #include <unordered_set>
++#include <cstdint>
+ #include <vector>
+ 
+ namespace onnx_transpose_optimization {

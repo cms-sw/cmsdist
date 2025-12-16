@@ -58,7 +58,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_COMPILER="$GCC_ROOT/bin/g++" \
   -DCMAKE_CXX_STANDARD="%{cms_cxx_standard}" \
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{arch_build_flags} %{selected_microarch} %{lto_build_flags}" \
+  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{?arch_build_flags} %{selected_microarch} %{?lto_build_flags}" \
   -DCMAKE_AR="$GCC_ROOT/bin/gcc-ar" \
   -DCMAKE_RANLIB="$GCC_ROOT/bin/gcc-ranlib" \
   -DCMAKE_BUILD_TYPE="Release" \

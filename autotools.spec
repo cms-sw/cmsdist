@@ -15,6 +15,9 @@ Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.gz
 Source4: http://ftp.gnu.org/gnu/gettext/gettext-%{gettext_version}.tar.gz
 Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_version}.tar.gz
 
+#pkg-config GCC 15 patch
+Patch0: autotools-pkg-config-gcc15
+
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
 %setup -D -T -b 1 -n automake-%{automake_version}
@@ -22,6 +25,7 @@ Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_versio
 %setup -D -T -b 3 -n m4-%{m4_version}
 %setup -D -T -b 4 -n gettext-%{gettext_version}
 %setup -D -T -b 5 -n pkg-config-%{pkgconfig_version}
+%patch0 -p1
 
 # Update config.{guess,sub} scripts
 rm -f %{_tmppath}/config.{sub,guess}
@@ -43,20 +47,24 @@ done
 %build
 export PATH=%i/bin:$PATH
 pushd %_builddir/m4-%{m4_version} 
-  ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses && make install
+  env CFLAGS="-O2 -std=gnu17" ./configure --disable-dependency-tracking --prefix %i
+  make %makeprocesses
+  make install
 popd
 pushd %_builddir/autoconf-%{autoconf_version}
   ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses && make install
+  make %makeprocesses
+  make install
 popd
 pushd %_builddir/automake-%{automake_version}
   ./configure --disable-dependency-tracking --prefix %i
-  make %makeprocesses && make install
+  make %makeprocesses
+  make install
 popd
 pushd %_builddir/libtool-%{libtool_version} 
   ./configure --disable-dependency-tracking --prefix %i --enable-ltdl-install
-  make %makeprocesses && make install
+  make %makeprocesses
+  make install
 popd
 pushd %_builddir/gettext-%{gettext_version}
   ./configure --prefix %i \
@@ -76,7 +84,8 @@ pushd %_builddir/gettext-%{gettext_version}
               --with-included-glib \
               --with-included-libunistring \
               --with-included-libcroco
-  make %makeprocesses && make install
+  make %makeprocesses
+  make install
 popd
 pushd %_builddir/pkg-config-%{pkgconfig_version}
   ./configure --prefix %i \
@@ -85,7 +94,8 @@ pushd %_builddir/pkg-config-%{pkgconfig_version}
               --disable-host-tool \
               --with-internal-glib \
               --disable-shared
-  make %makeprocesses && make install
+  make %makeprocesses
+  make install
 popd
 
 # Fix perl location, required on /usr/bin/perl

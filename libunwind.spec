@@ -14,6 +14,9 @@ autoreconf -fiv
 ./configure CFLAGS="-g -O3 -fcommon" \
   CPPFLAGS="-I${ZLIB_ROOT}/include -I${XZ_ROOT}/include" \
   LDFLAGS="-L${ZLIB_ROOT}/lib -L${XZ_ROOT}/lib" \
+%ifarch riscv64
+  --disable-tests \
+%endif
   --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo --disable-per-thread-cache
 make %{makeprocesses}
 
