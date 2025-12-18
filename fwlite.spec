@@ -15,6 +15,9 @@ Requires: fwlite-tool-conf
 # depends on MessageService, which pulls in service dependencies
 %define patchsrc3 rm -f src/FWCore/MessageLogger/python/MessageLogger_cfi.py
 
+# delete Dataformats/*/plugins directory
+%define patchsrc4 rm -rf src/DataFormats/*/plugins
+
 %define source1 git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
 ## INCLUDE cmssw-partial-build
