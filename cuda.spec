@@ -1,8 +1,8 @@
-### RPM external cuda 12.9.1
+### RPM external cuda 13.1.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 575.57.08
+%define driversversion 590.44.01
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -23,7 +23,9 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime
 cd %_builddir/
+touch /tmp/cuda-installer.log
 /bin/sh %{SOURCE0} --silent --override --tmpdir=%_builddir/tmp --installpath=%_builddir/build --toolkit --keep
+rm -f /tmp/cuda-installer.log
 
 # create target directory structure
 mkdir -p %{i}/include

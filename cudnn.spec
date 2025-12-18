@@ -1,7 +1,7 @@
 ### RPM external cudnn 9.9.0.52
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
-%define cudaver 12
+%define cudaver 13
 
 # NVIDIA uses sbsa for aarch64, and the standard architecture name for ppc64le and x86_64
 %ifarch aarch64
