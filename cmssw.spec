@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_0_0
+### RPM cms cmssw CMSSW_16_0_0_pre4_FASTPU
 
 Requires: cmssw-tool-conf
 
