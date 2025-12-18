@@ -93,6 +93,7 @@ DataFormats/TrackerRecHit2D
 DataFormats/TrackingRecHit
 DataFormats/TrajectorySeed
 DataFormats/TrajectoryState
+DataFormats/TrivialSerialisation
 DataFormats/VertexReco
 DataFormats/WrappedStdDictionaries
 FWCore/AbstractServices
@@ -128,6 +129,7 @@ Geometry/CommonDetUnit
 Geometry/CommonTopologies
 Geometry/GEMGeometry
 HeterogeneousCore/AlpakaInterface
+HeterogeneousCore/TrivialSerialisation
 PhysicsTools/FWLite
 PhysicsTools/SelectorUtils
 PhysicsTools/Utilities
