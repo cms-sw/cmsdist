@@ -23,8 +23,15 @@ mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime
 cd %_builddir/
+
+# The CUDA installer attempts to write to /tmp/cuda-installer.log, but this file may be created by another user, causing permission 
+# errors during installation.
+# Create /tmp/cuda-installer.log before installation to ensure the current user has write permissions
+# For reference see issue at https://forums.developer.nvidia.com/t/change-the-path-of-install-log-when-installing-cuda-toolkit/183179
 touch /tmp/cuda-installer.log
 /bin/sh %{SOURCE0} --silent --override --tmpdir=%_builddir/tmp --installpath=%_builddir/build --toolkit --keep
+
+# Remove /tmp/cuda-installer.log after installation to clean up the temporary log file
 rm -f /tmp/cuda-installer.log
 
 # create target directory structure
