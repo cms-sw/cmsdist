@@ -1,5 +1,5 @@
-### RPM external gmake 4.3
-Source: ftp://ftp.gnu.org/gnu/make/make-%{realversion}.tar.gz
+### RPM external gmake 4.4.1
+Source: https://ftp.gnu.org/gnu/make/make-%{realversion}.tar.gz
 
 %prep
 %setup -n make-%{realversion}
