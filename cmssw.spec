@@ -1,4 +1,4 @@
-### RPM cms cmssw CMSSW_12_6_0_G4114Cand00
+### RPM cms cmssw CMSSW_12_6_0_G41140
 
 Requires: cmssw-tool-conf
 

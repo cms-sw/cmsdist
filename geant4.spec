@@ -1,8 +1,8 @@
-### RPM external geant4 11.4.cand00
+### RPM external geant4 11.4.0
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
-%define tag a473304c7b82b078b37dcca62c8ab411a6d31b46
+%define tag 52ac4a87cc3913b41a0e513ce1aabf136c4a34a5
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
