@@ -110,6 +110,7 @@ Requires: py3-python-ldap
 Requires: py3-plac
 
 Requires: py3-matplotlib
+Requires: py3-bokeh
 Requires: py3-numpy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
