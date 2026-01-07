@@ -1,9 +1,9 @@
-### RPM external alpaka 2.0.0
+### RPM external alpaka 2.1.1
 ## NOCOMPILER
 
 %define git_commit %{realversion}
 
-Source: https://github.com/cms-externals/%{n}/archive/%{git_commit}.tar.gz
+Source: https://github.com/alpaka-group/%{n}/archive/%{git_commit}.tar.gz
 
 %prep
 %setup -n %{n}-%{git_commit}
