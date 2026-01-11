@@ -1,12 +1,24 @@
-  <tool name="ofast-flag" version="1.0" revision="1">
-    <flags CXXFLAGS="-Ofast -fno-reciprocal-math"/>
-    <ifarch match="ppc64le|amd64|x86_64">
-      <flags CXXFLAGS="-mrecip=none"/>
-    </ifarch>
-    <ifarchitecture name="slc6_">
-      <ifcompiler name="llvm">
-        <flags CXXFLAGS="-fno-builtin"/>
-      </ifcompiler>
-    </ifarchitecture>
-    <flags NO_RECURSIVE_EXPORT="1"/>
-  </tool>
+<tool name="ofast-flag" version="2.0" revision="1">
+  <!--
+  As of GCC version 13.3.0, `-Ofast` enables (directly or indirectly):
+    - `-fallow-store-data-races`
+    - `-fno-semantic-interposition`
+    - `-fno-math-errno`
+    - `-funsafe-math-optimizations`
+    - `-ffinite-math-only`
+    - `-fno-rounding-math` (enabled by default)
+    - `-fno-signaling-nans` (enabled by default)
+    - `-fcx-limited-range`
+    - `-fexcess-precision=fast`
+    - `-fno-signed-zeros`
+    - `-fno-trapping-math`
+    - `-fassociative-math`
+    - `-freciprocal-math` (disabled in cms-sw/cmsdist#8280)
+  We disable `-fallow-store-data-races`, `-funsafe-math-optimizations`, `-ffinite-math-only` and `-freciprocal-math` (see cms-sw/cmsdist#8280).
+  -->
+  <flags CXXFLAGS="-fno-semantic-interposition -fno-math-errno -fno-rounding-math -fno-signaling-nans -fexcess-precision=fast -fno-signed-zeros -fno-trapping-math -fassociative-math -fno-reciprocal-math"/>
+  <ifarch match="ppc64le|amd64|x86_64">
+    <flags CXXFLAGS="-mrecip=none"/>
+  </ifarch>
+  <flags NO_RECURSIVE_EXPORT="1"/>
+</tool>
