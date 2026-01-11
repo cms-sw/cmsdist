@@ -5,7 +5,7 @@ Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 %setup -n xz-%{realversion}
 
 %build
-./configure CFLAGS='-fPIC -D_FILE_OFFSET_BITS=64 -Ofast' --prefix=%{i} --disable-static
+./configure CFLAGS='-fPIC -D_FILE_OFFSET_BITS=64 -O3' --prefix=%{i} --disable-static
 make %{makeprocesses}
 
 %install

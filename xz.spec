@@ -7,7 +7,7 @@ BuildRequires: autotools
 %setup -n %{n}-%{realversion}
 
 %build
-./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
+./configure CFLAGS='-fPIC -O3' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 
 %install
