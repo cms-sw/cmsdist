@@ -17,7 +17,7 @@ cp %{_sourcedir}/ROOTFilePB.proto .
 protoc -I ./ --cpp_out=./ ROOTFilePB.proto
 perl -p -i -e 's|DQMServices/Core/interface/||' ROOTFilePB.pb.cc fastHadd.cc
 g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
-      -I$PROTOBUF_ROOT/include -L$PROTOBUF_ROOT/lib -lprotobuf \
+      -I$PROTOBUF_ROOT/include -I$ROOT_ROOT/include -L$PROTOBUF_ROOT/lib -lprotobuf \
       `root-config --cflags --libs`
 
 %install
