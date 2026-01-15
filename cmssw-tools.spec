@@ -3,13 +3,16 @@
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
 ## UPLOAD_DEPENDENCIES dqmgui
+## INCLUDE vecgeom-opt
 
 Requires: AXOL1TL
 Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 Requires: acts
+%if %{enable_vecgeom}
 Requires: celeritas
+%endif
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: google-benchmark
