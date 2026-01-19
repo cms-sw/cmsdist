@@ -1,4 +1,7 @@
-%ifarch x86_64
-%define vectorized_packages fastjet tensorflow-sources tensorflow OpenBLAS rivet gbl lwtnn opencv
+%if 0%{?package_vectorization}
+%define vectorized_packages fastjet OpenBLAS rivet gbl lwtnn opencv
+%if 0%{?without_tensorflow} <= 0
+%define vectorized_packages %{vectorized_packages} tensorflow-sources tensorflow
+%endif
 %{expand:%(for t in %{vectorized_packages} ; do echo Requires: $t; for v in %{package_vectorization}; do echo Requires: ${t}_${v}; done; done)}
 %endif
