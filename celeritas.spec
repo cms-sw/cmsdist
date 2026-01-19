@@ -3,7 +3,7 @@ Source: https://github.com/celeritas-project/celeritas/releases/download/v%{real
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
-Requires: python3 json geant4
+Requires: python3 json geant4 g4vg
 
 %prep
 %setup -c -n %{n}-%{realversion}
@@ -28,6 +28,7 @@ cmake ../%{n}-%{realversion} \
   -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
   -DCELERITAS_BUILD_TESTS=OFF \
+  -DCELERITAS_BUILTIN_G4VG:BOOL=OFF \
   -DCELERITAS_DEBUG=OFF \
   -DCELERITAS_USE_OpenMP=OFF \
   -DCELERITAS_USE_CUDA=OFF \
