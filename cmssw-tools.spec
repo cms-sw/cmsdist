@@ -161,6 +161,7 @@ Requires: xtd
 %ifos linux
 Requires: openldap
 Requires: gperftools
+## FORCE_REQUIRES cuda
 %{!?without_cuda:Requires: cuda cuda-compatible-runtime gdrcopy cudnn}
 
 Requires: alpaka
