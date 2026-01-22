@@ -71,7 +71,6 @@ Requires: libtiff
 Requires: libungif
 Requires: libxml2
 Requires: lwtnn
-Requires: meschach
 Requires: pcre2
 Requires: photospp
 Requires: pyquen
@@ -185,7 +184,6 @@ Requires: intel-vtune
 Requires: ruff
 %{!?without_rocm:Requires: rocm}
 Requires: cmsmon-tools
-Requires: dip
 %else
 Requires: tkonlinesw-fake
 Requires: oracle-fake

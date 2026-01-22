@@ -8,7 +8,7 @@ BuildRequires: autotools
 %setup -n %{n}-%realversion
 %build
 %if %{cmscompilerv}>13
-CFLAGS="-Wno-error=return-mismatch -Wno-error=implicit-int -Wno-error=implicit-function-declaration" \
+CFLAGS="-Wno-error=return-mismatch -Wno-error=implicit-int -Wno-error=implicit-function-declaration -Wno-error=old-style-definition -Wno-error=int-conversion -Wno-error=incompatible-pointer-types -Wno-error=missing-prototypes -Wno-error=redundant-decls -Wno-error=return-type -std=gnu90" \
 %endif
   ./configure --prefix=%{i}
 # Turn off this part, it causes problems for 32-bit-on-64-bit and is only
