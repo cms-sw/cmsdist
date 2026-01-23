@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
+ge<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://www.wiki.terascale.de/index.php/GeneralBrokenLines"/>
   <lib name="GBL"/>
   <client>
@@ -7,4 +7,5 @@
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <use name="eigen"/>
+  <use name="mille"/>
 </tool>

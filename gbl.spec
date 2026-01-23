@@ -1,16 +1,16 @@
-### RPM external gbl V03-01-01
+### RPM external gbl test-04-00-00 
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
-%define tag 59c2d99ea96bc739321fd251096504c91467be24
-Source: git+https://gitlab.desy.de/claus.kleinwort/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+%define tag 557a04237f121f5d444f7d8b69882d75b00ad5cb
+Source: git+https://gitlab.desy.de/millepede/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Source99: scram-tools.file/tools/eigen/env
 
 BuildRequires: cmake
 Requires: eigen
+Requires: mille
 
 %prep
 %setup -q -n %{n}-%{realversion}
-grep -q 'CMAKE_CXX_STANDARD  *11' cpp/CMakeLists.txt
 sed -i -e 's|CMAKE_CXX_STANDARD  *11|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' cpp/CMakeLists.txt
 
 %build
