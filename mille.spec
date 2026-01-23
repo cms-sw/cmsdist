@@ -1,4 +1,4 @@
-### RPM external mille V00-01-01
+### RPM external mille V00-01-02
 ## INCLUDE cpp-standard
 Source: https://gitlab.desy.de/millepede/Mille/-/archive/%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: cmake
