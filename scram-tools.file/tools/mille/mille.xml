@@ -1,0 +1,15 @@
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="1">
+  <info url="https://millepede.pages.desy.de/Mille/"/>
+  <client>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+  </client>
+  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+  <lib name="Mille2"/>
+  <lib name="MilleC"/>
+  <use name="sockets"/>
+  <use name="pcre"/>
+  <use name="root"/>
+  <use name="zlib"/>
+</tool>
