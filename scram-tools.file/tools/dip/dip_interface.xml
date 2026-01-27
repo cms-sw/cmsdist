@@ -1,7 +1,8 @@
-<tool name="dip_interface" version="@TOOL_VERSION@" revision="1">
+<tool name="dip_interface" version="@TOOL_VERSION@" revision="2">
+  <use name="log4cplus"/>
   <client>
     <environment name="DIP_INTERFACE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"            default="$DIP_INTERFACE_BASE/include"/>
-    <environment name="LIBDIR"             default="$DIP_INTERFACE_BASE/lib"/>
+    <environment name="INCLUDE"            default="$DIP_INTERFACE_BASE/include/dip"/>
+    <environment name="LIBDIR"             default="$DIP_INTERFACE_BASE/lib64"/>
   </client>
 </tool>
