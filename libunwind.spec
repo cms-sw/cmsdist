@@ -1,22 +1,21 @@
-### RPM external libunwind 1.8.1-master
-%define tag f081cf42917bdd5c428b77850b473f31f81767cf
-%define branch master
-Source0: git://github.com/%{n}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+### RPM external libunwind 1.8.3
+
+Source0: https://github.com/%{n}/%{n}/archive/refs/tags/v%{realversion}.tar.gz
+Source1: https://patch-diff.githubusercontent.com/raw/libunwind/libunwind/pull/831.patch
 
 BuildRequires: autotools gmake
 Requires: zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 <%{_sourcedir}/831.patch
 
 %build
 autoreconf -fiv
 ./configure CFLAGS="-g -O3 -fcommon" \
   CPPFLAGS="-I${ZLIB_ROOT}/include -I${XZ_ROOT}/include" \
   LDFLAGS="-L${ZLIB_ROOT}/lib -L${XZ_ROOT}/lib" \
-%ifarch riscv64
   --disable-tests \
-%endif
   --prefix=%{i} --disable-block-signals --enable-zlibdebuginfo --disable-per-thread-cache
 make %{makeprocesses}
 

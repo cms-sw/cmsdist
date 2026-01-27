@@ -1,4 +1,4 @@
-### RPM external gnuplot 5.2.8
+### RPM external gnuplot 5.4.8
 Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/%{realversion}/gnuplot-%{realversion}.tar.gz
 Requires: zlib
 
