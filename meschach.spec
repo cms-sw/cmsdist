@@ -17,6 +17,7 @@ Patch2: meschach-1.2b-parallel-build
 %ifarch darwin
 perl -p -i -e "s|define HAVE_MALLOC_H 1|undef MALLOCDECL|g" machine.h
 %endif
+
 make %{makeprocesses}
 %install
 mkdir -p %i/include

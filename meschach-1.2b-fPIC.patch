@@ -5,7 +5,7 @@
  # CFLAGS = -O -g
  # CFLAGS = -pg -g
 -CFLAGS = -O
-+CFLAGS = -O -fPIC -Wno-error=implicit-function-declaration
++CFLAGS = -O -fPIC -Wno-error=implicit-function-declaration -std=gnu89
  
  
  .c.o:
