@@ -1,4 +1,4 @@
-ge<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://www.wiki.terascale.de/index.php/GeneralBrokenLines"/>
   <lib name="GBL"/>
   <client>
