@@ -14,6 +14,7 @@
   <flags ROCM_FLAGS="--rocm-path=$ROCM_BASE"/>
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
+  <flags ROCM_FLAGS="-Wno-pass-failed"/>
 %if "%{default_microarch_name}"
 %if "%{default_microarch_name}" != "%{min_microarch_name}"
   <flags REM_ROCM_HOST_CXXFLAGS="-march=%%"/>
