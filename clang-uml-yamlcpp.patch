@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index aad3092..839a8f6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -145,12 +145,7 @@ find_package(yaml-cpp REQUIRED)
+ if(MSVC)
+     add_definitions(-DYAML_CPP_STATIC_DEFINE)
+ endif(MSVC)
+-if(APPLE)
+-    set(YAML_CPP_LIBRARIES yaml-cpp::yaml-cpp)
+-endif(APPLE)
+-if(LINUX)
+-    set(YAML_CPP_LIBRARIES yaml-cpp)
+-endif(LINUX)
++set(YAML_CPP_LIBRARIES yaml-cpp::yaml-cpp)
+ message(STATUS "Found yaml-cpp at: ${YAML_CPP_INCLUDE_DIR}, library: ${YAML_CPP_LIBRARIES}")
+ 
+ #
