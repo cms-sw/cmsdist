@@ -9,18 +9,21 @@ Requires: mille
 %setup -n %{n}-ii-%{realversion}
 
 %build
-rm -rf build
-mkdir build
-cd build
+rm -rf ../build
+mkdir ../build
+cd ../build
 cmake \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DLAPACK_OPENBLAS=off \
-  ../
-make 
+  ../%{n}-ii-%{realversion}
+make %{makeprocesses} VERBOSE=1
 
 %install
-cd build
+cd ../build
 make install PREFIX=%{i}
 
 %post
-%{relocateConfig}cmake/millepedeIIConfig.cmake
+%{relocateConfig}mp2setup.sh
+%{relocateConfig}millepedeIIConfig.cmake
