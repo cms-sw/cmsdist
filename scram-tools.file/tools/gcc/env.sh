@@ -43,9 +43,7 @@ GCC_CXXFLAGS="$GCC_CXXFLAGS -Xassembler --compress-debug-sections"
 #FIXME: GCC 12/13/14 workaround
 if [[ "$GCC_VERSION" =~ ^12\.[23]\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"
-elif [[ "$GCC_VERSION" =~ ^13\. ]] ; then
-  GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
-elif [[ "$GCC_VERSION" =~ ^14\. ]] ; then
+elif [[ "$GCC_VERSION" =~ ^1[345]\. ]] ; then
   GCC_CXXFLAGS="$GCC_CXXFLAGS -Wno-error=array-bounds -Warray-bounds"  
 fi
 
