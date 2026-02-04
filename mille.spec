@@ -27,4 +27,3 @@ make install PREFIX=%{i}
 
 %post
 %{relocateConfig}milleStandaloneSetup.sh
-%{relocateConfig}cmake/MilleConfig.cmake
