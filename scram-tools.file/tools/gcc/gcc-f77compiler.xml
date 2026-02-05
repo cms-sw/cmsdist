@@ -10,7 +10,7 @@
 %endif
     </client>
     <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O3 @GCC_FFLAGS@"/>
-    <flags FFLAGS="-std=legacy"/>
+    <flags FFLAGS="-std=legacy -Wno-unused-variable"/>
     <flags FOPTIMISEDFLAGS="-O3 @GCC_FOPTIMISEDFLAGS@"/>
     <flags FSHAREDOBJECTFLAGS="-fPIC @GCC_FSHAREDOBJECTFLAGS@"/>
   </tool>
