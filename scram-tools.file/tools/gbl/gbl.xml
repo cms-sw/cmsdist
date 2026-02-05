@@ -7,4 +7,5 @@
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
   <use name="eigen"/>
+  <use name="mille"/>
 </tool>
