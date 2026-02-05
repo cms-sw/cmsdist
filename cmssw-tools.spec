@@ -1,4 +1,4 @@
-### RPM cms cmssw-tools 4.0
+### RPM cms cmssw-tools 5.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
@@ -71,7 +71,6 @@ Requires: libtiff
 Requires: libungif
 Requires: libxml2
 Requires: lwtnn
-Requires: meschach
 Requires: pcre2
 Requires: photospp
 Requires: pyquen
