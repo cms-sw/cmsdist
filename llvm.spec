@@ -1,4 +1,4 @@
-### RPM external llvm 21.1.4
+### RPM external llvm 21.1.8
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -6,8 +6,8 @@ BuildRequires: cmake ninja
 Requires: gcc zlib python3 libxml2 zstd libunwind
 %{!?without_cuda:Requires: cuda}
 
-%define llvmCommit 3063d23cfa249166b2e0c33a02c7300c20ffb2d
-%define llvmBranch cms/llvmorg-21.1.4
+%define llvmCommit dfb28cac458b6dd79d221fab926cb702965a9e48
+%define llvmBranch cms/llvmorg-%{realversion}
 %define iwyuCommit 791e69ea4662cb3e74e8128fd5fd69bd7f4ea6b3
 %define iwyuBranch clang_21
 
