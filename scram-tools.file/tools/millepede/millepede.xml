@@ -1,10 +1,11 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
-  <info url="http://www.wiki.terascale.de/index.php/Millepede_II"/>
+  <info url="https://millepede.pages.desy.de/millepede-ii/"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <use name="sockets"/>
   <use name="pcre"/>
-  <use name="zlib"/>
+  <use name="root"/>
+  <use name="mille"/>
 </tool>
