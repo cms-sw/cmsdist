@@ -8,7 +8,7 @@ Source: git+https://github.com/%{github_user}/clang-uml.git?obj=%{branch}/%{tag}
 Patch0: clang-uml-clang21
 Patch1: clang-uml-yamlcpp
 BuildRequires: cmake ninja 
-Requires: yaml-cpp llvm zlib
+Requires: yaml-cpp llvm zlib zstd libxml2
 
 %prep
 %setup -n %{n}-%{realversion}

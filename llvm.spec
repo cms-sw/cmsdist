@@ -1,5 +1,4 @@
 ### RPM external llvm 21.1.4
-
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -70,6 +69,7 @@ ninja -v %{makeprocesses} install
 
 #Create libomp symlink
 host_triple=$(gcc -dumpmachine)
+ln -s ${host_triple}/libomp.so %{i}/lib64/libomp.so
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
