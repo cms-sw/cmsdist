@@ -2,8 +2,8 @@
 ## INITENV +PATH PYTHON3PATH %i/${PYTHON3_LIB_SITE_PACKAGES}
 Requires: zlib llvm sqlite
 Requires: py3-Jinja2 py3-parsimonious py3-pysqlite3 py3-Pygments
-%define dxrCommit 737d3b0570e5e4a7845e8cba7c0b000d2911f24e
-%define branch cms/6ea764102a/clang18
+%define dxrCommit b55cf0eeacc494adc575562eac290b3e4871a6ac
+%define branch cms/clang21
 
 Source0: git+https://github.com/cms-externals/dxr.git?obj=%{branch}/%{dxrCommit}&export=dxr-%{dxrCommit}&module=dxr-%dxrCommit&output=/dxr-%{dxrCommit}.tgz
 %define keep_archives true
