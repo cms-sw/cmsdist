@@ -1,4 +1,4 @@
-### RPM external llvm 18.1.6
+### RPM external llvm 21.1.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -6,10 +6,10 @@ BuildRequires: cmake ninja
 Requires: gcc zlib python3 libxml2 zstd libunwind
 %{!?without_cuda:Requires: cuda}
 
-%define llvmCommit 02c7568fc9f555b2c72fc169c8c68e2116d97382
-%define llvmBranch cms/release/18.x/1118c2e
-%define iwyuCommit 377eaef70cdda47368939f4d9beabfabe3f628f0
-%define iwyuBranch clang_18
+%define llvmCommit 3063d23cfa249166b2e0c33a02c7300c20ffb2d
+%define llvmBranch cms/llvmorg-21.1.4
+%define iwyuCommit 791e69ea4662cb3e74e8128fd5fd69bd7f4ea6b3
+%define iwyuBranch clang_21
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
@@ -70,6 +70,7 @@ ninja -v %{makeprocesses} install
 
 #Create libomp symlink
 host_triple=$(gcc -dumpmachine)
+ln -s ${host_triple}/libomp.so %{i}/lib64/libomp.so
 
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
