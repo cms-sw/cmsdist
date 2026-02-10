@@ -6,6 +6,7 @@
       <environment name="LIBDIR" default="$ICX_CXXCOMPILER_BASE/lib"/>
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
+    <flags REM_CXXFLAGS="-fimplicit-constexpr"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
     <flags REM_CXXFLAGS="-fno-crossjumping"/>
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
