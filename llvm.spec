@@ -60,6 +60,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT};${LIBUNWIND_ROOT}"
 
+export LIT_OPTS="%{makeprocesses}"
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
