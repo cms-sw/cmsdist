@@ -6,11 +6,9 @@ Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&
 BuildRequires: autotools gmake
 
 %if "%{n}" != "jemalloc"
-%ifarch x86_64
-%if 0%{?rhel} == 7
+  %ifarch riscv64 || (x86_64 && 0%{?rhel} == 7)
 BuildRequires: patchelf
-%endif
-%endif
+  %endif
 %endif
 
 %prep
