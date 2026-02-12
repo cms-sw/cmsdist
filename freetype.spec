@@ -11,6 +11,7 @@ rm -rf ../build && mkdir ../build && cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
+  -DFT_DISABLE_HARFBUZZ=TRUE \
   -DFT_REQUIRE_ZLIB=TRUE \
   -DFT_REQUIRE_BZIP2=TRUE \
   -DFT_REQUIRE_PNG=TRUE \
