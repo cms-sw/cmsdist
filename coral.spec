@@ -5,6 +5,7 @@
 
 Patch0: coral-2_3_20-macosx
 Patch1: coral-2_3_21-gcc8
+Patch5: coral-2_3_21-py312
 Requires: coral-tool-conf
 
 %define cvssrc          %{n}
@@ -15,7 +16,8 @@ Requires: coral-tool-conf
 # Disable building tests, since they bring dependency on cppunit:
 %ifarch darwin
 %define patchsrc2        perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc3       %patch0 -p1 
+%define patchsrc3       %patch0 -p1
+%define patchsrc5       %patch5 -p1
 %endif
 
 # Drop Oracle interface on ARM machines and POWER machines.

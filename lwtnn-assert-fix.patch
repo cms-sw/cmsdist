@@ -1,0 +1,36 @@
+diff --git a/include/lwtnn/generic/Graph.tcc b/include/lwtnn/generic/Graph.tcc
+index f0cc614..3af95ce 100644
+--- a/include/lwtnn/generic/Graph.tcc
++++ b/include/lwtnn/generic/Graph.tcc
+@@ -7,6 +7,7 @@
+ 
+ #include <set>
+ #include <memory>
++#include <cassert>
+ 
+ namespace lwt {
+ namespace generic {
+diff --git a/include/lwtnn/generic/Stack.tcc b/include/lwtnn/generic/Stack.tcc
+index d54680d..85acd45 100644
+--- a/include/lwtnn/generic/Stack.tcc
++++ b/include/lwtnn/generic/Stack.tcc
+@@ -4,6 +4,7 @@
+ #include "lwtnn/generic/Stack.hh"
+ 
+ #include <set>
++#include <cassert>
+ 
+ 
+ namespace lwt {
+diff --git a/src/lwtnn-test-arbitrary-net.cxx b/src/lwtnn-test-arbitrary-net.cxx
+index 7678ac1..7de3018 100644
+--- a/src/lwtnn-test-arbitrary-net.cxx
++++ b/src/lwtnn-test-arbitrary-net.cxx
+@@ -10,6 +10,7 @@
+ #include <sstream>
+ #include <string>
+ #include <fstream>
++#include <cassert>
+ 
+ namespace {
+   int run_on_files(const lwt::JSONConfig& config,

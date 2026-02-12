@@ -1,9 +1,9 @@
 diff --git a/libuuid/src/gen_uuid.c b/libuuid/src/gen_uuid.c
-index 27c135d..625405a 100644
+index 59e8c23..df585be 100644
 --- a/libuuid/src/gen_uuid.c
 +++ b/libuuid/src/gen_uuid.c
-@@ -331,77 +331,12 @@ try_again:
- 	return ret;
+@@ -453,77 +453,12 @@ error:
+ 	return -1;
  }
  
 -#if defined(HAVE_UUIDD) && defined(HAVE_SYS_UN_H)
@@ -78,5 +78,5 @@ index 27c135d..625405a 100644
  }
 -#endif
  
- int __uuid_generate_time(uuid_t out, int *num)
+ static int __uuid_generate_time_internal(uuid_t out, int *num, uint32_t cont_offset)
  {

@@ -1,0 +1,20 @@
+--- ./python/lib/frontier.py.orig	2024-08-21 10:32:39.531373649 +0200
++++ ./python/lib/frontier.py	2024-08-21 10:33:03.642433236 +0200
+@@ -241,7 +241,7 @@
+             if len(variables) != 0:
+                 raise ProgrammingError('Bind variables used, but parameters were not provided.')
+ 
+-        elif isinstance(parameters, collections.Sequence):
++        elif isinstance(parameters, collections.abc.Sequence):
+             if len(parameters) != len(variables):
+                 raise ProgrammingError('Different length on parameters (%s) and bind variables list (%s) while using positional parameters.' % (len(parameters), len(variables)))
+ 
+@@ -250,7 +250,7 @@
+ 
+             final_parameters = parameters
+ 
+-        elif isinstance(parameters, collections.Mapping):
++        elif isinstance(parameters, collections.abc.Mapping):
+             for variable in variables:
+                 if isinstance(parameters[variable[1:]],datetime.datetime):
+                     operation = operation.replace(variable,_stringify(parameters[variable[1:]]))
