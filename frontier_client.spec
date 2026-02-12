@@ -3,9 +3,11 @@
 
 Source: http://frontier.cern.ch/dist/frontier_client__%{realversion}__src.tar.gz
 Requires: expat pacparser zlib
+Patch0: frontier_client_py312
 
 %prep
 %setup -n %{n}__%{realversion}__src
+%patch0 -p1
 
 %define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
 

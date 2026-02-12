@@ -1,6 +1,7 @@
-### RPM external libuuid 2.34
-Source: http://www.kernel.org/pub/linux/utils/util-linux/v2.34/util-linux-%{realversion}.tar.gz
-Patch0: libuuid-2.34-disable-get_uuid_via_daemon
+### RPM external libuuid 2.40
+Source: http://www.kernel.org/pub/linux/utils/util-linux/v%{realversion}/util-linux-%{realversion}.tar.gz
+Patch0: libuuid-2.40-disable-get_uuid_via_daemon
+BuildRequires: gmake
 %define keep_archives true
 
 %prep
@@ -34,6 +35,7 @@ Patch0: libuuid-2.34-disable-get_uuid_via_daemon
             --disable-kill \
             --disable-utmpdump \
             --disable-rename \
+            --disable-liblastlog2 \
             --disable-login \
             --disable-sulogin \
             --disable-su \

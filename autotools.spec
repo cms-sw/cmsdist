@@ -6,7 +6,7 @@
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.5.4
 %define m4_version 1.4.19
-%define gettext_version 0.22
+%define gettext_version 0.22.5
 %define pkgconfig_version 0.29.2
 Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftp.gnu.org/gnu/automake/automake-%{automake_version}.tar.gz
@@ -14,6 +14,7 @@ Source2: http://ftp.gnu.org/gnu/libtool/libtool-%{libtool_version}.tar.gz
 Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.gz
 Source4: http://ftp.gnu.org/gnu/gettext/gettext-%{gettext_version}.tar.gz
 Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_version}.tar.gz
+BuildRequires: gmake
 
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
