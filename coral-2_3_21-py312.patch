@@ -9,5 +9,5 @@ index 7b08bb9..eeda695 100644
 -    #define PyString_GET_SIZE PyUnicode_GET_SIZE
 +    #define PyString_GET_SIZE PyUnicode_GET_LENGTH
  #endif
-
+ 
  // Ignore 'dereferencing type-punned pointer' warnings caused by
