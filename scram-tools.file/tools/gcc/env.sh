@@ -3,7 +3,7 @@
 if [ "X$GCC_ROOT" = X ]
 then
     GCC_ROOT=$(which gcc | sed -e 's|/bin/gcc||')
-    GCC_VERSION=$(gcc -dumpversion) || exit 1
+    GCC_VERSION=$(gcc -dumpfullversion) || exit 1
 fi
 export TOOL_ROOT=$GCC_ROOT
 export TOOL_VERSION=$GCC_VERSION
