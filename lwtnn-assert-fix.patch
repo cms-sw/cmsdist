@@ -1,34 +1,36 @@
-diff --git a/my_programs/Makefile.am b/my_programs/Makefile.am
-index 6fef244..c35abe4 100644
---- a/my_programs/Makefile.am
-+++ b/my_programs/Makefile.am
-@@ -65,13 +65,13 @@ LINKER_ARGS += -lmpfr -lgmpxx -lgmp
- CXXFLAGS += -DBH_USE_GMP
- endif 
+diff --git a/include/lwtnn/generic/Graph.tcc b/include/lwtnn/generic/Graph.tcc
+index f0cc614..3af95ce 100644
+--- a/include/lwtnn/generic/Graph.tcc
++++ b/include/lwtnn/generic/Graph.tcc
+@@ -7,6 +7,7 @@
  
--include $(DEPDIR)/*.Po
--
- %.o:	$(abs_srcdir)/%.cpp 
- 	test -f $(DEPDIR)/$*.Po || mkdir -p .deps ; echo "#dummy" > $(DEPDIR)/$*.Po 
- 	$(CXX) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(INCLUDE) -o $@  $< 
- 	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+ #include <set>
+ #include <memory>
++#include <cassert>
  
-+#include $(DEPDIR)/*.Po
-+
- LINKER_FLAGS=$(AM_LDFLAGS) 
- if GMP_PATH_SET 
-    LINKER_FLAGS += -L$(AM_GMP_PATH)
-diff --git a/configure.ac b/configure.ac
-index 2099377..6396f8b 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -1,7 +1,8 @@
- AC_INIT([BlackHat], [0.9.9], [daniel.maitre@durham.ac.uk])
--AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-+AM_INIT_AUTOMAKE([-Wall foreign])
- AM_DISABLE_STATIC
- AC_PROG_CXX
-+AM_PROG_AR
- AC_CONFIG_MACRO_DIR([m4])
- AC_CONFIG_HEADERS([config.h])
- AC_CHECK_FUNCS([pow log sqrt])
+ namespace lwt {
+ namespace generic {
+diff --git a/include/lwtnn/generic/Stack.tcc b/include/lwtnn/generic/Stack.tcc
+index d54680d..85acd45 100644
+--- a/include/lwtnn/generic/Stack.tcc
++++ b/include/lwtnn/generic/Stack.tcc
+@@ -4,6 +4,7 @@
+ #include "lwtnn/generic/Stack.hh"
+ 
+ #include <set>
++#include <cassert>
+ 
+ 
+ namespace lwt {
+diff --git a/src/lwtnn-test-arbitrary-net.cxx b/src/lwtnn-test-arbitrary-net.cxx
+index 7678ac1..7de3018 100644
+--- a/src/lwtnn-test-arbitrary-net.cxx
++++ b/src/lwtnn-test-arbitrary-net.cxx
+@@ -10,6 +10,7 @@
+ #include <sstream>
+ #include <string>
+ #include <fstream>
++#include <cassert>
+ 
+ namespace {
+   int run_on_files(const lwt::JSONConfig& config,
