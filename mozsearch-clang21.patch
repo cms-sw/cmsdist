@@ -1,0 +1,62 @@
+diff --git a/clang-plugin/MozsearchIndexer.cpp b/clang-plugin/MozsearchIndexer.cpp
+index a601b05..380cbcd 100644
+--- a/clang-plugin/MozsearchIndexer.cpp
++++ b/clang-plugin/MozsearchIndexer.cpp
+@@ -1485,7 +1485,9 @@ public:
+       QualType CanonicalFieldType = FieldType.getCanonicalType();
+       LangOptions langOptions;
+       PrintingPolicy Policy(langOptions);
++#if LLVM_VERSION_MAJOR < 21
+       Policy.PrintCanonicalTypes = true;
++#endif
+       J.attribute("type", CanonicalFieldType.getAsString(Policy));
+ 
+       const TagDecl *tagDecl = CanonicalFieldType->getAsTagDecl();
+diff --git a/clang-plugin/from-clangd/HeuristicResolver.cpp b/clang-plugin/from-clangd/HeuristicResolver.cpp
+index 719094d..54184a4 100644
+--- a/clang-plugin/from-clangd/HeuristicResolver.cpp
++++ b/clang-plugin/from-clangd/HeuristicResolver.cpp
+@@ -27,7 +27,7 @@ const auto StaticFilter = [](const NamedDecl *D) {
+ };
+ const auto ValueFilter = [](const NamedDecl *D) { return isa<ValueDecl>(D); };
+ const auto TypeFilter = [](const NamedDecl *D) { return isa<TypeDecl>(D); };
+-const auto TemplateFilter = [](const NamedDecl *D) {
++[[maybe_unused]] const auto TemplateFilter = [](const NamedDecl *D) {
+   return isa<TemplateDecl>(D);
+ };
+ 
+@@ -203,12 +203,22 @@ std::vector<const NamedDecl *> HeuristicResolver::resolveDependentNameType(
+       DNT->getIdentifier(), TypeFilter);
+ }
+ 
++
++#include "clang/Basic/Version.h"
+ std::vector<const NamedDecl *>
+ HeuristicResolver::resolveTemplateSpecializationType(
+     const DependentTemplateSpecializationType *DTST) const {
++#if LLVM_VERSION_MAJOR >= 21
++    // In LLVM 21+, DependentTemplateSpecializationType no longer exposes
++    // getQualifier(), getIdentifier(), or getTemplateName().
++    // We can’t meaningfully resolve it here — return an empty result.
++    return {};
++#else
++  // Legacy LLVM ≤ 20 path.
+   return resolveDependentMember(
+       resolveNestedNameSpecifierToType(DTST->getQualifier()),
+       DTST->getIdentifier(), TemplateFilter);
++#endif
+ }
+ 
+ std::vector<const NamedDecl *>
+@@ -249,8 +259,11 @@ const Type *HeuristicResolver::resolveNestedNameSpecifierToType(
+   // that may be dependent as well, so for convenience handle
+   // the TypeSpec cases too.
+   switch (NNS->getKind()) {
++#if LLVM_VERSION_MAJOR >= 21
+   case NestedNameSpecifier::TypeSpec:
++#else
+   case NestedNameSpecifier::TypeSpecWithTemplate:
++#endif
+     return NNS->getAsType();
+   case NestedNameSpecifier::Identifier: {
+     return resolveDeclsToType(
