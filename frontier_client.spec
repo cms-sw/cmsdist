@@ -7,7 +7,7 @@ Requires: expat pacparser zlib
 %prep
 %setup -n %{n}__%{realversion}__src
 
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
+%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpfullversion) ZLIB_DIR=${ZLIB_ROOT}"
 
 %build
 
