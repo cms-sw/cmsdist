@@ -18,6 +18,7 @@ PYTHON=$(which python3) \
   --enable-python
 
 %build
+sed -i '/yaml-cpp\/null.h/a #include <cstdint>' src/yamlcpp/emitterutils.cpp
 make all %makeprocesses 
 
 %install
