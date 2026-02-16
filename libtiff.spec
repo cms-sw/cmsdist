@@ -7,6 +7,7 @@ BuildRequires: autotools gmake
 %setup -n libtiff-%{realversion}
 
 %build
+autoreconf -fiv
 ./configure --prefix=%{i} --disable-static \
             --with-zstd-lib-dir=${ZSTD_ROOT}/lib \
             --with-zstd-include-dir=${ZSTD_ROOT}/include \
