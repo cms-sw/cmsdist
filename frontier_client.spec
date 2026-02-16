@@ -9,7 +9,7 @@ Patch0: frontier_client_py312
 %setup -n %{n}__%{realversion}__src
 %patch0 -p1
 
-%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpversion) ZLIB_DIR=${ZLIB_ROOT}"
+%define makeargs "EXPAT_DIR=${EXPAT_ROOT} PACPARSER_DIR=${PACPARSER_ROOT} COMPILER_TAG=gcc_$(gcc -dumpfullversion) ZLIB_DIR=${ZLIB_ROOT}"
 
 %build
 
