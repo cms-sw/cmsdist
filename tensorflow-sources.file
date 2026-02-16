@@ -142,6 +142,10 @@ fi
 export PYTHONPATH=$PYTHON3PATH
 
 ./configure
+# build numpy first to fix the pypi_numpy repo
+bazel $BAZEL_OPTS //third_party/py/numpy
+build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
+ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
 # build tensorflow python targets
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 
