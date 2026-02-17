@@ -5,7 +5,7 @@
   <lib name="cudart"/>
   <lib name="cudadevrt"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="NVCC"      default="$@TOOL_BASE@/bin/nvcc"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>

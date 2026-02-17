@@ -1,10 +1,10 @@
-<tool name="traccc-io" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/acts-project/traccc/"/>
   <lib name="traccc_io"/>
   <use name="acts-core"/>
   <use name="acts-json"/>
   <use name="traccc"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
   </client>
 </tool>

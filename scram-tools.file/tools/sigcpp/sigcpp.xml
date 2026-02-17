@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="sigc-3.0"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include/sigc++-3.0"/>
   </client>

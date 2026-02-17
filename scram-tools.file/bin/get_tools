@@ -4,6 +4,7 @@
 function copy_tools (){
     for xml in $(find $1 -type f -name "*.xml") ; do
         bxml=$(basename $xml)
+	    export TOOL_FILENAME=$(echo $bxml | sed 's|.xml$||')
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
         cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}

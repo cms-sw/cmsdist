@@ -6,7 +6,7 @@
   <lib name="corecel"/>
   <lib name="g4vg"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
   </client>

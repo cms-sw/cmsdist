@@ -2,7 +2,7 @@
   <lib name="ThePEG"/>
   <lib name="LesHouches"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib/ThePEG"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>

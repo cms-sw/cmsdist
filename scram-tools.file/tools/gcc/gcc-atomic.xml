@@ -1,6 +1,6 @@
-  <tool name="gcc-atomic" version="@TOOL_VERSION@" revision="1">
+  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
     <lib name="atomic"/>
     <client>
-      <environment name="GCC_ATOMIC_BASE" default="@TOOL_ROOT@"/>
+      <environment name="GCC_ATOMIC_BASE" default="$@TOOL_BASE@"/>
     </client>
   </tool>

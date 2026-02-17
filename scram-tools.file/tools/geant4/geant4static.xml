@@ -1,7 +1,7 @@
-<tool name="geant4static" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
   <lib name="geant4-static"/>
   <client>
-    <environment name="GEANT4STATIC_BASE" default="@TOOL_ROOT@"/>
+    <environment name="GEANT4STATIC_BASE" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$GEANT4STATIC_BASE/lib64/archive"/>
   </client>
   <use name="geant4_interface"/>

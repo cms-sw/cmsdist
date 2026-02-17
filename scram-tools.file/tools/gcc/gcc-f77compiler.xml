@@ -1,8 +1,8 @@
-  <tool name="gcc-f77compiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <lib name="gfortran"/>
     <lib name="m"/>
     <client>
-      <environment name="GCC_F77COMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="GCC_F77COMPILER_BASE" default="$@TOOL_BASE@"/>
 %if 0%{!?use_system_gcc:1}
       <environment name="FC" default="$GCC_F77COMPILER_BASE/bin/gfortran"/>
 %else

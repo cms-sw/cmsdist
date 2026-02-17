@@ -1,7 +1,7 @@
-  <tool name="icx-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICX_CXXCOMPILER_BASE" default="@TOOL_ROOT@/installation" handler="warn"/>
+      <environment name="ICX_CXXCOMPILER_BASE" default="$@TOOL_BASE@/installation" handler="warn"/>
       <environment name="CXX" value="$ICX_CXXCOMPILER_BASE/bin/icpx" handler="warn"/>
       <environment name="LIBDIR" default="$ICX_CXXCOMPILER_BASE/lib"/>
     </client>

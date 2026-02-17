@@ -1,10 +1,10 @@
-<tool name="acts-common" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
   <!-- common tool that defines the directories and common flags for all Acts tool -->
   <info url="https://acts.readthedocs.io/en/latest/index.html"/>
   <flags CXXFLAGS="-Wno-missing-braces"/>
   <flags CXXFLAGS="-DACTS_ENABLE_LOG_FAILURE_THRESHOLD"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>

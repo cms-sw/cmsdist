@@ -1,4 +1,4 @@
-  <tool name="fastjet-contrib-archive" version="@TOOL_VERSION@" revision="1">
+  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
     <info url="http://fastjet.hepforge.org/contrib/"/>
     <lib name="EnergyCorrelator"/>
     <lib name="GenericSubtractor"/>
@@ -9,7 +9,7 @@
     <lib name="SubjetCounting"/>
     <lib name="VariableR"/>
     <client>
-      <environment name="FASTJET_CONTRIB_BASE" default="@TOOL_ROOT@"/>
+      <environment name="FASTJET_CONTRIB_BASE" default="$@TOOL_BASE@"/>
       <environment name="LIBDIR" default="$FASTJET_CONTRIB_BASE/lib"/>
       <environment name="INCLUDE" default="$FASTJET_CONTRIB_BASE/include"/>
     </client>

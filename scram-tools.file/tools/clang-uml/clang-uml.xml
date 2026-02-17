@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/bkryza/clang-uml/"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
   </client>
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <use name="yaml-cpp"/>

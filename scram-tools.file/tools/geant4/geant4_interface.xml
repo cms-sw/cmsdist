@@ -1,8 +1,8 @@
-<tool name="geant4_interface" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
   <info url="http://geant4.web.cern.ch/geant4/"/>
   <flags CXXFLAGS="-ftls-model=global-dynamic -pthread"/>
   <client>
-    <environment name="GEANT4_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="GEANT4_INTERFACE_BASE" default="$@TOOL_BASE@"/>
     <environment name="INCLUDE" default="$GEANT4_INTERFACE_BASE/include/Geant4"/>
     <environment name="INCLUDE" default="$GEANT4_INTERFACE_BASE/include"/>
   </client>

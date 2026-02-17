@@ -2,7 +2,7 @@
   <info url="https://tls.mbed.org/md5-source-code"/>
    <lib name="cms-md5"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     </client>  

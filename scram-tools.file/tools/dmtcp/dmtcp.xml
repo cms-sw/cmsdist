@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <info url="http://dmtcp.sourceforge.net/"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib/dmtcp"/>
   </client>

@@ -1,8 +1,8 @@
-<tool name="hls4mlemulatorextras" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
   <lib name="emulator_interface"/>
   <use name="sockets"/>
   <client>
-    <environment name="HLS4MLEMULATOREXTRAS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="HLS4MLEMULATOREXTRAS_BASE" default="$@TOOL_BASE@"/>
     <environment name="INCLUDE"      default="$HLS4MLEMULATOREXTRAS_BASE/include"/>
     <environment name="LIBDIR"       default="$HLS4MLEMULATOREXTRAS_BASE/lib64"/>
   </client>

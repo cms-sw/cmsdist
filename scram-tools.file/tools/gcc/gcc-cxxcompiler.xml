@@ -1,6 +1,6 @@
-  <tool name="gcc-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <client>
-      <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="GCC_CXXCOMPILER_BASE" default="$@TOOL_BASE@"/>
 %if 0%{!?use_system_gcc:1}
       <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
 %else
@@ -42,7 +42,7 @@
 %if 0%{!?use_system_gcc:1}
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/@OS_LIB64DIR@" type="path"/>
     <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
-    <runtime name="COMPILER_PATH" value="@TOOL_ROOT@"/>
+    <runtime name="COMPILER_PATH" value="$@TOOL_BASE@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
 %if 0%{?rhel} >= 9
     <runtime name="GPROFNG_SYSCONFDIR" value="$GCC_CXXCOMPILER_BASE/etc"/>

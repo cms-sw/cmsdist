@@ -1,7 +1,7 @@
 <tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
   <lib name="jemalloc-debug"/>
   <client>
-    <environment name="JEMALLOC_BASE" default="@TOOL_ROOT@"/>
+    <environment name="JEMALLOC_BASE" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR"        default="$JEMALLOC_BASE/lib"/>
     <environment name="INCLUDE"        default="$JEMALLOC_BASE/include"/>
   </client>

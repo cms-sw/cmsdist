@@ -1,8 +1,8 @@
-<tool name="Hector" version="@TOOL_VERSION@" revision="2">
+<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="2">
   <info url="http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/"/>
   <lib name="Hector"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
