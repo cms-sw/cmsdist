@@ -24,6 +24,3 @@ make %{makeprocesses}
 make %{makeprocesses} install
 [ -d %{i}/lib64 ] && mv %{i}/lib64 %{i}/lib
 %define drop_files %{i}/share/man %{i}/lib/pkgconfig %{i}/lib/*.a
-
-%post
-%{relocateConfig}libexec/libunwind/test-runner
