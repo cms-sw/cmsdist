@@ -11,6 +11,12 @@
 %define  enable_tf_mkldnn 0
 %endif
 
+#Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
+%if "%{cms_cxx_standard}" == "20" || "%{cms_cxx_standard}" == "23"
+%undefine cms_cxx_standard
+%define cms_cxx_standard 20
+%endif
+
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 
 %if "%{?build_type:set}" != "set"
