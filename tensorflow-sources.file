@@ -14,9 +14,9 @@ BuildRequires: bazel java-env git patchelf
 %endif
 
 #Set cms_cxx_standard to 17 as LLVM downloaded by TF does not build with c++20
-%if "%{cms_cxx_standard}" == "20" || "%{cms_cxx_standard}" == "23"
+%if "%{cms_cxx_standard}" >= "20"
 %undefine cms_cxx_standard
-%define cms_cxx_standard 17
+%define cms_cxx_standard 20
 %endif
 
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
