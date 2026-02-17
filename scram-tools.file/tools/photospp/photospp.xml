@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
+<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="3">
   <lib name="Photospp"/>
   <lib name="PhotosppHepMC"/>
   <lib name="PhotosppHepMC3"/>

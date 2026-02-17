@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="CXX" value="$@TOOL_BASE@/bin/c++"/>

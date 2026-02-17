@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
+<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_THREAD_LIB@"/>
   <lib name="@BOOST_DATE_TIME_LIB@"/>

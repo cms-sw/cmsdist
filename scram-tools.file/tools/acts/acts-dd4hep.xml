@@ -1,4 +1,4 @@
-<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://acts.readthedocs.io/en/latest/plugins/dd4hep.html"/>
   <lib name="ActsPluginDD4hep"/>
   <use name="acts-core"/>

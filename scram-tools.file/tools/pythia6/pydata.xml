@@ -1,4 +1,4 @@
-<tool name="$@TOOL_BASE@" version="@TOOL_VERSION@" revision="1">
+<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="PYDATA_BASE" default="$@TOOL_BASE@"/>
   </client>
