@@ -1,4 +1,4 @@
-### RPM cms cmsswdata 42.0
+### RPM cms cmsswdata 43.0
 ## NOCOMPILER
 Source: none
 
@@ -97,7 +97,6 @@ Requires: data-SimTransport-HectorProducer
 Requires: data-PhysicsTools-NanoAOD
 Requires: data-RecoTracker-FinalTrackSelectors
 Requires: data-EgammaAnalysis-ElectronTools
-Requires: data-DQM-DTMonitorClient
 Requires: data-SimTransport-PPSProtonTransport
 Requires: data-SimTransport-TotemRPProtonTransportParametrization
 Requires: data-FWCore-Modules
