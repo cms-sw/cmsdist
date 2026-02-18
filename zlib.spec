@@ -1,4 +1,4 @@
-### RPM external zlib 1.3.1
+### RPM external zlib 1.3.2
 Source: https://github.com/madler/zlib/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: gmake
 
