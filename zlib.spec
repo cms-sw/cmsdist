@@ -1,4 +1,4 @@
-### RPM external zlib 1.3.1
+### RPM external zlib 1.3.2
 Source: https://github.com/madler/zlib/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: gmake
 
@@ -7,7 +7,7 @@ BuildRequires: gmake
 
 %build
 
-CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -D_DEFAULT_SOURCE"
 CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
 make %{makeprocesses}
