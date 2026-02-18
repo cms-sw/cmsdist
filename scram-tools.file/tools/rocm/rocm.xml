@@ -1,4 +1,4 @@
-<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_VERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>

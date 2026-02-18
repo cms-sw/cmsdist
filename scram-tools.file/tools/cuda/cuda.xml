@@ -1,4 +1,4 @@
-<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="5">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="5">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <use name="cuda-interface"/>
   <use name="cuda-stubs"/>

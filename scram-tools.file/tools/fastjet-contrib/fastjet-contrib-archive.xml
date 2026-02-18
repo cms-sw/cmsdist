@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
     <info url="http://fastjet.hepforge.org/contrib/"/>
     <lib name="EnergyCorrelator"/>
     <lib name="GenericSubtractor"/>

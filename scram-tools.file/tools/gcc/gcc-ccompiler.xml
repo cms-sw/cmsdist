@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <client>
       <environment name="GCC_CCOMPILER_BASE" default="$@TOOL_BASE@"/>
 %if 0%{!?use_system_gcc:1}

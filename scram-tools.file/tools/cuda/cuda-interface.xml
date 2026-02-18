@@ -1,4 +1,4 @@
-<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <client>
     <environment name="CUDA_INTERFACE_BASE" default="$@TOOL_BASE@"/>

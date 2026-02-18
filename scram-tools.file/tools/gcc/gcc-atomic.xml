@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
     <lib name="atomic"/>
     <client>
       <environment name="GCC_ATOMIC_BASE" default="$@TOOL_BASE@"/>

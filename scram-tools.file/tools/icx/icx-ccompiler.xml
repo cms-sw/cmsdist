@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="ICX_CCOMPILER_BASE" default="$@TOOL_BASE@/installation" handler="warn"/>

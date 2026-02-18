@@ -1,4 +1,4 @@
-<tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <client>
     <environment name="VDT_HEADERS_BASE" default="$@TOOL_BASE@"/>
     <environment name="INCLUDE" default="$VDT_HEADERS_BASE/include"/>

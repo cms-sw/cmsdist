@@ -1,4 +1,4 @@
-  <tool name="$@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-ccompiler"/>
     <client>
       <environment name="CC" value="$@TOOL_BASE@/bin/gcc"/>
