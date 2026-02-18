@@ -14,7 +14,7 @@ Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
-Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
+Source12: https://github.com/madler/zlib/archive/refs/tags/v%{zlibVersion}.tar.gz 
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
 Source14: https://github.com/gcc-mirror/gcc/commit/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 Source15: https://github.com/gcc-mirror/gcc/commit/77d01927bd7c989d431035251a5c196fe39bcec9.diff
@@ -79,7 +79,7 @@ export PATH=%{i}/tmp/sw/bin:$PATH
 
 # Build zlib (required for compressed debug information)
 cd ../zlib-%{zlibVersion}
-CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -D_DEFAULT_SOURCE"
 %ifarch x86_64
 CONF_FLAGS="${CONF_FLAGS} -msse3"
 %endif
