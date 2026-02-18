@@ -8,7 +8,7 @@ AutoReqProv: no
 %define mpfrVersion 4.2.2
 %define mpcVersion 1.3.1
 %define islVersion 0.27
-%define zlibVersion 1.3.1
+%define zlibVersion 1.3.2
 %define zstdVersion 1.5.7
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
