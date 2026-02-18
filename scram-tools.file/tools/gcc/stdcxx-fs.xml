@@ -1,3 +1,5 @@
-  <tool name="stdcxx-fs" version="@TOOL_VERSION@" revision="1">
+  <tool name="stdcxx-fs" version="@TOOL_VERSION@" revision="2">
+  %if 0%{!?use_system_gcc:1}
     <lib name="stdc++fs"/>
+  %endif 
   </tool>
