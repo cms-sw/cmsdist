@@ -1,4 +1,6 @@
 ##Tensorflow Common build files
+BuildRequires: bazel java-env
+#Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires
 ## INCLUDE compilation_flags
