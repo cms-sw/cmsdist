@@ -2,7 +2,7 @@
   <lib name="clntsh"/>
   @OS_LIBS@
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="ORACLE_ADMINDIR" value="@ORACLE_ENV_ROOT@/etc"/>
     <environment name="LIBDIR" value="$@TOOL_BASE@/lib"/>
     <environment name="BINDIR" value="$@TOOL_BASE@/bin"/>

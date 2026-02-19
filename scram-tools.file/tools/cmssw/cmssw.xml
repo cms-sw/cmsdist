@@ -1,6 +1,6 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="scram" revision="2">
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/biglib/$SCRAM_ARCH"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib/$SCRAM_ARCH"/>
     <environment name="CMSSW_BINDIR" default="$@TOOL_BASE@/bin/$SCRAM_ARCH"/>

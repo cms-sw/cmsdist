@@ -4,7 +4,7 @@
   <lib name="hsa-runtime64"/>
   <lib name="rocm_smi64"/>
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="HIPCC"     default="$@TOOL_BASE@/bin/hipcc"/>
     <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
     <environment name="LIBDIR"    default="$@TOOL_BASE@/lib"/>

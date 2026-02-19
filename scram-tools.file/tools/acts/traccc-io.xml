@@ -5,6 +5,6 @@
   <use name="acts-json"/>
   <use name="traccc"/>
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
 </tool>

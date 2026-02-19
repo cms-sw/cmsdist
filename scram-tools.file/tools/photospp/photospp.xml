@@ -4,7 +4,7 @@
   <lib name="PhotosppHepMC3"/>
   <lib name="PhotosppHEPEVT"/>
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_BASE@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
   </client>
