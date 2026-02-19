@@ -69,7 +69,6 @@ BAZEL_OPTS="$BAZEL_OPTS --define tflite_with_xnnpack=false"
 %endif
 
 %if %{enable_gpu}
-BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
 export GCC_HOST_COMPILER_PREFIX=${GCC_ROOT}/bin
 export GCC_HOST_COMPILER_PATH=$(which gcc)
 export TF_CUDA_COMPUTE_CAPABILITIES=$(echo "compute_%{cuda_arch}" | sed 's|\s\s*|,compute_|g')
