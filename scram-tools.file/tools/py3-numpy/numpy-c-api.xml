@@ -1,7 +1,7 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="npymath"/>
   <client>
-    <environment name="NUMPY_C_API_BASE" default="$@TOOL_BASE@"/>
+    <environment name="NUMPY_C_API_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$NUMPY_C_API_BASE/c-api/core/include"/>
     <environment name="LIBDIR" default="$NUMPY_C_API_BASE/c-api/core/lib"/>
   </client>

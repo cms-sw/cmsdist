@@ -1,6 +1,6 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <client>
-      <environment name="GCC_CCOMPILER_BASE" default="$@TOOL_BASE@"/>
+      <environment name="GCC_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
 %if 0%{!?use_system_gcc:1}
       <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
 %else

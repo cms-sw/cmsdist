@@ -1,7 +1,7 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="correctionlib"/>
   <client>
-    <environment name="CORRECTIONLIB_BASE" default="$@TOOL_BASE@"/>
+    <environment name="CORRECTIONLIB_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$CORRECTIONLIB_BASE/@PYTHON3_LIB_SITE_PACKAGES@/correctionlib/include"/>
     <environment name="LIBDIR" default="$CORRECTIONLIB_BASE/@PYTHON3_LIB_SITE_PACKAGES@/correctionlib/lib"/>
     <environment name="BINDIR" default="$CORRECTIONLIB_BASE/bin"/>

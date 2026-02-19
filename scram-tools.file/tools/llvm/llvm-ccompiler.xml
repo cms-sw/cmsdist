@@ -1,7 +1,7 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="2">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="LLVM_CCOMPILER_BASE" default="$@TOOL_BASE@"/>
+      <environment name="LLVM_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
       <environment name="CC" value="$LLVM_CCOMPILER_BASE/bin/clang"/>
     </client>
   </tool>

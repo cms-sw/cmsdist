@@ -1,7 +1,7 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="CSCTrackFinderEmulation"/>
   <client>
-    <environment name="CSCTRACKFINDEREMULATION_BASE" default="$@TOOL_BASE@"/>
+    <environment name="CSCTRACKFINDEREMULATION_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$CSCTRACKFINDEREMULATION_BASE/lib64"/>
     <environment name="INCLUDE" default="$CSCTRACKFINDEREMULATION_BASE/include"/>
   </client>

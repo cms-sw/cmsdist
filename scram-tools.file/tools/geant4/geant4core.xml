@@ -22,7 +22,7 @@
   <lib name="G4analysis"/>
   <lib name="G4ptl"/>
   <client>
-    <environment name="GEANT4CORE_BASE" default="$@TOOL_BASE@"/>
+    <environment name="GEANT4CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$GEANT4CORE_BASE/lib64"/>
     <environment name="G4LIB" value="$LIBDIR"/>
   </client>

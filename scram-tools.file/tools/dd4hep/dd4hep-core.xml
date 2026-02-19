@@ -3,7 +3,7 @@
   <lib name="DDCore" />
   <lib name="DDParsers" />
   <client>
-    <environment name="DD4HEP_CORE_BASE" default="$@TOOL_BASE@"/>
+    <environment name="DD4HEP_CORE_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$DD4HEP_CORE_BASE/lib"/>
     <environment name="INCLUDE" default="$DD4HEP_CORE_BASE/include"/>
   </client>

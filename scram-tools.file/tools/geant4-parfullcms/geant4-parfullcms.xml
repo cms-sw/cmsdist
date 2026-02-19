@@ -1,6 +1,6 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
     <client>
-      <environment name="GEANT4_PARFULLCMS" default="$@TOOL_BASE@"/>
+      <environment name="GEANT4_PARFULLCMS" default="@TOOL_ROOT@"/>
     </client>
     <runtime name="PATH" value="$GEANT4_PARFULLCMS/bin" type="path"/>
     <runtime name="GEANT4_PARFULLCMS_CONFIG_DIR" value="$GEANT4_PARFULLCMS/share/ParFullCMS" type="path"/>
