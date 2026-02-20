@@ -1,7 +1,7 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="$@TOOL_BASE@/ifort" handler="warn"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@/ifort" handler="warn"/>
       <environment name="FC" default="$@TOOL_BASE@/bin/intel64/ifort" handler="warn"/>
       <environment name="LIBDIR" default="$@TOOL_BASE@/compiler/lib/intel64" handler="warn"/>
     </client>
