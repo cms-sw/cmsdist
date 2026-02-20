@@ -3,7 +3,7 @@
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
   <ifos value="linux">
-    <flags LDFLAGS="$(PYDATA_BASE)/lib/pydata.o"/>
+    <flags LDFLAGS="$@TOOL_BASE@/lib/pydata.o"/>
   </ifos>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>
