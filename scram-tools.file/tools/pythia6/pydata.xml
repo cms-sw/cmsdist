@@ -1,6 +1,6 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <client>
-    <environment name="PYDATA_BASE" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
   <ifos value="linux">
     <flags LDFLAGS="$(PYDATA_BASE)/lib/pydata.o"/>

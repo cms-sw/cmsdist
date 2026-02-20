@@ -1,7 +1,7 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="llvm-cxxcompiler"/>
     <client>
-      <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
       <environment name="CXX" value="$LLVM_ANALYZER_CXXCOMPILER_BASE/bin/c++-analyzer"/>
     </client>
   </tool>

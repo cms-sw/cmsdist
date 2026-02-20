@@ -1,7 +1,7 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="ICC_CCOMPILER_BASE" default="$@TOOL_BASE@/installation" handler="warn"/>
+      <environment name="@TOOL_BASE@" default="$@TOOL_BASE@/installation" handler="warn"/>
       <environment name="CC" value="$ICC_CCOMPILER_BASE/bin/intel64/icc" handler="warn"/>
     </client>
     <architecture name="_mic_">

@@ -1,7 +1,7 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://gitlab.cern.ch/VecGeom/VecGeom"/>
   <client>
-    <environment name="VECGEOM_INTERFACE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include"/>
     <environment name="INCLUDE" default="$VECGEOM_INTERFACE_BASE/include/VecGeom"/>
   </client>
