@@ -2,7 +2,7 @@
   <lib name="geant4-static"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$GEANT4STATIC_BASE/lib64/archive"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64/archive"/>
   </client>
   <use name="geant4_interface"/>
 </tool>

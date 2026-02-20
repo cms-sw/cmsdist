@@ -4,7 +4,7 @@
   <use name="cuda-interface"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"          default="$CUDA_STUBS_BASE/lib64/stubs"/>
+    <environment name="LIBDIR"          default="$@TOOL_BASE@/lib64/stubs"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>

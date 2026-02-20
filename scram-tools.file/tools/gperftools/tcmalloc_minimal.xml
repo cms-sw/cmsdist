@@ -2,6 +2,6 @@
   <lib name="tcmalloc_minimal"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"                default="$TCMALLOC_MINIMAL_BASE/lib"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
 </tool>

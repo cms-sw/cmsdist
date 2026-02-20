@@ -2,7 +2,7 @@
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="CXX" value="$LLVM_CXXCOMPILER_BASE/bin/clang++"/>
+      <environment name="CXX" value="$@TOOL_BASE@/bin/clang++"/>
     </client>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
@@ -33,6 +33,6 @@
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
     <flags CXXFLAGS="-Wno-vla-cxx-extension"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
-    <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$@TOOL_BASE@/lib64" type="path"/>
+    <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   </tool>

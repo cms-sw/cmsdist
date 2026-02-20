@@ -10,7 +10,7 @@
     <lib name="VariableR"/>
     <client>
       <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="LIBDIR" default="$FASTJET_CONTRIB_BASE/lib"/>
-      <environment name="INCLUDE" default="$FASTJET_CONTRIB_BASE/include"/>
+      <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+      <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     </client>
   </tool>

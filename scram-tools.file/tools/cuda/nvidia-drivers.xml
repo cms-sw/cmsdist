@@ -2,7 +2,7 @@
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"              default="$NVIDIA_DRIVERS_BASE/drivers"/>
+    <environment name="LIBDIR"              default="$@TOOL_BASE@/drivers"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>

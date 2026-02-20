@@ -4,9 +4,9 @@
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="ORACLE_ADMINDIR" value="@ORACLE_ENV_ROOT@/etc"/>
-    <environment name="LIBDIR" value="$ORACLE_BASE/lib"/>
-    <environment name="BINDIR" value="$ORACLE_BASE/bin"/>
-    <environment name="INCLUDE" value="$ORACLE_BASE/include"/>
+    <environment name="LIBDIR" value="$@TOOL_BASE@/lib"/>
+    <environment name="BINDIR" value="$@TOOL_BASE@/bin"/>
+    <environment name="INCLUDE" value="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="TNS_ADMIN" default="$ORACLE_ADMINDIR"/>

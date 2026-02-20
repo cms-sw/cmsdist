@@ -3,7 +3,7 @@
   <lib name="@BOOST_PYTHON_LIB@"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="boost_header"/>
   <use name="python3"/>

@@ -4,8 +4,8 @@
   <lib name="Fed9UUtils"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" value="$TKONLINESW_BASE/lib"/>
-    <environment name="INCLUDE" value="$TKONLINESW_BASE/include"/>
+    <environment name="LIBDIR" value="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE" value="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <flags CXXFLAGS="-DCMS_TK_64BITS"/>

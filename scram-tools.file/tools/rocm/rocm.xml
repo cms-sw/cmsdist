@@ -11,7 +11,7 @@
     <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
-  <flags ROCM_FLAGS="--rocm-path=$ROCM_BASE"/>
+  <flags ROCM_FLAGS="--rocm-path=$@TOOL_BASE@"/>
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
   <flags ROCM_FLAGS="-Wno-pass-failed"/>
