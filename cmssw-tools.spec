@@ -15,7 +15,6 @@ Requires: celeritas
 %endif
 Requires: crab
 Requires: cmssw-wm-tools
-Requires: google-benchmark
 Requires: catch2
 Requires: starlight
 Requires: alpgen
@@ -46,6 +45,8 @@ Requires: geant4data
 Requires: g4hepem
 Requires: glimpse
 Requires: gmake
+Requires: google-benchmark
+Requires: google-test
 Requires: gsl
 Requires: highfive
 Requires: hector
