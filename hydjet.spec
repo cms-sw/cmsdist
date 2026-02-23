@@ -1,5 +1,5 @@
 ### RPM external hydjet 1.9.3
-
+Patch0: hydjet-gcc15
 Source: http://cern.ch/lokhtin/hydro/%{n}-%{realversion}.tar.gz
 
 BuildRequires: cmake gmake
@@ -9,6 +9,7 @@ Requires: pyquen pythia6 lhapdf
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 
