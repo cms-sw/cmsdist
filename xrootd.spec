@@ -65,7 +65,7 @@ make %makeprocesses VERBOSE=1
 %install
 cd ../build
 make install
-%{relocatePy3SitePackages}
+%relocatePy3Shebang bin
 
 %post
 %{relocateConfig}bin/xrootd-config

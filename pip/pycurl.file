@@ -1,2 +1,3 @@
 %define PipPreBuild export PYCURL_SSL_LIBRARY=openssl
+%define PipPostBuildPy rm -rf %{i}/share/doc
 Requires: curl
