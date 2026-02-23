@@ -7,5 +7,6 @@
     <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="PATH" value="$BINDIR" type="path" />
   <use name="root_cxxdefaults"/>
 </tool>
