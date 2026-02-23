@@ -1,0 +1,18 @@
+diff --git a/src/hydjet1_9.f b/src/hydjet1_9.f
+index 75136a5..58f42a0 100644
+--- a/src/hydjet1_9.f
++++ b/src/hydjet1_9.f
+@@ -508,11 +508,11 @@ c      end do
+ 
+        write(6,3) INT(VA),INT(VB),INT(VC)
+ 3      format(1x,'%%                      This is HYDJET version ',I1.1,
+-     >'.',I1.1,'.',I1.1'                        %%')
++     >'.',I1.1,'.',I1.1,'                        %%')
+ 
+        write(6,5) INT(VAP),INT(VBP),INT(VCP)
+ 5      format(1x,'%%                      with using PYQUEN version ',I1
+-     >.1,'.',I1.1,'.',I1.1'                     %%')
++     >.1,'.',I1.1,'.',I1.1,'                     %%')
+ 
+        write(6,*) '%%         Corresponding author: Igor Lokhtin (Igor.L
+      >okhtin@cern.ch)        %%' 
