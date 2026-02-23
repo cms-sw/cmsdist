@@ -1,3 +1,0 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
-    <lib name="stdc++fs"/>
-  </tool>
