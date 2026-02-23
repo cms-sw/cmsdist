@@ -6,5 +6,5 @@
     <environment name="LIBDIR" default="$@TOOL_BASE@/@PYTHON3_LIB_SITE_PACKAGES@/correctionlib/lib"/>
     <environment name="BINDIR" default="$@TOOL_BASE@/bin"/>
   </client>
-  <runtime name="PATH" default="$@TOOL_BASE@/bin" type="path"/>
+  <runtime name="PATH" default="$BINDDIR" type="path"/>
 </tool>
