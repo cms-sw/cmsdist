@@ -1,3 +1,0 @@
-%define PipNoWheelDep 1
-%define pip_name wheel
-Requires: py3-flit-core
