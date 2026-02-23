@@ -1,0 +1,2 @@
+Requires: py3-typing-extensions
+BuildRequires: cmake

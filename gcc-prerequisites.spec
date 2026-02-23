@@ -5,25 +5,26 @@ AutoReqProv: no
 
 %define keep_archives true
 %define gmpVersion 6.3.0
-%define mpfrVersion 4.2.1
+%define mpfrVersion 4.2.2
 %define mpcVersion 1.3.1
 %define islVersion 0.27
-%define zlibVersion 1.2.13
-%define zstdVersion 1.5.4
+%define zlibVersion 1.3.2
+%define zstdVersion 1.5.7
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
 Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
-Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
+Source12: https://github.com/madler/zlib/archive/refs/tags/v%{zlibVersion}.tar.gz 
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
 Source14: https://github.com/gcc-mirror/gcc/commit/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 Source15: https://github.com/gcc-mirror/gcc/commit/77d01927bd7c989d431035251a5c196fe39bcec9.diff
 
+
 %ifos linux
 %define bisonVersion 3.8.2
-%define binutilsVersion 2.43.1
-%define elfutilsVersion 0.192
-%define m4Version 1.4.19
+%define binutilsVersion 2.46.0
+%define elfutilsVersion 0.194
+%define m4Version 1.4.20
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: https://sourceware.org/pub/binutils/releases/binutils-%{binutilsVersion}.tar.bz2
@@ -78,7 +79,7 @@ export PATH=%{i}/tmp/sw/bin:$PATH
 
 # Build zlib (required for compressed debug information)
 cd ../zlib-%{zlibVersion}
-CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -D_DEFAULT_SOURCE"
 %ifarch x86_64
 CONF_FLAGS="${CONF_FLAGS} -msse3"
 %endif
@@ -145,7 +146,7 @@ make -C ../zstd-%{zstdVersion}/lib %{makeprocesses} \
               CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP" CFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" \
               CXXFLAGS="-I%{i}/include -I%{i}/tmp/sw/include" LDFLAGS="-L%{i}/lib -L%{i}/tmp/sw/lib"
   make %{makeprocesses}
-  find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \; 
+  find . -name Makefile -exec perl -p -i -e 's|LN = ln|LN = cp -p|;s|ln ([^-])|cp -p $1|g' {} \;
   make install
 %endif
 

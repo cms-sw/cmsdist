@@ -1,4 +1,4 @@
-### RPM external bazel 5.3.0
+### RPM external bazel 6.5.0
 ## INCLUDE cpp-standard
 
 Source: https://github.com/bazelbuild/bazel/releases/download/%{realversion}/bazel-%{realversion}-dist.zip
@@ -31,11 +31,12 @@ Patch2: bazel-gcc14
 %build
 
 export EXTRA_BAZEL_ARGS="--define=ABSOLUTE_JAVABASE=${JAVA_HOME} --jobs %{compiling_processes}"
-export BAZEL_CXXOPTS="-std=c++%{cms_cxx_standard}"
+export BAZEL_CXXOPTS="-Wno-error=deprecated:-std=c++%{cms_cxx_standard}"
 ${JAVA_HOME}/bin/java -version 2>&1 | grep -E -i 'openjdk version "[1-9]'
 if [ $(${JAVA_HOME}/bin/java -version 2>&1 | grep -E -i 'openjdk version "[1-9]' | sed -E 's|.* "([0-9]+)[.].*|\1|') -ge 17 ] ; then
   export JNI_FLAGS="--add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED"
 fi
+sed -i '/src\/main\/cpp\/util\/logging.h/a #include <cstdint>' src/main/cpp/blaze.h
 bash ./compile.sh
 
 %install

@@ -1,4 +1,4 @@
-### RPM external lhapdf 6.4.0
+### RPM external lhapdf 6.5.4
 %define setsversion 6.5.1c
 
 Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-%{realversion}.tar.gz
@@ -18,6 +18,7 @@ PYTHON=$(which python3) \
   --enable-python
 
 %build
+sed -i '/yaml-cpp\/null.h/a #include <cstdint>' src/yamlcpp/emitterutils.cpp
 make all %makeprocesses 
 
 %install
@@ -33,7 +34,8 @@ rm -f pdfsets.index
 cp -f %{_sourcedir}/lhapdf_pdfsetsindex pdfsets.index
 cd -
 
-# Remove all libtool archives
+# Remove all libtool archives and docs
+rm -rf %{i}/share/doc
 find %{i} -name '*.la' -exec rm -f {} \;
 
 %post

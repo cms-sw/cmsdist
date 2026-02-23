@@ -1,0 +1,11 @@
+--- a/src/ducc0/infra/mav.h
++++ b/src/ducc0/infra/mav.h
+@@
+-    template<typename... Ns> T &operator()(Ns... ns) const
++    template<typename... Ns> T &operator()(Ns... ns)
+     { return this->vptr[this->index(ns...)]; }
+
+@@
+-    template<typename I> T &raw(I i) const
++    template<typename I> T &raw(I i)
+     { return this->vptr[i]; }
