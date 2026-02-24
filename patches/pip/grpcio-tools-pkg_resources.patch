@@ -1,0 +1,177 @@
+diff --git a/README.rst b/README.rst
+index f0b5240..05db96e 100644
+--- a/README.rst
++++ b/README.rst
+@@ -75,32 +75,6 @@ Troubleshooting
+ 
+ Help, I ...
+ 
+-* **... see a** :code:`pkg_resources.VersionConflict` **when I try to install
+-  grpc**
+-
+-  This is likely because :code:`pip` doesn't own the offending dependency,
+-  which in turn is likely because your operating system's package manager owns
+-  it. You'll need to force the installation of the dependency:
+-
+-  :code:`pip install --ignore-installed $OFFENDING_DEPENDENCY`
+-
+-  For example, if you get an error like the following:
+-
+-  ::
+-
+-    Traceback (most recent call last):
+-    File "<string>", line 17, in <module>
+-     ...
+-    File "/usr/lib/python2.7/dist-packages/pkg_resources.py", line 509, in find
+-      raise VersionConflict(dist, req)
+-    pkg_resources.VersionConflict: (six 1.8.0 (/usr/lib/python2.7/dist-packages), Requirement.parse('six>=1.10'))
+-
+-  You can fix it by doing:
+-
+-  ::
+-
+-    sudo pip install --ignore-installed six
+-
+ * **... see compiler errors on some platforms when either installing from source or from the source distribution**
+ 
+   If you see
+diff --git a/grpc_tools/command.py b/grpc_tools/command.py
+index 5b0b7eb..ce430e9 100644
+--- a/grpc_tools/command.py
++++ b/grpc_tools/command.py
+@@ -16,10 +16,31 @@ import os
+ import sys
+ 
+ from grpc_tools import protoc
+-import pkg_resources
+ import setuptools
+ 
+ 
++if sys.version_info >= (3, 9, 0):
++    from importlib import resources
++else:
++    import pkg_resources
++
++
++def _get_resource_file_name(
++    package_or_requirement: str, resource_name: str
++) -> str:
++    """Obtain the filename for a resource on the file system."""
++    file_name = None
++    if sys.version_info >= (3, 9, 0):
++        file_name = (
++            resources.files(package_or_requirement) / resource_name
++        ).resolve()
++    else:
++        file_name = pkg_resources.resource_filename(
++            package_or_requirement, resource_name
++        )
++    return str(file_name)
++
++
+ def build_package_protos(package_root, strict_mode=False):
+     proto_files = []
+     inclusion_root = os.path.abspath(package_root)
+@@ -30,9 +51,7 @@ def build_package_protos(package_root, strict_mode=False):
+                     os.path.abspath(os.path.join(root, filename))
+                 )
+ 
+-    well_known_protos_include = pkg_resources.resource_filename(
+-        "grpc_tools", "_proto"
+-    )
++    well_known_protos_include = _get_resource_file_name("grpc_tools", "_proto")
+ 
+     for proto_file in proto_files:
+         command = [
+diff --git a/grpc_tools/protoc.py b/grpc_tools/protoc.py
+index 10419ed..f6ce13a 100644
+--- a/grpc_tools/protoc.py
++++ b/grpc_tools/protoc.py
+@@ -18,7 +18,10 @@ import os
+ import sys
+ 
+ from grpc_tools import _protoc_compiler
+-import pkg_resources
++if sys.version_info >= (3, 9, 0):
++    from importlib import resources
++else:
++    import pkg_resources
+ 
+ _PROTO_MODULE_SUFFIX = "_pb2"
+ _SERVICE_MODULE_SUFFIX = "_pb2_grpc"
+@@ -36,6 +39,20 @@ def main(command_arguments):
+     command_arguments = [argument.encode() for argument in command_arguments]
+     return _protoc_compiler.run_main(command_arguments)
+ 
++def _get_resource_file_name(
++    package_or_requirement: str, resource_name: str
++) -> str:
++    """Obtain the filename for a resource on the file system."""
++    file_name = None
++    if sys.version_info >= (3, 9, 0):
++        file_name = (
++            resources.files(package_or_requirement) / resource_name
++        ).resolve()
++    else:
++        file_name = pkg_resources.resource_filename(
++            package_or_requirement, resource_name
++        )
++    return str(file_name)
+ 
+ # NOTE(rbellevi): importlib.abc is not supported on 3.4.
+ if sys.version_info >= (3, 5, 0):
+@@ -63,9 +80,9 @@ if sys.version_info >= (3, 5, 0):
+                         ),
+                     ]
+                 )
+-                sys.path.append(
+-                    pkg_resources.resource_filename("grpc_tools", "_proto")
+-                )
++                proto_include = _get_resource_file_name("grpc_tools", "_proto")
++                sys.path.append(proto_include)
++
+                 _FINDERS_INSTALLED = True
+ 
+     def _module_name_to_proto_file(suffix, module_name):
+@@ -185,5 +202,5 @@ if sys.version_info >= (3, 5, 0):
+         _maybe_install_proto_finders()
+ 
+ if __name__ == "__main__":
+-    proto_include = pkg_resources.resource_filename("grpc_tools", "_proto")
++    proto_include = _get_resource_file_name("grpc_tools", "_proto")
+     sys.exit(main(sys.argv + ["-I{}".format(proto_include)]))
+diff --git a/setup.py b/setup.py
+index c5c7243..636e7f0 100644
+--- a/setup.py
++++ b/setup.py
+@@ -24,7 +24,6 @@ from subprocess import PIPE
+ import sys
+ import sysconfig
+ 
+-import pkg_resources
+ import setuptools
+ from setuptools import Extension
+ from setuptools.command import build_ext
+@@ -225,22 +224,6 @@ if "win32" in sys.platform:
+ elif "linux" in sys.platform or "darwin" in sys.platform:
+     DEFINE_MACROS += (("HAVE_PTHREAD", 1),)
+ 
+-# By default, Python3 setuptools(distutils) enforces compatibility of
+-# c plugins (.so files) with the OSX version Python was built with.
+-# We need OSX 10.10, the oldest which supports C++ thread_local.
+-if "darwin" in sys.platform:
+-    mac_target = sysconfig.get_config_var("MACOSX_DEPLOYMENT_TARGET")
+-    if mac_target and (
+-        pkg_resources.parse_version(mac_target)
+-        < pkg_resources.parse_version("10.10.0")
+-    ):
+-        os.environ["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
+-        os.environ["_PYTHON_HOST_PLATFORM"] = re.sub(
+-            r"macosx-[0-9]+\.[0-9]+-(.+)",
+-            r"macosx-10.10-\1",
+-            sysconfig.get_platform(),
+-        )
+-
+ 
+ def package_data():
+     tools_path = GRPC_PYTHON_TOOLS_PACKAGE.replace(".", os.path.sep)

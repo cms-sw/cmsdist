@@ -5,7 +5,7 @@
 %define source_package tensorflow-sources_%{vectorized_package}
 %endif
 ## INCLUDE tensorflow-requires
-BuildRequires: %{source_package} py3-wheel
+BuildRequires: %{source_package}
 %define tf_major %(echo %realversion | cut -d. -f1)
 %define tf_root %(echo %{source_package}_ROOT | tr '[a-z-]' '[A-Z_]')
 Source: none

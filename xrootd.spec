@@ -30,10 +30,8 @@ sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_
 
 %if 0%{?fedora:1}
 %define build_python 1
-%elif 0%{rhel} > 7
-%define build_python 1
 %else
-%define build_python 0
+%define build_python 1
 %endif
 
 rm -rf ../build; mkdir ../build; cd ../build
@@ -65,7 +63,7 @@ make %makeprocesses VERBOSE=1
 %install
 cd ../build
 make install
-%{relocatePy3SitePackages}
+%relocatePy3Shebang bin
 
 %post
 %{relocateConfig}bin/xrootd-config
