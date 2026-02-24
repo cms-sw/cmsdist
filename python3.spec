@@ -9,9 +9,11 @@
 Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
 BuildRequires: gmake
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
+Source1: https://patch-diff.githubusercontent.com/raw/python/cpython/pull/112681.diff
 
 %prep
 %setup -n Python-%{realversion}
+patch -p1 <%{_sourcedir}/112681.diff
 
 %build
 mkdir -p %{i}/{include,lib,bin}
