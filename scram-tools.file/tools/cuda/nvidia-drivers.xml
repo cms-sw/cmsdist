@@ -1,8 +1,8 @@
-<tool name="nvidia-drivers" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cuda/index.html"/>
   <client>
-    <environment name="NVIDIA_DRIVERS_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"              default="$NVIDIA_DRIVERS_BASE/drivers"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR"              default="$@TOOL_BASE@/drivers"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
 </tool>
