@@ -1,4 +1,4 @@
-<tool name="g4hepemcore" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <lib name="g4hepem-static"/>
   <use name="g4hepem_interface"/>
 </tool>

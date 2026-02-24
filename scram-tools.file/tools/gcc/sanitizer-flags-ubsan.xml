@@ -1,4 +1,4 @@
-  <tool name="sanitizer-flags-ubsan" version="1.0" revision="1">
+  <tool name="@TOOL_FILENAME@" version="1.0" revision="1">
     <ifrelease name="UBSAN">
       <flags CPPDEFINES="CMS_UNDEFINED_SANITIZER"/>
       <flags CXXFLAGS="-fno-omit-frame-pointer -fsanitize=undefined"/>

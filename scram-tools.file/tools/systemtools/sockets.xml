@@ -1,4 +1,4 @@
-  <tool name="sockets" version="system" revision="1">
+  <tool name="@TOOL_FILENAME@" version="system" revision="1">
     <lib name="crypt"/>
     <lib name="dl"/>
     <lib name="rt"/>
