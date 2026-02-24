@@ -1,39 +1,52 @@
 diff --git a/c10/CMakeLists.txt b/c10/CMakeLists.txt
-index 34577caef..8daa19322 100644
+index f82e460ca..108179026 100644
 --- a/c10/CMakeLists.txt
 +++ b/c10/CMakeLists.txt
-@@ -94,6 +94,7 @@ if(NOT BUILD_LIBTORCHLESS)
-   if(C10_USE_GLOG)
+@@ -91,6 +91,7 @@ if(NOT BUILD_LIBTORCHLESS)
      target_link_libraries(c10 PUBLIC glog::glog)
    endif()
+ 
 +  find_package(fmt REQUIRED)
+   target_link_libraries(c10 PUBLIC headeronly)
    target_link_libraries(c10 PRIVATE fmt::fmt-header-only)
    target_link_libraries(c10 PRIVATE nlohmann)
- 
 diff --git a/caffe2/CMakeLists.txt b/caffe2/CMakeLists.txt
-index 33199c74b..f6ca16d4e 100644
+index 6cbaecc5d..41eda6fea 100644
 --- a/caffe2/CMakeLists.txt
 +++ b/caffe2/CMakeLists.txt
-@@ -1471,6 +1471,8 @@ if($ENV{TH_BINARY_BUILD})
-   endif()
+@@ -38,6 +38,7 @@ else()
+   message(FATAL_ERROR "Unknown ATen parallel backend: ${ATEN_THREADING}")
  endif()
  
 +find_package(fmt REQUIRED)
-+
- target_link_libraries(torch_cpu PUBLIC c10)
- target_link_libraries(torch_cpu PUBLIC ${Caffe2_PUBLIC_DEPENDENCY_LIBS})
- target_link_libraries(torch_cpu PRIVATE ${Caffe2_DEPENDENCY_LIBS})
+ # ---[ Declare source file lists
+ 
+ # ---[ ATen build
 diff --git a/cmake/Dependencies.cmake b/cmake/Dependencies.cmake
-index 1813f4418..c4655b95a 100644
+index 903c212de..4894af410 100644
 --- a/cmake/Dependencies.cmake
 +++ b/cmake/Dependencies.cmake
-@@ -1521,9 +1521,13 @@ endif()
- #
+@@ -1583,26 +1583,16 @@ endif()
  # End ATen checks
  #
+ 
+-# Install `fmtlib` header.
+-# This was the default behavior before version 12.0.0.
+-# Since PyTorch C API depends on it, make it available for projects that
+-# depend on PyTorch.
+-set(FMT_INSTALL ON)
 -set(TEMP_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 -set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libs" FORCE)
 -add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
+-
+-# Disable compiler feature checks for `fmt`.
+-#
+-# CMake compiles a little program to check compiler features. Some of our build
+-# configurations (notably the mobile build analyzer) will populate
+-# CMAKE_CXX_FLAGS in ways that break feature checks. Since we already know
+-# `fmt` is compatible with a superset of the compilers that PyTorch is, it
+-# shouldn't be too bad to just disable the checks.
+-set_target_properties(fmt-header-only PROPERTIES INTERFACE_COMPILE_FEATURES "")
 +find_package(fmt)
 +if(fmt_FOUND)
 +  message(STATUS "Found system FMT at " ${FMT_INCLUDE_DIR})
@@ -41,14 +54,7 @@ index 1813f4418..c4655b95a 100644
 +  message(STATUS "Did not find system FMT. Using third party subdirectory.")
 +  add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
 +endif()
- 
- # Disable compiler feature checks for `fmt`.
- #
-@@ -1532,10 +1536,8 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
- # CMAKE_CXX_FLAGS in ways that break feature checks. Since we already know
- # `fmt` is compatible with a superset of the compilers that PyTorch is, it
- # shouldn't be too bad to just disable the checks.
--set_target_properties(fmt-header-only PROPERTIES INTERFACE_COMPILE_FEATURES "")
++
  
  list(APPEND Caffe2_DEPENDENCY_LIBS fmt::fmt-header-only)
 -set(BUILD_SHARED_LIBS ${TEMP_BUILD_SHARED_LIBS} CACHE BOOL "Build shared libs" FORCE)
@@ -56,20 +62,20 @@ index 1813f4418..c4655b95a 100644
  # ---[ Kineto
  # edge profiler depends on KinetoProfiler but it only does cpu
 diff --git a/torch/CMakeLists.txt b/torch/CMakeLists.txt
-index b123023d2..8b4a73a24 100644
+index 3a3ca0f12..52138d568 100644
 --- a/torch/CMakeLists.txt
 +++ b/torch/CMakeLists.txt
 @@ -77,6 +77,7 @@ set(TORCH_PYTHON_INCLUDE_DIRECTORIES
      )
  
  list(APPEND TORCH_PYTHON_INCLUDE_DIRECTORIES ${LIBSHM_SRCDIR})
-+list(APPEND TORCH_PYTHON_INCLUDE_DIRECTORIES ${FMT_INCLUDE_DIRS})
++ist(APPEND TORCH_PYTHON_INCLUDE_DIRECTORIES ${FMT_INCLUDE_DIRS})
  
  set(TORCH_PYTHON_LINK_LIBRARIES
      Python::Module
-@@ -85,7 +86,7 @@ set(TORCH_PYTHON_LINK_LIBRARIES
-     httplib
+@@ -86,7 +87,7 @@ set(TORCH_PYTHON_LINK_LIBRARIES
      nlohmann
+     moodycamel
      shm
 -    fmt::fmt-header-only
 +    fmt::fmt

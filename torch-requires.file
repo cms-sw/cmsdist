@@ -7,8 +7,7 @@
 Source97: torch-build-env
 Source98: FindEigen3.cmake
 Source99: scram-tools.file/tools/eigen/env
-Patch1: pytorch-missing-braces
-Patch2: pytorch-system-fmt
+Patch0: pytorch-system-fmt
 
 BuildRequires: cmake ninja python-python3
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
