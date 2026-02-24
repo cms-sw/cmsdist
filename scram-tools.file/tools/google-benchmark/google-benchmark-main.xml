@@ -1,4 +1,4 @@
-<tool name="google-benchmark-main" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/google/benchmark"/>
   <lib name="benchmark_main"/>
   <use name="google-benchmark"/>

@@ -1,5 +1,5 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="3">
-  <lib name="log4cplus"/>
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+  <lib name="log4cplusS"/>
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE"        default="$@TOOL_BASE@/include"/>
