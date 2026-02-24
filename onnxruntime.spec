@@ -8,7 +8,7 @@ Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&expo
 Patch0: onnxruntime-gcc13
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-wheel py3-onnx zlib libpng py3-pybind11 re2 eigen
+Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen
 %{!?without_cuda:Requires: cuda cudnn}
 
 %prep

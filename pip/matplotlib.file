@@ -1,6 +1,6 @@
 Requires: py3-numpy py3-pillow py3-pybind11 freetype qhull
 BuildRequires: cmake ninja
-Patch0: matplotlib-freetype-slc7
+Patch0: patches/pip/matplotlib-freetype-slc7
 %define PipPreBuild \
   export CFLAGS="-I${FREETYPE_ROOT}/include/freetype2   -I${LIBPNG_ROOT}/include/libpng16 -I${QHULL_ROOT}/include" \
   export CXXFLAGS="-I${FREETYPE_ROOT}/include/freetype2 -I${LIBPNG_ROOT}/include/libpng16 -I${QHULL_ROOT}/include" \

@@ -1,4 +1,4 @@
-### RPM external c-blosc2 2.20.0
+### RPM external c-blosc2 2.23.0
 Source: https://github.com/Blosc/c-blosc2/archive/refs/tags/v%{realversion}.tar.gz
 Requires: zlib zstd lz4
 BuildRequires: ninja cmake
@@ -18,6 +18,7 @@ cmake ../%{n}-%{realversion} \
  -DPREFER_EXTERNAL_ZSTD=ON \
  -DPREFER_EXTERNAL_LZ4=ON \
  -DPREFER_EXTERNAL_ZLIB=ON \
+ -DCMAKE_C_FLAGS="-I${LZ4_ROOT}/include" \
  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 ninja -v %{makeprocesses}

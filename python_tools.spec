@@ -43,7 +43,6 @@ Requires: py3-argparse
 Requires: py3-bleach
 Requires: py3-certifi
 Requires: py3-decorator
-Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py3-ipython_genutils
