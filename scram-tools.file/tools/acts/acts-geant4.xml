@@ -1,4 +1,4 @@
-<tool name="acts-geant4" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://acts.readthedocs.io/en/latest/plugins/geant4.html"/>
   <lib name="ActsPluginGeant4"/>
   <use name="acts-core"/>

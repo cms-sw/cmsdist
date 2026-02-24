@@ -1,9 +1,9 @@
-<tool name="boost_python" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_PYTHON_LIB@"/>
   <client>
-    <environment name="BOOST_PYTHON_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="boost_header"/>
   <use name="python3"/>
