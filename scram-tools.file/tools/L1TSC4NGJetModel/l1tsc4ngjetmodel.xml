@@ -2,5 +2,5 @@
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
-  </client> 
+  </client>
 </tool>

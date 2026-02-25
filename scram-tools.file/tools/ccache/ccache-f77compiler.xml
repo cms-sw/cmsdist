@@ -2,6 +2,6 @@
     <use name="gcc-f77compiler"/>
     <client>
       <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="FC" default="$@TOOL_BASE@/bin/gfortran"/>
+      <environment name="FC" value="$@TOOL_BASE@/bin/gfortran"/>
     </client>
   </tool>
