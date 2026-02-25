@@ -1,8 +1,8 @@
   <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
     <client>
-      <environment name="GEANT4_PARFULLCMS" default="@TOOL_ROOT@"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     </client>
-    <runtime name="PATH" value="$GEANT4_PARFULLCMS/bin" type="path"/>
-    <runtime name="GEANT4_PARFULLCMS_CONFIG_DIR" value="$GEANT4_PARFULLCMS/share/ParFullCMS" type="path"/>
+    <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+    <runtime name="GEANT4_PARFULLCMS_CONFIG_DIR" value="$@TOOL_BASE@/share/ParFullCMS" type="path"/>
     <runtime name="G4FORCENUMBEROFTHREADS" value="max"/>
   </tool>

@@ -13,7 +13,6 @@ function copy_tools (){
         echo "  Copied $bxml"
     done
 }
-
 export TOOL_ROOT=$1
 export TOOL_VERSION=$2
 export TOOLFILES_INSTALL_DIR=$3
