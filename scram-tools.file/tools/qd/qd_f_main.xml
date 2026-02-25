@@ -1,4 +1,4 @@
-<tool name="qd_f_main" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="qd_f_main"/>
   <use name="qd"/>
 </tool>

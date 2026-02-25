@@ -1,9 +1,9 @@
-<tool name="g4hepem_interface" version="@TOOL_VERSION@" revision="4">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="4">
   <info url="https://github.com/mnovak42/g4hepem"/>
   <client>
-    <environment name="G4HEPEM_INTERFACE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$G4HEPEM_INTERFACE_BASE/lib64"/>
-    <environment name="INCLUDE" default="$G4HEPEM_INTERFACE_BASE/include/G4HepEm"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include/G4HepEm"/>
   </client>
   <use name="geant4core"/>
   <flags CXXFLAGS="-DG4HepEm_EARLY_TRACKING_EXIT=ON"/>

@@ -1,6 +1,7 @@
-  <tool name="ccache-f77compiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="FC" default="@TOOL_ROOT@/bin/gfortran"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+      <environment name="FC" value="$@TOOL_BASE@/bin/gfortran"/>
     </client>
   </tool>

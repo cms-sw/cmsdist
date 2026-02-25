@@ -1,9 +1,9 @@
-  <tool name="icx-cxxcompiler" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="ICX_CXXCOMPILER_BASE" default="@TOOL_ROOT@/installation" handler="warn"/>
-      <environment name="CXX" value="$ICX_CXXCOMPILER_BASE/bin/icpx" handler="warn"/>
-      <environment name="LIBDIR" default="$ICX_CXXCOMPILER_BASE/lib"/>
+      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@/installation" handler="warn"/>
+      <environment name="CXX" value="$@TOOL_BASE@/bin/icpx" handler="warn"/>
+      <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
@@ -24,6 +24,6 @@
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$ICX_CXXCOMPILER_BASE/lib" type="path" handler="warn"/>
-    <runtime name="PATH" value="$ICX_CXXCOMPILER_BASE/bin" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$@TOOL_BASE@/lib" type="path" handler="warn"/>
+    <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path" handler="warn"/>
   </tool>

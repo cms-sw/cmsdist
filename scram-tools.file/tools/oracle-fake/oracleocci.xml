@@ -1,4 +1,4 @@
-<tool name="oracleocci" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="occi"/>
   <use name="oracle"/>
 </tool>

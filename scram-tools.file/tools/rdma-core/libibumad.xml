@@ -1,4 +1,4 @@
-<tool name="libibumad" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/linux-rdma/rdma-core/blob/master/README.md"/>
   <use name="rdma-core"/>
   <lib name="ibumad"/>
