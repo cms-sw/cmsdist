@@ -1,4 +1,4 @@
-<tool name="alpaka-rocm" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <use name="alpaka"/>
   <use name="rocm"/>
   <!-- host comiplation should run with ALPAKA_HOST_ONLY defined -->

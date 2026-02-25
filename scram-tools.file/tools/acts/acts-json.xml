@@ -1,4 +1,4 @@
-<tool name="acts-json" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://acts.readthedocs.io/en/latest/plugins/json.html"/>
   <lib name="ActsPluginJson"/>
   <use name="acts-core"/>

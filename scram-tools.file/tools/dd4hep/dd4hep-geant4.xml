@@ -1,4 +1,4 @@
-<tool name="dd4hep-geant4" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="DDG4-static"/>
   <use name="geant4core"/>
   <use name="dd4hep-core"/>
