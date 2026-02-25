@@ -1,5 +1,6 @@
 ### RPM external bz2lib 1.0.8
 Source: https://gitlab.com/bzip2/bzip2/-/archive/bzip2-%{realversion}/bzip2-bzip2-%{realversion}.tar.gz
+BuildRequires: gmake
 
 %prep
 %setup -n bzip2-bzip2-%{realversion}

@@ -15,7 +15,7 @@ Provides: python3dist(scipy) = %{realversion}
 
 %define PipPostBuild \
   find %{i} -name 'libsf_error_state*.so*' -exec ls -l {} \\\;
-  
+
 %define PipPostPost \
     %{relocateConfig}lib/python*/site-packages/scipy/__config__.py ; \
     %{relocateConfig}lib/python*/site-packages/scipy/special/*.pyx

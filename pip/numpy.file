@@ -1,7 +1,7 @@
 BuildRequires: py3-meson-python
 Requires: py3-cython
 Requires: zlib OpenBLAS
-Patch0: numpy-f2py-main
+Patch0: patches/pip/numpy-f2py-main
 
 %define patchsrc \
 cat > site.cfg <<EOF \

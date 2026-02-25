@@ -1,6 +1,6 @@
 ## INCLUDE cpp-standard
 %define patchsrc0 grep 'std=c++14' setup.py && sed -i -e 's|std=c++14|std=c++%{cms_cxx_standard}|g' setup.py
-Patch0: grpcio-absl-path
+Patch0: patches/pip/grpcio-absl-path
 Patch1: grpcio-openssl-no-engine
 %define PipPreBuild \
   export GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS=%{compiling_processes} ;\

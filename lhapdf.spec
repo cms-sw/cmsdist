@@ -35,8 +35,8 @@ cp -f %{_sourcedir}/lhapdf_pdfsetsindex pdfsets.index
 cd -
 
 # Remove all libtool archives and docs
-rm -rf %{i}/share/doc
 find %{i} -name '*.la' -exec rm -f {} \;
+rm -rf %{i}/share/doc
 
 %post
 %{relocateConfig}bin/lhapdf-config

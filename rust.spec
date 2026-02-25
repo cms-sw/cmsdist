@@ -1,4 +1,4 @@
-### RPM external rust 1.91.0
+### RPM external rust 1.93.1
 %ifarch ppc64le
 %define build_arch powerpc64le-unknown-linux-gnu
 %elifarch riscv64

@@ -8,6 +8,7 @@
 %define python_major %(echo %realversion | cut -d. -f 1)
 Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
 BuildRequires: gmake
+
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
 
 %prep

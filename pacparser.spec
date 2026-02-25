@@ -1,7 +1,7 @@
-### RPM external pacparser 1.4.5
+### RPM external pacparser 1.5.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/manugarg/pacparser/archive/refs/tags/v%{realversion}.tar.gz
-Patch0: pacparser-gcc14
+Patch0: patches/pacparser-pymod-install
 Requires: python3
 BuildRequires: py3-setuptools
 
@@ -10,14 +10,13 @@ BuildRequires: py3-setuptools
 %patch0 -p1
 
 %build
-make -C src all pymod PREFIX=%{i} PYTHON=$(which python3)
+CFLAGS='-pthread' make -C src all pymod PREFIX=%{i} PYTHON=$(which python3)
 
 %install
 make -C src install install-pymod \
   PREFIX=%{i} \
   PYTHON=$(which python3) \
-  PYTHONUSERBASE=%{i} \
-  EXTRA_ARGS="--user"
+  EXTRA_ARGS="--prefix=%{i}"
 
 find %{i}/lib -type f | xargs chmod 0755
 

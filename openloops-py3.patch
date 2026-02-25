@@ -12,7 +12,7 @@ index 2588bf7..74465b6 100755
 --- a/openloops
 +++ b/openloops
 @@ -60,6 +60,7 @@ else
- 
+
  fi
  
 +export PYTHON3PATH=${PYTHONPATH}:${PYTHON3PATH}

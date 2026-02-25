@@ -7,7 +7,9 @@ BuildRequires: gmake cmake
 %setup -n %{n}-%{realversion}
 
 %build
-rm -rf ../build && mkdir ../build && cd ../build
+rm -rf ../build
+mkdir ../build
+cd ../build
 
 cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
@@ -21,6 +23,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}"
 
 make %{makeprocesses} VERBOSE=1
+
 
 %install
 cd ../build

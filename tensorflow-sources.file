@@ -1,4 +1,5 @@
 ##Tensorflow Common build files
+BuildRequires: bazel java-env
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE cpp-standard
 ## INCLUDE tensorflow-requires
@@ -26,7 +27,6 @@ Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag
 %if "%{?tfversion:set}" != "set"
 %define tfversion %{realversion}
 %endif
-
 
 %define majorversion %(echo %tfversion | cut -d . -f 1)
 
@@ -70,7 +70,6 @@ BAZEL_OPTS="$BAZEL_OPTS --define tflite_with_xnnpack=false"
 %endif
 
 %if %{enable_gpu}
-BAZEL_OPTS="$BAZEL_OPTS --config=cuda"
 export GCC_HOST_COMPILER_PREFIX=${GCC_ROOT}/bin
 export GCC_HOST_COMPILER_PATH=$(which gcc)
 export TF_CUDA_COMPUTE_CAPABILITIES=$(echo "compute_%{cuda_arch}" | sed 's|\s\s*|,compute_|g')
@@ -145,6 +144,8 @@ export PYTHONPATH=$PYTHON3PATH
 bazel $BAZEL_OPTS //third_party/py/numpy
 build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
 ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
+
+
 # build tensorflow python targets
 bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 

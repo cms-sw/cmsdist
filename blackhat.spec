@@ -5,6 +5,7 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools
 Requires: qd python3
+BuildRequires: autotools
 Patch0: blackhat
 
 %prep
