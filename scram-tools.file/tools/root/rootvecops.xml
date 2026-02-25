@@ -1,4 +1,4 @@
-<tool name="rootvecops" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://root.cern.ch/root/"/>
   <lib name="ROOTVecOps"/>
   <use name="rootcore"/>

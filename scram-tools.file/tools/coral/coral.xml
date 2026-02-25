@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" type="scram" revision="2">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="scram" revision="2">
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/$SCRAM_ARCH/lib"/>

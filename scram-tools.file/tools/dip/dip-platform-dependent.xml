@@ -1,4 +1,4 @@
-<tool name="dip-platform-dependent" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="platform-dependent"/>
   <use name="dip_interface"/>
 </tool>
