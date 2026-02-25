@@ -1,4 +1,4 @@
-<tool name="tensorflow-cc" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="tensorflow_cc"/>
   <use name="tensorflow-framework"/>
   <use name="eigen"/>

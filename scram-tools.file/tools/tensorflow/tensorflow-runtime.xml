@@ -1,4 +1,4 @@
-<tool name="tensorflow-runtime" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="cpu_function_runtime"/>
   <use name="tensorflow"/>
 </tool>

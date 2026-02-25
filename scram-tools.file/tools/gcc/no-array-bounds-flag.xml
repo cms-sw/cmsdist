@@ -1,4 +1,4 @@
-<tool name="no-array-bounds-flag" version="1.0" revision="1">
+<tool name="@TOOL_FILENAME@" version="1.0" revision="1">
   <!-- work around a GCC bug that makes LTO ignore diagnostic #pragma:
     - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80922
     - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109916
