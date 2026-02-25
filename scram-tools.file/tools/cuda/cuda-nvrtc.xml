@@ -1,4 +1,4 @@
-<tool name="cuda-nvrtc" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://docs.nvidia.com/cuda/nvrtc/index.html"/>
   <use name="cuda"/>
   <lib name="nvrtc"/>

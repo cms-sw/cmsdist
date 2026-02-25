@@ -1,4 +1,4 @@
-<tool name="detray" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/acts-project/detray/blob/main/README.md"/>
   <use name="acts-common"/>
   <use name="json"/>

@@ -1,4 +1,4 @@
-<tool name="boost_chrono" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_CHRONO_LIB@"/>
   <use name="boost_system"/>

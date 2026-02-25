@@ -1,4 +1,4 @@
-<tool name="traccc-performance" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/acts-project/traccc/"/>
   <lib name="traccc_performance"/>
   <use name="acts-core"/>
