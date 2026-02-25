@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <info url="https://github.com/fmtlib/fmt"/>
   <lib name="fmt"/>
   <client>

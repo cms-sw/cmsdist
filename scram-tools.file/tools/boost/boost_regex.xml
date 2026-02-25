@@ -1,4 +1,4 @@
-<tool name="boost_regex" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.boost.org"/>
   <lib name="@BOOST_REGEX_LIB@"/>
   <use name="boost"/>
