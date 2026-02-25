@@ -1,4 +1,4 @@
-<tool name="actsvg" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://github.com/acts-project/actsvg/blob/main/README.md"/>
   <lib name="actsvg_core"/>
   <lib name="actsvg_meta"/>

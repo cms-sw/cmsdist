@@ -1,3 +1,3 @@
-  <tool name="x11" version="system" revision="1">
+  <tool name="@TOOL_FILENAME@" version="system" revision="1">
     <use name="sockets"/>
   </tool>

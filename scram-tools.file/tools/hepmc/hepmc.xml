@@ -1,4 +1,4 @@
-<tool name="HepMC" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <lib name="HepMCfio"/>
   <lib name="HepMC"/>
   <client>
