@@ -9,7 +9,7 @@ Source98: FindEigen3.cmake
 Source99: scram-tools.file/tools/eigen/env
 Patch0: patches/pytorch-system-fmt
 
-BuildRequires: cmake ninja python-python3
+BuildRequires: cmake ninja python-python3 py3-packaging
 Requires: eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
