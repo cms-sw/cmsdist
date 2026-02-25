@@ -4,6 +4,8 @@
 function copy_tools (){
     for xml in $(find $1 -type f -name "*.xml") ; do
         bxml=$(basename $xml)
+	    export TOOL_FILENAME=$(echo $bxml | sed 's|.xml$||')
+		export TOOL_BASE=$(echo $TOOL_FILENAME | tr 'a-z-' 'A-Z_')_BASE
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
         cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
@@ -11,12 +13,10 @@ function copy_tools (){
         echo "  Copied $bxml"
     done
 }
-
 export TOOL_ROOT=$1
 export TOOL_VERSION=$2
 export TOOLFILES_INSTALL_DIR=$3
 export TOOL=$4
-export TOOL_BASE=$(echo $4 | tr 'a-z-' 'A-Z_')_BASE
 export SCRAM_TOOLS_BIN_DIR=$(dirname $(realpath ${0}))
 export SCRAM_TOOL_SOURCE_DIR=$(realpath ${SCRAM_TOOLS_BIN_DIR}/../tools)/$4
 

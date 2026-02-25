@@ -1,4 +1,4 @@
-  <tool name="ofast-flag" version="1.0" revision="1">
+  <tool name="@TOOL_FILENAME@" version="1.0" revision="1">
     <flags CXXFLAGS="-Ofast -fno-reciprocal-math"/>
     <ifarch match="ppc64le|amd64|x86_64">
       <flags CXXFLAGS="-mrecip=none"/>
