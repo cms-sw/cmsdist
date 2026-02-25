@@ -1,4 +1,4 @@
-  <tool name="sanitizer-flags-asan" version="1.0" revision="1">
+  <tool name="@TOOL_FILENAME@" version="1.0" revision="1">
     <ifrelease name="ASAN">
       <flags CPPDEFINES="CMS_ADDRESS_SANITIZER"/>
       <flags CXXFLAGS="-fno-omit-frame-pointer -fsanitize=address"/>

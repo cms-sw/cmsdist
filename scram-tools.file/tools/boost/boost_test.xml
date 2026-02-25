@@ -1,4 +1,4 @@
-<tool name="boost_test" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.boost.org"/>
   <lib name="boost_unit_test_framework"/>
   <use name="boost"/>

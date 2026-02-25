@@ -1,4 +1,4 @@
-<tool name="rocm-rccl" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="https://rocm.docs.amd.com/projects/rccl/en/docs-@TOOL_VERSION@/"/>
   <use name="rocm"/>
   <lib name="rccl"/>
