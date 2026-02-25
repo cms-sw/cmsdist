@@ -1,4 +1,4 @@
-<tool name="TkOnlineSwDB" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <info url="http://www.cern.ch/"/>
   <lib name="DeviceDescriptions"/>
   <lib name="Fed9UDeviceFactory"/>

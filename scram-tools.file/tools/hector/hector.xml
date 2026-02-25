@@ -1,4 +1,4 @@
-<tool name="Hector" version="@TOOL_VERSION@" revision="2">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <info url="http://www.fynu.ucl.ac.be/themes/he/ggamma/hector/"/>
   <lib name="Hector"/>
   <client>

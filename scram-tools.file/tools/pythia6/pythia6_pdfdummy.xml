@@ -1,4 +1,4 @@
-<tool name="pythia6_pdfdummy" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="pythia6_pdfdummy"/>
   <flags NO_RECURSIVE_EXPORT="1"/>
 </tool>

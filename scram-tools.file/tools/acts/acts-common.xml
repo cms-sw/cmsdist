@@ -1,4 +1,4 @@
-<tool name="acts-common" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <!-- common tool that defines the directories and common flags for all Acts tool -->
   <info url="https://acts.readthedocs.io/en/latest/index.html"/>
   <flags CXXFLAGS="-Wno-missing-braces"/>
