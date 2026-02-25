@@ -1,4 +1,4 @@
-<tool name="geant4vis" version="@TOOL_VERSION@" revision="1">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
   <lib name="G4FR"/>
   <lib name="G4modeling"/>
   <lib name="G4RayTracer"/>
