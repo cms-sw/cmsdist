@@ -2,5 +2,5 @@
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="XRDCL_RECORDER_PLUGIN" value="${@TOOL_BASE@}/lib64/libXrdClRecorder-5.so"/>
+  <runtime name="XRDCL_RECORDER_PLUGIN" value="$@TOOL_BASE@/lib64/libXrdClRecorder-5.so"/>
 </tool>
