@@ -1,0 +1,8 @@
+#####################################################
+# **************** IMPORTANT NOTE ***************** #
+# Increament Revision for every change              #
+#####################################################
+#CMSDIST_FILE_REVISION=1
+
+latest_prmon=$(ls -d @CMS_PATH@/share/$(uname -m)/cms/prmon/v*/bin | sort | tail -1)
+export PATH="${latest_prmon}${PATH:+:$PATH}"
