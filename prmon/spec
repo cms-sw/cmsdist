@@ -1,0 +1,40 @@
+############## IMPORTANT ########################################
+#Always update the order_version below to point to latest date
+#order_version is of form vYYYYMMDDnn 
+#Increment nn if we had to patch and release it on same day
+#This provides a static build of prmon tool so we deploy it under
+#<CMS_PATH>/share/$(uname -m)/ so that it can use used for all OS/GCC
+#################################################################
+BuildRequires: cmake gmake
+%define prmon_tag 3.2.0
+%define build_type static-gnu115-opt
+%define order_version v2026022600
+
+### RPM cms prmon %{order_version}.%{prmon_tag}
+Source0: https://github.com/HSF/prmon/releases/download/v%{prmon_tag}/prmon_%{prmon_tag}_%{_arch}-%{build_type}.tar.gz
+Source1: prmon/prmon-env.sh
+Source2: prmon/prmon-env.csh
+
+%prep
+%setup -b 0 -n %{n}_%{prmon_tag}_%{_arch}-%{build_type}
+
+%build
+%install
+mkdir %{i}/etc
+rsync -a ./ %{i}/
+sed -e 's|@CMS_PATH@|%{cmsroot}|' %{_sourcedir}/prmon-env.sh  > %{i}/etc/prmon-env.sh
+sed -e 's|@CMS_PATH@|%{cmsroot}|' %{_sourcedir}/prmon-env.csh > %{i}/etc/prmon-env.csh
+
+%post
+%{relocateConfig}/etc/prmon*
+
+
+cd ${RPM_INSTALL_PREFIX}
+prmon_dir=share/%{_arch}/%{pkgcategory}/%{n}/%{order_version}
+if [ ! -d ${prmon_dir} ] ; then
+  mkdir -p ${prmon_dir}
+  rpath=$(echo "$prmon_dir" | sed 's|[^/][^/]*|..|g')
+  ln -s ${rpath}/%{pkgrel}/bin ${prmon_dir}/bin
+fi
+%common_revision_script %{pkgrel}/etc/prmon-env.sh  share/etc/profile.d/S99prmon-env.sh
+%common_revision_script %{pkgrel}/etc/prmon-env.csh share/etc/profile.d/S99prmon-env.csh
