@@ -1,7 +1,7 @@
-### RPM cms cmssw-tools 5.0
+### RPM cms cmssw-tools 6.0
 # With cmsBuild, change the above version only when a new tool is added
 
-## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2 prmon
 ## UPLOAD_DEPENDENCIES dqmgui
 ## INCLUDE vecgeom-opt
 
