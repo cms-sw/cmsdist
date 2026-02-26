@@ -1,5 +1,0 @@
-# Process Monitor (prmon)
-
-The [PRocess MONitor](https://github.com/HSF/prmon) is a small stand alone program that can monitor the resource consumption of a process and its children. This is useful in the context of the WLCG/HSF working group to evaluate the costs and performance of HEP workflows in WLCG. In a previous incarnation (MemoryMonitor) it has been used by ATLAS for some time to gather data on resource consumption by production jobs. One of its most useful features is to use smaps to correctly calculate the Proportional Set Size in the group of processes monitored, which is a much better indication of the true memory consumption of a group of processes where children share many pages.
-
-This was requested by Submission Infrastructure (SI) L2 area.
