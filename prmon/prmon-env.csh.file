@@ -1,0 +1,12 @@
+#####################################################
+# **************** IMPORTANT NOTE ***************** #
+# Increament Revision for every change              #
+#####################################################
+#CMSDIST_FILE_REVISION=1
+
+set latest_prmon=`ls -d @CMS_PATH@/share/\`uname -m\`/cms/prmon/v*/bin | sort | tail -1`
+if ( $?PATH ) then
+    setenv PATH "${latest_prmon}:$PATH"
+else
+    setenv PATH "${latest_prmon}"
+endif
