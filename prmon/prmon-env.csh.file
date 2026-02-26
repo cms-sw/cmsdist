@@ -2,7 +2,7 @@
 # **************** IMPORTANT NOTE ***************** #
 # Increament Revision for every change              #
 #####################################################
-#CMSDIST_FILE_REVISION=1
+#CMSDIST_FILE_REVISION=2
 
 set latest_prmon=`ls -d @CMS_PATH@/share/\`uname -m\`/cms/prmon/v*/bin | sort | tail -1`
 if ( $?PATH ) then
