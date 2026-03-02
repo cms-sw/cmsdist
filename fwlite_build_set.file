@@ -139,7 +139,6 @@ SimDataFormats/CrossingFrame
 SimDataFormats/DigiSimLinks
 SimDataFormats/EncodedEventId
 SimDataFormats/GeneratorProducts
-SimDataFormats/JetMatching/interface/JetFlavourInfo.h
 SimDataFormats/PileupSummaryInfo
 SimDataFormats/RPCDigiSimLink
 SimDataFormats/RandomEngine
