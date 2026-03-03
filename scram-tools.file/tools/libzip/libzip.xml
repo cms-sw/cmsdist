@@ -1,0 +1,12 @@
+<tool name="libzip" version="@TOOL_VERSION@">
+  <lib name="libzip"/>
+  <client>
+    <environment name="LIBZIP_BASE" default="@TOOL_ROOT@"/>
+    <environment name="LIBDIR" default="$LIBZIP_BASE/lib"/>
+    <environment name="INCLUDE" default="$LIBZIP_BASE/include"/>
+  </client>
+  <runtime name="PATH" value="$LIBXML2_BASE/bin" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="zlib"/>
+  <use name="zstd"/>
+</tool>
