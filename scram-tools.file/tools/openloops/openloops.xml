@@ -2,7 +2,6 @@
 <client>
 <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
 <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-<environment name="INCLUDE" default="$OPENLOOPS_BASE/include"/>
 <runtime name="CMS_OPENLOOPS_PREFIX" value="$@TOOL_BASE@" type="path"/>
 </client>
 </tool>
