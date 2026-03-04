@@ -4,7 +4,7 @@
 ## INCLUDE rocm-flags
 ## INCLUDE geant4-deps
 
-%define tag         cc436985e
+%define tag         1af234d8a
 %define branch      cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -12,9 +12,6 @@ Source99: scram-tools.file/tools/eigen/env
 
 # Do not build the Acts and Traccc tests
 %define build_test 0
-
-# ROCm support is not yet building correctly
-%define without_rocm 1
 
 BuildRequires: cmake
 Requires: boost
