@@ -1,16 +1,15 @@
-### RPM external sherpa 2.2.15
-Source: http://www.hepforge.org/archive/sherpa/SHERPA-MC-%{realversion}.tar.gz
-Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi
+### RPM external sherpa 2.2.16
+Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz 
+Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi hepmc3
 BuildRequires: mcfm swig autotools
-Patch0: sherpa-2.2.10-hepmcshort
-Patch1: sherpa-cpp20
+Patch0: sherpa-2.2.16-hepmcshort
 #Avoid calling setenv: https://gitlab.com/sherpa-team/sherpa/-/commit/6ead62d7a2758612f8965fb5b61df8c012cf9cae.diff
-Patch2: sherpa-setenv
+Patch1: sherpa-setenv
 
 %{!?without_openloops:Requires: openloops}
 
 %prep
-%setup -q -n SHERPA-MC-%{realversion}
+%setup -q -n sherpa-%{realversion}
 
 autoreconf -i --force
 
@@ -25,13 +24,13 @@ perl -p -i -e 's|-rdynamic||g' configure AddOns/Analysis/Scripts/Makefile.in
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 export PYTHON=$(which python3)
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
             --enable-hepmc2=$HEPMC_ROOT \
+            --enable-hepmc3=$HEPMC3_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
             --enable-pyext \
