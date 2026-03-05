@@ -1,7 +1,8 @@
-diff -Naur a/SHERPA/Main/Sherpa.C b/SHERPA/Main/Sherpa.C
---- a/SHERPA/Main/Sherpa.C	2020-08-24 10:09:46.822502996 +0200
-+++ b/SHERPA/Main/Sherpa.C	2020-08-24 10:15:36.098836763 +0200
-@@ -294,21 +294,23 @@
+diff --git a/SHERPA/Main/Sherpa.C b/SHERPA/Main/Sherpa.C
+index 0a16d23..ecb58e0 100644
+--- a/SHERPA/Main/Sherpa.C
++++ b/SHERPA/Main/Sherpa.C
+@@ -300,21 +300,23 @@ bool Sherpa::GenerateOneEvent(bool reset)
  }
  
  #ifdef USING__HEPMC2
@@ -29,10 +30,11 @@ diff -Naur a/SHERPA/Main/Sherpa.C b/SHERPA/Main/Sherpa.C
    p_hepmc3->AddCrossSection(event, TotalXS(), TotalErr());
  }
  #endif
-diff -Naur a/SHERPA/Main/Sherpa.H b/SHERPA/Main/Sherpa.H
---- a/SHERPA/Main/Sherpa.H	2020-08-24 10:09:46.822502996 +0200
-+++ b/SHERPA/Main/Sherpa.H	2020-08-24 10:11:27.751754145 +0200
-@@ -54,10 +54,10 @@
+diff --git a/SHERPA/Main/Sherpa.H b/SHERPA/Main/Sherpa.H
+index 599178b..d654d2c 100644
+--- a/SHERPA/Main/Sherpa.H
++++ b/SHERPA/Main/Sherpa.H
+@@ -54,10 +54,10 @@ namespace SHERPA {
  
      bool GenerateOneEvent(bool reset=true);
  #ifdef USING__HEPMC2
@@ -45,3 +47,4 @@ diff -Naur a/SHERPA/Main/Sherpa.H b/SHERPA/Main/Sherpa.H
  #endif
  
      double TotalXS();
+
