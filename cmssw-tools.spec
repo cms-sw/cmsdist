@@ -1,7 +1,7 @@
 ### RPM cms cmssw-tools 6.0
 # With cmsBuild, change the above version only when a new tool is added
 
-## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2 prmon
+## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
 ## UPLOAD_DEPENDENCIES dqmgui
 ## INCLUDE vecgeom-opt
 
@@ -172,6 +172,7 @@ Requires: libunwind
 %ifnarch riscv64
 Requires: igprof
 Requires: heaptrack
+Requires: prmon
 %endif
 %{!?without_openloops:Requires: openloops}
 %endif
