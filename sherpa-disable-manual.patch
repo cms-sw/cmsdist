@@ -1,0 +1,32 @@
+diff --git a/Makefile.am b/Makefile.am
+index 599ed4b..a7fac96 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -19,9 +19,7 @@ SUBDIRS       = \
+ 		PHOTONS++ \
+ 		SHRiMPS \
+ 		SHERPA \
+-		AddOns \
+-		Manual \
+-		Examples
++		AddOns
+ 
+ EXTRA_DIST = GUIDELINES
+ 
+diff --git a/configure.ac b/configure.ac
+index 5d2660e..7da4a97 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -220,12 +220,6 @@ AC_CONFIG_FILES([ATOOLS/Math/Makefile \
+ 	  SHERPA/Run/Makefile \
+           SHERPA/Run/Sherpa-config \
+ 	  SHERPA/Makefile \
+-	  Manual/Makefile \
+-          Manual/sherpa-completion \
+-	  Examples/Makefile \
+-	  Examples/API/ME2-Python/test.py \
+-	  Examples/API/Events/test.py \
+-	  Examples/API/MPIEvents/test.py \
+ 	  AddOns/Python/Makefile \
+ 	  AddOns/Analysis/Tools/Makefile \
+ 	  AddOns/Analysis/Main/Makefile \
