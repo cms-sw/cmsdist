@@ -5,11 +5,16 @@ BuildRequires: mcfm swig autotools
 Patch0: sherpa-2.2.16-hepmcshort
 #Avoid calling setenv: https://gitlab.com/sherpa-team/sherpa/-/commit/6ead62d7a2758612f8965fb5b61df8c012cf9cae.diff
 Patch1: sherpa-setenv
+#Disable build Manual and Examples
+Patch2: sherpa-disable-manual
 
 %{!?without_openloops:Requires: openloops}
 
 %prep
 %setup -q -n sherpa-%{realversion}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 autoreconf -i --force
 
@@ -17,13 +22,6 @@ autoreconf -i --force
 %ifarch x86_64
   ARCH_CMSPLATF="-m64"
 %endif
-
-%ifos darwin
-perl -p -i -e 's|-rdynamic||g' configure AddOns/Analysis/Scripts/Makefile.in
-%endif
-
-%patch0 -p1
-%patch1 -p1
 
 %build
 export PYTHON=$(which python3)
@@ -57,7 +55,6 @@ sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa-generate-model
 %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/ufo_interface/sconstruct_template
 %{relocateConfig}bin/make2scons
 %{relocateConfig}share/SHERPA-MC/makelibs
-%{relocateConfig}share/SHERPA-MC/sherpa-completion
 %{relocateConfig}bin/Sherpa-config
 %{relocateConfig}bin/Sherpa-generate-model
 %{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS*.H
