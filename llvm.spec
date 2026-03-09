@@ -61,6 +61,11 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT};${LIBUNWIND_ROOT}"
 
+%if 0%{!?use_system_gcc:1}
+echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple" > bin/clang++.cfg
+ln -s clang++.cfg bin/clang.cfg
+%endif
+
 export LIT_OPTS="%{makeprocesses}"
 ninja -v %{makeprocesses}
 ninja -v %{makeprocesses} check-clang-tools
@@ -92,15 +97,9 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
 
-%if 0%{!?use_system_gcc:1}
-pushd %{i}/bin
-  [ -e clang++.cfg ] && exit 1
-  [ -e clang.cfg   ] && exit 1
-  echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
-  echo "--target=$host_triple"    >> clang++.cfg
-  ln -s clang++.cfg clang.cfg
-popd
-%endif
+#Copy clang configuration
+mv bin/clang++.cfg %{i}/bin
+mv bin/clang.cfg %{i}/bin
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
