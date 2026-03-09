@@ -43,6 +43,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 %endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
   -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
+  -DIWYU_RESOURCE_RELATIVE_TO="iwyu" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
