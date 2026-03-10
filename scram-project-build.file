@@ -125,6 +125,11 @@ echo %{configtag} > %_builddir/config/config_tag
   --keys ENABLE_PGO=0
 %endif
 
+%if "%{?gpu_backend_specific_packages}"
+%if "%{?gpu_types}"
+sed -i -e 's| SCRAM_GPU_VENDORS=.*"| SCRAM_GPU_VENDORS="%{gpu_types} cpu"|' %_builddir/config/Self.xml
+%endif
+%endif
 sed -i -e 's| SCRAM_TARGETS=.*"| SCRAM_TARGETS=""|' %_builddir/config/Self.xml
 if [ "%{n}" != "coral" ]; then
   sed -i -e 's|</tool>| <runtime name="SCRAM_DEFAULT_MICROARCH" value="%{default_microarch_name}"/>\n</tool>|' %_builddir/config/Self.xml
