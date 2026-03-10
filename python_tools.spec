@@ -19,6 +19,11 @@ Requires: py3-law
 Requires: py3-protobuf
 
 Requires: py3-torch
+Requires: py3-torch-cluster
+Requires: py3-torch-scatter
+Requires: py3-torch-sparse
+%{!?without_cuda:Requires: py3-torch-cuda py3-torch-cluster-cuda py3-torch-scatter-cuda py3-torch-sparse-cuda}
+
 Requires: py3-tables
 Requires: py3-tabulate
 Requires: py3-numexpr

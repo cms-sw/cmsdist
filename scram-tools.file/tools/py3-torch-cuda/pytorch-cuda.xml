@@ -1,13 +1,13 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="4">
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
   <client>
     <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
     <environment name="INCLUDE" default="$@TOOL_BASE@/include/torch/csrc/api/include"/>
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
-  <lib name="torch"/>
-  <lib name="torch_cpu"/>
-  <lib name="c10"/>
-  <flags FORCE_LINK="1"/>
-  <use name="torch-interface"/>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <use name="pytorch"/>
+  <use name="cuda"/>
+  <lib name="torch_cuda"/>
+  <lib name="c10_cuda"/>
 </tool>
