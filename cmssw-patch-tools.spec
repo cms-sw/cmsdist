@@ -5,5 +5,6 @@
 Requires: cmssw
 
 ## INCLUDE cmssw-vectorization
+## INCLUDE cmssw-gpu-backend-specific-packages
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram/tool-conf-src
