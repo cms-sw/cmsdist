@@ -127,6 +127,44 @@ done
 %endif
 %endif
 
+%if "%{?gpu_backend_specific_packages}"
+%if "%{?gpu_types}"
+pth=%{i}/${PYTHON3_LIB_SITE_PACKAGES}/tool-deps.pth
+if [ -f ${pth} ] ; then
+  dir=$(dirname $pth)
+  for pkg in %{gpu_backend_specific_packages} ; do
+    for gpu in cpu %{gpu_types} ; do
+      if [ "${gpu}" = "cpu" ] ; then
+        uctool=`echo ${pkg}_ROOT | tr '[a-z-]' '[A-Z_]'`
+      else
+        uctool=`echo ${pkg}_${gpu}_ROOT | tr '[a-z-]' '[A-Z_]'`
+      fi
+      toolbase=`eval echo \\$${uctool}`
+      [ "${toolbase}" != "" ] || continue
+      if [ $(grep "${toolbase}/" ${pth} | wc -l) -gt 0 ] ; then
+        mkdir -p ${dir}/scram_${gpu}
+        grep "${toolbase}/" ${pth} >> ${dir}/scram_${gpu}/tool-deps.pth
+        sed -i -e "\#^${toolbase}#d" ${pth}
+      fi
+    done
+  done
+  for gpu in %{gpu_types} ; do
+    [ -e ${dir}/scram_${gpu} ] || ln -s scram_cpu ${dir}/scram_${gpu}
+  done
+  for gpu in cpu %{gpu_types} ; do
+    for item in PYTHON3PATH:${PYTHON3_LIB_SITE_PACKAGES} ; do
+      pydir=$(echo $item | sed 's|.*:||')
+      dir=%{i}/${pydir}/scram_${gpu}
+      [ -f ${dir}/tool-deps.pth ] ||  continue
+      var=$(echo $item | sed 's|:.*||')
+      xvar=`echo ${gpu}_${var} | tr '[a-z-]' '[A-Z_]'`
+      echo '  <runtime name="'${xvar}'"  value="'${dir}'" type="path"/>' >> %{i}/tools/selected/python-paths.xml
+    done
+  done
+fi
+%endif
+%endif
+
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
 
 ALL_PY_BIN=""
