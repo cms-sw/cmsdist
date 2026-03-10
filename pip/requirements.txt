@@ -406,11 +406,27 @@ tomli==2.4.0
 tomli-w==1.2.0
 tomlkit==0.14.0
 toolz==1.1.0
+#Torch packages: Update the version of -cuda/-rocm to match the default package version
+#e.g. for torch==2.10.0, torch-cuda and toch-rocm should also be 2.10.0
+#Do the same for other torch-* packages e.g version of torch-scatter should be used for
+#torch-scatter-cuda and torch-scatter-rocm too.
 torch==2.10.0
+torch-cuda==2.10.0
+torch-rocm==2.10.0
+torch-cluster==1.6.3
+torch-cluster-cuda==1.6.3
+torch-cluster-rocm==1.6.3
+torch-scatter==2.1.2
+torch-scatter-cuda==2.1.2
+torch-scatter-rocm==2.1.2
+torch-sparse==0.6.18
+torch-sparse-cuda==0.6.18
+torch-sparse-rocm==0.6.18
 torchvision==0.25.0
 tornado==6.5.4
 tqdm==4.67.3
 traitlets==5.14.3
+triton==3.6.0
 trove-classifiers==2026.1.14.14
 typed-ast==1.5.5
 types-python-dateutil==2.9.0.20260124
