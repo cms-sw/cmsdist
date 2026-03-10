@@ -41,11 +41,12 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 %if 0%{!?use_system_gcc:1}
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
 %endif
-  -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;openmp" \
-  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
+  -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;mlir;lld" \
+  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt;openmp" \
   -DIWYU_RESOURCE_RELATIVE_TO="iwyu" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DLLVM_INSTALL_UTILS=ON \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
   -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
   -DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
@@ -60,6 +61,11 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
 %endif
   -DCMAKE_REQUIRED_INCLUDES="${ZLIB_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBXML2_ROOT};${ZSTD_ROOT};${LIBUNWIND_ROOT}"
+
+%if 0%{!?use_system_gcc:1}
+echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple" > bin/clang++.cfg
+ln -s clang++.cfg bin/clang.cfg
+%endif
 
 export LIT_OPTS="%{makeprocesses}"
 ninja -v %{makeprocesses}
@@ -97,15 +103,9 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 # Avoid dependency on /usr/bin/python, Darwin + Xcode specific
 rm -f %{i}/bin/set-xcode-analyzer
 
-%if 0%{!?use_system_gcc:1}
-pushd %{i}/bin
-  [ -e clang++.cfg ] && exit 1
-  [ -e clang.cfg   ] && exit 1
-  echo "--gcc-toolchain=$GCC_ROOT" > clang++.cfg
-  echo "--target=$host_triple"    >> clang++.cfg
-  ln -s clang++.cfg clang.cfg
-popd
-%endif
+#Copy clang configuration
+mv bin/clang++.cfg %{i}/bin
+mv bin/clang.cfg %{i}/bin
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
