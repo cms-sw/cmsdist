@@ -1,0 +1,2 @@
+%define gpu_backend_specific_packages py3-torch py3-torch-sparse py3-torch-cluster py3-torch-scatter
+%define gpu_types cuda rocm
