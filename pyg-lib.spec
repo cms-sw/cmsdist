@@ -39,4 +39,7 @@ cmake ../%{n}-%{realversion} \
 make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
-make %{makeprocesses} install VERBOSE=1
+mkdir -p %{i}/lib
+cp libpyg.so %{i}/lib/
+mkdir -p %{i}/include/pyg_lib
+cp -r ../%{n}-%{realversion}/pyg_lib/csrc %{i}/include/pyg_lib/
