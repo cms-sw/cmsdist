@@ -41,5 +41,6 @@ make %{makeprocesses} VERBOSE=1
 cd ../build
 mkdir -p %{i}/lib
 cp libpyg.so %{i}/lib/
-mkdir -p %{i}/include/pyg_lib
-cp -r ../%{n}-%{realversion}/pyg_lib/csrc %{i}/include/pyg_lib/
+cp libmetis/libmetis.so %{i}/lib/
+mkdir -p %{i}/include
+cp -r ../%{n}-%{realversion}/pyg_lib/csrc %{i}/include/pyg_lib
