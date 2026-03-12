@@ -1,4 +1,4 @@
 Requires: py3-scipy py3-joblib py3-threadpoolctl
+%define PipInstallOptions --config-settings=compile-args="-j%{compiling_processes}"
 %define PipPreBuild \
-  export SKLEARN_BUILD_PARALLEL=%{compiling_processes}; \
-  export CFLAGS="-Wno-error=incompatible-pointer-types"
+   export CFLAGS="-Wno-error=incompatible-pointer-types"
