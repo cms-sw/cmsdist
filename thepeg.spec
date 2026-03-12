@@ -35,7 +35,6 @@ CXX="$(which %{cms_cxx}) -fPIC"
 CC="$(which gcc) -fPIC"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 
-
 # Update to detect aarch64 and ppc64le
 rm -f ./Config/config.{sub,guess}
 %get_config_sub ./Config/config.sub
@@ -44,6 +43,9 @@ chmod +x ./Config/config.{sub,guess}
 
 sed -i -e "s|-lgslcblas|-lopenblas|" ./configure
 COMPILE_FLAGS="-g0 -O2 -DNDEBUG -std=c++%{cms_cxx_standard}"
+%if %{is_debug_build thepeg}
+COMPILE_FLAGS="${COMPILE_FLAGS} -g -O0"
+%endif
 ./configure $PLATF_CONF_OPTS \
             --with-lhapdf=$LHAPDF_ROOT \
             --with-boost=$BOOST_ROOT \
