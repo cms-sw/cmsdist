@@ -30,8 +30,12 @@ Patch3: herwig_MB
 autoreconf -fiv
 
 %build
-CXX="$(which g++) -fPIC -std=c++%{cms_cxx_standard}"
-CC="$(which gcc)  -fPIC -std=c++%{cms_cxx_standard}"
+EX_FLAGS="-fPIC -std=c++%{cms_cxx_standard}"
+%if %{is_debug_build herwig7}
+EX_FLAGS="${EX_FLAGS} -g -O0"
+%endif
+CXX="$(which g++) ${EX_FLAGS}"
+CC="$(which gcc)  ${EX_FLAGS}"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 FCFLAGS=""
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
@@ -44,7 +48,7 @@ PYTHON=python3 ./configure --prefix=%i \
             --with-fastjet=$FASTJET_ROOT \
             --with-gsl=$GSL_ROOT \
             --with-boost=$BOOST_ROOT \
-	    --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
+            --with-madgraph=$MADGRAPH5AMCATNLO_ROOT \
             --with-gosam=$GOSAM_ROOT \
             --with-gosam-contrib=$GOSAMCONTRIB_ROOT \
             --with-hepmc=$HEPMC_ROOT \
