@@ -2,6 +2,7 @@
 Source: https://github.com/ofiwg/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.bz2
 %{!?without_cuda:Requires: cuda gdrcopy}
 %{!?without_rocm:Requires: rocm}
+BuildRequires: autotools
 Requires: curl
 Requires: numactl
 Requires: rdma-core
