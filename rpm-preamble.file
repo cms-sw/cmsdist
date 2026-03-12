@@ -195,17 +195,8 @@
 %define initenv_all     %{disable_recursive_env} ; for x in %{allpkgreqs}                          .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %define initenv_direct1 %{disable_recursive_env} ; for x in %{directpkgreqs} %{builddirectpkgreqs} .; do i=%{cmsroot}/$x/%{cmsplatf}/etc/profile.d/init.sh; [ -f $i ] && . $i; done
 %endif
-
-%define build_system_env \
-  export CMAKE_BUILD_PARALLEL_LEVEL='%{compiling_processes}' ; \
-  export MAX_JOBS='%{compiling_processes}' ;\
-  export NINJA_NUM_JOBS='%{compiling_processes}' ;\
-  export CYTHON_NTHREADS='%{compiling_processes}' ;\
-  export MESON_NUM_PROCESSES='%{compiling_processes}' ;\
-  export CARGO_HOME="${TMPDIR}/cargo_home"
-
-%define initenv_direct  %{build_system_env} ; %{initenv_direct1} %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
-%define initenv         %{build_system_env} ; %{initenv_all}     %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
+%define initenv_direct  %{initenv_direct1} %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
+%define initenv         %{initenv_all}     %{?cmsdist_package_initenv: ; %{cmsdist_package_initenv}}
 
 %if "%{?compiling_processes:set}" == "set"
 %define makeprocesses -j %compiling_processes 
