@@ -2,7 +2,7 @@
 ## NOCOMPILER
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 AutoReqProv: no
-#test 
+#test 1
 %define keep_archives true
 %define gmpVersion 6.3.0
 %define mpfrVersion 4.2.1
