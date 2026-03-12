@@ -56,7 +56,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-09-00
+%define configtag       V09-09-01
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -250,7 +250,7 @@ gzip -f %i/etc/dependencies/*.out
 %endif
 
 
-eval `%scramcmd run -sh`
+eval `USER_SCRAM_RUNTIME_TYPE=BUILD %scramcmd run -sh`
 for cmd in edmPluginRefresh ; do
   cmdpath=`which $cmd 2> /dev/null || echo ""`
   if [ "X$cmdpath" != X ] ; then
