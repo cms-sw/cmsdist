@@ -1,4 +1,5 @@
 ### RPM external acts v44.0.1
+## INITENV +PATH PYTHON3PATH %{i}/python
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
@@ -10,12 +11,11 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source99: scram-tools.file/tools/eigen/env
 
-# Do not build the Acts and Traccc tests
-%define build_test 0
+# Build the Acts and Traccc tests
+%define build_test 1
 
 BuildRequires: cmake gmake
 Requires: boost
-Requires: bz2lib
 Requires: dd4hep
 Requires: eigen
 Requires: expat
@@ -24,13 +24,17 @@ Requires: json
 Requires: python3
 Requires: root
 Requires: xerces-c
-Requires: zlib
 %{!?without_cuda:Requires: cuda}
 %{!?without_rocm:Requires: rocm}
 %if %{build_test}
 # These are ony used to build the examples and unit tests
 Requires: hepmc3
 Requires: tbb
+# These are used through hepmc3, and need to be available to CMake
+Requires: bz2lib
+Requires: zlib
+Requires: zstd
+Requires: xz
 %endif
 
 %prep
@@ -110,15 +114,10 @@ make %{makeprocesses} VERBOSE=1
 cd ../build
 make install VERBOSE=1
 
-%if %{build_test}
-# download the traccc test data file to the .../data directory
-mkdir -p %{i}/data
-./_deps/traccc-src/data/traccc_data_get_files.sh -o %{i}/data
-%endif
-
 # remove the scripts used to set the Acts environment variables
 rm %{i}/bin/this_acts.sh
 rm %{i}/bin/this_acts_withdeps.sh
+rm %{i}/python/setup.sh
 
 %post
 %{relocateConfig}lib64/cmake/*/*.cmake
