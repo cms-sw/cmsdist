@@ -19,6 +19,7 @@ Requires: boost
 Requires: dd4hep
 Requires: eigen
 Requires: expat
+Requires: fastjet
 Requires: geant4
 Requires: json
 Requires: python3
@@ -77,6 +78,7 @@ cmake ../%{n}-%{realversion} \
   -DACTS_NLOHMANNJSON_SOURCE="" \
   -DACTS_USE_SYSTEM_NLOHMANN_JSON="ON" \
   -DACTS_BUILD_PLUGIN_ACTSVG="ON" \
+  -DACTS_BUILD_PLUGIN_FASTJET="ON" \
   -DACTS_BUILD_PLUGIN_JSON="ON" \
   -DACTS_BUILD_PLUGIN_ROOT="ON" \
   -DACTS_BUILD_PLUGIN_DD4HEP="ON" \
