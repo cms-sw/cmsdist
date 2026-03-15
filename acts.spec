@@ -23,6 +23,7 @@ Requires: fastjet
 Requires: geant4
 Requires: json
 Requires: python3
+Requires: py3-pybind11
 Requires: root
 Requires: xerces-c
 %{!?without_cuda:Requires: cuda}
@@ -77,6 +78,7 @@ cmake ../%{n}-%{realversion} \
   -DBUILD_SHARED_LIBS="ON" \
   -DACTS_NLOHMANNJSON_SOURCE="" \
   -DACTS_USE_SYSTEM_NLOHMANN_JSON="ON" \
+  -DACTS_USE_SYSTEM_PYBIND11="ON" \
   -DACTS_BUILD_PLUGIN_ACTSVG="ON" \
   -DACTS_BUILD_PLUGIN_FASTJET="ON" \
   -DACTS_BUILD_PLUGIN_JSON="ON" \
@@ -85,6 +87,7 @@ cmake ../%{n}-%{realversion} \
   -DACTS_BUILD_PLUGIN_GEANT4="ON" \
   -DACTS_BUILD_PLUGIN_TRACCC="ON" \
   -DACTS_ENABLE_LOG_FAILURE_THRESHOLD="ON" \
+  -DACTSVG_USE_SYSTEM_PYBIND11="ON" \
   -DCOVFIE_PLATFORM_CPU="ON" \
   -DCOVFIE_PLATFORM_CUDA="%{cuda_enabled}" \
   -DCOVFIE_PLATFORM_HIP="%{rocm_enabled}" \
