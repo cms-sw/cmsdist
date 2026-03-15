@@ -2,7 +2,7 @@
 ## INCLUDE cpp-standard
 Source: https://gitlab.cern.ch/hepmc/HepMC3/-/archive/%{realversion}/HepMC3-%{realversion}.tar.gz
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 Requires: zlib bz2lib xz zstd
 
 %define drop_files %i/share/doc
