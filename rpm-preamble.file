@@ -337,6 +337,33 @@ fi
     rm -f download.url;\
   fi
 
+#Move contents of a package in to shared/package/version path and replace the original with symlinks
+%define install_shared_data_package \
+  LOCAL_PKG=${RPM_INSTALL_PREFIX}/%{pkgrel} \
+  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
+  cd ${LOCAL_PKG} \
+  mkdir -p ${SHARE_PKG}/.links \
+  touch ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v} \
+  cd ${LOCAL_PKG} \
+  for path in $(ls | grep -v '^etc$') ; do \
+    if [ ! -e ${SHARE_PKG}/${path} ] ; then \
+      mv ${path} ${SHARE_PKG}/${path} \
+    else \
+      chmod -R u+w ${path} \
+      rm -rf ${path} \
+    fi \
+    ln -s ../../../../share/%{pkgcategory}/%{n}/%{realversion}/${path} ${path} \
+  done
+
+#cleanup contents of shared data package
+%define uninstall_shared_data_package \
+  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
+  rm -f ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v} \
+  if [ $(find ${SHARE_PKG}/.links -name 'arch-*' -type f | wc -l) -eq 0 ] ; then \
+    chmod -R u+w ${SHARE_PKG} \
+    rm -rf ${SHARE_PKG} \
+  fi
+
 #Enable debug mode for cmssw packages, e.g debug root, geant4, etc
 %if "%{?cms_debug_packages:set}" == "set"
 %define is_debug_build() %(if echo %{cms_debug_packages} | tr , '\\n' | grep -q '^%{1}$' ; then echo 1 ; else echo 0; fi)
