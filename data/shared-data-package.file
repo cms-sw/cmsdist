@@ -1,0 +1,43 @@
+## NOCOMPILER
+AutoReqProv: no
+
+%pre
+%{?package_pre_pre}
+%if 0%{?unpack_at_install}
+%check_data_package_size
+%endif
+%{?package_post_pre}
+
+%prep
+%{?package_pre_prep}
+%{?package_post_prep}
+
+%build
+%{?package_pre_build}
+%{?package_post_build}
+
+%install
+%{?package_pre_install}
+%if 0%{?unpack_at_install}
+  archive=$(basename %{SOURCE0})
+  cp %{SOURCE0} %{i}/
+  %calculate_data_package_size %{SOURCE0} %{n}-rpm.macros
+  echo "%data_package_archive ${archive}" >> %{n}-rpm.macros
+%else
+  tar -xzf %{SOURCE0} -C %{i}
+%endif
+%{?package_post_install}
+
+%post
+%{?package_pre_post}
+%if 0%{?unpack_at_install}
+  %install_data_package ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{data_package_archive}
+%else
+  %install_data_package
+%endif
+%{?package_post_post}
+
+%postun
+%{?package_pre_postun}
+%uninstall_data_package
+%{?package_post_postun}
