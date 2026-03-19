@@ -352,29 +352,63 @@ fi
     rm -f download.url;\
   fi
 
+###########################################
+# Helper macros for shared data packages
+# #########################################
+
+#Preinstall checks to make sure we have enough disk before installing data package
+#Should be used by share data packages which unpack their contents during %post
+%define check_data_package_size \
+  if [ "${IGNORE_PRE_SIZE_CHECKS}" != "1" ] ; then \
+    if [ "%{?required_data_package_size_mb}" != "" ] ; then \
+      AVAILABLE_MB=$(df -Pm ${RPM_INSTALL_PREFIX} | awk 'NR==2 {print $4}') \
+      if (( AVAILABLE_MB < %{required_data_package_size_mb} )); then \
+        echo "ERROR: Not enough disk space for extraction. Available disk ${AVAILABLE_MB}MB but package required %{required_data_package_size_mb}MB" \
+        exit 1 \
+      fi \
+    fi \
+  fi
+
+#Calculate the size of unpacked data package (safety factor size=actual_size*2)
+#Should be used by share data packages which unpack their contents during %post
+%define calculate_data_package_size() \
+  mkdir -p ${TMPDIR}/%{n}-tmpdir \
+  tar xzf %{1} -C ${TMPDIR}/%{n}-tmpdir \
+  size=$(du -sm ${TMPDIR}/%{n}-tmpdir | awk '{print $1}') \
+  echo "%%required_data_package_size_mb $((1 + size * 2))" > %{2} \
+  rm -rf ${TMPDIR}/%{n}-tmpdir
+
 #Move contents of a package in to shared/package/version path and replace the original with symlinks
-%define install_shared_data_package \
+%define install_data_package() \
   ARCH_PKG=${RPM_INSTALL_PREFIX}/%{pkgrel} \
   SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
   if [ ! -d ${SHARE_PKG} ]  ; then \
     mkdir -p ${SHARE_PKG}/.links \
-    find ${ARCH_PKG} -mindepth 1 -maxdepth 1 ! -name 'etc' -exec mv -t ${SHARE_PKG} {} + \
+    if [ "%{?1}" != "" ] ; then \
+      tar xzf %{1} -C ${SHARE_PKG} \
+    else \
+      find ${ARCH_PKG} -mindepth 1 -maxdepth 1 ! -name 'etc' -exec mv -t ${SHARE_PKG} {} + \
+    fi \
   else \
     chmod -R u+rwX ${ARCH_PKG} \
     find ${ARCH_PKG} -mindepth 1 -maxdepth 1 ! -name 'etc' -exec rm -rf {} + \
   fi \
+  [ "%{?1}" != "" ] && rm -f %{1} \
   pushd ${ARCH_PKG} \
     ln -s ../../../../share/%{pkgcategory}/%{n}/%{realversion}/* . \
   popd \
   touch ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v}
 
 #cleanup contents of shared data package
-%define uninstall_shared_data_package \
+%define uninstall_data_package \
   SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
   rm -f ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v} \
   if ! find ${SHARE_PKG}/.links -name 'arch-*' -type f -print -quit | grep -q . ; then \
     chmod -R u+rwX ${SHARE_PKG} && rm -rf ${SHARE_PKG} \
   fi
+
+#############################################################
+#############################################################
 
 #Enable debug mode for cmssw packages, e.g debug root, geant4, etc
 %if "%{?cms_debug_packages:set}" == "set"
