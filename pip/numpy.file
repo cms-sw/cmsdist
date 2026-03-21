@@ -1,4 +1,4 @@
-BuildRequires: py3-meson-python
+BuildRequires: py3-meson-python cms-ninja
 Requires: py3-cython
 Requires: zlib OpenBLAS
 Patch0: patches/pip/numpy-f2py-main
