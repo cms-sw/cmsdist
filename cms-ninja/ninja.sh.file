@@ -1,0 +1,46 @@
+#!/bin/bash
+run_original_ninja=false
+args=()
+
+# Parse arguments and drop any -jN options
+num_jobs="${CMS_NINJA_NUM_JOBS}"
+while [ "$#" -ne 0 ]; do
+  case "$1" in
+    -j) num_jobs="$2"; shift 2 ;;
+    -j*) num_jobs="${1:2}"; shift ;;
+    --version|-h|--help|-n) run_original_ninja=true; args+=("$1"); shift ;;
+    *) args+=("$1"); shift ;;
+  esac
+done
+
+if [[ "$MAKEFLAGS" == *"--jobserver-auth="* ]]; then
+  run_original_ninja=true
+fi
+
+if $run_original_ninja ; then
+  if [ "${#args[@]}" -gt 0 ]; then
+    exec ninja.exe "${args[@]}"
+  else
+    exec ninja.exe
+  fi
+fi
+
+# Fallback: no jobserver create one via make
+if [[ -z "${num_jobs}" ]]; then
+  num_jobs=$(nproc)
+fi
+
+# Build command-line arguments safely for Make
+make_args=""
+if [ "${#args[@]}" -gt 0 ]; then
+  make_args=$(printf '%q ' "${args[@]}")
+fi
+
+exec make --no-print-directory -j "${num_jobs}" -f - ARGS="${make_args}" <<'EOF'
+all:
+	@if [ -n "$(ARGS)" ] ; then \
+          exec ninja.exe $(ARGS); \
+        else \
+          exec ninja.exe; \
+        fi
+EOF

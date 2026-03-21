@@ -13,7 +13,7 @@ Source99: scram-tools.file/tools/eigen/env
 # Do not build the Acts and Traccc tests
 %define build_test 0
 
-BuildRequires: cmake
+BuildRequires: cmake gmake
 Requires: boost
 Requires: bz2lib
 Requires: dd4hep
@@ -63,7 +63,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_SKIP_INSTALL_RPATH="ON" \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES="$(echo %{cuda_arch} | sed -e 's/ \+/;/g')" \
-  -DCMAKE_CUDA_FLAGS="-Wno-deprecated-gpu-targets --threads 0" \
+  -DCMAKE_CUDA_FLAGS="-Wno-deprecated-gpu-targets" \
 %endif
 %if 0%{!?without_rocm:1}
   -DCMAKE_HIP_ARCHITECTURES="$(echo %{rocm_archs} | sed -e 's/ \+/;/g')" \
