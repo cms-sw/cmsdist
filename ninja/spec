@@ -1,6 +1,5 @@
 ### RPM external ninja 1.13.2
 Source0: git://github.com/ninja-build/ninja.git?obj=release/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Source1: ninja/ninja.sh
 
 BuildRequires: python3 re2c
 
@@ -12,6 +11,4 @@ python3 ./configure.py --bootstrap
 
 %install
 mkdir -p %{i}/bin
-install ninja %{i}/bin/ninja.exe
-install %{_sourcedir}/ninja.sh %{i}/bin/ninja
-chmod +x %{i}/bin/ninja
+install ninja %{i}/bin/ninja
