@@ -1,3 +1,4 @@
+BuildRequires: cms-ninja
 Requires: py3-pybind11 py3-numpy py3-meson-python py3-meson
 %define PipPostPost \
   %{relocateConfig}lib/python*/site-packages/contourpy/util/_build_config.py

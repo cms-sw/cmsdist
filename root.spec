@@ -9,7 +9,7 @@
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-BuildRequires: cmake ninja
+BuildRequires: cmake cms-ninja
 
 Requires: curl gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd json
 %{!?without_cuda:Requires: cuda}
