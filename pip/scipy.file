@@ -1,10 +1,10 @@
 Requires: py3-numpy py3-cython py3-pybind11 py3-pythran py3-meson-python OpenBLAS
-BuildRequires: cmake
+BuildRequires: cmake ninja
 AutoProv: no
 
-%define PipPreBuild \
-  export NPY_NUM_BUILD_JOBS=%{compiling_processes} ;\
-  export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
+%define PipInstallOptions --config-settings=compile-args="-j%{compiling_processes}"
+
+%define PipPreBuild export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
 
 Provides: libsf_error_state.so()(64bit)
 %ifarch aarch64
