@@ -1,2 +1,2 @@
 Requires: py3-numpy py3-matplotlib py3-scipy py3-ipywidgets py3-scikit-build-core
-BuildRequires: cmake ninja
+BuildRequires: cmake cms-ninja
