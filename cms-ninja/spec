@@ -1,0 +1,15 @@
+### RPM cms cms-ninja 1.0
+Source: cms-ninja/ninja.sh
+Requires: ninja gmake44
+
+%prep
+
+%build
+
+%install
+mkdir -p %{i}/bin
+ninja_pkgdir=$(echo %{pkgreqs} | tr ' ' '\n' | grep /ninja/)
+ninja_relpath=$(echo "${ninja_pkgdir}" | sed -e 's|[^/][^/]*|..|g')
+ln -s ../${ninja_relpath}/${ninja_pkgdir}/bin/ninja %{i}/bin/ninja.exe
+install %{_sourcedir}/ninja.sh %{i}/bin/ninja
+chmod +x %{i}/bin/ninja
