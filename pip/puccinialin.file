@@ -1,0 +1,1 @@
+Requires: py3-filelock py3-httpx py3-platformdirs py3-tqdm

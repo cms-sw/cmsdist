@@ -1,1 +1,1 @@
-BuildRequires: py3-hatchling
+Requires: py3-hatchling
