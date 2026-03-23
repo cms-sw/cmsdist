@@ -14,7 +14,7 @@ Patch2: root_cuda
 Patch3: root_modules_211215
 #Patch4: root_avoid_load
  
-BuildRequires: cmake ninja
+BuildRequires: cmake cms-ninja
 
 Requires: curl gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd json
 %{!?without_cuda:Requires: cuda}
