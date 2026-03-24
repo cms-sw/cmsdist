@@ -53,6 +53,8 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
+  -DCOMPILER_RT_INCLUDE_TESTS=OFF \
+  -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_HOST_TRIPLE=${host_triple} \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;RISCV;NVPTX" \
 %if 0%{!?without_cuda:1}
