@@ -41,7 +41,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
 %endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;mlir;lld" \
-  -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
+  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt;openmp" \
   -DIWYU_RESOURCE_RELATIVE_TO="iwyu" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
