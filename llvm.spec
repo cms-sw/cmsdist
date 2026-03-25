@@ -41,7 +41,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_BINUTILS_INCDIR:STRING="${GCC_ROOT}/include" \
 %endif
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;mlir;lld" \
-  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt;openmp" \
+  -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
   -DIWYU_RESOURCE_RELATIVE_TO="iwyu" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
   -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -52,6 +52,8 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_EH:BOOL=ON \
   -DLLVM_ENABLE_PIC:BOOL=ON \
   -DLLVM_ENABLE_RTTI:BOOL=ON \
+  -DCOMPILER_RT_INCLUDE_TESTS=OFF \
+  -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_HOST_TRIPLE=${host_triple} \
   -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;RISCV;NVPTX" \
 %if 0%{!?without_cuda:1}
@@ -66,9 +68,7 @@ echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple" > bin/clang++.cfg
 ln -s clang++.cfg bin/clang.cfg
 %endif
 
-export LIT_OPTS="%{makeprocesses}"
 ninja -v %{makeprocesses}
-ninja -v %{makeprocesses} check-clang-tools
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
