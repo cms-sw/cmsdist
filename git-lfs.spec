@@ -7,7 +7,10 @@ Requires: git
 %setup -n %{n}-%{realversion}
 
 %build
-make %{makeprocesses} VERSION=v%{realversion} GIT_LFS_SHA=%{realversion}
+make %{makeprocesses} \
+  VERSION=v%{realversion} \
+  GIT_LFS_SHA=%{realversion} \
+  GO=$(which go)
 
 %install
 mkdir -p %{i}/bin
