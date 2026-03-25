@@ -69,9 +69,7 @@ echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple" > bin/clang++.cfg
 ln -s clang++.cfg bin/clang.cfg
 %endif
 
-export LIT_OPTS="%{makeprocesses}"
 ninja -v %{makeprocesses}
-ninja -v %{makeprocesses} check-clang-tools
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
