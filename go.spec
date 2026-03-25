@@ -1,4 +1,4 @@
-### RPM external go 1.26.1
+### RPM external go 1.25.5
 BuildRequires: go-bootstrap
 AutoReqProv: no
 Source: https://go.dev/dl/go%{realversion}.src.tar.gz
