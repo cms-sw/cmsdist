@@ -1,20 +1,15 @@
-### RPM external go 1.22.5
-## NOCOMPILER
-
-%ifarch x86_64
-%define download_arch amd64
-%elifarch aarch64
-%define download_arch arm64
-%else
-%define download_arch   %{_arch}
-%endif
-Provides: /bin/rc
-Source: https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
+### RPM external go 1.25.5
+BuildRequires: go-bootstrap
+AutoReqProv: no
+Source: https://go.dev/dl/go%{realversion}.src.tar.gz
 
 %prep
 %setup -n go
 
 %build
+cd src
+export GOROOT_BOOTSTRAP=${GO_BOOTSTRAP_ROOT}
+./make.bash
 
 %install
 rsync -a ./ %i/
