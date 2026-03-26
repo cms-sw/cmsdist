@@ -1,0 +1,6 @@
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+  <info url="https://acts.readthedocs.io/en/latest/plugins/plugins.html"/>
+  <lib name="ActsPluginFastJet"/>
+  <use name="acts-core"/>
+  <use name="fastjet"/>
+</tool>

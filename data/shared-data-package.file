@@ -27,7 +27,7 @@ AutoReqProv: no
   %calculate_data_package_size %{SOURCE0} %{n}-rpm.macros
   echo "%data_package_archive ${archive}" >> %{n}-rpm.macros
 %else
-  mkdir -p %{i}/%{data_directory}
+  mkdir -p %{i}/%{?data_directory}
   tar -xzf %{SOURCE0} -C %{i}/%{?data_directory}
 %endif
 %{?package_post_install}
