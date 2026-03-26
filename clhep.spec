@@ -1,6 +1,6 @@
-### RPM external clhep 2.4.7.1
+### RPM external clhep 2.4.7.2
 ## INCLUDE cpp-standard
-%define tag bfc29493e1b4928b1e6b0dff5f754565bcfd4795
+%define tag fa41009631cf8ec83eb4f2de65af461f5818a52f
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
@@ -19,7 +19,8 @@ cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCLHEP_BUILD_CXXSTD="-std=c++%{cms_cxx_standard}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCLHEP_BUILD_STATIC_LIBS=OFF
 
 ninja -v %{makeprocesses}
 
