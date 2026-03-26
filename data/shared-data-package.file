@@ -24,8 +24,8 @@ AutoReqProv: no
 %if 0%{?unpack_at_install}
   archive=$(basename %{SOURCE0})
   cp %{SOURCE0} %{i}/
-  %calculate_data_package_size %{SOURCE0} %{n}-rpm.macros
-  echo "%data_package_archive ${archive}" >> %{n}-rpm.macros
+  %calculate_data_package_size %{SOURCE0} $TMPDIR/%{n}-rpm.macros
+  echo "%data_package_archive ${archive}" >> $TMPDIR/%{n}-rpm.macros
 %else
   mkdir -p %{i}/%{?data_directory}
   tar -xzf %{SOURCE0} -C %{i}/%{?data_directory}
