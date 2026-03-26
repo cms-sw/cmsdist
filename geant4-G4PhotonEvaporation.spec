@@ -1,5 +1,4 @@
 ### RPM external geant4-G4PhotonEvaporation 6.1.2
 %define G4RunTime G4LEVELGAMMADATA
-%define source0 https://geant4-data.web.cern.ch/datasets/G4PhotonEvaporation.%{realversion}.tar.gz
 
-## IMPORT geant4-data-rpm
+## INCLUDE geant4-data
