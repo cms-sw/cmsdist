@@ -1,5 +1,8 @@
 ## NOCOMPILER
 AutoReqProv: no
+%if "%{?data_directory:set}" != "set"
+%define data_directory          %{nil}
+%endif
 
 %pre
 %{?package_pre_pre}
@@ -24,14 +27,15 @@ AutoReqProv: no
   %calculate_data_package_size %{SOURCE0} %{n}-rpm.macros
   echo "%data_package_archive ${archive}" >> %{n}-rpm.macros
 %else
-  tar -xzf %{SOURCE0} -C %{i}
+  mkdir -p %{i}/%{data_directory}
+  tar -xzf %{SOURCE0} -C %{i}/%{?data_directory}
 %endif
 %{?package_post_install}
 
 %post
 %{?package_pre_post}
 %if 0%{?unpack_at_install}
-  %install_data_package ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{data_package_archive}
+  %install_data_package ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{data_package_archive} %{?data_directory}
 %else
   %install_data_package
 %endif
