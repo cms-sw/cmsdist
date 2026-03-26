@@ -429,3 +429,14 @@ fi
 %{?without_cuda:%{!?without_gdrcopy:%define without_gdrcopy 1}}
 %{?without_cuda:%{!?without_cudnn:%define without_cudnn 1}}
 %{?without_rocm:%{!?without_rocm_rocrand:%define without_rocm_rocrand 1}}
+
+#########################################
+# Helper macros for go based packages architecture
+#########################################
+%ifarch x86_64
+%define go_package_arch amd64
+%elifarch aarch64
+%define go_package_arch arm64
+%else
+%define go_package_arch %{_arch}
+%endif

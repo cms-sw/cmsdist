@@ -1,15 +1,8 @@
 ### RPM external go-bootstrap 1.22.6
 ## NOCOMPILER
 
-%ifarch x86_64
-%define download_arch amd64
-%elifarch aarch64
-%define download_arch arm64
-%else
-%define download_arch   %{_arch}
-%endif
 Provides: /bin/rc
-Source: https://go.dev/dl/go%{realversion}.linux-%{download_arch}.tar.gz
+Source: https://go.dev/dl/go%{realversion}.linux-%{go_package_arch }.tar.gz
 
 %prep
 %setup -n go
