@@ -1,17 +1,11 @@
-### RPM external git-lfs 3.6.0
-Source: https://github.com/git-lfs/git-lfs/archive/v%{realversion}.tar.gz
-BuildRequires: gmake go
+### RPM external git-lfs 3.7.1
+Source: https://github.com/git-lfs/git-lfs/releases/download/v%{realversion}/git-lfs-linux-%{go_package_arch}-v%{realversion}.tar.gz
 Requires: git
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
-make %{makeprocesses} \
-  VERSION=v%{realversion} \
-  GIT_LFS_SHA=%{realversion} \
-  GO=$(which go)
 
 %install
-mkdir -p %{i}/bin
-mv bin/git-lfs %{i}/bin
+PREFIX=%{i} ./install.sh
