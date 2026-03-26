@@ -381,11 +381,11 @@ fi
 #Move contents of a package in to shared/package/version path and replace the original with symlinks
 %define install_data_package() \
   ARCH_PKG=${RPM_INSTALL_PREFIX}/%{pkgrel} \
-  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
+  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgdir} \
   if [ ! -d ${SHARE_PKG} ]  ; then \
-    mkdir -p ${SHARE_PKG}/.links \
+    mkdir -p ${SHARE_PKG}/.links ${SHARE_PKG}/%{?2} \
     if [ "%{?1}" != "" ] ; then \
-      tar xzf %{1} -C ${SHARE_PKG} \
+      tar xzf %{1} -C ${SHARE_PKG}/%{?2} \
     else \
       find ${ARCH_PKG} -mindepth 1 -maxdepth 1 ! -name 'etc' -exec mv -t ${SHARE_PKG} {} + \
     fi \
@@ -395,13 +395,13 @@ fi
   fi \
   [ "%{?1}" != "" ] && rm -f %{1} \
   pushd ${ARCH_PKG} \
-    ln -s ../../../../share/%{pkgcategory}/%{n}/%{realversion}/* . \
+    ln -s ../../../../share/%{pkgdir}/* . \
   popd \
   touch ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v}
 
 #cleanup contents of shared data package
 %define uninstall_data_package \
-  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgcategory}/%{n}/%{realversion} \
+  SHARE_PKG=${RPM_INSTALL_PREFIX}/share/%{pkgdir} \
   rm -f ${SHARE_PKG}/.links/arch-%{cmsplatf}-%{v} \
   if ! find ${SHARE_PKG}/.links -name 'arch-*' -type f -print -quit | grep -q . ; then \
     chmod -R u+rwX ${SHARE_PKG} && rm -rf ${SHARE_PKG} \
