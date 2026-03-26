@@ -11,6 +11,7 @@ Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 Requires: acts
+Requires: actsdata
 %if %{enable_vecgeom}
 Requires: celeritas
 %endif
