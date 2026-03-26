@@ -5,7 +5,7 @@
 ## INCLUDE rocm-flags
 ## INCLUDE geant4-deps
 
-%define tag         1af234d8a
+%define tag         30fb4ea
 %define branch      cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
