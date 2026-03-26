@@ -1,4 +1,5 @@
 ### RPM external acts v44.0.1
+## INITENV +PATH PYTHON3PATH %{i}/python
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
 ## INCLUDE rocm-flags
@@ -10,27 +11,32 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source99: scram-tools.file/tools/eigen/env
 
-# Do not build the Acts and Traccc tests
-%define build_test 0
+# Build the Acts and Traccc tests
+%define build_test 1
 
 BuildRequires: cmake gmake
 Requires: boost
-Requires: bz2lib
 Requires: dd4hep
 Requires: eigen
 Requires: expat
+Requires: fastjet
 Requires: geant4
 Requires: json
 Requires: python3
+Requires: py3-pybind11
 Requires: root
 Requires: xerces-c
-Requires: zlib
 %{!?without_cuda:Requires: cuda}
 %{!?without_rocm:Requires: rocm}
 %if %{build_test}
 # These are ony used to build the examples and unit tests
 Requires: hepmc3
 Requires: tbb
+# These are used through hepmc3, and need to be available to CMake
+Requires: bz2lib
+Requires: zlib
+Requires: zstd
+Requires: xz
 %endif
 
 %prep
@@ -72,13 +78,16 @@ cmake ../%{n}-%{realversion} \
   -DBUILD_SHARED_LIBS="ON" \
   -DACTS_NLOHMANNJSON_SOURCE="" \
   -DACTS_USE_SYSTEM_NLOHMANN_JSON="ON" \
+  -DACTS_USE_SYSTEM_PYBIND11="ON" \
   -DACTS_BUILD_PLUGIN_ACTSVG="ON" \
+  -DACTS_BUILD_PLUGIN_FASTJET="ON" \
   -DACTS_BUILD_PLUGIN_JSON="ON" \
   -DACTS_BUILD_PLUGIN_ROOT="ON" \
   -DACTS_BUILD_PLUGIN_DD4HEP="ON" \
   -DACTS_BUILD_PLUGIN_GEANT4="ON" \
   -DACTS_BUILD_PLUGIN_TRACCC="ON" \
   -DACTS_ENABLE_LOG_FAILURE_THRESHOLD="ON" \
+  -DACTSVG_USE_SYSTEM_PYBIND11="ON" \
   -DCOVFIE_PLATFORM_CPU="ON" \
   -DCOVFIE_PLATFORM_CUDA="%{cuda_enabled}" \
   -DCOVFIE_PLATFORM_HIP="%{rocm_enabled}" \
@@ -110,15 +119,10 @@ make %{makeprocesses} VERBOSE=1
 cd ../build
 make install VERBOSE=1
 
-%if %{build_test}
-# download the traccc test data file to the .../data directory
-mkdir -p %{i}/data
-./_deps/traccc-src/data/traccc_data_get_files.sh -o %{i}/data
-%endif
-
 # remove the scripts used to set the Acts environment variables
 rm %{i}/bin/this_acts.sh
 rm %{i}/bin/this_acts_withdeps.sh
+rm %{i}/python/setup.sh
 
 %post
 %{relocateConfig}lib64/cmake/*/*.cmake
