@@ -68,12 +68,11 @@ echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple" > bin/clang++.cfg
 ln -s clang++.cfg bin/clang.cfg
 %endif
 
-ninja -v %{makeprocesses}
+ninja -v %{makeprocesses} install
 bin/clang-tidy --checks=* --list-checks | grep cms-handle
 
 %install
 cd ../build
-ninja -v %{makeprocesses} install
 
 #Create libomp symlink
 host_triple=$(gcc -dumpmachine)
