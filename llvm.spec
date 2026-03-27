@@ -99,8 +99,10 @@ rm -f %{i}/bin/FileRadar.scpt %{i}/bin/GetRadarVersion.scpt
 rm -f %{i}/bin/set-xcode-analyzer
 
 #Copy clang configuration
+%if 0%{!?use_system_gcc:1}
 mv bin/clang++.cfg %{i}/bin
 mv bin/clang.cfg %{i}/bin
+%endif
 
 %post
 %{relocateConfig}include/llvm/Config/llvm-config.h
