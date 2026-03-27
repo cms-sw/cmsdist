@@ -66,6 +66,7 @@ Requires: ktjet
 Requires: EMTF_NN
 Requires: L1METML
 Requires: L1TSC4NGJetModel
+Requires: L1TSC82ProngJetModel
 Requires: lhapdf
 Requires: libjpeg-turbo
 Requires: libpng
