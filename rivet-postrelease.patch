@@ -1,0 +1,24 @@
+diff --git a/analyses/pluginONNX/ATLAS_2022_I2182381.cc b/analyses/pluginONNX/ATLAS_2022_I2182381.cc
+index 7c58263b4b8eed0195388d3cf1297f651218b441..a7a59300044f9313e9a5ab4d46cbbc69221a674d 100644
+--- a/analyses/pluginONNX/ATLAS_2022_I2182381.cc
++++ b/analyses/pluginONNX/ATLAS_2022_I2182381.cc
+@@ -45,7 +45,7 @@ namespace Rivet {
+     	declare(smearedelectrons, "SmearedElec");
+ 	    SmearedParticles recomuons(dressed_leps, Cuts::abspid==PID::MUON && 
+                                   Cuts::pt > 20*GeV && Cuts::abseta < 2.5,
+-                                  MUON_EFF_ATLAS_RUN2, MUON_SMEAR_ATLAS_RUN2);
++                                  MUON_EFF_ATLAS_RUN2_LOOSE, MUON_SMEAR_ATLAS_RUN2);
+       declare(recomuons, "SmearedMuon");
+ 
+       // Small-R jets
+@@ -202,7 +202,9 @@ namespace Rivet {
+ 
+       //Recluster to make large-R jets
+       const fastjet::Filter filter(_smallR_jDef, fastjet::SelectorPtFractionMin(0.1));
+-      Jets largeRjets = reclusterJets<JetAlg::ANTIKT>(smallJets, filter, 0.8); // already sorted by pT
++      Jets largeRjets = smallJets.size() > 0 ?
++                          reclusterJets<JetAlg::ANTIKT>(smallJets, filter, 0.8) :
++                          Jets(); // already sorted by pT
+       iselect(largeRjets, Cuts::abseta < 2.0 && Cuts::pt > 100*GeV);
+       const size_t nlargeRjets = largeRjets.size();
+ 
