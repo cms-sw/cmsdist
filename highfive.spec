@@ -1,14 +1,16 @@
-### RPM external highfive 2.3.1
+### RPM external highfive 2.10.1
 
 %define github_user BlueBrain
 %define branch master
-%define tag a01ee6be4d4a75aeeb9fd962c3b415ea8cd395f6
+%define tag ede97c8d51905c1640038561d12d41da173012ac
 Source: git+https://github.com/%github_user/HighFive.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Patch0: highfive-boost190
 BuildRequires: cmake
 Requires: boost hdf5
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 cd %{_builddir}

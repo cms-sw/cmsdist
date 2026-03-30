@@ -1,0 +1,13 @@
+diff --git a/CMake/HighFiveTargetDeps.cmake b/CMake/HighFiveTargetDeps.cmake
+index 919b535..807423d 100644
+--- a/CMake/HighFiveTargetDeps.cmake
++++ b/CMake/HighFiveTargetDeps.cmake
+@@ -52,7 +52,7 @@ if(NOT TARGET libdeps)
+       # build failures.
+       set(Boost_NO_BOOST_CMAKE TRUE)
+     endif()
+-    find_package(Boost REQUIRED COMPONENTS system serialization)
++    find_package(Boost REQUIRED COMPONENTS serialization)
+     # Dont use imported targets yet, not avail before cmake 3.5
+     target_include_directories(libdeps SYSTEM INTERFACE ${Boost_INCLUDE_DIR})
+     target_compile_definitions(libdeps INTERFACE BOOST_ALL_NO_LIB H5_USE_BOOST)
