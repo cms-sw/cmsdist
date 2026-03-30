@@ -1,15 +1,60 @@
+diff --git a/plugins/L1TStage2CaloLayer1RenderPlugin.cc b/plugins/L1TStage2CaloLayer1RenderPlugin.cc
+index 7685582..8ecbd6d 100644
+--- a/plugins/L1TStage2CaloLayer1RenderPlugin.cc
++++ b/plugins/L1TStage2CaloLayer1RenderPlugin.cc
+@@ -15,6 +15,7 @@
+ #include "TText.h"
+ #include <cassert>
+ #include <iostream>
++#include <cmath>
+ 
+ class L1T2016Layer1RenderPlugin : public DQMRenderPlugin {
+   TBox *exclusionBox_;
 diff --git a/plugins/PCLPixelAlignmentRenderPlugin.cc b/plugins/PCLPixelAlignmentRenderPlugin.cc
-index be08575..f4a544d 100644
+index be08575..c9f8827 100644
 --- a/plugins/PCLPixelAlignmentRenderPlugin.cc
 +++ b/plugins/PCLPixelAlignmentRenderPlugin.cc
-@@ -12,6 +12,7 @@
+@@ -12,6 +12,8 @@
  #include "TList.h"
  #include "TLine.h"
  #include <cassert>
 +#include <array>
++#include <cmath>
  
  class PCLPixelAlignmentRenderPlugin : public DQMRenderPlugin {
    std::array<double, 6> sigCut_;
+@@ -130,12 +132,12 @@ private:
+       if (obj->GetBinContent(i) > max)
+         max = obj->GetBinContent(i);
+ 
+-      if (fabs(obj->GetBinContent(i)) > maxMoveCut_[i - 1])
++      if (std::fabs(obj->GetBinContent(i)) > maxMoveCut_[i - 1])
+         obj->SetFillColor(kRed);
+       else if (obj->GetBinContent(i) > cut_[i - 1]) {
+         if (obj->GetBinError(i) > maxErrorCut_[i - 1]) {
+           obj->SetFillColor(kRed);
+-        } else if (fabs(obj->GetBinContent(i)) / obj->GetBinError(i) > sigCut_[i - 1]) {
++        } else if (std::fabs(obj->GetBinContent(i)) / obj->GetBinError(i) > sigCut_[i - 1]) {
+           obj->SetFillColor(kGreen + 3);
+         }
+       }
+@@ -240,13 +242,13 @@ private:
+     bool sigMove = false;
+ 
+     for (int i = 1; i < 7; i++) {
+-      if (fabs(obj->GetBinContent(i)) > maxMoveCut_[i - 1]) {
++      if (std::fabs(obj->GetBinContent(i)) > maxMoveCut_[i - 1]) {
+         hitMax = true;
+-      } else if (fabs(obj->GetBinContent(i)) > cut_[i - 1]) {
++      } else if (std::fabs(obj->GetBinContent(i)) > cut_[i - 1]) {
+         moved = true;
+         if (obj->GetBinError(i) > maxErrorCut_[i - 1]) {
+           hitMaxError = true;
+-        } else if (fabs(obj->GetBinContent(i)) / obj->GetBinError(i) > sigCut_[i - 1]) {
++        } else if (std::fabs(obj->GetBinContent(i)) / obj->GetBinError(i) > sigCut_[i - 1]) {
+           sigMove = true;
+         }
+       }
 diff --git a/plugins/RPCRenderPlugin.cc b/plugins/RPCRenderPlugin.cc
 index 98032ed..6c7daa1 100644
 --- a/plugins/RPCRenderPlugin.cc
@@ -22,3 +67,15 @@ index 98032ed..6c7daa1 100644
  #include "TLine.h"
  #include "TText.h"
  #include "TPaletteAxis.h"
+diff --git a/plugins/SiPixelPhase1OnlineRenderPlugin.cc b/plugins/SiPixelPhase1OnlineRenderPlugin.cc
+index 976ab2e..b7cccb2 100644
+--- a/plugins/SiPixelPhase1OnlineRenderPlugin.cc
++++ b/plugins/SiPixelPhase1OnlineRenderPlugin.cc
+@@ -48,6 +48,7 @@ logic for the Legend.
+ #include "TLegend.h"
+ #include <cassert>
+ #include <string>
++#include <cmath>
+ 
+ using namespace std;
+ 
