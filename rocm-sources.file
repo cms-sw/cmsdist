@@ -1,0 +1,2 @@
+%define rocm_version 7.1.0
+%define rocm_systems_source https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{rocm_version}.tar.gz

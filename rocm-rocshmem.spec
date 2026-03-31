@@ -3,7 +3,7 @@
 Source0: https://github.com/ROCm/rocSHMEM/archive/refs/tags/rocm-7.1.0.tar.gz
 
 Requires: rocm-core rocm-llvm hsa-rocr rocm-cmake hip
-#Requires: openmpi
+Requires: openmpi
 
 %prep
 %setup -q -n rocSHMEM-rocm-%{realversion}
@@ -12,15 +12,15 @@ Requires: rocm-core rocm-llvm hsa-rocr rocm-cmake hip
 mkdir -p %{_builddir}/build
 cd %{_builddir}/build
 
-export CC=${ROCM_LLVM_ROOT}/bin/amdclang
-export CXX=${ROCM_LLVM_ROOT}/bin/amdclang++
-
 cmake \
+  -B %{_builddir}/build \
   -S %{_builddir}/rocSHMEM-rocm-%{realversion} \
+  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang \
+  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DROCM_PATH=%{cmake_prefix_path} \
+  -DROCM_PATH=$ROCM_LLVM_ROOT \
   -DUSE_EXTERNAL_MPI=ON \
   -DBUILD_TESTING=OFF
 

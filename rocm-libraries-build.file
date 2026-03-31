@@ -1,0 +1,26 @@
+Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/rocm-%{rocm_version}.tar.gz
+Requires: hip rocm-core rocm-llvm hsa-rocr rocm-cmake
+## INCLUDE rocm-flags
+
+%prep
+%setup -q -n rocm-libraries-rocm-%{realversion}
+
+%build
+CMAKE_ARGS=(
+  -DCMAKE_INSTALL_PREFIX=%{i}
+  -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
+  -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DBUILD_CLIENTS_TESTS=off
+  -DGPU_TARGETS="gfx908:sramecc+;gfx90a:sramecc+;gfx942:sramecc+;gfx1030;gfx1100;gfx1102"
+  $LIB_ARGS
+)
+
+cmake -B %{_builddir}/build \
+      -S %{_builddir}/rocm-libraries-rocm-%{realversion}/projects/%{n} \
+      "${CMAKE_ARGS[@]}"
+
+make -C %{_builddir}/build %{makeprocesses}
+
+%install
+make -C %{_builddir}/build %{makeprocesses} install

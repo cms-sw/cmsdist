@@ -1,11 +1,11 @@
-### RPM external rocm-cmake 7.10
+### RPM external rocm-cmake 7.1.0
 
-Source0: https://github.com/ROCm/rocm-cmake/archive/refs/tags/therock-%{realversion}.tar.gz
+Source0: https://github.com/ROCm/rocm-cmake/archive/refs/tags/rocm-%{realversion}.tar.gz
 
 BuildRequires: cmake
 
 %prep
-%setup -q -n rocm-cmake-therock-7.10
+%setup -q -n %{n}-rocm-%{realversion}
 
 %build
 mkdir -p build

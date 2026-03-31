@@ -8,13 +8,13 @@ Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n
 Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
-%{!?without_rocm:Requires: rocm}
 Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
 Requires: xpmem
 Requires: ucx
 Requires: zlib
+Requires: hip
 
 # external libraries are needed for additional protocols:
 #   --with-mxm:         Mellanox Messaging (depracated, use UCX instead)
@@ -42,7 +42,7 @@ AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
   --disable-mpi-java \
   --with-zlib=$ZLIB_ROOT \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT --with-cuda-libdir=$CUDA_ROOT/lib64/stubs} \
-  %{!?without_rocm:--with-rocm=$ROCM_ROOT} \
+  %{!?without_rocm:--with-rocm=$HIP_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
   --with-ofi=$LIBFABRIC_ROOT \
   --without-portals4 \

@@ -1,14 +1,22 @@
-### RPM external rocm-core 7.10
-Source: https://github.com/ROCm/rocm-systems/releases/download/therock-%{realversion}/rocm-core.tar.gz
+### RPM external rocm-core 7.1.0
+Source: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{realversion}.tar.gz
 BuildRequires: cmake
 Requires: python3 py3-prettytable py3-PyYAML 
 
 %prep
-%setup -n %{n}
+%setup -q -n rocm-systems-rocm-%{realversion}
 
 %build
-cmake -B build -S . -DCMAKE_INSTALL_PREFIX=%{i} -DROCM_VERSION="7.1.0" -DCMAKE_VERBOSE_MAKEFILE=1 -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
-cmake --build build --parallel %{makeprocesses}
+mkdir -p %{_builddir}/build
+cd %{_builddir}/build
+cmake \
+  -S %{_builddir}/rocm-systems-rocm-%{realversion}/projects/rocm-core \
+  -B %{_builddir}/build \
+  -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DROCM_VERSION="%{realversion}"
 
+#cmake --build build --parallel %{makeprocesses}
+make %{makeprocesses}
 %install
-cmake --install build %{makeprocesses}
+#cmake --install build %{makeprocesses}
+make -C %{_builddir}/build %{makeprocesses} install

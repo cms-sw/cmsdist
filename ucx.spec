@@ -4,7 +4,7 @@ BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
 Requires: rdma-core
-%{!?without_rocm:Requires: rocm}
+Requires: hip hsa-rocr
 Requires: xpmem
 
 %prep
@@ -44,7 +44,7 @@ Requires: xpmem
   --without-gdrcopy \
 %endif
 %if 0%{!?without_rocm:1}
-  --with-rocm=$ROCM_ROOT \
+  --with-rocm=$HIP_ROOT \
 %else
   --without-rocm \
 %endif

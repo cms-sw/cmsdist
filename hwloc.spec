@@ -3,8 +3,7 @@
 Source: https://download.open-mpi.org/release/%{n}/v%{mainversion}/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
-Requires: libpciaccess libxml2 numactl
-%{!?without_rocm:Requires: rocm}
+Requires: libpciaccess libxml2 numactl rocm-smi-lib
 %{!?without_cuda:Requires: cuda}
 
 
@@ -23,7 +22,7 @@ Requires: libpciaccess libxml2 numactl
   --disable-doxygen \
   --disable-opencl \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT --enable-cuda --enable-nvml} \
-  %{!?without_rocm:--with-rocm=$ROCM_ROOT --enable-rsmi} \
+  %{!?without_rocm:--with-rocm=$ROCM_SMI_LIB_ROOT --enable-rsmi} \
 %if 0%{!?without_cuda:1}%{!?without_rocm:1}
   --enable-plugins=$(echo %{!?without_cuda:cuda,nvml,}%{!?without_rocm:rsmi} | sed 's|,$||') \
 %endif

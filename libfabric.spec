@@ -1,12 +1,12 @@
 ### RPM external libfabric 2.1.0
 Source: https://github.com/ofiwg/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.bz2
 %{!?without_cuda:Requires: cuda gdrcopy}
-%{!?without_rocm:Requires: rocm}
 BuildRequires: autotools
 Requires: curl
 Requires: numactl
 Requires: rdma-core
 Requires: xpmem
+Requires: hsa-rocr
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -56,7 +56,7 @@ Requires: xpmem
 %endif
 %if 0%{!?without_rocm:1}
   --enable-rocr-dlopen \
-  --with-rocr=$ROCM_ROOT \
+  --with-rocr=$HSA_ROCR_ROOT \
 %else
   --disable-rocr-dlopen \
   --without-rocr \

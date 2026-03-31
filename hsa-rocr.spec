@@ -1,21 +1,22 @@
-### RPM external hsa-rocr 7.10
-## INCLUDE cpp-standard
-Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.10/rocr-runtime.tar.gz
+## INCLUDE rocm-sources
+### RPM external hsa-rocr %{rocm_version}
+
+Source0: %{rocm_systems_source}
 BuildRequires: rocm-llvm rocm-cmake rocm-core numactl
-Requires: rocm-llvm rocm-core zlib libxml2 rocprofiler-register numactl
+Requires: rocm-core zlib libxml2 rocprofiler-register numactl
 %prep
-%setup -q -n rocr-runtime
+%setup -q -n rocm-systems-rocm-%{realversion}
 %build
 mkdir -p %{_builddir}/build-hsa-rocr
 cd %{_builddir}/build-hsa-rocr
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
 cmake \
-  -S %{_builddir}/rocr-runtime \
+  -S %{_builddir}/rocm-systems-rocm-%{realversion}/projects/rocr-runtime \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/clang \
-  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/clang++ \
+  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang \
+  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++ \
   -DCMAKE_C_FLAGS="-I${NUMACTL_ROOT}/include" \
   -DCMAKE_CXX_FLAGS="-I${NUMACTL_ROOT}/include" \
   -DLLVM_DIR=${ROCM_LLVM_ROOT}/lib/cmake/llvm \
