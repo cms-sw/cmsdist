@@ -199,9 +199,9 @@ Requires: oracle-fake
 Requires: xtensor
 Requires: xtl
 Requires: xgboost
-Requires: pytorch-custom-ops
 
 ## INCLUDE tfaot-models
 ## INCLUDE cmssw-vectorization
+## INCLUDE cmssw-gpu-backend-specific-packages
 ## INCLUDE cmssw-drop-tools
 ## INCLUDE scram/tool-conf-src

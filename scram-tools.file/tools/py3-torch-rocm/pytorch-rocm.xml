@@ -1,0 +1,16 @@
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+  <client>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="INCLUDE" default="$@TOOL_BASE@/include/torch/csrc/api/include"/>
+    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
+    <environment name="PYTHONDIR" default="$@TOOL_BASE@/lib/python@PYTHON3V@/site-packages"/>
+  </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <runtime name="LD_LIBRARY_PATH" value="$LIBDIR" type="path"/>
+  <runtime name="PYTHON3PATH" value="$PYTHONDIR" type="path"/>
+  <use name="pytorch"/>
+  <use name="rocm"/>
+  <lib name="torch_hip"/>
+  <lib name="c10_hip"/>
+</tool>

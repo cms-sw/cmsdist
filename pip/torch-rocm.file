@@ -1,0 +1,17 @@
+## INCLUDE  rocm-flags
+Requires: rocm
+
+%define pip_name torch
+%define PipPreBuildPy \
+  export USE_ROCM=ON; \
+  export ROCM_PATH=${ROCM_ROOT}; \
+  export ROCM_SOURCE_DIR=${ROCM_ROOT}; \
+  export AMDGPU_TARGETS="$(echo '%{rocm_archs}' | sed -e 's/,/ /g')"; \
+  export PYTORCH_ROCM_ARCH="%{rocm_archs}"; \
+  pushd $PIPFILE; \
+    python3 tools/amd_build/build_amd.py; \
+  popd
+
+%define PipPreInstall mv  %{i}/bin/torchrun %{i}/bin/torchrun-rocm
+
+## INCLUDE pip/torch

@@ -1,22 +1,8 @@
 source %{_sourcedir}/env
 
-USE_CUDA=OFF
-%if 0%{!?without_cuda:1}
-if [ "%{cuda_gcc_support}" = "true" ] ; then
-  USE_CUDA=ON
-fi
-%endif
-
-%if 0%{!?without_cuda:1}
-  export USE_CUDA=${USE_CUDA}
-  export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}"
-  export nvtx3_dir=${CUDA_ROOT}/include
-  export USE_CUDNN=${USE_CUDA}
-  export CUDNN_ROOT=${CUDNN_ROOT}
-%else
-  export USE_CUDA=OFF
-  export USE_CUDNN=OFF
-%endif
+export USE_CUDA=OFF
+export USE_CUDNN=OFF
+export USE_ROCM=OFF
 
 MEM_GB=$(/usr/bin/free -g | awk '/^Mem:/{print $2}')
 MAX_JOBS=$(( MEM_GB / 4 ))
@@ -34,6 +20,9 @@ export USE_SYSTEM_PYBIND11=ON
 export PYBIND11_SYSPATH=${PY3_PYBIND11_ROOT}
 export USE_SYSTEM_BENCHMARK=ON
 
+export PYTORCH_BUILD_VERSION=%{realversion}
+export PYTORCH_BUILD_NUMBER=0
+export LIBTORCH_PACKAGE_NAME=torch
 export BUILD_TEST=OFF
 export BUILD_BINARY=OFF
 export BUILD_PYTHON=ON
@@ -65,5 +54,6 @@ export CMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{default_microarch}"
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 export LIBLZMA_ROOT=${XZ_ROOT}
 export PYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
-export BUILD_LIBTORCH_WHL=ON
+#Setting BUILD_LIBTORCH_WHL=ON turns off BUILD_PYTHON
+export BUILD_LIBTORCH_WHL=OFF
 export CMAKE_VERBOSE_MAKEFILE=ON

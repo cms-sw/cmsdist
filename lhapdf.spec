@@ -1,4 +1,4 @@
-### RPM external lhapdf 6.4.0
+### RPM external lhapdf 6.5.4
 %define setsversion 6.5.1c
 
 Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-%{realversion}.tar.gz
@@ -33,8 +33,9 @@ rm -f pdfsets.index
 cp -f %{_sourcedir}/lhapdf_pdfsetsindex pdfsets.index
 cd -
 
-# Remove all libtool archives
+# Remove all libtool archives and docs
 find %{i} -name '*.la' -exec rm -f {} \;
+rm -rf %{i}/share/doc
 
 %post
 %{relocateConfig}bin/lhapdf-config

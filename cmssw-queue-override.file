@@ -2,6 +2,7 @@
 ## NO_AUTO_RUNPATH
 ## NO_VERSION_SUFFIX
 ## UPLOAD_DEPENDENCIES dqmgui
+## INCLUDE cmssw-gpu-backend-specific-packages
 %if "%(case %realversion in (*_COVERAGE_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define release_usercxxflags    -fprofile-arcs -ftest-coverage
 %endif

@@ -2,6 +2,7 @@
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
 Requires: bz2lib curl expat zlib
+BuildRequires: gmake
 
 %prep
 %setup -n cmake-%realversion
