@@ -1,4 +1,4 @@
-### RPM external lhapdf 6.5.4
+### RPM external lhapdf 6.4.0
 %define setsversion 6.5.1c
 
 Source: http://www.hepforge.org/archive/lhapdf/LHAPDF-%{realversion}.tar.gz
@@ -16,6 +16,9 @@ BuildRequires: py3-cython
 PYTHON=$(which python3) \
   ./configure --prefix=%{i} \
   --enable-python
+
+# Delete wrappers/python/lhapdf.cpp and re-generate with newer cython
+rm -f wrappers/python/lhapdf.cpp
 
 %build
 sed -i '/yaml-cpp\/null.h/a #include <cstdint>' src/yamlcpp/emitterutils.cpp
