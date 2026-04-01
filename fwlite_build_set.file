@@ -6,6 +6,7 @@ CondFormats/External
 CondFormats/L1TObjects
 CondFormats/RPCObjects
 CondFormats/Serialization
+DataFormats/AlpakaCommon
 DataFormats/BTauReco
 DataFormats/BeamSpot
 DataFormats/CLHEP
