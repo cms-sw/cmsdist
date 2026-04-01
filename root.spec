@@ -56,6 +56,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_Fortran_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
+  -DCMAKE_STRIP=/usr/bin/true \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -Droot7=ON \
   -Dfail-on-missing=ON \
