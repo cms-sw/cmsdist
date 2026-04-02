@@ -2,7 +2,7 @@
 ## NOCOMPILER
 Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.11/rccl.tar.gz
 
-Requires: rocm-core rocm-llvm hip hsa-rocr amdsmi-rocm hipify rocm-info rocprofiler-register rocm-smi-lib
+Requires: rocm-core rocm-llvm hip hsa-rocr rocm-amd-smi-lib hipify rocm-info rocprofiler-register rocm-smi-lib
 Requires: python3
 
 %prep

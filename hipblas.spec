@@ -1,7 +1,7 @@
 ## INCLUDE rocm-sources
 ### RPM external hipblas %{rocm_version}
 Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/rocm-%{rocm_version}.tar.gz
-Requires: rocm-roctracer hipblas-common python3 hsa-rocr rocblas rocsparse
+Requires: rocm-roctracer hipblas-common python3 hsa-rocr rocblas rocsparse rocsolver
 
 %prep
 %setup -q -n rocm-libraries-rocm-%{realversion}
