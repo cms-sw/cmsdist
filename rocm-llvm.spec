@@ -1,28 +1,29 @@
-### RPM external rocm-llvm 7.1.0
+## INCLUDE rocm-config
+### RPM external rocm-llvm %{rocm_version_num}
 ## INCLUDE cpp-standard
 %define keep_archives true
 
-Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-%{realversion}.tar.gz
-Source1: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{realversion}.tar.gz?output=/rocm-systems-rocm-%{realversion}.tar.gz
+Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/%{rocm_version}.tar.gz
+Source1: https://github.com/ROCm/rocm-systems/releases/download/%{rocm_version}/rocr-runtime.tar.gz
 Requires: cmake ninja rocm-core rocm-cmake libxml2 zlib rocprofiler-register
 
 %prep
-%setup -q -n llvm-project-rocm-%{realversion}
+%setup -q -n llvm-project-%{rocm_version}
 
 %build
-tar -xzf %{_sourcedir}/rocm-systems-rocm-%{realversion}.tar.gz -C %{_builddir}
+tar -xzf %{_sourcedir}/rocr-runtime.tar.gz -C %{_builddir}
 mkdir -p %{_builddir}/build
 cd %{_builddir}/build
 
-cp -rT %{_builddir}/rocm-systems-rocm-%{realversion}/projects/rocr-runtime/runtime/hsa-runtime %{_builddir}/llvm-project-rocm-%{realversion}/hsa-runtime
+cp -rT %{_builddir}/rocr-runtime/runtime/hsa-runtime %{_builddir}/llvm-project-%{rocm_version}/hsa-runtime
 
 host_triple=$(gcc -dumpmachine)
 
 cmake -G Ninja \
-  -S %{_builddir}/llvm-project-rocm-%{realversion}/llvm \
+  -S %{_builddir}/llvm-project-%{rocm_version}/llvm \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_CXX_STANDARD=17 \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DLLVM_TARGETS_TO_BUILD="AMDGPU;X86" \

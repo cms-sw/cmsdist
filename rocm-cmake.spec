@@ -1,19 +1,17 @@
-### RPM external rocm-cmake 7.1.0
-
-Source0: https://github.com/ROCm/rocm-cmake/archive/refs/tags/rocm-%{realversion}.tar.gz
-
+## INCLUDE rocm-config
+### RPM external rocm-cmake %{rocm_version_num}
 BuildRequires: cmake
-
+Source: https://github.com/ROCm/%{n}/archive/refs/tags/%{rocm_version}.tar.gz
 %prep
-%setup -q -n %{n}-rocm-%{realversion}
+%setup -q -n %{n}-%{rocm_version}
 
 %build
-mkdir -p build
-cd build
-cmake .. \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=%{i}
+cmake \
+  -S %{_builddir}/%{n}-%{rocm_version} \
+  -B %{_builddir}/build \
+  -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DROCM_VERSION=%{rocm_version_num}
 
+cmake --build %{_builddir}/build --parallel %{makeprocesses}
 %install
-cd build
-make install
+cmake --install %{_builddir}/build
