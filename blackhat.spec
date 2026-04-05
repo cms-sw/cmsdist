@@ -4,9 +4,12 @@
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Requires: qd python3
+BuildRequires: autotools
+Patch0: blackhat
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 sed -i -e 's|else return Cached_OLHA_user_normal|else return new Cached_OLHA_user_normal|' src/cached_OLHA.cpp
 
@@ -17,6 +20,7 @@ rm -f ./config.{sub,guess}
 chmod +x ./config.{sub,guess}
 
 %build
+autoreconf -ivf
 PYTHON=$(which python3) ./configure --prefix=%i \
   --with-QDpath=$QD_ROOT \
   --enable-pythoninterface=no \

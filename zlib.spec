@@ -1,15 +1,13 @@
-### RPM external zlib 1.2.13
-%define git_repo madler
-%define git_branch master
-%define git_commit v%{realversion}
-Source0: git://github.com/%{git_repo}/zlib.git?obj=%{git_branch}/%{git_commit}&export=zlib-%{realversion}&output=/zlib-%{realversion}.tgz
+### RPM external zlib 1.3.2
+Source: https://github.com/madler/zlib/archive/refs/tags/v%{realversion}.tar.gz
+BuildRequires: gmake
 
 %prep
 %setup -n zlib-%{realversion}
 
 %build
 
-CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1"
+CONF_FLAGS="-fPIC -O3 -DUSE_MMAP -DUNALIGNED_OK -D_LARGEFILE64_SOURCE=1 -D_DEFAULT_SOURCE"
 CFLAGS="${CONF_FLAGS}" ./configure --prefix=%{i}
 
 make %{makeprocesses}

@@ -1,0 +1,5 @@
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+  <client>
+    <environment name="CUDA_LIBDIR" default="@TOOL_ROOT@/lib"/>
+  </client>
+</tool>

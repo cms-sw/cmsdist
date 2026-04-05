@@ -1,18 +1,13 @@
-### RPM external libtiff 4.0.10
-Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
-
+### RPM external libtiff 4.6.0
+Source: https://github.com/libsdl-org/libtiff/archive/refs/tags/v%{realversion}.tar.gz
 Requires: libjpeg-turbo zlib xz zstd
+BuildRequires: autotools gmake
 
 %prep
-%setup -n tiff-%{realversion}
-
-# Update to detect aarch64 and ppc64le
-rm -f ./config/config.{sub,guess}
-%get_config_sub ./config/config.sub
-%get_config_guess ./config/config.guess
-chmod +x ./config/config.{sub,guess}
+%setup -n libtiff-%{realversion}
 
 %build
+autoreconf -fiv
 ./configure --prefix=%{i} --disable-static \
             --with-zstd-lib-dir=${ZSTD_ROOT}/lib \
             --with-zstd-include-dir=${ZSTD_ROOT}/include \
