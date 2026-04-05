@@ -5,7 +5,7 @@
 ##    (in this case a "Source" should be defined and %{aot_source} is likely %{n}-%{realversion})
 
 BuildRequires: py3-cms-tfaot
-Requires: tensorflow-xla-runtime
+Requires: tensorflow-xla-runtime py3-tensorflow
 
 %ifarch ppc64le
 %define build_arch powerpc64le-unknown-linux-gnu

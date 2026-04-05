@@ -1,3 +1,3 @@
-Requires: c-blosc2  py3-cython py3-numpy py3-msgpack py3-ndindex py3-py-cpuinfo py3-rich
-BuildRequires: py3-scikit-build cmake ninja
+Requires: c-blosc2  py3-cython py3-numpy py3-msgpack py3-ndindex py3-py-cpuinfo py3-rich py3-numexpr py3-requests
+BuildRequires: py3-scikit-build py3-scikit-build-core cmake ninja
 %define PipPreBuild export CMAKE_ARGS="-DUSE_SYSTEM_BLOSC2=1 -DCMAKE_PREFIX_PATH=\"%{cmake_prefix_path}\""
