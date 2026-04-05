@@ -1,0 +1,1 @@
+BuildRequires: py3-meson-python py3-cython

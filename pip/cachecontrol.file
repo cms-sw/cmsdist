@@ -1,2 +1,3 @@
 %define patchsrc0 sed -i -e 's|name="CacheControl"|name="cachecontrol"|' pyproject.toml
-Requires: py3-flit-core py3-msgpack py3-requests
+BuildRequires: py3-uv-build py3-flit-core
+Requires: py3-msgpack py3-requests

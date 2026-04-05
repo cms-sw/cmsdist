@@ -1,7 +1,0 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
-  <lib name="tensorflow"/>
-  <use name="tensorflow-framework"/>
-  <use name="eigen"/>
-  <use name="libpng"/>
-  <use name="sqlite"/>
-</tool>

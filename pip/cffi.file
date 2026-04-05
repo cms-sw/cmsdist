@@ -1,3 +1,2 @@
 Requires: py3-pycparser libffi
 %define patchsrc0 sed -i -e "s|/usr/include/ffi|${LIBFFI_ROOT}/include|" setup.py
-# %define PipBuildOptions --global-option=build_ext --global-option="-L${LIBFFI_ROOT}/lib64" --global-option="-I${LIBFFI_ROOT}/include"

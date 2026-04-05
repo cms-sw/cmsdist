@@ -17,6 +17,9 @@ PYTHON=$(which python3) \
   ./configure --prefix=%{i} \
   --enable-python
 
+# Delete wrappers/python/lhapdf.cpp and re-generate with newer cython
+rm -f wrappers/python/lhapdf.cpp
+
 %build
 make all %makeprocesses 
 
@@ -33,8 +36,9 @@ rm -f pdfsets.index
 cp -f %{_sourcedir}/lhapdf_pdfsetsindex pdfsets.index
 cd -
 
-# Remove all libtool archives
+# Remove all libtool archives and docs
 find %{i} -name '*.la' -exec rm -f {} \;
+rm -rf %{i}/share/doc
 
 %post
 %{relocateConfig}bin/lhapdf-config

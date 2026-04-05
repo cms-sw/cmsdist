@@ -1,0 +1,13 @@
+diff --git a/src/Makefile b/src/Makefile
+index 8840e88..7f9166f 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -147,7 +147,7 @@ pymod-dist: pacparser.o pacparser.h quickjs/libquickjs.a
+ 	$(PYTHON) ../tests/runtests.py
+ 
+ install-pymod: pymod
+-	cd pymod && ARCHFLAGS="" $(PYTHON) setup.py install --root="$(DESTDIR)/" $(EXTRA_ARGS)
++	cd pymod && ARCHFLAGS="" $(PYTHON) setup.py install $(EXTRA_ARGS)
+ 
+ clean:
+ 	rm -f $(LIBRARY_LINK) $(LIBRARY) pacparser.o pactester pymod/pacparser_o_buildstamp libpacparser.a
