@@ -1,2 +1,2 @@
-BuildRequires: py3-poetry-dynamic-versioning
+BuildRequires: py3-poetry-dynamic-versioning py3-hatchling
 Requires: py3-docstring-parser py3-typing-extensions
