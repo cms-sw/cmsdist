@@ -1,4 +1,4 @@
-### RPM external catch2 3.11.0
+### RPM external catch2 3.13.0
 
 Source: https://github.com/catchorg/Catch2/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: cmake gmake
