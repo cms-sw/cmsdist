@@ -1,0 +1,21 @@
+diff --git a/setup.py b/setup.py
+index 016706f..d3f98b4 100644
+--- a/setup.py
++++ b/setup.py
+@@ -3,7 +3,6 @@ Setup script for cx_Oracle.
+ """
+ 
+ import os
+-import pkg_resources
+ import setuptools
+ import sys
+ 
+@@ -12,8 +11,6 @@ if sys.version_info[:2] < (3, 6):
+     raise Exception("Python 3.6 or higher is required. " +
+             "For python 2, use 'pip install cx_Oracle==7.3'")
+ 
+-# check minimum supported version of setuptools
+-pkg_resources.require("setuptools>=40.6.0")
+ 
+ # define build constants
+ BUILD_VERSION = "8.3.0"

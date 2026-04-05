@@ -1,1 +1,2 @@
-Requires: py3-six py3-packaging py3-webencodings py3-pyparsing py3-appdirs
+BuildRequires: py3-packaging
+Requires: py3-six py3-webencodings py3-pyparsing py3-appdirs

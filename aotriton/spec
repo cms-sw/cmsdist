@@ -1,0 +1,37 @@
+### RPM external aotriton 0.11.2b
+%define aotriton_git_sha1 dd1b68b604b5258ee7a9f7b66ad95e7a82c18065
+## INCLUDE rocm-flags
+%define rocm_gpus_cmake %(for ARCH in %{rocm_archs}; do printf "%s;" "${ARCH%%:*}"; done | sed 's/;$//')
+
+Source: git+https://github.com/ROCm/aotriton?obj=main/%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: aotriton-cms
+Requires: py3-filelock py3-iniconfig py3-packaging py3-pluggy py3-numpy py3-setuptools py3-wheel py3-pybind11 py3-pandas py3-PyYAML
+Requires: rocm xz py3-triton
+BuildRequires: ninja cmake
+
+%prep
+%setup -n %{n}-%{realversion}
+%patch0 -p1
+
+%build
+rm -rf ../build ; mkdir ../build; cd ../build
+AOTRITON_CI_SUPPLIED_SHA1=%{aotriton_git_sha1} \
+cmake ../%{n}-%{realversion} \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
+  -DAOTRITON_TARGET_ARCH="%{rocm_gpus_cmake}" \
+  -DAOTRITON_NO_PYTHON=OFF \
+  -DAOTRITON_USE_TORCH=OFF \
+  -DAOTRITON_INHERIT_SYSTEM_SITE_TRITON=ON \
+  -DLZMA_LIBRARY_DIRS="${XZ_ROOT}/ilb" \
+  -DLZMA_LIBRARIES="${XZ_ROOT}/lib/liblzma.so" \
+  -DCMAKE_CXX_FLAGS="-I${XZ_ROOT}/include" \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE
+
+ninja -v %{makeprocesses}
+
+%install
+cd ../build
+ninja -v %{makeprocesses} install

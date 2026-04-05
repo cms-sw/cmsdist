@@ -1,14 +1,11 @@
-### RPM external libjpeg-turbo 2.0.2
+### RPM external libjpeg-turbo 3.0.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-
-%define source0 https://github.com/libjpeg-turbo/libjpeg-turbo/archive/%{realversion}.tar.gz
-%define source_prefix %{n}-%{realversion}
-Source: %{source0}
+Source: https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: nasm autotools gmake cmake
 
 %prep
-%setup -n %{source_prefix}
+%setup -n %{n}-%{realversion}
 
 %build
 # Update to get AArch64
