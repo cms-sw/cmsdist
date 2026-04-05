@@ -19,6 +19,11 @@ Requires: py3-law
 Requires: py3-protobuf
 
 Requires: py3-torch
+Requires: py3-torch-cluster
+Requires: py3-torch-scatter
+Requires: py3-torch-sparse
+%{!?without_cuda:Requires: py3-torch-cuda py3-torch-cluster-cuda py3-torch-scatter-cuda py3-torch-sparse-cuda}
+
 Requires: py3-tables
 Requires: py3-tabulate
 Requires: py3-numexpr
@@ -43,7 +48,6 @@ Requires: py3-argparse
 Requires: py3-bleach
 Requires: py3-certifi
 Requires: py3-decorator
-Requires: py3-html5lib
 Requires: py3-ipykernel
 Requires: py3-ipython
 Requires: py3-ipython_genutils
@@ -110,6 +114,7 @@ Requires: py3-python-ldap
 Requires: py3-plac
 
 Requires: py3-matplotlib
+Requires: py3-bokeh
 Requires: py3-numpy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub

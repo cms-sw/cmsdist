@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5d88a22..8d3cded 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -127,8 +127,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/aotriton/config.h
+ 
+ # Kernel Storage V2 uses xz/LZMA for compression
+ if(UNIX)
+-  include(FindPkgConfig)
+-  pkg_search_module(LZMA REQUIRED liblzma)
++  find_package(LibLZMA REQUIRED)
+   add_library(lzma_interface INTERFACE)
+   target_link_libraries(lzma_interface INTERFACE ${LZMA_LIBRARIES})
+   target_link_directories(lzma_interface INTERFACE ${LZMA_LIBRARY_DIRS})
+diff --git a/v3python/base/typed_choice.py b/v3python/base/typed_choice.py
+index 2028988..94a6358 100644
+--- a/v3python/base/typed_choice.py
++++ b/v3python/base/typed_choice.py
+@@ -305,7 +305,7 @@ class Guess(object):
+ 
+ class GuessNumpy(Guess):
+     FACTORY = {
+-        np.bool   : constexpr.bool_t,
++        np.bool_  : constexpr.bool_t,
+         np.int8   : constexpr.int8_t,
+         np.int16  : constexpr.int16_t,
+         np.int32  : constexpr.int32_t,

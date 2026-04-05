@@ -6,10 +6,8 @@
     <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
   </client>
   <use name="protobuf"/>
-  <ifarchitecture name="!slc7_aarch64">
-    <use name="cuda"/>
-    <use name="cudnn"/>
-  </ifarchitecture>
+  <use name="cuda"/>
+  <use name="cudnn"/>
   <use name="re2"/>
   <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="2"/>
 </tool>
