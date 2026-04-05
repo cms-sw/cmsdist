@@ -1,8 +1,7 @@
 Requires: py3-tensorboard py3-opt-einsum py3-tensorflow-estimator py3-wrapt py3-google-pasta py3-scipy
 BuildRequires: tensorflow-sources
-%define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
-%define PipPostBuild rm -f %{i}/bin/tensorboard* ; ls %{i}/bin/* | xargs -i mv '{}' '{}3'
-%define PipDepsPost | grep -v libclang
+%define PipPreBuildPy PIPFILE=${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}*-linux_%{_arch}.whl
+%define PipPostBuild rm -f %{i}/bin/tensorboard*
 ## INCLUDE tensorflow-requires
 Requires: py3-funcsigs py3-pbr py3-packaging py3-appdirs py3-pyparsing py3-mock py3-Werkzeug
 Requires: py3-grpcio py3-astunparse py3-keras py3-jax
@@ -10,6 +9,7 @@ Requires: py3-tensorflow-io-gcs-filesystem
 Requires: llvm
 %define source0 none
 %define source_file none
+%define PipPreBuild cp ${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}*.whl . ; chmod u+w tensorflow-%{realversion}*.whl ; ls tensorflow-%{realversion}*.whl > files.list 
 
 %define RelocateFiles $(echo "\
   lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/external/local_config_cuda/cuda/cuda/cuda_config.h \
@@ -18,9 +18,10 @@ Requires: llvm
 
 %define PipPostInstall \
   for f in %{RelocateFiles} ; do \
-    [ ! -f %{i}/$f ] || sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f \
+    sed -i -e 's|/[^ ]*/%{cmsplatf}/external/|%{cmsroot}/%{cmsplatf}/external/|' %{i}/$f \
   done ; \
-  sed -i 's/assert((arg_size(index)/assert(((size_t)arg_size(index)/' %{i}/lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/tensorflow/compiler/tf2xla/xla_compiled_cpu_function.h
+  xfile="%{i}/lib/python%{cms_python3_major_minor_version}/site-packages/tensorflow/include/tensorflow/compiler/tf2xla/xla_compiled_cpu_function.h" ;\
+  grep -q 'assert((arg_size(index)' $xfile && sed -i 's/assert((arg_size(index)/assert(((size_t)arg_size(index)/' ${xfile}
 
 %define PipPostPost \
   for f in %{RelocateFiles} ; do \

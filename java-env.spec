@@ -8,10 +8,10 @@
 #Nor non RHEL e.g FC: use default system java
 %define java_home /usr/lib/jvm/java
 %if 0%{?rhel:1}
-%if 0%{rhel} <= 10
+%if 0%{rhel} < 10
 %define java_home /usr/lib/jvm/java-17
 %endif
-%if 0%{?rhel} > 10
+%if 0%{?rhel} >= 10
 %define java_home /usr/lib/jvm/java-21
 %endif
 %endif

@@ -1,2 +1,2 @@
-Requires: py3-poetry-core
-Patch0: pip/poetry-cyclic-deps
+Requires: py3-poetry-core py3-tomlkit
+Patch0: patches/pip/poetry-cyclic-deps

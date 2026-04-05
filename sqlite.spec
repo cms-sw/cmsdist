@@ -2,6 +2,7 @@
 Requires: zlib
 Source: https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz
 Requires: zlib
+BuildRequires: gmake
 
 %prep
 %setup -n sqlite-autoconf-3480000

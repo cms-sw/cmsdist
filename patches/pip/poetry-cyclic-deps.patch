@@ -1,0 +1,12 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 66744fe..519110c 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -7,7 +7,6 @@ license = "MIT"
+ readme = "README.md"
+ requires-python = ">=3.10,<4.0"
+ dependencies = [
+-    "poetry (>=2.1.0,<3.0.0)",
+     "poetry-core (>=2.1.0,<3.0.0)",
+     "tomlkit (>=0.11.4,<1.0.0)",
+ ]

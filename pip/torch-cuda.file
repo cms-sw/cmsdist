@@ -1,0 +1,14 @@
+## INCLUDE  cuda-flags
+%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ' | sed -e's/ *$/+PTX/')
+Requires: cuda cudnn
+%define pip_name torch
+%define PipPreBuildPy \
+  export USE_CUDA=ON \
+  export USE_CUDNN=ON \
+  export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
+  export nvtx3_dir=${CUDA_ROOT}/include \
+  export CUDNN_ROOT=${CUDNN_ROOT}
+
+%define PipPreInstall mv  %{i}/bin/torchrun %{i}/bin/torchrun-cuda
+
+## INCLUDE pip/torch
