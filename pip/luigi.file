@@ -1,1 +1,2 @@
+BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme
 Requires: py3-tornado py3-python-daemon py3-python-dateutil py3-tenacity

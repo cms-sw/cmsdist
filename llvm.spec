@@ -79,12 +79,17 @@ cd ../build
 host_triple=$(gcc -dumpmachine)
 ln -s ${host_triple}/libomp.so %{i}/lib64/libomp.so
 
+# Install clang python bindings
 BINDINGS_PATH=%{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
-PKG_INFO_FILE=$BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info/PKG-INFO
-mkdir -p $BINDINGS_PATH
-cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang $BINDINGS_PATH
-mkdir $BINDINGS_PATH/clang-%{realversion}-py%{cms_python3_major_minor_version}.egg-info
-echo -e "Metadata-Version: 1.1\nName: clang\nVersion: %{realversion}" > ${PKG_INFO_FILE}
+DISTINFO_DIR=${BINDINGS_PATH}/libclang-%{realversion}.dist-info
+mkdir -p ${DISTINFO_DIR}
+cp -r %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/bindings/python/clang ${BINDINGS_PATH}
+cat > ${DISTINFO_DIR}/METADATA <<EOF
+Metadata-Version: 2.1
+Name: libclang
+Version: %{realversion}
+Summary: Python bindings for libclang
+EOF
 
 rm -f %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build/set-xcode*
 find %{_builddir}/llvm-%{realversion}-%{llvmCommit}/clang/tools/scan-build -exec install {} %{i}/bin \;

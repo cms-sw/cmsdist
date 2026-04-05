@@ -1,11 +1,7 @@
-%if 0%{?rhel} > 9
-%define curl_version 8.13.0
-%else
-%define curl_version 7.79.0
-%endif
-### RPM external curl %{curl_version}
-Source: https://curl.se/download/%{n}-%{realversion}.tar.gz
+### RPM external curl 8.13.0
+Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
+BuildRequires: gmake
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -23,6 +19,7 @@ Requires: zlib
   --disable-static \
   --without-libidn \
   --without-zstd \
+  --without-libpsl \
   --disable-ldap \
   --with-zlib=${ZLIB_ROOT} \
   --without-nss \

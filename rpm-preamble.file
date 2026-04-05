@@ -219,15 +219,30 @@
 %define relocateCmsPkg		perl -p -i -e "s|\\Q%{instroot}\\E|%{cmsroot}|g;s|\\Q%{cmsroot}\\E|$CMS_INSTALL_PREFIX|g" $RPM_INSTALL_PREFIX/%{pkgrel}/
 %define relocateConfig		%relocateCmsPkg
 %define relocateConfigAll()     find $RPM_INSTALL_PREFIX/%{pkgrel}/%{1} -name '%{2}' -print -type f | xargs %{relocateCmsFiles}
-%define relocatePy3SitePackages \
-  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON3_LIB_SITE_PACKAGES} | grep -v '\.pyc$') ; do \
-    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
-    sed -i -e "${lnum}c#!/usr/bin/env python3" $py \
-  done
-%define relocatePy2SitePackages \
-  for py in $(grep -RlI -m1 '^#\!.*python' %{i}/${PYTHON_LIB_SITE_PACKAGES} | grep -v '\.pyc') ; do \
-    lnum=$(grep -n -m1 '^#\!.*python' $py | sed 's|:.*||') \
-    sed -i -e "${lnum}c#!/usr/bin/env python" $py \
+
+#Replace python shebang to use /usr/bin/env python3
+%define relocatePy3Shebang() \
+  for dir in %*; do \
+    [ -d "%{i}/${dir}" ] || continue; \
+    find "%{i}/${dir}" -type f -perm -0100 -print0 | \
+    xargs -0 -P %{compiling_processes} -I{} sh -c '\
+      file="$1"; \
+      grep -Iq . "$file" || exit 0; \
+      fix_shebang=0; \
+      fix_path=0; \
+      IFS= read -r first_line < "$file" || exit 0; \
+      case "$first_line" in \
+        "#!"*python*) fix_shebang=1 ;; \
+      esac; \
+      grep -q "%{cmsroot}/" "$file" && fix_path=1; \
+      [ "$fix_shebang" -eq 0 ] && [ "$fix_path" -eq 0 ] && exit 0; \
+      if [ "$fix_shebang" -eq 1 ] && [ "$fix_path" -eq 1 ]; then \
+        sed -i -E -e "1 s|^#![[:space:]]*/.*python[0-9.]*|#!/usr/bin/env python3|" -e "s|%{cmsroot}/[^[:space:]]*python[0-9.]*|python3|g" "$file"; \
+      elif [ "$fix_shebang" -eq 1 ]; then \
+        sed -i -E -e "1 s|^#![[:space:]]*/.*python[0-9.]*|#!/usr/bin/env python3|" "$file"; \
+      else \
+        sed -i -E -e "s|%{cmsroot}/[^[:space:]]*python[0-9.]*|python3|g" "$file"; \
+      fi' _ {} \
   done
 
 #RunPath commands
@@ -321,7 +336,7 @@ fi
   fi
 %endif
 
-%define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done)
+%define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done | sed 's|;$||')
 
 #CMS Data packages can have download.url file with extra URLS to the data files.
 #This macro process those urls in download then in the data package
