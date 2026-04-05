@@ -13,7 +13,7 @@
 #############################################################################
 absl-py==2.4.0
 aiohappyeyeballs==2.6.1
-aiohttp==3.13.3
+aiohttp==3.13.4
 aiosqlite==0.22.1
 aiosignal==1.4.0
 annotated-types==0.7.0
@@ -340,7 +340,7 @@ referencing==0.37.0
 regex==2026.1.15
 repoze-lru==0.7
 rep==0.6.6
-requests==2.32.5
+requests==2.33.0
 requests-toolbelt==1.0.0
 requests-oauthlib==2.0.0
 requests-unixsocket==0.4.1
