@@ -1,4 +1,3 @@
-
 diff --git a/sklearn/_build_utils/version.py b/sklearn/_build_utils/version.py
 index 49a3cfb82..124c6cc3a 100644
 --- a/sklearn/_build_utils/version.py
