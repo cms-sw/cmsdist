@@ -1,5 +1,5 @@
-<tool name="adept" version="@TOOL_VERSION@" revision="2">
-  <lib name="AdePT_G4_integration"/>
-  <lib name="AdePT_G4_integration_final"/>
+<tool name="adept" version="@TOOL_VERSION@" revision="3">
+  <lib name="adept_g4integration"/>
+  <lib name="adept_g4integration_final"/>
   <use name="adept_interface"/>
 </tool>

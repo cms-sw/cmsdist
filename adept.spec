@@ -1,4 +1,4 @@
-### RPM external adept v0.2.0
+### RPM external adept v0.3.0
 %define tag %{realversion}
 %define branch master
 %define github_user apt-sim
@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/adept/env
 
 ## INCLUDE geant4-deps
 ## INCLUDE cuda-flags
-Requires: geant4 g4hepem
+Requires: geant4 g4hepem g4vg covfie
 %{!?without_cuda:Requires: cuda}
 
 %prep
@@ -29,11 +29,11 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_BUILD_TYPE=Release \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
 %endif
+  -DADEPT_USE_BUILTIN_G4VG=FALSE \
   $CMS_ADEPT_CXX_FLAGS \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
