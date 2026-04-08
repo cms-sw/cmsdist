@@ -1,17 +1,17 @@
-### RPM external freetype 2.13.2
-Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{realversion}.tar.gz
+### RPM external freetype 2-14-3
+Source: https://github.com/freetype/freetype/archive/refs/tags/VER-%{realversion}.tar.gz
 Requires: bz2lib zlib libpng
 BuildRequires: gmake cmake
 
 %prep
-%setup -n %{n}-%{realversion}
+%setup -n %{n}-VER-%{realversion}
 
 %build
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake ../%{n}-%{realversion} \
+cmake ../%{n}-VER-%{realversion} \
   -DCMAKE_BUILD_TYPE=Release \
   -DFT_REQUIRE_ZLIB=TRUE \
   -DFT_REQUIRE_BZIP2=TRUE \
