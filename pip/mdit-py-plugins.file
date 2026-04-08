@@ -1,1 +1,1 @@
-Requires: py3-markdown-it-py
+Requires: py3-markdown-it-py py3-flit-core
