@@ -6,7 +6,7 @@ Requires: curl
 Requires: numactl
 Requires: rdma-core
 Requires: xpmem
-Requires: hsa-rocr
+Requires: rocr-runtime
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -56,7 +56,7 @@ Requires: hsa-rocr
 %endif
 %if 0%{!?without_rocm:1}
   --enable-rocr-dlopen \
-  --with-rocr=$HSA_ROCR_ROOT \
+  --with-rocr=$ROCR_RUNTIME_ROOT \
 %else
   --disable-rocr-dlopen \
   --without-rocr \

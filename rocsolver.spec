@@ -1,4 +1,4 @@
-## INCLUDE rocm-sources
+## INCLUDE rocm-config
 ### RPM external rocsolver %{rocm_version}
-Requires: hip rocblas rocsparse hsa-rocr fmt rocprim
+Requires: hip rocblas rocsparse fmt rocprim
 ## INCLUDE rocm-libraries-build

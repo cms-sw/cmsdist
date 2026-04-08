@@ -1,11 +1,10 @@
-### RPM external hip 7.1.0
+### RPM external hip 7.2.1
 ## INCLUDE cpp-standard
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/bin
 ## INITENV HIP_PLATFORM amd
-Source0: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-7.1.0.tar.gz
-BuildRequires: rocm-llvm rocm-cmake rocm-core rocm-info hsa-rocr rocprofiler-register numactl
-Requires: rocm-llvm rocm-core hsa-rocr rocprofiler-register numactl py3-CppHeaderParser python3
+Source0: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{realversion}.tar.gz
+Requires: rocm-llvm rocm-core rocr-runtime rocprofiler-register numactl py3-CppHeaderParser python3
 Provides: perl(URI::Escape)
 %prep
 %setup -q -n rocm-systems-rocm-%{realversion}

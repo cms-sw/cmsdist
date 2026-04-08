@@ -1,8 +1,8 @@
-### RPM external rocm-rocprofiler-sdk 7.10
+### RPM external rocm-rocprofiler-sdk 7.12
 
-Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.10/rocprofiler-sdk.tar.gz
-Requires: rocm-core rocm-llvm hsa-rocr rocm-cmake rocm-rocprofiler
-Requires: fmt glog sqlite py3-pybind11 rocm-aqlprofile rocprofiler-register
+Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.12/rocprofiler-sdk.tar.gz
+Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake rocprofiler
+Requires: fmt glog sqlite py3-pybind11 aqlprofile rocprofiler-register
 Patch0: rocm-rocprofiler-sdk
 Patch1: rocm-rocprofiler-sdk-externals
 
@@ -32,7 +32,7 @@ cmake \
   -DROCPROFILER_BUILD_PYBIND11=OFF \
   -DROCPROFILER_BUILD_SQLITE3=OFF \
   -DCPACK_ENABLED=OFF \
-  -DCMAKE_CXX_FLAGS="-include fstream -include array -include memory"
+  -DCMAKE_CXX_FLAGS="-include fstream -include array -include memory -include unistd.h"
   
 
 make %{makeprocesses} VERBOSE=1

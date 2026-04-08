@@ -1,15 +1,15 @@
-## INCLUDE rocm-sources
-### RPM external rocblas %{rocm_version}
-Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/rocm-%{rocm_version}.tar.gz
-Requires: rocm-roctracer hipblaslt hipblas-common python3 hsa-rocr msgpack-cxx boost
+## INCLUDE rocm-config
+### RPM external rocblas %{rocm_version_num}
+Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
+Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm
 
 %prep
-%setup -q -n rocm-libraries-rocm-%{realversion}
+%setup -q -n rocm-libraries-therock-7.12
 
 %build
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-rocm-%{realversion}/projects/%{n} 
+  -S %{_builddir}/rocm-libraries-therock-7.12/projects/%{n} 
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++

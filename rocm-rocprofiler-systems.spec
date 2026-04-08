@@ -2,7 +2,7 @@
 
 Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.10/rocprofiler-systems.tar.gz
 
-Requires: rocm-core rocm-llvm hsa-rocr cmake rocm-cmake rocm-rocprofiler rocm-roctracer hip libxml2
+Requires: rocm-core rocm-llvm hsa-rocr cmake rocm-cmake rocm-rocprofiler roctracer hip libxml2
 Requires: libunwind sqlite
 
 %prep

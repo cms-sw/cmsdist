@@ -1,9 +1,8 @@
 ## INCLUDE rocm-config
-### RPM external rocm-smi-lib %{rocm_version_num}
+### RPM external amdsmi %{rocm_version_num}
 
-Source0: %{rocm_systems_source}/%{n}.tar.gz
-
-Requires: rocm-core rocr-runtime 
+Source0: %{rocm_systems_source}%{n}.tar.gz
+Requires: rocm-core python3
 
 %prep
 %setup -q -n %{n}
@@ -18,7 +17,6 @@ cmake \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DBUILD_TESTING=OFF
 
-make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
-
+make -C %{_builddir}/build %{makeprocesses}
 %install
 make -C %{_builddir}/build %{makeprocesses} install

@@ -4,7 +4,7 @@ BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
 Requires: rdma-core
-Requires: hip hsa-rocr
+Requires: hip rocr-runtime
 Requires: xpmem
 
 %prep

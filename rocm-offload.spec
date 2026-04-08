@@ -2,7 +2,7 @@
 
 Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.10.tar.gz
 
-Requires: rocm-core python3 cmake rocm-llvm hsa-rocr
+Requires: rocm-core python3 cmake rocm-llvm rocr-runtime
 
 %prep
 %setup -q -n llvm-project-therock-%{realversion}

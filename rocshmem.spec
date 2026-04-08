@@ -1,20 +1,19 @@
-### RPM external rocm-rocshmem 7.1.0
+## INCLUDE rocm-config
+### RPM external rocshmem %{rocm_version_num}
 
-Source0: https://github.com/ROCm/rocSHMEM/archive/refs/tags/rocm-7.1.0.tar.gz
+Source0: %{rocm_systems_source}%{n}.tar.gz
 
-Requires: rocm-core rocm-llvm hsa-rocr rocm-cmake hip
+Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake hip
 Requires: openmpi
 
 %prep
-%setup -q -n rocSHMEM-rocm-%{realversion}
+%setup -q -n %{n}
 
 %build
-mkdir -p %{_builddir}/build
-cd %{_builddir}/build
 
 cmake \
   -B %{_builddir}/build \
-  -S %{_builddir}/rocSHMEM-rocm-%{realversion} \
+  -S %{_builddir}/%{n} \
   -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang \
   -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -22,9 +21,10 @@ cmake \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DROCM_PATH=$ROCM_LLVM_ROOT \
   -DUSE_EXTERNAL_MPI=ON \
-  -DBUILD_TESTING=OFF
+  -DBUILD_TESTING=OFF \
+  -DCMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include"
 
-make %{makeprocesses} VERBOSE=1
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
 %install
 make -C %{_builddir}/build %{makeprocesses} install

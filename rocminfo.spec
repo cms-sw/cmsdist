@@ -1,24 +1,17 @@
 ## INCLUDE rocm-config
-### RPM external rocm-smi-lib %{rocm_version_num}
+### RPM external rocminfo %{rocm_version_num}
 
 Source0: %{rocm_systems_source}/%{n}.tar.gz
-
-Requires: rocm-core rocr-runtime 
-
+Requires: rocm-core rocr-runtime
 %prep
 %setup -q -n %{n}
-
 %build
-
-cmake \
+cmake -B %{_builddir}/build \
   -S %{_builddir}/%{n} \
-  -B %{_builddir}/build \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DBUILD_TESTING=OFF
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
-make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
-
+make -C %{_builddir}/build %{makeprocesses}
 %install
 make -C %{_builddir}/build %{makeprocesses} install
