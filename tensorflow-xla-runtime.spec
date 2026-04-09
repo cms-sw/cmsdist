@@ -21,7 +21,7 @@ cp -r ${TENSORFLOW_ROOT}/xla-aot-runtime .
 %patch0 -p1
 
 %build
-
+source %{_sourcedir}/env
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
 CXXFLAGS="-fPIC -Wl,-z,defs %{arch_build_flags} ${CMS_EIGEN_CXX_FLAGS} %{selected_microarch}"
