@@ -1,7 +1,6 @@
 ### RPM external sqlite 3.48.0
 Requires: zlib
 Source: https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz
-Requires: zlib
 BuildRequires: gmake
 
 %prep

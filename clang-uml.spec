@@ -6,12 +6,14 @@
 %define github_user bkryza
 Source: git+https://github.com/%{github_user}/clang-uml.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: clang-uml-clang21
+Patch1: clang-uml-yamlcpp
 BuildRequires: cmake ninja 
 Requires: yaml-cpp llvm zlib zstd libxml2
 
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build
@@ -30,8 +32,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
 %endif
   -DGIT_VERSION="%{realversion}" \
-  -DCMAKE_EXE_LINKER_FLAGS="-L${YAML_CPP_ROOT}/lib64" \
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DCMAKE_PREFIX_PATH="${YAML_CPP_ROOT};${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses}
 

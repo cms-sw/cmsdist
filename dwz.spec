@@ -1,12 +1,10 @@
-### RPM external dwz 0.15
+### RPM external dwz 0.16
 Requires: xxhash
-%define dwz_branch master
-%define dwz_commit 0171f3e7ac09fa44cb1eb299f2703faa113a207e
 
-Source: git://sourceware.org/git/dwz.git?obj=%{dwz_branch}/%{dwz_commit}&export=dwz-%{dwz_commit}&output=/dwz-%{dwz_commit}.tgz
+Source: https://cmsrep.cern.ch/cmssw/download/dwz-%{realversion}.tar.gz
 
 %prep
-%setup -T -b 0 -n dwz-%{dwz_commit}
+%setup -T -b 0 -n dwz
 
 %build
 make %{makeprocesses} \

@@ -1,0 +1,14 @@
+diff --git a/include/grpcpp/impl/codegen/server_context.h b/include/grpcpp/impl/codegen/server_context.h
+index 05d8d63..841a113 100644
+--- a/include/grpcpp/impl/codegen/server_context.h
++++ b/include/grpcpp/impl/codegen/server_context.h
+@@ -538,8 +538,7 @@ class ServerContextBase {
+     const std::function<void(grpc::Status s)> func_;
+   };
+ 
+-  typename std::aligned_storage<sizeof(Reactor), alignof(Reactor)>::type
+-      default_reactor_;
++  alignas(Reactor) char default_reactor_[sizeof(Reactor)];
+   std::atomic_bool default_reactor_used_{false};
+ 
+   std::atomic_bool marked_cancelled_{false};

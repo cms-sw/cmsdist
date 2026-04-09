@@ -21,6 +21,7 @@ PYTHON=$(which python3) \
 rm -f wrappers/python/lhapdf.cpp
 
 %build
+sed -i '/yaml-cpp\/null.h/a #include <cstdint>' src/yamlcpp/emitterutils.cpp
 make all %makeprocesses 
 
 %install
