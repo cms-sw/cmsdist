@@ -1,4 +1,4 @@
-### RPM external L1TSC4NGJetModel 1.0.1
+### RPM external L1TSC4NGJetModel 0.0.0
 Source: https://github.com/cms-hls4ml/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 Requires: hls4mlEmulatorExtras hls
 BuildRequires: gmake
