@@ -23,5 +23,5 @@ Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
     popd \
   popd
 %define PipPrePost \
-  %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake
+  %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/share/cmake/ATen/ATenConfig.cmake \
   %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/torch/include/caffe2/core/macros.h
