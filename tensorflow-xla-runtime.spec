@@ -17,7 +17,7 @@ case ${TENSORFLOW_VERSION} in
       ;;
 esac
 
-cp -r ${TENSORFLOW_ROOT}/xla-aot-runtime .
+rsync -a --no-o --no-g ${TENSORFLOW_ROOT}/xla-aot-runtime/ ./xla-aot-runtime/
 %patch0 -p1
 
 %build
