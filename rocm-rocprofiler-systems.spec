@@ -1,29 +1,32 @@
-### RPM external rocm-rocprofiler-systems 7.10
+### RPM external rocm-rocprofiler-systems 7.2.1
 
-Source0: https://github.com/ROCm/rocm-systems/releases/download/therock-7.10/rocprofiler-systems.tar.gz
-
-Requires: rocm-core rocm-llvm hsa-rocr cmake rocm-cmake rocm-rocprofiler roctracer hip libxml2
-Requires: libunwind sqlite
+Source0: git+https://github.com/akritkbehera/rocprofiler-systems.git?obj=release/rocm-rel-7.2/rocm-7.2.1&export=%{n}&submodules=1&output=/%{n}.tar.gz
+Requires: rocm-core rocr-runtime cmake rocm-cmake rocprofiler roctracer hip libxml2
+Requires: libunwind sqlite rocm-rocprofiler-sdk amdsmi flex bison bz2lib
+Provides: libbz2.so.1()(64bit)
 
 %prep
-%setup -q -n rocprofiler-systems
+%setup -q -n %{n}
 
 %build
-mkdir -p %{_builddir}/build
-cd %{_builddir}/build
 
 cmake \
-  -S %{_builddir}/rocprofiler-systems \
+  -B %{_builddir}/build \
+  -S %{_builddir}/%{n} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/clang \
-  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/clang++ \
+  -DROCPROFSYS_USE_PYTHON=ON \
   -DROCPROFSYS_BUILD_DYNINST=ON \
-  -DROCPROFSYS_USE_LIBIBERTY=ON \
-  -DBUILD_TESTING=OFF
+  -DROCPROFSYS_BUILD_TBB=ON \
+  -DROCPROFSYS_BUILD_BOOST=ON \
+  -DROCPROFSYS_BUILD_LIBIBERTY=ON \
+  -DROCPROFSYS_BUILD_ELFUTILS=ON \
+  -DROCPROFSYS_BUILD_EXAMPLES=OFF \
+  -DROCPROFSYS_BUILD_TESTING=OFF \
+  -DROCPROFSYS_USE_PAPI=OFF
 
-make %{makeprocesses} VERBOSE=1
+cmake --build %{_builddir}/build --parallel %{makeprocesses}
 
 %install
-make -C %{_builddir}/build %{makeprocesses} install
+cmake --build %{_builddir}/build --target install
