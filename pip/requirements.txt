@@ -293,6 +293,7 @@ prwlock==0.4.1
 psutil==7.2.2
 ptyprocess==0.7.0
 pure-eval==0.2.3
+puccinialin==0.1.8
 py-cpuinfo==9.0.0
 pyasn1-modules==0.4.2
 pyasn1==0.6.3
@@ -409,9 +410,9 @@ toolz==1.1.0
 #e.g. for torch==2.10.0, torch-cuda and toch-rocm should also be 2.10.0
 #Do the same for other torch-* packages e.g version of torch-scatter should be used for
 #torch-scatter-cuda and torch-scatter-rocm too.
-torch==2.11.0
-torch-cuda==2.11.0
-torch-rocm==2.11.0
+torch==2.10.0
+torch-cuda==2.10.0
+torch-rocm==2.10.0
 torch-cluster==1.6.3
 torch-cluster-cuda==1.6.3
 torch-cluster-rocm==1.6.3

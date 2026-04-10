@@ -53,7 +53,7 @@ cmake ${PROJ_DIR} \
     -DTRITON_KEEP_TYPEINFO=ON \
     -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
-    -DCMAKE_CXX_FLAGS="-Wno-error -fPIC" \
+    -DCMAKE_CXX_FLAGS="-Wno-error -Wno-error=cpp -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
     -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT};${RAPIDJSON_ROOT}"
 
@@ -73,7 +73,7 @@ cmake ../%{n}-%{realversion}/src/python \
     -DTRITON_COMMON_REPO_TAG=${common_tag} \
     -DTRITON_ENABLE_GPU=${TRITON_ENABLE_GPU_VALUE} \
     -DTRITON_VERSION=%{realversion} \
-    -DCMAKE_CXX_FLAGS="-Wno-error -Wno-error=sign-compare -Wno-error=deprecated-declarations -fPIC" \
+    -DCMAKE_CXX_FLAGS="-Wno-error -Wno-error=cpp -Wno-error=sign-compare -Wno-error=deprecated-declarations -fPIC" \
     -DFETCHCONTENT_SOURCE_DIR_REPO-COMMON=${COMMON_DIR} \
     -DCMAKE_PREFIX_PATH="${GRPC_ROOT};${ABSEIL_CPP_ROOT};${RE2_ROOT};${RAPIDJSON_ROOT}"
 

@@ -33,6 +33,12 @@ loop_optimisation = -O0
 link_optimisation = -O2
 EOF
 
+%ifarch riscv64
+%define cmodel medany
+echo "cmodel = medany" >> openloops.cfg
+sed -i -e "s|'small','medium','large'|'medany'|" pyol/tools/OLBaseConfig.py
+%endif
+
 %build
 export SCONSFLAGS="-j %{compiling_processes}"
 cp %{_sourcedir}/openloops-user.coll openloops-user.coll

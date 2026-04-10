@@ -1,5 +1,6 @@
 ### RPM external libjpeg-turbo 3.0.4
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+
 Source: https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/%{realversion}.tar.gz
 
 BuildRequires: nasm autotools gmake cmake

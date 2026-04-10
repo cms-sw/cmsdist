@@ -1,5 +1,6 @@
 ### RPM external libtiff 4.6.0
 Source: https://github.com/libsdl-org/libtiff/archive/refs/tags/v%{realversion}.tar.gz
+
 Requires: libjpeg-turbo zlib xz zstd
 BuildRequires: autotools gmake
 

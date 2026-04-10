@@ -22,7 +22,9 @@ Requires: zlib
 
 # set *.so permission so that rpmbuild can properly find the Provides
 chmod 0755 %{i}/lib/*.so 
+%ifnarch riscv64
 chmod 0755 %{i}/lib/libLLVM*stable
+%endif
 
 #Remove doc/man
 rm -rf %{i}/share
