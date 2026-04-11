@@ -409,9 +409,9 @@ toolz==1.1.0
 #e.g. for torch==2.10.0, torch-cuda and toch-rocm should also be 2.10.0
 #Do the same for other torch-* packages e.g version of torch-scatter should be used for
 #torch-scatter-cuda and torch-scatter-rocm too.
-torch==2.10.0
-torch-cuda==2.10.0
-torch-rocm==2.10.0
+torch==2.11.0
+torch-cuda==2.11.0
+torch-rocm==2.11.0
 torch-cluster==1.6.3
 torch-cluster-cuda==1.6.3
 torch-cluster-rocm==1.6.3
