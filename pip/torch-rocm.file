@@ -1,13 +1,32 @@
 ## INCLUDE  rocm-flags
-Requires: rocm
+Requires: rocm xz aotriton
 
 %define pip_name torch
 %define PipPreBuildPy \
+  XZ_VERSION=$(xz --version | head -1 | awk '{print $NF}'); \
+  export USE_VENV=0; \
+  export AOTRITON_INSTALLED_PREFIX=$AOTRITON_ROOT \
+  export PYTHONHOME=$PYTHON3_ROOT; \
+  export PYTHON_EXECUTABLE=$(which python3); \
+  export NUMPY_EXPERIMENTAL_DTYPE_API=1 \
   export USE_ROCM=ON; \
   export ROCM_PATH=${ROCM_ROOT}; \
   export ROCM_SOURCE_DIR=${ROCM_ROOT}; \
   export AMDGPU_TARGETS="$(echo '%{rocm_archs}' | sed -e 's/,/ /g')"; \
   export PYTORCH_ROCM_ARCH="%{rocm_archs}"; \
+  mkdir -p %{_builddir}/pkgconfig; \
+  cat > %{_builddir}/pkgconfig/liblzma.pc << EOF \
+prefix=$XZ_ROOT\
+exec_prefix=\${prefix}\
+libdir=\${prefix}/lib\
+includedir=\${prefix}/include\
+Name: liblzma\
+Description: XZ compression library\
+Version: $XZ_VERSION\
+Libs: -L\${libdir} -llzma\
+Cflags: -I\${includedir}\
+EOF\
+  export PKG_CONFIG_PATH=%{_builddir}/pkgconfig:$PKG_CONFIG_PATH; \
   pushd $PIPFILE; \
     python3 tools/amd_build/build_amd.py; \
   popd

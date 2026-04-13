@@ -1,6 +1,8 @@
 ### RPM external rocm 7.1.2
 ## Core runtime  (build this first everything depends on it)
 ## LLVM-based compiler: amdclang
+## INITENV SET HIP_PATH %{i}
+## INITENV SET ROCM_PATH %{i}
 Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
