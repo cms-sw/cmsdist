@@ -3,7 +3,7 @@
 ## LLVM-based compiler: amdclang
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET ROCM_PATH %{i}
-## INITENV SET HIP_CLANG_PATH $ROCM_LLVM_ROOT/bin/
+## INITENV SET HIP_CLANG_PATH $ROCM_LLVM_ROOT/lib/llvm/bin
 Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
