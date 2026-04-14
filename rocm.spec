@@ -66,5 +66,4 @@ for root in %{comp_roots}; do
     fi
 done
 rsync -au "%{i}/lib64/" "%{i}/lib/"
-rm -fr %{i}/lib64/
 rm -fr %{i}/bin/clang*
