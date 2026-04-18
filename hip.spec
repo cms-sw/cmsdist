@@ -1,7 +1,7 @@
 ### RPM external hip 7.2.1
 ## INCLUDE cpp-standard
 ## INITENV SET HIP_PATH %{i}
-## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/bin
+## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/lib/llvm/bin
 ## INITENV HIP_PLATFORM amd
 Source0: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{realversion}.tar.gz
 Requires: rocm-llvm rocm-core rocr-runtime rocprofiler-register numactl py3-CppHeaderParser python3
@@ -28,7 +28,8 @@ cmake \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DHSA_PATH=${HSA_ROCR_ROOT} \
   -DROCM_PATH=${ROCM_LLVM_ROOT} \
-  -DDEVICE_LIB_PATH=${ROCM_LLVM_ROOT}/amdgcn/bitcode
+  -DDEVICE_LIB_PATH=${ROCM_LLVM_ROOT}/amdgcn/bitcode \
+  -DLLVM_DIR=${ROCM_LLVM_ROOT}/lib/llvm/lib/cmake/llvm
 make %{makeprocesses}
 %install
 make -C %{_builddir}/build-hip %{makeprocesses} install

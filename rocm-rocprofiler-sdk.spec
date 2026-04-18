@@ -32,8 +32,7 @@ cmake \
   -DROCPROFILER_BUILD_PYBIND11=OFF \
   -DROCPROFILER_BUILD_SQLITE3=OFF \
   -DCPACK_ENABLED=OFF \
-  -DCMAKE_CXX_FLAGS="-include fstream -include array -include memory -include unistd.h -I$ROCM_LLVM_ROOT/include"
-  
+  -DCMAKE_CXX_FLAGS="-include fstream -include array -include memory -include unistd.h -I$ROCM_LLVM_ROOT/lib/llvm/include -I$ROCM_LLVM_ROOT/include"
 
 make %{makeprocesses} VERBOSE=1
 

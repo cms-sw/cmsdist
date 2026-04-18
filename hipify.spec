@@ -12,8 +12,8 @@ CMAKE_ARGS=(
   -S %{_builddir}/HIPIFY-rocm-%{realversion}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/clang \
-  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/clang++ \
+  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/lib/llvm/bin/clang \
+  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/lib/llvm/bin/clang++ \
   -DLLVM_DIR=${ROCM_LLVM_ROOT}/lib/cmake/llvm \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 )

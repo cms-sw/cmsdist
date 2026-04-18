@@ -3,7 +3,7 @@
 ## LLVM-based compiler: amdclang
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET ROCM_PATH %{i}
-## INITENV SET HIP_CLANG_PATH $ROCM_LLVM_ROOT/lib/llvm/bin
+## INITENV SET HIP_CLANG_PATH $ROCM_LLVM_ROOT/llvm/bin
 Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
@@ -34,7 +34,7 @@ Requires: hipsolver
 Requires: rocsolver
 Requires: hipsparse
 Requires: rocsparse
-Requires: hipsparselt
+#Requires: hipsparselt
 Requires: hipfft
 Requires: rocfft
 Requires: hiprand
@@ -65,5 +65,11 @@ for root in %{comp_roots}; do
         exit 1
     fi
 done
-rsync -au "%{i}/lib64/" "%{i}/lib/"
-rm -fr %{i}/bin/clang*
+#rsync -au --delete "%{i}/lib64/" "%{i}/lib/"
+rsync -au --delete "%{i}/lib/llvm/" "%{i}/llvm/"
+ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
+ln -r -s -f %{i}/llvm/bin/amdclang++   %{i}/bin/
+ln -r -s -f %{i}/llvm/bin/amdclang-cl  %{i}/bin/
+ln -r -s -f %{i}/llvm/bin/amdclang-cpp %{i}/bin/
+ln -r -s -f %{i}/llvm/bin/amdflang     %{i}/bin/
+ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
