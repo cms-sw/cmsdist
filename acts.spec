@@ -110,6 +110,7 @@ cmake ../%{n}-%{realversion} \
   -DPython_EXECUTABLE=$(which python3) \
   -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS="ON" \
   -DTRACCC_BUILD_TESTING="ON" \
+  -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST \
 %endif
   -L
 
