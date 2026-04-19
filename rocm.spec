@@ -69,7 +69,7 @@ done
 rsync -au --delete "%{i}/lib/llvm/" "%{i}/llvm/"
 
 for f in %{i}/lib64/*; do
-  ln -s $f %{i}/lib/$(basename $f)
+  ln -s $f %{i}/lib/
 done
 
 ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
