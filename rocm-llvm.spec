@@ -104,5 +104,5 @@ ln -r -s -f %{i}/lib/llvm/bin/amdlld       %{i}/bin/
 
 %post
 %if 0%{!?use_system_gcc:1}
-%{relocateConfig}/llvm/bin/clang++.cfg
+%{relocateConfig}/lib/llvm/bin/clang++.cfg
 %endif
