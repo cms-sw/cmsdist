@@ -10,7 +10,7 @@ export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
 cmake \
   -S %{_builddir}/%{n} \
   -B %{_builddir}/build \
-  -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/lib/llvm/bin/clang \
+  -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/lib/llvm/bin/clang++ \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \

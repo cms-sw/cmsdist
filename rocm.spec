@@ -69,6 +69,7 @@ rsync -a --ignore-existing "%{i}/lib64/" "%{i}/lib/"
 rm %{i}/lib/llvm/bin/*.cfg
 rm -fr '%{i}/lib64/'
 
+ln -r -s -f %{i}/lib %{i}/lib64
 ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdclang++   %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdclang-cl  %{i}/bin/
@@ -80,4 +81,6 @@ echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple\n-m64\n-L$GCC_ROOT/lib
 ln -sf %{i}/lib/llvm/bin/clang++.cfg %{i}/lib/llvm/bin/clang.cfg
 
 %post
-%{relocateConfig}bin/clang++.cfg
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}/lib/llvm/bin/clang++.cfg
+%endif
