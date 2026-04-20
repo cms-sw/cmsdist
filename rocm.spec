@@ -65,9 +65,8 @@ for root in %{comp_roots}; do
         exit 1
     fi
 done
-
-rsync -au --delete "%{i}/lib/llvm/" "%{i}/llvm/"
 rsync -a --ignore-existing "%{i}/lib64/" "%{i}/lib/"
+rm -fr '%{i}/lib64/'
 
 ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdclang++   %{i}/bin/
@@ -75,3 +74,6 @@ ln -r -s -f %{i}/llvm/bin/amdclang-cl  %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdclang-cpp %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdflang     %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
+
+%post
+%{relocateConfig}bin/clang++.cfg
