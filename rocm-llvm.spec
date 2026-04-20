@@ -101,3 +101,8 @@ ln -r -s -f %{i}/lib/llvm/bin/amdclang-cl  %{i}/bin/
 ln -r -s -f %{i}/lib/llvm/bin/amdclang-cpp %{i}/bin/
 ln -r -s -f %{i}/lib/llvm/bin/amdflang     %{i}/bin/
 ln -r -s -f %{i}/lib/llvm/bin/amdlld       %{i}/bin/
+
+%post
+%if 0%{!?use_system_gcc:1}
+%{relocateConfig}/llvm/bin/clang++.cfg
+%endif

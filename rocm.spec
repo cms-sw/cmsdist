@@ -3,7 +3,7 @@
 ## LLVM-based compiler: amdclang
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET ROCM_PATH %{i}
-## INITENV SET HIP_CLANG_PATH %{i}/lib/llvm/bin
+## INITENV SET HIP_CLANG_PATH $ROCM_ROOT/lib/llvm/bin
 Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
@@ -66,6 +66,7 @@ for root in %{comp_roots}; do
     fi
 done
 rsync -a --ignore-existing "%{i}/lib64/" "%{i}/lib/"
+rm %{i}/lib/llvm/bin/*.cfg
 rm -fr '%{i}/lib64/'
 
 ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
@@ -74,6 +75,9 @@ ln -r -s -f %{i}/llvm/bin/amdclang-cl  %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdclang-cpp %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdflang     %{i}/bin/
 ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
+
+echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple\n-m64\n-L$GCC_ROOT/lib64" > %{i}/lib/llvm/bin/clang++.cfg
+ln -sf %{i}/lib/llvm/bin/clang++.cfg %{i}/lib/llvm/bin/clang.cfg
 
 %post
 %{relocateConfig}bin/clang++.cfg
