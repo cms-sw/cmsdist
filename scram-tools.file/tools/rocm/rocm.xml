@@ -28,4 +28,5 @@
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
   <runtime name="HSA_XNACK" value="1"/>
   <use name="fmt"/>
+  <use name="rocm-llvm"/>
 </tool>
