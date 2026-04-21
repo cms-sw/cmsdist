@@ -1,6 +1,6 @@
 ## INCLUDE rocm-config 
-### RPM external hipify 7.2.1
-Source0: https://github.com/ROCm/HIPIFY/archive/refs/tags/rocm-7.2.1.tar.gz
+### RPM external hipify %{rocm_version_num}
+Source0: https://github.com/ROCm/HIPIFY/archive/refs/tags/rocm-%{rocm_version_num}.tar.gz
 Requires: rocm-llvm
 
 %prep

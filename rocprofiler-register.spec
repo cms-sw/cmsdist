@@ -1,4 +1,4 @@
-### RPM external rocprofiler-register 7.2.1
+### RPM external rocprofiler-register 7.2.2
 ## INCLUDE cpp-standard
 
 # ROCm branch, e.g. 5.6, 6.2

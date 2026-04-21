@@ -4,12 +4,12 @@ Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version
 Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm
 
 %prep
-%setup -q -n rocm-libraries-therock-7.12
+%setup -q -n rocm-libraries-%{rocm_version}
 
 %build
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-therock-7.12/projects/%{n} 
+  -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n} 
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++

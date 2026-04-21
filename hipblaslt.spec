@@ -5,12 +5,12 @@ Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake hipblas-common roctrac
 ## INCLUDE rocm-flags
 
 %prep
-%setup -q -n rocm-libraries-therock-7.12
+%setup -q -n rocm-libraries-%{rocm_version}
 
 %build
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-therock-7.12/projects/%{n}
+  -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
