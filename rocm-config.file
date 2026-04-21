@@ -1,8 +1,7 @@
 ### FILE rocm-config
 # define the ROCm compilation flags in a way that can be shared by SCRAM-based and regular tools
-
-%define rocm_version therock-7.12
-%define rocm_version_num 7.12.0
+%define rocm_version_num 7.2.2
+%define rocm_version rocm-%{rocm_version_num}
 %define rocm_systems_source https://github.com/ROCm/rocm-systems/releases/download/%{rocm_version}/
 %define rocm_libraries_source https://github.com/ROCm/rocm-libraries/releases/download/%{rocm_version}/
 
