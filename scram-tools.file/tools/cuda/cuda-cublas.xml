@@ -3,4 +3,10 @@
   <use name="cuda"/>
   <lib name="cublas"/>
   <lib name="cublasLt"/>
+  <!--
+    Set the cuBLAS workspace configuration to 8 * 16 KiB.
+    This reduces the amount of GPU memory used by cuBLAS, especially within PyTorch,
+    and ensures reproducibility of the cuBLAS results.
+  -->
+  <runtime name="CUBLAS_WORKSPACE_CONFIG" value=":16:8"/>
 </tool>
