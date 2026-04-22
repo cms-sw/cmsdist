@@ -1,4 +1,5 @@
-### RPM external hip 7.2.1
+## INCLUDE rocm-config
+### RPM external hip %{rocm_version_num}
 ## INCLUDE cpp-standard
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/lib/llvm/bin

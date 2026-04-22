@@ -9,7 +9,8 @@ Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake
 %setup -q -n %{n}
 
 %build
-export LD_LIBRARY_PATH=$ROCR_RUNTIME_ROOT/lib:$ROCM_LLVM_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=$ROCR_RUNTIME_ROOT/lib:$ROCM_LLVM_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/%{n}

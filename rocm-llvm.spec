@@ -94,6 +94,9 @@ ninja -C %{_builddir}/build-hip install
 
 mkdir -p %{i}/lib/llvm/bin/
 mv  %{_builddir}/build-llvm/bin/clang++.cfg %{i}/lib/llvm/bin/
+printf "\n--rocm-device-lib-path=%{i}/amdgcn/bitcode\n" >> %{i}/lib/llvm/bin/clang++.cfg
+mkdir -p %{i}/.info
+echo %{rocm_version_num} > %{i}/.info/version
 
 ln -r -s -f %{i}/lib/llvm/bin/amdclang     %{i}/bin/
 ln -r -s -f %{i}/lib/llvm/bin/amdclang++   %{i}/bin/

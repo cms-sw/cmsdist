@@ -7,21 +7,20 @@ Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx bo
 %setup -q -n rocm-libraries-%{rocm_version}
 
 %build
+export ROCM_PATH=$ROCM_LLVM_ROOT
+
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n} 
+  -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
-  -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
-  -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include"
+  -DGPU_TARGETS="gfx908:xnack-;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
+  -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include --rocm-path=$ROCM_LLVM_ROOT/amdgcn/bitcode"
 )
-
 cmake "${CMAKE_ARGS[@]}"
-
-make -C %{_builddir}/build %{makeprocesses}
 
 %install
 make -C %{_builddir}/build %{makeprocesses} install

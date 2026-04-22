@@ -8,6 +8,7 @@ Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake hipblas-common roctrac
 %setup -q -n rocm-libraries-%{rocm_version}
 
 %build
+export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n}

@@ -6,6 +6,7 @@ Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake
 %setup -q -n %{n}
 
 %build
+export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/%{n}
@@ -14,6 +15,7 @@ CMAKE_ARGS=(
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
+  -DHIP_ROOT=$HIP_ROOT
   -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
   $LIB_ARGS
 )

@@ -1,21 +1,18 @@
 ## INCLUDE rocm-config
 ### RPM external rocshmem %{rocm_version_num}
 
-Source0: %{rocm_systems_source}%{n}.tar.gz
+Source0: https://github.com/ROCm/rocSHMEM/archive/refs/tags/%{rocm_version}.tar.gz
 
 Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake hip
 Requires: openmpi
 
 %prep
-%setup -q -n %{n}
+%setup -q -n rocSHMEM-%{rocm_version}
 
 %build
-
 cmake \
   -B %{_builddir}/build \
-  -S %{_builddir}/%{n} \
-  -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang \
-  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++ \
+  -S %{_builddir}/rocSHMEM-%{rocm_version} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
