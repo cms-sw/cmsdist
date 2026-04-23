@@ -1,6 +1,0 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
-  <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib/llvm/lib"/>
-  </client>
-</tool>
