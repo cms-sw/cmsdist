@@ -8,6 +8,7 @@ Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
 Requires: hip
+Requires: comgr
 ## Dev utilities version info, CMake helpers, debug agent
 Requires: rocm-core rocm-cmake rocminfo rocdbgapi
 ## Tools observability & systems

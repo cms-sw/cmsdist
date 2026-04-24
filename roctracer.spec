@@ -2,7 +2,7 @@
 ### RPM external roctracer %{rocm_version_num}
 
 Source0: %{rocm_systems_source}%{n}.tar.gz
-Requires: rocr-runtime hip
+Requires: rocr-runtime hip comgr
 
 %prep
 %setup -q -n %{n}

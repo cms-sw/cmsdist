@@ -63,18 +63,6 @@ cmake -G Ninja \
 ninja -C %{_builddir}/build-device-libs %{makeprocesses}
 
 cmake -G Ninja \
-  -S  %{_builddir}/%{n}-%{realversion}/amd/comgr \
-  -B %{_builddir}/build-comgr \
-  -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_C_COMPILER=%{_builddir}/build-llvm/bin/clang \
-  -DCMAKE_CXX_COMPILER=%{_builddir}/build-llvm/bin/clang++ \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_LIBDIR=lib \
-  -DBUILD_TESTING=OFF \
-  -DCMAKE_PREFIX_PATH="%{_builddir}/build-llvm;%{_builddir}/build-device-libs;%{cmake_prefix_path}"
-ninja -C %{_builddir}/build-comgr %{makeprocesses}
-
-cmake -G Ninja \
   -S  %{_builddir}/%{n}-%{realversion}/amd/hipcc \
   -B %{_builddir}/build-hip \
   -DCMAKE_INSTALL_PREFIX=%{i} \

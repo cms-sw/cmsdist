@@ -5,7 +5,7 @@
 ## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/lib/llvm/bin
 ## INITENV HIP_PLATFORM amd
 Source0: https://github.com/ROCm/rocm-systems/archive/refs/tags/rocm-%{realversion}.tar.gz
-Requires: rocm-llvm rocm-core rocr-runtime rocprofiler-register numactl py3-CppHeaderParser python3
+Requires: rocm-llvm rocm-core rocr-runtime rocprofiler-register numactl py3-CppHeaderParser python3 comgr
 Provides: perl(URI::Escape)
 %prep
 %setup -q -n rocm-systems-rocm-%{realversion}

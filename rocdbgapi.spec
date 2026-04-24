@@ -2,7 +2,7 @@
 ### RPM external rocdbgapi %{rocm_version_num}
 
 Source: https://github.com/ROCm/ROCdbgapi/archive/refs/tags/%{rocm_version}.tar.gz
-Requires: rocr-runtime rocm-core
+Requires: rocr-runtime rocm-core comgr
 
 %prep
 %setup -q -n ROCdbgapi-%{rocm_version}
