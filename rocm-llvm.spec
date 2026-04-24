@@ -77,7 +77,6 @@ ninja -C %{_builddir}/build-llvm %{makeprocesses} install
 ninja -C %{_builddir}/build-llvm/runtimes/runtimes-bins %{makeprocesses} install
 ninja -C %{_builddir}/build-llvm/runtimes/builtins-bins %{makeprocesses} install
 ninja -C %{_builddir}/build-device-libs install
-ninja -C %{_builddir}/build-comgr install
 ninja -C %{_builddir}/build-hip install
 
 mkdir -p %{i}/lib/llvm/bin/
