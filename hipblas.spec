@@ -1,7 +1,7 @@
 ## INCLUDE rocm-config
 ### RPM external hipblas %{rocm_version_num}
 Source0: %{rocm_libraries_source}%{n}.tar.gz
-Requires: roctracer hipblas-common python3 rocr-runtime rocblas rocsparse rocsolver
+Requires: roctracer hipblas-common python3 rocr-runtime rocblas rocsparse rocsolver comgr
 
 %prep
 %setup -q -n %{n}

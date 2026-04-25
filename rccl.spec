@@ -2,7 +2,7 @@
 ### RPM external rccl %{rocm_version_num}
 Source0: https://github.com/ROCm/rccl/archive/refs/tags/%{rocm_version}.tar.gz
 
-Requires: rocm-core rocm-llvm rocr-runtime amdsmi hip rocminfo rocprofiler-register rocm-smi-lib roctracer hipify
+Requires: rocm-core rocm-llvm rocr-runtime amdsmi hip rocminfo rocprofiler-register rocm-smi-lib roctracer hipify comgr
 Requires: python3
 
 %prep

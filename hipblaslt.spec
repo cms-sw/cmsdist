@@ -1,7 +1,7 @@
 ## INCLUDE rocm-config
 ### RPM external hipblaslt %{rocm_version_num}
 Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
-Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake hipblas-common roctracer rocm-smi-lib msgpack-cxx boost google-test amdsmi
+Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake hipblas-common roctracer rocm-smi-lib msgpack-cxx boost google-test amdsmi comgr
 ## INCLUDE rocm-flags
 
 %prep

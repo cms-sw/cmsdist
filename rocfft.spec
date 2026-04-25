@@ -2,7 +2,7 @@
 ### RPM external rocfft %{rocm_version}
 Requires: hiprand rocm-llvm
 Source0: %{rocm_libraries_source}%{n}.tar.gz
-Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake
+Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake comgr
 ## INCLUDE rocm-flags
 
 %prep

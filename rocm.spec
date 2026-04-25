@@ -1,4 +1,5 @@
-### RPM external rocm 7.1.2
+## INCLUDE rocm-config
+### RPM external rocm %{rocm_version_num}
 ## Core runtime  (build this first everything depends on it)
 ## LLVM-based compiler: amdclang
 ## INITENV SET HIP_PATH %{i}
@@ -8,7 +9,6 @@ Requires: rocm-llvm
 ## HSA runtime (ROCr) + HIP runtime (CLR)
 Requires: rocr-runtime
 Requires: hip
-Requires: comgr
 ## Dev utilities version info, CMake helpers, debug agent
 Requires: rocm-core rocm-cmake rocminfo rocdbgapi
 ## Tools observability & systems
@@ -44,6 +44,7 @@ Requires: rocprim
 Requires: rocthrust
 Requires: miopen
 Requires: rocrand
+Requires: comgr
 
 %prep
 %build

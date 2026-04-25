@@ -1,7 +1,7 @@
 ## INCLUDE rocm-config
 ### RPM external rocblas %{rocm_version_num}
 Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
-Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm
+Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm comgr
 
 %prep
 %setup -q -n rocm-libraries-%{rocm_version}

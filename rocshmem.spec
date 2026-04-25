@@ -4,7 +4,7 @@
 Source0: https://github.com/ROCm/rocSHMEM/archive/refs/tags/%{rocm_version}.tar.gz
 
 Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake hip
-Requires: openmpi
+Requires: openmpi comgr
 
 %prep
 %setup -q -n rocSHMEM-%{rocm_version}
