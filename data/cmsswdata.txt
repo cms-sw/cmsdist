@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+L1TriggerScouting-OnlineProcessing=V00-01-00
 HLTrigger-HLTfilters=V00-02-00
 PhysicsTools-PyTorch=V00-01-00
 PhysicsTools-PyTorchAlpaka=V00-01-00
@@ -65,7 +66,7 @@ L1Trigger-CSCTriggerPrimitives=V00-12-00
 MagneticField-Interpolation=V01-02-00
 L1TriggerConfig-L1TConfigProducers=V00-02-00
 CondTools-SiStrip=V00-02-00
-RecoParticleFlow-PFProducer=V16-02-00
+RecoParticleFlow-PFProducer=V16-03-00
 CondTools-SiPhase2Tracker=V00-02-00
 CalibCalorimetry-CaloMiscalibTools=V01-00-00
 FastSimulation-MaterialEffects=V05-00-00
