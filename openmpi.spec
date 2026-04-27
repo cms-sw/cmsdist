@@ -8,13 +8,13 @@ Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n
 Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex
 %{!?without_cuda:Requires: cuda}
+%{!?without_rocm:Requires: hip}
 Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
 Requires: xpmem
 Requires: ucx
 Requires: zlib
-Requires: hip
 
 # external libraries are needed for additional protocols:
 #   --with-mxm:         Mellanox Messaging (depracated, use UCX instead)

@@ -18,7 +18,7 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DCMAKE_Fortran_COMPILER=$GCC_ROOT/bin/gfortran \
+  -DCMAKE_Fortran_COMPILER=$(which gfortran) \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   ../%{n}-%{realversion}
 make  %{makeprocesses} VERBOSE=1

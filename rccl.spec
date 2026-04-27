@@ -24,7 +24,7 @@ cmake \
   -DROCM_PATH=${HIP_ROOT} \
   -DROCM_CORE_PATH=${ROCM_CORE_PATH} \
   -DEXPLICIT_ROCM_VERSION="%{realversion}" \
-  -DGPU_TARGETS="gfx908:sramecc+;gfx90a:sramecc+;gfx942:sramecc+;gfx1030;gfx1100;gfx1102" \
+  -DGPU_TARGETS="%{rocm_archs}" \
   -DCMAKE_CXX_FLAGS="--rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode -I${ROCM_CORE_ROOT}/include -include __clang_hip_runtime_wrapper.h" \
   -DCMAKE_EXE_LINKER_FLAGS="-L${HIP_ROOT}/lib" \
   -DCMAKE_SHARED_LINKER_FLAGS="-L${HIP_ROOT}/lib"

@@ -31,3 +31,6 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 make -C %{_builddir}/build %{makeprocesses} install 
 rm -fr %{i}/bin/roofline-rhel8-rocm6  %{i}/bin/roofline-sles15sp6-rocm6  %{i}/bin/roofline-ubuntu22_04-rocm6
 rm -fr %{i}/bin/roofline-azurelinux3-rocm7 %{i}/bin/roofline-sles15sp6-rocm7 %{i}/bin/roofline-ubuntu22_04-rocm7
+
+%post
+%{relocateConfig}/lib/cmake/rocprofiler-sdk/rocprofiler-sdk-config.cmake

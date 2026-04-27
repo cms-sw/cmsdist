@@ -1,2 +1,2 @@
 Requires: py3-poetry py3-Jinja2 py3-termcolor py3-PyYAML py3-setuptools
-%define PipPostInstall sed -i -e 's/import pkg_resources/import os as _pkg_os/' -e 's/pkg_resources\.resource_filename(__name__, /_pkg_os.path.join(_pkg_os.path.dirname(__file__), /g' %{i}/lib/python3.12/site-packages/barectf/config_parse_common.py
+%define PipPostInstall sed -i -e 's/import pkg_resources/import os as _pkg_os/' -e 's/pkg_resources\.resource_filename(__name__, /_pkg_os.path.join(_pkg_os.path.dirname(__file__), /g' %{i}/$PYTHON3_LIB_SITE_PACKAGES/barectf/config_parse_common.py

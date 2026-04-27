@@ -6,6 +6,7 @@ BuildRequires: autotools
 Requires: libpciaccess libxml2 numactl
 %{!?without_rocm:Requires: rocm-smi-lib}
 %{!?without_cuda:Requires: cuda}
+%{!?without_rocm:Requires: rocm-smi-lib}
 
 
 %prep

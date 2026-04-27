@@ -26,7 +26,7 @@ cmake \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
-  -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1102" \
+  -DGPU_TARGETS="%{rocm_archs}" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_FLAGS="-I${NUMACTL_ROOT}/include -I${ROCM_CORE_ROOT}/include" \
   -DCMAKE_C_FLAGS="-I${NUMACTL_ROOT}/include -I${ROCM_CORE_ROOT}/include" \

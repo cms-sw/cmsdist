@@ -25,3 +25,5 @@ cmake \
 make -C %{_builddir}/build %{makeprocesses}
 %install
 make -C %{_builddir}/build %{makeprocesses} install
+%post
+%{relocateConfig}/lib64/cmake/hsakmt/hsakmtTargets.cmake

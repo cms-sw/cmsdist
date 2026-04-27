@@ -19,7 +19,7 @@ CMAKE_ARGS=(
   -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
-  -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
+  -DGPU_TARGETS="%{rocm_archs}"
   -DCK_USE_ALTERNATIVE_PYTHON=$PYTHON3_ROOT/bin/python3
   -DMIOPEN_USE_COMPOSABLEKERNEL=OFF
   -DMIOPEN_USE_MLIR=OFF
@@ -39,3 +39,5 @@ make -C %{_builddir}/build %{makeprocesses}
 
 %install
 make -C %{_builddir}/build %{makeprocesses} install
+%post
+%{relocateConfig}/include/miopen/config.h
