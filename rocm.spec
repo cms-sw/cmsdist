@@ -72,13 +72,14 @@ rm %{i}/lib/llvm/bin/*.cfg
 rm -fr '%{i}/lib64/'
 
 ln -r -s -f %{i}/lib %{i}/lib64
-ln -r -s -f %{i}/llvm/bin/amdclang     %{i}/bin/
-ln -r -s -f %{i}/llvm/bin/amdclang++   %{i}/bin/
-ln -r -s -f %{i}/llvm/bin/amdclang-cl  %{i}/bin/
-ln -r -s -f %{i}/llvm/bin/amdclang-cpp %{i}/bin/
-ln -r -s -f %{i}/llvm/bin/amdflang     %{i}/bin/
-ln -r -s -f %{i}/llvm/bin/amdlld       %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdclang     %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdclang++   %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdclang-cl  %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdclang-cpp %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdflang     %{i}/bin/
+ln -r -s -f %{i}/lib/llvm/bin/amdlld       %{i}/bin/
 
+%if 0%{!?use_system_gcc:1}
 echo -e "--gcc-toolchain=$GCC_ROOT
 --target=$(gcc -dumpmachine)
 -m64
@@ -86,8 +87,11 @@ echo -e "--gcc-toolchain=$GCC_ROOT
 --rocm-path=%{i}
 --rocm-device-lib-path=%{i}/amdgcn/bitcode" > %{i}/lib/llvm/bin/clang++.cfg
 ln -r -s -f %{i}/lib/llvm/bin/clang++.cfg %{i}/lib/llvm/bin/clang.cfg
+%else
+echo -e "--rocm-path=%{i}
+--rocm-device-lib-path=%{i}/amdgcn/bitcode" > %{i}/lib/llvm/bin/clang++.cfg
+ln -r -s -f %{i}/lib/llvm/bin/clang++.cfg %{i}/lib/llvm/bin/clang.cfg
+%endif
 
 %post
-%if 0%{!?use_system_gcc:1}
 %{relocateConfig}/lib/llvm/bin/clang++.cfg
-%endif

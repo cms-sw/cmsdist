@@ -38,3 +38,6 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
 %install
 make -C %{_builddir}/build %{makeprocesses} install
+
+%post
+%{relocateConfig}/lib/cmake/rocprofiler-sdk/rocprofiler-sdk-config.cmake
