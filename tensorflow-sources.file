@@ -44,14 +44,17 @@ BAZEL_OPTS="$BAZEL_OPTS --host_jvm_args=--add-opens=java.base/java.nio=ALL-UNNAM
 BAZEL_OPTS="$BAZEL_OPTS --host_jvm_args=--add-opens=java.base/java.lang=ALL-UNNAMED"
 fi
 
-BAZEL_OPTS="$BAZEL_OPTS build -s --verbose_failures --distinct_host_configuration=false"
+DISTINCT_HOST_CONFIG="false"
+BAZEL_OPTS="$BAZEL_OPTS build -s --verbose_failures"
 
 %if "%{selected_microarch}"
 BAZEL_OPTS="$BAZEL_OPTS --copt=%{selected_microarch}"
 %if "%{selected_microarch}" != "%{default_microarch}"
-BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=true"
+DISTINCT_HOST_CONFIG="true"
 %endif
+BAZEL_OPTS="$BAZEL_OPTS --copt=-DEIGEN_USE_AVX512_GEMM_KERNELS=0"
 %endif
+BAZEL_OPTS="$BAZEL_OPTS --distinct_host_configuration=${DISTINCT_HOST_CONFIG}"
 %if "%{?arch_build_flags}"
 BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' | sed -e 's|^|--copt=|' | tr '\n' ' ')"
 %endif
