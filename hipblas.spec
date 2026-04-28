@@ -15,7 +15,7 @@ CMAKE_ARGS=(
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
-  -DGPU_TARGETS="%{rocm_archs}"
+  -DGPU_TARGETS="%{gpu_archs}"
   -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include"
 )
 
