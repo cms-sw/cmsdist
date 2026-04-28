@@ -35,7 +35,7 @@ Requires: hipsolver
 Requires: rocsolver
 Requires: hipsparse
 Requires: rocsparse
-#Requires: hipsparselt
+Requires: hipsparselt
 Requires: hipfft
 Requires: rocfft
 Requires: hiprand
