@@ -9,6 +9,8 @@
   <environment name="HIP_PATH"  default="$@TOOL_BASE@"/>
   <environment name="HIP_PLATFORM"  default="amd"/>
 </client>
+<flags SYSTEM_INCLUDE="1"/>
+<runtime name="HIP_PATH" value="$@TOOL_BASE@"/>
 <use name="rocm-llvm"/>
 <use name="comgr"/>
 <use name="rocr-runtime"/>
