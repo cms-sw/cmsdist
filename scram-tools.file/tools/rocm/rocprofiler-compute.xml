@@ -1,7 +1,6 @@
 <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
   <client>
-    <environment name="@TOOL_BASE@" default="$@TOOL_ROOT@"/>
+    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
     <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
   </client>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
 </tool>
