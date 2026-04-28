@@ -11,7 +11,7 @@ Requires: py3-joblib py3-PyYAML py3-msgpack py3-packaging rocm-llvm python3 comg
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/rocm-libraries-%{realversion}/projects/%{n}
-  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++
+  -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/lib/llvm/bin/clang++
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
