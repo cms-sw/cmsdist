@@ -1,6 +1,4 @@
-<tool revision="2">
-  <info url="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html"/>
-  <lib name="rocprofiler-sdk-roctx"/>
+<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
   <client>
     <environment name="@TOOL_BASE@" default="$@TOOL_ROOT@"/>
     <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
