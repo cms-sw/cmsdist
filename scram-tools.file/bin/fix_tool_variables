@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my $file = shift or die "Usage: $0 file.xml\n";
+open my $fh, "<", $file or die "Cannot open $file: $!";
+my @lines = <$fh>;
+close $fh;
+
+my $do_tool_line = 1;
+for (@lines) {
+  # Expand @VAR@
+  s/\@([A-Za-z0-9_-]+)\@/$ENV{$1}/ge;
+
+  # Process <tool ...>
+  if ($do_tool_line && /^\s*<tool\b/o) {
+    $do_tool_line = 0;
+    my $insert = "";
+    my $tool_root = $ENV{TOOL_ROOT};
+    $insert .= qq{ name="$ENV{TOOL_FILENAME}"} unless / name=/;
+    $insert .= qq{ version="$ENV{TOOL_REALVERSION}"} unless / version=/;
+    $insert .= qq{ path="$tool_root"} if $tool_root && !/ path=/;
+    s/<tool\b/<tool$insert/ if $insert;
+  }
+}
+
+open my $out, ">", $file or die "Cannot write $file: $!";
+print $out @lines;
+close $out;
