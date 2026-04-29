@@ -1,5 +1,5 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
-  <info url="https://rocm.docs.amd.com/projects/rccl/en/docs-@TOOL_VERSION@/"/>
+<tool revision="2">
+  <info url="https://rocm.docs.amd.com/projects/rccl/en/docs-@TOOL_REALVERSION@/"/>
   <use name="rocm"/>
   <lib name="rccl"/>
 </tool>

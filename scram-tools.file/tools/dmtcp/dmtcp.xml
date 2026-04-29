@@ -1,9 +1,8 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <info url="http://dmtcp.sourceforge.net/"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib/dmtcp"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib/dmtcp"/>
   </client>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
 </tool>

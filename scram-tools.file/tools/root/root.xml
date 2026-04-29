@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <info url="http://root.cern.ch/root/"/>
   <use name="rootphysics"/>
   <flags GENREFLEX_FAILES_ON_WARNS="-failOnWarnings"/>
