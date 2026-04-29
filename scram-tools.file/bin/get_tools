@@ -5,16 +5,16 @@ function copy_tools (){
     for xml in $(find $1 -type f -name "*.xml") ; do
         bxml=$(basename $xml)
         export TOOL_FILENAME=$(echo $bxml | sed 's|.xml$||')
-	export TOOL_BASE=$(echo $TOOL_FILENAME | tr 'a-z-' 'A-Z_')_BASE
+        export TOOL_BASE=$(echo $TOOL_FILENAME | tr 'a-z-' 'A-Z_')_BASE
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
         cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
-	perl -i -pe '
+        perl -i -pe '
           s/\@([A-Za-z0-9_-]+)\@/$ENV{$1}/ge;
           if (/^\s*<tool\b/) {
             my $insert = "";
-	    $insert .= qq{ name="$ENV{TOOL_FILENAME}"}   unless / name=/;
-	    $insert .= qq{ version="$ENV{TOOL_VERSION}"} unless / version=/;
+            $insert .= qq{ name="$ENV{TOOL_FILENAME}"}   unless / name=/;
+            $insert .= qq{ version="$ENV{TOOL_VERSION}"} unless / version=/;
             $insert .= qq{ path="$ENV{TOOL_ROOT}"}    if $ENV{TOOL_ROOT}    && !/ path=/;
             s/<tool\b/<tool$insert/ if $insert;
           }
@@ -24,7 +24,7 @@ function copy_tools (){
 }
 export TOOL_ROOT=$1
 export TOOL_VERSION=$2
-export TOOL_REALVERSION=$(echo $2 | sed -i -e 's|-[a-f0-9]32$||')
+export TOOL_REALVERSION=$(echo $2 | sed -re 's|-[a-f0-9]{32}$||')
 export TOOLFILES_INSTALL_DIR=$3
 export TOOL=$4
 export SCRAM_TOOLS_BIN_DIR=$(dirname $(realpath ${0}))
