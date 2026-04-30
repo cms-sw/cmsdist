@@ -1,5 +1,5 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <client>
-    <environment name="CUDA_LIBDIR" default="@TOOL_ROOT@/lib"/>
+    <environment name="CUDA_LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
 </tool>
