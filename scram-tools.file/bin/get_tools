@@ -4,12 +4,13 @@
 function copy_tools (){
     for xml in $(find $1 -type f -name "*.xml") ; do
         bxml=$(basename $xml)
-	    export TOOL_FILENAME=$(echo $bxml | sed 's|.xml$||')
-		export TOOL_BASE=$(echo $TOOL_FILENAME | tr 'a-z-' 'A-Z_')_BASE
+        export TOOL_FILENAME=$(echo $bxml | sed 's|.xml$||')
+        export TOOL_BASE=$(echo $TOOL_FILENAME | tr 'a-z-' 'A-Z_')_BASE
+        export TOOL_REALVERSION=$(echo $TOOL_VERSION | sed -re 's|-[a-f0-9]{32}$||')
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/selected/$bxml ] && continue
         [ -f ${TOOLFILES_INSTALL_DIR}/tools/available/$bxml ] && continue
         cp $xml ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
-        perl -p -i -e 's|\@([a-zA-Z0-9_-]*)\@|$ENV{$1}|g' ${TOOLFILES_INSTALL_DIR}/tools/selected/${bxml}
+        $SCRAM_TOOLS_BIN_DIR/fix_tool_variables "$TOOLFILES_INSTALL_DIR/tools/selected/$bxml"
         echo "  Copied $bxml"
     done
 }

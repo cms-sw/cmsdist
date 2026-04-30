@@ -1,11 +1,10 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <lib name="hydjet2"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
   </client>
-  <runtime name="CMSSW_SEARCH_PATH" default="$@TOOL_BASE@/data" type="path"/>
+  <runtime name="CMSSW_SEARCH_PATH" default="$TOOL_BASE/data" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="pyquen"/>
   <use name="pythia6"/>

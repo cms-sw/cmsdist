@@ -1,7 +1,6 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <lib name="tcmalloc"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"        default="$@TOOL_BASE@/lib"/>
+    <environment name="LIBDIR"        default="$TOOL_BASE/lib"/>
   </client>
 </tool>

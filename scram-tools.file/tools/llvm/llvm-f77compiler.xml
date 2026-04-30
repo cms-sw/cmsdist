@@ -1,4 +1,4 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <use name="gcc-f77compiler"/>
     <client>
 %if 0%{!?use_system_gcc:1}

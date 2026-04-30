@@ -1,15 +1,14 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@/ifort" handler="warn"/>
-      <environment name="FC" default="$@TOOL_BASE@/bin/intel64/ifort" handler="warn"/>
-      <environment name="LIBDIR" default="$@TOOL_BASE@/compiler/lib/intel64" handler="warn"/>
+      <environment name="FC" default="$TOOL_BASE/bin/intel64/ifort" handler="warn"/>
+      <environment name="LIBDIR" default="$TOOL_BASE/compiler/lib/intel64" handler="warn"/>
     </client>
     <flags REM_FFLAGS="-fno-second-underscore"/>
     <architecture name="_mic_">
       <flags FFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$@TOOL_BASE@/compiler/lib/intel64" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$TOOL_BASE/compiler/lib/intel64" type="path" handler="warn"/>
     <lib name="ifcore"/>
     <lib name="ifport"/>
   </tool>
