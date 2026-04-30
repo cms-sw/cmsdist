@@ -1,18 +1,17 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <lib name="SherpaMain"/>
   <lib name="ToolsMath"/>
   <lib name="ToolsOrg"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="BINDIR" default="$@TOOL_BASE@/bin"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib/SHERPA-MC"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include/SHERPA-MC"/>
+    <environment name="BINDIR" default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib/SHERPA-MC"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include/SHERPA-MC"/>
   </client>
-  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$@TOOL_BASE@/include" type="path"/>
-  <runtime name="SHERPA_SHARE_PATH" value="$@TOOL_BASE@/share/SHERPA-MC" type="path"/>
-  <runtime name="SHERPA_INCLUDE_PATH" value="$@TOOL_BASE@/include/SHERPA-MC" type="path"/>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$TOOL_BASE/include" type="path"/>
+  <runtime name="SHERPA_SHARE_PATH" value="$TOOL_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_INCLUDE_PATH" value="$TOOL_BASE/include/SHERPA-MC" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="SHERPA_LIBRARY_PATH" value="$@TOOL_BASE@/lib/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_LIBRARY_PATH" value="$TOOL_BASE/lib/SHERPA-MC" type="path"/>
   <use name="root_cxxdefaults"/>
   <use name="HepMC"/>
   <use name="HepMC3"/>

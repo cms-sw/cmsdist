@@ -1,6 +1,5 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/@PYTHON3_LIB_SITE_PACKAGES@/tensorflow/include"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/@PYTHON3_LIB_SITE_PACKAGES@/tensorflow/include"/>
   </client>
 </tool>
