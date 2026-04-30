@@ -1,4 +1,4 @@
-<tool revision="3">
+<tool path="@INTEL_VTUNE_INSTALLDIR@" revision="4">
   <info url="https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html"/>
   <client>
     <environment name="BINDIR" default="$TOOL_BASE/bin64"/>

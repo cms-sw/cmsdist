@@ -1,4 +1,4 @@
-  <tool revision="2">
+  <tool path="@GCC_PLUGIN_DIR@" revision="3">
     <lib name="cc1plugin cp1plugin"/>
     <client>
       <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
