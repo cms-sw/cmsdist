@@ -1,12 +1,11 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="http://root.cern.ch/root/"/>
   <client>
-    <environment name="@TOOL_BASE@"     default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"                 default="$@TOOL_BASE@/include"/>
-    <environment name="LIBDIR"                  default="$@TOOL_BASE@/lib"/>
+    <environment name="INCLUDE"                 default="$TOOL_BASE/include"/>
+    <environment name="LIBDIR"                  default="$TOOL_BASE/lib"/>
   </client>
-  <runtime name="PATH"                          value="$@TOOL_BASE@/bin" type="path"/>
-  <runtime name="ROOTSYS"                       value="$@TOOL_BASE@/"/>
+  <runtime name="PATH"                          value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="ROOTSYS"                       value="$TOOL_BASE/"/>
   <runtime name="ROOT_TTREECACHE_SIZE"          value="0"/>
   <runtime name="ROOT_TTREECACHE_PREFILL"       value="0"/>
   <runtime name="ROOT_INCLUDE_PATH"             value="$INCLUDE" type="path"/>

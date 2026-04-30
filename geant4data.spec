@@ -18,10 +18,7 @@ Requires: geant4-G4INCL
 
 mkdir -p %i/etc/scram.d
 cat << \EOF_TOOLFILE >%i/etc/scram.d/geant4data.xml
-<tool name="geant4data" version="%v" revision="1">
-  <client>
-    <environment name="GEANT4DATA_BASE" default="%{cmsroot}/%{cmsplatf}/%{pkgcategory}"/>
-  </client>
+<tool name="geant4data" version="%{realversion}" path="%{i}" revision="2">
 EOF_TOOLFILE
 
 for tool in `echo %requiredtools | tr ' ' '\n' | grep 'geant4-'` ; do

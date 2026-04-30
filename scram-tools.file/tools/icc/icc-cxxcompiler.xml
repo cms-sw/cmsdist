@@ -1,9 +1,8 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <use name="gcc-cxxcompiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@/installation" handler="warn"/>
-      <environment name="CXX" value="$@TOOL_BASE@/bin/intel64/icpc" handler="warn"/>
-      <environment name="LIBDIR" default="$@TOOL_BASE@/compiler/lib/intel64"/>
+      <environment name="CXX" value="$TOOL_BASE/bin/intel64/icpc" handler="warn"/>
+      <environment name="LIBDIR" default="$TOOL_BASE/compiler/lib/intel64"/>
     </client>
     <flags REM_CXXFLAGS="-felide-constructors"/>
     <flags REM_CXXFLAGS="-ftree-vectorize"/>
@@ -22,6 +21,6 @@
       <flags CXXFLAGS="-mmic"/>
       <flags LDFLAGS="-mmic"/>
     </architecture>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$@TOOL_BASE@/compiler/lib/intel64" type="path" handler="warn"/>
-    <runtime name="PATH" value="$@TOOL_BASE@/bin/intel64" type="path" handler="warn"/>
+    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$TOOL_BASE/compiler/lib/intel64" type="path" handler="warn"/>
+    <runtime name="PATH" value="$TOOL_BASE/bin/intel64" type="path" handler="warn"/>
   </tool>
