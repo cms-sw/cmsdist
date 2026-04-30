@@ -1,13 +1,12 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="4">
+<tool revision="5">
   <lib name="mpi"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR"       default="$@TOOL_BASE@/lib"/>
-    <environment name="INCLUDE"      default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR"       default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"      default="$TOOL_BASE/include"/>
   </client>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
-  <runtime name="OPAL_PREFIX" value="$@TOOL_BASE@"/>
-  <runtime name="PMIX_PREFIX" value="$@TOOL_BASE@"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="OPAL_PREFIX" value="$TOOL_BASE"/>
+  <runtime name="PMIX_PREFIX" value="$TOOL_BASE"/>
   <runtime name="OMPI_MCA_accelerator" value="null"/>
 %if "%{?HFI_NO_BACKTRACE:set}" == "set"
   <runtime name="HFI_NO_BACKTRACE" value="%{HFI_NO_BACKTRACE}"/>

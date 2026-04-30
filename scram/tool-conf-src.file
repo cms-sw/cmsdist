@@ -40,7 +40,7 @@ for tool in %requiredtools %{?use_system_gcc:gcc}; do
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
   toolbase=`eval echo \\$${uctool}_ROOT`
   toolver=`eval echo \\$${uctool}_VERSION`
-  while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+  while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.01; done
   %{_sourcedir}/scram-tools/bin/get_tools "$toolbase" "$toolver" %i "${tool}" &
 done
 %{_sourcedir}/scram-tools/bin/get_tools "" "system" %i "systemtools"
@@ -55,7 +55,7 @@ for vec in %{package_vectorization}; do \
     uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`
     toolbase=`eval echo \\$${uctool}_${ucvec}_ROOT`
     toolver=`eval echo \\$${uctool}_${ucvec}_VERSION`
-    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.01; done
     %{_sourcedir}/scram-tools/bin/get_vectorized_tools "$toolbase" "$toolver" %i "${tool}" "${vec}" &
   done
   wait
@@ -164,25 +164,40 @@ if [ -f ${pth} ] ; then
 fi
 %endif
 %endif
-
 echo '</tool>' >> %{i}/tools/selected/python-paths.xml
+
+function pytool_content() {
+  local pkg=$1
+  pk_name=$(echo $pkg | cut -d/ -f2 | tr '[A-Z]' '[a-z]')
+  if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then return ; fi
+  pk_ver=$(echo $pkg | cut -d/ -f3 | sed -re 's|-[a-f0-9]{32}$||')
+  echo "<tool name=\"$pk_name\" version=\"$pk_ver\" path=\"%{cmsroot}/%{cmsplatf}/$pkg\" revision=\"1\">" > %{i}/tools/selected/${pk_name}.xml
+  if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
+    echo "  <runtime name=\"PATH\" value=\"\$TOOL_BASE/bin\" type=\"path\"/>" >> %{i}/tools/selected/${pk_name}.xml
+  fi
+  echo -e "</tool>" >> %{i}/tools/selected/${pk_name}.xml
+}
+
+function tool_content() {
+  tool=$(basename $xml)
+  echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" > ${xml}.tmp
+  cat $xml                     >> ${xml}.tmp
+  echo -e "\nEOF_TOOLFILE\n"   >> ${xml}.tmp
+  grep -v '^\s*$' ${xml}.tmp > $xml
+  rm -f ${xml}.tmp
+}
 
 ALL_PY_BIN=""
 ALL_PY_BIN_PKGS=""
 for pkg in  $(echo %{allpkgreqs} | tr ' ' '\n' | grep '/py[23]-') ; do
-  pk_name=$(echo $pkg | cut -d/ -f2 | tr '[A-Z]' '[a-z]')
-  if [ -f %{i}/tools/selected/${pk_name}.xml ] ; then continue ; fi
-  pk_ver=$(echo $pkg | cut -d/ -f3)
-  client_content=""
+  while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.01; done
+  pytool_content $pkg &
   if [ -e %{cmsroot}/%{cmsplatf}/$pkg/bin ] ; then
     for b in $(ls %{cmsroot}/%{cmsplatf}/$pkg/bin) ; do
       ALL_PY_BIN="${ALL_PY_BIN} ${b}"
       ALL_PY_BIN_PKGS="${ALL_PY_BIN_PKGS} ${b}:${pk_name}"
     done
-    uctool=`echo ${pk_name} | tr '[a-z-]' '[A-Z_]'`
-    client_content="  <client>\n    <environment name=\"${uctool}_BASE\" default=\"%{cmsroot}/%{cmsplatf}/$pkg\"/>\n  </client>\n  <runtime name=\"PATH\" value=\"\$${uctool}_BASE/bin\" type=\"path\"/>\n"
   fi
-  echo -e "<tool name=\"$pk_name\" version=\"$pk_ver\" revision=\"1\">\n${client_content}</tool>" > %{i}/tools/selected/${pk_name}.xml
 done
 DUP_BIN=$(echo "${ALL_PY_BIN}" | tr ' ' '\n' | grep -v '__pycache__' | sort | uniq -c | sed 's|^\s*||' | grep -v '^1 ' | sed 's|^.* ||')
 
@@ -195,21 +210,14 @@ if [ "${DUP_BIN}" != "" ] ; then
   exit 1
 fi
 set -x
+
 if [ -e %{i}/tools/selected/cuda-gcc-support.xml ] ; then
   if [ "%{cuda_gcc_support}" != "true" ] ; then
     rm -f %{i}/tools/selected/cuda-gcc-support.xml
     echo "WARNING: CUDA does not support this GCC version, removing cuda-gcc-support.xml tool file"
   fi
 fi
-
-function tool_content() {
-  tool=$(basename $xml)
-  echo "cat << \\EOF_TOOLFILE >> %%{i}/tools/${type}/${tool}" > ${xml}.tmp
-  cat $xml                     >> ${xml}.tmp
-  echo -e "\nEOF_TOOLFILE\n"   >> ${xml}.tmp
-  grep -v '^\s*$' ${xml}.tmp > $xml
-  rm -f ${xml}.tmp
-}
+wait
 
 mkdir -p %{i}/tools
 for type in selected available ; do
@@ -217,7 +225,7 @@ for type in selected available ; do
   touch %{i}/tools/${type}.tmpl
   [ -d %{i}/tools/${type} ] || continue
   for xml in $(ls %{i}/tools/${type}/*.xml) ; do
-    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.05; done
+    while [ $(jobs -r -p | wc -l) -gt %compiling_processes ] ; do sleep 0.01; done
     tool_content $xml &
   done
   wait
