@@ -1,7 +1,6 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <use name="gcc-f77compiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="FC" value="$@TOOL_BASE@/bin/gfortran"/>
+      <environment name="FC" value="$TOOL_BASE/bin/gfortran"/>
     </client>
   </tool>
