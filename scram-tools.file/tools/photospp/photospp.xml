@@ -1,12 +1,11 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="3">
+<tool revision="4">
   <lib name="Photospp"/>
   <lib name="PhotosppHepMC"/>
   <lib name="PhotosppHepMC3"/>
   <lib name="PhotosppHEPEVT"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
   </client>
   <use name="hepmc"/>
   <use name="hepmc3"/>

@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="github.com/acts-project/vecmem/blob/main/README.md"/>
   <lib name="vecmem_hip"/>
   <use name="rocm"/>

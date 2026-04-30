@@ -1,6 +1,6 @@
-<tool name="lwtnn_@TOOL_VECTORIZATION@" version="@TOOL_VERSION@" revision="1">
+<tool name="lwtnn_@TOOL_VECTORIZATION@" revision="2">
   <client>
-    <environment name="@TOOL_VECTORIZATION_KEY@_LIBDIR" default="@TOOL_ROOT@/lib"/>
+    <environment name="@TOOL_VECTORIZATION_KEY@_LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
-  <runtime name="@TOOL_VECTORIZATION_KEY@_PATH" value="@TOOL_ROOT@/bin" type="path"/>
+  <runtime name="@TOOL_VECTORIZATION_KEY@_PATH" value="$TOOL_BASE/bin" type="path"/>
 </tool>
