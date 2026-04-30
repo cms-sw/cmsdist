@@ -1,9 +1,8 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+  <tool revision="3">
     <lib name="clang"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
-      <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+      <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+      <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     </client>
     <flags LDFLAGS="-Wl,-undefined -Wl,suppress"/>
     <flags CXXFLAGS="-D_DEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS"/>

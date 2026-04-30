@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html"/>
   <use name="rocm"/>
   <lib name="rocprofiler-sdk-roctx"/>
