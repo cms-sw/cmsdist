@@ -1,4 +1,4 @@
-  <tool type="compiler" revision="2">
+  <tool type="compiler" path="@TOOL_ROOT@/installation" revision="3">
     <use name="gcc-f77compiler"/>
     <client>
       <environment name="FC" default="$TOOL_BASE/bin/intel64/ifort" handler="warn"/>
