@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="http://root.cern.ch/root/"/>
   <lib name="Core"/>
   <flags OVERRIDABLE_FLAGS="ROOTCLING_ARGS"/>

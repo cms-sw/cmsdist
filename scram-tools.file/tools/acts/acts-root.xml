@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="https://acts.readthedocs.io/en/latest/plugins/root.html"/>
   <lib name="ActsPluginRoot"/>
   <use name="acts-core"/>

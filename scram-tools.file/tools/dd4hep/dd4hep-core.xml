@@ -1,15 +1,14 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="https://github.com/AIDASoft/DD4hep"/>
   <lib name="DDCore" />
   <lib name="DDParsers" />
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
   </client>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
-  <flags LISTCOMPONENTS="$@TOOL_BASE@/bin/listcomponents_dd4hep"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <flags LISTCOMPONENTS="$TOOL_BASE/bin/listcomponents_dd4hep"/>
   <flags cppdefines="DD4HEP_USE_GEANT4_UNITS=1"/>
   <use name="root_cxxdefaults"/>
   <use name="root"/>

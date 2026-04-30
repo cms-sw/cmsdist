@@ -1,8 +1,7 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
 %if 0%{!?use_system_gcc:1}
-      <environment name="CC" value="$@TOOL_BASE@/bin/gcc@COMPILER_NAME_SUFFIX@"/>
+      <environment name="CC" value="$TOOL_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
 %else
       <environment name="CC" value="gcc@COMPILER_NAME_SUFFIX@"/>
 %endif
