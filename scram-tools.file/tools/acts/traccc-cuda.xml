@@ -1,4 +1,4 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="https://github.com/acts-project/traccc/"/>
   <lib name="traccc_cuda"/>
   <use name="acts-core"/>

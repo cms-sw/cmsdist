@@ -1,12 +1,11 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <info url="http://git-scm.com"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
   </client>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
-  <runtime name="PATH" value="$@TOOL_BASE@/libexec/git-core" type="path"/>
-  <runtime name="GIT_TEMPLATE_DIR" value="$@TOOL_BASE@/share/git-core/templates" type="path"/>
-  <runtime name="GIT_SSL_CAINFO" value="$@TOOL_BASE@/share/ssl/certs/ca-bundle.crt" type="path"/>
-  <runtime name="GIT_EXEC_PATH" value="$@TOOL_BASE@/libexec/git-core" type="path"/>
-  <runtime name="PERL5LIB" value="$@TOOL_BASE@@PERL5LIB_PATH@" type="path"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="PATH" value="$TOOL_BASE/libexec/git-core" type="path"/>
+  <runtime name="GIT_TEMPLATE_DIR" value="$TOOL_BASE/share/git-core/templates" type="path"/>
+  <runtime name="GIT_SSL_CAINFO" value="$TOOL_BASE/share/ssl/certs/ca-bundle.crt" type="path"/>
+  <runtime name="GIT_EXEC_PATH" value="$TOOL_BASE/libexec/git-core" type="path"/>
+  <runtime name="PERL5LIB" value="$TOOL_BASE@PERL5LIB_PATH@" type="path"/>
 </tool>
