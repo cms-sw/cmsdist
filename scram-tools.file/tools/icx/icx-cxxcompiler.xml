@@ -1,4 +1,4 @@
-  <tool type="compiler" revision="2">
+  <tool type="compiler" path="@TOOL_ROOT@/installation" revision="3">
     <use name="gcc-cxxcompiler"/>
     <client>
       <environment name="CXX" value="$TOOL_BASE/bin/icpx" handler="warn"/>
