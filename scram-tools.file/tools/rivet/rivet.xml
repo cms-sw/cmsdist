@@ -1,13 +1,12 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
+<tool revision="3">
   <lib name="Rivet"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
   </client>
-  <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
-  <runtime name="RIVET_DATA_PATH" value="$@TOOL_BASE@/share/Rivet" type="path"/>
-  <runtime name="PDFPATH" default="$@TOOL_BASE@/share" type="path"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="RIVET_DATA_PATH" value="$TOOL_BASE/share/Rivet" type="path"/>
+  <runtime name="PDFPATH" default="$TOOL_BASE/share" type="path"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
   <use name="hepmc"/>
   <use name="fastjet"/>

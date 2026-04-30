@@ -1,9 +1,8 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+  <tool revision="2">
     <lib name="cc1plugin cp1plugin"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@GCC_PLUGIN_DIR@"/>
-      <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
-      <environment name="LIBDIR"    default="$@TOOL_BASE@"/>
+      <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+      <environment name="LIBDIR"    default="$TOOL_BASE"/>
     </client>
 %if 0%{?use_system_gcc:1}
     <flags SKIP_TOOL_SYMLINKS="1"/>

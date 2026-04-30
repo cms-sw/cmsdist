@@ -1,7 +1,6 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" revision="2">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-      <environment name="CC" value="$@TOOL_BASE@/bin/gcc"/>
+      <environment name="CC" value="$TOOL_BASE/bin/gcc"/>
     </client>
   </tool>
