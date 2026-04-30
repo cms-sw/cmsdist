@@ -8,5 +8,5 @@
   <lib name="torch_cpu"/>
   <lib name="c10"/>
   <flags FORCE_LINK="1"/>
-  <use name="torch-interface"/>
+  <use name="pytorch-interface"/>
 </tool>
