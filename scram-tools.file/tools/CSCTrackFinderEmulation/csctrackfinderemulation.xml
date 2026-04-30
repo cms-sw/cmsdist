@@ -1,10 +1,9 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <lib name="CSCTrackFinderEmulation"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$@TOOL_BASE@/lib64"/>
-    <environment name="INCLUDE" default="$@TOOL_BASE@/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
   </client>
-  <runtime name="CSC_TRACK_FINDER_DATA_DIR" default="$@TOOL_BASE@/data/"/>
-  <runtime name="CMSSW_SEARCH_PATH" default="$@TOOL_BASE@/data" type="path"/>
+  <runtime name="CSC_TRACK_FINDER_DATA_DIR" default="$TOOL_BASE/data/"/>
+  <runtime name="CMSSW_SEARCH_PATH" default="$TOOL_BASE/data" type="path"/>
 </tool>
