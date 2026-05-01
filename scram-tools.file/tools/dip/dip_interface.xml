@@ -1,7 +1,7 @@
-<tool revision="2">
+<tool revision="3">
   <use name="log4cplus"/>
   <client>
-    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
-    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include/dip"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
   </client>
 </tool>
