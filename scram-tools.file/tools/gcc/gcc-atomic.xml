@@ -1,5 +1,3 @@
   <tool revision="2">
     <lib name="atomic"/>
-    <client>
-    </client>
   </tool>

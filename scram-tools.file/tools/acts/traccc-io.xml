@@ -4,6 +4,4 @@
   <use name="acts-core"/>
   <use name="acts-json"/>
   <use name="traccc"/>
-  <client>
-  </client>
 </tool>
