@@ -2,8 +2,8 @@
 ## INCLUDE cpp-standard
 # define the CUDA compilation flags in a way that can be shared by SCRAM-based and regular tools
 
-# build support for Pascal (6.x), Volta (7.0), Turing (7.5), Ampere (8.x), Lovelace (8.9) and Hopper (9.0)
-%define cuda_arch 60 70 75 80 89 90
+# build support for Volta (7.0), Turing (7.5), Ampere (8.x), Lovelace (8.9), Hopper (9.0) and Blackwell (10.0, 12.0)
+%define cuda_arch 70 75 80 89 90 100 120
 
 # LIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES style for listing the supported CUDA compute architectures
 %define omptarget_cuda_archs %(echo $(for ARCH in %cuda_arch; do echo "$ARCH"; done) | sed -e"s/ /,/g")
