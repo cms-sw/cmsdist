@@ -1,7 +1,5 @@
 <tool revision="2">
   <info url="http://root.cern.ch/root/"/>
-  <client>
-  </client>
   <ifarchitecture name="_amd64_">
     <flags GENREFLEX_GCCXMLOPT="-m64"/>
   </ifarchitecture>
