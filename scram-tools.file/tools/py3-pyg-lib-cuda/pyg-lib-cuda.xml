@@ -3,7 +3,7 @@
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
-  <use name="pyg-lib-interface/>
+  <use name="pyg-lib-interface"/>
   <use name="pytorch-cuda"/>
   <lib name="pyg"/>
 </tool>

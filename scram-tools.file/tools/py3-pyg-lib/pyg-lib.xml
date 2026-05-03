@@ -3,7 +3,7 @@
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
-  <use name="pyg-lib-interface/>
+  <use name="pyg-lib-interface"/>
   <use name="pytorch"/>
   <lib name="pyg"/>
 </tool>
