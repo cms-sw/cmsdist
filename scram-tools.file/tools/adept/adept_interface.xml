@@ -8,6 +8,5 @@
   <use name="geant4core"/>
   <use name="vecgeom"/>
   <use name="g4hepemcore"/>
-  <use name="g4vg"/>
   <flags CXXFLAGS="@CMS_ADEPT_CXX_FLAGS@"/>
 </tool>
