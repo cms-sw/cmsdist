@@ -1,0 +1,9 @@
+<tool revision="1">
+  <client>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+  </client>
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <use name="pytorch-cuda"/>
+  <lib name="torchsparse"/>
+</tool>

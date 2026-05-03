@@ -1,5 +1,3 @@
 <tool revision="3">
-  <client>
-  </client>
   <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
 </tool>

@@ -1,0 +1,35 @@
+## INCLUDE cpp-standard
+## INCLUDE compilation_flags
+## INCLUDE microarch_flags
+BuildRequires: cmake ninja
+Requires: zlib
+%define build_flags -O2 %{?arch_build_flags} %{default_microarch}
+
+%define PipPreBuild \
+  export CPATH="${PY3_PYBIND11_ROOT}/include" \
+  export MAX_JOBS=%{compiling_processes} \
+  export CFLAGS="-I${ZLIB_ROOT}/include %{build_flags}" \
+  export CXXFLAGS="-I${ZLIB_ROOT}/include %{build_flags}" \
+  export LDFLAGS="-L${ZLIB_ROOT}/lib" \
+  export FORCE_CUDA=0
+
+%if "%{?enable_cpp_api}" == "yes"
+%define PipPostBuild \
+  pushd %{_builddir} \
+    rm -rf build; mkdir build; cd build \
+    cmake ${PIPFILE} \\\
+      -G Ninja \\\
+      -DCMAKE_BUILD_TYPE=Release \\\
+      -DCMAKE_INSTALL_PREFIX=%{i} \\\
+      -DCMAKE_INSTALL_LIBDIR=lib \\\
+      -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \\\
+      -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \\\
+      -DCMAKE_CXX_FLAGS="%{build_flags}" \\\
+      -DCMAKE_C_FLAGS="%{build_flags}" \\\
+      -DBUILD_TEST=OFF \\\
+      -DWITH_PYTHON=OFF \\\
+      -DBUILD_SHARED_LIBS=ON \
+    ninja -v %{makeprocesses} \
+    ninja -v %{makeprocesses} install \
+  popd
+%endif

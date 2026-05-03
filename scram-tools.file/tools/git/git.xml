@@ -1,7 +1,5 @@
 <tool revision="3">
   <info url="http://git-scm.com"/>
-  <client>
-  </client>
   <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
   <runtime name="PATH" value="$TOOL_BASE/libexec/git-core" type="path"/>
   <runtime name="GIT_TEMPLATE_DIR" value="$TOOL_BASE/share/git-core/templates" type="path"/>

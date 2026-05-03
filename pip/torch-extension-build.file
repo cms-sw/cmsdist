@@ -1,6 +1,0 @@
-BuildRequires: cmake ninja
-%define patchsrc sed -i -e 's|use_ninja=False|use_ninja=True|' setup.py
-%define PipPreBuild \
-  export CPATH="${PY3_PYBIND11_ROOT}/include" \
-  export MAX_JOBS=%{compiling_processes} \
-  export FORCE_CUDA=0
