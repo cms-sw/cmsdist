@@ -1,0 +1,11 @@
+## INCLUDE cpp-standard
+%define enable_cpp_api yes
+%define patchsrc \
+  grep -q 'CMAKE_CXX_STANDARD 14' CMakeLists.txt \
+  sed -i -e 's|CMAKE_CXX_STANDARD 14|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt \
+  grep -q 'use_ninja=False' setup.py \
+  sed -i -e 's|use_ninja=False|use_ninja=True|' setup.py \
+  grep "'cxx': \\['-O3'\\]" setup.py \
+  sed -i -e "s|'cxx': \\['-O3'\\]|'cxx': ['-O3', '-std=c++%{cms_cxx_standard}']|" setup.py
+
+## INCLUDE pip/files/torch-extension-build

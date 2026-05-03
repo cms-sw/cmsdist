@@ -1,7 +1,5 @@
 <tool revision="2">
   <!-- set the environment for the Traccc test data -->
   <info url="https://github.com/acts-project/traccc/"/>
-  <client>
-  </client>
   <runtime name="TRACCC_TEST_DATA_DIR" value="$TOOL_BASE"/>
 </tool>
