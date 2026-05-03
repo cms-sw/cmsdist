@@ -1,2 +1,2 @@
 Requires: py3-torch
-## INCLUDE pip/torch-extension-build
+## INCLUDE pip/files/torch-sparse-common

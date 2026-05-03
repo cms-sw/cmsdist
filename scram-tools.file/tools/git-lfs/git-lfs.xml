@@ -1,6 +1,4 @@
 <tool revision="3">
   <info url="https://git-lfs.com/"/>
-  <client>
-  </client>
   <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
 </tool>

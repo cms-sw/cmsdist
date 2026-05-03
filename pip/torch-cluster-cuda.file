@@ -7,4 +7,4 @@ Requires: py3-torch-cuda
   export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
   export FORCE_CUDA=1
 
-## INCLUDE pip/torch-extension-build
+## INCLUDE pip/files/torch-cluster-common
