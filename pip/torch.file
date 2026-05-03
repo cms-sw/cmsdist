@@ -1,8 +1,9 @@
 ## INCLUDE microarch_flags
+## INCLUDE cpp-standard
 
 %define source0 git+https://github.com/pytorch/pytorch.git?obj=main/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source96: https://github.com/pytorch/pytorch/commit/39565a7dcf8f93ea22cedeaa20088b24ff6d2634.patch
-Source97: torch-build-env
+Source97: pip/files/torch-build-env
 Source98: FindEigen3.cmake
 Source99: scram-tools.file/tools/eigen/env
 Patch0: patches/pytorch-system-fmt
