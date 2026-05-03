@@ -1,8 +1,6 @@
 <tool revision="2">
   <info url="http://root.cern.ch/root/"/>
   <lib name="RooFitCore"/>
-  <client>
-  </client>
   <runtime name="ROOFITSYS" value="$TOOL_BASE/"/>
   <use name="rootcore"/>
   <use name="roothistmatrix"/>

@@ -52,6 +52,7 @@ export ONNX_ML=ON
 export BLAS=OpenBLAS
 export CMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{default_microarch}"
 export CMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+export CMAKE_CXX_STANDARD="%{cms_cxx_standard}"
 export LIBLZMA_ROOT=${XZ_ROOT}
 export PYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3
 #Setting BUILD_LIBTORCH_WHL=ON turns off BUILD_PYTHON
