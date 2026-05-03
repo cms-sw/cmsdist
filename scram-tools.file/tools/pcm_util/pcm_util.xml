@@ -1,6 +1,4 @@
 <tool revision="3">
-  <client>
-  </client>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$TOOL_BASE/lib/clhep" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$TOOL_BASE/lib/boost" type="path"/>
   <runtime name="CLING_PREBUILT_MODULE_PATH" value="$TOOL_BASE/lib/tinyxml2" type="path"/>

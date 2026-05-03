@@ -1,6 +1,4 @@
 <tool revision="2">
-  <client>
-  </client>
   <ifos value="linux">
     <flags LDFLAGS="$TOOL_BASE/lib/pydata.o"/>
   </ifos>
