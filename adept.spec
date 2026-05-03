@@ -1,4 +1,4 @@
-### RPM external adept v0.3.0
+### RPM external adept v0.3.1
 %define tag %{realversion}
 %define branch master
 %define github_user apt-sim
@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/adept/env
 
 ## INCLUDE geant4-deps
 ## INCLUDE cuda-flags
-Requires: geant4 g4hepem g4vg covfie
+Requires: geant4 g4hepem g4vg
 %{!?without_cuda:Requires: cuda}
 
 %prep
