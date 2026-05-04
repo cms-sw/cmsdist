@@ -4,7 +4,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
 %define tag e9bbc43f07b60d951a75fc0aac78e89dc70174be
-%define branch cms/v6-40-00-patches/v6-40-00-patches
+%define branch cms/v6-40-00-patches/2c5407f
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
