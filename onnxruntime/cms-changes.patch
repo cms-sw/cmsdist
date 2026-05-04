@@ -1,0 +1,47 @@
+diff --git a/onnxruntime/core/mlas/lib/platform.cpp b/onnxruntime/core/mlas/lib/platform.cpp
+index eccde79848e61..4a107f173da07 100644
+--- a/onnxruntime/core/mlas/lib/platform.cpp
++++ b/onnxruntime/core/mlas/lib/platform.cpp
+@@ -23,6 +23,7 @@ Module Name:
+ #include "kleidiai/mlasi_kleidiai.h"
+ #endif
+ 
++#include <string>
+ #include <thread>
+ #include <mutex>
+ 
+@@ -355,8 +356,11 @@ Return Value:
+         //
+ 
+         uint64_t xcr0 = MlasReadExtendedControlRegister(_XCR_XFEATURE_ENABLED_MASK);
++        const char *cpu_opt = std::getenv("MLAS_DYNAMIC_CPU_ARCH");
++        if (cpu_opt == nullptr) cpu_opt = "99";
++        auto opt = std::stoi(cpu_opt);
+ 
+-        if ((xcr0 & 0x6) == 0x6) {
++        if ((opt > 0) && (xcr0 & 0x6) == 0x6) {
+ 
+             this->GemmFloatKernel = MlasGemmFloatKernelAvx;
+ 
+@@ -390,7 +394,7 @@ Return Value:
+             __cpuid_count(7, 0, Cpuid7[0], Cpuid7[1], Cpuid7[2], Cpuid7[3]);
+ #endif
+ 
+-            if (((Cpuid1[2] & 0x1000) != 0) && ((Cpuid7[1] & 0x20) != 0)) {
++            if ((opt > 1) && ((Cpuid1[2] & 0x1000) != 0) && ((Cpuid7[1] & 0x20) != 0)) {
+ 
+                 this->Avx2Supported_ = true;
+ 
+diff --git a/onnxruntime/core/providers/cpu/tensor/scatter.cc b/onnxruntime/core/providers/cpu/tensor/scatter.cc
+index c7a2005924836..c938ca9bf073d 100644
+--- a/onnxruntime/core/providers/cpu/tensor/scatter.cc
++++ b/onnxruntime/core/providers/cpu/tensor/scatter.cc
+@@ -326,7 +326,7 @@ Status ScatterData(
+   // and so on
+   std::vector<int64_t> dim_block_size(num_dims);
+ 
+-  dim_block_size.back() = 1;
++  dim_block_size[num_dims-1] = 1;
+   if (num_dims > 1) {
+     // We start at num_dims - 2 because we already pre-populated
+     // the last element above
