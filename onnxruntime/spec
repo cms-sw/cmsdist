@@ -1,11 +1,11 @@
-### RPM external onnxruntime 1.20.1
+### RPM external onnxruntime 1.25.1
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
-%define github_user cms-externals
-%define branch cms/v%{realversion}
-%define tag efe7f6a3859bedbad40a2991480be4e7584b1582
+%define github_user microsoft
+%define branch main
+%define tag v%{realversion}
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
-Patch0: onnxruntime-gcc13
+Patch0: onnxruntime/cms-changes
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen
@@ -26,7 +26,6 @@ fi
 cmake ../%{n}-%{realversion}/cmake \
    -G Ninja \
    -Wno-dev \
-   -DPYTHON_EXECUTABLE=${PYTHON3_ROOT}/bin/python3 \
    -DCMAKE_BUILD_TYPE=Release \
    -DCMAKE_INSTALL_PREFIX="%{i}" \
    -DCMAKE_INSTALL_LIBDIR=lib \
@@ -43,19 +42,13 @@ cmake ../%{n}-%{realversion}/cmake \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
 %endif
    -Donnxruntime_BUILD_CSHARP=OFF \
-   -Donnxruntime_USE_OPENMP=OFF \
-   -Donnxruntime_USE_TVM=OFF \
-   -Donnxruntime_USE_LLVM=OFF \
    -Donnxruntime_ENABLE_MICROSOFT_INTERNAL=OFF \
-   -Donnxruntime_USE_NUPHAR=OFF \
    -Donnxruntime_USE_TENSORRT=OFF \
    -Donnxruntime_CROSS_COMPILING=OFF \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
-   -Donnxruntime_PREFER_SYSTEM_LIB=ON \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
    -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT}" \
-   -DRE2_INCLUDE_DIR="${RE2_ROOT}/include" \
    -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual -Wno-error=cpp"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
