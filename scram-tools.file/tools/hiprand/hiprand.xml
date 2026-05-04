@@ -1,8 +1,7 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
+<tool revision="1">
 <lib name="hiprand"/>
 <client>
-  <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-  <environment name="LIBDIR" default="$@TOOL_BASE@/lib"/>
-  <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
+  <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+  <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
 </client>
 </tool>

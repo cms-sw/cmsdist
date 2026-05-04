@@ -1,10 +1,9 @@
-<tool revision="2">
+<tool revision="1">
   <info url="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html"/>
   <lib name="rocprofiler-sdk-roctx"/>
   <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
-    <environment name="LIBDIR"    default="$@TOOL_BASE@/lib"/>
-    <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
+    <environment name="BINDIR"    default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
   </client>
 </tool>

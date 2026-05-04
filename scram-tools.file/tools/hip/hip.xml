@@ -1,16 +1,15 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="7">
+<tool revision="1">
 <lib name="amdhip64"/>
 <client>
-  <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-  <environment name="HIPCC"     default="$@TOOL_BASE@/bin/hipcc"/>
-  <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
-  <environment name="LIBDIR"    default="$@TOOL_BASE@/lib"/>
-  <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
-  <environment name="HIP_PATH"  default="$@TOOL_BASE@"/>
+  <environment name="HIPCC"     default="$TOOL_BASE/bin/hipcc"/>
+  <environment name="BINDIR"    default="$TOOL_BASE/bin"/>
+  <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+  <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+  <environment name="HIP_PATH"  default="$TOOL_BASE"/>
   <environment name="HIP_PLATFORM"  default="amd"/>
 </client>
 <flags SYSTEM_INCLUDE="1"/>
-<runtime name="HIP_PATH" value="$@TOOL_BASE@"/>
+<runtime name="HIP_PATH" value="$TOOL_BASE"/>
 <use name="rocm-llvm"/>
 <use name="comgr"/>
 <use name="rocr-runtime"/>
