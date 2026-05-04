@@ -61,7 +61,7 @@ for root in %{comp_roots}; do
         echo "Merging $root into $INSTALL_TARGET..."
         # Using -u (update) prevents overwriting newer files with older ones
         # from different component roots
-        rsync -au --links "${root}/" "$INSTALL_TARGET/"
+        rsync -aL "${root}/" "$INSTALL_TARGET/"
     else
         echo "ERROR: Component root not found: $root" >&2
         exit 1
