@@ -4,7 +4,7 @@
     <environment name="BINDIR"    default="$@TOOL_BASE@/bin"/>
     <environment name="LIBDIR"    default="$@TOOL_BASE@/lib"/>
     <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
-    <environment name="HIP_CLANG_PATH" default="$@TOOL_BASE@/lib/llvm/bin"/>
     <environment name="ROCM_PATH" default="$@TOOL_BASE@"/>
   </client>
+  <runtime name="HIP_CLANG_PATH" value="$ROCM_LLVM_BASE/lib/llvm/bin"/>
 </tool>
