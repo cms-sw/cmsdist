@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/adept/env
 
 ## INCLUDE geant4-deps
 ## INCLUDE cuda-flags
-Requires: geant4 g4hepem
+Requires: geant4 g4hepem g4vg
 %{!?without_cuda:Requires: cuda}
 
 %prep
@@ -34,6 +34,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
 %endif
   $CMS_ADEPT_CXX_FLAGS \
+  -DADEPT_USE_BUILTIN_G4VG=FALSE \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1
