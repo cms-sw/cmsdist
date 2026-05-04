@@ -43,7 +43,7 @@
   <!--<use name="rocblas"/> -->
   <!--<use name="rocdbgapi"/> -->
   <!--<use name="rocfft"/> -->
-  <!--use name="rocm-core"/> -->
+  <use name="rocm-core"/>
   <use name="rocm-llvm"/>
   <use name="rocm-rocprofiler-sdk"/>
   <!--use name="rocm-rocprofiler-systems"/ -->
