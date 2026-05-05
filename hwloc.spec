@@ -3,7 +3,8 @@
 Source: https://download.open-mpi.org/release/%{n}/v%{mainversion}/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
-Requires: libpciaccess libxml2 numactl rocm-smi-lib
+Requires: libpciaccess libxml2 numactl
+%{!?without_rocm:Requires: rocm-smi-lib}
 %{!?without_cuda:Requires: cuda}
 
 
