@@ -27,7 +27,7 @@ Requires: py3-pybind11
 Requires: root
 Requires: xerces-c
 %{!?without_cuda:Requires: cuda}
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: hip rocthrust rocprim comgr rocr-runtime}
 %if %{build_test}
 # These are ony used to build the examples and unit tests
 Requires: hepmc3
