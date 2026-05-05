@@ -1,10 +1,9 @@
-<tool revision="4">
+<tool revision="1">
   <client>
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
-    <environment name="INCLUDE" default="$TOOL_BASE/include/torchscatter/"/>
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
+  <use name="pyg-lib-interface"/>
   <use name="pytorch"/>
-  <lib name="torchscatter"/>
-  <flags FORCE_LINK="1"/>
+  <lib name="pyg"/>
 </tool>
