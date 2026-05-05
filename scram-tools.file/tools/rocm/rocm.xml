@@ -14,10 +14,6 @@
   <flags ROCM_HOST_CXXFLAGS="-march=%{min_microarch_name}"/>
 %endif
 %endif
-  <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
-  <flags SYSTEM_INCLUDE="1"/>
-  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
-  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
   <runtime name="HSA_XNACK" value="1"/>
   <use name="fmt"/>
   <use name="hip"/>
