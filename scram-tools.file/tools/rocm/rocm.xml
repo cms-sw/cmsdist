@@ -3,13 +3,6 @@
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
   <lib name="rocm_smi64"/>
-  <client>
-    <environment name="HIPCC"     default="$TOOL_BASE/bin/hipcc"/>
-    <environment name="BINDIR"    default="$TOOL_BASE/bin"/>
-    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
-    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
-    <environment name="HIP_INCLUDE_PATH" default="$TOOL_BASE/lib/llvm/bin"/>
-  </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
 
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
