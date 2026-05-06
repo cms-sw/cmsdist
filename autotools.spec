@@ -1,12 +1,12 @@
 ### RPM external autotools 1.5
 ## INITENV SET M4 %{i}/bin/m4
 # We keep all of them together to simplify the "requires" statements.
-%define autoconf_version 2.72
-%define automake_version 1.16.5
+%define autoconf_version 2.73
+%define automake_version 1.18.1
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.5.4
-%define m4_version 1.4.19
-%define gettext_version 0.22.5
+%define m4_version 1.4.21
+%define gettext_version 1.0
 %define pkgconfig_version 0.29.2
 Source0: http://ftp.gnu.org/gnu/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftp.gnu.org/gnu/automake/automake-%{automake_version}.tar.gz
@@ -17,6 +17,7 @@ Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_versio
 BuildRequires: gmake
 #pkg-config GCC 15 patch
 Patch0: autotools-pkg-config-gcc15
+Patch1: gettext-1.0-fix
 
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
@@ -24,6 +25,7 @@ Patch0: autotools-pkg-config-gcc15
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 %setup -D -T -b 3 -n m4-%{m4_version}
 %setup -D -T -b 4 -n gettext-%{gettext_version}
+%patch1 -p1
 %setup -D -T -b 5 -n pkg-config-%{pkgconfig_version}
 %patch0 -p1
 
@@ -68,6 +70,7 @@ pushd %_builddir/libtool-%{libtool_version}
 popd
 pushd %_builddir/gettext-%{gettext_version}
   ./configure --prefix %i \
+              --without-selinux \
               --without-xz \
               --without-bzip2 \
               --with-included-libxml \
@@ -84,7 +87,7 @@ pushd %_builddir/gettext-%{gettext_version}
               --with-included-glib \
               --with-included-libunistring \
               --with-included-libcroco
-  make %makeprocesses
+  make %makeprocesses V=1
   make install
 popd
 pushd %_builddir/pkg-config-%{pkgconfig_version}

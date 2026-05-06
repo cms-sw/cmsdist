@@ -1,4 +1,4 @@
-### RPM external zstd-bootstrap 1.5.4
+### RPM external zstd-bootstrap 1.5.7
 %define keep_archives true
 Source: https://github.com/facebook/zstd/releases/download/v%{realversion}/zstd-%{realversion}.tar.gz
 

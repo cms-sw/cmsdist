@@ -1,4 +1,4 @@
-### RPM external xz-bootstrap 5.6.4
+### RPM external xz-bootstrap 5.8.3
 %define keep_archives true
 Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 

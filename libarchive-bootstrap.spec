@@ -1,4 +1,4 @@
-### RPM external libarchive-bootstrap 3.7.7
+### RPM external libarchive-bootstrap 3.8.7
 Source0: http://www.libarchive.org/downloads/libarchive-%{realversion}.tar.gz
 AutoReqProv: no
 Requires: xz-bootstrap

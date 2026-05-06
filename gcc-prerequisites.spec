@@ -1,4 +1,4 @@
-### RPM external gcc-prerequisites 1.0
+### RPM external gcc-prerequisites 2.0
 ## NOCOMPILER
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 AutoReqProv: no
@@ -6,13 +6,13 @@ AutoReqProv: no
 %define keep_archives true
 %define gmpVersion 6.3.0
 %define mpfrVersion 4.2.2
-%define mpcVersion 1.3.1
+%define mpcVersion 1.4.1
 %define islVersion 0.27
 %define zlibVersion 1.3.2
 %define zstdVersion 1.5.7
 Source1: https://gmplib.org/download/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
-Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.gz
+Source3: https://ftp.gnu.org/gnu/mpc/mpc-%{mpcVersion}.tar.xz
 Source4: https://libisl.sourceforge.io/isl-%{islVersion}.tar.bz2
 Source12: https://github.com/madler/zlib/archive/refs/tags/v%{zlibVersion}.tar.gz 
 Source13: https://github.com/facebook/zstd/releases/download/v%{zstdVersion}/zstd-%{zstdVersion}.tar.gz
@@ -23,8 +23,8 @@ Source15: https://github.com/gcc-mirror/gcc/commit/77d01927bd7c989d431035251a5c1
 %ifos linux
 %define bisonVersion 3.8.2
 %define binutilsVersion 2.46.0
-%define elfutilsVersion 0.194
-%define m4Version 1.4.20
+%define elfutilsVersion 0.195
+%define m4Version 1.4.21
 %define flexVersion 2.6.4
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: https://sourceware.org/pub/binutils/releases/binutils-%{binutilsVersion}.tar.bz2

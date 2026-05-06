@@ -1,4 +1,4 @@
-### RPM external curl 8.13.0
+### RPM external curl 8.20.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
 Requires: zlib
 BuildRequires: gmake

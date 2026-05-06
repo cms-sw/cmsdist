@@ -1,4 +1,4 @@
-### RPM external xz 5.6.4
+### RPM external xz 5.8.3
 Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 
 BuildRequires: autotools

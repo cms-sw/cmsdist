@@ -1,4 +1,4 @@
-### RPM external file-bootstrap 5.45
+### RPM external file-bootstrap 5.47
 %define keep_archives true
 %define file_tag %(echo FILE%{realversion} | tr . _)
 AutoReqProv: no

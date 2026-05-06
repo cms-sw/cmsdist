@@ -31,7 +31,8 @@ export PKG_CONFIG_PATH=${BOOTSTRAP_BUNDLE_ROOT}/pkgconfig:/usr/share/pkgconfig:/
 #export PKG_CONFIG_EXECUTABLE=`which pkg-config`
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
-  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLUA_Debug=ON \
   -DCMAKE_SKIP_RPATH=ON \
   -DENABLE_CUTF8=OFF \
   -DENABLE_NLS=ON \
@@ -60,7 +61,7 @@ cmake ../%{n}-%{realversion} \
   -DWITH_LIBLZMA=ON \
   -DWITH_DOXYGEN=OFF \
   -DBUILD_SHARED_LIBS=OFF \
-  -DCMAKE_EXE_LINKER_FLAGS="-static-libgcc -static-libstdc++ -lbz2 -lz" \
+  -DCMAKE_EXE_LINKER_FLAGS="-static-libgcc -static-libstdc++ -lbz2 -lz -llzma" \
   -DCMAKE_PREFIX_PATH="${BOOTSTRAP_BUNDLE_ROOT}"
 
 make %{makeprocesses} VERBOSE=1
