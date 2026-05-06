@@ -1,0 +1,10 @@
+<tool revision="4">
+  <client>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include/torchcluster/"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+  </client>
+  <use name="pytorch"/>
+  <lib name="torchcluster"/>
+  <flags FORCE_LINK="1"/>
+</tool>
