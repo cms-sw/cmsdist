@@ -7,6 +7,9 @@
   <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
   <environment name="HIP_PATH"  default="$TOOL_BASE"/>
   <environment name="HIP_PLATFORM"  default="amd"/>
+  <flags SYSTEM_INCLUDE="1"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
 </client>
 <flags SYSTEM_INCLUDE="1"/>
 <runtime name="HIP_PATH" value="$TOOL_BASE"/>
