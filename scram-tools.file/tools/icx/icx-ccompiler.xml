@@ -1,8 +1,7 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" type="compiler" revision="1">
+  <tool type="compiler" path="@TOOL_ROOT@/installation" revision="3">
     <use name="gcc-ccompiler"/>
     <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@/installation" handler="warn"/>
-      <environment name="CC" value="$@TOOL_BASE@/bin/icx" handler="warn"/>
+      <environment name="CC" value="$TOOL_BASE/bin/icx" handler="warn"/>
     </client>
     <architecture name="_mic_">
       <flags CFLAGS="-mmic"/>

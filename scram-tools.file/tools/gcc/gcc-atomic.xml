@@ -1,6 +1,3 @@
-  <tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+  <tool revision="2">
     <lib name="atomic"/>
-    <client>
-      <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-    </client>
   </tool>

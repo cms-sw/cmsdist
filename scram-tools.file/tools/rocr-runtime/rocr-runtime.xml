@@ -1,0 +1,9 @@
+<tool revision="1">
+<lib name="hsa-runtime64"/>
+<client>
+  <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+  <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+</client>
+<use name="rocm-llvm"/>
+<use name="numactl"/>
+</tool>

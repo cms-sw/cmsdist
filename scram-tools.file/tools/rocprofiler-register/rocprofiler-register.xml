@@ -1,0 +1,7 @@
+<tool revision="1">
+  <client>
+    <environment name="BINDIR"    default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+  </client>
+</tool>

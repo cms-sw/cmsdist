@@ -1,13 +1,10 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="1">
+<tool revision="2">
   <info url="http://root.cern.ch/root/"/>
-  <client>
-    <environment name="@TOOL_BASE@" default="@TOOL_ROOT@"/>
-  </client>
   <ifarchitecture name="_amd64_">
     <flags GENREFLEX_GCCXMLOPT="-m64"/>
   </ifarchitecture>
   <flags GENREFLEX_CPPFLAGS="-DCMS_DICT_IMPL -D_REENTRANT -DGNUSOURCE -D__STRICT_ANSI__"/>
-  <runtime name="GENREFLEX" value="$@TOOL_BASE@/bin/rootcling"/>
+  <runtime name="GENREFLEX" value="$TOOL_BASE/bin/rootcling"/>
   <flags OVERRIDABLE_FLAGS="GENREFLEX_CPPFLAGS"/>
   <use name="root_interface"/>
   <use name="rootcling"/>

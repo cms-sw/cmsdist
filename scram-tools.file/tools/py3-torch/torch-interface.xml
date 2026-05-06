@@ -1,4 +1,0 @@
-<tool name="@TOOL_FILENAME@" version="@TOOL_VERSION@" revision="2">
-  <use name="protobuf"/>
-  <use name="zlib"/>
-</tool>
