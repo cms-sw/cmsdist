@@ -26,4 +26,6 @@
   <use name="rocrand"/>
   <use name="rccl"/>
   <use name="rocprofiler-register"/>
+  <use name="rocthrust"/>
+  <use name="rocprim"/>
 </tool>
