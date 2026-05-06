@@ -25,4 +25,5 @@
   <use name="rocr-runtime"/>
   <use name="rocrand"/>
   <use name="rccl"/>
+  <use name="rocprofiler-register"/>
 </tool>

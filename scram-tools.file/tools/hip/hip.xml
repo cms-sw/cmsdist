@@ -13,4 +13,5 @@
 <use name="rocm-llvm"/>
 <use name="comgr"/>
 <use name="rocr-runtime"/>
+<use name="rocprofiler-register"/>
 </tool>
