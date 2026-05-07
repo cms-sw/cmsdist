@@ -9,7 +9,7 @@ BuildRequires: gmake
 
 %build
 CFLAGS=-I${ZLIB_ROOT}/include LDFLAGS=-L${ZLIB_ROOT}/lib \
-./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
+./configure --prefix=%{i} \
             --disable-static --disable-dependency-tracking
 make %{makeprocesses}
 
