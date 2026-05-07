@@ -4,6 +4,10 @@
       <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
       <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     </client>
+<<<<<<< HEAD
+
+===========
+>>>>>>> 2cdb08ad7
     <flags LDFLAGS="-Wl,-undefined -Wl,suppress"/>
     <flags CXXFLAGS="-D_DEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS"/>
     <flags CXXFLAGS="-D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 "/>
