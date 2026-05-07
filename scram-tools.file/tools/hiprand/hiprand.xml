@@ -1,0 +1,7 @@
+<tool revision="1">
+<lib name="hiprand"/>
+<client>
+  <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
+  <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+</client>
+</tool>

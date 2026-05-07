@@ -2,7 +2,7 @@
 ### RPM external hipsparselt %{rocm_version}
 Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
 Requires: hipsparse msgpack-cxx rocm-core rocm-smi-lib rocminfo roctracer rocr-runtime rocm-cmake boost
-Requires: py3-joblib py3-PyYAML py3-msgpack py3-packaging rocm-llvm python3
+Requires: py3-joblib py3-PyYAML py3-msgpack py3-packaging rocm-llvm python3 comgr
 
 %prep
 %setup -q -n rocm-libraries-%{realversion}

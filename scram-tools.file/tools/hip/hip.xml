@@ -1,0 +1,18 @@
+<tool revision="1">
+<lib name="amdhip64"/>
+<client>
+  <environment name="HIPCC"        default="$TOOL_BASE/bin/hipcc"/>
+  <environment name="BINDIR"       default="$TOOL_BASE/bin"/>
+  <environment name="LIBDIR"       default="$TOOL_BASE/lib"/>
+  <environment name="INCLUDE"      default="$TOOL_BASE/include"/>
+  <!-- use -isystem instead of -I to silence warnings in the HIP/ROCm headers -->
+  <flags SYSTEM_INCLUDE="1"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
+  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="HIP_PATH" value="$TOOL_BASE" type="path"/>
+</client>
+<use name="rocm-llvm"/>
+<use name="comgr"/>
+<use name="rocr-runtime"/>
+<use name="rocprofiler-register"/>
+</tool>
