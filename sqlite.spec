@@ -9,8 +9,8 @@ BuildRequires: gmake
 
 %build
 CFLAGS=-I${ZLIB_ROOT}/include LDFLAGS=-L${ZLIB_ROOT}/lib \
-./configure --prefix=%{i} \
-            --disable-static --disable-dependency-tracking
+./configure --build=$(gcc -dumpmachine) --host=$(gcc -dumpmachine) --prefix=%{i} \
+            --soname=legacy --disable-static --disable-dependency-tracking
 make %{makeprocesses}
 
 %install
