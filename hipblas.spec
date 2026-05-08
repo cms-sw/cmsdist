@@ -8,18 +8,18 @@ Requires: roctracer hipblas-common python3 rocr-runtime rocblas rocsparse rocsol
 
 %build
 CMAKE_ARGS=(
+  -B %{_builddir}/build
+  -S %{_builddir}/%{n}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
-  -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
+  -DGPU_TARGETS="%{gpu_archs}"
   -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include"
 )
 
-cmake -B %{_builddir}/build \
-      -S %{_builddir}/%{n} \
-      "${CMAKE_ARGS[@]}"
+cmake "${CMAKE_ARGS[@]}"
 
 make -C %{_builddir}/build %{makeprocesses}
 

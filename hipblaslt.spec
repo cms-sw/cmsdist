@@ -9,6 +9,7 @@ Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake hipblas-common roctrac
 
 %build
 export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
+
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/rocm-libraries-%{rocm_version}/projects/%{n}
@@ -22,7 +23,7 @@ CMAKE_ARGS=(
   -DTENSILELITE_BUILD_TESTING=off
   -DORIGAMI_BUILD_TESTING=off
   -DHIPBLASLT_ENABLE_ROCROLLER=OFF
-  -DGPU_TARGETS="gfx908;gfx90a;gfx942;gfx1100;gfx1102"
+  -DGPU_TARGETS="%{gpu_archs}"
   -DCMAKE_CXX_FLAGS="-I$ROCTRACER_ROOT/include"
 )
 

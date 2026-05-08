@@ -17,10 +17,12 @@ CMAKE_ARGS=(
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
-  -DGPU_TARGETS="gfx908:xnack-;gfx90a;gfx942;gfx1030;gfx1100;gfx1102"
+  -DGPU_TARGETS="%{gpu_archs}"
   -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include --rocm-path=$ROCM_LLVM_ROOT/amdgcn/bitcode"
 )
 cmake "${CMAKE_ARGS[@]}"
 
 %install
 make -C %{_builddir}/build %{makeprocesses} install
+%post
+%{relocateConfig}/lib/rocblas/library/TensileManifest.txt
