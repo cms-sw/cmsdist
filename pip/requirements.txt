@@ -135,7 +135,7 @@ funcsigs==1.0.2
 future==1.0.0
 gast==0.7.0
 gitdb==4.0.12
-GitPython==3.1.49
+GitPython==3.1.50
 google-auth==2.48.0
 google-auth-oauthlib==1.2.4
 google-pasta==0.2.0
@@ -196,11 +196,11 @@ jupyter-packaging==0.12.3
 # NO_AUTO_UPDATE: cyclic dependency, see https://github.com/jupyterlab/jupyterlab_pygments/issues/23
 jupyterlab-pygments==0.2.2
 jupyter-lsp==2.3.0
-jupyter-server==2.17.0
+jupyter-server==2.18.2
 jupyterlab-server==2.28.0
 jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.5.4
-jupyterlab==4.5.4
+jupyterlab==4.5.7
 jupyterlab-widgets==3.0.16
 kaleido==1.2.0
 keras==3.13.2
@@ -232,7 +232,7 @@ mdurl==0.1.2
 mdit-py-plugins==0.4.2
 meson==1.10.1
 meson-python==0.19.0
-mistune==3.2.0
+mistune==3.2.1
 ml_dtypes==0.5.4
 mock==5.2.0
 more-itertools==10.8.0
@@ -253,7 +253,7 @@ nest-asyncio==1.6.0
 networkx==3.6.1
 neurolab==0.3.5
 node-semver==0.9.0
-notebook==7.5.3
+notebook==7.5.6
 notebook-shim==0.2.4
 nvidia-ml-py==13.590.48
 # numba==0.56.4
