@@ -6,6 +6,7 @@ Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake rocprofiler comgr
 Requires: fmt glog sqlite py3-pybind11 aqlprofile rocprofiler-register
 Patch0: rocm-rocprofiler-sdk
 Patch1: rocm-rocprofiler-sdk-externals
+BuildRequires: cmake gmake
 
 %prep
 %setup -q -n rocprofiler-sdk-rocm-%{realversion}
