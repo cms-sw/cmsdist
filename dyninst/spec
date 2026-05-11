@@ -1,0 +1,25 @@
+### RPM external dyninst 13.0.0
+%define keep_archives true
+Source0: https://github.com/dyninst/dyninst/archive/refs/tags/v%{realversion}.tar.gz
+Source1: dyninst/DyninstConfig-DyninstTarget.cmake
+BuildRequires: gmake cmake libiberty
+Requires: boost tbb
+
+%prep
+%setup -n %{n}-%{realversion}
+
+%build
+rm -rf ../build; mkdir ../build ; cd ../build
+
+cmake ../%{n}-%{realversion} \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="%{i}" \
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};${LIBIBERTY_ROOT}"
+
+make %{makeprocesses} VERBOSE=1
+
+%install
+cd ../build
+make install
+test %{i}/lib/cmake/Dyninst/DyninstConfig.cmake
+cat %{_sourcedir}/DyninstConfig-DyninstTarget.cmake >> %{i}/lib/cmake/Dyninst/DyninstConfig.cmake

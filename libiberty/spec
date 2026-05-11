@@ -1,0 +1,18 @@
+### RPM external libiberty 2.43.1
+Source: https://sourceware.org/pub/binutils/releases/binutils-%{realversion}.tar.bz2
+%define keep_archives true
+
+%prep
+%setup -n binutils-%{realversion}
+
+%build
+cd libiberty
+./configure   --prefix=%{pkginstroot} CC="gcc -fPIC" CXX="c++ -fPIC"
+make %{makeprocesses}
+
+%install
+mkdir %{pkginstroot}/lib %{pkginstroot}/include
+mv libiberty/libiberty.a %{pkginstroot}/lib/
+for h in libiberty.h demangle.h ; do
+  mv include/$h %{pkginstroot}/include/$h
+done

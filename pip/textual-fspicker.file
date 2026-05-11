@@ -1,1 +1,2 @@
-Requires: py3-uv-build py3-textual
+Requires: py3-textual
+BuildRequires: py3-uv-build
