@@ -15,8 +15,8 @@ patch -p1 <%{_sourcedir}/6276d4d7ab8350531e84a24d3db65b9f98d85eb6.patch
 
 %build
 
-CPPFLAGS=-I${BZ2LIB_ROOT}/include \
-LDFLAGS=-L${BZ2LIB_ROOT}/lib \
+export CPPFLAGS=-I${BZ2LIB_ROOT}/include
+export LDFLAGS=-L${BZ2LIB_ROOT}/lib
 cmake \
   -B %{_builddir}/build \
   -S %{_builddir}/rocm-systems/projects/rocprofiler-systems \
