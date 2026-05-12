@@ -6,7 +6,7 @@
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
 AutoReqProv: no
-%define tag 3ff2d9bf5a5562eb5d2428a905b73405b650eae0
+%define tag 3bc2619996a4c2842d7b9c034e0b4be0866331b8
 %define branch cms/rpm-%{realversion}-release
 %define github_user cms-externals
 %define github_repo rpm-upstream
