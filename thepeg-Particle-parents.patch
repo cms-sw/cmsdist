@@ -1,0 +1,32 @@
+diff --git a/EventRecord/Particle.cc b/EventRecord/Particle.cc
+index 9d72c8a..dee05fb 100644
+--- a/EventRecord/Particle.cc
++++ b/EventRecord/Particle.cc
+@@ -64,6 +64,11 @@ Particle::~Particle() {
+   theData = cEventPDPtr();
+ }
+ 
++const tParticleVector & Particle::parents() const {
++  static const tParticleVector null;
++  return hasRep() ? rep().theParents : null;
++}
++
+ void Particle::initFull() {
+   if ( theRep ) return;
+   theRep = new ParticleRep;
+diff --git a/EventRecord/Particle.h b/EventRecord/Particle.h
+index 80505c8..f26118c 100644
+--- a/EventRecord/Particle.h
++++ b/EventRecord/Particle.h
+@@ -155,10 +155,7 @@ public:
+   /**
+    * The list of parent particles.
+    */
+-  const tParticleVector & parents() const {
+-    static const tParticleVector null;
+-    return hasRep() ? rep().theParents : null;
+-  }
++  const tParticleVector & parents() const;
+ 
+   /**
+    * Return a set of neighboring particles coming from the same decay
