@@ -6,6 +6,7 @@
 Source: http://www.hepforge.org/archive/thepeg/ThePEG-%{realversion}.tar.bz2
 Patch0: LHEEventNum
 Patch1: thepeg-deprecated-warn
+Patch2: thepeg-Particle-parents
 
 Requires: lhapdf
 Requires: gsl OpenBLAS
@@ -26,6 +27,7 @@ BuildRequires: lhapdf
 %setup -q -n ThePEG-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # Regenerate build scripts
 autoreconf -fiv
