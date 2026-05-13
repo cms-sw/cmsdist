@@ -1,4 +1,4 @@
-### RPM external adept v0.3.2
+### RPM external adept v0.3.3
 %define tag %{realversion}
 %define branch master
 %define github_user apt-sim
@@ -7,7 +7,7 @@ Source99: scram-tools.file/tools/adept/env
 
 ## INCLUDE geant4-deps
 ## INCLUDE cuda-flags
-Requires: geant4 g4hepem
+Requires: geant4 g4hepem g4vg
 %{!?without_cuda:Requires: cuda}
 
 %prep
@@ -22,10 +22,12 @@ source %{_sourcedir}/env
 cmake ../%{n}.%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
-  -DCMAKE_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_C_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags}" \
-  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags}" \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+  -DCMAKE_CXX_FLAGS="%{build_flags} -fPIC" \
+  -DCMAKE_C_FLAGS="%{build_flags} -fPIC" \
+  -DCMAKE_CUDA_FLAGS="-Xcompiler=-fPIC" \
+  -DCMAKE_STATIC_LIBRARY_CXX_FLAGS="%{build_flags} -fPIC" \
+  -DCMAKE_STATIC_LIBRARY_C_FLAGS="%{build_flags} -fPIC" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
@@ -34,7 +36,7 @@ cmake ../%{n}.%{realversion} \
   -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
 %endif
   $CMS_ADEPT_CXX_FLAGS \
-  -DADEPT_USE_BUILTIN_G4VG=TRUE \
+  -DADEPT_USE_BUILTIN_G4VG=FALSE \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
 make %makeprocesses VERBOSE=1

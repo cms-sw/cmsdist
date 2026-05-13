@@ -1,5 +1,7 @@
 <tool name="adept" version="@TOOL_VERSION@" revision="3">
   <lib name="adept_g4integration"/>
+  <lib name="adept_transport"/>
   <lib name="adept_g4integration_final"/>
+  <lib name="adept_transport_final"/>
   <use name="adept_interface"/>
 </tool>
