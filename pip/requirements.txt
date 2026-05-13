@@ -461,7 +461,7 @@ tzdata==2025.3
 uhi==1.0.0
 uncertainties==3.2.3
 uproot==5.7.1
-urllib3==2.6.3
+urllib3==2.7.0
 uv==0.10.11
 uv-build==0.10.11
 vector==1.8.0
