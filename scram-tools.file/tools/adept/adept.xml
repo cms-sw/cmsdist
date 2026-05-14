@@ -1,7 +1,8 @@
 <tool name="adept" version="@TOOL_VERSION@" revision="3">
+  <!-- CUDA RDC archives are order-sensitive; keep each normal/final pair adjacent. -->
+  <lib name="adept_g4integration_final"/>
   <lib name="adept_g4integration"/>
   <lib name="adept_transport"/>
-  <lib name="adept_g4integration_final"/>
   <lib name="adept_transport_final"/>
   <use name="adept_interface"/>
 </tool>
