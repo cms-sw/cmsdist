@@ -1,0 +1,12 @@
+## INCLUDE cuda-flags
+%define pip_name pyg-lib
+%define cuda_arch_float $(echo %{cuda_arch} | tr ' ' '\\n' | sed -E 's|([0-9])$|.\\1|' | tr '\\n' ' ' | sed 's| *$||')
+Requires: py3-torch-cuda
+%define AdditionalPipPreBuildPy \
+  export TORCH_CUDA_ARCH_LIST="%{cuda_arch_float}" \
+  export FORCE_CUDA=1 \
+  export CUDNN_ROOT=${CUDNN_ROOT} \
+  export USE_CUDNN=1 \
+  export USE_CUFILE=1
+
+## INCLUDE pip/files/pyg-lib-common

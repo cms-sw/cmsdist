@@ -1,0 +1,24 @@
+## INCLUDE cpp-standard
+## INCLUDE compilation_flags
+Requires: zlib ninja
+Patch0: patches/pip/pyg-lib
+%define source0 git+https://github.com/pyg-team/pyg-lib?obj=master/%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/source.tar.gz
+%define patchsrc0 grep -q 'CMAKE_CXX_STANDARD 17' CMakeLists.txt && sed -i -e 's|CMAKE_CXX_STANDARD 17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt
+%define build_flags -Wall -Wextra %{?arch_build_flags}
+
+%define PipPreBuildPy \
+  %{?AdditionalPipPreBuildPy} \
+  export ZLIB_ROOT=${ZLIB_ROOT} \
+  export CMAKE_PREFIX_PATH=%{cmake_prefix_path} \
+  export FORCE_NINJA=1 \
+  export VERBOSE=1 \
+  export CMAKE_CXX_FLAGS='%{build_flags}'
+
+%define PipPostInstall \
+  pushd %{i} \
+    mkdir -p include \
+    ln -s ../${PYTHON3_LIB_SITE_PACKAGES}/pyg_lib include/pyg_lib \
+    ln -s ../${PYTHON3_LIB_SITE_PACKAGES}/libpyg.so lib/libpyg.so \
+  popd
+
+## INCLUDE pip/files/torch-extension-build

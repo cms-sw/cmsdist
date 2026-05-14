@@ -1,0 +1,6 @@
+<tool revision="1">
+  <client>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+  </client>
+  <use name="zlib"/>
+</tool>

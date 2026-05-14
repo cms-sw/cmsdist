@@ -1,9 +1,9 @@
-### RPM external cuda-compatible-runtime 1.0
+### RPM external cuda-compatible-runtime 2.0
 
 %define branch master
-%define commit bfe5537537428ab4a72ae929c77977a55501c576
+%define commit 8069d15b0979cd4ec5c821960feb066a1e03f8ce
 
-Source: git+https://:@gitlab.cern.ch:8443/cms-patatrack/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&filter=./test.cu&output=/%{n}-%{realversion}.tgz
+Source: git+https://github.com/cms-patatrack/%{n}.git?obj=%{branch}/%{commit}&export=%{n}&filter=./test.cu&output=/%{n}-%{realversion}.tgz
 Requires: cuda
 
 %prep
