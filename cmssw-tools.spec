@@ -5,6 +5,7 @@
 ## UPLOAD_DEPENDENCIES dqmgui
 ## INCLUDE vecgeom-opt
 
+Requires: adept
 Requires: AXOL1TL
 Requires: TOPO
 Requires: CICADA

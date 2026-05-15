@@ -5,4 +5,5 @@
     <environment name="INCLUDE" default="$TOOL_BASE/include/G4HepEm"/>
   </client>
   <use name="geant4core"/>
+  <flags CXXFLAGS="-DG4HepEm_EARLY_TRACKING_EXIT=ON"/>
 </tool>

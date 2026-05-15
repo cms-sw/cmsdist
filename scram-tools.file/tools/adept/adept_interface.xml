@@ -1,0 +1,12 @@
+<tool revision="5">
+  <info url="https://github.com/apt-sim/AdePT"/>
+  <client>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+  </client>
+  <use name="geant4core"/>
+  <use name="vecgeom"/>
+  <use name="g4hepemcore"/>
+  <use name="g4vg"/>
+  <flags CXXFLAGS="@CMS_ADEPT_CXX_FLAGS@"/>
+</tool>

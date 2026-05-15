@@ -3,7 +3,9 @@ Source: https://github.com/celeritas-project/celeritas/releases/download/v%{real
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
+## INCLUDE cuda-flags
 Requires: python3 json geant4 g4vg
+%{!?without_cuda:Requires: cuda}
 
 %prep
 %setup -c -n %{n}-%{realversion}
@@ -31,7 +33,12 @@ cmake ../%{n}-%{realversion} \
   -DCELERITAS_BUILTIN_G4VG:BOOL=OFF \
   -DCELERITAS_DEBUG=OFF \
   -DCELERITAS_USE_OpenMP=OFF \
+%if 0%{!?without_cuda:1}
+  -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
+  -DCELERITAS_USE_CUDA=ON \
+%else
   -DCELERITAS_USE_CUDA=OFF \
+%endif
   -DCELERITAS_USE_Geant4=ON \
   -DCELERITAS_USE_HIP=OFF \
   -DCELERITAS_USE_HepMC3=OFF \
