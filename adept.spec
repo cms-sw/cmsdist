@@ -1,4 +1,4 @@
-### RPM external adept v0.3.3
+### RPM external adept v0.3.4
 %define tag %{realversion}
 %define branch master
 %define github_user apt-sim
