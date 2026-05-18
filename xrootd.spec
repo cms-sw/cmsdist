@@ -8,7 +8,7 @@
 %define github_user xrootd
 Source: https://github.com/xrootd/xrootd/releases/download/v%{realversion}/%{n}-%{realversion}.tar.gz
 
-BuildRequires: cmake gmake autotools py3-pip
+BuildRequires: cmake gmake autotools py3-pip libzip
 Requires: zlib libuuid curl davix
 Requires: python3 py3-setuptools
 Requires: libxml2
@@ -56,7 +56,7 @@ cmake ../%n-%{realversion} \
   -DENABLE_XRDEC=TRUE \
   -DCMAKE_CXX_FLAGS="-I${LIBUUID_ROOT}/include" \
   -DCMAKE_SHARED_LINKER_FLAGS="-L${LIBUUID_ROOT}/lib64" \
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};$LIBZIP_ROOT"
 
 make %makeprocesses VERBOSE=1
 
