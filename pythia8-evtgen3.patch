@@ -1,0 +1,42 @@
+--- a/include/Pythia8Plugins/EvtGen.h.orig	2026-01-20 15:52:30.000000000 -0600
++++ b/include/Pythia8Plugins/EvtGen.h	2026-05-18 14:10:47.647205823 -0500
+@@ -36,9 +36,15 @@
+   // Return a random number.
+   double random() {if (rndmPtr) return rndmPtr->flat(); else return -1.0;}
+ 
++  void setSeed(unsigned long int seed) override {lastSeedVal = seed;}
++  unsigned long int lastSeed() const override {return lastSeedVal;}
++
+   // The random number pointer.
+   Rndm *rndmPtr;
+ 
++private:
++  unsigned long int lastSeedVal{0};
++
+ };
+ 
+ //==========================================================================
+@@ -434,12 +440,11 @@
+ 
+   // Loop over the EvtGen entries.
+   if (!pythiaPtr) return;
+-  EvtDecayTable *egTable = EvtDecayTable::getInstance();
+-  if (!egTable) return;
++  EvtDecayTable &egTable = EvtDecayTable::getInstance();
+   for (int iEntry = 0; iEntry < (int)EvtPDL::entries(); ++iEntry) {
+     EvtId egId = EvtPDL::getEntry(iEntry);
+     int   pyId = EvtPDL::getStdHep(egId);
+-    if (egTable->getNModes(egId) == 0) continue;
++    if (egTable.getNModes(egId) == 0) continue;
+     if (excIds.find(pyId) != excIds.end()) continue;
+ 
+     // Stop Pythia from decaying the particle and include in decay set.
+@@ -462,7 +467,7 @@
+     if (!final) continue;
+ 
+     // Get the signal and background decay modes.
+-    vector<EvtParticleDecayList> egList = egTable->getDecayTable();
++    vector<EvtParticleDecayList> egList = egTable.getDecayTable();
+     int sigIdx = egId.getAlias();
+     int bkgIdx = EvtPDL::evtIdFromStdHep(pyId).getAlias();
+     if (sigIdx > (int)egList.size() || bkgIdx > (int)egList.size()) continue;
