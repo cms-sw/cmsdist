@@ -41,7 +41,7 @@ autoreconf -fiv
 %ifarch aarch64
 sed -i -e 's|^ax_openmp_flags=".*"|ax_openmp_flags="none"|' ./configure
 %endif
-CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS %{selected_microarch}"
+CXXFLAGS="-std=c++%{cms_cxx_standard} $CMS_EIGEN_CXX_FLAGS %{selected_microarch} -Wno-error=maybe-uninitialized"
 sed -i "/_pow10 only defined for positive powers/d" include/Rivet/Tools/ParticleIdUtils.hh
 # Disable ONNX download
 sed -e '/wget -P pluginONNX/,/exit 1);/d' \

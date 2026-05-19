@@ -9,6 +9,7 @@
 %define branch      cms/%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Patch0: patches/acts-gcc16
 Source99: scram-tools.file/tools/eigen/env
 
 # Build the Acts and Traccc tests
@@ -112,6 +113,8 @@ cmake ../%{n}-%{realversion} \
   -DTRACCC_BUILD_TESTING="ON" \
 %endif
   -L
+
+patch -p1 < %{_sourcedir}/acts-gcc16
 
 make %{makeprocesses} VERBOSE=1
 

@@ -137,6 +137,7 @@ make %{makeprocesses} profiledbootstrap
 cd %_builddir/%{moduleName}/obj && make install
 ln -s gcc %{i}/bin/cc
 find %{i}/lib %{i}/lib64 -name '*.la' -exec rm -f {} \; || true
+find %{i}/lib64 -name "libgcc_s.so.*" -type f -exec chmod 755 {} +
 
 # Remove unneeded documentation, temporary areas, unneeded files.
 %define drop_files %{i}/share/{man,info,doc,locale} %{i}/tmp %{i}/lib*/{libstdc++.a,libsupc++.a}

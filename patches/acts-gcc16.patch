@@ -1,0 +1,24 @@
+diff --git a/_deps/covfie-src/lib/core/covfie/core/utility/binary_io.hpp b/_deps/covfie-src/lib/core/covfie/core/utility/binary_io.hpp
+index 528496c..e3fcca7 100644
+--- a/_deps/covfie-src/lib/core/covfie/core/utility/binary_io.hpp
++++ b/_deps/covfie-src/lib/core/covfie/core/utility/binary_io.hpp
+@@ -7,6 +7,7 @@
+ #pragma once
+ 
+ #include <cassert>
++#include <cstdint>
+ #include <iostream>
+ #include <memory>
+ #include <sstream>
+diff --git a/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp b/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
+index ff0f8e8..7db4eb5 100644
+--- a/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
++++ b/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
+@@ -8,6 +8,7 @@
+ #include "traccc/gbts_seeding/gbts_seeding_config.hpp"
+ 
+ #include <algorithm>
++#include <climits>
+ #include <ranges>
+ 
+ namespace traccc {

@@ -60,7 +60,9 @@ Requires: xpmem
   --with-xpmem=$XPMEM_ROOT \
   --without-ugni \
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
-  LDFLAGS="-L$NUMACTL_ROOT/lib"
+  LDFLAGS="-L$NUMACTL_ROOT/lib" \
+  CFLAGS="-Wno-error=deprecated-openmp" \
+  CXXFLAGS="-Wno-error=deprecated-openmp"
 
 %build
 make %{makeprocesses} 

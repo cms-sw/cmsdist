@@ -3,7 +3,7 @@
 ## INITENV SET OPAL_PREFIX %{i}
 ## INITENV SET PMIX_PREFIX %{i}
 %define branch v5.0.x
-%define tag v%{realversion}
+%define tag 1d3a2cfe584d575a1cbfe93c83aec50e881a5419
 Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: openmpi-setenv-fix
 BuildRequires: autotools flex python-python3
