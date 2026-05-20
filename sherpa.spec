@@ -1,60 +1,44 @@
-### RPM external sherpa 2.2.16
-Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz 
-Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi hepmc3
-BuildRequires: mcfm swig autotools
-Patch0: sherpa-2.2.16-hepmcshort
-#Avoid calling setenv: https://gitlab.com/sherpa-team/sherpa/-/commit/6ead62d7a2758612f8965fb5b61df8c012cf9cae.diff
-Patch1: sherpa-setenv
-#Disable build Manual and Examples
-Patch2: sherpa-disable-manual
+### RPM external sherpa 3.0.4
+Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 gosam libzip
+BuildRequires: cmake swig
 
 %{!?without_openloops:Requires: openloops}
 
 %prep
-%setup -q -n sherpa-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-
-autoreconf -i --force
-
-# Force architecture based on %%cmsplatf
-%ifarch x86_64
-  ARCH_CMSPLATF="-m64"
-%endif
+%setup -q -n %{n}-%{realversion}
 
 %build
-export PYTHON=$(which python3)
-./configure --prefix=%i --enable-analysis --disable-silent-rules \
-            --enable-fastjet=$FASTJET_ROOT \
-            --enable-hepmc2=$HEPMC_ROOT \
-            --enable-hepmc3=$HEPMC3_ROOT \
-            --enable-lhapdf=$LHAPDF_ROOT \
-            --enable-blackhat=$BLACKHAT_ROOT \
-            --enable-pyext \
-            --enable-ufo \
-            ${OPENLOOPS_ROOT+--enable-openloops=$OPENLOOPS_ROOT} \
-            --enable-mpi \
-            --with-sqlite3=$SQLITE_ROOT \
-            --enable-analysis \
-            CC="mpicc" \
-            CXX="mpicxx" \
-            MPICXX="mpicxx" \
-            FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
-            LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
+rm -rf build && mkdir build
 
-make %{makeprocesses}
+cmake -S . -B build \
+  -DCMAKE_INSTALL_PREFIX=%i \
+  -DSHERPA_ENABLE_MPI=ON -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_Fortran_COMPILER=mpifort \
+  -DSHERPA_ENABLE_ANALYSIS=ON \
+  -DSHERPA_ENABLE_EXAMPLES=ON \
+  -DSHERPA_ENABLE_LIBZIP=ON -DLibZip_DIR=$LIBZIP_ROOT \
+  -DSHERPA_ENABLE_GZIP=ON \
+  -DSHERPA_ENABLE_HEPMC3=ON -DHEPMC3_DIR=$HEPMC3_ROOT -DSHERPA_ENABLE_HEPMC3_ROOT=OFF \
+  -DSHERPA_ENABLE_LHAPDF=ON -DLHAPDF_DIR=$LHAPDF_ROOT -DSHERPA_ENABLE_INTERNAL_PDFS=OFF \
+  -DSHERPA_ENABLE_BLACKHAT=ON -DBLACKHAT_DIR=$BLACKHAT_ROOT \
+  ${OPENLOOPS_ROOT+-DSHERPA_ENABLE_OPENLOOPS=ON -DOPENLOOPS_DIR=$OPENLOOPS_ROOT} \
+  -DSHERPA_ENABLE_ROOT=OFF \
+  -DSHERPA_ENABLE_PYTHIA8=ON -DPYHIA8_DIR=$PYTHIA8_ROOT \
+  -DSHERPA_ENABLE_RECOLA=OFF \
+  -DSHERPA_ENABLE_GOSAM=ON -DGOSAM_DIR=$GOSAM_ROOT \
+  -DSHERPA_ENABLE_RIVET=ON -DRIVET_DIR=$RIVET_ROOT \
+  -DSHERPA_ENABLE_EWSUD=ON \
+  -DSHERPA_ENABLE_PYTHON=ON \
+  -DSHERPA_ENABLE_UFO=ON \
+  -DSHERPA_ENABLE_THREADING=ON \
+  -DSHERPA_ENABLE_DIHIGGS=OFF \
+  -DSHERPA_ENABLE_MADLOOP=OFF \
+  -DSHERPA_ENABLE_MCFM=OFF \
+  -DSHERPA_ENABLE_TESTING=OFF \
+  -DSHERPA_ENABLE_INTEGRATION_TESTS=OFF \
+  -DSHERPA_ENABLE_BINRELOC=OFF
+cmake --build build %{makeprocesses}
 
 %install
-make install
-find %{i}/lib -name '*.la' -delete
+cmake --install build
 sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa-generate-model
-
-%post
-%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/ufo_interface/sconstruct_template
-%{relocateConfig}bin/make2scons
-%{relocateConfig}share/SHERPA-MC/makelibs
-%{relocateConfig}bin/Sherpa-config
-%{relocateConfig}bin/Sherpa-generate-model
-%{relocateConfig}include/SHERPA-MC/ATOOLS/Org/CXXFLAGS*.H
