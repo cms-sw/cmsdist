@@ -5,7 +5,8 @@ Requires: python3 py3-prettytable py3-PyYAML
 
 Source: %{rocm_systems_source}/%{n}.tar.gz
 %prep
-%setup -q -n %{n}
+mkdir -p %{_builddir}/%{n}
+tar -xzf %{_sourcedir}/%{n}.tar.gz -C %{_builddir}/%{n}
 
 %build
 cmake \
