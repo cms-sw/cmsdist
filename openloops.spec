@@ -50,7 +50,9 @@ done
 ./openloops libinstall openloops-user.coll
 
 %install
-mkdir %i/{lib,proclib}
+mkdir %i/{lib,proclib,include}
 cp lib/*.so %i/lib
 cp proclib/*.so %i/proclib
 cp proclib/*.info %i/proclib
+cp proclib/*.rinfo %i/proclib
+cp include/* %i/include

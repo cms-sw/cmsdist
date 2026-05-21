@@ -1,6 +1,6 @@
 ### RPM external sherpa 3.0.4
 Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 gosam libzip
+Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 libzip
 BuildRequires: cmake swig
 
 %{!?without_openloops:Requires: openloops}
@@ -25,7 +25,6 @@ cmake -S . -B build \
   -DSHERPA_ENABLE_ROOT=OFF \
   -DSHERPA_ENABLE_PYTHIA8=ON -DPYHIA8_DIR=$PYTHIA8_ROOT \
   -DSHERPA_ENABLE_RECOLA=OFF \
-  -DSHERPA_ENABLE_GOSAM=ON -DGOSAM_DIR=$GOSAM_ROOT \
   -DSHERPA_ENABLE_RIVET=ON -DRIVET_DIR=$RIVET_ROOT \
   -DSHERPA_ENABLE_EWSUD=ON \
   -DSHERPA_ENABLE_PYTHON=ON \
