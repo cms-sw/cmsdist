@@ -1,0 +1,132 @@
+diff --git a/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h b/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
+index 06eaba3f..801b46c2 100644
+--- a/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
++++ b/SimG4CMS/Tracker/interface/TrackerG4SimHitNumberingScheme.h
+@@ -4,8 +4,8 @@
+ #include <vector>
+ #include <map>
+ #include <string>
++#include <G4VTouchable.hh>
+ 
+-class G4VTouchable;
+ class G4VPhysicalVolume;
+ class GeometricDet;
+ 
+diff --git a/SimG4Core/Application/src/ExceptionHandler.cc b/SimG4Core/Application/src/ExceptionHandler.cc
+index f31d4327..efe5814a 100644
+--- a/SimG4Core/Application/src/ExceptionHandler.cc
++++ b/SimG4Core/Application/src/ExceptionHandler.cc
+@@ -69,21 +69,14 @@ bool ExceptionHandler::Notify(const char* exceptionOrigin,
+   }
+ 
+   bool res = false;
+-  switch (localSeverity) {
+-    case FatalException:
+-    case FatalErrorInArgument:
+-    case RunMustBeAborted:
+-    case EventMustBeAborted:
+-      edm::LogWarning("SimG4CoreApplication") << es_banner << message.str() << ee_banner;
+-      throw cms::Exception("Geant4 fatal exception");
+-      res = m_trace;
+-      break;
+-
+-    case JustWarning:
+-      if (m_number < 20)
+-        edm::LogWarning("SimG4CoreApplication")
+-            << ws_banner << message.str() << "*** This is just a warning message. ***" << we_banner;
+-      break;
++  if (localSeverity == JustWarning) {
++    if (m_number < 20)
++      edm::LogWarning("SimG4CoreApplication")
++          << ws_banner << message.str() << "*** This is just a warning message. ***" << we_banner;
++  } else {
++    edm::LogWarning("SimG4CoreApplication") << es_banner << message.str() << ee_banner;
++    throw cms::Exception("Geant4 fatal exception");
++    res = m_trace;
+   }
+   return res;
+ }
+diff --git a/SimG4Core/CustomPhysics/src/FullModelHadronicProcess.cc b/SimG4Core/CustomPhysics/src/FullModelHadronicProcess.cc
+index 61412807..f74c3632 100644
+--- a/SimG4Core/CustomPhysics/src/FullModelHadronicProcess.cc
++++ b/SimG4Core/CustomPhysics/src/FullModelHadronicProcess.cc
+@@ -1,6 +1,8 @@
+ #include "G4ProcessManager.hh"
+ #include "G4ParticleTable.hh"
+ #include "G4HadronicException.hh"
++#include "G4HadronicException.hh"
++#include "G4ReactionProduct.hh"
+ 
+ #include "SimG4Core/CustomPhysics/interface/FullModelHadronicProcess.h"
+ #include "SimG4Core/CustomPhysics/interface/G4ProcessHelper.h"
+diff --git a/SimG4Core/CustomPhysics/src/FullModelReactionDynamics.cc b/SimG4Core/CustomPhysics/src/FullModelReactionDynamics.cc
+index a8132b19..3b9c827f 100644
+--- a/SimG4Core/CustomPhysics/src/FullModelReactionDynamics.cc
++++ b/SimG4Core/CustomPhysics/src/FullModelReactionDynamics.cc
+@@ -54,6 +54,8 @@
+ #include "Randomize.hh"
+ #include <iostream>
+ #include "G4ParticleTable.hh"
++#include "G4HadronicException.hh"
++#include "G4ReactionProduct.hh"
+ 
+ using namespace CLHEP;
+ 
+diff --git a/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc b/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
+index d1cb7c0a..e4fbbae5 100644
+--- a/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
++++ b/SimG4Core/Geometry/src/CMSG4CheckOverlap.cc
+@@ -107,11 +107,11 @@ void CMSG4CheckOverlap::makeReportForMaterials(std::ofstream& fout) {
+        << "\n";
+   fout << "ElementsDump:"
+        << "\n";
+-  G4ElementTable* elmtab = G4Element::GetElementTable();
++  const auto elmtab = G4Element::GetElementTable();
+   fout << *elmtab;
+   fout << "====================================================================="
+        << "\n";
+-  G4MaterialTable* mattab = G4Material::GetMaterialTable();
++  const auto mattab = G4Material::GetMaterialTable();
+   fout << "MaterialsDump:"
+        << "\n";
+   //fout << *mattab << "\n";
+diff --git a/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h b/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
+index 102da992..1c37edba 100644
+--- a/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
++++ b/SimTracker/TrackerMaterialAnalysis/plugins/TrackingMaterialProducer.h
+@@ -3,6 +3,7 @@
+ #include <string>
+ #include <vector>
+ #include <fstream>
++#include <G4VTouchable.hh>
+ 
+ #include "SimG4Core/Watcher/interface/SimProducer.h"
+ #include "SimG4Core/Notification/interface/Observer.h"
+@@ -22,7 +23,6 @@ class EndOfTrack;
+ class G4Step;
+ 
+ class G4StepPoint;
+-class G4VTouchable;
+ class G4VPhysicalVolume;
+ class G4LogicalVolume;
+ class G4TouchableHistory;
+diff --git a/Validation/Geometry/interface/MaterialBudgetAction.h b/Validation/Geometry/interface/MaterialBudgetAction.h
+index 75272657..41df74b4 100644
+--- a/Validation/Geometry/interface/MaterialBudgetAction.h
++++ b/Validation/Geometry/interface/MaterialBudgetAction.h
+@@ -19,6 +19,7 @@
+ #include "FWCore/ParameterSet/interface/ParameterSet.h"
+ 
+ #include <CLHEP/Vector/LorentzVector.h>
++#include <G4VTouchable.hh>
+ 
+ class BeginOfTrack;
+ class BeginOfRun;
+@@ -28,7 +29,6 @@ class G4Step;
+ class EndOfTrack;
+ class EndOfRun;
+ class G4StepPoint;
+-class G4VTouchable;
+ 
+ class MaterialBudgetAction : public SimWatcher,
+                              public Observer<const BeginOfRun*>,
