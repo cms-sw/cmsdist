@@ -1,18 +1,17 @@
 ## INCLUDE rocm-config
 ### RPM external rocr-runtime %{rocm_version_num}
-
-Source0: %{rocm_systems_source}/%{n}.tar.gz
+Source: %{rocm_systems_source}
 Requires: rocm-core zlib libxml2 rocprofiler-register numactl rocm-llvm
 
 %prep
-%setup -q -n %{n}
+%setup -q -n rocm-systems
 
 %build
 export ROCM_PATH=$ROCM_LLVM_ROOT
 export ROCM_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 
 cmake \
-  -S %{_builddir}/%{n} \
+  -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/lib/llvm/bin/clang++ \
   -DCMAKE_BUILD_TYPE=Release \

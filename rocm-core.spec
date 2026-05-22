@@ -3,14 +3,14 @@
 BuildRequires: cmake
 Requires: python3 py3-prettytable py3-PyYAML
 
-Source: %{rocm_systems_source}/%{n}.tar.gz
+Source: %{rocm_systems_source}
 %prep
-mkdir -p %{_builddir}/%{n}
-tar -xzf %{_sourcedir}/%{n}.tar.gz -C %{_builddir}/%{n}
+%setup -q -n rocm-systems
 
 %build
+
 cmake \
-  -S %{_builddir}/%{n} \
+  -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DROCM_VERSION=%{rocm_version_num}

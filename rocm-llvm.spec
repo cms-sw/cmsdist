@@ -14,7 +14,8 @@ Requires: cmake ninja rocm-core rocm-cmake libxml2 zlib rocprofiler-register
 %setup -q -n %{n}-%{realversion}
 
 %build
-tar -xzf %{_sourcedir}/rocr-runtime.tar.gz -C %{_builddir}
+mkdir -p %{_builddir}/rocr-runtime
+tar -xzf %{_sourcedir}/rocr-runtime.tar.gz -C %{_builddir}/rocr-runtime
 
 cp -rT %{_builddir}/rocr-runtime/runtime/hsa-runtime %{_builddir}/%{n}-%{realversion}/hsa-runtime
 
