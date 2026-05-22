@@ -1,4 +1,4 @@
-### RPM external evtgen 03.00.00-beta1
+### RPM external evtgen 03.00.00
 Source: http://www.hepforge.org/archive/evtgen/EvtGen-%{realversion}.tar.gz
 
 BuildRequires: cmake
@@ -6,22 +6,27 @@ BuildRequires: cmake
 Requires: cmake
 Requires: hepmc
 Requires: pythia8
+Requires: sherpa
 Requires: tauolapp
 Requires: photospp
+
+Patch0: evtgen-3.0.0
 
 %define keep_archives true
 
 %prep
 %setup -q -n EvtGen
+%patch0 -p1
 
 %build
 rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../EvtGen/R03-00-00-beta1\
+cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../EvtGen/R03-00-00\
       -DEVTGEN_HEPMC3:BOOL=OFF -DHEPMC2_ROOT_DIR:PATH=$HEPMC_ROOT \
       -DEVTGEN_PYTHIA:BOOL=ON  -DPYTHIA8_ROOT_DIR:PATH=$PYTHIA8_ROOT \
+      -DEVTGEN_SHERPA3:BOOL=OFF -DEVTGEN_SHERPA:BOOL=ON  -DSHERPA_ROOT_DIR:PATH=$SHERPA_ROOT \
       -DEVTGEN_PHOTOS:BOOL=ON  -DPHOTOSPP_ROOT_DIR:PATH=$PHOTOSPP_ROOT \
       -DEVTGEN_TAUOLA:BOOL=ON  -DTAUOLAPP_ROOT_DIR:PATH=$TAUOLAPP_ROOT
 
