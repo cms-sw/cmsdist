@@ -1,6 +1,6 @@
-%define jemalloc_version 5.3.0
-%define tag 520857b6ca51d3a37c55e838c41505ee95562f38
-%define branch cms/%{realversion}
+%define jemalloc_version 5.3.1
+%define tag fc5eb3f3a066cf57492e316f2d6e1ab4824ba72b
+%define branch cms/%{jemalloc_version}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 BuildRequires: autotools gmake
