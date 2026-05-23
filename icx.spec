@@ -1,8 +1,7 @@
-### RPM external icx 2025.0
+## INCLUDE oneapi-config
+### RPM external icx %{oneapi_version}
 ## NOCOMPILER
-
-%define year %(echo %realversion | cut -d. -f1)
-
+Requires: cern-oneapi
 Source: none
 Provides: libimf.so()(64bit)
 Provides: libintlc.so.5()(64bit)
@@ -12,5 +11,4 @@ Provides: libsvml.so()(64bit)
 %prep
 %build
 %install
-%post
-ln -s /cvmfs/projects.cern.ch/intelsw/oneAPI/linux/x86_64/%{year}/compiler/%{realversion} $RPM_INSTALL_PREFIX/%{pkgrel}/installation
+ln -sf ../../cern-oneapi/${CERN_ONEAPI_VERSION}/compiler "%{i}/installation"

@@ -1,3 +1,0 @@
-  <tool revision="2">
-    <runtime name="INTEL_LICENSE_FILE" value="28518@lxlicen01.cern.ch,28518@lxlicen02.cern.ch,28518@lxlicen03.cern.ch" handler="warn"/>
-  </tool>
