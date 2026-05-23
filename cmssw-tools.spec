@@ -182,7 +182,6 @@ Requires: prmon
 Requires: mozsearch
 Requires: tkonlinesw
 Requires: oracle
-Requires: icc
 Requires: icx
 Requires: intel-vtune
 Requires: ruff
