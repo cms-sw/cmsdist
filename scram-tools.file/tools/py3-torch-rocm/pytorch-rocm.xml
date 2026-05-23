@@ -3,7 +3,7 @@
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     <environment name="INCLUDE" default="$TOOL_BASE/include/torch/csrc/api/include"/>
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
-    <environment name="PYTHONDIR" default="$TOOL_BASE/lib/python@PYTHON3V@/site-packages"/>
+    <environment name="PYTHONDIR" default="$TOOL_BASE/lib/python@PYTHONV@/site-packages"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
   <runtime name="LD_LIBRARY_PATH" value="$LIBDIR" type="path"/>
