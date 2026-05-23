@@ -1,9 +1,0 @@
-  <tool type="compiler" path="@TOOL_ROOT@/installation" revision="3">
-    <use name="gcc-ccompiler"/>
-    <client>
-      <environment name="CC" value="$TOOL_BASE/bin/intel64/icc" handler="warn"/>
-    </client>
-    <architecture name="_mic_">
-      <flags CFLAGS="-mmic"/>
-    </architecture>
-  </tool>
