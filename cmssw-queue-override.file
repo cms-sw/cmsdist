@@ -37,8 +37,8 @@
 
 %if "%(case %realversion in (*_ICC_X*) echo true ;; (*) echo false ;; esac)" == "true"
 %define gitcommit       %(echo %realversion | sed -e 's|_ICC_X|_X|')
-%define scram_compiler  icc
-%define extra_tools     icc-cxxcompiler icc-f77compiler icc-ccompiler
+%define scram_compiler  icx
+%define extra_tools     icx-cxxcompiler icx-f77compiler icx-ccompiler
 %endif
 
 %if "%(case %realversion in (*_CLANG*) echo true ;; (*) echo false ;; esac)" == "true"

@@ -1,12 +1,8 @@
-### RPM external intel-vtune 2025.0
+## INCLUDE oneapi-config
+### RPM external intel-vtune %{oneapi_version}
 ## NOCOMPILER
-## NO_AUTO_DEPENDENCY
-## NO_VERSION_SUFFIX
-
-%define year %(echo %realversion | cut -d. -f1)
-
-## INITENV SET INTEL_VTUNE_INSTALLDIR /cvmfs/projects.cern.ch/intelsw/oneAPI/linux/x86_64/%{year}/vtune/%{realversion}
-
+## INITENV SET INTEL_VTUNE_INSTALLDIR ${CERN_ONEAPI_ROOT}/vtune
+Requires: cern-oneapi
 Source: none
 
 %prep
