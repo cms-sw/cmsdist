@@ -1,0 +1,2 @@
+%define oneapi_release_year 2026
+%define oneapi_version %{oneapi_release_year}.0
