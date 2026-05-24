@@ -1,27 +1,26 @@
 ## INCLUDE rocm-config
 ### RPM external rocprofiler %{rocm_version_num}
-
-Source: %{rocm_systems_source}/%{n}.tar.gz
-Source1: https://github.com/google/perfetto/archive/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz
+Source: %{rocm_systems_source}
+#Source1: https://github.com/google/perfetto/archive/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz
 Requires: rocm-core rocr-runtime python3 rocm-cmake aqlprofile hip numactl libxml2 roctracer py3-lxml py3-barectf py3-PyYAML comgr
 
 %prep
-%setup -q -n %{n}
+%setup -q -n rocm-systems
 
 %build
-tar -xzf %{_sourcedir}/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz -C %{_builddir}/%{n}/plugin/perfetto/perfetto --strip-components=1
-sed -i '1,7d' %{_builddir}/%{n}/plugin/perfetto/CMakeLists.txt #Downloads the submodule otherwise
+#tar -xzf %{_sourcedir}/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz -C %{_builddir}/rocm-systems/projects/%{n}/plugin/perfetto/perfetto --strip-components=1
+sed -i '1,7d' %{_builddir}/rocm-systems/projects/%{n}/plugin/perfetto/CMakeLists.txt #Downloads the submodule otherwise
 #No otherway to turn off tests
 sed -i \
   's/^set(ROCPROFILER_BUILD_TESTS ON)/set(ROCPROFILER_BUILD_TESTS OFF)/' \
-  %{_builddir}/%{n}/CMakeLists.txt
+  %{_builddir}/rocm-systems/projects/%{n}/CMakeLists.txt
 
 sed -i \
   's/^set(ROCPROFILER_BUILD_CI ON)/set(ROCPROFILER_BUILD_CI OFF)/' \
-  %{_builddir}/%{n}/CMakeLists.txt
+  %{_builddir}/rocm-systems/projects/%{n}/CMakeLists.txt
 
 cmake \
-  -S %{_builddir}/%{n} \
+  -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \

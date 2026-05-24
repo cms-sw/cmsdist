@@ -1,15 +1,15 @@
 ## INCLUDE rocm-config
 ### RPM external aqlprofile %{rocm_version}
 
-Source: %{rocm_systems_source}/%{n}.tar.gz
+Source: %{rocm_systems_source}
 Requires: rocm-core rocr-runtime
 %prep
-%setup -q -n %{n}
+%setup -q -n rocm-systems
 
 %build
 
 cmake \
-  -S %{_builddir}/%{n} \
+  -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \

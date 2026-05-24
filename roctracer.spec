@@ -1,17 +1,16 @@
 ## INCLUDE rocm-config
 ### RPM external roctracer %{rocm_version_num}
-
-Source0: %{rocm_systems_source}%{n}.tar.gz
+Source: %{rocm_systems_source}
 Requires: rocr-runtime hip comgr
 
 %prep
-%setup -q -n %{n}
+%setup -q -n rocm-systems
 
 %build
-sed -i 's/add_subdirectory(test)/# add_subdirectory(test)/' %{_builddir}/%{n}/CMakeLists.txt
+sed -i 's/add_subdirectory(test)/# add_subdirectory(test)/' %{_builddir}/rocm-systems/projects/%{n}/CMakeLists.txt
 
 cmake \
-  -S %{_builddir}/%{n} \
+  -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
