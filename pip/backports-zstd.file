@@ -1,0 +1,6 @@
+Requires: zstd
+%define pip_name backports.zstd
+%define PipWheelOptions --config-settings=--build-option=--system-zstd
+%define PipPreBuild \
+  export CPPFLAGS="-I${ZSTD_ROOT}/include" \
+  export LDFLAGS="-L${ZSTD_ROOT}/lib"
