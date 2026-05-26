@@ -5,6 +5,7 @@ Source: none
 Requires: root curl python3 xrootd llvm hdf5 yoda opencv triton-inference-client
 Requires: professor2 rivet frontier_client onnxruntime openldap pacparser
 Requires: mille 
+Requires: py3-backports-zstd
 Requires: py3-multidict
 Requires: py3-anyio
 Requires: py3-sniffio
