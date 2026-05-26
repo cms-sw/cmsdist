@@ -32,3 +32,4 @@ rm -fr %{i}/bin/roofline-azurelinux3-rocm7 %{i}/bin/roofline-sles15sp6-rocm7 %{i
 
 %post
 %{relocateConfig}/lib/cmake/rocprofiler-sdk/rocprofiler-sdk-config.cmake
+%{relocateConfig}/share/rocprofiler-compute/modulefiles/rocprofiler-compute/*.lua:local
