@@ -2,7 +2,7 @@ Requires: py3-numpy py3-cython py3-pybind11 py3-pythran py3-meson-python OpenBLA
 BuildRequires: cmake ninja
 AutoProv: no
 
-%define PipInstallOptions --config-settings=compile-args="-j%{compiling_processes}"
+%define PipWheelOptions --config-settings=compile-args="-j%{compiling_processes}"
 
 %define PipPreBuild export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
 
