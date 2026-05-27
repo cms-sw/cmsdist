@@ -36,3 +36,6 @@ ninja -v %{makeprocesses}
 %install
 cd ../build
 ninja -v %{makeprocesses} install
+
+%post
+%{relocateConfig}/lib/cmake/aotriton/aotriton-targets*.cmake
