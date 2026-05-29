@@ -68,3 +68,4 @@ make install
 %post
 %{relocateConfig}bin/xrootd-config
 %{relocateConfig}lib64/cmake/XRootD/XRootDConfig.cmake
+%{relocateConfig}lib64/cmake/XRootD/uninstall.cmake
