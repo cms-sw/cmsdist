@@ -1,4 +1,4 @@
-### RPM external xrootd 5.9.4
+### RPM external xrootd 5.9.5
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
@@ -68,3 +68,4 @@ make install
 %post
 %{relocateConfig}bin/xrootd-config
 %{relocateConfig}lib64/cmake/XRootD/XRootDConfig.cmake
+%{relocateConfig}lib64/cmake/XRootD/uninstall.cmake
