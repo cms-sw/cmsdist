@@ -1,4 +1,4 @@
-### RPM external json 3.11.3
+### RPM external json 3.12.0
 ## NOCOMPILER
 
 Source: https://github.com/nlohmann/json/archive/refs/tags/v%{realversion}.tar.gz
@@ -22,4 +22,3 @@ make install
 
 %post
 %{relocateConfig}share/pkgconfig/nlohmann_json.pc
-
