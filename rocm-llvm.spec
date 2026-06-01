@@ -7,17 +7,17 @@
 %define keep_archives true
 
 Source0: git+https://github.com/ROCm/llvm-project?obj=amd-staging/%{rocm_version}&export=%{n}-%{realversion}&output=/source.tar.gz
-Source1: https://github.com/ROCm/rocm-systems/releases/download/%{rocm_version}/rocr-runtime.tar.gz
+Source1: %{rocm_systems_source}
 Requires: cmake ninja rocm-core rocm-cmake libxml2 zlib rocprofiler-register
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
-mkdir -p %{_builddir}/rocr-runtime
-tar -xzf %{_sourcedir}/rocr-runtime.tar.gz -C %{_builddir}/rocr-runtime
+mkdir -p %{_builddir}/rocm-systems
+tar -xzf %{_sourcedir}/rocm-systems.tar.gz --strip-components=1 -C %{_builddir}/rocm-systems
 
-cp -rT %{_builddir}/rocr-runtime/runtime/hsa-runtime %{_builddir}/%{n}-%{realversion}/hsa-runtime
+cp -rT %{_builddir}/rocm-systems/projects/rocr-runtime/runtime/hsa-runtime %{_builddir}/%{n}-%{realversion}/hsa-runtime
 
 host_triple=$(gcc -dumpmachine)
 cmake -G Ninja \
