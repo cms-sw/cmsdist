@@ -27,7 +27,7 @@ Requires: py3-pybind11
 Requires: root
 Requires: xerces-c
 %{!?without_cuda:Requires: cuda}
-%{!?without_rocm:Requires: hip rocthrust rocprim comgr rocr-runtime}
+%{!?without_rocm:Requires: hip rocthrust rocprim comgr rocr-runtime rocm-llvm rocminfo}
 %if %{build_test}
 # These are ony used to build the examples and unit tests
 Requires: hepmc3
@@ -57,6 +57,7 @@ source %{_sourcedir}/env
 #     information after installing the libraries.
 #   - HIP/ROCm support is not yet working correctly.
 
+export ROCM_PATH=${ROCM_LLVM_ROOT}
 cmake ../%{n}-%{realversion} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_COMPILER="$GCC_ROOT/bin/g++" \
