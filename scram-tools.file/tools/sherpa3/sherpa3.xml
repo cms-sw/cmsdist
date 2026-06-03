@@ -1,0 +1,31 @@
+<tool revision="3">
+  <lib name="SherpaMain"/>
+  <lib name="ToolsPhys"/>
+  <lib name="ToolsMath"/>
+  <lib name="ToolsYaml"/>
+  <lib name="ToolsOrg"/>
+  <lib name="SherpaSingleEvents"/>
+  <lib name="SherpaTools"/>
+  <client>
+    <environment name="BINDIR" default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64/SHERPA-MC3"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include/SHERPA-MC3"/>
+  </client>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$TOOL_BASE/include" type="path"/>
+  <runtime name="SHERPA_SHARE_PATH" value="$TOOL_BASE/share/SHERPA-MC" type="path"/>
+  <runtime name="SHERPA_INCLUDE_PATH" value="$TOOL_BASE/include/SHERPA-MC3" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="SHERPA_LIBRARY_PATH" value="$TOOL_BASE/lib64/SHERPA-MC3" type="path"/>
+  <runtime name="SHERPA_CMAKE_PATH" value="$TOOL_BASE/share/SHERPA-MC" type="path"/>
+  <use name="HepMC3"/>
+  <use name="lhapdf"/>
+  <use name="blackhat"/>
+  <use name="fastjet"/>
+  <use name="openmpi"/>
+  <use name="rivet"/>
+  <use name="pythia8"/>
+  <use name="libzip"/>
+  <ifarchitecture name="!ppc64le">
+    <use name="openloops"/>
+  </ifarchitecture>
+</tool>
