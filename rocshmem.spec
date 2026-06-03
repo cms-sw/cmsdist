@@ -19,7 +19,7 @@ cmake \
   -DROCM_PATH=$ROCM_LLVM_ROOT \
   -DUSE_EXTERNAL_MPI=ON \
   -DBUILD_TESTING=OFF \
-  -DCMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include"
+  -DCMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include --rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode"
 
 make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 

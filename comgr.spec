@@ -25,7 +25,7 @@ cmake -G "Unix Makefiles" \
   -DBUILD_TESTING=OFF \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" 
 
-sed -i -e 's@libLLVM.so.22.0git@libLLVMCore.a@' %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
+sed -i -e 's@[^ ]*libLLVM\.so\.20\.0git @@' %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
 sed -i -e "s@-lrt -lpthread -lm@-L$ROCM_LLVM_ROOT/lib/llvm/lib/ -lLLVMCoverage -lLLVMFrontendDriver -lLLVMFrontendHLSL -lLLVMLTO -lLLVMOption -lLLVMSymbolize -lLLVMWindowsDriver -lrt -lpthread -lm@" %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
 
 make -C %{_builddir}/build-comgr %{makeprocesses}

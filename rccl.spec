@@ -3,7 +3,7 @@
 Source0: https://github.com/ROCm/rccl/archive/refs/tags/%{rocm_version}.tar.gz
 
 Requires: rocm-core rocm-llvm rocr-runtime amdsmi hip rocminfo rocprofiler-register rocm-smi-lib roctracer hipify comgr
-Requires: python3
+Requires: python3 roctracer
 
 %prep
 %setup -q -n %{n}-%{rocm_version}
@@ -25,9 +25,9 @@ cmake \
   -DROCM_CORE_PATH=${ROCM_CORE_PATH} \
   -DEXPLICIT_ROCM_VERSION="%{realversion}" \
   -DGPU_TARGETS="%{rocm_targets}" \
-  -DCMAKE_CXX_FLAGS="--rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode -I${ROCM_CORE_ROOT}/include -include __clang_hip_runtime_wrapper.h" \
-  -DCMAKE_EXE_LINKER_FLAGS="-L${HIP_ROOT}/lib" \
-  -DCMAKE_SHARED_LINKER_FLAGS="-L${HIP_ROOT}/lib"
+  -DCMAKE_CXX_FLAGS="--rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode -I${ROCM_CORE_ROOT}/include -include __clang_hip_runtime_wrapper.h -I${ROCTRACER_ROOT}/include" \
+  -DCMAKE_EXE_LINKER_FLAGS="-L${HIP_ROOT}/lib -L${ROCTRACER_ROOT}/lib64" \
+  -DCMAKE_SHARED_LINKER_FLAGS="-L${HIP_ROOT}/lib -L${ROCTRACER_ROOT}/lib64"
 
 make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
