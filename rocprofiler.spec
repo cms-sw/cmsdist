@@ -2,7 +2,7 @@
 ### RPM external rocprofiler %{rocm_version_num}
 Source: %{rocm_systems_source}
 #Source1: https://github.com/google/perfetto/archive/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz
-BuildRequires: py3-barectf py3-CppHeaderParser
+BuildRequires: py3-barectf
 Requires: rocm-core rocr-runtime python3 rocm-cmake aqlprofile hip numactl libxml2 roctracer py3-lxml py3-PyYAML comgr
 
 %prep
