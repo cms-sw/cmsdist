@@ -1,7 +1,8 @@
 ## INCLUDE rocm-config
 ### RPM external comgr %{rocm_version_num}
 Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-%{realversion}.tar.gz
-Requires: rocm-llvm rocm-core zlib zstd cmake ninja libxml2
+BuildRequires: cmake ninja
+Requires: rocm-llvm rocm-core zlib zstd libxml2
 Patch0: 0001-comgr-link-with-static-llvm
 
 %prep

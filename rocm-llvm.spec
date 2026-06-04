@@ -8,7 +8,8 @@
 
 Source0: git+https://github.com/ROCm/llvm-project?obj=amd-staging/%{rocm_version}&export=%{n}-%{realversion}&output=/source.tar.gz
 Source1: %{rocm_systems_source}
-Requires: cmake ninja rocm-core rocm-cmake libxml2 zlib rocprofiler-register
+BuildRequires: cmake
+Requires: ninja rocm-core rocm-cmake libxml2 zlib rocprofiler-register
 
 %prep
 %setup -q -n %{n}-%{realversion}

@@ -1,5 +1,5 @@
 ## INCLUDE rocm-config
-### RPM external rocsparse %{rocm_version}
+### RPM external rocsparse %{rocm_version_num}
 ## INCLUDE rocm-config
 Source0: https://github.com/ROCm/rocSPARSE/archive/refs/tags/rocm-%{rocm_version_num}.tar.gz
 Requires: rocprim rocblas

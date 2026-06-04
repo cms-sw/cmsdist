@@ -1,5 +1,5 @@
 ## INCLUDE rocm-config
-### RPM external aqlprofile %{rocm_version}
+### RPM external aqlprofile %{rocm_version_num}
 
 Source: %{rocm_systems_source}
 Requires: rocm-core rocr-runtime

@@ -1,5 +1,5 @@
 ## INCLUDE rocm-config
-### RPM external miopen %{rocm_version}
+### RPM external miopen %{rocm_version_num}
 Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
 Source1: https://raw.githubusercontent.com/suruoxi/half/refs/heads/master/include/half.hpp
 Requires: hip rocm-core rocm-cmake rocr-runtime rocminfo python3 roctracer sqlite hipblaslt hipblas rocblas rocrand bz2lib hipblas
