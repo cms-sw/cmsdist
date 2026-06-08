@@ -1,0 +1,37 @@
+diff --git a/cub/cub/device/device_transform.cuh b/cub/cub/device/device_transform.cuh
+index 1b21230619d..64d26c81be8 100644
+--- a/cub/cub/device/device_transform.cuh
++++ b/cub/cub/device/device_transform.cuh
+@@ -42,9 +42,12 @@ struct __return_constant
+ } // namespace detail
+ CUB_NAMESPACE_END
+ 
++namespace cuda
++{
+ template <typename T>
+-struct ::cuda::proclaims_copyable_arguments<CUB_NS_QUALIFIER::detail::__return_constant<T>> : ::cuda::std::true_type
++struct proclaims_copyable_arguments<CUB_NS_QUALIFIER::detail::__return_constant<T>> : ::cuda::std::true_type
+ {};
++} // namespace cuda
+ 
+ CUB_NAMESPACE_BEGIN
+ //! DeviceTransform provides device-wide, parallel operations for transforming elements tuple-wise from multiple input
+diff --git a/cub/cub/device/dispatch/tuning/tuning_transform.cuh b/cub/cub/device/dispatch/tuning/tuning_transform.cuh
+index 499ac333072..97073b360fb 100644
+--- a/cub/cub/device/dispatch/tuning/tuning_transform.cuh
++++ b/cub/cub/device/dispatch/tuning/tuning_transform.cuh
+@@ -42,10 +42,12 @@ struct always_true_predicate
+ } // namespace detail::transform
+ CUB_NAMESPACE_END
+ 
++namespace cuda
++{
+ template <>
+-struct ::cuda::proclaims_copyable_arguments<CUB_NS_QUALIFIER::detail::transform::always_true_predicate>
+-    : ::cuda::std::true_type
++struct proclaims_copyable_arguments<CUB_NS_QUALIFIER::detail::transform::always_true_predicate> : ::cuda::std::true_type
+ {};
++} // namespace cuda
+ 
+ CUB_NAMESPACE_BEGIN
+ namespace detail::transform
