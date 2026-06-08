@@ -1,8 +1,8 @@
-### RPM external cuda 12.9.1
+### RPM external cuda 13.3.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 575.57.08
+%define driversversion 610.43.02
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
@@ -53,13 +53,11 @@ chmod a+x %_builddir/build/extras/CUPTI/lib64/*.so*
 mv %_builddir/build/extras/CUPTI/lib64/*.so* %{i}/lib64/
 mv %_builddir/build/extras/CUPTI/include/*.h %{i}/include/
 
-# leave out the Nsight and NVVP graphical tools, and package the other binaries
-rm -f %_builddir/build/bin/computeprof
+# leave out the graphical tools, and package the other binaries
 rm -f %_builddir/build/bin/cuda-uninstaller
 rm -f %_builddir/build/bin/ncu*
 rm -f %_builddir/build/bin/nsight*
 rm -f %_builddir/build/bin/nsys*
-rm -f %_builddir/build/bin/nvvp
 mv %_builddir/build/bin %{i}/
 
 # package the cuda-gdb support files, and rename the binary to use it via a wrapper
