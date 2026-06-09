@@ -1,0 +1,5 @@
+<tool revision="2">
+  <client>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+  </client>
+</tool>
