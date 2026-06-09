@@ -20,7 +20,7 @@ Patch0: evtgen-3.0.0
 %define keep_archives true
 
 %prep
-%setup -q -n EvtGen
+%setup -q -n %{n}-%{realversion}
 %patch0 -p1
 
 %build
@@ -28,7 +28,7 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 
-cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../EvtGen/R03-00-00\
+cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
       -DEVTGEN_HEPMC3:BOOL=OFF -DHEPMC2_ROOT_DIR:PATH=$HEPMC_ROOT \
       -DEVTGEN_PYTHIA:BOOL=ON  -DPYTHIA8_ROOT_DIR:PATH=$PYTHIA8_ROOT \
       -DEVTGEN_SHERPA3:BOOL=OFF -DEVTGEN_SHERPA:BOOL=ON  -DSHERPA_ROOT_DIR:PATH=$SHERPA_ROOT \
