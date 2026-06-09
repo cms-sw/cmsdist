@@ -1,4 +1,4 @@
-<tool revision="2">
+<tool revision="1">
   <client>
     <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
   </client>
