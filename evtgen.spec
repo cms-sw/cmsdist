@@ -1,5 +1,10 @@
 ### RPM external evtgen 03.00.00
-Source: http://www.hepforge.org/archive/evtgen/EvtGen-%{realversion}.tar.gz
+
+%define tag d9f0979162c7b1e226c6bbfdfd9f9acca85d5617
+%define branch cms/%realversion
+%define github_user cms-externals
+
+Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake
 
