@@ -10,7 +10,10 @@ Patch0: 0001-comgr-link-with-static-llvm
 
 %build
 
+grep -q 'TARGET clangFrontendTool' %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
 sed -i "s/TARGET clangFrontendTool/true/" %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
+grep -q '^\s*TargetParser\s*$' %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
+sed -i -e 's|^\s*TargetParser\s*$| TargetParser Coverage FrontendDriver FrontendHLSL LTO Option Symbolize WindowsDriver|' %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
 
 cmake -G "Unix Makefiles" \
   -S  %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr \
@@ -25,9 +28,9 @@ cmake -G "Unix Makefiles" \
   -DBUILD_TESTING=OFF \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" 
 
-sed -i -e 's@[^ ]*libLLVM\.so\.20\.0git @@' %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
-sed -i -e "s@-lrt -lpthread -lm@-L$ROCM_LLVM_ROOT/lib/llvm/lib/ -lLLVMCoverage -lLLVMFrontendDriver -lLLVMFrontendHLSL -lLLVMLTO -lLLVMOption -lLLVMSymbolize -lLLVMWindowsDriver -lrt -lpthread -lm@" %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
+grep -q -E ' [^ ]*libLLVM.so(\.[0-9]+)+git ' %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
+sed -E -i -e 's@\s[^ ]*libLLVM.so(\.[0-9]+)+git\s@ @' %{_builddir}/build-comgr/CMakeFiles/amd_comgr.dir/link.txt
 
-make -C %{_builddir}/build-comgr %{makeprocesses}
+make -C %{_builddir}/build-comgr %{makeprocesses} VERBOSE=1
 %install
-make -C %{_builddir}/build-comgr install
+make -C %{_builddir}/build-comgr install VERBOSE=1
