@@ -21,7 +21,7 @@ Patch0: evtgen-3.0.0
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch0 -p1
+%patch0 -p2
 
 %build
 rm -rf ../build
