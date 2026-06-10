@@ -1,16 +1,16 @@
 diff --git a/onnxruntime/core/mlas/lib/platform.cpp b/onnxruntime/core/mlas/lib/platform.cpp
-index eccde79848e61..4a107f173da07 100644
+index 191ee1ab2f..c958e7148a 100644
 --- a/onnxruntime/core/mlas/lib/platform.cpp
 +++ b/onnxruntime/core/mlas/lib/platform.cpp
-@@ -23,6 +23,7 @@ Module Name:
- #include "kleidiai/mlasi_kleidiai.h"
- #endif
- 
+@@ -30,6 +30,7 @@ Abstract:
+ #include <cctype>
+ #include <cstdlib>
+ #include <mutex>
 +#include <string>
  #include <thread>
- #include <mutex>
  
-@@ -355,8 +356,11 @@ Return Value:
+ #if defined(MLAS_TARGET_POWER)
+@@ -436,8 +437,11 @@ Return Value:
          //
  
          uint64_t xcr0 = MlasReadExtendedControlRegister(_XCR_XFEATURE_ENABLED_MASK);
@@ -23,7 +23,7 @@ index eccde79848e61..4a107f173da07 100644
  
              this->GemmFloatKernel = MlasGemmFloatKernelAvx;
  
-@@ -390,7 +394,7 @@ Return Value:
+@@ -471,7 +475,7 @@ Return Value:
              __cpuid_count(7, 0, Cpuid7[0], Cpuid7[1], Cpuid7[2], Cpuid7[3]);
  #endif
  
@@ -33,7 +33,7 @@ index eccde79848e61..4a107f173da07 100644
                  this->Avx2Supported_ = true;
  
 diff --git a/onnxruntime/core/providers/cpu/tensor/scatter.cc b/onnxruntime/core/providers/cpu/tensor/scatter.cc
-index c7a2005924836..c938ca9bf073d 100644
+index c7a2005924..c938ca9bf0 100644
 --- a/onnxruntime/core/providers/cpu/tensor/scatter.cc
 +++ b/onnxruntime/core/providers/cpu/tensor/scatter.cc
 @@ -326,7 +326,7 @@ Status ScatterData(
