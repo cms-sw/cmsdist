@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 3d3d22cbdccf0b3546018d26922dec8f3f8da07e
-%define branch cms/master/2c052eb1f97
+%define tag 6f5c05adfee6973b82b8ab29b47d34afa9649e1a
+%define branch cms/master/ae81825609e
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -27,9 +27,6 @@ Requires: dcap
 
 %prep
 %setup -n %{n}-%{realversion}
-%get_config_sub graf2d/asimage/src/libAfterImage/config.sub
-%get_config_guess graf2d/asimage/src/libAfterImage/config.guess
-chmod +x graf2d/asimage/src/libAfterImage/config.{sub,guess}
 
 %build
 rm -rf ../build
