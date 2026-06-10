@@ -2,6 +2,7 @@
 ### RPM external roctracer %{rocm_version_num}
 Source: %{rocm_systems_source}
 Requires: rocr-runtime hip comgr
+BuildRequires: py3-CppHeaderParser
 
 %prep
 %setup -q -n rocm-systems
