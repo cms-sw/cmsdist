@@ -1,16 +1,16 @@
 ## INCLUDE rocm-config
-### RPM external hipsparselt %{rocm_version}
-Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
+### RPM external hipsparselt %{rocm_version_num}
+Source0: %{rocm_libraries_source}
 Requires: hipsparse msgpack-cxx rocm-core rocm-smi-lib rocminfo roctracer rocr-runtime rocm-cmake boost
 Requires: py3-joblib py3-PyYAML py3-msgpack py3-packaging rocm-llvm python3 comgr
 
 %prep
-%setup -q -n rocm-libraries-%{realversion}
+%setup -q -n rocm-libraries
 
 %build
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-%{realversion}/projects/%{n}
+  -S %{_builddir}/rocm-libraries/projects/%{n}
   -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/lib/llvm/bin/clang++
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"

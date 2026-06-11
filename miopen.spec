@@ -1,12 +1,12 @@
 ## INCLUDE rocm-config
-### RPM external miopen %{rocm_version}
-Source0: https://github.com/ROCm/rocm-libraries/archive/refs/tags/%{rocm_version}.tar.gz
+### RPM external miopen %{rocm_version_num}
+Source0: %{rocm_libraries_source}
 Source1: https://raw.githubusercontent.com/suruoxi/half/refs/heads/master/include/half.hpp
 Requires: hip rocm-core rocm-cmake rocr-runtime rocminfo python3 roctracer sqlite hipblaslt hipblas rocblas rocrand bz2lib hipblas
 Requires: json hipblas-common boost zstd google-test opencl rocm-llvm comgr
 
 %prep
-%setup -q -n rocm-libraries-%{realversion}
+%setup -q -n rocm-libraries
 cp %{_sourcedir}/half.hpp %{_builddir}
 
 %build
@@ -15,7 +15,7 @@ cp %{_sourcedir}/half.hpp %{_builddir}/half-include/half/
 
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries-%{realversion}/projects/%{n}
+  -S %{_builddir}/rocm-libraries/projects/%{n}
   -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
@@ -32,7 +32,7 @@ CMAKE_ARGS=(
   -DHALF_INCLUDE_DIR=%{_builddir}/half-include
   -DBUILD_TESTING=OFF
 )
-sed -i '827,830d' %{_builddir}/rocm-libraries-%{realversion}/projects/%{n}/CMakeLists.txt
+sed -i '827,830d' %{_builddir}/rocm-libraries/projects/%{n}/CMakeLists.txt
 cmake "${CMAKE_ARGS[@]}"
 
 make -C %{_builddir}/build %{makeprocesses}

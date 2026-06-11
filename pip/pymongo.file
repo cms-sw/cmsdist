@@ -1,2 +1,3 @@
-Requires: py3-hatchling py3-dnspython rust py3-cargo py3-hatch-requirements-txt
+BuildRequires: py3-hatchling py3-hatch-requirements-txt
+Requires: py3-dnspython
 %define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home
