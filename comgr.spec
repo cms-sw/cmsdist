@@ -10,7 +10,6 @@ Patch0: 0001-comgr-link-with-static-llvm
 %patch0 -p1
 
 %build
-
 grep -q 'TARGET clangFrontendTool' %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
 sed -i "s/TARGET clangFrontendTool/true/" %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
 grep -q '^\s*TargetParser\s*$' %{_builddir}/llvm-project-rocm-%{realversion}/amd/comgr/CMakeLists.txt
