@@ -15,7 +15,7 @@ CMAKE_ARGS=(
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   -DBUILD_CLIENTS_TESTS=off
   -DHIP_ROOT=$HIP_ROOT
-  -DGPU_TARGETS="gfx90a;gfx942;gfx1100"
+  -DGPU_TARGETS="%{rocm_targets}"
   %{cmake_args}
 )
 
