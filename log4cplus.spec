@@ -20,3 +20,6 @@ make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
 make install
+
+%post
+%{relocateConfig}lib64/pkgconfig/log4cplus.pc
