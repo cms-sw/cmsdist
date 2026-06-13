@@ -1,10 +1,11 @@
-### RPM lcg SCRAMV1 V3_00_93
+### RPM lcg SCRAMV1 V3_00_94
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define tag e57fe86cc047098c6264dc0879e62ae21d08e127
+%define tag 2ffbf93d2196f5b60b9f1454f68013d4530d5048
 %define branch SCRAMV3
 %define github_user cms-sw
+%define shared_dir share/%{pkgcategory}/SCRAMV1/%{realversion}
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define OldDB /%{cmsplatf}/lcg/SCRAMV1/scramdb/project.lookup
@@ -76,11 +77,11 @@ VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_
 %{BackwardCompatibilityVersionPolicy}
 
 #Create a shared copy of this version
-if [ ! -d $RPM_INSTALL_PREFIX/share/%{pkgdir} ] ; then
-  mkdir -p $RPM_INSTALL_PREFIX/share/%{pkgdir}
-  rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/share/%{pkgdir}
-  for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/share/%{pkgdir} | grep '^>f' | sed -e 's|.* ||'` ; do
-    sed -i -e 's|/%{pkgrel}|/share/%{pkgdir}|g' $RPM_INSTALL_PREFIX/share/%{pkgdir}/$f
+if [ ! -d $RPM_INSTALL_PREFIX/%{shared_dir} ] ; then
+  mkdir -p $RPM_INSTALL_PREFIX/%{shared_dir}
+  rsync --links --ignore-existing --recursive --exclude='etc/'  $RPM_INSTALL_PREFIX/%{pkgrel}/ $RPM_INSTALL_PREFIX/%{shared_dir}
+  for f in `rsync --links --ignore-existing --recursive --itemize-changes $RPM_INSTALL_PREFIX/%{pkgrel}/etc $RPM_INSTALL_PREFIX/%{shared_dir} | grep '^>f' | sed -e 's|.* ||'` ; do
+    sed -i -e 's|/%{pkgrel}|/%{shared_dir}|g' $RPM_INSTALL_PREFIX/%{shared_dir}/$f
   done
 fi
 
@@ -90,7 +91,7 @@ VERSION_REGEXP="%{SCRAM_REL_MAJOR}_"   ; VERSION_FILE=default-scram/%{SCRAM_REL_
 
 if [ `cat $RPM_INSTALL_PREFIX/share/etc/default-scramv1-version` == '%v' ] ; then
   mkdir -p $RPM_INSTALL_PREFIX/share/man/man1
-  cp -f $RPM_INSTALL_PREFIX/share/%{pkgdir}/docs/man/man1/scram.1 ${RPM_INSTALL_PREFIX}/share/man/man1/scram.1
+  cp -f $RPM_INSTALL_PREFIX/%{shared_dir}/docs/man/man1/scram.1 ${RPM_INSTALL_PREFIX}/share/man/man1/scram.1
 fi
 
 #FIMEME: Remove it when cmsBuild has a fix
