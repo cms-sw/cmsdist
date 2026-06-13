@@ -1,12 +1,10 @@
-### RPM external git 2.49.0
+### RPM external git 2.54.0
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH PATH %{i}/libexec/git-core
 ## INITENV SET GIT_TEMPLATE_DIR %{i}/share/git-core/templates
-## INITENV SET GIT_SSL_CAINFO %{i}/share/ssl/certs/ca-bundle.crt
 ## INITENV SET GIT_EXEC_PATH %{i}/libexec/git-core
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
-Source1: https://raw.githubusercontent.com/curl/curl/eeed87f0563d3ca73ff53813418d1f9f03c81fe5/scripts/mk-ca-bundle.pl
 Patch1: git-2.19.0-runtime
 
 Requires: curl expat zlib pcre2 python3
@@ -40,14 +38,6 @@ make %{makeprocesses} \
   NO_INSTALL_HARDLINKS=1 \
   all
 
-# Generate ca-bundle.crt (Certification Authority certificates)
-mkdir ./ca-bundle
-pushd ./ca-bundle
-cp %{SOURCE1} ./mk-ca-bundle.pl
-chmod +x ./mk-ca-bundle.pl
-./mk-ca-bundle.pl -k
-popd
-
 %install
 export NO_LIBPCRE1_JIT=1
 make %{makeprocesses} \
@@ -56,9 +46,6 @@ make %{makeprocesses} \
   NO_INSTALL_HARDLINKS=1 \
   install
 
-# Install ca-bundle.crt (Certification Authority certificates)
-mkdir -p %{i}/share/ssl/certs
-cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 perl -p -i -e "s|^#!.*python.*|#!/usr/bin/env python3|" %{i}/libexec/git-core/git-p4
 
 %post
