@@ -1,0 +1,40 @@
+commit d01c9a429b25fcea8f5b77547adc23f3fede0471
+Author: Arha Gatram <agatram@nvidia.com>
+Date:   Wed Jun 10 15:53:55 2026 +0000
+
+    CUDA: Add support for cuda_std_23 for nvcc 13.3+
+    
+    CUDA 13.3 has been released with support for `-std=c++23`.
+
+diff --git a/Modules/Compiler/NVIDIA.cmake b/Modules/Compiler/NVIDIA.cmake
+index 0d0f03ad00..5bf7044159 100644
+--- a/Modules/Compiler/NVIDIA.cmake
++++ b/Modules/Compiler/NVIDIA.cmake
+@@ -46,6 +46,14 @@ macro(__compiler_nvidia_cxx_standards lang)
+         set(CMAKE_${lang}_STANDARD_LATEST 20)
+       endif()
+     endif()
++
++    if (NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 13.3)
++      if(CMAKE_${lang}_SIMULATE_VERSION VERSION_GREATER_EQUAL 19.29.30129)
++        set(CMAKE_${lang}23_STANDARD_COMPILE_OPTION "-std=c++23")
++        set(CMAKE_${lang}23_EXTENSION_COMPILE_OPTION "-std=c++23")
++        set(CMAKE_${lang}_STANDARD_LATEST 23)
++      endif()
++    endif()
+   else()
+     set(CMAKE_${lang}03_STANDARD_COMPILE_OPTION "")
+     set(CMAKE_${lang}03_EXTENSION_COMPILE_OPTION "")
+@@ -75,6 +83,12 @@ macro(__compiler_nvidia_cxx_standards lang)
+       set(CMAKE_${lang}20_EXTENSION_COMPILE_OPTION "-std=c++20")
+       set(CMAKE_${lang}_STANDARD_LATEST 20)
+     endif()
++
++    if (NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 13.3)
++      set(CMAKE_${lang}23_STANDARD_COMPILE_OPTION "-std=c++23")
++      set(CMAKE_${lang}23_EXTENSION_COMPILE_OPTION "-std=c++23")
++      set(CMAKE_${lang}_STANDARD_LATEST 23)
++    endif()
+   endif()
+ 
+   __compiler_check_default_language_standard(${lang} 6.0 03)
