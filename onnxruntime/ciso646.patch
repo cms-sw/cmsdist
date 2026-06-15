@@ -1,0 +1,13 @@
+diff --git a/onnxruntime/core/providers/cuda/cuda_common.h b/onnxruntime/core/providers/cuda/cuda_common.h
+index f90eb2813a..883491791f 100644
+--- a/onnxruntime/core/providers/cuda/cuda_common.h
++++ b/onnxruntime/core/providers/cuda/cuda_common.h
+@@ -7,7 +7,7 @@
+ 
+ // The following three lines were copied from ABSL
+ // cutlass needs them, because cutlass uses "and"/"or" keywords
+-#ifdef __cplusplus
++#if defined(__cplusplus) && __cplusplus < 202002L
+ #include <ciso646>
+ #endif
+ 

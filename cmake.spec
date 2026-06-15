@@ -1,11 +1,14 @@
 ### RPM external cmake 3.31.12
 %define downloaddir %(echo %realversion | cut -d. -f1,2)
 Source: http://www.cmake.org/files/v%{downloaddir}/%n-%realversion.tar.gz
+# Note: this patch should be removed after updating to CMake 4.4+
+Patch0: patches/cmake_cuda_std_23
 Requires: bz2lib curl expat zlib
 BuildRequires: gmake
 
 %prep
 %setup -n cmake-%realversion
+%patch0 -p1
 
 %build
 cat > build-flags.cmake <<- EOF 
