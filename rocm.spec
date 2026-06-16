@@ -60,12 +60,6 @@ Source32: https://%{repository}/%{repoversion}/main/rocprofiler-sdk-1.1.0.70204-
 Source33: https://%{repository}/%{repoversion}/main/rocprofiler-sdk-rocpd-1.1.0.70204-93.%{rpm_arch}.rpm
 Source34: https://%{repository}/%{repoversion}/main/rocprofiler-sdk-roctx-1.1.0.70204-93.%{rpm_arch}.rpm
 
-# FIXME: Remove following source/fix once it has been integrated in to ROCm
-# [CUDA][HIP] Add a __device__ version of std::__glibcxx_assert_fail()
-%ifarch x86_64
-Source98: https://raw.githubusercontent.com/llvm/llvm-project/8ec0552a7f1f50986dda6d13eae310d121d7e3ba/clang/lib/Headers/cuda_wrappers/bits/c++config.h
-%endif
-
 # sources for rocprofiler-register
 Source99: git+https://github.com/ROCm/rocprofiler-register.git?obj=%{rocprofiler_register_branch}/%{rocprofiler_register_tag}&export=%{rocprofiler_register_pkg}&submodules=1&output=/%{rocprofiler_register_pkg}.tgz
 
@@ -116,10 +110,6 @@ rpm2cpio %{SOURCE31} | cpio -idmv
 rpm2cpio %{SOURCE32} | cpio -idmv
 rpm2cpio %{SOURCE33} | cpio -idmv
 rpm2cpio %{SOURCE34} | cpio -idmv
-
-%if "%{?SOURCE98:set}" == "set"
-cp %{SOURCE98} opt/rocm-%{realversion}/llvm/lib/clang/20/include/cuda_wrappers/bits
-%endif
 
 # build rocprofiler-register
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' src/%{rocprofiler_register_pkg}/CMakeLists.txt
