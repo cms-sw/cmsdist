@@ -1,5 +1,5 @@
 <tool revision="1">
-<lib name="aotriton"/>
+<lib name="aotriton_v2"/>
 <client>
   <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
