@@ -5,6 +5,7 @@ Source: none
 %define BaseTool %(echo %n | tr '[a-z-]' '[A-Z_]')
 
 Requires: data-CondTools-SiPhase2Tracker
+Requires: data-RecoTracker-PixelLowPtUtilities
 Requires: data-L1TriggerScouting-OnlineProcessing
 Requires: data-HLTrigger-HLTfilters
 Requires: data-PhysicsTools-PyTorch
