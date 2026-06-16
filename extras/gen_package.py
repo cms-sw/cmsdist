@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 package_names = {
-  "cmsLHEtoEOSManager" : "https://api.github.com/repos/cms-sw/cmssw/commits?path=GeneratorInterface/LHEInterface/scripts/cmsLHEtoEOSManager.py&page=0&per_page=1",
+  "cmsLHEtoEOSManager" : "https://cmssdt.cern.ch/SDT/cmsLHEtoEOSManager.json",
   "dqmgui": None,
 }
 
