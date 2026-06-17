@@ -1,4 +1,4 @@
-<tool name="@TOOL@" version="@TOOL_VERSION@" revision="7">
+<tool name="@TOOL@" version="@TOOL_VERSION@" revision="8">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_VERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
@@ -11,7 +11,7 @@
     <environment name="INCLUDE"   default="$@TOOL_BASE@/include"/>
   </client>
   <flags CPPDEFINES="__HIP_PLATFORM_HCC__ __HIP_PLATFORM_AMD__"/>
-  <flags ROCM_FLAGS="--rocm-path=$ROCM_BASE"/>
+  <flags ROCM_FLAGS="--rocm-path=$@TOOL_BASE@"/>
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
   <flags ROCM_FLAGS="-Wno-pass-failed"/>
@@ -25,6 +25,7 @@
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
   <runtime name="PATH" value="$@TOOL_BASE@/bin" type="path"/>
+  <runtime name="ROCM_PATH" value="$@TOOL_BASE@"/>
   <runtime name="HSA_XNACK" value="1"/>
   <use name="fmt"/>
 </tool>
