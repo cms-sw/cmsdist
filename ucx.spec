@@ -1,4 +1,4 @@
-### RPM external ucx 1.19.0
+### RPM external ucx 1.20.1
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
@@ -15,6 +15,11 @@ Requires: xpmem
 
 ./configure \
   --prefix=%i \
+  --enable-mt \
+  --disable-logging \
+  --disable-debug \
+  --disable-assertions \
+  --disable-params-check \
   --disable-dependency-tracking \
   --enable-openmp \
   --enable-shared \
@@ -25,15 +30,8 @@ Requires: xpmem
   --disable-doxygen-html \
   --enable-compiler-opt \
   --enable-cma \
-  --enable-mt \
   --with-pic \
   --with-gnu-ld \
-%ifarch x86_64
-  --with-march=x86-64-v2 \
-  --with-sse41 \
-  --with-sse42 \
-  --without-avx \
-%endif
   --without-go \
   --without-java \
 %if 0%{!?without_cuda:1}
