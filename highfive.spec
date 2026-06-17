@@ -4,7 +4,7 @@
 %define branch master
 %define tag ede97c8d51905c1640038561d12d41da173012ac
 Source: git+https://github.com/%github_user/HighFive.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Patch0: highfive-boost190
+Patch0: patches/highfive-boost190
 BuildRequires: cmake
 Requires: boost hdf5
 
