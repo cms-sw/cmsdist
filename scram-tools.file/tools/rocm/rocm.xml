@@ -1,4 +1,4 @@
-<tool revision="8">
+<tool revision="9">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_REALVERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
@@ -24,6 +24,7 @@
   <flags SYSTEM_INCLUDE="1"/>
   <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" join="1"/>
   <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  <runtime name="ROCM_PATH" value="$TOOL_BASE"/>
   <runtime name="HSA_XNACK" value="1"/>
   <use name="fmt"/>
 </tool>
