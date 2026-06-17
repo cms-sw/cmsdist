@@ -1,0 +1,927 @@
+diff --git a/boost/archive/basic_archive.hpp b/boost/archive/basic_archive.hpp
+index d3c1e280c..0b06569f8 100644
+--- a/boost/archive/basic_archive.hpp
++++ b/boost/archive/basic_archive.hpp
+@@ -40,8 +40,9 @@ BOOST_ARCHIVE_VERSION();
+ typedef boost::serialization::library_version_type library_version_type;
+ 
+ class version_type {
+-private:
++public:
+     typedef uint_least32_t base_type;
++private:
+     base_type t;
+ public:
+     // should be private - but MPI fails if it's not!!!
+@@ -73,8 +74,9 @@ public:
+ };
+ 
+ class class_id_type {
+-private:
++public:
+     typedef int_least16_t base_type;
++private:
+     base_type t;
+ public:
+     // should be private - but then can't use BOOST_STRONG_TYPE below
+@@ -112,8 +114,9 @@ public:
+ #define BOOST_SERIALIZATION_NULL_POINTER_TAG boost::archive::class_id_type(-1)
+ 
+ class object_id_type {
+-private:
++public:
+     typedef uint_least32_t base_type;
++private:
+     base_type t;
+ public:
+     object_id_type(): t(0) {}
+@@ -152,6 +155,7 @@ public:
+ #endif
+ 
+ struct tracking_type {
++    typedef bool base_type;
+     bool t;
+     explicit tracking_type(const bool t_ = false)
+         : t(t_)
+diff --git a/boost/bind/detail/result_traits.hpp b/boost/bind/detail/result_traits.hpp
+index d57d9fd1b..2aec0f254 100644
+--- a/boost/bind/detail/result_traits.hpp
++++ b/boost/bind/detail/result_traits.hpp
+@@ -28,6 +28,8 @@
+ #include <functional>
+ #endif
+ 
++#include <boost/core/ref.hpp>
++
+ namespace boost
+ {
+ 
+diff --git a/boost/date_time/dst_rules.hpp b/boost/date_time/dst_rules.hpp
+index 760d9cc41..ac0787e78 100644
+--- a/boost/date_time/dst_rules.hpp
++++ b/boost/date_time/dst_rules.hpp
+@@ -16,6 +16,7 @@
+ #include "boost/date_time/date_generators.hpp"
+ #include "boost/date_time/period.hpp"
+ #include "boost/date_time/date_defs.hpp"
++#include "boost/date_time/gregorian/gregorian.hpp"
+ #include <stdexcept>
+ 
+ namespace boost {
+diff --git a/boost/graph/astar_search.hpp b/boost/graph/astar_search.hpp
+index 02f4b1cb4..29366c276 100644
+--- a/boost/graph/astar_search.hpp
++++ b/boost/graph/astar_search.hpp
+@@ -15,6 +15,7 @@
+ 
+ #include <functional>
+ #include <vector>
++#include <boost/locale/definitions.hpp>
+ #include <boost/limits.hpp>
+ #include <boost/throw_exception.hpp>
+ #include <boost/graph/named_function_params.hpp>
+diff --git a/boost/graph/exception.hpp b/boost/graph/exception.hpp
+index 76f1fa380..a427d6739 100644
+--- a/boost/graph/exception.hpp
++++ b/boost/graph/exception.hpp
+@@ -12,6 +12,7 @@
+ 
+ #include <stdexcept>
+ #include <string>
++#include <boost/config.hpp>
+ 
+ #include <boost/config.hpp>
+ 
+diff --git a/boost/interprocess/detail/managed_open_or_create_impl.hpp b/boost/interprocess/detail/managed_open_or_create_impl.hpp
+index d5dc0db0b..8387ebe17 100644
+--- a/boost/interprocess/detail/managed_open_or_create_impl.hpp
++++ b/boost/interprocess/detail/managed_open_or_create_impl.hpp
+@@ -320,7 +320,7 @@ class managed_open_or_create_impl
+                //File existing when trying to create, but non-existing when
+                //trying to open, and tried MaxCreateOrOpenTries times. Something fishy
+                //is happening here and we can't solve it
+-               throw interprocess_exception(error_info(corrupted_error));
++              throw interprocess_exception(error_info(corrupted_error), "do_create_else_open: file exists when trying to create, but not when trying to open");
+             }
+             else{
+                BOOST_INTERPROCESS_TRY{
+@@ -377,7 +377,7 @@ class managed_open_or_create_impl
+          }
+          else{
+             atomic_write32(patomic_word, CorruptedSegment);
+-            throw interprocess_exception(error_info(corrupted_error));
++            throw interprocess_exception(error_info(corrupted_error), "do_map_after_create: corrupted segment");
+          }
+       }
+       BOOST_INTERPROCESS_CATCH(...){
+@@ -411,7 +411,7 @@ class managed_open_or_create_impl
+          while(1){
+             if(!get_file_size(file_handle_from_mapping_handle(dev.get_mapping_handle()), filesize)){
+                error_info err = system_error_code();
+-               throw interprocess_exception(err);
++               throw interprocess_exception(err, "do_map_after_open: get_file_size failed");
+             }
+             if (filesize != 0)
+                break;
+@@ -420,14 +420,14 @@ class managed_open_or_create_impl
+                //to minimally increase the size of the file: something bad has happened
+                const usduration elapsed(microsec_clock<ustime>::universal_time() - ustime_start);
+                if (elapsed > TimeoutSec){
+-                  throw interprocess_exception(error_info(corrupted_error));
++                 throw interprocess_exception(error_info(corrupted_error), "do_map_after_open: too much elapsed time in get_file_size");
+                }
+                swait.yield();
+             }
+          }
+          //The creator detected an error creating the file and signalled it with size 1
+          if(filesize == 1){
+-            throw interprocess_exception(error_info(corrupted_error));
++           throw interprocess_exception(error_info(corrupted_error), "do_map_after_open: creating of file failed");
+          }
+       }
+ 
+@@ -441,13 +441,13 @@ class managed_open_or_create_impl
+          spin_wait swait;
+          while ((value = atomic_read32(patomic_word)) != InitializedSegment){
+             if(value == CorruptedSegment){
+-               throw interprocess_exception(error_info(corrupted_error));
++              throw interprocess_exception(error_info(corrupted_error), "do_map_after_open: corrupted segment");
+             }
+             //More than MaxZeroTruncateTimeSec seconds waiting to the creator
+             //to minimally increase the size of the file: something bad has happened
+             const usduration elapsed(microsec_clock<ustime>::universal_time() - ustime_start);
+             if (elapsed > TimeoutSec){
+-               throw interprocess_exception(error_info(corrupted_error));
++              throw interprocess_exception(error_info(corrupted_error), "do_map_after_open: too much time elapsed in reading patomic_word");
+             }
+             swait.yield();
+          }
+@@ -480,11 +480,11 @@ class managed_open_or_create_impl
+          const std::size_t func_min_size = construct_func.get_min_size();
+          if( (std::size_t(-1) - ManagedOpenOrCreateUserOffset) < func_min_size ||
+              size < (func_min_size + ManagedOpenOrCreateUserOffset) ){
+-            throw interprocess_exception(error_info(size_error));
++           throw interprocess_exception(error_info(size_error), "priv_open_or_create: insufficient size");
+          }
+          //Check size can be represented by offset_t (used by truncate)
+          if (!check_offset_t_size<FileBased>(size, file_like_t())){
+-           throw interprocess_exception(error_info(size_error));
++           throw interprocess_exception(error_info(size_error),"priv_open_or_create: size does not fit as offset_t");
+          }
+       }
+ 
+diff --git a/boost/interprocess/detail/shared_dir_helpers.hpp b/boost/interprocess/detail/shared_dir_helpers.hpp
+index 8d9d36f2d..6c2cc2e69 100644
+--- a/boost/interprocess/detail/shared_dir_helpers.hpp
++++ b/boost/interprocess/detail/shared_dir_helpers.hpp
+@@ -68,7 +68,7 @@ struct shared_dir_constants<wchar_t>
+             //Throw if bootstamp not available
+             if(!winapi::get_last_bootup_time(stamp)){
+                error_info err = system_error_code();
+-               throw interprocess_exception(err);
++               throw interprocess_exception(err, "windows_bootstamp: winapi::get_last_bootup_time failed");
+             }
+          }
+          //Use std::string. Even if this will be constructed in shared memory, all
+@@ -139,7 +139,7 @@ inline void get_shared_dir_root(std::basic_string<CharT> &dir_path)
+    //We always need this path, so throw on error
+    if(dir_path.empty()){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "get_shared_dir_root: empty dir_path");
+    }
+ 
+    dir_path += shared_dir_constants<CharT>::dir_interprocess();
+@@ -211,7 +211,7 @@ inline void create_shared_dir_and_clean_old(std::basic_string<CharT> &shared_dir
+       //If fails, check that it's because already exists
+       if(!open_or_create_shared_directory(root_shared_dir.c_str())){
+          error_info info(system_error_code());
+-         throw interprocess_exception(info);
++         throw interprocess_exception(info, "create_shared_dir_and_clean_old: open_or_create_shared_directory failed");
+       }
+ 
+       #if defined(BOOST_INTERPROCESS_HAS_KERNEL_BOOTTIME)
+@@ -220,7 +220,7 @@ inline void create_shared_dir_and_clean_old(std::basic_string<CharT> &shared_dir
+          //If fails, check that it's because already exists
+          if(!open_or_create_shared_directory(shared_dir.c_str())){
+             error_info info(system_error_code());
+-            throw interprocess_exception(info);
++            throw interprocess_exception(info, "open_or_create_shared_directory: open_or_create_shared_directory");
+          }
+          //Now erase all old directories created in the previous boot sessions
+          std::basic_string<CharT> subdir = shared_dir;
+diff --git a/boost/interprocess/exceptions.hpp b/boost/interprocess/exceptions.hpp
+index 31e88b8df..664bb42fe 100644
+--- a/boost/interprocess/exceptions.hpp
++++ b/boost/interprocess/exceptions.hpp
+@@ -43,7 +43,7 @@ class BOOST_SYMBOL_VISIBLE interprocess_exception : public std::exception
+       BOOST_INTERPROCESS_CATCH(...) {} BOOST_INTERPROCESS_CATCH_END
+    }
+ 
+-   interprocess_exception(const error_info &err_info, const char *str = 0)
++  interprocess_exception(const error_info &err_info, const char *str = 0)
+       :  m_err(err_info)
+    {
+       BOOST_INTERPROCESS_TRY{
+@@ -83,7 +83,7 @@ class BOOST_SYMBOL_VISIBLE lock_exception : public interprocess_exception
+ {
+    public:
+    lock_exception(error_code_t err = lock_error) BOOST_NOEXCEPT
+-      :  interprocess_exception(err)
++     :  interprocess_exception(err, "lock_exception")
+    {}
+ 
+    const char* what() const BOOST_NOEXCEPT_OR_NOTHROW BOOST_OVERRIDE
+diff --git a/boost/interprocess/mapped_region.hpp b/boost/interprocess/mapped_region.hpp
+index b410de407..af63a704a 100644
+--- a/boost/interprocess/mapped_region.hpp
++++ b/boost/interprocess/mapped_region.hpp
+@@ -357,7 +357,7 @@ inline void mapped_region::priv_size_from_mapping_size
+       boost::uintmax_t(mapping_size - (offset - page_offset)) >
+          boost::uintmax_t(std::size_t(-1))){
+       error_info err(size_error);
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "mapped_region::priv_size_from_mapping_size failed");
+    }
+    size = static_cast<std::size_t>(mapping_size - offset);
+ }
+@@ -433,7 +433,7 @@ inline mapped_region::mapped_region
+          default:
+             {
+                error_info err(mode_error);
+-               throw interprocess_exception(err);
++               throw interprocess_exception(err, "mapped_region::ctr unknown mode");
+             }
+          break;
+       }
+@@ -453,7 +453,7 @@ inline mapped_region::mapped_region
+          //Check if all is correct
+          if(!native_mapping_handle){
+             error_info err ((int)winapi::get_last_error());
+-            throw interprocess_exception(err);
++            throw interprocess_exception(err, "mapped_region::ctr winapi::create_file_mapping failed");
+          }
+          handle_to_close = native_mapping_handle;
+       }
+@@ -473,7 +473,7 @@ inline mapped_region::mapped_region
+          offset_t mapping_size;
+          if(!winapi::get_file_mapping_size(native_mapping_handle, mapping_size)){
+             error_info err((int)winapi::get_last_error());
+-            throw interprocess_exception(err);
++            throw interprocess_exception(err, "mapped_region::ctr: get_file_mapping_size failed");
+          }
+          //This can throw
+          priv_size_from_mapping_size(mapping_size, offset, page_offset, size);
+@@ -489,7 +489,7 @@ inline mapped_region::mapped_region
+       //Check error
+       if(!base){
+          error_info err((int)winapi::get_last_error());
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr: winapi::map_view_of_file_ex failed");
+       }
+ 
+       //Calculate new base for the user
+@@ -504,7 +504,7 @@ inline mapped_region::mapped_region
+    if(!winapi::duplicate_current_process_handle(mhandle.handle, &m_file_or_mapping_hnd)){
+       error_info err((int)winapi::get_last_error());
+       this->priv_close();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "mapped_region::ctr: winapi::duplicate_current_process_handle failed");
+    }
+ }
+ 
+@@ -607,7 +607,7 @@ inline mapped_region::mapped_region
+       int ret = ::shmctl(map_hnd.handle, IPC_STAT, &xsi_ds);
+       if(ret == -1){
+          error_info err(system_error_code());
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr: shmctl failed");
+       }
+       //Compare sizess
+       if(size == 0){
+@@ -615,7 +615,7 @@ inline mapped_region::mapped_region
+       }
+       else if(size != (std::size_t)xsi_ds.shm_segsz){
+          error_info err(size_error);
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr: size not xsi_ds.shm_segsz");
+       }
+       //Calculate flag
+       int flag = map_options == default_map_options ? 0 : map_options;
+@@ -624,7 +624,7 @@ inline mapped_region::mapped_region
+       }
+       else if(m_mode != read_write){
+          error_info err(mode_error);
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr: unknown mode");
+       }
+       //Attach memory
+       //Some old shmat implementation take the address as a non-const void pointer
+@@ -633,7 +633,7 @@ inline mapped_region::mapped_region
+       void *base = ::shmat(map_hnd.handle, final_address, flag);
+       if(base == (void*)-1){
+          error_info err(system_error_code());
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr: shmat failed");
+       }
+       //Update members
+       m_base   = base;
+@@ -652,7 +652,7 @@ inline mapped_region::mapped_region
+       struct ::stat buf;
+       if(0 != fstat(map_hnd.handle, &buf)){
+          error_info err(system_error_code());
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "mapped_region::ctr:  fstat == 0");
+       }
+       //This can throw
+       priv_size_from_mapping_size(buf.st_size, offset, page_offset, size);
+@@ -695,7 +695,7 @@ inline mapped_region::mapped_region
+       default:
+          {
+             error_info err(mode_error);
+-            throw interprocess_exception(err);
++            throw interprocess_exception(err, "mapped_region::ctr: unknown mode");
+          }
+       break;
+    }
+@@ -711,7 +711,7 @@ inline mapped_region::mapped_region
+    //Check if mapping was successful
+    if(base == MAP_FAILED){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "mapped_region::ctr: mmap failed");
+    }
+ 
+    //Calculate new base for the user
+@@ -723,7 +723,7 @@ inline mapped_region::mapped_region
+    if(address && (base != address)){
+       error_info err(busy_error);
+       this->priv_close();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "mapped_region::ctr: fixed mapping error");
+    }
+ }
+ 
+diff --git a/boost/interprocess/shared_memory_object.hpp b/boost/interprocess/shared_memory_object.hpp
+index 46c2f2019..018f1ac99 100644
+--- a/boost/interprocess/shared_memory_object.hpp
++++ b/boost/interprocess/shared_memory_object.hpp
+@@ -239,7 +239,7 @@ inline bool shared_memory_object::priv_open_or_create
+    //Set accesses
+    if (mode != read_write && mode != read_only){
+       error_info err = other_error;
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::priv_open_or_create shared dir failure");
+    }
+ 
+    switch(type){
+@@ -255,7 +255,7 @@ inline bool shared_memory_object::priv_open_or_create
+       default:
+          {
+             error_info err = other_error;
+-            throw interprocess_exception(err);
++            throw interprocess_exception(err, "shared_memory_object::priv_open_or_create unknown type");
+          }
+    }
+ 
+@@ -263,7 +263,7 @@ inline bool shared_memory_object::priv_open_or_create
+    if(m_handle == ipcdetail::invalid_file()){
+       error_info err = system_error_code();
+       this->priv_close();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::priv_open_or_create invalid_file");
+    }
+ 
+    m_mode = mode;
+@@ -304,7 +304,7 @@ inline void shared_memory_object::truncate(offset_t length)
+ {
+    if(!ipcdetail::truncate_file(m_handle, (std::size_t)length)){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::truncate");
+    }
+ }
+ 
+@@ -371,7 +371,7 @@ inline bool shared_memory_object::priv_open_or_create
+    }
+    else{
+       error_info err(mode_error);
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::priv_open_or_create unknown mode");
+    }
+    ::mode_t unix_perm = perm.get_permissions();
+ 
+@@ -419,7 +419,7 @@ inline bool shared_memory_object::priv_open_or_create
+       default:
+       {
+          error_info err = other_error;
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "shared_memory_object::priv_open_or_create type unknown");
+       }
+    }
+ 
+@@ -427,7 +427,7 @@ inline bool shared_memory_object::priv_open_or_create
+    if(m_handle < 0){
+       error_info err = errno;
+       this->priv_close();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::priv_open_or_create shm_open failed");
+    }
+ 
+    m_filename = filename;
+@@ -469,7 +469,7 @@ inline void shared_memory_object::truncate(offset_t length)
+ 
+    if (ret && ret != EOPNOTSUPP && ret != ENODEV){
+       error_info err(ret);
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::truncate posix failure");
+    }
+    //ftruncate fallback
+    #endif //BOOST_INTERPROCESS_POSIX_FALLOCATE
+@@ -479,7 +479,7 @@ inline void shared_memory_object::truncate(offset_t length)
+       if (errno == EINTR)
+          goto handle_eintr;
+       error_info err(system_error_code());
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "shared_memory_object::truncate failure");
+    }
+ }
+ 
+diff --git a/boost/interprocess/sync/posix/condition.hpp b/boost/interprocess/sync/posix/condition.hpp
+index 5b3b75266..4a8d3a08e 100644
+--- a/boost/interprocess/sync/posix/condition.hpp
++++ b/boost/interprocess/sync/posix/condition.hpp
+@@ -158,12 +158,12 @@ inline posix_condition::posix_condition()
+    res = pthread_condattr_setpshared(&cond_attr, PTHREAD_PROCESS_SHARED);
+    if(res != 0){
+       pthread_condattr_destroy(&cond_attr);
+-      throw interprocess_exception(res);
++      throw interprocess_exception(res,"posix_condition::ctr pthread_condattr_setpshared failed");
+    }
+    res = pthread_cond_init(&m_condition, &cond_attr);
+    pthread_condattr_destroy(&cond_attr);
+    if(res != 0){
+-      throw interprocess_exception(res);
++     throw interprocess_exception(res, "posix_condition::ctr pthread_cond_init failed");
+    }
+ }
+ 
+diff --git a/boost/interprocess/sync/posix/semaphore_wrapper.hpp b/boost/interprocess/sync/posix/semaphore_wrapper.hpp
+index 86c6ad1f1..6ab77c715 100644
+--- a/boost/interprocess/sync/posix/semaphore_wrapper.hpp
++++ b/boost/interprocess/sync/posix/semaphore_wrapper.hpp
+@@ -104,13 +104,13 @@ inline bool semaphore_open
+       default:
+       {
+          error_info err(other_error);
+-         throw interprocess_exception(err);
++         throw interprocess_exception(err, "semaphore_open: unknown type");
+       }
+    }
+ 
+    //Check for error
+    if(handle == BOOST_INTERPROCESS_POSIX_SEM_FAILED){
+-      throw interprocess_exception(error_info(errno));
++     throw interprocess_exception(error_info(errno),"semaphore_open: sem_open failed");
+    }
+ 
+    return true;
+@@ -156,7 +156,7 @@ inline void semaphore_init(sem_t *handle, unsigned int initialCount)
+    //In the future, a successful call might be required to return 0.
+    if(ret == -1){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "semaphore_init: sem_init failed");
+    }
+ }
+ 
+@@ -175,7 +175,7 @@ inline void semaphore_post(sem_t *handle)
+    int ret = sem_post(handle);
+    if(ret != 0){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "semaphore_post: sem_post failed");
+    }
+ }
+ 
+@@ -184,7 +184,7 @@ inline void semaphore_wait(sem_t *handle)
+    int ret = BOOST_INTERPROCESS_EINTR_RETRY(int, -1, sem_wait(handle));
+    if(ret != 0){
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "semaphore_wait: sem_wait failed");
+    }
+ }
+ 
+@@ -197,7 +197,7 @@ inline bool semaphore_try_wait(sem_t *handle)
+       return false;
+    }
+    error_info err = system_error_code();
+-   throw interprocess_exception(err);
++   throw interprocess_exception(err, "semaphore_try_wait: sem_trywait failed");
+ }
+ 
+ #ifndef BOOST_INTERPROCESS_POSIX_TIMEOUTS
+@@ -243,7 +243,7 @@ inline bool semaphore_timed_wait(sem_t *handle, const TimePoint &abs_time)
+          return false;
+       }
+       error_info err = system_error_code();
+-      throw interprocess_exception(err);
++      throw interprocess_exception(err, "semaphore_timed_wait: sem_timedwait failed");
+    }
+    return false;
+    #else //#ifdef BOOST_INTERPROCESS_POSIX_TIMEOUTS
+diff --git a/boost/iostreams/detail/add_facet.hpp b/boost/iostreams/detail/add_facet.hpp
+index 6033d4f8a..a4a6e0d96 100644
+--- a/boost/iostreams/detail/add_facet.hpp
++++ b/boost/iostreams/detail/add_facet.hpp
+@@ -17,6 +17,8 @@
+ #include <boost/config.hpp>  // BOOST_DINKUMWARE_STDLIB.
+ #include <boost/detail/workaround.hpp>
+ 
++#include <locale>
++
+ //------------------Definition of add_facet-----------------------------------//
+ 
+ // Does STLport uses old Dinkumware locale?
+diff --git a/boost/iostreams/detail/broken_overload_resolution/forward.hpp b/boost/iostreams/detail/broken_overload_resolution/forward.hpp
+index 4444916c3..15566a667 100644
+--- a/boost/iostreams/detail/broken_overload_resolution/forward.hpp
++++ b/boost/iostreams/detail/broken_overload_resolution/forward.hpp
+@@ -9,6 +9,7 @@
+ #define BOOST_IOSTREAMS_DETAIL_BROKEN_OVERLOAD_RESOLUTION_HPP_INCLUDED
+ 
+ #include <boost/config.hpp>                     // BOOST_STATIC_CONSANT.
++#include <boost/core/ref.hpp>
+ #include <boost/mpl/bool.hpp>
+ #include <boost/type_traits/is_same.hpp>
+ 
+diff --git a/boost/iostreams/detail/config/enable_warnings.hpp b/boost/iostreams/detail/config/enable_warnings.hpp
+index f04f525a7..b8bfbda14 100644
+--- a/boost/iostreams/detail/config/enable_warnings.hpp
++++ b/boost/iostreams/detail/config/enable_warnings.hpp
+@@ -5,6 +5,8 @@
+ 
+ // See http://www.boost.org/libs/iostreams for documentation.
+ 
++#include <boost/config/workaround.hpp>
++
+ #if defined(BOOST_MSVC)
+ # pragma warning(pop)
+ #else
+diff --git a/boost/iostreams/detail/is_dereferenceable.hpp b/boost/iostreams/detail/is_dereferenceable.hpp
+index 06744abbd..9324a1c3c 100644
+--- a/boost/iostreams/detail/is_dereferenceable.hpp
++++ b/boost/iostreams/detail/is_dereferenceable.hpp
+@@ -9,6 +9,7 @@
+ #ifndef BOOST_IOSTREAMS_DETAIL_IS_DEREFERENCEABLE_HPP_INCLUDED
+ #define BOOST_IOSTREAMS_DETAIL_IS_DEREFERENCEABLE_HPP_INCLUDED
+ 
++# include <boost/type_traits/integral_constant.hpp>
+ # include <boost/type_traits/remove_cv.hpp>
+ # include <boost/mpl/aux_/lambda_support.hpp>
+ # include <boost/mpl/bool.hpp>
+diff --git a/boost/iostreams/detail/newline.hpp b/boost/iostreams/detail/newline.hpp
+index d6fceb04b..b4e4708a3 100644
+--- a/boost/iostreams/detail/newline.hpp
++++ b/boost/iostreams/detail/newline.hpp
+@@ -8,6 +8,8 @@
+ #ifndef BOOST_IOSTREAMS_DETAIL_NEWLINE_HPP_INCLUDED
+ #define BOOST_IOSTREAMS_DETAIL_NEWLINE_HPP_INCLUDED
+ 
++#include <boost/config.hpp>
++
+ #if defined(_MSC_VER)
+ # pragma once
+ #endif
+diff --git a/boost/math/constants/calculate_constants.hpp b/boost/math/constants/calculate_constants.hpp
+index 95f53d9e1..9efdff579 100644
+--- a/boost/math/constants/calculate_constants.hpp
++++ b/boost/math/constants/calculate_constants.hpp
+@@ -7,6 +7,8 @@
+ 
+ #ifndef BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
+ #define BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
++
++#include <boost/math/constants/constants.hpp>
+ #include <type_traits>
+ 
+ namespace boost{ namespace math{ namespace constants{ namespace detail{
+diff --git a/boost/math/interpolators/detail/cardinal_quintic_b_spline_detail.hpp b/boost/math/interpolators/detail/cardinal_quintic_b_spline_detail.hpp
+index fcaa33661..9ac823104 100644
+--- a/boost/math/interpolators/detail/cardinal_quintic_b_spline_detail.hpp
++++ b/boost/math/interpolators/detail/cardinal_quintic_b_spline_detail.hpp
+@@ -10,6 +10,7 @@
+ #include <cstdint>
+ #include <vector>
+ #include <utility>
++#include <stdexcept>
+ #include <boost/math/special_functions/cardinal_b_spline.hpp>
+ 
+ namespace boost{ namespace math{ namespace interpolators{ namespace detail{
+diff --git a/boost/math/special_functions/detail/bernoulli_details.hpp b/boost/math/special_functions/detail/bernoulli_details.hpp
+index 3dbc9b575..33aafcf64 100644
+--- a/boost/math/special_functions/detail/bernoulli_details.hpp
++++ b/boost/math/special_functions/detail/bernoulli_details.hpp
+@@ -13,6 +13,7 @@
+ #include <boost/math/tools/throw_exception.hpp>
+ #include <boost/math/tools/config.hpp>
+ #include <boost/math/special_functions/fpclassify.hpp>
++#include <atomic>
+ #include <vector>
+ #include <type_traits>
+ 
+diff --git a/boost/math/special_functions/next.hpp b/boost/math/special_functions/next.hpp
+index 74c34f06a..6c167e80f 100644
+--- a/boost/math/special_functions/next.hpp
++++ b/boost/math/special_functions/next.hpp
+@@ -21,6 +21,8 @@
+ #include <boost/math/special_functions/sign.hpp>
+ #include <boost/math/special_functions/trunc.hpp>
+ #include <boost/math/tools/traits.hpp>
++#include <boost/math/tools/config.hpp>
++#include <cmath>
+ #include <type_traits>
+ #include <cfloat>
+ 
+diff --git a/boost/math/special_functions/sign.hpp b/boost/math/special_functions/sign.hpp
+index 4f7652265..2ee0ddb05 100644
+--- a/boost/math/special_functions/sign.hpp
++++ b/boost/math/special_functions/sign.hpp
+@@ -20,6 +20,8 @@
+ #include <boost/math/special_functions/math_fwd.hpp>
+ #include <boost/math/special_functions/detail/fp_traits.hpp>
+ 
++#include <cmath>
++
+ namespace boost{ namespace math{ 
+ 
+ namespace detail {
+diff --git a/boost/math/tools/detail/polynomial_horner1_3.hpp b/boost/math/tools/detail/polynomial_horner1_3.hpp
+index 0aeccc111..3b4c38bf3 100644
+--- a/boost/math/tools/detail/polynomial_horner1_3.hpp
++++ b/boost/math/tools/detail/polynomial_horner1_3.hpp
+@@ -9,6 +9,8 @@
+ #ifndef BOOST_MATH_TOOLS_POLY_EVAL_3_HPP
+ #define BOOST_MATH_TOOLS_POLY_EVAL_3_HPP
+ 
++#include <boost/mpl/identity.hpp>
++
+ namespace boost{ namespace math{ namespace tools{ namespace detail{
+ 
+ template <class T, class V>
+diff --git a/boost/math/tools/recurrence.hpp b/boost/math/tools/recurrence.hpp
+index b08988d4b..0dc704b50 100644
+--- a/boost/math/tools/recurrence.hpp
++++ b/boost/math/tools/recurrence.hpp
+@@ -14,6 +14,8 @@
+ #include <boost/math/tools/tuple.hpp>
+ #include <boost/math/tools/fraction.hpp>
+ #include <boost/math/tools/cxx03_warn.hpp>
++#include <boost/type_traits/remove_reference.hpp>
++#include <boost/math/special_functions/fpclassify.hpp>
+ #include <boost/math/tools/assert.hpp>
+ #include <boost/math/special_functions/fpclassify.hpp>
+ #include <boost/math/policies/error_handling.hpp>
+diff --git a/boost/mpl/assert.hpp b/boost/mpl/assert.hpp
+index c7ecddf02..9058bcf7b 100644
+--- a/boost/mpl/assert.hpp
++++ b/boost/mpl/assert.hpp
+@@ -184,8 +184,7 @@ template< typename P > struct assert_arg_pred_not
+     typedef typename assert_arg_pred_impl<p>::type type;
+ };
+ 
+-#if BOOST_WORKAROUND(BOOST_GCC_VERSION, >= 80000)
+-#define BOOST_MPL_IGNORE_PARENTHESES_WARNING
++#ifdef BOOST_MPL_IGNORE_PARENTHESES_WARNING
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wparentheses"
+ #endif
+@@ -201,7 +200,6 @@ failed ************ (boost::mpl::not_<Pred>::************
+     );
+ 
+ #ifdef BOOST_MPL_IGNORE_PARENTHESES_WARNING
+-#undef BOOST_MPL_IGNORE_PARENTHESES_WARNING
+ #pragma GCC diagnostic pop
+ #endif
+ 
+diff --git a/boost/mpl/aux_/config/gcc.hpp b/boost/mpl/aux_/config/gcc.hpp
+index 080495de1..f94319e88 100644
+--- a/boost/mpl/aux_/config/gcc.hpp
++++ b/boost/mpl/aux_/config/gcc.hpp
+@@ -14,7 +14,7 @@
+ // $Date$
+ // $Revision$
+ 
+-#if defined(__GNUC__) && !defined(__EDG_VERSION__)
++#if defined(__GNUC__) && !defined(__EDG_VERSION__) || defined(__INTEL_COMPILER)
+ #   define BOOST_MPL_CFG_GCC ((__GNUC__ << 8) | __GNUC_MINOR__)
+ #else
+ #   define BOOST_MPL_CFG_GCC 0
+diff --git a/boost/parameter/aux_/default.hpp b/boost/parameter/aux_/default.hpp
+index c07fb7ba4..514f5b41d 100644
+--- a/boost/parameter/aux_/default.hpp
++++ b/boost/parameter/aux_/default.hpp
+@@ -7,6 +7,8 @@
+ #ifndef BOOST_PARAMETER_AUX_DEFAULT_HPP
+ #define BOOST_PARAMETER_AUX_DEFAULT_HPP
+ 
++#include <boost/parameter/config.hpp>
++
+ namespace boost { namespace parameter { namespace aux {
+ 
+     // A wrapper for the default value passed by the user when resolving
+@@ -22,7 +24,6 @@ namespace boost { namespace parameter { namespace aux {
+     };
+ }}} // namespace boost::parameter::aux
+ 
+-#include <boost/parameter/config.hpp>
+ 
+ namespace boost { namespace parameter { namespace aux {
+ 
+diff --git a/boost/range/adaptor/transformed.hpp b/boost/range/adaptor/transformed.hpp
+index 428ff4be7..e5e03fd01 100644
+--- a/boost/range/adaptor/transformed.hpp
++++ b/boost/range/adaptor/transformed.hpp
+@@ -103,12 +103,12 @@ namespace boost
+ 
+     namespace adaptors
+     {
+-        namespace
+-        {
++        //namespace
++        //{
+             const range_detail::forwarder<range_detail::transform_holder>
+                     transformed =
+                       range_detail::forwarder<range_detail::transform_holder>();
+-        }
++        //}
+ 
+         template<class UnaryFunction, class SinglePassRange>
+         inline transformed_range<UnaryFunction, SinglePassRange>
+diff --git a/boost/range/detail/any_iterator_interface.hpp b/boost/range/detail/any_iterator_interface.hpp
+index 79e71dbdf..e603b09f3 100644
+--- a/boost/range/detail/any_iterator_interface.hpp
++++ b/boost/range/detail/any_iterator_interface.hpp
+@@ -10,6 +10,10 @@
+ #ifndef BOOST_RANGE_DETAIL_ANY_ITERATOR_INTERFACE_HPP_INCLUDED
+ #define BOOST_RANGE_DETAIL_ANY_ITERATOR_INTERFACE_HPP_INCLUDED
+ 
++#include <boost/mpl/and.hpp>
++#include <boost/mpl/or.hpp>
++#include <boost/mpl/not.hpp>
++#include <boost/type_traits/is_const.hpp>
+ #include <boost/mpl/if.hpp>
+ #include <boost/range/detail/any_iterator_buffer.hpp>
+ #include <boost/iterator/iterator_categories.hpp>
+diff --git a/boost/range/detail/has_member_size.hpp b/boost/range/detail/has_member_size.hpp
+index 897c51974..d3a643aae 100644
+--- a/boost/range/detail/has_member_size.hpp
++++ b/boost/range/detail/has_member_size.hpp
+@@ -16,6 +16,7 @@
+ #include <boost/mpl/if.hpp>
+ #include <boost/mpl/and.hpp>
+ #include <boost/mpl/bool.hpp>
++#include <boost/mpl/if.hpp>
+ #include <boost/cstdint.hpp>
+ 
+ namespace boost
+diff --git a/boost/serialization/collection_size_type.hpp b/boost/serialization/collection_size_type.hpp
+index 9b6115adb..31c7e1e36 100644
+--- a/boost/serialization/collection_size_type.hpp
++++ b/boost/serialization/collection_size_type.hpp
+@@ -18,8 +18,9 @@ namespace serialization {
+ //BOOST_STRONG_TYPEDEF(std::size_t, collection_size_type)
+ 
+ class collection_size_type {
+-private:
++public:
+     typedef std::size_t base_type;
++private:
+     base_type t;
+ public:
+     collection_size_type(): t(0) {}
+diff --git a/boost/serialization/hash_collections_save_imp.hpp b/boost/serialization/hash_collections_save_imp.hpp
+index c672a5397..3a862f276 100644
+--- a/boost/serialization/hash_collections_save_imp.hpp
++++ b/boost/serialization/hash_collections_save_imp.hpp
+@@ -24,6 +24,7 @@
+ #include <boost/serialization/collection_size_type.hpp>
+ #include <boost/serialization/item_version_type.hpp>
+ #include <boost/serialization/library_version_type.hpp>
++#include <boost/serialization/version.hpp>
+ 
+ namespace boost{
+ namespace serialization {
+diff --git a/boost/serialization/item_version_type.hpp b/boost/serialization/item_version_type.hpp
+index d0fb91062..4429a9a0d 100644
+--- a/boost/serialization/item_version_type.hpp
++++ b/boost/serialization/item_version_type.hpp
+@@ -23,8 +23,9 @@ namespace serialization {
+ #endif
+ 
+ class item_version_type {
+-private:
++public:
+     typedef unsigned int base_type;
++private:
+     base_type t;
+ public:
+     // should be private - but MPI fails if it's not!!!
+diff --git a/boost/serialization/library_version_type.hpp b/boost/serialization/library_version_type.hpp
+index 5acb2d47e..621012808 100644
+--- a/boost/serialization/library_version_type.hpp
++++ b/boost/serialization/library_version_type.hpp
+@@ -34,8 +34,9 @@ namespace serialization {
+  * binary archives won't be readable !!!
+  */
+ class library_version_type {
+-private:
++public:
+     typedef uint_least16_t base_type;
++private:
+     base_type t;
+ public:
+     library_version_type(): t(0) {}
+diff --git a/boost/spirit/home/support/modify.hpp b/boost/spirit/home/support/modify.hpp
+index a8777924b..a5ece842d 100644
+--- a/boost/spirit/home/support/modify.hpp
++++ b/boost/spirit/home/support/modify.hpp
+@@ -13,7 +13,11 @@
+ #endif
+ 
+ #include <boost/type_traits/is_base_of.hpp>
++#include <boost/core/enable_if.hpp>
+ #include <boost/spirit/home/support/unused.hpp>
++#include <boost/mpl/if.hpp>
++#include <boost/type_traits/remove_const.hpp>
++#include <boost/type_traits/remove_reference.hpp>
+ 
+ namespace boost { namespace spirit
+ {
+diff --git a/boost/spirit/home/x3/operator/detail/alternative.hpp b/boost/spirit/home/x3/operator/detail/alternative.hpp
+index e6f6bfb82..b27f8b900 100644
+--- a/boost/spirit/home/x3/operator/detail/alternative.hpp
++++ b/boost/spirit/home/x3/operator/detail/alternative.hpp
+@@ -15,7 +15,7 @@
+ #include <boost/spirit/home/x3/support/traits/variant_has_substitute.hpp>
+ #include <boost/spirit/home/x3/support/traits/variant_find_substitute.hpp>
+ #include <boost/spirit/home/x3/core/detail/parse_into_container.hpp>
+-
++#include <boost/spirit/home/x3/core/parser.hpp>
+ #include <boost/mpl/if.hpp>
+ 
+ #include <boost/fusion/include/front.hpp>
+diff --git a/boost/thread/detail/function_wrapper.hpp b/boost/thread/detail/function_wrapper.hpp
+index 355f72676..51ab738a6 100644
+--- a/boost/thread/detail/function_wrapper.hpp
++++ b/boost/thread/detail/function_wrapper.hpp
+@@ -15,6 +15,7 @@
+ #include <boost/thread/detail/move.hpp>
+ 
+ #include <boost/thread/csbl/memory/unique_ptr.hpp>
++#include <boost/move/unique_ptr.hpp>
+ 
+ #include <memory>
+ #include <functional>
+diff --git a/boost/thread/detail/thread.hpp b/boost/thread/detail/thread.hpp
+index a1bfe643b..96b5ca63b 100644
+--- a/boost/thread/detail/thread.hpp
++++ b/boost/thread/detail/thread.hpp
+@@ -13,6 +13,7 @@
+ #ifndef BOOST_NO_IOSTREAM
+ #include <ostream>
+ #endif
++#include <boost/thread/thread_only.hpp>
+ #include <boost/thread/detail/move.hpp>
+ #include <boost/thread/mutex.hpp>
+ #if defined BOOST_THREAD_USES_DATETIME
+diff --git a/boost/uuid/detail/uuid_x86.ipp b/boost/uuid/detail/uuid_x86.ipp
+index 37f9ae164..336767e2d 100644
+--- a/boost/uuid/detail/uuid_x86.ipp
++++ b/boost/uuid/detail/uuid_x86.ipp
+@@ -37,6 +37,11 @@ BOOST_PRAGMA_MESSAGE( "Using uuid_x86.ipp, SSE2" )
+ #endif
+ #endif // #if defined(BOOST_UUID_REPORT_IMPLEMENTATION)
+ 
++#include <memory>
++#include <boost/config.hpp>
++#include <boost/cstdint.hpp>
++#include <boost/uuid/uuid.hpp>
++
+ // MSVC does not always have immintrin.h (at least, not up to MSVC 10), so include the appropriate header for each instruction set
+ #if defined(BOOST_UUID_USE_AVX512_V1)
+ #include <immintrin.h>
+diff --git a/boost/variant/detail/initializer.hpp b/boost/variant/detail/initializer.hpp
+index 331f375b7..1443736a2 100644
+--- a/boost/variant/detail/initializer.hpp
++++ b/boost/variant/detail/initializer.hpp
+@@ -16,7 +16,7 @@
+ #include <new> // for placement new
+ 
+ #include <boost/config.hpp>
+-
++#include <boost/assert.hpp>
+ #include <boost/call_traits.hpp>
+ #include <boost/detail/reference_content.hpp>
+ #include <boost/variant/recursive_wrapper_fwd.hpp>
