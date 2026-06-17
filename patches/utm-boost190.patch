@@ -1,0 +1,62 @@
+diff --git a/tmTable/Makefile.default b/tmTable/Makefile.default
+index 1e3713c..b97151c 100644
+--- a/tmTable/Makefile.default
++++ b/tmTable/Makefile.default
+@@ -39,7 +39,6 @@ LIBS = \
+ 	-ltmutil \
+ 	-ltmxsd \
+ 	-lxerces-c \
+-	-lboost_system \
+ 	-lboost_filesystem
+ 
+ include ../config/mfRules.mk
+diff --git a/tmTable/Makefile.xdaq b/tmTable/Makefile.xdaq
+index fd969e5..65616ec 100644
+--- a/tmTable/Makefile.xdaq
++++ b/tmTable/Makefile.xdaq
+@@ -24,7 +24,7 @@ DependentLibraryDirs = \
+ 	$(BOOST_ROOT)/lib \
+ 	$(BUILD_HOME)/utm/tmUtil/lib/$(XDAQ_OS)/$(XDAQ_PLATFORM) \
+ 	$(BUILD_HOME)/utm/tmXsd/lib/$(XDAQ_OS)/$(XDAQ_PLATFORM)
+-DependentLibraries = tmutil tmxsd xerces-c boost_system boost_filesystem
++DependentLibraries = tmutil tmxsd xerces-c boost_filesystem
+ DynamicLibrary = tmtable
+ 
+ -include $(XDAQ_ROOT)/build/Makefile.rules
+diff --git a/tmTable/test/Makefile b/tmTable/test/Makefile
+index 658897b..750a901 100644
+--- a/tmTable/test/Makefile
++++ b/tmTable/test/Makefile
+@@ -24,7 +24,6 @@ LIBS = \
+ 	-ltmxsd \
+ 	-lxerces-c \
+ 	-lboost_unit_test_framework \
+-	-lboost_system \
+ 	-lboost_filesystem
+ 
+ include ../../config/mfRules.mk
+diff --git a/tmUtil/test/Makefile b/tmUtil/test/Makefile
+index 466231c..2d433d6 100644
+--- a/tmUtil/test/Makefile
++++ b/tmUtil/test/Makefile
+@@ -8,7 +8,6 @@ LIBDIR += -L..
+ 
+ LIBS += \
+ 	-lboost_unit_test_framework \
+-	-lboost_system \
+ 	-lboost_filesystem \
+ 	-ltmutil
+ 
+diff --git a/tmXsd/Makefile.default b/tmXsd/Makefile.default
+index f63c682..aebfed2 100644
+--- a/tmXsd/Makefile.default
++++ b/tmXsd/Makefile.default
+@@ -80,7 +80,7 @@ LIBS = \
+ 
+ # Workaround for clang on MacOS
+ ifeq ($(shell uname -s),Darwin)
+-	LIBS += -lboost_system -lboost_filesystem
++	LIBS += -lboost_filesystem
+ endif
+ 
+ include ../config/mfRules.mk
