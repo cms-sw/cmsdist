@@ -427,7 +427,7 @@ fi
 %endif
 
 %if "%{?cms_override_standard:set}" == "set"
-%define get_package_cxx_standard() %(echo %{cms_override_standard} | tr ',' '\\n' | awk -F: '/^%{default_pkgname}:/{print $2; found=1} END{if(!found) print %{1}}')
+%define get_package_cxx_standard() %(echo %{cms_override_standard} | tr ',' '\\n' | awk -F: '/^%{default_pkgname}@/{print $2; found=1} END{if(!found) print %{1}}')
 %else
 %define get_package_cxx_standard() %{1}
 %endif
