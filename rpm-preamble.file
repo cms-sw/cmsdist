@@ -409,6 +409,9 @@ fi
 
 #############################################################
 #############################################################
+%if "%{?default_pkgname:set}" != "set"
+%define default_pkgname %{pkgname}
+%endif
 
 #Enable debug mode for cmssw packages, e.g debug root, geant4, etc
 %if "%{?cms_debug_packages:set}" == "set"
@@ -417,10 +420,16 @@ fi
 %define is_debug_build() 0
 %endif
 
-%if %{is_debug_build %{pkgname}}
+%if %{is_debug_build %{default_pkgname}}
 %define cmake_build_type Debug
 %else
 %define cmake_build_type Release
+%endif
+
+%if "%{?cms_override_standard:set}" == "set"
+%define get_package_cxx_standard() %(echo %{cms_override_standard} | tr ',' '\\n' | awk -F: '/^%{default_pkgname}:/{print $2; found=1} END{if(!found) print %{1}}')
+%else
+%define get_package_cxx_standard() %{1}
 %endif
 
 %ifnarch x86_64
