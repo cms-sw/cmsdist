@@ -307,8 +307,8 @@ pycurl==7.45.7
 pydantic-core==2.41.5
 pydot==4.0.1
 pyflakes==3.4.0
-pyg-lib==0.6.0
-pyg-lib-cuda==0.6.0
+pyg-lib==0.7.0
+pyg-lib-cuda==0.7.0
 Pygments==2.20.0
 PyJWT==2.13.0
 pylint==4.0.4
@@ -413,9 +413,9 @@ toolz==1.1.0
 #e.g. for torch==2.10.0, torch-cuda and toch-rocm should also be 2.10.0
 #Do the same for other torch-* packages e.g version of torch-scatter should be used for
 #torch-scatter-cuda and torch-scatter-rocm too.
-torch==2.11.0
-torch-cuda==2.11.0
-torch-rocm==2.11.0
+torch==2.12.1
+torch-cuda==2.12.1
+torch-rocm==2.12.1
 torch-cluster==1.6.3
 torch-cluster-cuda==1.6.3
 torch-cluster-rocm==1.6.3
