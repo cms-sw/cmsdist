@@ -1,0 +1,10 @@
+<tool revision="1">
+  <info url="https://perfetto.dev"/>
+  <lib name="perfetto"/>
+  <client>
+    <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+    <environment name="LIBDIR"  default="$TOOL_BASE/lib"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
+</tool>
