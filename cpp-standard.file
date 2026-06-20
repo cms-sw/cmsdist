@@ -1,4 +1,10 @@
 # C++ standard to use for CMS externals
+%define default_cxx_standard 20
 %if "%{?cms_cxx_standard:set}" != "set"
-%define cms_cxx_standard 20
+%define cms_cxx_standard %{default_cxx_standard}
+%endif
+%global package_cxx_standard %{get_package_cxx_standard %cms_cxx_standard}
+%if "%{package_cxx_standard}" != "%{cms_cxx_standard}"
+%undefine cms_cxx_standard
+%define cms_cxx_standard %{package_cxx_standard}
 %endif
