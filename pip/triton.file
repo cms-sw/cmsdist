@@ -1,13 +1,14 @@
 %define source0 https://github.com/triton-lang/triton/releases/download/v%{realversion}/triton-%{realversion}.tar.gz
 BuildRequires: py3-pybind11 ninja
-Requires: json cuda zlib zstd libxml2
+Requires: json zlib zstd libxml2
+%{!?without_cuda:Requires: cuda}
 
 #Triton does not support llvm 21 so lets build it using its internal llvm
 #Requires: llvm
 #export TRITON_APPEND_CMAKE_ARGS="-DLLVM_DIR=${LLVM_ROOT}/lib64/cmake/llvm -DLLD_DIR=${LLVM_ROOT}/lib64/cmake/lld -DMLIR_DIR=${LLVM_ROOT}/lib64/cmake/mlir"
 #export LLVM_SYSPATH="${LLVM_ROOT}"
 
-%define PipPreBuild \
+%define PipPreBuildCommon \
   export TRITON_CACHE_DIR=${TMPDIR} \
   export TRITON_HOME=${TMPDIR} \
   export MAX_JOBS=%{compiling_processes} \
@@ -19,8 +20,14 @@ Requires: json cuda zlib zstd libxml2
   export TRITON_BUILD_PROTON=OFF \
   export TRITON_PARALLEL_LINK_JOBS=%{compiling_processes} \
   export JSON_SYSPATH=${JSON_ROOT} \
-  export TRITON_APPEND_CMAKE_ARGS="-DCMAKE_PREFIX_PATH='%{cmake_prefix_path}'" \
+  export TRITON_APPEND_CMAKE_ARGS="-DCMAKE_PREFIX_PATH='%{cmake_prefix_path}'"
+
+%if 0%{!?without_cuda:1}
+%define PipPreBuild %{PipPreBuildCommon} \
   export TRITON_NVDISASM_PATH=$CUDA_ROOT/bin/nvdisasm \
   export TRITON_CUOBJDUMP_PATH=$CUDA_ROOT/bin/cuobjdump \
   export TRITON_PTXAS_PATH=${CUDA_ROOT}/bin/ptxas
+%else
+%define PipPreBuild %{PipPreBuildCommon}
+%endif
 
