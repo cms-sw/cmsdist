@@ -43,7 +43,7 @@ def packages(virtual_packages, *args):
         err = True
       vpkg = "%s_%s" % (pkg, v)
       spec =     ["%define vectorized_package {0}".format(v)]
-      spec.append("%define default_pkgname {0}".format(v))
+      spec.append("%define default_pkgname {0}".format(pkg))
       spec.append("%define override_microarch {0}".format(VALID_TARGETS[v]))
       spec.append("cmd:sed -e 's|\(^###  *RPM  *[^\s]*\)  *{0} |\\1 {1} |;s|%{{n}}|{0}|g;' {2}/{0}.spec".format(pkg, vpkg, opts.cmsdist))
       virtual_packages[vpkg] = spec[:]
