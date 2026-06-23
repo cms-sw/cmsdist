@@ -1,4 +1,6 @@
-### RPM external ucx 1.19.0
+### RPM external ucx 1.20.1
+## INCLUDE microarch_flags
+## INCLUDE cuda-flags
 Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
 BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
@@ -15,6 +17,11 @@ Requires: xpmem
 
 ./configure \
   --prefix=%i \
+  --enable-mt \
+  --disable-logging \
+  --disable-debug \
+  --disable-assertions \
+  --disable-params-check \
   --disable-dependency-tracking \
   --enable-openmp \
   --enable-shared \
@@ -25,20 +32,14 @@ Requires: xpmem
   --disable-doxygen-html \
   --enable-compiler-opt \
   --enable-cma \
-  --enable-mt \
   --with-pic \
   --with-gnu-ld \
-%ifarch x86_64
-  --with-march=x86-64-v2 \
-  --with-sse41 \
-  --with-sse42 \
-  --without-avx \
-%endif
   --without-go \
   --without-java \
 %if 0%{!?without_cuda:1}
   --with-cuda=$CUDA_ROOT \
   --with-gdrcopy=$GDRCOPY_ROOT \
+  --with-nvcc-gencode='%{nvcc_flags_cuda_archs}' \
 %else
   --without-cuda \
   --without-gdrcopy \
@@ -59,14 +60,18 @@ Requires: xpmem
   --without-knem \
   --with-xpmem=$XPMEM_ROOT \
   --without-ugni \
+%ifarch x86_64
+  CFLAGS="%{selected_microarch}" \
+  CXXFLAGS="%{selected_microarch}" \
+%endif
   CPPFLAGS="-I$NUMACTL_ROOT/include" \
   LDFLAGS="-L$NUMACTL_ROOT/lib"
 
 %build
-make %{makeprocesses} 
+make %{makeprocesses} V=1
 
 %install
-make install
+make install V=1
 
 # remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
 rm -rf %{i}/lib/pkgconfig
