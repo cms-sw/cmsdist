@@ -1,0 +1,1 @@
+Requires: py3-importlib-metadata py3-nest-asyncio py3-requests py3-typing-extensions py3-Werkzeug py3-flask py3-plotly py3-retrying py3-MarkupSafe

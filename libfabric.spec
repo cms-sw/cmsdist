@@ -1,7 +1,7 @@
 ### RPM external libfabric 2.1.0
 Source: https://github.com/ofiwg/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.bz2
 %{!?without_cuda:Requires: cuda gdrcopy}
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: rocr-runtime}
 BuildRequires: autotools
 Requires: curl
 Requires: numactl
@@ -57,7 +57,7 @@ BuildRequires: autotools
 %endif
 %if 0%{!?without_rocm:1}
   --enable-rocr-dlopen \
-  --with-rocr=$ROCM_ROOT \
+  --with-rocr=$ROCR_RUNTIME_ROOT \
 %else
   --disable-rocr-dlopen \
   --without-rocr \

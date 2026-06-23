@@ -1,13 +1,38 @@
 ## INCLUDE  rocm-flags
-Requires: rocm
+Requires: xz aotriton hip comgr rocr-runtime amdsmi
+Requires: rocrand miopen hiprand rocblas hipblas hipblas-common hipblaslt
+Requires: hipfft hipsparse rocprim hipcub rocthrust hipsolver rocsolver hipsparselt
+Requires: rocprofiler roctracer rccl rocm-core
 
 %define pip_name torch
 %define PipPreBuildPy \
+  XZ_VERSION=$(xz --version | head -1 | awk '{print $NF}'); \
+  export USE_VENV=0; \
+  export AOTRITON_INSTALLED_PREFIX=$AOTRITON_ROOT \
+  export PYTHONHOME=$PYTHON3_ROOT; \
+  export PYTHON_EXECUTABLE=$(which python3); \
+  export NUMPY_EXPERIMENTAL_DTYPE_API=1 \
   export USE_ROCM=ON; \
-  export ROCM_PATH=${ROCM_ROOT}; \
-  export ROCM_SOURCE_DIR=${ROCM_ROOT}; \
+  export CMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include -I$HIPBLASLT_ROOT/include -I$HIPBLAS_COMMON_ROOT/include -I$ROCTRACER_ROOT/include"\
+  export HIP_DEVICE_LIB_PATH=${ROCM_LLVM_ROOT}/amdgcn/bitcode \
+  export HIP_DEVICE_LIB_PATH=${ROCM_LLVM_ROOT}/amdgcn/bitcode \
+  export ROCM_PATH=${HIP_ROOT}; \
+  export ROCM_SOURCE_DIR=${HIP_ROOT}; \
   export AMDGPU_TARGETS="$(echo '%{rocm_archs}' | sed -e 's/,/ /g')"; \
   export PYTORCH_ROCM_ARCH="%{rocm_archs}"; \
+  mkdir -p %{_builddir}/pkgconfig; \
+  cat > %{_builddir}/pkgconfig/liblzma.pc << EOF \
+prefix=$XZ_ROOT\
+exec_prefix=\${prefix}\
+libdir=\${prefix}/lib\
+includedir=\${prefix}/include\
+Name: liblzma\
+Description: XZ compression library\
+Version: $XZ_VERSION\
+Libs: -L\${libdir} -llzma\
+Cflags: -I\${includedir}\
+EOF\
+  export PKG_CONFIG_PATH=%{_builddir}/pkgconfig:$PKG_CONFIG_PATH; \
   pushd $PIPFILE; \
     python3 tools/amd_build/build_amd.py; \
   popd
