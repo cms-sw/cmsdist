@@ -94,7 +94,6 @@ Source3: %{additionalSrc1}&output=/src2.tar.gz
 %endif
 
 %prep
-source %{cmsroot}/cmsset_default.sh
 rm -rf config %{srctree} poison
 
 %setup -T -b 0 -n config
@@ -169,7 +168,7 @@ sed -i -e 's|@LOCALTOP@|%{i}|' %i/config/toolbox/%{cmsplatf}/tools/selected/gcc-
 %endif
 
 %build
-source %{cmsroot}/cmsset_default.sh
+
 # Remove cmt stuff that brings unwanted dependencies:
 rm -rf `find %{i}/%{srctree} -type d -name cmt`
 grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.*)|#!/usr/bin/env perl\$1|"
@@ -280,7 +279,6 @@ done
 # to autodetect. Temporary until we get proper support.
 SCRAM_ARCH=%cmsplatf ; export SCRAM_ARCH
 cd %i
-source %{cmsroot}/cmsset_default.sh
 %{?buildarch:%buildarch}
 
 %scramcmd install -f

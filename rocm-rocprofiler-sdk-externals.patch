@@ -1,0 +1,122 @@
+diff --git a/external/CMakeLists.txt b/external/CMakeLists.txt
+index 5bee3dc..038ce04 100644
+--- a/external/CMakeLists.txt
++++ b/external/CMakeLists.txt
+@@ -26,7 +26,7 @@ if(ROCPROFILER_BUILD_GHC_FS)
+         RELATIVE_PATH external/filesystem
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         REPO_URL https://github.com/gulrak/filesystem.git
+-        REPO_BRANCH "v1.5.14")
++        REPO_BRANCH "8a2edd6")
+
+     target_compile_definitions(
+         rocprofiler-sdk-cxx-filesystem
+@@ -45,7 +45,7 @@ if(ROCPROFILER_BUILD_TESTS)
+             RELATIVE_PATH external/googletest
+             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+             REPO_URL https://github.com/google/googletest.git
+-            REPO_BRANCH "main")
++            REPO_BRANCH "46db91e")
+
+         set(BUILD_GMOCK OFF)
+         set(INSTALL_GTEST OFF)
+@@ -76,7 +76,7 @@ if(ROCPROFILER_BUILD_GLOG)
+         RELATIVE_PATH external/glog
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         REPO_URL https://github.com/google/glog.git
+-        REPO_BRANCH "master")
++        REPO_BRANCH "34b8da6")
+
+     # May want to use GFLAGS in the future
+     set(WITH_GFLAGS OFF)
+@@ -101,7 +101,7 @@ if(ROCPROFILER_BUILD_FMT)
+         RELATIVE_PATH external/fmt
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         REPO_URL https://github.com/fmtlib/fmt.git
+-        REPO_BRANCH "master")
++        REPO_BRANCH "0bffed8")
+
+     set(FMT_TEST OFF)
+     add_subdirectory(fmt EXCLUDE_FROM_ALL)
+@@ -121,7 +121,7 @@ if(NOT TARGET PTL::ptl-static)
+         RELATIVE_PATH external/ptl
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         REPO_URL https://github.com/jrmadsen/PTL.git
+-        REPO_BRANCH rocprofiler)
++        REPO_BRANCH "48df416")
+
+     set(PTL_USE_TBB OFF)
+     set(PTL_USE_GPU OFF)
+@@ -136,7 +136,7 @@ rocprofiler_checkout_git_submodule(
+     RELATIVE_PATH external/yaml-cpp
+     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+     REPO_URL https://github.com/jbeder/yaml-cpp.git
+-    REPO_BRANCH "master")
++    REPO_BRANCH "1d8ca1f")
+
+ add_subdirectory(yaml-cpp EXCLUDE_FROM_ALL)
+
+@@ -152,7 +152,7 @@ rocprofiler_checkout_git_submodule(
+     RELATIVE_PATH external/cereal
+     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+     REPO_URL https://github.com/jrmadsen/cereal.git
+-    REPO_BRANCH "rocprofiler")
++    REPO_BRANCH "40a30de")
+
+ target_compile_definitions(rocprofiler-sdk-cereal
+                            INTERFACE $<BUILD_INTERFACE:CEREAL_THREAD_SAFE=1>)
+@@ -178,7 +178,7 @@ rocprofiler_checkout_git_submodule(
+     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+     TEST_FILE meson.build
+     REPO_URL https://github.com/google/perfetto
+-    REPO_BRANCH "v44.0")
++    REPO_BRANCH "eb5ef24")
+
+ add_library(rocprofiler-sdk-perfetto-static-library STATIC)
+ target_sources(
+@@ -201,7 +201,7 @@ rocprofiler_checkout_git_submodule(
+     RELATIVE_PATH external/elfio
+     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+     REPO_URL https://github.com/serge1/ELFIO.git
+-    REPO_BRANCH "Release_3.12")
++    REPO_BRANCH "8ae6cec")
+
+ set(ELFIO_BUILD_EXAMPLES OFF)
+ set(ELFIO_BUILD_TESTS OFF)
+@@ -222,7 +222,7 @@ rocprofiler_checkout_git_submodule(
+     RELATIVE_PATH external/json
+     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+     REPO_URL https://github.com/nlohmann/json.git
+-    REPO_BRANCH "develop")
++    REPO_BRANCH "e41905f")
+
+ #
+ # JSON
+@@ -243,7 +243,7 @@ if(ROCPROFILER_BUILD_SQLITE3)
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         TEST_FILE configure
+         REPO_URL https://github.com/sqlite/sqlite
+-        REPO_BRANCH "version-3.47.0")
++        REPO_BRANCH "f5fb820")
+
+     find_program(
+         MAKE_COMMAND
+@@ -288,7 +288,7 @@ if(ROCPROFILER_BUILD_PYBIND11)
+         RELATIVE_PATH external/pybind11
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+         REPO_URL https://github.com/pybind/pybind11.git
+-        REPO_BRANCH "v2.9.2")
++        REPO_BRANCH "914c06f")
+
+     target_include_directories(
+         rocprofiler-sdk-pybind11 SYSTEM
+@@ -308,7 +308,7 @@ if(ROCPROFILER_BUILD_GOTCHA)
+         RELATIVE_PATH external/gotcha
+         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+-        REPO_URL https://github.com/jrmadsen/GOTCHA.git
+-        REPO_BRANCH "rocprofiler")
++        REPO_URL https://github.com/ROCm/GOTCHA.git
++        REPO_BRANCH "b944da1")
+
+     function(add_gotcha_subdirectory)
+         set(GOTCHA_ENABLE_TESTS OFF)
