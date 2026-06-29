@@ -14,7 +14,8 @@ cmake \
   -S %{_builddir}/ROCdbgapi-%{rocm_version} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+  -DCMAKE_CXX_FLAGS="-Wno-sfinae-incomplete"
 
 make -C %{_builddir}/build %{makeprocesses} 
 
