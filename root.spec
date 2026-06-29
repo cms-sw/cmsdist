@@ -193,6 +193,7 @@ cd ..
 rm -rf build
 
 %post
+%{relocateConfig}lib/cuda.pcm.lock
 %{relocateConfig}bin/root-config
 %{relocateConfig}cmake/ROOTConfig-targets.cmake
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
