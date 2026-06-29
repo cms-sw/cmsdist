@@ -6,7 +6,7 @@ Patch0: patches/rocprofiler-systems-elfutils
 Requires: rocm-core rocr-runtime rocm-cmake rocprofiler roctracer hip libxml2
 Requires: libunwind dyninst bz2lib
 Requires: sqlite rocm-rocprofiler-sdk amdsmi zlib comgr boost tbb json py3-pybind11
-BuildRequires: flex bison cmake libiberty
+BuildRequires: flex bison cmake libiberty rocm-llvm
 
 %prep
 %setup -q -n rocm-systems
@@ -17,6 +17,9 @@ patch -p1 <%{_sourcedir}/6276d4d7ab8350531e84a24d3db65b9f98d85eb6.patch
 
 export CPPFLAGS=-I${BZ2LIB_ROOT}/include
 export LDFLAGS=-L${BZ2LIB_ROOT}/lib
+
+perl -i -0pe 's/#include <elf-bfd\.h>\n#include <elfutils\/libdw\.h>/#include <elfutils\/libdw.h>\n#include <elf-bfd.h>/' %{_builddir}/rocm-systems/projects/rocprofiler-systems/source/lib/binary/symbol.cpp
+
 cmake \
   -B %{_builddir}/build \
   -S %{_builddir}/rocm-systems/projects/rocprofiler-systems \
@@ -32,7 +35,10 @@ cmake \
   -DROCPROFSYS_BUILD_LIBUNWIND=OFF \
   -DROCPROFSYS_BUILD_BOOST=OFF \
   -DROCPROFSYS_BUILD_LIBIBERTY=OFF \
-  -DROCPROFSYS_BUILD_ELFUTILS=ON \
+  -DROCPROFSYS_BUILD_ELFUTILS=OFF \
+  -DElfUtils_ROOT_DIR=$GCC_ROOT \
+  -DElfUtils_INCLUDEDIR=$GCC_PREFIX/include \
+  -DElfUtils_LIBRARYDIR=$GCC_PREFIX/lib \
   -DROCPROFILER_BUILD_SQLITE3=OFF \
   -DROCPROFSYS_BUILD_NLOHMANN_JSON=OFF \
   -DROCPROFSYS_BUILD_EXAMPLES=OFF \
