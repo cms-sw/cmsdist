@@ -101,9 +101,11 @@ ln -sf libnvidia-nvvm.so.4                                                      
 # libnvidia-nvvm70.so
 cp -p %_builddir/build/drivers/libnvidia-nvvm70.so.4                            %{i}/drivers/
 ln -sf libnvidia-nvvm70.so.4                                                    %{i}/drivers/libnvidia-nvvm70.so
+%ifarch x86_64
 # libnvidia-pkcs11.so
 cp -p %_builddir/build/drivers/libnvidia-pkcs11.so.%{driversversion}            %{i}/drivers/
 ln -sf libnvidia-pkcs11.so.%{driversversion}                                    %{i}/drivers/ibnvidia-pkcs11.so
+%endif
 # libnvidia-ptxjitcompiler.so
 cp -p %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}    %{i}/drivers/
 ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                            %{i}/drivers/libnvidia-ptxjitcompiler.so.1
