@@ -1,5 +1,5 @@
 %if "%{?package_vectorization}" != ""
-%global vectorized_packages fastjet OpenBLAS rivet gbl lwtnn opencv
+%global vectorized_packages fastjet OpenBLAS rivet gbl lwtnn opencv ucx
 %if 0%{?without_tensorflow} <= 0
 %global vectorized_packages %{vectorized_packages} tensorflow-sources tensorflow
 %endif
