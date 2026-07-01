@@ -1,7 +1,7 @@
-### RPM external ucx 1.20.1
+### RPM external ucx 1.21.0
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
-Source: https://github.com/openucx/%{n}/archive/refs/tags/v%{realversion}.tar.gz
+Source: git+https://github.com/openucx/%{n}.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
