@@ -1,4 +1,5 @@
-Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake comgr
+BuildRequires: rocm-cmake
+Requires: hip rocm-core rocm-llvm rocr-runtime comgr
 ## INCLUDE rocm-config
 Source0:  %{rocm_libraries_source}
 
@@ -20,7 +21,7 @@ CMAKE_ARGS=(
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};$ROCM_CMAKE_ROOT"
   -DBUILD_CLIENTS_TESTS=off
   -DHIP_ROOT=$HIP_ROOT
   -DGPU_TARGETS="%{rocm_targets}"

@@ -2,8 +2,8 @@
 ### RPM external rocsparse %{rocm_version_num}
 ## INCLUDE rocm-config
 Source0: https://github.com/ROCm/rocSPARSE/archive/refs/tags/rocm-%{rocm_version_num}.tar.gz
-Requires: rocprim rocblas
-Requires: hip rocm-core rocm-llvm rocr-runtime rocm-cmake comgr
+BuildRequires: rocm-cmake
+Requires: hip rocm-core rocm-llvm rocr-runtime comgr rocprim rocblas
 
 %prep
 %setup -q -n rocSPARSE-%{rocm_version}

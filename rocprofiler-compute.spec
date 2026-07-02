@@ -1,8 +1,8 @@
 ## INCLUDE rocm-config
 ### RPM external rocprofiler-compute %{rocm_version_num}
 Source: %{rocm_systems_source}
-BuildRequires: cmake
-Requires: rocm-core rocm-llvm rocr-runtime python3 rocm-cmake rocprofiler roctracer hip libxml2 rocm-rocprofiler-sdk
+BuildRequires: cmake rocm-cmake
+Requires: rocm-core rocm-llvm rocr-runtime python3 rocprofiler roctracer hip libxml2 rocm-rocprofiler-sdk
 Requires: py3-astunparse py3-colorlover py3-kaleido py3-matplotlib
 Requires: py3-numpy py3-pandas py3-pandas
 Requires: py3-plotext py3-plotille py3-pymongo

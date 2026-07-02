@@ -3,10 +3,10 @@
 Source0: git+https://github.com/ROCm/rocm-systems.git?obj=release/rocm-rel-7.2/%{rocm_version}&export=rocm-systems&submodules=1&output=/rocm-systems.tar.gz
 Source1: https://github.com/ROCm/rocm-systems/commit/6276d4d7ab8350531e84a24d3db65b9f98d85eb6.patch
 Patch0: patches/rocprofiler-systems-elfutils
-Requires: rocm-core rocr-runtime rocm-cmake rocprofiler roctracer hip libxml2
+Requires: rocm-core rocr-runtime rocprofiler roctracer hip libxml2
 Requires: libunwind dyninst bz2lib
 Requires: sqlite rocm-rocprofiler-sdk amdsmi zlib comgr boost tbb json py3-pybind11
-BuildRequires: flex bison cmake libiberty rocm-llvm
+BuildRequires: flex bison cmake libiberty rocm-llvm rocm-cmake
 
 %prep
 %setup -q -n rocm-systems

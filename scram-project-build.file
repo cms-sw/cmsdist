@@ -279,6 +279,7 @@ done
 # to autodetect. Temporary until we get proper support.
 SCRAM_ARCH=%cmsplatf ; export SCRAM_ARCH
 cd %i
+source %{cmsroot}/cmsset_default.sh
 %{?buildarch:%buildarch}
 
 %scramcmd install -f

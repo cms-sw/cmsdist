@@ -2,7 +2,8 @@
 ### RPM external rocm-rocprofiler-sdk %{rocm_version_num}
 
 Source0: https://github.com/ROCm/rocprofiler-sdk/archive/refs/tags/rocm-%{realversion}.tar.gz
-Requires: rocm-core rocm-llvm rocr-runtime rocm-cmake rocprofiler comgr
+BuildRequires: rocm-cmake
+Requires: rocm-core rocm-llvm rocr-runtime rocprofiler comgr
 Requires: fmt glog sqlite py3-pybind11 aqlprofile rocprofiler-register
 Patch0: rocm-rocprofiler-sdk
 Patch1: rocm-rocprofiler-sdk-externals
