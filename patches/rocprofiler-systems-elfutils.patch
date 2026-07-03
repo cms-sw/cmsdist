@@ -1,0 +1,13 @@
+diff --git a/projects/rocprofiler-systems/cmake/DyninstElfUtils.cmake b/projects/rocprofiler-systems/cmake/DyninstElfUtils.cmake
+index 1aedf49..fc10cc8 100644
+--- a/projects/rocprofiler-systems/cmake/DyninstElfUtils.cmake
++++ b/projects/rocprofiler-systems/cmake/DyninstElfUtils.cmake
+@@ -186,7 +186,7 @@ else()
+         CONFIGURE_COMMAND
+             ${CMAKE_COMMAND} -E env CC=${CMAKE_C_COMPILER} CFLAGS=-fPIC\ -O3
+             CXX=${CMAKE_CXX_COMPILER} CXXFLAGS=-fPIC\ -O3
+-            [=[LDFLAGS=-Wl,-rpath='$$ORIGIN']=] <SOURCE_DIR>/configure
++            <SOURCE_DIR>/configure
+             --enable-install-elfh --prefix=${_eu_root} --disable-libdebuginfod
+             --disable-debuginfod --enable-thread-safety ${ElfUtils_CONFIG_OPTIONS}
+             --libdir=${_eu_root}/lib

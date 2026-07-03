@@ -336,7 +336,7 @@ fi
   fi
 %endif
 
-%define cmake_prefix_path() $(for x in %{directpkgreqs}; do echo -n "%{cmsroot}/%{cmsplatf}/${x};"; done | sed 's|;$||')
+%define cmake_prefix_path() $(local_cmake_prefix_path=""; for x in %{directpkgreqs}; do local_cmake_prefix_path="%{cmsroot}/%{cmsplatf}/${x};${local_cmake_prefix_path}"; done; echo -n "${local_cmake_prefix_path}")
 
 #CMS Data packages can have download.url file with extra URLS to the data files.
 #This macro process those urls in download then in the data package
