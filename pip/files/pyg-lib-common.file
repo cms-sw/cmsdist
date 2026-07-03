@@ -5,8 +5,10 @@ Requires: zlib ninja
 Patch0: patches/pip/pyg-lib
 %define source0 git+https://github.com/pyg-team/pyg-lib?obj=master/%{realversion}&export=pyg-lib-%{realversion}&submodules=1&output=/source.tar.gz
 %define patchsrc0 \
-  grep -q 'CMAKE_CXX_STANDARD 17' CMakeLists.txt && sed -i -e 's|CMAKE_CXX_STANDARD 17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt &&\
-  grep -q 'march=native' third_party/METIS/GKlib/GKlibSystem.cmake && sed -i -e '/-march=native/d' third_party/METIS/GKlib/GKlibSystem.cmake
+  grep -q 'CMAKE_CXX_STANDARD 20' CMakeLists.txt \
+  sed -i -e 's|CMAKE_CXX_STANDARD 20|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' CMakeLists.txt \
+  grep -q 'march=native' third_party/METIS/GKlib/GKlibSystem.cmake \
+  sed -i -e '/-march=native/d' third_party/METIS/GKlib/GKlibSystem.cmake
 %define build_flags -Wall -Wextra %{?arch_build_flags}
 
 %define PipPreBuildPy \
