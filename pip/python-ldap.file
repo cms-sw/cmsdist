@@ -1,4 +1,5 @@
 Requires: openldap py3-pyasn1-modules
-%define patchsrc0 sed -i -e "s|\\[_ldap\\]|[_ldap]\\ninclude_dirs = ${PYTHON3_ROOT}/include ${OPENLDAP_ROOT}/include|" setup.cfg
-%define patchsrc1 sed -i -e "s|\\[_ldap\\]|[_ldap]\\nlibrary_dirs = ${PYTHON3_ROOT}/lib ${OPENLDAP_ROOT}/lib|" setup.cfg
-%define patchsrc2 sed -i -e "s|HAVE_SASL||" setup.cfg
+%define patchsrc0 \
+  sed -i -e "s|\\[_ldap\\]|[_ldap]\\ninclude_dirs = ${PYTHON3_ROOT}/include ${OPENLDAP_ROOT}/include|" setup.cfg \
+  sed -i -e "s|\\[_ldap\\]|[_ldap]\\nlibrary_dirs = ${PYTHON3_ROOT}/lib ${OPENLDAP_ROOT}/lib|" setup.cfg \
+  sed -i -e "s|HAVE_SASL||" setup.cfg
