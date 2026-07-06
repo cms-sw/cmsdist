@@ -20,5 +20,3 @@ cp -r lib %{i}/lib
 cp -r include %{i}/include
 cp -r xsd-type %{i}/xsd-type
 cp -r menu.xsd %{i}/menu.xsd
-
-
