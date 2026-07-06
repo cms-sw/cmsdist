@@ -1,4 +1,4 @@
-### RPM external cuda 13.3.0
+### RPM external cuda 13.3.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
@@ -10,7 +10,6 @@ Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local
 %ifarch aarch64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
 %endif
-Patch0: patches/cuda_cccl_8771
 Requires: python3
 AutoReq: no
 
@@ -126,10 +125,6 @@ ln -sf libcudadebugger.so.1                                                     
 cp -p %_builddir/build/drivers/libnvidia-ml.so.%{driversversion}                %{i}/lib64/stubs/
 ln -sf libnvidia-ml.so.%{driversversion}                                        %{i}/lib64/stubs/libnvidia-ml.so.1
 ln -sf libnvidia-ml.so.1                                                        %{i}/lib64/stubs/libnvidia-ml.so
-
-# fix invalid C++ syntax in cub/device/device_transform.cuh
-# backport NVIDIA/cccl#8771 from the main branch
-patch -d %{i}/include/cccl -p2 < %{PATCH0}
 
 %post
 # let nvcc find its components when invoked from the command line
