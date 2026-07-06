@@ -1,0 +1,30 @@
+--- a/common/src/sha1.C
++++ b/common/src/sha1.C
+@@ -105,6 +105,7 @@
+ 
+ #include "dyntypes.h"
+ #include "common/src/sha1.h"
++#include <cstdint>
+ /* #include <process.h> */	/* prototype for exit() - JHB */
+ /* Using return() instead of exit() - SWR */
+ 
+--- a/instructionAPI/h/ArchSpecificFormatters.h
++++ b/instructionAPI/h/ArchSpecificFormatters.h
+@@ -36,6 +36,7 @@
+ #include <string>
+ #include "Architecture.h"
+ #include "registers/MachRegister.h"
++#include <cstdint>
+ 
+ namespace Dyninst {
+     namespace InstructionAPI {
+--- a/common/src/arch-x86.h
++++ b/common/src/arch-x86.h
+@@ -44,6 +44,7 @@
+ #include "registers/MachRegister.h"
+ #include "common/src/ia32_locations.h"
+ #include "dyn_register.h"
++#include <cstdint>
+ 
+ 
+ namespace NS_x86 {

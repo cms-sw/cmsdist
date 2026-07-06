@@ -1,0 +1,1 @@
+Requires: py3-click py3-Werkzeug py3-Jinja2 py3-MarkupSafe py3-blinker py3-itsdangerous
