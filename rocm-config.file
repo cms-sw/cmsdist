@@ -1,0 +1,8 @@
+### FILE rocm-config
+# define the ROCm compilation flags in a way that can be shared by SCRAM-based and regular tools
+## INCLUDE rocm-flags
+%define rocm_version_num 7.2.4
+%define rocm_version rocm-%{rocm_version_num}
+%define rocm_systems_source git+https://github.com/ROCm/rocm-systems.git?obj=release/rocm-rel-7.2/%{rocm_version}&export=rocm-systems&submodules=1&output=/rocm-systems.tar.gz
+%define rocm_libraries_source git+https://github.com/ROCm/rocm-libraries.git?obj=develop/%{rocm_version}&export=rocm-libraries&submodules=1&output=/rocm-libraries.tar.gz
+%define rocm_targets $(sed 's/:sramecc+//g; s/ /;/g' <<< "%rocm_archs")
