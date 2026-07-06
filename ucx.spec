@@ -6,7 +6,7 @@ BuildRequires: autotools
 %{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
 Requires: rdma-core
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: rocm-hip rocr-runtime}
 Requires: xpmem
 
 %prep
@@ -45,7 +45,7 @@ Requires: xpmem
   --without-gdrcopy \
 %endif
 %if 0%{!?without_rocm:1}
-  --with-rocm=$ROCM_ROOT \
+  --with-rocm=$ROCM_HIP_ROOT \
 %else
   --without-rocm \
 %endif
