@@ -1,0 +1,5 @@
+<tool revision="2">
+  <client>
+    <environment name="ROCM_LIBDIR" default="$TOOL_BASE/lib"/>
+  </client>
+</tool>
