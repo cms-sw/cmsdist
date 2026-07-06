@@ -25,6 +25,7 @@ Requires: py3-torch-scatter
 Requires: py3-torch-sparse
 Requires: py3-pyg-lib
 %{!?without_cuda:Requires: py3-torch-cuda py3-torch-cluster-cuda py3-torch-scatter-cuda py3-torch-sparse-cuda py3-pyg-lib-cuda}
+%{!?without_rocm:Requires: py3-torch-rocm}
 
 Requires: py3-tables
 Requires: py3-tabulate

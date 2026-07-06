@@ -6,7 +6,7 @@
 Source: git+https://github.com/ROCm/aotriton?obj=main/%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: aotriton-cms
 Requires: py3-filelock py3-iniconfig py3-packaging py3-pluggy py3-numpy py3-setuptools py3-wheel py3-pybind11 py3-pandas py3-PyYAML
-Requires: rocm xz py3-triton
+Requires: xz py3-triton rocm-comgr rocm-hip rocr-runtime
 BuildRequires: ninja cmake
 
 %prep
@@ -15,6 +15,7 @@ BuildRequires: ninja cmake
 
 %build
 rm -rf ../build ; mkdir ../build; cd ../build
+export HIP_PLATFORM=amd
 AOTRITON_CI_SUPPLIED_SHA1=%{aotriton_git_sha1} \
 cmake ../%{n}-%{realversion} \
   -G Ninja \
@@ -35,3 +36,6 @@ ninja -v %{makeprocesses}
 %install
 cd ../build
 ninja -v %{makeprocesses} install
+
+%post
+%{relocateConfig}/lib/cmake/aotriton/aotriton-targets*.cmake
