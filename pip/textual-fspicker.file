@@ -1,0 +1,2 @@
+Requires: py3-textual
+BuildRequires: py3-uv-build

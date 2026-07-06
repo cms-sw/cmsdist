@@ -1,0 +1,17 @@
+diff --git a/cmake/rocprofiler_utilities.cmake b/cmake/rocprofiler_utilities.cmake
+index 6b2528d..e54760a 100644
+--- a/cmake/rocprofiler_utilities.cmake
++++ b/cmake/rocprofiler_utilities.cmake
+@@ -217,7 +217,11 @@ function(ROCPROFILER_CHECKOUT_GIT_SUBMODULE)
+     endif()
+ 
+     # if the module has not been checked out
+-    if(NOT _TEST_FILE_EXISTS AND _SUBMODULE_EXISTS)
++    set(_GIT_REPO_EXISTS OFF)
++      if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
++        set(_GIT_REPO_EXISTS ON)
++      endif()
++    if(NOT _TEST_FILE_EXISTS AND _SUBMODULE_EXISTS AND _GIT_REPO_EXISTS)
+         # perform the checkout
+         execute_process(
+             COMMAND ${GIT_EXECUTABLE} submodule update --init ${_RECURSE}
