@@ -1,0 +1,7 @@
+<tool revision="2">
+  <client>
+    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+  </client>
+  <runtime name="HIPBLASLT_TENSILE_LIBPATH" default="$LIBDIR/hipsparselt/library"/>
+</tool>
