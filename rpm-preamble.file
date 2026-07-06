@@ -456,10 +456,21 @@ fi
 %define install_package_license \
   mkdir -p "%{i}/license" \
   if [ "%{?package_license_file:%package_license_file}" != "" ] ; then \
-    for f in $(ls %{package_license_file}) ; do install $f "%{i}/license/" ; done \
+    found=1 \
+    for f in %{package_license_file} ; do if [ -f "$f" ] ; then found=1 ; install -m 644 "$f" "%{i}/license/" ; fi; done \
+    if [ $found -eq 0 ] ; then echo "ERROR: Unable to find license file '%{package_license_file}'" ; exit 1 ; fi \
   else \
-    for f in $(find "." -maxdepth 1 -type f -iname 'LICENSE*' -o -iname 'LICENCE*' -o -iname 'COPYING*' -o -iname 'COPYRIGHT*' -o -iname 'NOTICE*' -o -iname 'LEGAL*' -o -iname 'UNLICENSE*') ; do install $f "%{i}/license/" ; done \
+    find . -maxdepth 1 -type f \\\
+      \\\( -iname 'LICENSE*' -o -iname 'LICENCE*' -o \\\
+         -iname 'COPYING*' -o -iname 'COPYRIGHT*' -o \\\
+         -iname 'NOTICE*' -o -iname 'LEGAL*' -o \\\
+         -iname 'UNLICENSE*' \\\) \\\
+         -exec install -m 644 {} "%{i}/license/" \\\; \
     for d in LICENSES licenses license legal; do [ -d $d ] && rsync -a $d/ %{i}/license/ ; done \
+  fi \
+  if [ -n "$(ls -A %{i}/license 2>/dev/null)" ] ; then \
     echo "Found License: $(ls %{i}/license)" \
+  else \
+    echo "WARNING: No license files found" \
   fi
 %endif
