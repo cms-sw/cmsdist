@@ -1,4 +1,4 @@
-### RPM external numactl 2.0.14
+### RPM external numactl 2.0.19
 ## INITENV +PATH MANPATH %i/share/man
 BuildRequires: autotools
 Source: https://github.com/%{n}/%{n}/archive/v%{realversion}.tar.gz

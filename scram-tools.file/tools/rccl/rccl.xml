@@ -1,0 +1,9 @@
+<tool revision="1">
+  <info url="https://rocm.docs.amd.com/projects/rccl/en/docs-@TOOL_VERSION@/"/>
+  <lib name="rccl"/>
+  <client>
+    <environment name="BINDIR"    default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+  </client>
+</tool>
