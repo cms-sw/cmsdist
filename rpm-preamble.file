@@ -449,3 +449,17 @@ fi
 %else
 %define go_package_arch %{_arch}
 %endif
+
+%if %(case %{pkgcategory}/%{pkgname} in (external/py3-* | lcg/SCRAM* | cms/* | *-toolfile ) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define install_package_license echo "Skipping license checking for %{pkgcategory}/%{pkgname}"
+%else
+%define install_package_license \
+  mkdir -p "%{i}/license" \
+  if [ "%{?package_license_file:%package_license_file}" != "" ] ; then \
+    for f in $(ls %{package_license_file}) ; do install $f "%{i}/license/" ; done \
+  else \
+    for f in $(find "." -maxdepth 1 -type f -iname 'LICENSE*' -o -iname 'LICENCE*' -o -iname 'COPYING*' -o -iname 'COPYRIGHT*' -o -iname 'NOTICE*' -o -iname 'LEGAL*' -o -iname 'UNLICENSE*') ; do install $f "%{i}/license/" ; done \
+    for d in LICENSES licenses license legal; do [ -d $d ] && rsync -a $d/ %{i}/license/ ; done \
+    echo "Found License: $(ls %{i}/license)" \
+  fi
+%endif
