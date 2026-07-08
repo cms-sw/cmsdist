@@ -1,8 +1,9 @@
 ### RPM external libzip 1.11.4
 Source: https://github.com/nih-at/libzip/releases/download/v%{realversion}/libzip-%{realversion}.tar.gz
 BuildRequires: cmake gmake
-Requires: zlib zstd
+Requires: zlib zstd xz
 Requires: bz2lib
+
 
 %prep
 %setup -n %{n}-%{realversion}
@@ -20,10 +21,10 @@ cmake \
   -DBUILD_EXAMPLES=OFF \
   -DBUILD_DOC=OFF
 
-make -C %{_builddir}/build %{makeprocesses}
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
 %install
-make -C %{_builddir}/build %{makeprocesses} install
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
 
 %post
 %{relocateConfig}lib64/pkgconfig/libzip.pc
