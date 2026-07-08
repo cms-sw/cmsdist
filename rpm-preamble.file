@@ -450,13 +450,16 @@ fi
 %define go_package_arch %{_arch}
 %endif
 
+%define install_package_license_init _PKGTOOLS_PACKAGE_SOURCE_DIRECTORY="$(/bin/pwd)"
 %if %(case %{pkgcategory}/%{pkgname} in (external/py3-* | lcg/SCRAM* | cms/* | *-toolfile ) echo 1 ;; (*) echo 0 ;; esac) == 1
 %define install_package_license echo "Skipping license checking for %{pkgcategory}/%{pkgname}"
 %else
 %define install_package_license \
-  mkdir -p "%{i}/license" \
+  pushd ${_PKGTOOLS_PACKAGE_SOURCE_DIRECTORY} \
+  KEEP_LICENSE_DIR=1 \
+  if [ ! -d "%{i}/license" ] ; then mkdir -p "%{i}/license" ; KEEP_LICENSE_DIR=0; fi \
   if [ "%{?package_license_file:%package_license_file}" != "" ] ; then \
-    found=1 \
+    found=0 \
     for f in %{package_license_file} ; do if [ -f "$f" ] ; then found=1 ; install -m 644 "$f" "%{i}/license/" ; fi; done \
     if [ $found -eq 0 ] ; then echo "ERROR: Unable to find license file '%{package_license_file}'" ; exit 1 ; fi \
   else \
@@ -468,9 +471,11 @@ fi
          -exec install -m 644 {} "%{i}/license/" \\\; \
     for d in LICENSES licenses license legal; do [ -d $d ] && rsync -a $d/ %{i}/license/ ; done \
   fi \
+  popd \
   if [ -n "$(ls -A %{i}/license 2>/dev/null)" ] ; then \
     echo "Found License: $(ls %{i}/license)" \
   else \
+    [ ${KEEP_LICENSE_DIR} -eq 1 ] || rm -rf %{i}/license \
     echo "WARNING: No license files found" \
   fi
 %endif
