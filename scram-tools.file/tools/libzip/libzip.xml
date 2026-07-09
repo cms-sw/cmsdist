@@ -1,0 +1,13 @@
+  <tool revision="1">
+    <info url="https://github.com/nih-at/libzip"/>
+    <use name="zlib"/>
+    <use name="zstd"/>
+    <use name="xz"/>
+    <use name="bz2lib"/>
+    <lib name="zip"/>
+    <client>
+      <environment name="LIBDIR" default="$TOOL_BASE/lib64"/>
+      <environment name="INCLUDE" default="$TOOL_BASE/include"/>
+    </client>
+    <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
+  </tool>
