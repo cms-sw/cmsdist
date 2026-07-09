@@ -12,6 +12,7 @@ Requires: bz2lib
 cmake \
   -S %{_builddir}/%{n}-%{realversion} \
   -B %{_builddir}/build \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_PREFIX_PATH=%{cmake_prefix_path} \
   -DENABLE_COMMONCRYPTO=OFF \
