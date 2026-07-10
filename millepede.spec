@@ -14,15 +14,17 @@ mkdir ../build
 cd ../build
 cmake \
   -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DLAPACK_OPENBLAS=off \
   ../%{n}-ii-%{realversion}
+
 make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make install PREFIX=%{i}
+make install PREFIX=%{i} VERBOSE=1
 
 %post
 %{relocateConfig}mp2setup.sh
