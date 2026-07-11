@@ -24,7 +24,7 @@ cmake \
   -B %{_builddir}/build \
   -S %{_builddir}/rocm-systems/projects/rocprofiler-sdk \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DROCPROFILER_BUILD_TESTS=OFF \
   -DROCPROFILER_BUILD_FMT=OFF \

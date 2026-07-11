@@ -31,6 +31,7 @@ mkdir ../build
 cd ../build
 
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
+      -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
       -DEVTGEN_HEPMC3:BOOL=OFF -DHEPMC2_ROOT_DIR:PATH=$HEPMC_ROOT \
       -DEVTGEN_PYTHIA:BOOL=ON  -DPYTHIA8_ROOT_DIR:PATH=$PYTHIA8_ROOT \
       -DEVTGEN_PHOTOS:BOOL=ON  -DPHOTOSPP_ROOT_DIR:PATH=$PHOTOSPP_ROOT \
@@ -41,12 +42,12 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
  perl -p -i -e "s|-shared|-dynamiclib -undefined dynamic_lookup|" make.inc
 %endif
 
-make
+make VERBOSE=1
 
 %install
 
 cd ../build
-make install
+make install VERBOSE=1
 mkdir -p %i/lib
 find %i/lib64 -name "*.*" -exec mv {} %i/lib \;
 rm -rf %i/lib64

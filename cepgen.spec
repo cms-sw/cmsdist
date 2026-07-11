@@ -28,7 +28,7 @@ export ROOTSYS=${ROOT_ROOT}
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DBoost_NO_SYSTEM_PATHS=ON \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
 
@@ -36,7 +36,7 @@ ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja %{makeprocesses} install
+ninja -v %{makeprocesses} install
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 rm -f %i/lib/libCepGen*-[A-Z]*-%realversion.$so

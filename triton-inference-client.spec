@@ -42,7 +42,7 @@ TRITON_ENABLE_GPU_VALUE=%{?without_cuda:OFF}%{!?without_cuda:ON}
 cmake ${PROJ_DIR} \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DTRITON_ENABLE_CC_HTTP=OFF \
     -DTRITON_ENABLE_CC_GRPC=ON \
@@ -63,7 +63,7 @@ rm -rf ../buildpy ; mkdir ../buildpy ; cd ../buildpy
 cmake ../%{n}-%{realversion}/src/python \
     -DCMAKE_INSTALL_PREFIX="%{i}" \
     -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DTRITON_ENABLE_PYTHON_HTTP=OFF \
     -DTRITON_ENABLE_PYTHON_GRPC=ON \
@@ -82,7 +82,7 @@ make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make install
+make install VERBOSE=1
 cd ../buildpy
 mkdir -p %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 rsync -a ./library/linux/wheel/build/lib/ %{i}/${PYTHON3_LIB_SITE_PACKAGES}/
