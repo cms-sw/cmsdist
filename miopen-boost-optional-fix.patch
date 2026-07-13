@@ -5,7 +5,7 @@
          return {};
  
 -    return it->second;
-+    return boost::make_optional(it->second);
++    return std::make_optional(it->second);
  }
  
  void AnyRamDb::UpdateCacheEntryUnsafe(const std::string& key, const TRecord& value)
@@ -16,7 +16,7 @@
              pos->end   = next_line_begin;
          }
 -        return record;
-+        return boost::make_optional(record);
++        return std::make_optional(record);
      }
      // Record was not found
      return {};
@@ -27,7 +27,7 @@
          return {};
      else
 -        return {res};
-+        return boost::make_optional(res);
++        return std::make_optional(res);
  }
  
  } // namespace
@@ -38,7 +38,7 @@
              if(new_md5 != md5_hash)
                  MIOPEN_THROW(miopenStatusInternalError, "Possible database corruption");
 -            return decompressed_blob;
-+            return boost::make_optional(decompressed_blob);
++            return std::make_optional(decompressed_blob);
          }
          else if(rc == SQLITE_DONE)
          {
@@ -49,7 +49,7 @@
              }
              if(success)
 -                return {ovr_rec};
-+                return boost::make_optional(ovr_rec);
++                return std::make_optional(ovr_rec);
          }
          std::string clause;
          std::vector<std::string> values;
@@ -58,7 +58,7 @@
              return {};
          else
 -            return {rec};
-+            return boost::make_optional(rec);
++            return std::make_optional(rec);
      }
  
      /// Removes ID with associated VALUES from record with key PROBLEM_CONFIG from db.
@@ -69,7 +69,7 @@
      }
  
 -    return record;
-+    return boost::make_optional(record);
++    return std::make_optional(record);
  }
  
  template <class TFunc>
