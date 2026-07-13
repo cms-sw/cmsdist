@@ -1,10 +1,10 @@
-### RPM external vecgeom v2.0.0
+### RPM external vecgeom 2.1.0
 ## INCLUDE compilation_flags
 ## INCLUDE compilation_flags_lto
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
-%define tag %{realversion}
+%define tag v%{realversion}
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Patch0: vecgeom-fix-vector
@@ -18,6 +18,8 @@ Requires: xerces-c
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+grep -q 'set(VecGeom_VERSION\s*' CMakeLists.txt
+sed -i -e 's|set(VecGeom_VERSION *.*|set(VecGeom_VERSION %{realversion})|' CMakeLists.txt
 
 %build
 %ifarch x86_64
@@ -34,7 +36,6 @@ cmake ../%{n}-%{realversion} \
   -DVecGeom_GIT_DESCRIBE="%{vecgeom_version};;" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DBUILD_TESTING=OFF \
-  -DVecGeom_VERSION=%{vecgeom_version} \
   -DCMAKE_CXX_STANDARD:STRING="%{cms_cxx_standard}" \
   -DCMAKE_AR=$(which gcc-ar) \
   -DCMAKE_RANLIB=$(which gcc-ranlib) \
