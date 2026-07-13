@@ -17,14 +17,14 @@ Requires: rocprofiler
 Requires: rocprofiler-register
 Requires: rocprofiler-compute
 Requires: rocm-rocprofiler-sdk
-Requires: rocm-rocprofiler-systems
+#Requires: rocm-rocprofiler-systems
 ## Tracing + AQL packet profiling (rocprofiler-sdk build-time dep)
 Requires: roctracer
 Requires: aqlprofile
 Requires: rocm-smi-lib
 Requires: amdsmi
 ## Inter-GPU communication
-Requires: rccl
+#Requires: rccl
 Requires: rocshmem
 ## Libraries
 Requires: hipblas-common
@@ -42,7 +42,7 @@ Requires: hiprand
 Requires: hipcub
 Requires: rocprim
 Requires: rocthrust
-Requires: miopen
+#Requires: miopen
 Requires: rocrand
 Requires: rocm-comgr
 
