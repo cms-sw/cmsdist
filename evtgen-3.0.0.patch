@@ -1,0 +1,20 @@
++++ a/R03-00-00/src/EvtGenExternal/EvtSherpaPhotons.cpp.orig	2026-05-22 11:42:50.932434652 -0500 
++++ b/R03-00-00/src/EvtGenExternal/EvtSherpaPhotons.cpp	2026-05-22 11:42:23.583029106 -0500
+@@ -40,6 +40,7 @@
+ #include <cstring>
+ #include <iostream>
+ #include <vector>
++#include <mutex>
+ 
+ using std::endl;
+
++++ a/R03-00-00/EvtGenExternal/EvtSherpaPhotons.hh.orig	2026-05-22 11:42:50.932434652 -0500 
++++ b/R03-00-00/EvtGenExternal/EvtSherpaPhotons.hh	2026-05-22 11:42:23.583029106 -0500
+@@ -32,6 +32,7 @@
+ #include "SHERPA/Main/Sherpa.H"
+ 
+ #include <string>
++#include <mutex>
+ 
+ class EvtParticle;
+ class EvtAbsExternalGen;

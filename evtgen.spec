@@ -1,6 +1,6 @@
-### RPM external evtgen 2.0.0
+### RPM external evtgen 03.00.00
 
-%define tag bcb7af4d35bf66a01c08fa4f8fffb623b7e24c59
+%define tag d9f0979162c7b1e226c6bbfdfd9f9acca85d5617
 %define branch cms/%realversion
 %define github_user cms-externals
 
@@ -11,19 +11,17 @@ BuildRequires: cmake
 Requires: cmake
 Requires: hepmc
 Requires: pythia8
+Requires: sherpa
 Requires: tauolapp
 Requires: photospp
 
-# See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=40267
-# libgfortranbegin.a is finally removed and was obsolete since GCC 4.5
-#Patch0: evtgen-1.6.0-configure-new-gcc
-Patch0: evtgen-2.0.0
+Patch0: evtgen-3.0.0
 
 %define keep_archives true
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch0 -p1
+%patch0 -p2
 
 %build
 rm -rf ../build
@@ -33,6 +31,7 @@ cd ../build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=%{i} ../%{n}-%{realversion} \
       -DEVTGEN_HEPMC3:BOOL=OFF -DHEPMC2_ROOT_DIR:PATH=$HEPMC_ROOT \
       -DEVTGEN_PYTHIA:BOOL=ON  -DPYTHIA8_ROOT_DIR:PATH=$PYTHIA8_ROOT \
+      -DEVTGEN_SHERPA3:BOOL=OFF -DEVTGEN_SHERPA:BOOL=ON  -DSHERPA_ROOT_DIR:PATH=$SHERPA_ROOT \
       -DEVTGEN_PHOTOS:BOOL=ON  -DPHOTOSPP_ROOT_DIR:PATH=$PHOTOSPP_ROOT \
       -DEVTGEN_TAUOLA:BOOL=ON  -DTAUOLAPP_ROOT_DIR:PATH=$TAUOLAPP_ROOT
 
