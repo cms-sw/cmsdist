@@ -5,7 +5,7 @@ Source0:  %{rocm_libraries_source}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-%setup -q -n rocm-libraries
+%setup -q -n rocm-libraries/projects/%{n}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
