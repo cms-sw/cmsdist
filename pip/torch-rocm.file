@@ -3,6 +3,7 @@ Requires: xz aotriton rocm-hip rocm-comgr rocr-runtime amdsmi
 Requires: rocrand miopen hiprand rocblas hipblas hipblas-common hipblaslt
 Requires: hipfft hipsparse rocprim hipcub rocthrust hipsolver rocsolver hipsparselt
 Requires: rocprofiler roctracer rccl rocm-core
+Patch99: patches/pytorch-aotriton-install
 
 %define pip_name torch
 %define PipPreBuildPy \
