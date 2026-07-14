@@ -7,7 +7,7 @@ Requires: rocm-hip rocm-core rocr-runtime rocminfo python3 roctracer sqlite hipb
 Requires: json hipblas-common boost zstd opencl rocm-llvm rocm-comgr
 
 %define ROCMPrePrep cp %{_sourcedir}/half.hpp %{_builddir}
-%define ROCMPostPrep %patch0 -p0
+%define ROCMPostPrep %patch0 -p2
 %define ROCMPreBuild mkdir -p %{_builddir}/half-include/half && cp %{_sourcedir}/half.hpp %{_builddir}/half-include/half/
 %define ROCMPreCMake printf 'macro(enable_clang_tidy)\\nendmacro()\\nmacro(clang_tidy_check)\\nendmacro()\\n' > %{_builddir}/rocm-libraries/projects/%{n}/cmake/ClangTidy.cmake
 %define ROCMPostCMake sed -i '827,830d' %{_builddir}/rocm-libraries/projects/%{n}/CMakeLists.txt
