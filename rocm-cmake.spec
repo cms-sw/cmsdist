@@ -9,9 +9,10 @@ Source: https://github.com/ROCm/%{n}/archive/refs/tags/%{rocm_version}.tar.gz
 cmake \
   -S %{_builddir}/%{n}-%{rocm_version} \
   -B %{_builddir}/build \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DROCM_VERSION=%{rocm_version_num}
 
-cmake --build %{_builddir}/build --parallel %{makeprocesses}
+cmake --build %{_builddir}/build --parallel %{makeprocesses} --verbose
 %install
-cmake --install %{_builddir}/build
+cmake --install %{_builddir}/build %{makeprocesses} --verbose

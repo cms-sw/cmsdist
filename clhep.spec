@@ -19,14 +19,14 @@ cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCLHEP_BUILD_CXXSTD="-std=c++%{cms_cxx_standard}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCLHEP_BUILD_STATIC_LIBS=OFF
 
 ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja %{makeprocesses} install
+ninja -v %{makeprocesses} install
 
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 rm -f %i/lib/libCLHEP-[A-Z]*-%realversion.$so

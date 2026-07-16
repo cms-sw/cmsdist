@@ -45,7 +45,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt;openmp" \
   -DIWYU_RESOURCE_RELATIVE_TO="iwyu" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=%{cmake_build_type} \
   -DLLVM_INSTALL_UTILS=ON \
   -DLLVM_LIBDIR_SUFFIX:STRING=64 \
   -DLLVM_BUILD_LLVM_DYLIB:BOOL=ON \
