@@ -462,14 +462,14 @@ fi
       if [ $found -eq 0 ] ; then echo "LICENSE: Error, unable to find license file '%{package_license_file}'" ; exit 1 ; fi \
       echo "LICENSE: Found $(ls ${license_dir})" \
     else \
-      check_license=1 \
+      skip_license=%{?skip_license_checks:1}%{!?skip_license_checks:0} \
       case %{pkgcategory}/%{pkgname} in \
         cms/vdt ) ;; \
         external/py3-* | lcg/SCRAM* | cms/* | *-toolfile | external/geant4-G4* | external/geant4data | external/actsdata ) \
-          check_license=0 \
+          skip_license=1 \
           ;; \
       esac \
-      if [ "${check_license}" -eq 0 ] ; then \
+      if [ "${skip_license}" -eq 1 ] ; then \
         echo "LICENSE: Skipped license checking for %{pkgcategory}/%{pkgname}" \
         rm -rf ${license_dir} \
       else \

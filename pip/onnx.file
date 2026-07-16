@@ -1,5 +1,5 @@
 ## INCLUDE cpp-standard
-Patch0: patches/pip/py3-onnx
+BuildRequires: py3-scikit-build-core
 Requires: cmake protobuf py3-protobuf py3-six py3-typing-extensions py3-numpy py3-pytest-runner
 Requires: py3-ml_dtypes
 %define runpath_opts -n pb -n onnx

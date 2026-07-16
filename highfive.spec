@@ -18,6 +18,7 @@ rm -rf build
 mkdir build && cd build
 
 cmake ../%{n}-%{realversion} \
+    -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
     -DCMAKE_INSTALL_PREFIX=%{i} \
     -DHIGHFIVE_EXAMPLES=OFF \
     -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -26,7 +27,7 @@ cmake ../%{n}-%{realversion} \
 
 %install
 cd %{_builddir}/build
-make install
+make install VERBOSE=1
 
 %post
 %{relocateConfig}share/HighFive/CMake/HighFiveTargets.cmake
