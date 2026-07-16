@@ -9,14 +9,11 @@ Patch0: rocm-rocprofiler-sdk
 BuildRequires: cmake gmake
 
 %prep
-%setup -q -n rocm-systems
+%setup -q -n rocm-systems/projects/rocprofiler-sdk
+%patch0 -p1
+sed -i '2i\include(CPack)' CMakeLists.txt
 
 %build
-pushd %{_builddir}/rocm-systems/projects/rocprofiler-sdk
-patch -p1 < %{PATCH0}
-sed -i '2i\include(CPack)' CMakeLists.txt
-popd
-
 export CC=${ROCM_LLVM_ROOT}/bin/amdclang
 export CXX=${ROCM_LLVM_ROOT}/bin/amdclang++
 
@@ -24,7 +21,7 @@ cmake \
   -B %{_builddir}/build \
   -S %{_builddir}/rocm-systems/projects/rocprofiler-sdk \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DROCPROFILER_BUILD_TESTS=OFF \
   -DROCPROFILER_BUILD_FMT=OFF \
@@ -38,7 +35,7 @@ cmake \
 make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
 %install
-make -C %{_builddir}/build %{makeprocesses} install
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
 
 %post
 %{relocateConfig}/lib/cmake/rocprofiler-sdk/rocprofiler-sdk-config.cmake

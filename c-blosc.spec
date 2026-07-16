@@ -10,7 +10,7 @@ BuildRequires: ninja cmake
 rm -rf ../build ; mkdir ../build; cd ../build
 cmake ../%{n}-%{realversion} \
  -G Ninja \
- -DCMAKE_BUILD_TYPE=Release \
+ -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
  -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
  -DDEACTIVATE_LZ4:BOOL=OFF \
  -DDEACTIVATE_SNAPPY:BOOL=ON \
