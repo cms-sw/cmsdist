@@ -27,7 +27,7 @@ cmake -G Ninja \
   -S %{_builddir}/%{n}-%{realversion}/llvm \
   -B %{_builddir}/build-llvm \
   -DCMAKE_INSTALL_PREFIX=%{i}/lib/llvm \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DLLVM_TARGETS_TO_BUILD="AMDGPU;X86" \
@@ -55,7 +55,7 @@ ln -sf %{_builddir}/build-llvm/bin/clang++.cfg %{_builddir}/build-llvm/bin/clang
 ln -sf %{_builddir}/build-llvm/bin/clang++.cfg %{_builddir}/build-llvm/bin/$host_triple.cfg
 %endif
 
-ninja -C %{_builddir}/build-llvm %{makeprocesses}
+ninja -v -C %{_builddir}/build-llvm %{makeprocesses}
 
 cmake -G Ninja \
   -S %{_builddir}/%{n}-%{realversion}/amd/device-libs \
@@ -63,10 +63,10 @@ cmake -G Ninja \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_C_COMPILER=%{_builddir}/build-llvm/bin/clang \
   -DCMAKE_CXX_COMPILER=%{_builddir}/build-llvm/bin/clang++ \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DCMAKE_PREFIX_PATH="%{_builddir}/build-llvm;%{cmake_prefix_path}"
-ninja -C %{_builddir}/build-device-libs %{makeprocesses}
+ninja -v -C %{_builddir}/build-device-libs %{makeprocesses}
 
 cmake -G Ninja \
   -S  %{_builddir}/%{n}-%{realversion}/amd/hipcc \
@@ -74,16 +74,16 @@ cmake -G Ninja \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_C_COMPILER=%{_builddir}/build-llvm/bin/clang \
   -DCMAKE_CXX_COMPILER=%{_builddir}/build-llvm/bin/clang++ \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{_builddir}/build-llvm;%{cmake_prefix_path}"
-ninja  -C %{_builddir}/build-hip  %{makeprocesses}
+ninja -v -C %{_builddir}/build-hip  %{makeprocesses}
 
 %install
-ninja -C %{_builddir}/build-llvm %{makeprocesses} install
-ninja -C %{_builddir}/build-llvm/runtimes/runtimes-bins %{makeprocesses} install
-ninja -C %{_builddir}/build-llvm/runtimes/builtins-bins %{makeprocesses} install
-ninja -C %{_builddir}/build-device-libs install
-ninja -C %{_builddir}/build-hip install
+ninja -v -C %{_builddir}/build-llvm %{makeprocesses} install
+ninja -v -C %{_builddir}/build-llvm/runtimes/runtimes-bins %{makeprocesses} install
+ninja -v -C %{_builddir}/build-llvm/runtimes/builtins-bins %{makeprocesses} install
+ninja -v -C %{_builddir}/build-device-libs install
+ninja -v -C %{_builddir}/build-hip install
 
 mkdir -p %{i}/lib/llvm/bin/
 %if 0%{!?use_system_gcc:1}

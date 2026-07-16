@@ -68,7 +68,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{arch_build_flags} %{selected_microarch} %{lto_build_flags}" \
   -DCMAKE_AR="$GCC_ROOT/bin/gcc-ar" \
   -DCMAKE_RANLIB="$GCC_ROOT/bin/gcc-ranlib" \
-  -DCMAKE_BUILD_TYPE="Release" \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_SKIP_INSTALL_RPATH="ON" \
 %if 0%{!?without_cuda:1}

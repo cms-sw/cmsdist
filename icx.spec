@@ -1,6 +1,7 @@
 ## INCLUDE oneapi-config
 ### RPM external icx %{oneapi_version}
 ## NOCOMPILER
+%define skip_license_checks 1
 Requires: cern-oneapi
 Source: none
 Provides: libimf.so()(64bit)

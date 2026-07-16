@@ -35,7 +35,7 @@ export BOOST_ROOT
 rm -rf ../build; mkdir ../build; cd ../build
 cmake %{cmake_fixed_args} -DBUILD_SHARED_LIBS=ON -DDD4HEP_USE_GEANT4=OFF ../%{n}-%{realversion}
 make %{makeprocesses} VERBOSE=1
-make install
+make install VERBOSE=1
 
 #Building DDG4 static
 rm -rf ../build-g4; mkdir ../build-g4; cd ../build-g4

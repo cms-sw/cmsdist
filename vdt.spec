@@ -16,6 +16,7 @@ BuildRequires: cmake python3
 cmake . \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DPYTHONLIBS_VERSION_STRING=%{cms_python3_major_minor_version} \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DPRELOAD:BOOL=ON \
 %ifarch x86_64
   -DSSE:BOOL=ON \
@@ -27,4 +28,4 @@ cmake . \
 make %{makeprocesses} VERBOSE=1
 
 %install
-make install
+make install VERBOSE=1
