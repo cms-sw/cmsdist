@@ -19,16 +19,17 @@ Requires: libxml2 libuuid curl
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX="%{i}" \
+ -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
  -DEMBEDDED_LIBCURL=FALSE \
  -DDAVIX_TESTS=False \
  -DUUID_LIBRARY="${LIBUUID_ROOT}/lib64/libuuid.%{soext}" \
  -DCMAKE_PREFIX_PATH="${LIBXML2_ROOT};${LIBUUID_ROOT};${CURL_ROOT}"
 
-make VERBOSE=1 %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make install
+make install  VERBOSE=1
 
 %post
 %{relocateConfig}lib64/pkgconfig/davix.pc

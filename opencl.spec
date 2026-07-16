@@ -1,5 +1,6 @@
 ### RPM external opencl 1.1
 ## NOCOMPILER
+%define skip_license_checks 1
 
 %prep
 # NOP

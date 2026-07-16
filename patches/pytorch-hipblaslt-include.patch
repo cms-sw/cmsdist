@@ -1,7 +1,8 @@
 diff --git a/cmake/public/LoadHIP.cmake b/cmake/public/LoadHIP.cmake
+index 40aa87c65..616b99a6f 100644
 --- a/cmake/public/LoadHIP.cmake
 +++ b/cmake/public/LoadHIP.cmake
-@@ -196,6 +196,7 @@ if(HIP_FOUND)
+@@ -301,6 +301,7 @@ if(PYTORCH_FOUND_HIP)
    # These components will be searced for recursively in ${ROCM_PATH}
    message("\n***** Library versions from cmake find_package *****\n")
    find_package_and_print_version(amd_comgr REQUIRED)
@@ -9,7 +10,7 @@ diff --git a/cmake/public/LoadHIP.cmake b/cmake/public/LoadHIP.cmake
    find_package_and_print_version(rocrand REQUIRED)
    find_package_and_print_version(hiprand REQUIRED)
    find_package_and_print_version(rocblas REQUIRED)
-@@ -229,6 +230,32 @@ if(HIP_FOUND)
+@@ -334,6 +335,32 @@ if(PYTORCH_FOUND_HIP)
    # Optional components.
    find_package_and_print_version(hipsparselt)  # Will be required when ready.
  
@@ -42,4 +43,3 @@ diff --git a/cmake/public/LoadHIP.cmake b/cmake/public/LoadHIP.cmake
    list(REMOVE_DUPLICATES ROCM_INCLUDE_DIRS)
  
    if(UNIX)
-
