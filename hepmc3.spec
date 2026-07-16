@@ -17,6 +17,7 @@ cd ../build
 
 cmake ../HepMC3-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%i" \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DHEPMC3_CXX_STANDARD=%{cms_cxx_standard} \
   -DHEPMC3_ENABLE_ROOTIO="OFF" \
@@ -39,4 +40,4 @@ make %{makeprocesses} VERBOSE=1
 
 %install
 cd ../build
-make install
+make install VERBOSE=1
