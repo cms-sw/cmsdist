@@ -16,12 +16,14 @@ mkdir -p %i
 rm -rf ../build; mkdir ../build; cd ../build
 
 cmake ../igprof-%{git_commit} \
-   -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+   -DCMAKE_INSTALL_PREFIX=%i \
+   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
    -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-g -O3 -Wno-error=deprecated-declarations" \
    -DCMAKE_PREFIX_PATH="$LIBUNWIND_ROOT;$PCRE_ROOT"
-make DEBUG=1 VERBOSE=1 %makeprocesses
+make %makeprocesses DEBUG=1 VERBOSE=1
 
 %install
 cd ../build
-make %makeprocesses install
+make %makeprocesses install VERBOSE=1
 %define drop_files %i/share/man

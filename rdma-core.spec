@@ -17,6 +17,7 @@ cd build
 # currently there is no way to use a custom location for libnl3, so disable neighbours resolution
 cmake \
   -G Ninja \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_RUNDIR=/var/run \
   -DENABLE_RESOLVE_NEIGH=FALSE \
