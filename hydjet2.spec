@@ -13,12 +13,17 @@ Requires: pyquen pythia6 lhapdf root
 
 %build
 
-cmake . -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_BUILD_TYPE=Release -DPYQUEN_DIR=${PYQUEN_ROOT} -DPYTHIA6_DIR=${PYTHIA6_ROOT} -DLHAPDF_ROOT_DIR=${LHAPDF_ROOT} -DROOTSYS=${ROOT_ROOT}
-cmake --build . --clean-first -- %{makeprocesses}
+cmake . -DCMAKE_INSTALL_PREFIX=%i \
+   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+   -DPYQUEN_DIR=${PYQUEN_ROOT} \
+   -DPYTHIA6_DIR=${PYTHIA6_ROOT} \
+   -DLHAPDF_ROOT_DIR=${LHAPDF_ROOT} \
+   -DROOTSYS=${ROOT_ROOT}
+cmake --build . --clean-first -- %{makeprocesses} VERBOSE=1
 
 %install
 
-cmake --build . --target install -- %{makeprocesses}
+cmake --build . --target install -- %{makeprocesses} VERBOSE=1
 
 mkdir -p %{i}/data/externals/hydjet2
 mv %{i}/share/* %{i}/data/externals/hydjet2
