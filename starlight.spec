@@ -25,7 +25,7 @@ CXXFLAGS="-Wno-error=deprecated-declarations -Wno-error=deprecated-copy -Wno-err
 
 cmake ../%{n}-%{realversion} \
  -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
- -DCMAKE_BUILD_TYPE=Realease \
+ -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
  -DENABLE_CLHEP=ON \
  -DCMAKE_CXX_FLAGS="$CXXFLAGS"
 

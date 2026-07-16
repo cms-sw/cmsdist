@@ -1,3 +1,6 @@
 BuildRequires: py3-maturin rust
-Requires: py3-puccinialin py3-tomli
-%define PipPreBuild export CARGO_HOME=%{_tmppath}/cargo_home;export MATURIN_CACHE_DIR=%{_tmppath}/cargo_home/maturin
+Requires: py3-puccinialin py3-tomli bz2lib
+%define PipPreBuild \
+  export CARGO_HOME=%{_tmppath}/cargo_home \
+  export MATURIN_CACHE_DIR=%{_tmppath}/cargo_home/maturin \
+  export RUSTFLAGS="-L native=${BZ2LIB_ROOT}/lib"

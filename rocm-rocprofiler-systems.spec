@@ -24,7 +24,7 @@ cmake \
   -B %{_builddir}/build \
   -S %{_builddir}/rocm-systems/projects/rocprofiler-systems \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};${LIBIBERTY_ROOT};${FLEX_ROOT};${BISON_ROOT}" \
   -DTBB_ROOT_DIR=${TBB_ROOT} \
   -DROCPROFSYS_USE_BFD=ON \
