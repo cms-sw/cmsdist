@@ -9,7 +9,7 @@ BuildRequires: py3-CppHeaderParser
 Requires: rocm-llvm rocm-core rocr-runtime rocprofiler-register numactl python3 rocm-comgr
 Provides: perl(URI::Escape)
 %prep
-%setup -q -n rocm-systems-rocm-%{realversion}
+%setup -q -n rocm-systems-rocm-%{realversion}/projects/clr
 %build
 mkdir -p %{_builddir}/build-hip
 cd %{_builddir}/build-hip
@@ -23,7 +23,7 @@ cmake \
   -DHIP_INSTALLS_HIPCC=ON \
   -DHIPCC_BIN_DIR=${ROCM_LLVM_ROOT}/bin \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang \
   -DCMAKE_CXX_COMPILER=${ROCM_LLVM_ROOT}/bin/amdclang++ \
@@ -32,6 +32,6 @@ cmake \
   -DROCM_PATH=${ROCM_LLVM_ROOT} \
   -DDEVICE_LIB_PATH=${ROCM_LLVM_ROOT}/amdgcn/bitcode \
   -DLLVM_DIR=${ROCM_LLVM_ROOT}/lib/llvm/lib/cmake/llvm
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 %install
-make -C %{_builddir}/build-hip %{makeprocesses} install
+make -C %{_builddir}/build-hip %{makeprocesses} install VERBOSE=1

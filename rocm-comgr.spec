@@ -21,7 +21,7 @@ cmake -G "Unix Makefiles" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/lib/llvm/bin/clang \
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/lib/llvm/bin/clang++ \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCOMGR_BUILD_SHARED_LIBS=ON \
   -DCMAKE_INSTALL_LIBDIR=lib \
   -DCOMGR_STATIC_LLVM=ON \

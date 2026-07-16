@@ -21,7 +21,7 @@ cmake ../googletest-%{realversion}-%{commit} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_CXX_FLAGS="-fPIC" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DBUILD_GMOCK=OFF
 
 ninja -v %{makeprocesses}

@@ -25,7 +25,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
 %ifarch aarch64
   -DCMAKE_CXX_FLAGS="-Wno-sign-compare" \
 %endif
@@ -37,4 +37,4 @@ ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja %{makeprocesses} install
+ninja -v %{makeprocesses} install
