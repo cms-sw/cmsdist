@@ -9,7 +9,7 @@ Requires: fmt
 AutoReq: no
 
 %prep
-%setup -q -n rocm-systems
+%setup -q -n rocm-systems/projects/%{n}
 
 %build
 sed -i -e 's|add_subdirectory(external)|find_package(fmt REQUIRED)\nadd_subdirectory(external)|' %{_builddir}/rocm-systems/projects/%{n}/CMakeLists.txt
@@ -21,7 +21,7 @@ sed -i -e 's|CMAKE_CXX_STANDARD  *17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' %{
 cmake \
   -S %{_builddir}/rocm-systems/projects/%{n} \
   -B %{_builddir}/build \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE \
@@ -31,4 +31,4 @@ cmake \
 make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 
 %install
-make -C %{_builddir}/build %{makeprocesses} install
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1

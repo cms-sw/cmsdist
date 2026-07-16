@@ -22,18 +22,18 @@ source %{_sourcedir}/env
 
 cmake ../cpp \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DSUPPORT_ROOT=False \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{selected_microarch}"
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd build
-make install
+make install VERBOSE=1
 
 %post
 %{relocateConfig}GBLConfig.cmake

@@ -37,7 +37,7 @@ sed -i -e 's|^ *check_library_exists("uuid" "uuid_generate_random".*$|set(_have_
 rm -rf ../build; mkdir ../build; cd ../build
 cmake ../%n-%{realversion} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DFORCE_ENABLED=ON \
   -DENABLE_FUSE=FALSE \
   -DENABLE_VOMS=FALSE \
@@ -62,7 +62,7 @@ make %makeprocesses VERBOSE=1
 
 %install
 cd ../build
-make install
+make install VERBOSE=1
 %relocatePy3Shebang bin
 
 %post

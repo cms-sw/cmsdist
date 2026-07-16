@@ -1,5 +1,6 @@
 ### RPM external python-python3 1.0
 ## NOCOMPILER
+%define skip_license_checks 1
 Source: none
 Requires: python3
 
