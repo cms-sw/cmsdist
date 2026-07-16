@@ -15,7 +15,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX:PATH="%i" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DYAML_BUILD_SHARED_LIBS=ON \
   -DYAML_CPP_BUILD_TESTS=OFF
 
@@ -23,7 +23,7 @@ ninja -v %{makeprocesses}
 
 %install
 cd ../build
-ninja %{makeprocesses} install
+ninja -v %{makeprocesses} install
 
 %post
 %{relocateConfig}lib64/pkgconfig/yaml-cpp.pc

@@ -18,6 +18,7 @@ export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 CMAKE_ARGS=(
   -B %{_builddir}/build
   -S %{_builddir}/rocm-libraries/projects/%{n}
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
@@ -32,7 +33,7 @@ cmake "${CMAKE_ARGS[@]}"
 %{?ROCMPostCMake:%ROCMPostCMake}
 
 %{?ROCMPreMake:%ROCMPreMake}
-make -C %{_builddir}/build %{makeprocesses}
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostMake:%ROCMPostMake}
 
 %{?ROCMPostBuild:%ROCMPostBuild}
