@@ -1,4 +1,4 @@
-### RPM external c-blosc2 2.23.0
+### RPM external c-blosc2 3.2.1
 Source: https://github.com/Blosc/c-blosc2/archive/refs/tags/v%{realversion}.tar.gz
 Requires: zlib zstd lz4
 BuildRequires: ninja cmake
@@ -10,7 +10,7 @@ BuildRequires: ninja cmake
 rm -rf ../build ; mkdir ../build; cd ../build
 cmake ../%{n}-%{realversion} \
  -G Ninja \
- -DCMAKE_BUILD_TYPE=Release \
+ -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
  -DCMAKE_INSTALL_PREFIX:STRING=%{i} \
  -DDEACTIVATE_ZLIB:BOOL=OFF \
  -DDEACTIVATE_ZSTD:BOOL=OFF \

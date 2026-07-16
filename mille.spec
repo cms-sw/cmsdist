@@ -15,16 +15,18 @@ rm -rf ../build
 mkdir ../build
 cd ../build
 cmake \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_Fortran_COMPILER=$(which gfortran) \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   ../%{n}-%{realversion}
+
 make  %{makeprocesses} VERBOSE=1
+
 %install
 cd ../build
-make install PREFIX=%{i}
+make install PREFIX=%{i} VERBOSE=1
 
 %post
 %{relocateConfig}milleStandaloneSetup.sh

@@ -25,7 +25,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_FLAGS="-fPIC -DBOOST_DISABLE_ASSERTS $CMS_EIGEN_CXX_FLAGS %{selected_microarch}" \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DBUILTIN_BOOST=OFF \
   -DBUILTIN_EIGEN=OFF \
   -DCMAKE_PREFIX_PATH="${EIGEN_ROOT};${BOOST_ROOT}" \

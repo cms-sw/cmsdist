@@ -18,7 +18,7 @@ mkdir %{_builddir}/build
 
 cd %{_builddir}/build
 cmake ../%{n}-%{realversion} \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_CXX_FLAGS="-Wno-error=use-after-free -Wno-error=address -Wno-error=uninitialized" \
   -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
@@ -28,8 +28,8 @@ cmake ../%{n}-%{realversion} \
   -DTBB_CPF=ON \
   -DTBB_TEST=OFF
 
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 cd %{_builddir}/build
-make install
+make install VERBOSE=1

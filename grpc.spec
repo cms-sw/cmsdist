@@ -22,7 +22,7 @@ cd ../build
 cmake ../%{n}-%{realversion} \
     -G Ninja \
     -DgRPC_INSTALL=ON \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_LIBDIR=lib \
