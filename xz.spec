@@ -1,4 +1,4 @@
-### RPM external xz 5.6.4
+### RPM external xz 5.8.3
 Source0: http://tukaani.org/xz/xz-%{realversion}.tar.gz
 
 BuildRequires: autotools
@@ -8,7 +8,7 @@ BuildRequires: autotools
 
 %build
 ./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
-make %{makeprocesses}
+make %{makeprocesses} VERBOSE=1
 
 %install
 make %{makeprocesses} install

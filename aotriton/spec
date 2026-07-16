@@ -1,5 +1,5 @@
-### RPM external aotriton 0.11.2b
-%define aotriton_git_sha1 dd1b68b604b5258ee7a9f7b66ad95e7a82c18065
+### RPM external aotriton 0.13b
+%define aotriton_git_sha1 6e00ef3e335b45dfb49065259533b59c68995bfe
 ## INCLUDE rocm-flags
 %define rocm_gpus_cmake %(for ARCH in %{rocm_archs}; do printf "%s;" "${ARCH%%:*}"; done | sed 's/;$//')
 
@@ -17,6 +17,7 @@ BuildRequires: ninja cmake
 rm -rf ../build ; mkdir ../build; cd ../build
 export HIP_PLATFORM=amd
 AOTRITON_CI_SUPPLIED_SHA1=%{aotriton_git_sha1} \
+AOTRITON_GIT_TREESHA1=%{aotriton_git_sha1} \
 cmake ../%{n}-%{realversion} \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \

@@ -21,7 +21,7 @@ cmake ../benchmark-%{realversion}-%{commit} \
   -G Ninja \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_CXX_FLAGS="-fPIE" \
-  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DBENCHMARK_ENABLE_GTEST_TESTS=OFF \
   -DBENCHMARK_DOWNLOAD_DEPENDENCIES=OFF
 
