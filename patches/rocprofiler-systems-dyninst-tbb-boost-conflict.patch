@@ -1,30 +1,30 @@
 --- a/projects/rocprofiler-systems/cmake/Packages.cmake
 +++ b/projects/rocprofiler-systems/cmake/Packages.cmake
-@@ -562,6 +562,21 @@
- else()
-     # Find Boost before finding Dyninst
-     find_package(Boost)
-+    # Pre-create both Dyninst::Boost and Dyninst::Boost_headers. Dyninst's own
-+    # installed tpls/DyninstBoost.cmake guards its target creation on
-+    # "if(NOT TARGET Dyninst::Boost)" (not Boost_headers); if only Boost_headers
-+    # is pre-created here, that guard is still false and Dyninst tries to
-+    # add_library(Dyninst::Boost_headers) again, which fails because it already
-+    # exists. Creating both here keeps Dyninst's guard satisfied.
-+    if(NOT TARGET Dyninst::Boost)
-+        add_library(Dyninst::Boost INTERFACE IMPORTED)
-+        target_link_libraries(Dyninst::Boost INTERFACE ${Boost_LIBRARIES})
-+        target_include_directories(
-+            Dyninst::Boost
-+            SYSTEM
-+            INTERFACE ${Boost_INCLUDE_DIRS}
-+        )
-+    endif()
-     if(NOT TARGET Dyninst::Boost_headers)
-         add_library(Dyninst::Boost_headers INTERFACE IMPORTED)
-         target_include_directories(
+@@ -571,6 +571,21 @@
+         )
+     else() # legacy Dyninst install: Boost component libraries
+         find_package(Boost)
++        # Pre-create both Dyninst::Boost and Dyninst::Boost_headers. Dyninst's own
++        # installed tpls/DyninstBoost.cmake guards its target creation on
++        # "if(NOT TARGET Dyninst::Boost)" (not Boost_headers); if only Boost_headers
++        # is pre-created here, that guard is still false and Dyninst tries to
++        # add_library(Dyninst::Boost_headers) again, which fails because it already
++        # exists. Creating both here keeps Dyninst's guard satisfied.
++        if(NOT TARGET Dyninst::Boost)
++            add_library(Dyninst::Boost INTERFACE IMPORTED)
++            target_link_libraries(Dyninst::Boost INTERFACE ${Boost_LIBRARIES})
++            target_include_directories(
++                Dyninst::Boost
++                SYSTEM
++                INTERFACE ${Boost_INCLUDE_DIRS}
++            )
++        endif()
+         if(NOT TARGET Dyninst::Boost_headers)
+             add_library(Dyninst::Boost_headers INTERFACE IMPORTED)
+             target_include_directories(
 --- a/projects/rocprofiler-systems/cmake/DyninstTBB.cmake
 +++ b/projects/rocprofiler-systems/cmake/DyninstTBB.cmake
-@@ -153,7 +153,14 @@
+@@ -155,7 +155,14 @@
      set(TBB_LIBRARY "${TBB_ROOT_DIR}/lib")
      set(TBB_INCLUDE_DIR "${TBB_ROOT_DIR}/include")
  
