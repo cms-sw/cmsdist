@@ -23,7 +23,7 @@ CMAKE_ARGS=(
   -S %{_builddir}/rocm-systems/projects/%{?rocm_project}%{!?rocm_project:%{n}}
   -B %{_builddir}/build
   -DCMAKE_INSTALL_PREFIX=%{i}
-  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
   %{cmake_args}
 )
