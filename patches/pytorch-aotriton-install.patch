@@ -1,8 +1,8 @@
 diff --git a/cmake/External/aotriton.cmake b/cmake/External/aotriton.cmake
-index d2f1e15ff..a7b5b1725 100644
+index 9e7ede4..6ba5c15 100644
 --- a/cmake/External/aotriton.cmake
 +++ b/cmake/External/aotriton.cmake
-@@ -241,10 +241,6 @@ if(NOT __AOTRITON_INCLUDED)
+@@ -240,10 +240,11 @@ if(NOT __AOTRITON_INCLUDED)
  
    # Note it is INSTALL"ED"
    if(DEFINED ENV{AOTRITON_INSTALLED_PREFIX})
@@ -10,6 +10,32 @@ index d2f1e15ff..a7b5b1725 100644
 -            $ENV{AOTRITON_INSTALLED_PREFIX}/lib
 -            $ENV{AOTRITON_INSTALLED_PREFIX}/include
 -            DESTINATION ${__AOTRITON_INSTALL_DIR})
++    # cmsdist: AOTRITON_INSTALLED_PREFIX points at an already-installed external.
++    # In local build areas that prefix (and/or its lib) is a symlink, and this
++    # install(DIRECTORY) duplicates the symlink onto torch/lib, which already
++    # exists as a real directory -> "file INSTALL cannot duplicate symlink".
++    # Nothing needs copying: __AOTRITON_INSTALL_DIR is set to the prefix below.
      set(__AOTRITON_INSTALL_DIR "$ENV{AOTRITON_INSTALLED_PREFIX}")
      message(STATUS "Using Preinstalled AOTriton at ${__AOTRITON_INSTALL_DIR}")
    elseif(DEFINED ENV{AOTRITON_INSTALL_FROM_SOURCE})
+@@ -286,12 +287,18 @@ if(NOT __AOTRITON_INCLUDED)
+   # (${PROJECT_SOURCE_DIR}/torch/lib/) without a cmake install() rule, so it
+   # is absent from the installed wheel and causes link failures in downstream
+   # cmake builds (e.g., custom op builds) that link against installed torch.
+-  install(DIRECTORY "${__AOTRITON_INSTALL_DIR}/lib/"
++  # cmsdist: resolve symlinks first. When AOTriton is a preinstalled external,
++  # its prefix/lib may be a symlink; CMake's installer checks for symlinks
++  # before directories and tries to duplicate the symlink itself instead of
++  # traversing it -> "file INSTALL cannot duplicate symlink". REALPATH is a
++  # no-op for the normal case where lib is a real directory.
++  get_filename_component(__AOTRITON_REAL_LIBDIR "${__AOTRITON_INSTALL_DIR}/lib" REALPATH)
++  install(DIRECTORY "${__AOTRITON_REAL_LIBDIR}/"
+     DESTINATION "lib"
+     FILES_MATCHING PATTERN "libaotriton_v2*.so*"
+   )
+   # Install aotriton GPU kernel images (compressed ISA blobs) into the wheel.
+-  install(DIRECTORY "${__AOTRITON_INSTALL_DIR}/lib/aotriton.images"
++  install(DIRECTORY "${__AOTRITON_REAL_LIBDIR}/aotriton.images"
+     DESTINATION "lib"
+     OPTIONAL
+   )
