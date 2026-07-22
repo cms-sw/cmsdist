@@ -1,0 +1,42 @@
+--- a/projects/rocprofiler-systems/cmake/Packages.cmake
++++ b/projects/rocprofiler-systems/cmake/Packages.cmake
+@@ -571,6 +571,21 @@
+         )
+     else() # legacy Dyninst install: Boost component libraries
+         find_package(Boost)
++        # Pre-create both Dyninst::Boost and Dyninst::Boost_headers. Dyninst's own
++        # installed tpls/DyninstBoost.cmake guards its target creation on
++        # "if(NOT TARGET Dyninst::Boost)" (not Boost_headers); if only Boost_headers
++        # is pre-created here, that guard is still false and Dyninst tries to
++        # add_library(Dyninst::Boost_headers) again, which fails because it already
++        # exists. Creating both here keeps Dyninst's guard satisfied.
++        if(NOT TARGET Dyninst::Boost)
++            add_library(Dyninst::Boost INTERFACE IMPORTED)
++            target_link_libraries(Dyninst::Boost INTERFACE ${Boost_LIBRARIES})
++            target_include_directories(
++                Dyninst::Boost
++                SYSTEM
++                INTERFACE ${Boost_INCLUDE_DIRS}
++            )
++        endif()
+         if(NOT TARGET Dyninst::Boost_headers)
+             add_library(Dyninst::Boost_headers INTERFACE IMPORTED)
+             target_include_directories(
+--- a/projects/rocprofiler-systems/cmake/DyninstTBB.cmake
++++ b/projects/rocprofiler-systems/cmake/DyninstTBB.cmake
+@@ -155,7 +155,14 @@
+     set(TBB_LIBRARY "${TBB_ROOT_DIR}/lib")
+     set(TBB_INCLUDE_DIR "${TBB_ROOT_DIR}/include")
+ 
+-    find_package(TBB ${TBB_MIN_VERSION} COMPONENTS ${_tbb_components})
++    # Force CONFIG mode so this always resolves through TBB's real TBBConfig.cmake
++    # (creating all of its exported targets, e.g. TBB::tbbbind_2_5, in one pass)
++    # instead of this project's legacy Modules/FindTBB.cmake, which only knows
++    # about tbb/tbbmalloc/tbbmalloc_proxy. Otherwise, when Dyninst's own installed
++    # tpls/DyninstTBB.cmake later calls find_package(TBB) again and resolves via
++    # the real TBBConfig.cmake, CMake's generated TBBTargets.cmake finds some but
++    # not all of its expected targets already defined and errors out.
++    find_package(TBB ${TBB_MIN_VERSION} CONFIG COMPONENTS ${_tbb_components})
+ 
+     if(NOT TBB_FOUND)
+         if(STERILE_BUILD)

@@ -6,7 +6,7 @@
 ## INCLUDE cpp-standard
 %define keep_archives true
 
-Source0: git+https://github.com/ROCm/llvm-project?obj=amd-staging/%{rocm_version}&export=%{n}-%{realversion}&output=/source.tar.gz
+Source0: git+https://github.com/ROCm/llvm-project?obj=amd-staging/therock-%{realversion}&export=%{n}-%{realversion}&output=/source.tar.gz
 Source1: %{rocm_systems_source}
 Patch0: rocm-llvm-iterator-gcc14
 BuildRequires: cmake rocm-cmake
@@ -14,7 +14,7 @@ Requires: ninja rocm-core libxml2 zlib rocprofiler-register
 
 %prep
 %setup -q -n %{n}-%{realversion}
-%patch0 -p1
+#%patch0 -p1
 
 %build
 mkdir -p %{_builddir}/rocm-systems
