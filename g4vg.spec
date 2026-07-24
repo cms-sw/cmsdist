@@ -1,4 +1,4 @@
-### RPM external g4vg 1.0.6
+### RPM external g4vg 1.0.7
 Source: https://github.com/celeritas-project/g4vg/releases/download/v%{realversion}/g4vg-%{realversion}.tar.gz
 
 %define package_build_flags -Wall -Wextra -pedantic
