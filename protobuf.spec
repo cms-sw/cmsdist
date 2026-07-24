@@ -35,8 +35,7 @@ cmake ../%{n}-%{realversion} \
     -DCMAKE_CXX_FLAGS="-I${ZLIB_ROOT}/include" \
     -DCMAKE_C_FLAGS="-I${ZLIB_ROOT}/include" \
     -DCMAKE_SHARED_LINKER_FLAGS="-L${ZLIB_ROOT}/lib" \
-    -DCMAKE_PREFIX_PATH="${ABSEIL_CPP_ROOT};${ZLIB_ROOT}" \
-    -Dprotobuf_ABSL_PROVIDER=package
+    -DCMAKE_PREFIX_PATH="${ABSEIL_CPP_ROOT};${ZLIB_ROOT}"
 
 ninja -v %{makeprocesses}
 

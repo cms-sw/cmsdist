@@ -5,7 +5,7 @@
 %define user cms-sw
 Source0: https://raw.githubusercontent.com/%user/cmssw/%commit/DQMServices/Components/bin/fastHadd.cc
 Source1: https://raw.githubusercontent.com/%user/cmssw/%commit/DQMServices/Core/src/ROOTFilePB.proto
-Requires: protobuf root
+Requires: protobuf root abseil-cpp
 
 %prep
 
@@ -17,7 +17,9 @@ cp %{_sourcedir}/ROOTFilePB.proto .
 protoc -I ./ --cpp_out=./ ROOTFilePB.proto
 perl -p -i -e 's|DQMServices/Core/interface/||' ROOTFilePB.pb.cc fastHadd.cc
 g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
-      -I$PROTOBUF_ROOT/include -L$PROTOBUF_ROOT/lib -lprotobuf \
+      -I$PROTOBUF_ROOT/include -I$ABSEIL_CPP_ROOT/include \
+      -L$PROTOBUF_ROOT/lib -lprotobuf \
+      -L$ABSEIL_CPP_ROOT/lib \
       `root-config --cflags --libs`
 
 %install
