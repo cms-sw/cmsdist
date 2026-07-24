@@ -6,10 +6,7 @@
 %define skip_license_checks 1
 #For RHEL: Use java 21
 #Nor non RHEL e.g FC: use default system java
-%define java_home /usr/lib/jvm/java
-%if 0%{?rhel:1}
 %define java_home /usr/lib/jvm/java-21
-%endif
 Source: none
 
 %prep

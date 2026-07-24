@@ -6,4 +6,5 @@
 
   <use name="eigen"/>
   <use name="tensorflow-includes"/>
+  <use name="abseil-cpp"/>
 </tool>

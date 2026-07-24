@@ -1,9 +1,8 @@
-### RPM external grpc 1.35.0
+### RPM external grpc 1.82.0
 ## INCLUDE cpp-standard
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Source1: https://patch-diff.githubusercontent.com/raw/grpc/grpc/pull/28212.patch
-Patch1: grpc-mno-outline-atomics
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
@@ -11,8 +10,6 @@ Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %prep
 
 %setup -n %{n}-%{realversion}
-patch -p1 <%{_sourcedir}/28212.patch
-%patch1 -p1
 
 %build
 rm -rf ../build
@@ -42,3 +39,5 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 ln -sf ../../../abseil-cpp/${ABSEIL_CPP_VERSION}/include/absl %{i}/include/absl
+
+
