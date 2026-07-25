@@ -70,7 +70,7 @@ BAZEL_OPTS="$BAZEL_OPTS"
 %if "%{?arch_build_flags}"
 BAZEL_OPTS="$BAZEL_OPTS $(echo %{arch_build_flags} | tr ' ' '\n' | grep -v '^$' | sed -e 's|^|--copt=|' | tr '\n' ' ')"
 %endif
-BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} --jobs=%{makeprocesses}"
+BAZEL_OPTS="$BAZEL_OPTS --config=%{build_type} --cxxopt=-std=c++%{cms_cxx_standard} --host_cxxopt=-std=c++%{cms_cxx_standard} --jobs %{compiling_processes}"
 BAZEL_OPTS="$BAZEL_OPTS --config=nogcp --config=nonccl"
 # On Linux, XLA always compiles numa_hwloc.cc (//xla/tsl:with_numa_support = match_any
 # linux_any), but the CMS hwloc system BUILD only links -lhwloc under
