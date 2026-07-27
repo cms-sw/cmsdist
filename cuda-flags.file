@@ -30,6 +30,12 @@
 # - mark __global__ functions and function templates, and __constant__, __device__ and __managed__ variables and variable templates, with __attribute__((visibility("hidden")))
 %define nvcc_visibility_flags --static-global-template-stub=true --device-entity-has-hidden-visibility=true
 
+# parallel device code compilation, integrated with make
+# split-compile=0 tries to automatically divide heavy TUs into multiple parallel compilation units
+# threads=0 uses all available CPU cores for parallel compilation
+# jobserver allows parallel compilation to be integrated with make's jobserver, so that the number of parallel jobs is limited to the number of jobs make is allowed to run in parallel
+%define nvcc_flags_parallel_compile --split-compile 0 --threads 0 --jobserver
+
 # build support for the various compute architectures
 %define nvcc_flags_cuda_archs %(echo $(for ARCH in %cuda_arch; do echo "-gencode arch=compute_$ARCH,code=[sm_$ARCH,compute_$ARCH]"; done)) -Wno-deprecated-gpu-targets
 
@@ -51,4 +57,5 @@
 # collect all CUDA flags
 %define nvcc_cuda_flags \
   %{nvcc_flags_stdcxx} %{nvcc_flags_opt} %{nvcc_flags_debug} %{nvcc_flags_constexpr} %{nvcc_flags_lambda} %{nvcc_visibility_flags} \
-  %{nvcc_flags_cuda_archs} %{nvcc_flags_cuda_diag_suppress} %{nvcc_flags_cudafe_diag} %{nvcc_flags_gnu_version} %{nvcc_flags_cudart}
+  %{nvcc_flags_parallel_compile} %{nvcc_flags_cuda_archs} %{nvcc_flags_cuda_diag_suppress} %{nvcc_flags_cudafe_diag} \
+  %{nvcc_flags_gnu_version} %{nvcc_flags_cudart}
