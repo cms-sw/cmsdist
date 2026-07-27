@@ -18,6 +18,7 @@ protoc -I ./ --cpp_out=./ ROOTFilePB.proto
 perl -p -i -e 's|DQMServices/Core/interface/||' ROOTFilePB.pb.cc fastHadd.cc
 g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
       -I$PROTOBUF_ROOT/include -I$ABSEIL_CPP_ROOT/include \
+      -Wl,--copy-dt-needed-entries \
       -L$PROTOBUF_ROOT/lib -lprotobuf \
       -L$ABSEIL_CPP_ROOT/lib \
       `root-config --cflags --libs`
