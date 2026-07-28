@@ -2,6 +2,7 @@
   <info url="http://root.cern.ch/root/"/>
   <lib name="TreePlayer"/>
   <lib name="Graf3d"/>
+  <lib name="TGeometry"/>
   <lib name="Postscript"/>
   <use name="rootgpad"/>
 </tool>
