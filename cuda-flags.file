@@ -15,7 +15,7 @@
 %define nvcc_flags_stdcxx -std=c++%{cms_cxx_standard}
 
 # generate optimised code
-%define nvcc_flags_opt -O3
+%define nvcc_flags_opt -O3 --default-stream per-thread
 
 # generate debugging information for device code
 %define nvcc_flags_debug --generate-line-info --source-in-ptx --display-error-number
