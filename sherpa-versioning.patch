@@ -1,0 +1,46 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d421173a2..04b504079 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -110,7 +110,7 @@ else()
+ endif()
+ message(STATUS "SHERPA: CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
+ if (SHERPA_ENABLE_VERSIONING)
+-  set (VERSIONING "-${EXTERNAL_VERSION_STRING}")
++  set (VERSIONING "${SHERPA_VERSION_MAJOR}")
+ else()
+   set (VERSIONING "")
+ endif()
+@@ -966,7 +966,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Examples/V_plus_Jets/LHC_WJets/CMakeL
+ if (SHERPA_ENABLE_UFO)
+ SET(SHERPA_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_PREFIX}/share/SHERPA-MC/)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MODEL/UFO/src/ufo_interface/parser.py.in ${CMAKE_CURRENT_BINARY_DIR}/MODEL/UFO/src/ufo_interface/parser.py @ONLY)
+-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MODEL/UFO/bin/Sherpa-generate-model.in ${CMAKE_CURRENT_BINARY_DIR}/MODEL/UFO/bin/Sherpa-generate-model @ONLY)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MODEL/UFO/bin/Sherpa-generate-model.in ${CMAKE_CURRENT_BINARY_DIR}/MODEL/UFO/bin/Sherpa${VERSIONING}-generate-model @ONLY)
+ if (NOT SHERPA_ENABLE_PYTHON AND SHERPA_ENABLE_TESTING)
+     message(FATAL_ERROR "SHERPA: UFO model generation tests requires Python Addons!")
+ endif()
+diff --git a/MODEL/UFO/CMakeLists.txt b/MODEL/UFO/CMakeLists.txt
+index 0db255640..67bbea5c3 100644
+--- a/MODEL/UFO/CMakeLists.txt
++++ b/MODEL/UFO/CMakeLists.txt
+@@ -17,7 +17,7 @@ file(COPY src/ufo_interface DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/)
+ file(COPY src/opt_einsum/opt_einsum DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/)
+ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/src/
+         DESTINATION ${SHERPA_Python_SITEARCH}/)
+-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/bin/Sherpa-generate-model
++install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/bin/Sherpa${VERSIONING}-generate-model
+         DESTINATION ${CMAKE_INSTALL_BINDIR})
+ 
+ if(SHERPA_ENABLE_TESTING)
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1071,7 +1071,7 @@
+ install(FILES
+       ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS.H
+       ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS_PACKAGES.H DESTINATION
+-      ${CMAKE_INSTALL_INCLUDEDIR}/SHERPA-MC/ATOOLS/Org/  COMPONENT devel )
++      ${CMAKE_INSTALL_INCLUDEDIR}/SHERPA-MC${VERSIONING}/ATOOLS/Org/  COMPONENT devel )
+ ########################################################################
+ if (SHERPA_ENABLE_TESTING)
+   message(STATUS "SHERPA: Will use the installed SHERPA for testing! Run ctest only after the installation!")
