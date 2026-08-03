@@ -11,7 +11,8 @@ Source0: %{rocm_systems_source}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-%setup -q -n rocm-systems
+%{!?rocm_project:%define rocm_project %{n}}
+%setup -q -n rocm-systems/projects/%{rocm_project}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
