@@ -1,15 +1,15 @@
-## INCLUDE rocm-config 
+## INCLUDE rocm-config
 ### RPM external hipify %{rocm_version_num}
-Source0: https://github.com/ROCm/HIPIFY/archive/refs/tags/rocm-%{rocm_version_num}.tar.gz
+Source0: git+https://github.com/ROCm/HIPIFY.git?obj=amd-develop/therock-%{rocm_version_num}&export=hipify&export=%{n}&submodules=1&output=/%{n}.tar.gz
 Requires: rocm-llvm
 
 %prep
-%setup -q -n HIPIFY-rocm-%{realversion}
+%setup -q -n %{n}
 
 %build
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/HIPIFY-rocm-%{realversion}
+  -S %{_builddir}/%{n}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_COMPILER=${ROCM_LLVM_ROOT}/lib/llvm/bin/clang \
