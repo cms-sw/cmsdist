@@ -1,7 +1,7 @@
 BuildRequires: rocm-cmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
 ## INCLUDE rocm-config
-Source0:  %{rocm_libraries_source}
+Source0:  git+https://github.com/ROCm/rocm-libraries.git?obj=develop/therock-%{rocm_version_num}&export=rocm-libraries&submodules=1&output=/rocm-libraries.tar.gz
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
