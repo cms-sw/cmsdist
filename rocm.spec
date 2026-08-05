@@ -11,6 +11,8 @@ Requires: rocr-runtime
 Requires: rocm-hip
 ## Dev utilities version info, CMake helpers, debug agent
 Requires: rocm-core rocm-cmake rocminfo rocdbgapi
+## Debugger (ROCgdb) built on top of rocdbgapi
+Requires: rocgdb
 ## Tools observability & systems
 ## Profiling: SDK (rocprofiler-sdk), compute (omniperf), systems (omnitrace)
 Requires: rocprofiler
