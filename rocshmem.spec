@@ -1,27 +1,7 @@
 ## INCLUDE rocm-config
 ### RPM external rocshmem %{rocm_version_num}
-
-Source0: https://github.com/ROCm/rocSHMEM/archive/refs/tags/%{rocm_version}.tar.gz
 BuildRequires: rocm-cmake
 Requires: rocm-core rocm-llvm rocr-runtime rocm-hip
 Requires: openmpi rocm-comgr
-
-%prep
-%setup -q -n rocSHMEM-%{rocm_version}
-
-%build
-cmake \
-  -B %{_builddir}/build \
-  -S %{_builddir}/rocSHMEM-%{rocm_version} \
-  -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};$ROCM_CMAKE_ROOT" \
-  -DROCM_PATH=$ROCM_LLVM_ROOT \
-  -DUSE_EXTERNAL_MPI=ON \
-  -DBUILD_TESTING=OFF \
-  -DCMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include --rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode"
-
-make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
-
-%install
-make -C %{_builddir}/build %{makeprocesses} install
+%define cmake_args -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};$ROCM_CMAKE_ROOT" -DROCM_PATH=$ROCM_LLVM_ROOT -DUSE_EXTERNAL_MPI=ON -DBUILD_TESTING=OFF -DCMAKE_CXX_FLAGS="-I$ROCM_CORE_ROOT/include --rocm-device-lib-path=${ROCM_LLVM_ROOT}/amdgcn/bitcode" -DEXPLICIT_ROCM_VERSION=%{rocm_version_num}.0
+## INCLUDE rocm-systems-build
