@@ -1,75 +1,75 @@
---- projects/miopen/src/include/miopen/sqlite_db.hpp
-+++ projects/miopen/src/include/miopen/sqlite_db.hpp
-@@ -463,7 +463,7 @@ class SQLitePerfDb
-                 ovr_rec.SetValues(vals.at(0), vals.at(1));
-             }
-             if(success)
--                return {ovr_rec};
-+                return boost::make_optional(ovr_rec);
-         }
-         std::string clause;
-         std::vector<std::string> values;
-@@ -498,7 +498,7 @@ class SQLitePerfDb
-         if(rec.GetSize() == 0)
-             return boost::none;
-         else
--            return {rec};
-+            return boost::make_optional(rec);
-     }
-
-     /// Removes ID with associated VALUES from record with key PROBLEM_CONFIG from db.
---- projects/miopen/src/find_controls.cpp
-+++ projects/miopen/src/find_controls.cpp
-@@ -161,7 +161,7 @@ boost::optional<std::vector<solver::Id>> GetEnvFindOnlySolverImpl()
-     if(res.empty())
-         return boost::none;
-     else
--        return {res};
-+        return boost::make_optional(res);
+--- projects/miopen/src/anyramdb.cpp
++++ projects/miopen/src/anyramdb.cpp
+@@ -99,7 +99,7 @@ std::optional<AnyRamDb::TRecord> AnyRamDb::FindRecordUnsafe(const std::string& p
+     if(it == cache.end())
+         return {};
+ 
+-    return it->second;
++    return std::make_optional(it->second);
  }
-
- } // namespace
---- projects/miopen/src/ramdb.cpp
-+++ projects/miopen/src/ramdb.cpp
-@@ -272,7 +272,7 @@ boost::optional<miopen::DbRecord> RamDb::FindRecordUnsafe(const std::string& pro
-         return boost::none;
-     }
-
--    return record;
-+    return boost::make_optional(record);
- }
-
- template <class TFunc>
+ 
+ void AnyRamDb::UpdateCacheEntryUnsafe(const std::string& key, const TRecord& value)
 --- projects/miopen/src/db.cpp
 +++ projects/miopen/src/db.cpp
-@@ -209,7 +209,7 @@ boost::optional<DbRecord> PlainTextDb::FindRecordUnsafe(const std::string& key,
+@@ -183,7 +183,7 @@ std::optional<DbRecord> PlainTextDb::FindRecordUnsafe(const std::string& key, Re
              pos->begin = line_begin;
              pos->end   = next_line_begin;
          }
 -        return record;
-+        return boost::make_optional(record);
++        return std::make_optional(record);
      }
      // Record was not found
-     return boost::none;
---- projects/miopen/src/anyramdb.cpp
-+++ projects/miopen/src/anyramdb.cpp
-@@ -99,7 +99,7 @@ boost::optional<AnyRamDb::TRecord> AnyRamDb::FindRecordUnsafe(const std::string&
-     if(it == cache.end())
-         return boost::none;
-
--    return it->second;
-+    return boost::make_optional(it->second);
+     return {};
+--- projects/miopen/src/find_controls.cpp
++++ projects/miopen/src/find_controls.cpp
+@@ -159,7 +159,7 @@ std::optional<std::vector<solver::Id>> GetEnvFindOnlySolverImpl()
+     if(res.empty())
+         return {};
+     else
+-        return {res};
++        return std::make_optional(res);
  }
-
- void AnyRamDb::UpdateCacheEntryUnsafe(const std::string& key, const TRecord& value)
+ 
+ } // namespace
 --- projects/miopen/src/include/miopen/kern_db.hpp
 +++ projects/miopen/src/include/miopen/kern_db.hpp
-@@ -136,7 +136,7 @@ struct KernDb
+@@ -128,7 +128,7 @@ public:
              auto new_md5 = md5(decompressed_blob);
              if(new_md5 != md5_hash)
                  MIOPEN_THROW(miopenStatusInternalError, "Possible database corruption");
 -            return decompressed_blob;
-+            return boost::make_optional(decompressed_blob);
++            return std::make_optional(decompressed_blob);
          }
          else if(rc == SQLITE_DONE)
          {
+--- projects/miopen/src/include/miopen/sqlite_db.hpp
++++ projects/miopen/src/include/miopen/sqlite_db.hpp
+@@ -437,7 +437,7 @@ public:
+                 ovr_rec.SetValues(vals.at(0), vals.at(1));
+             }
+             if(success)
+-                return {ovr_rec};
++                return std::make_optional(ovr_rec);
+         }
+         std::string clause;
+         std::vector<std::string> values;
+@@ -472,7 +472,7 @@ public:
+         if(rec.GetSize() == 0)
+             return {};
+         else
+-            return {rec};
++            return std::make_optional(rec);
+     }
+ 
+     /// Removes ID with associated VALUES from record with key PROBLEM_CONFIG from db.
+--- projects/miopen/src/ramdb.cpp
++++ projects/miopen/src/ramdb.cpp
+@@ -271,7 +271,7 @@ std::optional<miopen::DbRecord> RamDb::FindRecordUnsafe(const std::string& probl
+         return {};
+     }
+ 
+-    return record;
++    return std::make_optional(record);
+ }
+ 
+ template <class TFunc>
