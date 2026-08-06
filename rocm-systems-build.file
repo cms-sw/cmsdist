@@ -32,14 +32,14 @@ cmake "${CMAKE_ARGS[@]}"
 %{?ROCMPostCMake:%ROCMPostCMake}
 
 %{?ROCMPreMake:%ROCMPreMake}
-make -C %{_builddir}/build %{makeprocesses}
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostMake:%ROCMPostMake}
 
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
 %{?ROCMPreInstall:%ROCMPreInstall}
-make -C %{_builddir}/build %{makeprocesses} install
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
 %{?ROCMPostInstall:%ROCMPostInstall}
 
 %post
