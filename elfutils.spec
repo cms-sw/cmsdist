@@ -22,5 +22,15 @@ make %{makeprocesses} V=1
 %install
 make install V=1
 
+#### FIXME: For next full rebuild fix xz to ave pkgconfig ###
+#We do not have xz/lib/pkgconfig/liblzma.pc file so lets remove liblzma from Requires and explicitly link lzma
+if grep ' liblzma' %i/lib/pkgconfig/libdw.pc ; then
+  # Remove explicit Requires of liblzma
+  sed -i -e 's| liblzma||'  %i/lib/pkgconfig/libdw.pc
+  # Added our lzma include and lib paths
+  sed -i -e "s|^Cflags: |Cflags: -I${XZ_ROOT}/include |" %i/lib/pkgconfig/libdw.pc
+  sed -i -e "s|^Libs.private: |Libs.private: -L${XZ_ROOT}/lib -llzma |" %i/lib/pkgconfig/libdw.pc
+fi
+
 %post
 %relocateConfigAll lib/pkgconfig *.pc
