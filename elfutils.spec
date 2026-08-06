@@ -6,6 +6,10 @@ Requires: zlib bz2lib xz
 
 %prep
 %setup -n %{n}-%{realversion}
+%if "%{rhel}" == "8"
+sed -i -e 's|^readelf_LDADD\s*[+]=\s*libthread.a|readelf_LDADD += libthread.a -lpthread|' src/Makefile.am
+autoreconf -fi
+%endif
 
 %build
 export CPPFLAGS="-I${ZLIB_ROOT}/include -I${BZ2LIB_ROOT}/include -I${XZ_ROOT}/include"
@@ -13,10 +17,10 @@ export LDFLAGS="-L${ZLIB_ROOT}/lib -L${BZ2LIB_ROOT}/lib -L${XZ_ROOT}/lib"
 ./configure --prefix=%{i} --disable-static --enable-install-elfh \
             --disable-libdebuginfod --disable-debuginfod \
             --enable-thread-safety --disable-nls
-make %{makeprocesses}
+make %{makeprocesses} V=1
 
 %install
-make install
+make install V=1
 
 %post
 %relocateConfigAll lib/pkgconfig *.pc
