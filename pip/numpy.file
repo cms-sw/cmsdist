@@ -1,7 +1,6 @@
 BuildRequires: py3-meson-python cms-ninja
 Requires: py3-cython
 Requires: zlib OpenBLAS
-Patch0: patches/pip/numpy-f2py-main
 
 %define patchsrc \
 cat > site.cfg <<EOF \
@@ -21,16 +20,30 @@ atlas_dirs = $OPENBLAS_ROOT/lib\
 fcompiler=gnu95\
 EOF
 
+#f2py is invoked from arbitrary build directories, so keep the interpreter's own
+#stdlib/site-packages ahead of the caller's cwd and PYTHONPATH entries. Applied
+#here rather than as a patch: numpy reorders these imports between releases.
+%define patchsrc0 \
+cat >> numpy/f2py/__init__.py <<'EOF' \
+\
+import sys as _cms_sys \
+_cms_zip = [_i for _i, _p in enumerate(_cms_sys.path) if _p.endswith(".zip")] \
+_cms_cut = _cms_zip[0] if _cms_zip else 0 \
+_cms_sys.path[:] = _cms_sys.path[_cms_cut:] + _cms_sys.path[:_cms_cut] \
+del _cms_sys, _cms_zip, _cms_cut \
+EOF
+
 %define source0 https://github.com/numpy/numpy/releases/download/v%{realversion}/numpy-%{realversion}.tar.gz
 %define PipPreBuild export NPY_NUM_BUILD_JOBS=%{compiling_processes}
 
 %define PipPostBuild \
   mkdir -p %{i}/c-api \
-  numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/core | sed 's|%{i}/|../|') \
+  numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/_core 2>/dev/null || true) \
+  [ -d "${numpy_core}/include" ] || numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/core) \
+  numpy_core=$(echo "${numpy_core}" | sed 's|%{i}/|../|') \
   ln -s ${numpy_core} %{i}/c-api/core \
   echo "#!/bin/bash" > %{i}/bin/f2py \
   echo "echo \$PYTHONPATH" >> %{i}/bin/f2py \
-  echo "python3 -m numpy.f2py \\$*" >> %{i}/bin/f2py \
   chmod +x %{i}/bin/f2py
 #  ln -s ${numpy_core} %{i}/c-api/core
 
