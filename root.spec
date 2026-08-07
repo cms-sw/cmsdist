@@ -79,6 +79,7 @@ cmake ../%{n}-%{realversion} \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
   -Dmathmore=ON \
   -Dexplicitlink=ON \
+  -Dbuiltin_civetweb=ON \  
   -Dbuiltin_tbb=OFF \
   -Dbuiltin_pcre=OFF \
   -Dbuiltin_freetype=OFF \
