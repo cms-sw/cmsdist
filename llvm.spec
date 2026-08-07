@@ -1,4 +1,4 @@
-### RPM external llvm 21.1.4
+### RPM external llvm 22.1.8
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
