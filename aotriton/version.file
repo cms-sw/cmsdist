@@ -1,0 +1,3 @@
+%define aotriton_tag 0.13b
+%define aotriton_git_sha1 6e00ef3e335b45dfb49065259533b59c68995bfe
+## INCLUDE rocm-flags
