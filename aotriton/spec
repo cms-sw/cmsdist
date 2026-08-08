@@ -27,6 +27,9 @@ cmake ../%{n}-%{realversion} \
   -DAOTRITON_NO_PYTHON=OFF \
   -DAOTRITON_USE_TORCH=OFF \
   -DAOTRITON_INHERIT_SYSTEM_SITE_TRITON=ON \
+  -DLZMA_LIBRARY_DIRS="${XZ_ROOT}/ilb" \
+  -DLZMA_LIBRARIES="${XZ_ROOT}/lib/liblzma.so" \
+  -DCMAKE_CXX_FLAGS="-I${XZ_ROOT}/include" \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_VERBOSE_MAKEFILE=TRUE
 
