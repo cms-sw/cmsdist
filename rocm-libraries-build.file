@@ -1,11 +1,16 @@
 BuildRequires: rocm-cmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
 ## INCLUDE rocm-config
+%{!?rocm_project:%define rocm_project %{n}}
 Source0:  git+https://github.com/ROCm/rocm-libraries.git?obj=develop/therock-%{rocm_version_num}&export=rocm-libraries&submodules=1&output=/rocm-libraries.tar.gz
+Patch99: patches/rocm-libraries
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-%setup -q -n rocm-libraries/projects/%{n}
+%setup -q -n rocm-libraries/projects/%{rocm_project}
+pushd %{_builddir}/rocm-libraries
+  patch -p1 -i %{PATCH99}
+popd
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
@@ -17,7 +22,6 @@ export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -S %{_builddir}/rocm-libraries/projects/%{n}
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
