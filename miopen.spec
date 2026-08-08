@@ -1,8 +1,8 @@
 ## INCLUDE rocm-config
 ### RPM external miopen %{rocm_version_num}
 Source1: https://raw.githubusercontent.com/suruoxi/half/refs/heads/master/include/half.hpp
-Patch0: miopen-boost-optional-fix
-Patch1: miopen-gcc15
+Patch0: patches/miopen-boost-optional-fix
+Patch1: patches/miopen-ciso646
 BuildRequires: rocm-cmake
 Requires: rocm-hip rocm-core rocr-runtime rocminfo python3 roctracer sqlite hipblaslt hipblas rocblas rocrand bz2lib
 Requires: json hipblas-common boost zstd opencl rocm-llvm rocm-comgr
