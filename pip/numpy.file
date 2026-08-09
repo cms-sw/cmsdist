@@ -1,10 +1,7 @@
 BuildRequires: py3-meson-python cms-ninja
 Requires: py3-cython
 Requires: zlib OpenBLAS
-<<<<<<< Updated upstream
-=======
 Source1: patches/pip/numpy-f2py-wrapper
->>>>>>> Stashed changes
 
 %define patchsrc \
 cat > site.cfg <<EOF \
