@@ -42,7 +42,9 @@ babel==2.18.0
 backcall==0.2.0
 backports-entry-points-selectable==1.3.0
 backports-tarfile==1.2.0
-backports-zstd==1.6.0
+# backports-zstd removed: it backports Python 3.14's compression.zstd to older
+# interpreters and its setup.py raises "RuntimeError: Unsupported Python version"
+# on 3.14 by design. Use the stdlib compression.zstd module instead.
 barectf==3.1.2
 beautifulsoup4==4.15.0
 beniget==0.5.0
@@ -143,8 +145,11 @@ google-auth==2.55.2
 google-auth-oauthlib==1.4.0
 google-pasta==0.2.0
 # NO_AUTO_UPDATE:2: update together with TF
-grpcio==1.60.1
-grpcio-tools==1.60.1
+# 1.60.1 fails to build on Python 3.14: the bundled Cython-generated cygrpc.cpp
+# calls _PyLong_AsByteArray(), which gained extra parameters in CPython 3.14.
+# 1.78.0 is what tensorflow 2.21.0 requirements_lock_3_14.txt pins.
+grpcio==1.82.0
+grpcio-tools==1.82.0
 h11==0.16.0
 hatch-fancy-pypi-readme==25.1.0
 hatch-jupyter-builder==0.9.1
@@ -152,8 +157,11 @@ hatch-nodejs-version==0.4.0
 hatch-requirements-txt==0.4.1
 hatch-vcs==0.5.0
 hatchling==1.31.0
-# NO_AUTO_UPDATE: version >= 3.15.0 requires Python 3.10; version 3.14.0 has hardcoded numpy>2 deps
-h5py==3.13.0
+# NO_AUTO_UPDATE: update together with TF. Both old reasons to hold at 3.13.0 are
+# now moot: we are on Python 3.14 (>= 3.10) and on numpy 2.x. tensorflow 2.21.0
+# setup.py.tpl requires 'h5py ~= 3.15.1' when sys.version_info.minor > 13, so
+# 3.13.0 would fail py3-tensorflow's pip check on 3.14.
+h5py==3.15.1
 hepdata-lib==0.21.0
 hepdata-validator==0.3.6
 hist==2.10.1
@@ -181,8 +189,11 @@ janus==2.0.0
 jaraco-classes==3.4.0
 jaraco-functools==4.5.0
 jaraco-context==6.1.2
-jax==0.9.0.1
-jaxlib==0.9.0.1
+# NO_AUTO_UPDATE:2: jaxlib is installed from a prebuilt wheel (see jaxlib.file).
+# 0.9.0.1 publishes no cp314 wheel, so the build picked cp312 and pip refused it
+# with "not a supported wheel on this platform". cp314 wheels start at 0.10.0.
+jax==0.11.0
+jaxlib==0.11.0
 jedi==0.20.0
 jeepney==0.9.0
 Jinja2==3.1.6
@@ -266,7 +277,14 @@ nvidia-ml-py==13.610.43
 numexpr==2.14.1
 # setuptools version <64 is needed by numpy: https://github.com/pypa/setuptools/issues/3549
 # NO_AUTO_UPDATE: update together with tensorflow
-numpy==1.26.4
+# 1.26.x supports Python <= 3.12 only and predates the numpy 2 ABI, which broke
+# pandas 3.0.3 ("numpy.core.multiarray failed to import" during the aotriton
+# CMake configure). 2.4.2 is what tensorflow 2.21.0 requirements_lock_3_14.txt
+# pins; its requirements.in floor for 3.14 is numpy>=2.2.6.
+# NOTE: numpy 2 renamed numpy/core to numpy/_core -- see the c-api symlink in
+# numpy.file, which tensorflow's third_party/cms/numpy.BUILD globs as
+# c-api/core/include.
+numpy==2.4.2
 # NO_AUTO_UPDATE:1
 orjson==3.11.5
 onnx==1.22.0
@@ -459,7 +477,10 @@ tqdm==4.68.4
 traitlets==5.15.1
 triton==3.7.1
 trove-classifiers==2026.6.1.19
-typed-ast==1.5.5
+# typed-ast removed: abandoned upstream (last release 1.5.5, 2023) and it vendors
+# CPython AST internals, so it no longer compiles ("unknown type name
+# 'PyFutureFeatures'"). Obsolete since Python 3.8 -- use ast.parse(type_comments=True).
+# Its only consumer here was astroid, which has not needed it for years.
 types-python-dateutil==2.9.0.20260518
 typing-extensions==4.16.0
 typing-inspection==0.4.2

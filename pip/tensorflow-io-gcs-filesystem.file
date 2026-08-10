@@ -1,2 +1,9 @@
 %define source0 git+https://github.com/tensorflow/io?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/source.tar.gz
 Patch0: patches/pip/py3-tensorflow-io-gcs-filesystem
+
+# 0.37.1 (Jul 2024) is the latest release and declares python_requires
+# '<3.13,>=3.7'; there is no 3.13/3.14 release. pip refuses it on 3.14 with
+# "requires a different Python: 3.14.6 not in '<3.13,>=3.7'". We build from git
+# source anyway, so override the declared bound on both wheel and install.
+%define PipWheelOptions --ignore-requires-python
+%define PipInstallOptions --ignore-requires-python

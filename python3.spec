@@ -1,4 +1,4 @@
-### RPM external python3 3.12.13
+### RPM external python3 3.14.6
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib
 ## INITENV SETV PYTHON3_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
@@ -46,7 +46,6 @@ make %{makeprocesses}
 make %{makeprocesses} install
 sed -i -e "s|^#!.*python%{pythonv} *$|#!/usr/bin/env python%{python_major}|" %{i}/bin/* %{i}/lib/python*/*.py
 sed -i -e 's|^#!/.*|#!/usr/bin/env python%{pythonv}m|' %{i}/lib/python*/config-*/python-config.py
-sed -i -e 's|^#! */usr/local/bin/python|#!/usr/bin/env python|' %{i}/lib/python*/cgi.py
 
 # is executable, but does not start with she-bang so not valid
 # executable; this avoids problems with rpm 4.8+ find-requires
