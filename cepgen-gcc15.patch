@@ -1,0 +1,22 @@
+diff --git a/CepGen/Process/FortranFactorisedProcess.cpp b/CepGen/Process/FortranFactorisedProcess.cpp
+index 26b1546..53a9ed5 100644
+--- a/CepGen/Process/FortranFactorisedProcess.cpp
++++ b/CepGen/Process/FortranFactorisedProcess.cpp
+@@ -26,15 +26,13 @@
+ #include "CepGen/Process/FortranFactorisedProcess.h"
+ #include "CepGen/Utils/Message.h"
+ 
+-namespace {
+-  extern "C" {
++extern "C" {
+   extern cepgen::ktblock::Constants constants_;
+   extern cepgen::ktblock::GenParameters genparams_;
+   extern cepgen::ktblock::KTKinematics ktkin_;
+   extern cepgen::ktblock::KinCuts kincuts_;
+   extern cepgen::ktblock::EventKinematics evtkin_;
+-  }
+-}  // namespace
++}
+ 
+ extern "C" {
+ /// Print the full list of parameters in the runtime process parameters collection
