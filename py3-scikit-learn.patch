@@ -6,6 +6,6 @@ index 49a3cfb82..124c6cc3a 100644
 -#!/usr/bin/env python
 +#!/usr/bin/env python3
  """Extract version number from __init__.py"""
- 
+
  import os
 
