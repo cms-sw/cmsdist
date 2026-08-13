@@ -1,14 +1,15 @@
 ### RPM external pyquen 1.5.4
 
 Source: http://lokhtin.web.cern.ch/lokhtin/%{n}/%{n}-%{realversion}.tar.gz
+Patch0: pyquen-gcc15
 
 BuildRequires: cmake gmake
 
 Requires: pythia6 lhapdf
 
-
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 
