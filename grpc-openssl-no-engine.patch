@@ -1,0 +1,14 @@
+diff --git a/src/core/tsi/ssl_transport_security.cc b/src/core/tsi/ssl_transport_security.cc
+index bfd4d8f9..0903a8c9 100644
+--- a/src/core/tsi/ssl_transport_security.cc
++++ b/src/core/tsi/ssl_transport_security.cc
+@@ -37,7 +37,9 @@
+ 
+ #include <openssl/bio.h>
+ #include <openssl/crypto.h> /* For OPENSSL_free */
++#if !defined(OPENSSL_NO_ENGINE)
+ #include <openssl/engine.h>
++#endif
+ #include <openssl/err.h>
+ #include <openssl/ssl.h>
+ #include <openssl/tls1.h>

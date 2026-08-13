@@ -1,0 +1,18 @@
+diff --git a/src/progs_fortran.f b/src/progs_fortran.f
+index 2ed348d..6ff2fd0 100644
+--- a/src/progs_fortran.f
++++ b/src/progs_fortran.f
+@@ -524,11 +524,11 @@ c--
+ 
+        write(6,3) INT(VA),INT(VB),INT(VC)
+ 3      format(1x,'%%                      This is HYDJET++ version 
+-     >',I1.1,'.',I1.1,'.',I1.1'                       %%')
++     >',I1.1,'.',I1.1,'.',I1.1,'                       %%')
+ 
+        write(6,5) INT(VAP),INT(VBP),INT(VCP)
+ 5      format(1x,'%%                      Powered by PYQUEN version ',
+-     >I1.1,'.',I1.1,'.',I1.1'                      %%')
++     >I1.1,'.',I1.1,'.',I1.1,'                      %%')
+ 
+        write(6,*) '%%      Corresponding authors: Igor Lokhtin (Igor.
+      >Lokhtin@cern.ch)           %%'

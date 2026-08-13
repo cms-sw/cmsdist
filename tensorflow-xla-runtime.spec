@@ -21,7 +21,6 @@ rsync -a --no-o --no-g ${TENSORFLOW_ROOT}/xla-aot-runtime/ ./xla-aot-runtime/
 %patch0 -p1
 
 %build
-
 source %{_sourcedir}/env
 export CPATH="${CPATH}:${EIGEN_ROOT}/include/eigen3"
 
