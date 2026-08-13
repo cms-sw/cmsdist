@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocprofiler-compute %{rocm_version_num}
 BuildRequires: cmake rocm-cmake
 Requires: rocm-core rocm-llvm rocr-runtime python3 rocprofiler roctracer rocm-hip libxml2 rocm-rocprofiler-sdk elfutils

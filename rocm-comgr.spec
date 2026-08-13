@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocm-comgr %{rocm_version_num}
 Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/therock-%{realversion}.tar.gz
 BuildRequires: cmake ninja

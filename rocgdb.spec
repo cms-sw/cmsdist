@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocgdb %{rocm_version_num}
 
 Source0: https://github.com/ROCm/ROCgdb/archive/refs/tags/therock-%{rocm_version_num}.tar.gz

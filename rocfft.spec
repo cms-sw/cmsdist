@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocfft %{rocm_version_num}
 Requires: hiprand rocm-cmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr

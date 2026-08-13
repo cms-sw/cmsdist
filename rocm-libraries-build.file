@@ -1,19 +1,22 @@
-BuildRequires: rocm-cmake
+BuildRequires: rocm-cmake rocm-sources
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 %{!?rocm_project:%define rocm_project %{n}}
-Source0:  git+https://github.com/ROCm/rocm-libraries.git?obj=develop/therock-%{rocm_version_num}&export=rocm-libraries&submodules=1&output=/rocm-libraries.tar.gz
-Patch99: patches/rocm-libraries
+%{!?rocm_libraries_dir:%define rocm_libraries_dir projects}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-%setup -q -n rocm-libraries/projects/%{rocm_project}
-pushd %{_builddir}/rocm-libraries
-  patch -p1 -i %{PATCH99}
-popd
+mkdir -p rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/ %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/
+for dir in cmake %{?ROCMExtraSources} ; do
+  mkdir -p %{_builddir}/rocm-libraries/${dir}
+  rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/${dir}/ %{_builddir}/rocm-libraries/${dir}
+done
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
 %{?ROCMPreBuild:%ROCMPreBuild}
 
 export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
@@ -30,7 +33,7 @@ CMAKE_ARGS=(
   -DBUILD_CLIENTS_TESTS=off
   -DHIP_ROOT=$ROCM_HIP_ROOT
   -DGPU_TARGETS="%{rocm_targets}"
-  %{cmake_args}
+  %{?cmake_args}
 )
 
 cmake "${CMAKE_ARGS[@]}"
@@ -43,6 +46,7 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
 %{?ROCMPreInstall:%ROCMPreInstall}
 
 make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1

@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external hiprand %{rocm_version_num}
 Requires: rocrand rocm-comgr
 ## INCLUDE rocm-libraries-build

@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocm-cmake %{rocm_version_num}
 BuildRequires: cmake
 Source: https://github.com/ROCm/rocm-cmake/archive/refs/tags/therock-%{rocm_version_num}.tar.gz

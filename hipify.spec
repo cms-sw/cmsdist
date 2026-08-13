@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external hipify %{rocm_version_num}
 Source0: git+https://github.com/ROCm/HIPIFY.git?obj=amd-develop/therock-%{rocm_version_num}&export=hipify&export=%{n}&submodules=1&output=/%{n}.tar.gz
 Requires: rocm-llvm

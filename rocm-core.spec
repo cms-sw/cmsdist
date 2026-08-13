@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocm-core %{rocm_version_num}
 BuildRequires: cmake
 Requires: python3 py3-prettytable py3-PyYAML

@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocshmem %{rocm_version_num}
 BuildRequires: rocm-cmake
 Requires: rocm-core rocm-llvm rocr-runtime rocm-hip

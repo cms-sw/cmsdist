@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocm-llvm %{rocm_version_num}
 ## INITENV +PATH PATH %{i}/lib/llvm/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib/llvm/lib
@@ -7,18 +7,14 @@
 %define keep_archives true
 
 Source0: git+https://github.com/ROCm/llvm-project?obj=amd-staging/therock-%{realversion}&export=%{n}-%{realversion}&output=/source.tar.gz
-Source1: %{rocm_systems_source}
-BuildRequires: cmake rocm-cmake
+BuildRequires: cmake rocm-cmake rocm-sources
 Requires: ninja rocm-core libxml2 zlib rocprofiler-register
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
 %build
-mkdir -p %{_builddir}/rocm-systems
-tar -xzf %{_sourcedir}/rocm-systems.tar.gz --strip-components=1 -C %{_builddir}/rocm-systems
-
-cp -rT %{_builddir}/rocm-systems/projects/rocr-runtime/runtime/hsa-runtime %{_builddir}/%{n}-%{realversion}/hsa-runtime
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/projects/rocr-runtime/runtime/hsa-runtime/ %{_builddir}/%{n}-%{realversion}/hsa-runtime/
 
 host_triple=$(gcc -dumpmachine)
 cmake -G Ninja \

@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocm %{rocm_version_num}
 ## Core runtime  (build this first everything depends on it)
 ## LLVM-based compiler: amdclang

@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rocr-runtime %{rocm_version_num}
 Requires: rocm-core zlib libxml2 rocprofiler-register numactl rocm-llvm
 %define ROCMPreBuild export ROCM_PATH=$ROCM_LLVM_ROOT; export ROCM_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode

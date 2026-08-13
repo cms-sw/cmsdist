@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external hipcub %{rocm_version_num}
 Requires: rocprim
 ## INCLUDE rocm-libraries-build

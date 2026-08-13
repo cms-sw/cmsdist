@@ -1,4 +1,4 @@
-## INCLUDE rocm-config
+## INCLUDE rocm-flags
 ### RPM external rccl %{rocm_version_num}
 Requires: rocm-core rocm-llvm rocr-runtime amdsmi rocm-hip rocminfo rocprofiler-register rocm-smi-lib roctracer hipify rocm-comgr
 Requires: python3

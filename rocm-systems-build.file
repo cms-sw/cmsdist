@@ -7,15 +7,22 @@
 #   %%{rocm_project} - subdirectory under projects/ to build (defaults to %%{n})
 #   %%{cmake_args}   - extra -D flags appended to the cmake invocation
 #   ROCMPre*/ROCMPost* - shell snippets injected around each build phase
-Source0: %{rocm_systems_source}
+BuildRequires: rocm-sources
 %{!?rocm_project:%define rocm_project %{n}}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-%setup -q -n rocm-systems/projects/%{rocm_project}
+mkdir -p  %{_builddir}/rocm-systems/projects/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/projects/%{rocm_project}/ %{_builddir}/rocm-systems/projects/%{rocm_project}
+for dir in %{?ROCMExtraSources} ; do
+  mkdir -p %{_builddir}/rocm-systems/${dir}
+  rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/${dir}/ %{_builddir}/rocm-systems/${dir}
+done
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
 %{?ROCMPreBuild:%ROCMPreBuild}
 
 %{?ROCMPreCMake:%ROCMPreCMake}
@@ -25,7 +32,7 @@ CMAKE_ARGS=(
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_BUILD_TYPE=%{cmake_build_type}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
-  %{cmake_args}
+  %{?cmake_args}
 )
 
 cmake "${CMAKE_ARGS[@]}"
@@ -38,6 +45,7 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
 %{?ROCMPreInstall:%ROCMPreInstall}
 make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
 %{?ROCMPostInstall:%ROCMPostInstall}
