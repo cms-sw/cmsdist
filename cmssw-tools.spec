@@ -9,8 +9,7 @@ Requires: AXOL1TL
 Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
-Requires: acts
-Requires: actsdata
+%{!?without_acts:Requires: acts actsdata}
 %if %{enable_vecgeom}
 Requires: celeritas
 %endif
