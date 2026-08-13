@@ -1,7 +1,7 @@
 ### RPM external hydjet2 2.4.4 
 
 Source: http://lav01.sinp.msu.ru/~igor/hydjet++/%{n}-%{realversion}.tar.gz
-
+Patch0: hydjet2-gcc15
 
 BuildRequires: cmake gmake
 
@@ -10,6 +10,7 @@ Requires: pyquen pythia6 lhapdf root
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 

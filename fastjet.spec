@@ -30,6 +30,10 @@ CXXFLAGS="-O3 -Wall -ffast-math -ftree-vectorize %{selected_microarch}"
 CXXFLAGS="${CXXFLAGS} %{arch_build_flags}"
 %endif
 
+%if %{cmscompilerv} >= 15
+CXXFLAGS="${CXXFLAGS} -Wno-template-body"
+%endif
+
 PYTHON=$(which python3) \
   ./configure \
   --enable-shared \
