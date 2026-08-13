@@ -335,6 +335,7 @@ psutil==7.2.2
 ptyprocess==0.7.0
 puccinialin==0.1.12
 pure-eval==0.2.3
+puccinialin==0.1.8
 py-cpuinfo==9.0.0
 pyasn1-modules==0.4.2
 pyasn1==0.6.4
