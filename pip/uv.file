@@ -1,0 +1,8 @@
+BuildRequires: py3-maturin py3-puccinialin rust py3-tomli
+Requires: bz2lib
+%define PipPreBuild \
+    export CFLAGS="-I${BZ2LIB_ROOT}/include" \
+    export RUSTFLAGS="-L native=${BZ2LIB_ROOT}/lib" \
+    export CARGO_TERM_VERBOSE=true \
+    export CARGO_HOME=%{_tmppath}/cargo_home \
+    export CARGO_BUILD_JOBS=%{compiling_processes}

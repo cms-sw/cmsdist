@@ -1,10 +1,12 @@
 ### RPM external c-blosc 1.21.6
 Source: https://github.com/Blosc/c-blosc/archive/refs/tags/v%{realversion}.tar.gz
+Patch0: c-blosc-remove-bool
 Requires: zlib zstd lz4
 BuildRequires: ninja cmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build ; mkdir ../build; cd ../build
