@@ -1,11 +1,12 @@
 ### RPM external yaml-cpp 0.8.0
-
 Source: https://github.com/jbeder/yaml-cpp/archive/refs/tags/%{realversion}.tar.gz
+Source1: https://github.com/jbeder/yaml-cpp/commit/7b469b4220f96fb3d036cf68cd7bd30bd39e61d2.diff
 
 BuildRequires: cmake ninja
 
 %prep
 %setup -n %{n}-%{realversion}
+patch -p1 <%{_sourcedir}/7b469b4220f96fb3d036cf68cd7bd30bd39e61d2.diff
 
 %build
 rm -rf ../build

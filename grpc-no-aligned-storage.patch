@@ -1,0 +1,70 @@
+diff --git a/include/grpcpp/impl/codegen/server_context.h b/include/grpcpp/impl/codegen/server_context.h
+index 5a62873ec8..46b797c814 100644
+--- a/include/grpcpp/impl/codegen/server_context.h
++++ b/include/grpcpp/impl/codegen/server_context.h
+@@ -513,8 +513,7 @@ class ServerContextBase {
+     const std::function<void(::grpc::Status s)> func_;
+   };
+ 
+-  typename std::aligned_storage<sizeof(Reactor), alignof(Reactor)>::type
+-      default_reactor_;
++  alignas(Reactor) std::byte default_reactor_[sizeof(Reactor)];
+   std::atomic_bool default_reactor_used_{false};
+   std::unique_ptr<TestServerCallbackUnary> test_unary_;
+ };
+diff --git a/src/core/ext/filters/http/message_compress/message_compress_filter.cc b/src/core/ext/filters/http/message_compress/message_compress_filter.cc
+index 09c914fab0..88d92210ef 100644
+--- a/src/core/ext/filters/http/message_compress/message_compress_filter.cc
++++ b/src/core/ext/filters/http/message_compress/message_compress_filter.cc
+@@ -164,9 +164,7 @@ class CallData {
+   grpc_linked_mdelem accept_stream_encoding_storage_;
+   grpc_slice_buffer slices_; /**< Buffers up input slices to be compressed */
+   // Allocate space for the replacement stream
+-  std::aligned_storage<sizeof(grpc_core::SliceBufferByteStream),
+-                       alignof(grpc_core::SliceBufferByteStream)>::type
+-      replacement_stream_;
++  alignas(grpc_core::SliceBufferByteStream) std::byte replacement_stream_[sizeof(grpc_core::SliceBufferByteStream)];
+   grpc_closure* original_send_message_on_complete_ = nullptr;
+   grpc_closure send_message_on_complete_;
+   grpc_closure on_send_message_next_done_;
+diff --git a/src/core/ext/filters/http/message_compress/message_decompress_filter.cc b/src/core/ext/filters/http/message_compress/message_decompress_filter.cc
+index 4ab8a5638c..0c8dc75567 100644
+--- a/src/core/ext/filters/http/message_compress/message_decompress_filter.cc
++++ b/src/core/ext/filters/http/message_compress/message_decompress_filter.cc
+@@ -123,9 +123,7 @@ class CallData {
+   // It is initialized during construction and reset when a new stream is
+   // created using it.
+   grpc_slice_buffer recv_slices_;
+-  std::aligned_storage<sizeof(SliceBufferByteStream),
+-                       alignof(SliceBufferByteStream)>::type
+-      recv_replacement_stream_;
++  alignas(SliceBufferByteStream) std::byte recv_replacement_stream_[sizeof(SliceBufferByteStream)];
+   // Fields for handling recv_trailing_metadata_ready callback
+   bool seen_recv_trailing_metadata_ready_ = false;
+   grpc_closure on_recv_trailing_metadata_ready_;
+diff --git a/src/core/lib/gprpp/manual_constructor.h b/src/core/lib/gprpp/manual_constructor.h
+index 7ee13796ee..2a5d40e964 100644
+--- a/src/core/lib/gprpp/manual_constructor.h
++++ b/src/core/lib/gprpp/manual_constructor.h
+@@ -159,10 +159,8 @@ class PolymorphicManualConstructor {
+     GPR_ASSERT(static_cast<BaseType*>(p) == p);
+   }
+ 
+-  typename std::aligned_storage<
+-      grpc_core::manual_ctor_impl::max_size_of<DerivedTypes...>::value,
+-      grpc_core::manual_ctor_impl::max_align_of<DerivedTypes...>::value>::type
+-      space_;
++  alignas(grpc_core::manual_ctor_impl::max_align_of<DerivedTypes...>::value)
++  std::byte space_[grpc_core::manual_ctor_impl::max_size_of<DerivedTypes...>::value];
+ };
+ 
+ template <typename Type>
+@@ -205,7 +203,7 @@ class ManualConstructor {
+   void Destroy() { get()->~Type(); }
+ 
+  private:
+-  typename std::aligned_storage<sizeof(Type), alignof(Type)>::type space_;
++  alignas(Type) std::byte space_[sizeof(Type)];
+ };
+ 
+ }  // namespace grpc_core
