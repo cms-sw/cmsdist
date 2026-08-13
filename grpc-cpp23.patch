@@ -1,0 +1,11 @@
+--- a/src/core/ext/filters/client_channel/lb_policy/xds/xds_cluster_resolver.cc.orig	2025-11-27 10:34:29.305947885 +0100
++++ b/src/core/ext/filters/client_channel/lb_policy/xds/xds_cluster_resolver.cc	2025-11-27 10:34:40.604302735 +0100
+@@ -148,7 +148,7 @@
+     // to use for LRS load reporting. Caller must ensure that config_ is set
+     // before calling.
+     std::pair<absl::string_view, absl::string_view> GetLrsClusterKey() const {
+-      if (!parent_->is_xds_uri_) return {parent_->server_name_, nullptr};
++      if (!parent_->is_xds_uri_) return {parent_->server_name_, {}};
+       return {
+           parent_->config_->discovery_mechanisms()[index_].cluster_name,
+           parent_->config_->discovery_mechanisms()[index_].eds_service_name};
