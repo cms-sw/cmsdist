@@ -1,5 +1,5 @@
 ### RPM cms fakesystem 1.0
-## REVISION 1017
+## REVISION 1018
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -134,6 +134,14 @@ Provides: perl(Tk)
 Provides: /bin/csh
 Provides: /bin/tcsh
 Provides: /bin/env
+
+#################################
+# Needed by RISCV64
+#################################
+%if 0%{?fedora} >= 42
+Provides: /usr/sbin/bash
+Provides: /usr/sbin/perl
+%endif
 
 %prep
 %build
