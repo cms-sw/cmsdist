@@ -1,6 +1,6 @@
 ### RPM external mpich v4.3.2
 ## INCLUDE cuda-flags
-## INCLUDE rocm-flags
+## INCLUDE rocm/flags
 %define branch 4.3.x
 %define tag %{realversion}
 Source: git+https://github.com/pmodels/mpich.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
