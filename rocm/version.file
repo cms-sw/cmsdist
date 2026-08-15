@@ -1,0 +1,3 @@
+### FILE rocm-version
+%define rocm_version_num 7.14
+%define rocm_version therock-%{rocm_version_num}
