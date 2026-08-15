@@ -1,0 +1,59 @@
+BuildRequires: rocm-cmake rocm-sources
+Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
+## INCLUDE rocm/flags
+%{!?rocm_project:%define rocm_project %{n}}
+%{!?rocm_libraries_dir:%define rocm_libraries_dir projects}
+
+%prep
+%{?ROCMPrePrep:%ROCMPrePrep}
+mkdir -p rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/ %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/
+for dir in cmake %{?ROCMExtraSources} ; do
+  mkdir -p %{_builddir}/rocm-libraries/${dir}
+  rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/${dir}/ %{_builddir}/rocm-libraries/${dir}
+done
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+%{?ROCMPostPrep:%ROCMPostPrep}
+
+%build
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+%{?ROCMPreBuild:%ROCMPreBuild}
+
+export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
+
+%{?ROCMPreCMake:%ROCMPreCMake}
+
+CMAKE_ARGS=(
+  -B %{_builddir}/build
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+  -DCMAKE_INSTALL_PREFIX=%{i}
+  -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
+  -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path};$ROCM_CMAKE_ROOT"
+  -DBUILD_CLIENTS_TESTS=off
+  -DHIP_ROOT=$ROCM_HIP_ROOT
+  -DGPU_TARGETS="%{rocm_targets}"
+  %{?cmake_args}
+)
+
+cmake "${CMAKE_ARGS[@]}"
+%{?ROCMPostCMake:%ROCMPostCMake}
+
+%{?ROCMPreMake:%ROCMPreMake}
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
+%{?ROCMPostMake:%ROCMPostMake}
+
+%{?ROCMPostBuild:%ROCMPostBuild}
+
+%install
+cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+%{?ROCMPreInstall:%ROCMPreInstall}
+
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
+
+%{?ROCMPostInstall:%ROCMPostInstall}
+
+%post
+%{?ROCMPrePost:%ROCMPrePost}
+true
+%{?ROCMPostPost:%ROCMPostPost}
