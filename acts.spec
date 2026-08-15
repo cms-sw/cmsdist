@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/python
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
-## INCLUDE rocm-flags
+## INCLUDE rocm/flags
 ## INCLUDE geant4-deps
 
 %define tag         v%{realversion}
