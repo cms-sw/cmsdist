@@ -14,7 +14,7 @@ def packages(virtual_packages, *args):
     if line.startswith('#'):continue
     if not '==' in line: continue
     items = line.strip().split(';')
-    (pkg, ver) = items[0].strip().split('==',1)
+    (pkg, ver) = items[0].replace('#','').strip().split('==',1)
     py_pkg = "py3-%s" % pkg
     if py_pkg in virtual_packages: continue
     matched=True
