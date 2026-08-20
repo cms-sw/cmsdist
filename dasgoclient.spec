@@ -3,7 +3,7 @@
 #For any other change, increment version_suffix
 ##########################################
 %define version_suffix 00
-%define dasgoclient_tag v02.04.53
+%define dasgoclient_tag v02.04.54
 ### RPM cms dasgoclient %{dasgoclient_tag}.rev%{version_suffix}
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
