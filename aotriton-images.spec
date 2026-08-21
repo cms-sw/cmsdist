@@ -3,9 +3,9 @@
 ## NOCOMPILER
 AutoReqProv: no
 
-Source0: https://github.com/ROCm/aotriton/releases/download/0.13b/aotriton-%{realversion}-images-amd-gfx942.tar.gz
-Source1: https://github.com/ROCm/aotriton/releases/download/0.13b/aotriton-%{realversion}-images-amd-gfx90a.tar.gz
-Source2: https://github.com/ROCm/aotriton/releases/download/0.13b/aotriton-%{realversion}-images-amd-gfx110x.tar.gz
+Source0: https://github.com/ROCm/aotriton/releases/download/%{realversion}/aotriton-%{realversion}-images-amd-gfx942.tar.gz
+Source1: https://github.com/ROCm/aotriton/releases/download/%{realversion}/aotriton-%{realversion}-images-amd-gfx90a.tar.gz
+Source2: https://github.com/ROCm/aotriton/releases/download/%{realversion}/aotriton-%{realversion}-images-amd-gfx110x.tar.gz
 
 %prep
 for amd_gpu in $(echo "%{rocm_archs}" | tr ' ' '\n' | sed 's|:.*||') ; do
