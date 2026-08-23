@@ -1,0 +1,36 @@
+commit 7e4352963e725c5ec3ef2bc541dcb3255dc2ecd3 (HEAD -> therock-7.14-issue10529, fwyzard/therock-7.14-issue10529)
+Author: Andrea Bocci <andrea.bocci@cern.ch>
+Date:   Fri Aug 21 12:25:16 2026 +0200
+
+    Prevent a deadlock between hipEventSynchronize and hipMallocAsync
+    
+    hipMallocAsync may try to acquire the device lock while it holds the memory
+    pool lock, if the pool needs to allocate more memory.
+    
+    hipEventSynchronize will try to acquire the memory pool lock while holding the
+    device lock, to free the unused memory in the pool.
+    
+    This may cause a deadlock if the two operations happen on different threads at
+    the same time.
+    
+    This change makes MemoryPool::ReleaseFreedMemory (called by hipEventSynchronize)
+    return immediately if it cannot acquire the pool lock.
+
+diff --git a/projects/clr/hipamd/src/hip_mempool_impl.cpp b/projects/clr/hipamd/src/hip_mempool_impl.cpp
+index 0983241188..0dc99953ef 100644
+--- a/projects/clr/hipamd/src/hip_mempool_impl.cpp
++++ b/projects/clr/hipamd/src/hip_mempool_impl.cpp
+@@ -339,7 +339,12 @@ void MemoryPool::ReleaseAllMemory() {
+ 
+ // ================================================================================================
+ void MemoryPool::ReleaseFreedMemory() {
+-  std::scoped_lock lock(lock_pool_ops_);
++  // Do not block if the lock cannot be acquired, to avoid a deadlock if a different thread holds
++  // the pool lock and tries to acquire the device lock, e.g. hipMallocAsync requesting new memory.
++  std::unique_lock lock(lock_pool_ops_, std::try_to_lock);
++  if (! lock.owns_lock()) {
++    return;
++  }
+ 
+   free_heap_.ReleaseAllMemory();
+ }
