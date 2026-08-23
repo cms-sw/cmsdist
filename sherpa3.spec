@@ -3,13 +3,16 @@ Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}
 Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 libzip
 BuildRequires: cmake swig
 
-Patch0: sherpa-versioning
+Patch0: sherpa-3.0.5-versioning
+#Fix -Werror=reorder in Particle_Info constructor (init order m_hmass/m_radius)
+Patch1: sherpa-3.0.5-reorder
 
 %{!?without_openloops:Requires: openloops}
 
 %prep
 %setup -q -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf build && mkdir build
@@ -45,3 +48,10 @@ cmake --build build %{makeprocesses}
 %install
 cmake --install build
 sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa3-generate-model
+
+%post
+%{relocateConfig}bin/Sherpa3-config
+%{relocateConfig}bin/Sherpa3-generate-model
+%{relocateConfig}share/SHERPA-MC3/makelibs
+%{relocateConfig}include/SHERPA-MC3/ATOOLS/Org/CXXFLAGS*.H
+%{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/ufo_interface/parser.py
