@@ -15,6 +15,13 @@ Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}
 Source1: git+https://github.com/include-what-you-use/include-what-you-use.git?obj=%{iwyuBranch}/%{iwyuCommit}&export=iwyu-%{realversion}-%{iwyuCommit}&module=iwyu-%{realversion}-%{iwyuCommit}&output=/iwyu-%{realversion}-%{iwyuCommit}.tgz
 %define keep_archives true
 
+# LLVM GPU architecrues to build
+%if 0%{!?without_cuda:1}
+%define llvmNvGpuArch ;NVPTX
+%else
+%define llvmNvGpuArch %{nil}
+%endif
+
 %prep
 %setup -T -b0 -n llvm-%{realversion}-%{llvmCommit}
 
@@ -55,7 +62,7 @@ cmake %{_builddir}/llvm-%{realversion}-%{llvmCommit}/llvm \
   -DCOMPILER_RT_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_HOST_TRIPLE=${host_triple} \
-  -DLLVM_TARGETS_TO_BUILD:STRING="X86;PowerPC;AArch64;RISCV;NVPTX" \
+  -DLLVM_TARGETS_TO_BUILD:STRING="Native%{llvmNvGpuArch}" \
 %if 0%{!?without_cuda:1}
   -DLIBOMPTARGET_NVPTX_ALTERNATE_HOST_COMPILER=/usr/bin/gcc \
   -DLIBOMPTARGET_NVPTX_COMPUTE_CAPABILITIES="%omptarget_cuda_archs" \
