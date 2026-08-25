@@ -27,6 +27,7 @@ export PKG_CONFIG_PATH=$ROCDBGAPI_ROOT/share/pkgconfig:$PKG_CONFIG_PATH
     --with-system-zlib --without-guile \
     --without-babeltrace \
     --with-python=python3 \
+    --with-python-libdir="%{i}/../../python3/${PYTHON3_VERSION}/lib" \
     CPPFLAGS="-I$EXPAT_ROOT/include -I$XZ_ROOT/include -I$ZLIB_ROOT/include" \
     LDFLAGS="-L$EXPAT_ROOT/lib -L$XZ_ROOT/lib -L$ZLIB_ROOT/lib -L$PYTHON3_ROOT/lib"
 
