@@ -6,9 +6,9 @@
 %define tag v%{realversion}
 Source: git+https://github.com/open-mpi/ompi.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: openmpi-setenv-fix
-BuildRequires: autotools flex
+BuildRequires: autotools flex python-python3
 %{!?without_cuda:Requires: cuda}
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: rocm-hip}
 Requires: libfabric
 Requires: hwloc
 Requires: rdma-core
@@ -42,7 +42,7 @@ AUTOMAKE_JOBS=%{compiling_processes} ./autogen.pl
   --disable-mpi-java \
   --with-zlib=$ZLIB_ROOT \
   %{!?without_cuda:--with-cuda=$CUDA_ROOT --with-cuda-libdir=$CUDA_ROOT/lib64/stubs} \
-  %{!?without_rocm:--with-rocm=$ROCM_ROOT} \
+  %{!?without_rocm:--with-rocm=$ROCM_HIP_ROOT} \
   --with-hwloc=$HWLOC_ROOT \
   --with-ofi=$LIBFABRIC_ROOT \
   --without-portals4 \
