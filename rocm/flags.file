@@ -1,5 +1,6 @@
 ### FILE rocm-flags
 # define the ROCm compilation flags in a way that can be shared by SCRAM-based and regular tools
+## INCLUDE rocm/version
 
 # build support for Instinct MI210/MI250X (gfx90a), Instinct MI300X (gfx942), Radeon Pro W7800/W7900 (gfx1100), and Radeon Pro W7600 (gfx1102)
 %define rocm_archs gfx90a:sramecc+ gfx942:sramecc+ gfx1100 gfx1102
@@ -9,3 +10,5 @@
 
 # all ROCm flags
 %define rocm_flags %{hipcc_flags_rocm_archs}
+
+%define rocm_targets $(sed 's/:sramecc+//g; s/ /;/g' <<< "%rocm_archs")
