@@ -1,4 +1,4 @@
-### RPM external clue 1.1.1
+### RPM external clue 1.1.3
 ## NOCOMPILER
 
 %define git_commit V_%(echo %{realversion} | tr '.' '_')
