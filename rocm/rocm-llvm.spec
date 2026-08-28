@@ -45,8 +45,8 @@ cmake -G Ninja \
 
 %if 0%{!?use_system_gcc:1}
 echo -e "--gcc-toolchain=$GCC_ROOT\n--target=$host_triple\n-m64\n-L$GCC_ROOT/lib64" > %{_builddir}/build-llvm/bin/clang++.cfg
-ln -sf %{_builddir}/build-llvm/bin/clang++.cfg %{_builddir}/build-llvm/bin/clang.cfg
-ln -sf %{_builddir}/build-llvm/bin/clang++.cfg %{_builddir}/build-llvm/bin/$host_triple.cfg
+ln -sf clang++.cfg %{_builddir}/build-llvm/bin/clang.cfg
+ln -sf clang++.cfg %{_builddir}/build-llvm/bin/$host_triple.cfg
 %endif
 
 ninja -v -C %{_builddir}/build-llvm %{makeprocesses}
@@ -81,7 +81,10 @@ ninja -v -C %{_builddir}/build-hip install
 
 mkdir -p %{i}/lib/llvm/bin/
 %if 0%{!?use_system_gcc:1}
-mv  %{_builddir}/build-llvm/bin/clang++.cfg %{i}/lib/llvm/bin/
+host_triple=$(gcc -dumpmachine)
+for cfg in clang++.cfg clang.cfg ${host_triple}.cfg ; do
+  mv  %{_builddir}/build-llvm/bin/$cfg %{i}/lib/llvm/bin/$cfg
+done
 printf "\n--rocm-device-lib-path=%{i}/amdgcn/bitcode\n" >> %{i}/lib/llvm/bin/clang++.cfg
 %endif
 mkdir -p %{i}/.info
