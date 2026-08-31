@@ -1,4 +1,4 @@
-### RPM external flatbuffers 24.3.25
+### RPM external flatbuffers 25.9.23
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INCLUDE cpp-standard
 %define tag v%{realversion}

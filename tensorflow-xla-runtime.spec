@@ -1,4 +1,4 @@
-### RPM external tensorflow-xla-runtime 2.17.0
+### RPM external tensorflow-xla-runtime 2.21.0
 ## INCLUDE cpp-standard
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
@@ -35,7 +35,7 @@ pushd xla-aot-runtime/src
     -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
     -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
     -DCMAKE_PREFIX_PATH=${ABSEIL_CPP_ROOT} \
-    -DCMAKE_SHARED_LINKER_FLAGS="-L../lib -Wl,--whole-archive -l:libfft_wrapper.pic.a -Wl,--no-whole-archive -l:libfft.pic.a -l:libmutex.pic.a -l:libnsync_cpp.pic.a" \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L../lib -Wl,--whole-archive -l:libfft_wrapper.pic.a -Wl,--no-whole-archive -l:libfft.pic.a" \
     -DBUILD_SHARED_LIBS=ON
   make %{makeprocesses} VERBOSE=1
 popd

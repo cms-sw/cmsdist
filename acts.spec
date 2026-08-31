@@ -1,13 +1,13 @@
-### RPM external acts v44.0.1
+### RPM external acts 46.8.1
 ## INITENV +PATH PYTHON3PATH %{i}/python
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
 ## INCLUDE rocm/flags
 ## INCLUDE geant4-deps
 
-%define tag         30fb4ea
-%define branch      cms/%{realversion}
-%define github_user cms-externals
+%define tag         v%{realversion}
+%define branch      main
+%define github_user acts-project
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Patch0: patches/acts-gcc16
 Source99: scram-tools.file/tools/eigen/env
@@ -72,6 +72,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_SKIP_INSTALL_RPATH="ON" \
+  -DEigen3_DIR="$EIGEN_ROOT/share/eigen3/cmake" \
 %if 0%{!?without_cuda:1}
   -DCMAKE_CUDA_ARCHITECTURES="$(echo %{cuda_arch} | sed -e 's/ \+/;/g')" \
   -DCMAKE_CUDA_FLAGS="-Wno-deprecated-gpu-targets" \
@@ -115,6 +116,8 @@ cmake ../%{n}-%{realversion} \
   -DPython_EXECUTABLE=$(which python3) \
   -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS="ON" \
   -DTRACCC_BUILD_TESTING="ON" \
+  -DTRACCC_BUILD_SIMULATION="ON" \
+  -DTRACCC_BUILD_PERFORMANCE="ON" \
   -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST \
 %endif
   -L
