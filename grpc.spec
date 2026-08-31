@@ -1,10 +1,8 @@
-### RPM external grpc 1.48.4
+### RPM external grpc 1.82.0
 ## INCLUDE cpp-standard
 
 Source: git+https://github.com/grpc/grpc.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
-Patch1: grpc-mno-outline-atomics
-Patch2: grpc-openssl-no-engine
-Patch3: grpc-fix-aligned_storage
+Source1: https://patch-diff.githubusercontent.com/raw/grpc/grpc/pull/28212.patch
 BuildRequires: cmake ninja go
 Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %define keep_archives true
@@ -12,9 +10,6 @@ Requires: protobuf zlib pcre c-ares abseil-cpp re2
 %prep
 
 %setup -n %{n}-%{realversion}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 rm -rf ../build
@@ -44,3 +39,5 @@ ninja -v %{makeprocesses}
 cd ../build
 ninja -v %{makeprocesses} install
 ln -sf ../../../abseil-cpp/${ABSEIL_CPP_VERSION}/include/absl %{i}/include/absl
+
+
