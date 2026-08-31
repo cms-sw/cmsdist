@@ -9,7 +9,7 @@ Patch0: patches/pytorch-system-fmt
 Patch1: patches/pytorch-hipblaslt-include
 
 BuildRequires: cmake ninja python-python3 py3-packaging
-Requires: fftw3 eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML
+Requires: fftw3 eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML abseil-cpp
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
 
