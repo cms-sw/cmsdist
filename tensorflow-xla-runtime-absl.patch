@@ -9,4 +9,4 @@
 +add_library(tf_xla_runtime SHARED
    $<TARGET_OBJECTS:tf_xla_runtime_objects>
  )
-+target_link_libraries(tf_xla_runtime absl::strings absl::str_format_internal)
++target_link_libraries(tf_xla_runtime absl::strings absl::str_format_internal absl::log absl::check absl::synchronization absl::status)
