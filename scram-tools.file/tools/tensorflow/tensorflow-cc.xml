@@ -1,7 +1,8 @@
-<tool revision="2">
+<tool revision="3">
   <lib name="tensorflow_cc"/>
   <use name="tensorflow-framework"/>
   <use name="eigen"/>
   <use name="libpng"/>
   <use name="sqlite"/>
+  <flags FORCE_LINK="1"/>
 </tool>
