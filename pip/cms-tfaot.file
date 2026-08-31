@@ -1,8 +1,8 @@
 Requires: py3-PyYAML py3-cmsml
 
 %define github_user cms-externals
-%define tag bd45d653370360db8118efcad77246b0c61e560a
-%define branch master
+%define tag 848ab9750a528b23f1fdc026e408e5d90cbc0574
+%define branch tf-2.21.0-aot-metadata-objects
 %define source0 git+https://github.com/%{github_user}/cms-tfaot.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 #To make sure we unpack the source tar file for getting the models
 %define patchsrc true

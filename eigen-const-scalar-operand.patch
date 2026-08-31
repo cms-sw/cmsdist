@@ -1,0 +1,16 @@
+--- a/unsupported/Eigen/src/Tensor/TensorBase.h	2026-07-26 22:08:53.949754754 +0200
++++ b/unsupported/Eigen/src/Tensor/TensorBase.h	2026-07-26 22:08:59.829761499 +0200
+@@ -20,9 +20,12 @@
+ 
+ namespace internal {
+ // Keep mixed arithmetic and enum operands within the existing implicit-conversion boundary.
++// Scalar is compared modulo cv-qualifiers so that scalar ops against a read-only
++// (const-Scalar) tensor, e.g. ConstTensor of a custom type such as Eigen::half or
++// Eigen::bfloat16, are still recognized as an exact-type match.
+ template <typename OtherScalar, typename Scalar>
+ struct is_scalar_operand
+-    : bool_constant<std::is_same<OtherScalar, Scalar>::value ||
++    : bool_constant<std::is_same<OtherScalar, typename std::remove_cv<Scalar>::type>::value ||
+                     ((std::is_arithmetic<OtherScalar>::value || std::is_enum<OtherScalar>::value) &&
+                      std::is_convertible<OtherScalar, Scalar>::value)> {};
+ }  // namespace internal

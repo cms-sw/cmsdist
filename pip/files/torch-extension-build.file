@@ -2,7 +2,7 @@
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
 BuildRequires: cmake ninja
-Requires: zlib
+Requires: zlib abseil-cpp
 %define build_flags -O2 %{?arch_build_flags} %{default_microarch}
 
 %define PipPreBuild \
