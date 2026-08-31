@@ -23,3 +23,14 @@ index 52399d2..542ca41 100644
      packages=find_packages(),
      ext_modules=ext_modules,
      cmdclass=cmdclass,
+--- a/setup.py
++++ b/setup.py
+@@ -65,7 +65,7 @@
+             f'-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}',
+             f'-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={extdir}',
+             f'-DCMAKE_BUILD_TYPE={self.build_type}',
+-            f'-DCMAKE_PREFIX_PATH={torch.utils.cmake_prefix_path}',
++            f'-DCMAKE_PREFIX_PATH={torch.utils.cmake_prefix_path};{os.environ.get("CMAKE_PREFIX_PATH", "")}',
+         ]
+ 
+         if WITH_CUDA and not os.getenv('TORCH_CUDA_ARCH_LIST'):

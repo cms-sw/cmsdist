@@ -1,6 +1,6 @@
 ## INCLUDE cpp-standard
 BuildRequires: py3-scikit-build-core
 Requires: cmake protobuf py3-protobuf py3-six py3-typing-extensions py3-numpy py3-pytest-runner
-Requires: py3-ml_dtypes
+Requires: py3-ml_dtypes abseil-cpp
 %define runpath_opts -n pb -n onnx
 %define PipPreBuild export ONNX_ML=1;export CMAKE_ARGS="-DCMAKE_CXX_STANDARD=%{cms_cxx_standard} -DONNX_USE_PROTOBUF_SHARED_LIBS=ON -DProtobuf_USE_STATIC_LIBS=OFF -DCMAKE_PREFIX_PATH=%{cmake_prefix_path}"
