@@ -1,0 +1,10 @@
+--- a/tensorflow/compiler/tf2xla/encoded_buffer_allocation_info.h
++++ b/tensorflow/compiler/tf2xla/encoded_buffer_allocation_info.h
+@@ -70,6 +70,7 @@
+       case BufferAllocationInfo::Kind::kThreadLocal:
+         return BufferAllocationInfo::ThreadLocal(size);
+     }
++    __builtin_unreachable();
+   }
+
+   static uint64_t Pack(BufferAllocationInfo::Kind kind, uint64_t size) {
