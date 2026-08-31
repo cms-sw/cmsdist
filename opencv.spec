@@ -1,13 +1,9 @@
-### RPM external opencv 4.9.0
+### RPM external opencv 5.0.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
-%define tag %{realversion}
-%define branch master
-%define github_user opencv
-
-Source0: git+https://github.com/%{github_user}/opencv.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+Source0: https://github.com/opencv/opencv/archive/refs/tags/%{realversion}.tar.gz
 Source99: scram-tools.file/tools/eigen/env
 
 BuildRequires: cmake ninja
