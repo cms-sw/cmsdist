@@ -129,6 +129,7 @@ Geometry/CaloGeometry
 Geometry/CommonDetUnit
 Geometry/CommonTopologies
 Geometry/GEMGeometry
+HeterogeneousCore/AlpakaCore
 HeterogeneousCore/AlpakaInterface
 HeterogeneousCore/TrivialSerialisation
 PhysicsTools/FWLite
