@@ -17,6 +17,7 @@ if machine() == "x86_64":
     "tensorflow-xla-runtime",
     "OpenBLAS",
     "rivet",
+    "sherpa",
     "gbl",
     "lwtnn",
     "opencv",
