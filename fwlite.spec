@@ -16,7 +16,7 @@ Requires: fwlite-tool-conf
 %define patchsrc3 rm -f src/FWCore/MessageLogger/python/MessageLogger_cfi.py
 
 # delete Dataformats/*/plugins directory
-%define patchsrc4 rm -rf src/DataFormats/*/plugins
+%define patchsrc4 rm -rf src/DataFormats/*/plugins src/Heterogeneous*/*/plugins
 
 %define source1 git://github.com/cms-sw/cmssw.git?protocol=https&obj=%{branch}/%{gitcommit}&module=%{cvssrc}&export=%{srctree}&output=/src.tar.gz
 
