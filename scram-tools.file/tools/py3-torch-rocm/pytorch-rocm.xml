@@ -1,10 +1,12 @@
-<tool revision="3">
+<tool revision="4">
   <client>
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     <environment name="INCLUDE" default="$TOOL_BASE/include/torch/csrc/api/include"/>
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
   <flags SKIP_TOOL_SYMLINKS="1"/>
+  <flags FORCE_LINK="1"/>
+  <flags LDFLAGS="-L$TOOL_BASE/lib"/>
   <use name="pytorch"/>
   <use name="rocm"/>
   <lib name="torch_hip"/>
