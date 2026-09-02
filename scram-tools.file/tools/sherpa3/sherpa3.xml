@@ -99,6 +99,13 @@
     <environment name="LIBDIR" default="$TOOL_BASE/lib64/SHERPA-MC3"/>
     <environment name="INCLUDE" default="$TOOL_BASE/include/SHERPA-MC3"/>
   </client>
+  <!-- Sherpa 3 installs libSherpaMain.so, libToolsOrg.so, ... i.e. exactly the
+       same file names as Sherpa 2. Do not let scram symlink them into the flat
+       $CMSSW_BASE/external/$SCRAM_ARCH/lib area, where they would shadow the
+       Sherpa 2 libraries for every package that uses the "sherpa" tool. -->
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LIBDIR" type="path"/>
+  <runtime name="PATH" value="$BINDIR" type="path"/>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$TOOL_BASE/include" type="path"/>
   <runtime name="SHERPA3_SHARE_PATH" value="$TOOL_BASE/share/SHERPA-MC3" type="path"/>
   <runtime name="SHERPA3_INCLUDE_PATH" value="$TOOL_BASE/include/SHERPA-MC3" type="path"/>

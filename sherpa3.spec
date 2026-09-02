@@ -1,6 +1,6 @@
 ### RPM external sherpa3 3.0.5
 Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
-Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 libzip
+Requires: hepmc3 lhapdf blackhat fastjet openmpi rivet pythia8 libzip python3
 BuildRequires: cmake swig
 
 Patch0: sherpa-3.0.5-versioning
@@ -30,7 +30,7 @@ cmake -S . -B build \
   -DSHERPA_ENABLE_BLACKHAT=ON -DBLACKHAT_DIR=$BLACKHAT_ROOT \
   ${OPENLOOPS_ROOT+-DSHERPA_ENABLE_OPENLOOPS=ON -DOPENLOOPS_DIR=$OPENLOOPS_ROOT} \
   -DSHERPA_ENABLE_ROOT=OFF \
-  -DSHERPA_ENABLE_PYTHIA8=ON -DPYHIA8_DIR=$PYTHIA8_ROOT \
+  -DSHERPA_ENABLE_PYTHIA8=ON -DPYTHIA8_DIR=$PYTHIA8_ROOT \
   -DSHERPA_ENABLE_RECOLA=OFF \
   -DSHERPA_ENABLE_RIVET=ON -DRIVET_DIR=$RIVET_ROOT \
   -DSHERPA_ENABLE_EWSUD=ON \

@@ -98,17 +98,25 @@ index d421173a2..25c1f47bc 100644
  else()
    set (VERSIONING "")
  endif()
-@@ -956,7 +956,8 @@ $<IF:$<BOOL:${SHERPA_ENABLE_EWSUD}>,#define USING__EWSud \"1\",/* #undef USING__
+@@ -338,7 +338,7 @@ macro(sherpa_handle_shared_library  mylib mylibname)
+     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SHERPA-MC${VERSIONING}>)
+   install(TARGETS ${mylib} EXPORT SHERPATargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/SHERPA-MC${VERSIONING} COMPONENT libs)
+-  set_target_properties(${mylib}        PROPERTIES POSITION_INDEPENDENT_CODE ON  SOVERSION 0.0.0)
++  set_target_properties(${mylib}        PROPERTIES POSITION_INDEPENDENT_CODE ON  SOVERSION ${SHERPA_VERSION_MAJOR})
+   set_target_properties(${mylib}        PROPERTIES DEFINE_SYMBOL "")
+   set_target_properties(${mylib}        PROPERTIES OUTPUT_NAME ${mylibname})
+   target_compile_features(${mylib} PRIVATE cxx_std_11)
+@@ -956,7 +956,7 @@ $<IF:$<BOOL:${SHERPA_ENABLE_EWSUD}>,#define USING__EWSud \"1\",/* #undef USING__
  file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS_PACKAGES.H CONTENT "${CXXFLAGS_PACKAGES_H_CONTENT}")
  ########################################################################
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/AMEGIC++/Main/makelibs.in ${CMAKE_CURRENT_BINARY_DIR}/AMEGIC++/Main/makelibs @ONLY)
 -install(FILES ${CMAKE_CURRENT_BINARY_DIR}/AMEGIC++/Main/makelibs    DESTINATION  ${CMAKE_INSTALL_DATADIR}/SHERPA-MC COMPONENT doc PERMISSIONS  OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
 +install(FILES ${CMAKE_CURRENT_BINARY_DIR}/AMEGIC++/Main/makelibs    DESTINATION  ${CMAKE_INSTALL_DATADIR}/SHERPA-MC${VERSIONING} COMPONENT doc PERMISSIONS  OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
-+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SHERPA/Run/Sherpa-config.in ${CMAKE_CURRENT_BINARY_DIR}/SHERPA/Run/Sherpa${VERSIONING}-config @ONLY)
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SHERPA/Run/Sherpa-config.in ${CMAKE_CURRENT_BINARY_DIR}/SHERPA/Run/Sherpa${VERSIONING}-config @ONLY)
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/EXTAMP/Example/madgraph/CMakeLists.txt.in ${CMAKE_CURRENT_BINARY_DIR}/EXTAMP/Example/madgraph/CMakeLists.txt @ONLY)
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/EXTAMP/Example/subtraction/CMakeLists.txt.in ${CMAKE_CURRENT_BINARY_DIR}/EXTAMP/Example/subtraction/CMakeLists.txt @ONLY)
-@@ -964,9 +965,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Examples/V_plus_Bs/LHC_Wbb/CMakeLists
+@@ -964,9 +964,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Examples/V_plus_Bs/LHC_Wbb/CMakeLists
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Examples/V_plus_Jets/LHC_WJets/CMakeLists.txt.in ${CMAKE_CURRENT_BINARY_DIR}/Examples/V_plus_Jets/LHC_WJets/CMakeLists.txt @ONLY)
  
  if (SHERPA_ENABLE_UFO)
@@ -120,7 +128,7 @@ index d421173a2..25c1f47bc 100644
  if (NOT SHERPA_ENABLE_PYTHON AND SHERPA_ENABLE_TESTING)
      message(FATAL_ERROR "SHERPA: UFO model generation tests requires Python Addons!")
  endif()
-@@ -984,17 +985,17 @@ add_custom_command(TARGET unZipTestProcesses PRE_BUILD
+@@ -984,17 +984,17 @@ add_custom_command(TARGET unZipTestProcesses PRE_BUILD
       VERBATIM)
  endif()
  endif()
@@ -141,7 +149,7 @@ index d421173a2..25c1f47bc 100644
  export(EXPORT SHERPATargets  FILE ${PROJECT_BINARY_DIR}/outputs/share/SHERPA-MC/SHERPATargets.cmake)
  ########################################################################
  if (CMAKE_SYSTEM_NAME MATCHES Darwin)
-@@ -1031,17 +1032,17 @@ $<IF:$<BOOL:${SHERPA_ENABLE_BINRELOC}>,#define ENABLE_BINRELOC \"1\",/* #undef E
+@@ -1031,17 +1031,17 @@ $<IF:$<BOOL:${SHERPA_ENABLE_BINRELOC}>,#define ENABLE_BINRELOC \"1\",/* #undef E
  /* Sherpa installation prefix */\n\
  #define SHERPA_PREFIX \"${CMAKE_INSTALL_PREFIX}\"\n\n\
  /* Sherpa include directory */\n\
@@ -165,7 +173,7 @@ index d421173a2..25c1f47bc 100644
  /* Sherpa subversion */\n\
  #define SHERPA_SUBVERSION \"${SHERPA_VERSION_MINOR}.${SHERPA_VERSION_PATCH}\"\n\n\
  /* Sherpa version */\n\
-@@ -1071,7 +1072,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS.H CONTENT "
+@@ -1071,7 +1071,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS.H CONTENT "
  install(FILES
        ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS.H
        ${CMAKE_CURRENT_BINARY_DIR}/ATOOLS/Org/CXXFLAGS_PACKAGES.H DESTINATION
