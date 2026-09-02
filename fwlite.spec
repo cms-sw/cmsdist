@@ -1,4 +1,4 @@
-### RPM cms fwlite CMSSW_20_1_X_2026-09-01-2300_FWLITE
+### RPM cms fwlite CMSSW_20_1_0_pre3_FWLITE
 
 Requires: fwlite-tool-conf
 
