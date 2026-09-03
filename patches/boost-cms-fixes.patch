@@ -925,3 +925,63 @@ index 331f375b7..1443736a2 100644
  #include <boost/call_traits.hpp>
  #include <boost/detail/reference_content.hpp>
  #include <boost/variant/recursive_wrapper_fwd.hpp>
+diff --git a/libs/mpi/src/python/py_nonblocking.cpp b/libs/mpi/src/python/py_nonblocking.cpp
+--- a/libs/mpi/src/python/py_nonblocking.cpp
++++ b/libs/mpi/src/python/py_nonblocking.cpp
+@@ -73,6 +73,34 @@
+ 
+ 
+ 
++  void request_list_append(request_list &container,
++      const python::request_with_value &req)
++  {
++    container.push_back(req);
++  }
++
++  void request_list_extend(request_list &container, object iterable)
++  {
++    std::copy(
++        stl_input_iterator<python::request_with_value>(iterable),
++        stl_input_iterator<python::request_with_value>(),
++        back_inserter(container));
++  }
++
++  object request_list_iadd(request_list &container, object iterable)
++  {
++    request_list_extend(container, iterable);
++    return object(container);
++  }
++
++  void request_list_reverse(request_list &container)
++  {
++    std::reverse(container.begin(), container.end());
++  }
++
++
++
++
+   class request_list_indexing_suite :
+     public vector_indexing_suite<request_list, false, request_list_indexing_suite>
+   {
+@@ -87,6 +115,21 @@
+           PyErr_SetString(PyExc_NotImplementedError, "mpi requests are not comparable");
+           throw error_already_set();
+         }
++
++      // vector_indexing_suite::extension_def also registers count() and
++      // remove(), which instantiate std::count/std::find on the value type and
++      // hence require operator== on it. Requests are not comparable (see
++      // contains() above), so register only the extensions that do without it.
++      template <class Class>
++      static void extension_def(Class& cl)
++      {
++        cl
++          .def("__iadd__", &request_list_iadd)
++          .def("append", &request_list_append)
++          .def("extend", &request_list_extend)
++          .def("reverse", &request_list_reverse)
++          ;
++      }
+   };
+ 
+ 
