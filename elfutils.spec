@@ -34,3 +34,4 @@ fi
 
 %post
 %relocateConfigAll lib/pkgconfig *.pc
+%{relocateConfig}bin/eu-make-debug-archive

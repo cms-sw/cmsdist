@@ -17,3 +17,4 @@ make install
 
 %post
 %relocateConfigAll lib/pkgconfig *.pc
+%{relocateConfig}lib/libnl/cli/cls/basic.la
