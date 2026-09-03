@@ -1,4 +1,4 @@
-### RPM external boost 1.91.0
+### RPM external boost 1.92.0
 ## INCLUDE compilation_flags
 %define boost_tag %(echo %{realversion} | tr '.' '_')
 Source: https://archives.boost.io/release/%{realversion}/source/boost_%{boost_tag}.tar.gz
