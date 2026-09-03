@@ -21,6 +21,7 @@ if machine() == "x86_64":
     "lwtnn",
     "opencv",
     "pytorch",
+    "ucx",
   ]
   VALID_TARGETS = {
     "nehalem":     "-march=nehalem",

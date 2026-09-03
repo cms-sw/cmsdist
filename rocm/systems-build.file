@@ -1,0 +1,56 @@
+# Common build recipe shared by the ROCm packages that are sourced from the
+# ROCm/rocm-systems monorepo, mirroring rocm-libraries-build.file.
+#
+# Include it with "## INCLUDE rocm-systems-build" as the last line of a spec,
+# after the per-package BuildRequires/Requires and any of the customisation
+# points below:
+#   %%{rocm_project} - subdirectory under projects/ to build (defaults to %%{n})
+#   %%{cmake_args}   - extra -D flags appended to the cmake invocation
+#   ROCMPre*/ROCMPost* - shell snippets injected around each build phase
+BuildRequires: rocm-sources
+%{!?rocm_project:%define rocm_project %{n}}
+
+%prep
+%{?ROCMPrePrep:%ROCMPrePrep}
+mkdir -p  %{_builddir}/rocm-systems/projects/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/projects/%{rocm_project}/ %{_builddir}/rocm-systems/projects/%{rocm_project}
+for dir in %{?ROCMExtraSources} ; do
+  mkdir -p %{_builddir}/rocm-systems/${dir}
+  rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/${dir}/ %{_builddir}/rocm-systems/${dir}
+done
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+%{?ROCMPostPrep:%ROCMPostPrep}
+
+%build
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+%{?ROCMPreBuild:%ROCMPreBuild}
+
+%{?ROCMPreCMake:%ROCMPreCMake}
+
+CMAKE_ARGS=(
+  -B %{_builddir}/build
+  -DCMAKE_INSTALL_PREFIX=%{i}
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type}
+  -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  %{?cmake_args}
+)
+
+cmake "${CMAKE_ARGS[@]}"
+%{?ROCMPostCMake:%ROCMPostCMake}
+
+%{?ROCMPreMake:%ROCMPreMake}
+make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
+%{?ROCMPostMake:%ROCMPostMake}
+
+%{?ROCMPostBuild:%ROCMPostBuild}
+
+%install
+cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+%{?ROCMPreInstall:%ROCMPreInstall}
+make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
+%{?ROCMPostInstall:%ROCMPostInstall}
+
+%post
+%{?ROCMPrePost:%ROCMPrePost}
+true
+%{?ROCMPostPost:%ROCMPostPost}
