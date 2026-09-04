@@ -325,7 +325,7 @@ pycodestyle==2.14.0
 pycparser==3.0
 pycuda==2026.1
 pycurl==7.47.0
-pydantic-core==2.48.0
+pydantic-core==2.46.5
 pydot==4.0.1
 pyflakes==3.4.0
 pyg-lib==0.7.0
