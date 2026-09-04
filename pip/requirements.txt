@@ -483,7 +483,7 @@ wheel==0.48.0
 widgetsnbextension==4.0.16
 wrapt==2.4.0
 #NO_AUTO_UPDATE: New versions require nvidia-nccl-cu12, which is a binary .whl package
-xgboost==3.4.1
+xgboost==1.7.5
 xxhash==4.0.1
 xyzservices==2026.3.0
 yarl==1.24.5
