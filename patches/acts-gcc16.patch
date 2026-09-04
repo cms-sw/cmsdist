@@ -10,15 +10,15 @@ index 528496c..e3fcca7 100644
  #include <iostream>
  #include <memory>
  #include <sstream>
-diff --git a/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp b/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
-index ff0f8e8..7db4eb5 100644
---- a/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
-+++ b/_deps/traccc-src/core/src/gbts_seeding/gbts_seeding_config.cpp
+diff --git a/_deps/traccc-src/core/include/traccc/gbts_seeding/gbts_seeding_config.hpp b/_deps/traccc-src/core/include/traccc/gbts_seeding/gbts_seeding_config.hpp
+index afe1553..62ef0d1 100644
+--- a/_deps/traccc-src/core/include/traccc/gbts_seeding/gbts_seeding_config.hpp
++++ b/_deps/traccc-src/core/include/traccc/gbts_seeding/gbts_seeding_config.hpp
 @@ -8,6 +8,7 @@
- #include "traccc/gbts_seeding/gbts_seeding_config.hpp"
+ #pragma once
  
- #include <algorithm>
+ // System include(s)
 +#include <climits>
- #include <ranges>
+ #include <memory>
  
- namespace traccc {
+ // Project include(s).
