@@ -1,0 +1,13 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index d442837..160712e 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -874,8 +874,6 @@ endif()
+ 
+ rocm_set_soversion(MIOpen ${MIOpen_SOVERSION})
+ 
+-clang_tidy_check(MIOpen)
+-
+ if(HAS_LIB_STD_FILESYSTEM)
+     target_link_libraries(MIOpen PRIVATE stdc++fs)
+ endif()
