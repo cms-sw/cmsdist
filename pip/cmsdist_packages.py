@@ -10,11 +10,11 @@ def packages(virtual_packages, *args):
   extra_match['sys_platform'] = sys.platform
   extra_match['os_name'] = os.name
   extra_match['cmsos_name'] = args[0].options.architecture.split("_")[0]
-  for line in [ l.strip().replace(' ','') for l in open(req).readlines()]:
+  for line in [ l.strip().replace(' ','') for l in open(req, encoding='utf-8').readlines()]:
     if line.startswith('#'):continue
     if not '==' in line: continue
     items = line.strip().split(';')
-    (pkg, ver) = items[0].strip().split('==',1)
+    (pkg, ver) = items[0].replace('#','').strip().split('==',1)
     py_pkg = "py3-%s" % pkg
     if py_pkg in virtual_packages: continue
     matched=True
