@@ -1,4 +1,4 @@
-### RPM lcg SCRAMV2 V2_2_9_pre22
+### RPM lcg SCRAMV2 V2_2_9_pre23
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
@@ -9,12 +9,12 @@ Provides: perl(BuildSystem::TemplateStash)
 Provides: perl(Cache::CacheUtilities)
 Provides: perl(BuildSystem::ToolManager)
 
-%define tag 92aa727563d79e2bf6ce387c751e3bfa74201b38
+%define tag a58bd81a6c7bd8e763e34274470bfc97054fb808
 %define branch SCRAMV2
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/SCRAM.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
-%define scramv1_dir %{pkgcategory}/SCRAMV1/%{v}
+%define scramv1_dir %{pkgcategory}/SCRAMV1/%{realversion}
 %define SCRAM_ALL_VERSIONS   V[0-9][0-9]*_[0-9][0-9]*_[0-9][0-9]*
 %define SCRAM_REL_MINOR      %(echo %realversion | grep '%{SCRAM_ALL_VERSIONS}' | sed 's|^\\(V[0-9][0-9]*_[0-9][0-9]*\\)_.*|\\1|')
 %define SCRAM_REL_MAJOR      %(echo %realversion | sed 's|^\\(V[0-9][0-9]*\\)_.*|\\1|')

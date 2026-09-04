@@ -2,7 +2,7 @@
 ## INITENV +PATH PYTHON3PATH %{i}/python
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
-## INCLUDE rocm-flags
+## INCLUDE rocm/flags
 ## INCLUDE geant4-deps
 
 %define tag         30fb4ea
@@ -27,7 +27,7 @@ Requires: py3-pybind11
 Requires: root
 Requires: xerces-c
 %{!?without_cuda:Requires: cuda}
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: rocm-hip rocthrust rocprim rocm-comgr rocr-runtime rocm-llvm rocminfo}
 %if %{build_test}
 # These are ony used to build the examples and unit tests
 Requires: hepmc3
@@ -57,14 +57,18 @@ source %{_sourcedir}/env
 #     information after installing the libraries.
 #   - HIP/ROCm support is not yet working correctly.
 
+%if 0%{!?without_rocm:1}
+  export ROCM_PATH=${ROCM_LLVM_ROOT}
+%endif
+
 cmake ../%{n}-%{realversion} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_COMPILER="$GCC_ROOT/bin/g++" \
   -DCMAKE_CXX_STANDARD="%{cms_cxx_standard}" \
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{arch_build_flags} %{selected_microarch} %{lto_build_flags}" \
+  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{?arch_build_flags} %{selected_microarch} %{?lto_build_flags}" \
   -DCMAKE_AR="$GCC_ROOT/bin/gcc-ar" \
   -DCMAKE_RANLIB="$GCC_ROOT/bin/gcc-ranlib" \
-  -DCMAKE_BUILD_TYPE="Release" \
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_SKIP_INSTALL_RPATH="ON" \
 %if 0%{!?without_cuda:1}
@@ -110,6 +114,7 @@ cmake ../%{n}-%{realversion} \
   -DPython_EXECUTABLE=$(which python3) \
   -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS="ON" \
   -DTRACCC_BUILD_TESTING="ON" \
+  -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST \
 %endif
   -L
 
