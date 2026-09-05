@@ -1,0 +1,126 @@
+<tool revision="3">
+  <!-- Sherpa 3 CMake libraries have no inter-library DT_NEEDED entries;
+       list the full link set (order as linked into the Sherpa3 binary) -->
+  <lib name="SherpaHepMC3Output"/>
+  <lib name="SherpaMain"/>
+  <lib name="SherpaInitialization"/>
+  <lib name="SherpaSingleEvents"/>
+  <lib name="SherpaSoftPhysics"/>
+  <lib name="SherpaPerturbativePhysics"/>
+  <lib name="SherpaTools"/>
+  <lib name="ShrimpsMain"/>
+  <lib name="ShrimpsEvents"/>
+  <lib name="ShrimpsLadders"/>
+  <lib name="ShrimpsBeamRemnants"/>
+  <lib name="ShrimpsXsecs"/>
+  <lib name="ShrimpsEikonals"/>
+  <lib name="ShrimpsTools"/>
+  <lib name="HadronsMain"/>
+  <lib name="HadronsMEs"/>
+  <lib name="HadronsCurrents"/>
+  <lib name="HadronsPSs"/>
+  <lib name="Reconnections"/>
+  <lib name="AhadicMain"/>
+  <lib name="AhadicTools"/>
+  <lib name="AhadicFormation"/>
+  <lib name="AhadicDecays"/>
+  <lib name="Amisic"/>
+  <lib name="AmisicTools"/>
+  <lib name="AmisicPerturbative"/>
+  <lib name="PhotonsMain"/>
+  <lib name="PhotonsTools"/>
+  <lib name="PhotonsPhaseSpace"/>
+  <lib name="PhotonsMEs"/>
+  <lib name="PhotonsPhotonSplitter"/>
+  <lib name="Remnants"/>
+  <lib name="RemnantsTools"/>
+  <lib name="MCatNLOMain"/>
+  <lib name="MCatNLOCalculators"/>
+  <lib name="MCatNLOShowers"/>
+  <lib name="MCatNLOTools"/>
+  <lib name="DIMTools"/>
+  <lib name="DIMShower"/>
+  <lib name="DIMGauge"/>
+  <lib name="DIMLorentz"/>
+  <lib name="DIMMain"/>
+  <lib name="CSMain"/>
+  <lib name="CSCalculators"/>
+  <lib name="CSShowers"/>
+  <lib name="CSTools"/>
+  <lib name="DireTools"/>
+  <lib name="DireShower"/>
+  <lib name="DireGauge"/>
+  <lib name="DireLorentz"/>
+  <lib name="DireMain"/>
+  <lib name="PhasicScales"/>
+  <lib name="Comix"/>
+  <lib name="ComixPhasespace"/>
+  <lib name="ComixAmplitude"/>
+  <lib name="YFSCEEX"/>
+  <lib name="YFSMain"/>
+  <lib name="YFSNLO"/>
+  <lib name="YFSTools"/>
+  <lib name="PhasicMain"/>
+  <lib name="PhasicChannels"/>
+  <lib name="PhasicProcess"/>
+  <lib name="PhasicSelectors"/>
+  <lib name="PhasicEnhance"/>
+  <lib name="PhasicDecays"/>
+  <lib name="Amegic"/>
+  <lib name="DipoleSubtraction"/>
+  <lib name="Amplitude"/>
+  <lib name="AmegicPSGen"/>
+  <lib name="String"/>
+  <lib name="Zfunctions"/>
+  <lib name="ExtAmp"/>
+  <lib name="ExtraXSNLO"/>
+  <lib name="ExtraXSSpecial"/>
+  <lib name="ExtraXS"/>
+  <lib name="ExtraXS1_2"/>
+  <lib name="ExtraXS1_3"/>
+  <lib name="METoolsExplicit"/>
+  <lib name="METoolsCurrents"/>
+  <lib name="METoolsVertices"/>
+  <lib name="METoolsColors"/>
+  <lib name="METoolsSpinCorrelations"/>
+  <lib name="METoolsLoops"/>
+  <lib name="METoolsMain"/>
+  <lib name="ModelUFO"/>
+  <lib name="ModelMain"/>
+  <lib name="PDF"/>
+  <lib name="BeamMain"/>
+  <lib name="BeamSpectra"/>
+  <lib name="ToolsPhys"/>
+  <lib name="ToolsMath"/>
+  <lib name="ToolsYaml"/>
+  <lib name="ToolsOrg"/>
+  <client>
+    <environment name="BINDIR" default="$TOOL_BASE/bin"/>
+    <environment name="LIBDIR" default="$TOOL_BASE/lib64/SHERPA-MC3"/>
+    <environment name="INCLUDE" default="$TOOL_BASE/include/SHERPA-MC3"/>
+  </client>
+  <!-- Sherpa 3 installs libSherpaMain.so, libToolsOrg.so, ... i.e. exactly the
+       same file names as Sherpa 2. Do not let scram symlink them into the flat
+       $CMSSW_BASE/external/$SCRAM_ARCH/lib area, where they would shadow the
+       Sherpa 2 libraries for every package that uses the "sherpa" tool. -->
+  <flags SKIP_TOOL_SYMLINKS="1"/>
+  <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LIBDIR" type="path"/>
+  <runtime name="PATH" value="$BINDIR" type="path"/>
+  <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$TOOL_BASE/include" type="path"/>
+  <runtime name="SHERPA3_SHARE_PATH" value="$TOOL_BASE/share/SHERPA-MC3" type="path"/>
+  <runtime name="SHERPA3_INCLUDE_PATH" value="$TOOL_BASE/include/SHERPA-MC3" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="SHERPA3_LIBRARY_PATH" value="$TOOL_BASE/lib64/SHERPA-MC3" type="path"/>
+  <runtime name="SHERPA3_CMAKE_PATH" value="$TOOL_BASE/share/SHERPA-MC3" type="path"/>
+  <use name="HepMC3"/>
+  <use name="lhapdf"/>
+  <use name="blackhat"/>
+  <use name="fastjet"/>
+  <use name="openmpi"/>
+  <use name="rivet"/>
+  <use name="pythia8"/>
+  <use name="libzip"/>
+  <ifarchitecture name="!ppc64le">
+    <use name="openloops"/>
+  </ifarchitecture>
+</tool>
