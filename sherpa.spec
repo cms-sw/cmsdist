@@ -1,4 +1,6 @@
 ### RPM external sherpa 2.2.16
+## INCLUDE cpp-standard
+## INCLUDE microarch_flags
 Source: git+https://gitlab.com/sherpa-team/sherpa.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz 
 Requires: hepmc lhapdf blackhat sqlite python3 fastjet openmpi hepmc3
 BuildRequires: mcfm swig autotools
@@ -7,6 +9,8 @@ Patch0: sherpa-2.2.16-hepmcshort
 Patch1: sherpa-setenv
 #Disable build Manual and Examples
 Patch2: sherpa-disable-manual
+#Fix warning about non-symmetric operator== in ATOOLS::Flavour
+Patch3: sherpa-2.2.16_flavour_op
 
 %{!?without_openloops:Requires: openloops}
 
@@ -15,6 +19,7 @@ Patch2: sherpa-disable-manual
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 autoreconf -i --force
 
@@ -41,7 +46,7 @@ export PYTHON=$(which python3)
             CXX="mpicxx" \
             MPICXX="mpicxx" \
             FC="mpifort" \
-            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++0x -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
+            CXXFLAGS="-fuse-cxa-atexit $ARCH_CMSPLATF -O2 -std=c++%{cms_cxx_standard} %{selected_microarch} -I$LHAPDF_ROOT/include -I$BLACKHAT_ROOT/include -I$RIVET_ROOT/include" \
             LDFLAGS="-ldl -L$BLACKHAT_ROOT/lib/blackhat -L$QD_ROOT/lib"
 
 make %{makeprocesses}

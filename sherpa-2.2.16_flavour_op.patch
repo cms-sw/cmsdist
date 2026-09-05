@@ -1,0 +1,18 @@
+diff --git a/ATOOLS/Phys/Flavour.H b/ATOOLS/Phys/Flavour.H
+index 7127f34d6..919b82fc3 100644
+--- a/ATOOLS/Phys/Flavour.H
++++ b/ATOOLS/Phys/Flavour.H
+@@ -159,9 +159,12 @@ namespace ATOOLS {
+       return m_anti?(*p_info)[i].Bar():(*p_info)[i];
+     }
+ 
+-    inline bool operator==(const Flavour &fl)
++    inline bool operator==(const Flavour &fl) const
+     { return p_info==fl.p_info && m_anti==fl.m_anti; }
+ 
++    inline bool operator==(const long int fl) const
++    { return (*this) == Flavour(fl); }
++
+     inline operator long int() const 
+     { return m_anti?-(long int)Kfcode():(long int)Kfcode(); }
+ 
