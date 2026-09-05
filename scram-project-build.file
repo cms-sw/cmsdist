@@ -56,7 +56,7 @@ BuildRequires: dwz
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V09-09-09
+%define configtag       V09-10-00
 %endif
 
 %if "%{?buildarch:set}" != "set"
@@ -250,29 +250,22 @@ SCRAM_TOOL_HOME=$SCRAMV1_ROOT%{scram_home_suffix} %i/config/SCRAM/findDependenci
 gzip -f %i/etc/dependencies/*.out
 %endif
 
-
-eval `USER_SCRAM_RUNTIME_TYPE=BUILD %scramcmd run -sh`
-for cmd in edmPluginRefresh ; do
-  cmdpath=`which $cmd 2> /dev/null || echo ""`
-  if [ "X$cmdpath" != X ] ; then
-    for lib in %{cmssw_libs} ; do
-      if [ -d %i/$lib ] ; then
-        rm -f %i/$lib/.edmplugincache
-        $cmd %i/$lib
+edm_cmd="%{i}/config/SCRAM/run_edmPluginRefresh"
+if [ -x ${edm_cmd} ] ; then
+  for lib in %{cmssw_libs} ; do
+    [ -d %i/$lib/edm ] || continue
+    $edm_cmd %i/$lib
+    rm -rf %i/$lib/edm
 %if "%{package_vectorization}"
-        for arch in %{package_vectorization} ; do
-          arch_dir=%i/$lib/scram_${arch}
-          [ -d ${arch_dir} ] || continue
-          rm -f ${arch_dir}/.edmplugincache
-          if [ -e %i/$lib/.edmplugincache ] ; then
-            cp %i/$lib/.edmplugincache ${arch_dir}/.edmplugincache
-          fi
-        done
-%endif
-      fi
+    for arch in %{package_vectorization} ; do
+      arch_dir=%i/$lib/scram_${arch}
+      [ -d ${arch_dir}/edm ] || continue
+      $edm_cmd ${arch_dir}
+      rm -rf ${arch_dir}/edm
     done
-  fi
-done
+%endif
+  done
+fi
 
 %install
 # FIXME: not having it set seems to cause a bunch of
