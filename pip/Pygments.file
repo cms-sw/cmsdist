@@ -1,3 +1,2 @@
 Requires: py3-hatchling
-Patch0: patches/pip/Pygments-cpp-extension-fix
 %define PipPostBuildPy mv %{i}/bin/pygmentize %{i}/bin/pygmentize3
