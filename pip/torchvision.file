@@ -1,8 +1,8 @@
 %define source0 https://github.com/pytorch/vision/archive/refs/tags/v%{realversion}.tar.gz
-Requires: py3-torch libpng py3-pybind11
+Requires: py3-torch libpng py3-pybind11 py3-numpy py3-pillow
 
 %define PipPreBuild \
-  export CXXFLAGS="-I${PY3_PYBIND11_ROOT}/include" \
+  export CPATH="${PY3_PYBIND11_ROOT}/include" \
   export MAX_JOBS=%compiling_processes \
   export FORCE_CUDA=0 \
   export TORCHVISION_USE_PNG=1 \
