@@ -23,6 +23,7 @@ Requires: json zlib zstd libxml2
   export TRITON_APPEND_CMAKE_ARGS="-DCMAKE_PREFIX_PATH='%{cmake_prefix_path}'"
 
 %if 0%{!?without_cuda:1}
+%define PipPostPost %{relocateConfig}/lib/python%{cms_python3_major_minor_version}/site-packages/triton/backends/nvidia/lib/gsan.ll
 %define PipPreBuild %{PipPreBuildCommon} \
   export TRITON_NVDISASM_PATH=$CUDA_ROOT/bin/nvdisasm \
   export TRITON_CUOBJDUMP_PATH=$CUDA_ROOT/bin/cuobjdump \
@@ -30,4 +31,3 @@ Requires: json zlib zstd libxml2
 %else
 %define PipPreBuild %{PipPreBuildCommon}
 %endif
-
