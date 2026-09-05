@@ -1,7 +1,6 @@
 BuildRequires: py3-meson-python cms-ninja
 Requires: py3-cython
 Requires: zlib OpenBLAS
-Source1: patches/pip/numpy-f2py-wrapper
 
 %define patchsrc \
 cat > site.cfg <<EOF \
@@ -39,15 +38,10 @@ EOF
 
 %define PipPostBuild \
   mkdir -p %{i}/c-api \
-  numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/_core 2>/dev/null || true) \
-  [ -d "${numpy_core}/include" ] || numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/core) \
-  numpy_core=$(echo "${numpy_core}" | sed 's|%{i}/|../|') \
+  numpy_core=$(ls -d %{i}/lib/python*/site-packages/numpy/_core | sed 's|%{i}/|../|') \
   ln -s ${numpy_core} %{i}/c-api/core \
   cp %{_sourcedir}/numpy-f2py-wrapper %{i}/bin/f2py \
   chmod +x %{i}/bin/f2py
-#  ln -s ${numpy_core} %{i}/c-api/core
 
 %define PipPostPost \
   %{relocateConfig}lib/python*/site-packages/numpy/__config__.py
-
-%define PipPostBuildPy rm -f %{i}/bin/f2py

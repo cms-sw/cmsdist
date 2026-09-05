@@ -1,11 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 7662934..f9eec52 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -394,7 +394,7 @@ if BUILD_WITH_SYSTEM_RE2:
+@@ -403,7 +403,7 @@ if BUILD_WITH_SYSTEM_RE2:
  if BUILD_WITH_SYSTEM_ABSL:
      EXTENSION_LIBRARIES += tuple(
          lib.stem[3:]
 -        for lib in sorted(pathlib.Path("/usr").glob("lib*/libabsl_*.so"))
-+        for lib in sorted(pathlib.Path(os.getenv("ABSEIL_CPP_ROOT")).glob("lib*/libabsl_*.so"))
++        for lib in pathlib.Path(os.getenv("ABSEIL_CPP_ROOT")).glob("lib*/libabsl_*.so")
      )
 
  DEFINE_MACROS = (("_WIN32_WINNT", 0x600),)

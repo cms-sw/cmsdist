@@ -1,4 +1,4 @@
-### RPM external c-blosc2 3.2.1
+### RPM external c-blosc2 3.3.3
 Source: https://github.com/Blosc/c-blosc2/archive/refs/tags/v%{realversion}.tar.gz
 Requires: zlib zstd lz4
 BuildRequires: ninja cmake
