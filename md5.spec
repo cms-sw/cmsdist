@@ -1,22 +1,22 @@
-### RPM external md5 1.0.0
-%define tag d97a571864a119cd5408d2670d095b4410e926cc
-%define branch cms/1.0.0
+### RPM external md5 2.0.0
+%define tag 1ed14d187d793216fb8345363f590bf3effd95e2
+%define branch cms/%{realversion}
 %define github_user cms-externals
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}.%{realversion}&output=/%{n}.%{realversion}-%{tag}.tgz
+Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %prep
-%setup -n %{n}.%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 
 %ifarch darwin
-gcc md5.c -shared -fPIC -o libcms-md5.dylib
+c++ edm_md5.c -shared -fPIC -o libcms-md5.dylib
 %else
-gcc md5.c -shared -fPIC -o libcms-md5.so
+c++ edm_md5.c -shared -fPIC -o libcms-md5.so
 %endif
 
 %install
 
 mkdir %{i}/{lib,include}
 cp libcms-md5.* %{i}/lib/
-cp md5.h %{i}/include/
+cp edm_md5.h %{i}/include/
