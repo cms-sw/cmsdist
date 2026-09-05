@@ -1,7 +1,7 @@
 Requires: py3-numpy py3-cython py3-pybind11 py3-pythran py3-meson-python OpenBLAS
 BuildRequires: cmake ninja
 AutoProv: no
-
+%define patchsrc0 grep '^f2py_version = run_command' scipy/meson.build && npver=$(echo $PY3_NUMPY_VERSION | sed 's|-[0-9a-f]*||') && sed -i -e "s|^f2py_version = run_command.*|f2py_version = '${npver}'|" scipy/meson.build
 %define PipWheelOptions --config-settings=compile-args="-j%{compiling_processes}"
 
 %define PipPreBuild export FFLAGS="${FFLAGS_OPT} -fallow-argument-mismatch -fPIC"
@@ -17,5 +17,4 @@ Provides: python3dist(scipy) = %{realversion}
   find %{i} -name 'libsf_error_state*.so*' -exec ls -l {} \\\;
 
 %define PipPostPost \
-    %{relocateConfig}lib/python*/site-packages/scipy/__config__.py ; \
-    %{relocateConfig}lib/python*/site-packages/scipy/special/*.pyx
+    %{relocateConfig}lib/python*/site-packages/scipy/__config__.py

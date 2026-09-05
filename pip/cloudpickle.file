@@ -1,1 +1,2 @@
+Patch0: patches/pip/cloudpickle-flit-core-4
 BuildRequires: py3-flit-core

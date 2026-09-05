@@ -1,2 +1,2 @@
 BuildRequires: py3-scikit-build-core
-Requires: py3-pybind11 py3-numpy
+Requires: py3-cffi
