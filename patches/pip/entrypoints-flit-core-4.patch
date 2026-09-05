@@ -1,0 +1,55 @@
+diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
+index 3c8491d..07d75ea 100644
+--- a/.github/workflows/test.yml
++++ b/.github/workflows/test.yml
+@@ -7,12 +7,12 @@ jobs:
+     runs-on: ubuntu-latest
+     strategy:
+       matrix:
+-        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
++        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15-dev" ]
+     steps:
+-      - uses: actions/checkout@v2
++      - uses: actions/checkout@v7
+ 
+       - name: Setup Python ${{ matrix.python-version }}
+-        uses: actions/setup-python@v2
++        uses: actions/setup-python@v7
+         with:
+           python-version: ${{ matrix.python-version }}
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 1279b10..810224a 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,18 +1,20 @@
+ [build-system]
+-requires = ["flit_core  >=2,<4"]
++requires = ["flit_core >=2,<5"]
+ build-backend = "flit_core.buildapi"
+ 
+-[tool.flit.metadata]
+-module = "entrypoints"
+-author = "Thomas Kluyver"
+-author-email = "thomas@kluyver.me.uk"
+-home-page = "https://github.com/takluyver/entrypoints"
+-description-file = "README.rst"
++[project]
++name = "entrypoints"
++authors = [
++    { name = "Thomas Kluyver", email = "thomas@kluyver.me.uk" },
++]
++readme = "README.rst"
++license = "MIT"
++requires-python = ">=3.6"
++dynamic = ["version", "description"]
+ classifiers = [
+-    "License :: OSI Approved :: MIT License",
+     "Programming Language :: Python :: 3"
+ ]
+-requires-python = ">=3.6"
+ 
+-[tool.flit.metadata.urls]
++[project.urls]
++Homepage = "https://github.com/takluyver/entrypoints"
+ Documentation = "https://entrypoints.readthedocs.io/en/latest/"
