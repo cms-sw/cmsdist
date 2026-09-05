@@ -1,8 +1,9 @@
 ## INCLUDE rocm/flags
 ### RPM external rocm-rocprofiler-sdk %{rocm_version_num}
-BuildRequires: rocm-cmake cmake gmake
+BuildRequires: rocm-cmake
 Requires: rocm-core rocm-llvm rocr-runtime rocprofiler rocm-comgr
 Requires: fmt glog sqlite py3-pybind11 aqlprofile rocprofiler-register
+Requires: rocprof-trace-decoder
 Patch0: patches/rocm-rocprofiler-sdk
 %define rocm_project rocprofiler-sdk
 %define ROCMPreBuild patch -p1 < %{PATCH0}; sed -i '2i\include(CPack)' CMakeLists.txt; export CC=${ROCM_LLVM_ROOT}/bin/amdclang; export CXX=${ROCM_LLVM_ROOT}/bin/amdclang++

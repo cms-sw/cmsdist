@@ -1,22 +1,24 @@
-BuildRequires: rocm-cmake rocm-sources
+BuildRequires: rocm-cmake rocm-sources cmake gmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
+%define cms_cxx_standard 17
 ## INCLUDE rocm/flags
+## INCLUDE cpp-standard
 %{!?rocm_project:%define rocm_project %{n}}
-%{!?rocm_libraries_dir:%define rocm_libraries_dir projects}
+%{!?rocm_project_dir:%define rocm_project_dir projects}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-mkdir -p rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
-rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/ %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}/
+mkdir -p rocm-libraries/%{rocm_project_dir}/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/%{rocm_project_dir}/%{rocm_project}/ %{_builddir}/rocm-libraries/%{rocm_project_dir}/%{rocm_project}/
 for dir in cmake %{?ROCMExtraSources} ; do
   mkdir -p %{_builddir}/rocm-libraries/${dir}
   rsync -a ${ROCM_SOURCES_ROOT}/rocm-libraries/${dir}/ %{_builddir}/rocm-libraries/${dir}
 done
-cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+cd %{_builddir}/rocm-libraries/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
-cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+cd %{_builddir}/rocm-libraries/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPreBuild:%ROCMPreBuild}
 
 export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
@@ -25,7 +27,9 @@ export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
 
 CMAKE_ARGS=(
   -B %{_builddir}/build
-  -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE
+  -DCMAKE_BUILD_TYPE=%{cmake_build_type}
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_C_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang
   -DCMAKE_CXX_COMPILER=$ROCM_LLVM_ROOT/bin/amdclang++
@@ -46,7 +50,7 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
-cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+cd %{_builddir}/rocm-libraries/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPreInstall:%ROCMPreInstall}
 
 make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
