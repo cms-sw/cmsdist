@@ -1,1 +1,2 @@
 Requires: py3-Pygments py3-jupyter-packaging
+BuildRequires: py3-hatch-nodejs-version py3-hatch-jupyter-builder
