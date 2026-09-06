@@ -6,6 +6,9 @@ BuildRequires: cmake swig
 Patch0: sherpa-3.0.5-versioning
 #Fix -Werror=reorder in Particle_Info constructor (init order m_hmass/m_radius)
 Patch1: sherpa-3.0.5-reorder
+#Suffix library file names with the major version (libSherpaMain3.so, ...) so that
+#a Sherpa 3 install can coexist with Sherpa 2 in a flat library directory
+Patch2: sherpa-3.0.5-libversioning
 
 %{!?without_openloops:Requires: openloops}
 
@@ -13,6 +16,7 @@ Patch1: sherpa-3.0.5-reorder
 %setup -q -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 rm -rf build && mkdir build
