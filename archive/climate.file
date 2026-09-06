@@ -1,3 +1,0 @@
-Requires: py3-plac
-%define source0 http://cmsrep.cern.ch/cmssw/download/climate-%{realversion}.tar.gz
-
