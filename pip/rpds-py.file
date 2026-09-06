@@ -1,1 +1,1 @@
-BuildRequires: py3-maturin
+BuildRequires: py3-maturin py3-puccinialin
