@@ -1,11 +1,13 @@
-### RPM external abseil-cpp 20250814.1
+### RPM external abseil-cpp 20260817.0
 ## INCLUDE cpp-standard
 
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
+Patch0: patches/abseil-cpp-ubsan
 BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build
