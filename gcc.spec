@@ -1,4 +1,4 @@
-### RPM external gcc 16.1.1
+### RPM external gcc 16.2.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag 6122c67069b9a17a7e384ae91a0995bf4ccc9200
+%define gccTag 716f95e4027e069bf185b2039ac063a3215dbba7
 %define gccBranch releases/gcc-16
 
 %define moduleName %{n}-%{realversion}
