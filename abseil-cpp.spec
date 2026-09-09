@@ -2,10 +2,12 @@
 ## INCLUDE cpp-standard
 
 Source: https://github.com/abseil/abseil-cpp/archive/%{realversion}.tar.gz
+Patch0: patches/abseil-cpp-ubsan
 BuildRequires: cmake gmake
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
 
 %build
 rm -rf ../build
