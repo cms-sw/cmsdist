@@ -1,12 +1,15 @@
-### RPM external celeritas 0.6.3
-Source: https://github.com/celeritas-project/celeritas/releases/download/v%{realversion}/celeritas-%{realversion}.tar.gz
+### RPM external celeritas 0.7.0-devX
+%define tag 1fb77992ff4a8b6da8cc8d8630df3727a3c33cf3
+%define branch develop
+%define github_user celeritas-project
+Source: git+https://github.com/%{github_user}/celeritas.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define package_build_flags -Wall -Wextra -pedantic
 ## INCLUDE geant4-deps
 Requires: python3 json geant4 g4vg
 
 %prep
-%setup -c -n %{n}-%{realversion}
+%setup -n %{n}-%{realversion}
 
 %build
 
