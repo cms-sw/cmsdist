@@ -1,14 +1,16 @@
-### RPM external cuda 13.3.1
+### RPM external cuda 13.4.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 610.43.02
+%define driversversion 615.71.09
 
 %ifarch x86_64
-Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux.run
+Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_linux.run
+Source1: https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvidia_driver/linux-x86_64/nvidia_driver-linux-x86_64-%{driversversion}-archive.tar.xz
 %endif
 %ifarch aarch64
-Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_%{driversversion}_linux_sbsa.run
+Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_linux_sbsa.run
+Source1: https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvidia_driver/linux-sbsa/nvidia_driver-linux-sbsa-%{driversversion}-archive.tar.xz
 %endif
 Requires: python3
 AutoReq: no
@@ -60,15 +62,12 @@ rm -f %_builddir/build/bin/nsight*
 rm -f %_builddir/build/bin/nsys*
 mv %_builddir/build/bin %{i}/
 
-# package the cuda-gdb support files, and rename the binary to use it via a wrapper
+# package the cuda-gdb support files, and set our PYTHONHOME 
 mv %_builddir/build/share/ %{i}/
-mv %{i}/bin/cuda-gdb %{i}/bin/cuda-gdb.real
-cat > %{i}/bin/cuda-gdb << @EOF
-#! /bin/bash
-export PYTHONHOME=$PYTHON3_ROOT
-exec %{i}/bin/cuda-gdb.real "\$@"
-@EOF
-chmod a+x %{i}/bin/cuda-gdb
+sed -i '2a\
+# Set PYTHONHOME\
+export PYTHONHOME='$PYTHON3_ROOT'\
+' %{i}/bin/cuda-gdb
 
 # package the Compute Sanitizer, and replace the wrapper with a symlink
 mv %_builddir/build/compute-sanitizer %{i}/
@@ -79,52 +78,58 @@ ln -s ../compute-sanitizer/compute-sanitizer %{i}/bin/compute-sanitizer
 mv %_builddir/build/nvvm %{i}/
 
 # extract and repackage the redistributable NVIDIA driver libraries needed by the CUDA runtime
-/bin/sh %_builddir/pkg/builds/NVIDIA-Linux-%{_arch}-%{driversversion}.run --silent --extract-only --tmpdir %_builddir/tmp --target %_builddir/build/drivers
+mkdir -p %_builddir/nvidia-driver
+tar xaf %{SOURCE1} --directory=%_builddir/nvidia-driver --strip-components=1
 
 mkdir -p %{i}/drivers
 # libcuda.so
-cp -p %_builddir/build/drivers/libcuda.so.%{driversversion}                     %{i}/drivers/
-ln -sf libcuda.so.%{driversversion}                                             %{i}/drivers/libcuda.so.1
-ln -sf libcuda.so.1                                                             %{i}/drivers/libcuda.so
+cp -p %_builddir/nvidia-driver/lib/libcuda.so.%{driversversion}                     %{i}/drivers/
+ln -sf libcuda.so.%{driversversion}                                                 %{i}/drivers/libcuda.so.1
+ln -sf libcuda.so.1                                                                 %{i}/drivers/libcuda.so
 # libcudadebugger.so
-cp -p %_builddir/build/drivers/libcudadebugger.so.%{driversversion}             %{i}/drivers/
-ln -sf libcudadebugger.so.%{driversversion}                                     %{i}/drivers/libcudadebugger.so.1
-ln -sf libcudadebugger.so.1                                                     %{i}/drivers/libcudadebugger.so
+cp -p %_builddir/nvidia-driver/lib/libcudadebugger.so.%{driversversion}             %{i}/drivers/
+ln -sf libcudadebugger.so.%{driversversion}                                         %{i}/drivers/libcudadebugger.so.1
+ln -sf libcudadebugger.so.1                                                         %{i}/drivers/libcudadebugger.so
 # libnvidia-gpucomp.so
-cp -p %_builddir/build/drivers/libnvidia-gpucomp.so.%{driversversion}           %{i}/drivers/
-ln -sf libnvidia-gpucomp.so.%{driversversion}                                   %{i}/drivers/libnvidia-gpucomp.so
+cp -p %_builddir/nvidia-driver/lib/libnvidia-gpucomp.so.%{driversversion}           %{i}/drivers/
+ln -sf libnvidia-gpucomp.so.%{driversversion}                                       %{i}/drivers/libnvidia-gpucomp.so
 # libnvidia-nvvm.so
-cp -p %_builddir/build/drivers/libnvidia-nvvm.so.%{driversversion}              %{i}/drivers/
-ln -sf libnvidia-nvvm.so.%{driversversion}                                      %{i}/drivers/libnvidia-nvvm.so.4
-ln -sf libnvidia-nvvm.so.4                                                      %{i}/drivers/libnvidia-nvvm.so
+cp -p %_builddir/nvidia-driver/lib/libnvidia-nvvm.so.%{driversversion}              %{i}/drivers/
+ln -sf libnvidia-nvvm.so.%{driversversion}                                          %{i}/drivers/libnvidia-nvvm.so.4
+ln -sf libnvidia-nvvm.so.4                                                          %{i}/drivers/libnvidia-nvvm.so
 # libnvidia-nvvm70.so
-cp -p %_builddir/build/drivers/libnvidia-nvvm70.so.4                            %{i}/drivers/
-ln -sf libnvidia-nvvm70.so.4                                                    %{i}/drivers/libnvidia-nvvm70.so
+cp -p %_builddir/nvidia-driver/lib/libnvidia-nvvm70.so.4                            %{i}/drivers/
+ln -sf libnvidia-nvvm70.so.4                                                        %{i}/drivers/libnvidia-nvvm70.so
 # libnvidia-pkcs11.so
-if [ -f %_builddir/build/drivers/libnvidia-pkcs11.so.%{driversversion} ]; then
-  cp -p %_builddir/build/drivers/libnvidia-pkcs11.so.%{driversversion}          %{i}/drivers/
-  ln -sf libnvidia-pkcs11.so.%{driversversion}                                  %{i}/drivers/libnvidia-pkcs11.so
+if [ -f %_builddir/nvidia-driver/lib/libnvidia-pkcs11.so.%{driversversion} ]; then
+  cp -p %_builddir/nvidia-driver/lib/libnvidia-pkcs11.so.%{driversversion}          %{i}/drivers/
+  ln -sf libnvidia-pkcs11.so.%{driversversion}                                      %{i}/drivers/libnvidia-pkcs11.so
+fi
+# libnvidia-pkcs11-openssl3.so
+if [ -f %_builddir/nvidia-driver/lib/libnvidia-pkcs11-openssl3.so.%{driversversion} ]; then
+  cp -p %_builddir/nvidia-driver/lib/libnvidia-pkcs11-openssl3.so.%{driversversion} %{i}/drivers/
+  ln -sf libnvidia-pkcs11-openssl3.so.%{driversversion}                             %{i}/drivers/libnvidia-pkcs11-openssl3.so
 fi
 # libnvidia-ptxjitcompiler.so
-cp -p %_builddir/build/drivers/libnvidia-ptxjitcompiler.so.%{driversversion}    %{i}/drivers/
-ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                            %{i}/drivers/libnvidia-ptxjitcompiler.so.1
-ln -sf libnvidia-ptxjitcompiler.so.1                                            %{i}/drivers/libnvidia-ptxjitcompiler.so
+cp -p %_builddir/nvidia-driver/lib/libnvidia-ptxjitcompiler.so.%{driversversion}    %{i}/drivers/
+ln -sf libnvidia-ptxjitcompiler.so.%{driversversion}                                %{i}/drivers/libnvidia-ptxjitcompiler.so.1
+ln -sf libnvidia-ptxjitcompiler.so.1                                                %{i}/drivers/libnvidia-ptxjitcompiler.so
 # libnvidia-tileiras.so
-cp -p %_builddir/build/drivers/libnvidia-tileiras.so.%{driversversion}          %{i}/drivers/
+cp -p %_builddir/nvidia-driver/lib/libnvidia-tileiras.so.%{driversversion}          %{i}/drivers/
 # nvidia-smi
-cp -p %_builddir/build/drivers/nvidia-smi                                       %{i}/drivers/
+cp -p %_builddir/nvidia-driver/sbin/nvidia-smi                                      %{i}/drivers/
 
 # reuse the redistributable CUDA driver library and NVML library in place of the CUDA stub libraries
 mkdir -p %{i}/lib64/stubs
-cp -p %_builddir/build/drivers/libcuda.so.%{driversversion}                     %{i}/lib64/stubs/
-ln -sf libcuda.so.%{driversversion}                                             %{i}/lib64/stubs/libcuda.so.1
-ln -sf libcuda.so.1                                                             %{i}/lib64/stubs/libcuda.so
-cp -p %_builddir/build/drivers/libcudadebugger.so.%{driversversion}             %{i}/lib64/stubs/
-ln -sf libcudadebugger.so.%{driversversion}                                     %{i}/lib64/stubs/libcudadebugger.so.1
-ln -sf libcudadebugger.so.1                                                     %{i}/lib64/stubs/libcudadebugger.so
-cp -p %_builddir/build/drivers/libnvidia-ml.so.%{driversversion}                %{i}/lib64/stubs/
-ln -sf libnvidia-ml.so.%{driversversion}                                        %{i}/lib64/stubs/libnvidia-ml.so.1
-ln -sf libnvidia-ml.so.1                                                        %{i}/lib64/stubs/libnvidia-ml.so
+cp -p %_builddir/nvidia-driver/lib/libcuda.so.%{driversversion}                     %{i}/lib64/stubs/
+ln -sf libcuda.so.%{driversversion}                                                 %{i}/lib64/stubs/libcuda.so.1
+ln -sf libcuda.so.1                                                                 %{i}/lib64/stubs/libcuda.so
+cp -p %_builddir/nvidia-driver/lib/libcudadebugger.so.%{driversversion}             %{i}/lib64/stubs/
+ln -sf libcudadebugger.so.%{driversversion}                                         %{i}/lib64/stubs/libcudadebugger.so.1
+ln -sf libcudadebugger.so.1                                                         %{i}/lib64/stubs/libcudadebugger.so
+cp -p %_builddir/nvidia-driver/lib/libnvidia-ml.so.%{driversversion}                %{i}/lib64/stubs/
+ln -sf libnvidia-ml.so.%{driversversion}                                            %{i}/lib64/stubs/libnvidia-ml.so.1
+ln -sf libnvidia-ml.so.1                                                            %{i}/lib64/stubs/libnvidia-ml.so
 
 %post
 # let nvcc find its components when invoked from the command line
