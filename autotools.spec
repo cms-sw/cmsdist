@@ -134,5 +134,4 @@ find %{i} -name '*deleteme' -delete
 %{relocateConfig}share/autoconf/autom4te.cfg
 %{relocateConfig}share/automake-%{automake_maj}/Automake/Config.pm
 %{relocateConfig}bin/gettextize
-%{relocateConfig}lib/gettext/user-email
 %{relocateConfig}bin/autopoint
