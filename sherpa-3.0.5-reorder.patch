@@ -1,0 +1,11 @@
+--- a/ATOOLS/Phys/Flavour.H
++++ b/ATOOLS/Phys/Flavour.H
+@@ -37,7 +37,7 @@
+ 
+     // default constructor
+     inline Particle_Info():
+-      m_kfc(kf_none), m_mass(0.0), m_radius(0.0), m_hmass(0.0), m_yuk(-1.0), m_width(0.0),
++      m_kfc(kf_none), m_mass(0.0), m_hmass(0.0), m_radius(0.0), m_yuk(-1.0), m_width(0.0),
+       m_dg(0.0), m_dm(0.0), m_qoverp2(1.0), m_icharge(0),
+       m_strong(0), m_resummed(0), m_priority(0), m_spin(0), m_stable(1),
+       m_masssign(0), m_dummy(1), m_majorana(0), m_formfactor(0), m_on(0),
