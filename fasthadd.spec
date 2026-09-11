@@ -1,5 +1,5 @@
 ### RPM external fasthadd 2.4
-
+## INCLUDE cpp-standard
 #Change the commit hash every time a new version is needed.
 %define commit 972d35c43d210761a9fa31ff6c53490a615a383b
 %define user cms-sw
@@ -17,6 +17,7 @@ cp %{_sourcedir}/ROOTFilePB.proto .
 protoc -I ./ --cpp_out=./ ROOTFilePB.proto
 perl -p -i -e 's|DQMServices/Core/interface/||' ROOTFilePB.pb.cc fastHadd.cc
 g++ -O2 -o %i/bin/fastHadd ROOTFilePB.pb.cc ./fastHadd.cc \
+      -std=c++%{cms_cxx_standard} \
       -I$PROTOBUF_ROOT/include -I$ABSEIL_CPP_ROOT/include \
       -Wl,--copy-dt-needed-entries \
       -L$PROTOBUF_ROOT/lib -lprotobuf \
