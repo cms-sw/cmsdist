@@ -64,14 +64,21 @@ Requires: xpmem
   CFLAGS="%{selected_microarch}" \
   CXXFLAGS="%{selected_microarch}" \
 %endif
-  CPPFLAGS="-I$NUMACTL_ROOT/include" \
-  LDFLAGS="-L$NUMACTL_ROOT/lib"
+  CPPFLAGS="-I$NUMACTL_ROOT/include%{!?without_rocm: -I$ROCR_RUNTIME_ROOT/include/hsa}" \
+  LDFLAGS="-L$NUMACTL_ROOT/lib%{!?without_rocm: -L$ROCR_RUNTIME_ROOT/lib64}"
 
 %build
 make %{makeprocesses} V=1
 
 %install
 make install V=1
+
+%if 0%{!?without_rocm:1}
+# configure warns, but doesn't stop, if the ROCm support cannot be enabled.
+# Check explicitly that the rocm UCT and UCM modules have been built.
+test -f %{i}/lib/ucx/libuct_rocm.so
+test -f %{i}/lib/ucx/libucm_rocm.so
+%endif
 
 # remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
 rm -rf %{i}/lib/pkgconfig
