@@ -17,3 +17,4 @@ make install
 
 %post
 %relocateConfigAll lib/pkgconfig *.pc
+%relocateConfigAll lib/libnl/cli *.la
