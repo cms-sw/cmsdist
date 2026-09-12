@@ -38,6 +38,7 @@ done
   --with-system-ffi \
   --without-ensurepip \
   --with-system-expat \
+  --disable-gil \
   LDFLAGS="$LDFLAGS" \
   CPPFLAGS="$CPPFLAGS"
 
