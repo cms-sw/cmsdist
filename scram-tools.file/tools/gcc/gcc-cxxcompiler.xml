@@ -6,6 +6,7 @@
       <environment name="CXX" value="c++@COMPILER_NAME_SUFFIX@"/>
 %endif
     </client>
+    <flags CPPFLAGS="-ftrack-macro-expansion=0"/>
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @GCC_CPPDEFINES@"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC @GCC_CXXSHAREDOBJECTFLAGS@"/>
     <flags CXXFLAGS="-O3 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
