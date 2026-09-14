@@ -3,12 +3,14 @@
 %define boost_tag %(echo %{realversion} | tr '.' '_')
 Source: https://archives.boost.io/release/%{realversion}/source/boost_%{boost_tag}.tar.gz
 Patch0: patches/boost-cms-fixes
+Patch1: boost-python-free-threading
 Requires: python3 bz2lib zlib openmpi xz zstd
 
 
 %prep
 %setup -n %{n}_%{boost_tag}
 %patch0 -p1
+%patch1 -p1
 
 %build
 
@@ -29,11 +31,9 @@ pushd tools/build
   export PATH=${PWD}/tmp-boost-build/bin:${PATH}
 popd
 
-PYTHONV3=$(echo $PYTHON3_VERSION | cut -f1,2 -d.)
-
 # enable boost::mpi
 echo "using mpi ;" >> user-config.jam
-echo "using python : ${PYTHONV3} : ${PYTHON3_ROOT}/bin/python3 : ${PYTHON3_ROOT}/include/python${PYTHONV3} : ${PYTHON3_ROOT}/lib ;" >> user-config.jam
+echo "using python : %{cms_python3_major_minor_version} : ${PYTHON3_ROOT}/bin/python%{cms_python3_major_minor_version} : ${PYTHON3_ROOT}/include/python%{cms_python3_major_minor_version} : ${PYTHON3_ROOT}/lib ;" >> user-config.jam
 
 b2 -q \
    -d2 \
@@ -58,7 +58,7 @@ b2 -q \
    link=shared \
    threading=multi \
    variant=release \
-   python=${PYTHONV3} \
+   python=%{cms_python3_major_minor_version} \
    -sBZIP2_INCLUDE=${BZ2LIB_ROOT}/include \
    -sBZIP2_LIBPATH=${BZ2LIB_ROOT}/lib \
    -sZLIB_INCLUDE=${ZLIB_ROOT}/include \
