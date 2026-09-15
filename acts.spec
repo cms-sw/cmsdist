@@ -122,7 +122,8 @@ cmake ../%{n}-%{realversion} \
 %endif
   -L
 
-patch -p1 < %{_sourcedir}/acts-gcc16
+# applied from the parent dir: patches both the Acts sources and the _deps fetched by cmake
+patch -d .. -p1 < %{_sourcedir}/acts-gcc16
 
 make %{makeprocesses} VERBOSE=1
 
