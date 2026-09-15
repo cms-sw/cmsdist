@@ -139,7 +139,7 @@ export TF_DOWNLOAD_CLANG=0
 export TF_NEED_IGNITE=0
 export TF_NEED_ROCM=0
 export TF_NEED_TENSORRT=0
-export TF_PYTHON_VERSION=%{cms_python3_major_minor_version}
+export TF_PYTHON_VERSION=%{cms_python3_major_minor_version_str}
 export TEST_TMPDIR=%{_builddir}/build
 export TF_CMS_EXTERNALS="%{_builddir}/cms_externals.txt"
 
@@ -221,7 +221,10 @@ bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 %endif
 
 mkdir %{i}/lib-xla-runtime
-find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
+whl_path=$(find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}-cp%{cms_python3_major_minor_str}-cp%{cms_python3_major_minor_str}*.whl' -print -quit)
+whl_name=$(basename $whl_path)
+whl="${whl_name/%{realversion}-cp%{cms_python3_major_minor_str}-cp%{cms_python3_major_minor_str}-/%{realversion}-cp%{cms_python3_major_minor_str}-cp%{cms_python3_major_minor}-}"
+mv $whl_path %{i}/${whl}
 find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
 # TF 2.21 dropped nsync and the standalone TSL mutex lib in favour of abseil
 # synchronisation, so libmutex.pic.a / libnsync_cpp.pic.a no longer exist (and
