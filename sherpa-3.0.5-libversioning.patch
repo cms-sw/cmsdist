@@ -1,0 +1,99 @@
+diff --git a/ATOOLS/Org/Library_Loader.C b/ATOOLS/Org/Library_Loader.C
+index d53e6af..0110a98 100644
+--- a/ATOOLS/Org/Library_Loader.C
++++ b/ATOOLS/Org/Library_Loader.C
+@@ -85,8 +85,17 @@ void *Library_Loader::LoadLibrary(const std::string &name)
+   std::map<std::string,void*>::iterator lit(m_libs.find(name));
+   if (lit!=m_libs.end()) return lit->second;
+   msg_Debugging()<<"loading library 'lib"<<name<<LIB_SUFFIX<<"' {"<<std::endl;
++  // Sherpa's own libraries carry the LIB_VERSIONING suffix, libraries built
++  // against Sherpa (AMEGIC process libraries, generated UFO models) and
++  // external packages do not. Scan all search paths for the suffixed name
++  // before falling back to the plain one, so that an unversioned installation
++  // of another Sherpa release earlier in the library path can never satisfy
++  // the request.
++  for (size_t s(0);s<2;++s) {
++    const std::string vsuffix(s==0?LIB_VERSIONING:"");
++    if (s==0 && vsuffix.empty()) continue;
+   for (size_t i(0);i<m_paths.size();++i) {
+-    std::string libname(m_paths[i]+"/lib"+name+LIB_SUFFIX);
++    std::string libname(m_paths[i]+"/lib"+name+vsuffix+LIB_SUFFIX);
+     struct stat buffer;
+     msg_Debugging()<<"checking for '"<<libname<<"' ... "<<std::flush;
+     if (stat(libname.c_str(),&buffer)) {
+@@ -100,6 +109,7 @@ void *Library_Loader::LoadLibrary(const std::string &name)
+     m_libs[name]=module;
+     return module;
+   }
++  }
+   msg_Debugging()<<"} failed"<<std::endl;
+   msg_Info()<<METHOD<<"(): Failed to load library 'lib"
+ 	    <<name<<LIB_SUFFIX<<"'."<<std::endl;
+@@ -110,14 +120,16 @@ void *Library_Loader::LoadLibrary(const std::string &name)
+ void *Library_Loader::LoadLibrary(const std::string &path,
+ 				  const std::string &name)
+ {
+-  std::string fullpath(path+"/lib"+name+LIB_SUFFIX);
++  std::string fullpath(path+"/lib"+name+LIB_VERSIONING+LIB_SUFFIX);
+ 
+   struct stat buffer;
+-  if (stat(fullpath.c_str(),&buffer))
+-    THROW(fatal_error, "File " + fullpath + " not found");
++  if (stat(fullpath.c_str(),&buffer)) {
++    fullpath=path+"/lib"+name+LIB_SUFFIX;
++    if (stat(fullpath.c_str(),&buffer))
++      THROW(fatal_error, "File " + fullpath + " not found");
++  }
+ 
+-  std::string lockname(path+"/lib"+name+
+-		       std::string(LIB_SUFFIX)+".lock");
++  std::string lockname(fullpath+".lock");
+   if (!CreateLockFile(lockname)) return NULL;
+   if (!CreateLockFile(rpa->gen.Variable("HOME")+
+ 		      "/.sherpa/.liblock")) return NULL;
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 46509ce..696416c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -340,7 +340,9 @@ macro(sherpa_handle_shared_library  mylib mylibname)
+   install(TARGETS ${mylib} EXPORT SHERPATargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/SHERPA-MC${VERSIONING} COMPONENT libs)
+   set_target_properties(${mylib}        PROPERTIES POSITION_INDEPENDENT_CODE ON  SOVERSION ${SHERPA_VERSION_MAJOR})
+   set_target_properties(${mylib}        PROPERTIES DEFINE_SYMBOL "")
+-  set_target_properties(${mylib}        PROPERTIES OUTPUT_NAME ${mylibname})
++  # Suffix the library file names as well, so that a versioned install can
++  # coexist with an unversioned one in a flat library directory.
++  set_target_properties(${mylib}        PROPERTIES OUTPUT_NAME ${mylibname}${VERSIONING})
+   target_compile_features(${mylib} PRIVATE cxx_std_11)
+   set_target_properties(${mylib} PROPERTIES  ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/outputs/${CMAKE_INSTALL_LIBDIR}/SHERPA-MC/$<0:>
+                                              LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/outputs/${CMAKE_INSTALL_LIBDIR}/SHERPA-MC/$<0:>
+@@ -1026,6 +1028,8 @@ $<IF:$<BOOL:${SHERPA_ENABLE_THREADING}>,#define USING__Threading \"1\",/* #undef
+ #define LD_PATH_NAME \"${LD_LIBRARY_PATH}\"\n\n\
+ /* library suffix */\n\
+ #define LIB_SUFFIX \"${CMAKE_SHARED_LIBRARY_SUFFIX}\"\n\n\
++/* library name versioning suffix */\n\
++#define LIB_VERSIONING \"${VERSIONING}\"\n\n\
+ /* binreloc activation */\n\
+ $<IF:$<BOOL:${SHERPA_ENABLE_BINRELOC}>,#define ENABLE_BINRELOC \"1\",/* #undef ENABLE_BINRELOC */>\n\n\
+ /* Sherpa installation prefix */\n\
+diff --git a/SHERPA/Run/Sherpa-config.in b/SHERPA/Run/Sherpa-config.in
+index f51ddde..e0dbdfd 100644
+--- a/SHERPA/Run/Sherpa-config.in
++++ b/SHERPA/Run/Sherpa-config.in
+@@ -6,7 +6,7 @@ case $1 in
+   --prefix)
+     echo @CMAKE_INSTALL_PREFIX@;;
+   --libs)
+-    echo -L${SHERPA_LIBRARY_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/SHERPA-MC@VERSIONING@} -lSherpaMain @CONDITIONAL_HEPMC3LIBS@ @RIVET_CONFIG_LIBS_STRING@ @ROOT_CONFIG_LIBS_STRING@ -L@LHAPDF_LIBRARY_DIR@ -lLHAPDF;;
++    echo -L${SHERPA_LIBRARY_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/SHERPA-MC@VERSIONING@} -lSherpaMain@VERSIONING@ @CONDITIONAL_HEPMC3LIBS@ @RIVET_CONFIG_LIBS_STRING@ @ROOT_CONFIG_LIBS_STRING@ -L@LHAPDF_LIBRARY_DIR@ -lLHAPDF;;
+   --python-libs)
+     echo @SHERPA_Python_SITEARCH@;;
+   --load-mpi4py)
+@@ -18,7 +18,7 @@ case $1 in
+   --datadir)
+     echo ${SHERPA_SHARE_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/SHERPA-MC@VERSIONING@};;
+   --ldflags)
+-    echo -L${SHERPA_LIBRARY_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/SHERPA-MC@VERSIONING@} -lSherpaMain @CONDITIONAL_HEPMC3LIBS@ @RIVET_CONFIG_LIBS_STRING@ @ROOT_CONFIG_LIBS_STRING@ -L@LHAPDF_LIBRARY_DIR@ -lLHAPDF;;
++    echo -L${SHERPA_LIBRARY_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/SHERPA-MC@VERSIONING@} -lSherpaMain@VERSIONING@ @CONDITIONAL_HEPMC3LIBS@ @RIVET_CONFIG_LIBS_STRING@ @ROOT_CONFIG_LIBS_STRING@ -L@LHAPDF_LIBRARY_DIR@ -lLHAPDF;;
+   --cppflags)
+     echo -I${SHERPA_INCLUDE_PATH:-@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@/SHERPA-MC@VERSIONING@} @CONDITIONAL_HEPMC3INCS@ @RIVET_CONFIG_CPPFLAGS_STRING@ @ROOT_CONFIG_CPPFLAGS_STRING@ @LHAPDF_CONFIG_CPPFLAGS_STRING@;;
+   --cxx)
