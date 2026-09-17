@@ -1,26 +1,11 @@
-### RPM external jemalloc 5.1.0
-
-%define tag %{realversion}
-%define branch master
-%define github_user jemalloc
-Source: git+https://github.com/%{github_user}/jemalloc.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
-
-BuildRequires: autotools
-
-%prep
-%setup -n %{n}-%{realversion}
+## INCLUDE jemalloc-common
+### RPM external jemalloc %{jemalloc_version}
 
 %build
-XOPTS=""
-case %{cmsplatf} in
-  *_aarch64_*|*_ppc64le_*|*_ppc64_*) XOPTS="--with-lg-page=16" ;;
-esac
-
-# Disable documentation (not needed)
-sed -ibak 's/install: install_bin install_include install_lib install_doc/install: install_bin install_include install_lib/' Makefile.in
-./autogen.sh
-
-./configure ${XOPTS}\
+./autogen.sh \
+  --enable-shared \
+  --disable-static \
+  --disable-doc \
   --enable-stats \
   --prefix %{i}
 
