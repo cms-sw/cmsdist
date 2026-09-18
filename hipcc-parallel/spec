@@ -1,0 +1,15 @@
+### RPM external hipcc-parallel 260918
+## NOCOMPILER
+## NO_VERSION_SUFFIX
+%define tag f595f8547441b7b8d92ed31eb8ee4674177702ac
+Source: git+https://github.com/cms-patatrack/%{n}.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
+
+%prep
+%setup -n %{n}-%{realversion}
+
+%build
+
+%install
+mkdir %{i}/bin
+install hipcc %{i}/bin/hipcc-parallel
+chmod a+x %{i}/bin/hipcc-parallel
