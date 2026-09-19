@@ -4,25 +4,28 @@
 # Include it with "## INCLUDE rocm-systems-build" as the last line of a spec,
 # after the per-package BuildRequires/Requires and any of the customisation
 # points below:
-#   %%{rocm_project} - subdirectory under projects/ to build (defaults to %%{n})
+#   %%{rocm_project_dir} Top directory under rocm-systems default is projects
+#   %%{rocm_project} - subdirectory under %%{rocm_project_dir} to build (defaults to %%{n})
 #   %%{cmake_args}   - extra -D flags appended to the cmake invocation
 #   ROCMPre*/ROCMPost* - shell snippets injected around each build phase
-BuildRequires: rocm-sources
+## INCLUDE cpp-standard
+BuildRequires: rocm-sources cmake gmake
 %{!?rocm_project:%define rocm_project %{n}}
+%{!?rocm_project_dir:%define rocm_project_dir projects}
 
 %prep
 %{?ROCMPrePrep:%ROCMPrePrep}
-mkdir -p  %{_builddir}/rocm-systems/projects/%{rocm_project}
-rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/projects/%{rocm_project}/ %{_builddir}/rocm-systems/projects/%{rocm_project}
+mkdir -p  %{_builddir}/rocm-systems/%{rocm_project_dir}/%{rocm_project}
+rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/%{rocm_project_dir}/%{rocm_project}/ %{_builddir}/rocm-systems/%{rocm_project_dir}/%{rocm_project}
 for dir in %{?ROCMExtraSources} ; do
   mkdir -p %{_builddir}/rocm-systems/${dir}
   rsync -a ${ROCM_SOURCES_ROOT}/rocm-systems/${dir}/ %{_builddir}/rocm-systems/${dir}
 done
-cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+cd %{_builddir}/rocm-systems/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPostPrep:%ROCMPostPrep}
 
 %build
-cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+cd %{_builddir}/rocm-systems/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPreBuild:%ROCMPreBuild}
 
 %{?ROCMPreCMake:%ROCMPreCMake}
@@ -32,6 +35,8 @@ CMAKE_ARGS=(
   -DCMAKE_INSTALL_PREFIX=%{i}
   -DCMAKE_BUILD_TYPE=%{cmake_build_type}
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}"
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard}
+  -DCMAKE_VERBOSE_MAKEFILE=TRUE
   %{?cmake_args}
 )
 
@@ -45,7 +50,7 @@ make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
-cd %{_builddir}/rocm-systems/projects/%{rocm_project}
+cd %{_builddir}/rocm-systems/%{rocm_project_dir}/%{rocm_project}
 %{?ROCMPreInstall:%ROCMPreInstall}
 make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
 %{?ROCMPostInstall:%ROCMPostInstall}
