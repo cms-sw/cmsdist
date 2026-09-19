@@ -1,4 +1,4 @@
-### RPM external gcc 14.3.1
+### RPM external gcc 14.4.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
@@ -6,13 +6,14 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag e02b12e7248f8209ebad35d6df214d3421ed8020
+%define gccTag 4bd83628104c199199915e44b5d13c96a79b149b
 %define gccBranch releases/gcc-14
 
 %define moduleName %{n}-%{realversion}
 Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&export=%{moduleName}&output=/%{n}-%{realversion}-%{gccTag}.tgz
 Source1: https://github.com/gcc-mirror/gcc/commit/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 Source2: https://github.com/gcc-mirror/gcc/commit/77d01927bd7c989d431035251a5c196fe39bcec9.diff
+Patch0: gcc-14-asan-thread-allocator-race
 
 %define keep_archives true
 
@@ -21,6 +22,7 @@ Source2: https://github.com/gcc-mirror/gcc/commit/77d01927bd7c989d431035251a5c19
 %setup -T -b 0 -n %{moduleName}
 patch -p1 <%{_sourcedir}/0a1d2ea57722c248777e1130de076e28c443ff8b.diff
 patch -p1 <%{_sourcedir}/77d01927bd7c989d431035251a5c196fe39bcec9.diff
+%patch0 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
