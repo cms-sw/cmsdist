@@ -1,7 +1,7 @@
-### RPM external hipcc-parallel 260921.1
+### RPM external hipcc-parallel 260921.2
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
-%define tag 090e11dfbe6bc7e018feed43e4f33aacd26ff5fe
+%define tag 1eed9c07177d43585d0a5e0b2d4eff4955940346
 Source: git+https://github.com/cms-patatrack/%{n}.git?obj=master/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %prep
