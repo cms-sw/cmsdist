@@ -1,4 +1,4 @@
-### RPM cms cmssw-tools 6.0
+### RPM cms cmssw-tools 7.0
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
@@ -90,6 +90,7 @@ Requires: libfabric
 Requires: openmpi
 Requires: mpich
 Requires: mpi
+Requires: NNVtx
 Requires: sigcpp
 Requires: sqlite
 Requires: tauolapp
