@@ -188,7 +188,7 @@ Requires: oracle
 Requires: icx
 Requires: intel-vtune
 Requires: ruff
-%{!?without_rocm:Requires: rocm}
+%{!?without_rocm:Requires: rocm hipcc-parallel}
 Requires: cmsmon-tools
 Requires: dip
 %else
