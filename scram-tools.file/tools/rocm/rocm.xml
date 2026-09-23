@@ -7,6 +7,10 @@
 
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
+  <flags ROCM_FLAGS="-foffload-lto"/>
+  <flags ROCM_FLAGS="-flto-partitions=1"/>   <!-- default in ROCm 10.1 -->
+  <flags ROCM_FLAGS="--offload-new-driver"/> <!-- default in ROCm 10.1 -->
+  <flags ROCM_FLAGS="--offload-jobs=jobserver"/>
   <flags ROCM_FLAGS="-Wno-pass-failed"/>
 %if "%{default_microarch_name}"
 %if "%{default_microarch_name}" != "%{min_microarch_name}"

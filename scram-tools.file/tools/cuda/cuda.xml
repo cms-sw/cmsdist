@@ -8,6 +8,7 @@
     <environment name="NVCC"      default="$TOOL_BASE/bin/nvcc"/>
   </client>
   <flags CUDA_FLAGS="@CUDA_FLAGS@"/>
+  <flags REM_CUDA_CPPFLAGS="-ftrack-macro-expansion=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="-std=%"/>
   <flags REM_CUDA_HOST_CXXFLAGS="%potentially-evaluated-expression"/>
   <flags CUDA_HOST_CXXFLAGS="@CUDA_HOST_CXXFLAGS@"/>
