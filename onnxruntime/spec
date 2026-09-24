@@ -1,4 +1,4 @@
-### RPM external onnxruntime 1.26.0
+### RPM external onnxruntime 1.30.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user microsoft
@@ -6,12 +6,9 @@
 %define tag v%{realversion}
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: onnxruntime/cms-changes
-# Note: these two patches should likely be removed for onnxruntime 1.27+
-Patch1: onnxruntime/backport28736
-Patch2: onnxruntime/absl_nvidia_bug_6302392
-Patch3: onnxruntime/ciso646
+Patch1: onnxruntime/ciso646
 
-BuildRequires: cmake ninja
+BuildRequires: cmake ninja json
 Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen
 %{!?without_cuda:Requires: cuda cudnn}
 
@@ -19,7 +16,6 @@ Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen
 %setup -q -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
-%patch3 -p1
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
@@ -54,7 +50,10 @@ cmake ../%{n}-%{realversion}/cmake \
    -Donnxruntime_USE_FULL_PROTOBUF=ON \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT}" \
+   -Donnxruntime_USE_TELEMETRY=OFF \
+   -Donnxruntime_USE_FP4_QMOE=OFF \
+   -DCMAKE_DISABLE_FIND_PACKAGE_flatbuffers=ON \
+   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT};${JSON_ROOT}" \
    -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual -Wno-error=cpp"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
@@ -65,8 +64,16 @@ cmake ../%{n}-%{realversion}/cmake \
 # -Wno-error=overloaded-virtual
 # See https://github.com/intel/neural-speed/issues/188
 
-# patch Abseil bundled with ONNX to workaround NVIDIA bug #6302392
-patch -d %{_builddir}/build/_deps/abseil_cpp-src -p1 < %{PATCH2}
+# -Donnxruntime_USE_TELEMETRY=OFF
+# Telemetry is available on Linux since 1.29; it is off by default, but make it explicit.
+
+# -Donnxruntime_USE_FP4_QMOE=OFF
+# FP4 QMoE CUDA kernels are enabled by default since 1.30; they are not used by CMSSW,
+# and are expensive to build for the SM100/SM120 architectures.
+
+# -DCMAKE_DISABLE_FIND_PACKAGE_flatbuffers=ON
+# The generated .fbs.h headers require exactly the bundled flatbuffers version (23.5.26),
+# so never pick up a different one from the environment.
 
 ninja -v %{makeprocesses}
 python3 ../%{n}-%{realversion}/setup.py build
