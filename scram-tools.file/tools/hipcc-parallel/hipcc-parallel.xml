@@ -3,4 +3,6 @@
     <environment name="BINDIR"      default="$TOOL_BASE/bin"/>
   </client>
   <runtime name="HIPCC_PARALLEL" value="$TOOL_BASE/bin/hipcc-parallel"/>
+  <runtime name="HIPCC_REAL" value="@HIP_PATH@/bin/hipcc"/>
+  <runtime name="HIPCC_PARALLEL_JOBSERVER" value="1"/>
 </tool>
