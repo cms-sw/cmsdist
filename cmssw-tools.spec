@@ -139,6 +139,7 @@ Requires: opencl-cpp
 Requires: qd
 Requires: blackhat
 Requires: sherpa
+Requires: sherpa3
 Requires: fasthadd
 Requires: eigen
 Requires: gdb
