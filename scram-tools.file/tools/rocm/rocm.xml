@@ -1,4 +1,4 @@
-<tool revision="9">
+<tool revision="10">
   <info url="https://rocm.docs.amd.com/en/docs-@TOOL_REALVERSION@/"/>
   <lib name="amdhip64"/>
   <lib name="hsa-runtime64"/>
@@ -8,9 +8,15 @@
   <flags ROCM_FLAGS="@ROCM_FLAGS@"/>
   <flags ROCM_FLAGS="-fgpu-rdc"/>
   <flags ROCM_FLAGS="-foffload-lto"/>
-  <flags ROCM_FLAGS="-flto-partitions=1"/>   <!-- default in ROCm 10.1 -->
-  <flags ROCM_FLAGS="--offload-new-driver"/> <!-- default in ROCm 10.1 -->
+  <!-- -flto-partitions=2 is trade-off between 8 (faster) and 1 (less memory)
+  See https://github.com/cms-sw/cmsdist/pull/10871#issuecomment-5812363051
+  for the comparison. -->
+  <flags ROCM_FLAGS="-flto-partitions=2"/>
+  <!-- -offload-new-driver is expected to be the default from ROCm 10.1 -->
+  <flags ROCM_FLAGS="--offload-new-driver"/>
   <flags ROCM_FLAGS="--offload-jobs=jobserver"/>
+  <!-- Prevents ld.lld from spawning 1 thread per core -->
+  <flags ROCM_FLAGS="-Xoffload-linker --threads=1"/>
   <flags ROCM_FLAGS="-Wno-pass-failed"/>
 %if "%{default_microarch_name}"
 %if "%{default_microarch_name}" != "%{min_microarch_name}"
