@@ -1,0 +1,75 @@
+diff -ur pa/src/common/visitor/comment/clang_visitor.cc pb/src/common/visitor/comment/clang_visitor.cc
+--- a/src/common/visitor/comment/clang_visitor.cc	2026-09-16 01:51:56.065915841 +0200
++++ b/src/common/visitor/comment/clang_visitor.cc	2026-09-16 01:51:56.065915841 +0200
+@@ -37,8 +37,16 @@
+ void clang_visitor::visit(
+     const clang::NamedDecl &decl, common::model::decorated_element &e)
+ {
++#if LLVM_VERSION_MAJOR < 23
+     const auto *comment =
+         decl.getASTContext().getRawCommentForDeclNoCache(&decl);
++#else
++    // LLVM 23 renamed the no-cache lookup and made it private; the public
++    // getRawCommentForAnyRedecl() is the supported way to fetch the raw
++    // comment attached to a declaration.
++    const auto *comment =
++        decl.getASTContext().getRawCommentForAnyRedecl(&decl);
++#endif
+ 
+     if (comment == nullptr) {
+         return;
+diff -ur pa/src/common/visitor/comment/plain_visitor.cc pb/src/common/visitor/comment/plain_visitor.cc
+--- a/src/common/visitor/comment/plain_visitor.cc	2026-09-16 01:51:56.065915841 +0200
++++ b/src/common/visitor/comment/plain_visitor.cc	2026-09-16 01:51:56.065915841 +0200
+@@ -18,6 +18,8 @@
+ 
+ #include "plain_visitor.h"
+ 
++#include <llvm/Config/llvm-config.h>
++
+ namespace clanguml::common::visitor::comment {
+ 
+ plain_visitor::plain_visitor(clang::SourceManager &source_manager)
+@@ -28,8 +30,16 @@
+ void plain_visitor::visit(
+     const clang::NamedDecl &decl, common::model::decorated_element &e)
+ {
++#if LLVM_VERSION_MAJOR < 23
+     const auto *comment =
+         decl.getASTContext().getRawCommentForDeclNoCache(&decl);
++#else
++    // LLVM 23 renamed the no-cache lookup and made it private; the public
++    // getRawCommentForAnyRedecl() is the supported way to fetch the raw
++    // comment attached to a declaration.
++    const auto *comment =
++        decl.getASTContext().getRawCommentForAnyRedecl(&decl);
++#endif
+ 
+     if (comment == nullptr) {
+         return;
+diff -ur pa/src/common/visitor/translation_unit_visitor.h pb/src/common/visitor/translation_unit_visitor.h
+--- a/src/common/visitor/translation_unit_visitor.h	2026-09-16 01:51:56.065915841 +0200
++++ b/src/common/visitor/translation_unit_visitor.h	2026-09-16 01:51:56.065915841 +0200
+@@ -29,6 +29,7 @@
+ #include "config/config.h"
+ 
+ #include <clang/AST/Comment.h>
++#include <llvm/Config/llvm-config.h>
+ #include <clang/AST/Expr.h>
+ #include <clang/AST/RawCommentList.h>
+ #include <clang/Basic/Module.h>
+@@ -204,7 +205,14 @@
+ 
+         comment_visitor_->visit(decl, e);
+ 
++#if LLVM_VERSION_MAJOR < 23
+         auto *comment = decl.getASTContext().getRawCommentForDeclNoCache(&decl);
++#else
++        // See the note in comment/plain_visitor.cc: getRawCommentForDeclNoCache
++        // is no longer public in LLVM 23.
++        const auto *comment =
++            decl.getASTContext().getRawCommentForAnyRedecl(&decl);
++#endif
+ 
+         process_comment(comment, decl.getASTContext().getDiagnostics(), e);
+     }

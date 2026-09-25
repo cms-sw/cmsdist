@@ -95,6 +95,11 @@ BAZEL_OPTS="$BAZEL_OPTS --config=clang_local"
 # error disappears -- reliable, unlike patching the bundled fmt via ctx.patch.
 BAZEL_OPTS="$BAZEL_OPTS --per_file_copt=external/onednn/.*[.]cpp@-std=c++17"
 BAZEL_OPTS="$BAZEL_OPTS --per_file_copt=external/jpegxl/.*enc_fast_lossless.*@-O1"
+# With clang 23, Highway 1.3.0's runtime dispatch (hwy/foreach_target.h) fails codegen in jpegxl with
+# "always_inline function '_mm512_*' requires target feature 'avx512f'" (clang 21 is fine). Highway is
+# only used by jpegxl, so build both with HWY_COMPILE_ONLY_STATIC: only the -march baseline target is
+# compiled and no per-target dispatch code is generated.
+BAZEL_OPTS="$BAZEL_OPTS --per_file_copt=external/jpegxl/.*,external/com_google_highway/.*@-DHWY_COMPILE_ONLY_STATIC=1"
 # Build-time tools (protoc_minimal, ...) run under bazel with `env -` (cleared env),
 # so they lose LD_LIBRARY_PATH and can't find the CMS gcc13 libstdc++ (GLIBCXX_3.4.31) --
 # nor any other external lib -- falling back to the older system /lib64. Forward the full
