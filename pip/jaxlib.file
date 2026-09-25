@@ -1,2 +1,2 @@
-%define PipDownloadSourceType none,arch=%{_arch}
+%define PipDownloadSourceType none,arch=%{_arch},abi=cp%{cms_python3_major_minor}
 Requires: py3-ml_dtypes py3-numpy py3-scipy
