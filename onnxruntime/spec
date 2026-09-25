@@ -1,4 +1,4 @@
-### RPM external onnxruntime 1.26.0
+### RPM external onnxruntime 1.30.0
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 ## INCLUDE cuda-flags
 %define github_user microsoft
@@ -6,19 +6,23 @@
 %define tag v%{realversion}
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
 Patch0: onnxruntime/cms-changes
-# Note: these two patches should likely be removed for onnxruntime 1.27+
-Patch1: onnxruntime/backport28736
-Patch2: onnxruntime/absl_nvidia_bug_6302392
-Patch3: onnxruntime/ciso646
+Patch1: onnxruntime/ciso646
+# export the plugin EP entry points from the MIGraphX EP on Linux, like it is done on Windows
+Patch2: onnxruntime/migraphx-plugin-exports
+# fix the MIGraphX EP for C++20: implicit capture of this via [=] is deprecated
+Patch3: onnxruntime/migraphx-cxx20
 
 BuildRequires: cmake ninja
-Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen
+Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen json
 %{!?without_cuda:Requires: cuda cudnn}
+# miopen and rocblas are needed by the migraphx CMake configuration (find_dependency)
+%{!?without_rocm:Requires: migraphx rocm-hip rocr-runtime rocm-comgr rocm-core rocm-llvm miopen rocblas}
 
 %prep
 %setup -q -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 %patch3 -p1
 
 %build
@@ -41,21 +45,29 @@ cmake ../%{n}-%{realversion}/cmake \
 %if 0%{!?without_cuda:1}
    -Donnxruntime_CUDA_HOME="${CUDA_ROOT}" \
    -Donnxruntime_CUDNN_HOME="${CUDNN_ROOT}" \
+   -Donnxruntime_BUILD_CUDA_EP_AS_PLUGIN=ON \
    -Donnxruntime_NVCC_THREADS=1 \
    -DCMAKE_CUDA_ARCHITECTURES=$(echo %{cuda_arch} | tr ' ' ';' | sed 's|;;*|;|') \
-   -DCMAKE_CUDA_FLAGS="-DTHRUST_IGNORE_DEPRECATED_API -DCUB_IGNORE_DEPRECATED_API -Wno-deprecated-gpu-targets --static-global-template-stub=false -cudart shared" \
+   -DCMAKE_CUDA_FLAGS="-isystem ${PROTOBUF_ROOT}/include -DTHRUST_IGNORE_DEPRECATED_API -DCUB_IGNORE_DEPRECATED_API -Wno-deprecated-gpu-targets --static-global-template-stub=false -cudart shared" \
    -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
    -DCMAKE_TRY_COMPILE_PLATFORM_VARIABLES="CMAKE_CUDA_RUNTIME_LIBRARY" \
+%endif
+%if 0%{!?without_rocm:1}
+   -Donnxruntime_USE_MIGRAPHX=ON \
+   -Donnxruntime_MIGRAPHX_HOME="${MIGRAPHX_ROOT}" \
 %endif
    -Donnxruntime_BUILD_CSHARP=OFF \
    -Donnxruntime_ENABLE_MICROSOFT_INTERNAL=OFF \
    -Donnxruntime_USE_TENSORRT=OFF \
    -Donnxruntime_CROSS_COMPILING=OFF \
-   -Donnxruntime_USE_FULL_PROTOBUF=ON \
+   -Donnxruntime_USE_FULL_PROTOBUF=OFF \
    -Donnxruntime_DISABLE_CONTRIB_OPS=OFF \
    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
-   -DCMAKE_PREFIX_PATH="${ZLIB_ROOT};${LIBPNG_ROOT};${PROTOBUF_ROOT};${PY3_PYBIND11_ROOT};${RE2_ROOT};${EIGEN_ROOT}" \
-   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual -Wno-error=cpp"
+   -Donnxruntime_USE_TELEMETRY=OFF \
+   -Donnxruntime_USE_FP4_QMOE=OFF \
+   -DCMAKE_DISABLE_FIND_PACKAGE_flatbuffers=ON \
+   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+   -DCMAKE_CXX_FLAGS="-Wno-error=stringop-overflow -Wno-error=maybe-uninitialized -Wno-error=overloaded-virtual -Wno-error=cpp -Wno-error=free-nonheap-object"
 
 # -Wno-error=stringop-overflow is needed to work around a false positive string overflow,
 # see https://github.com/google/flatbuffers/issues/7366
@@ -65,11 +77,45 @@ cmake ../%{n}-%{realversion}/cmake \
 # -Wno-error=overloaded-virtual
 # See https://github.com/intel/neural-speed/issues/188
 
-# patch Abseil bundled with ONNX to workaround NVIDIA bug #6302392
-patch -d %{_builddir}/build/_deps/abseil_cpp-src -p1 < %{PATCH2}
+# -Wno-error=free-nonheap-object is needed to work around a GCC 14 false positive in the MIGraphX EP
+# (std::vector allocation and deallocation inlined in GetPartitionedSubgraphs)
+
+# -Donnxruntime_USE_TELEMETRY=OFF
+# Telemetry is available on Linux since 1.29; it is off by default, but make it explicit.
+
+# -Donnxruntime_USE_FP4_QMOE=OFF
+# FP4 QMoE CUDA kernels are enabled by default since 1.30; they are not used by CMSSW,
+# and are expensive to build for the SM100/SM120 architectures.
+
+# -Donnxruntime_BUILD_CUDA_EP_AS_PLUGIN=ON
+# Build the CUDA EP as a plugin EP library (libonnxruntime_providers_cuda.so, exporting only
+# CreateEpFactories/ReleaseEpFactory) instead of the legacy shared provider (GetProvider).
+# C++ clients must register it with Ort::Env::RegisterExecutionProviderLibrary() and add it with
+# Ort::SessionOptions::AppendExecutionProvider_V2(); the legacy AppendExecutionProvider_CUDA()
+# no longer works. The python module registers it automatically on import.
+
+# -isystem ${PROTOBUF_ROOT}/include in CMAKE_CUDA_FLAGS
+# The CUDA plugin EP is compiled with "-Werror all-warnings", and nvcc warns about an integer sign conversion
+# in the protobuf headers (repeated_field.h, warning #68-D); treat them as system headers to silence it.
+
+# -Donnxruntime_USE_MIGRAPHX=ON
+# Build the MIGraphX EP for AMD GPUs as a shared provider library (libonnxruntime_providers_migraphx.so),
+# loaded at runtime by ORT. It can be added with the legacy AppendExecutionProvider_MIGraphX(), or used as a plugin EP:
+# registered with Ort::Env::RegisterExecutionProviderLibrary() and added with Ort::SessionOptions::AppendExecutionProvider_V2().
+# The latter requires the migraphx-plugin-exports patch.
+
+# -Donnxruntime_USE_FULL_PROTOBUF=OFF
+# Use protobuf-lite (the upstream default). The CUDA plugin EP contains its own copy of the ONNX protobuf
+# messages; with the full protobuf runtime (shared) both copies register onnx/onnx-ml.proto in the same
+# descriptor pool, and the process aborts as soon as the plugin is loaded.
+
+# -DCMAKE_DISABLE_FIND_PACKAGE_flatbuffers=ON
+# The generated .fbs.h headers require exactly the bundled flatbuffers version (23.5.26),
+# so never pick up a different one from the environment.
 
 ninja -v %{makeprocesses}
-python3 ../%{n}-%{realversion}/setup.py build
+# --use_migraphx is needed to include libonnxruntime_providers_migraphx.so in the python package
+python3 ../%{n}-%{realversion}/setup.py build %{!?without_rocm:--use_migraphx}
 
 %install
 cd ../build
