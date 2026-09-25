@@ -7,7 +7,8 @@ Source: https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-static --disable-dependency-tracking
+            --disable-static --disable-dependency-tracking \
+            CC=gcc
 make %{makeprocesses}
 
 %install
