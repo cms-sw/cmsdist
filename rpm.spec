@@ -32,6 +32,7 @@ export PKG_CONFIG_PATH=${BOOTSTRAP_BUNDLE_ROOT}/pkgconfig:/usr/share/pkgconfig:/
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
+  -DRPM_VENDOR=redhat \
   -DLUA_Debug=ON \
   -DCMAKE_SKIP_RPATH=ON \
   -DENABLE_CUTF8=OFF \
@@ -100,10 +101,6 @@ perl -p -i -e 's|/usr/lib/rpm([^a-zA-Z])|%{i}/libx/rpm$1|g' \
     %{i}/lib/rpm/rpmrc \
     %{i}/lib/rpm/find-provides \
     %{i}/lib/rpm/find-requires
-
-#Fix vendor
-grep -ElR '_vendor\s+vendor' %{i}/lib/rpm/platform | xargs perl -p -i -e 's|(_vendor\s+)vendor|${1}redhat|'
-perl -p -i -e 's|(_vendor\s+)vendor|${1}redhat|'  %{i}/lib/rpm/macros
 
 # Changes the shebang from /usr/bin/perl to /usr/bin/env perl
 perl -p -i -e 's|^#[!]/usr/bin/perl(.*)|#!/usr/bin/env perl$1|' \

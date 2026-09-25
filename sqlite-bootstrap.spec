@@ -8,7 +8,8 @@ Source: https://www.sqlite.org/2026/%{sqlite_file}.tar.gz
 
 %build
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-static --disable-dependency-tracking
+            --disable-static --disable-dependency-tracking \
+            CC=gcc
 make %{makeprocesses}
 
 %install
