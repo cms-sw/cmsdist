@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag 84fd91ed7b5c670d3af671d6b44a732c8d93a3ed
+%define gccTag d697e10dc6c7197c85a4f3e293a59b4a11c23134
 %define gccBranch releases/gcc-16
 
 %define moduleName %{n}-%{realversion}
