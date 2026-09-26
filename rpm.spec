@@ -23,12 +23,7 @@ BuildRequires: zstd-bootstrap xz-bootstrap libarchive-bootstrap
 %build
 
 rm -rf ../build; mkdir ../build ; cd ../build
-#which cmake
 export PKG_CONFIG_PATH=${BOOTSTRAP_BUNDLE_ROOT}/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig:/usr/lib64/pkgconfig
-#export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
-#export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
-#export PKG_CONFIG_STATIC=1
-#export PKG_CONFIG_EXECUTABLE=`which pkg-config`
 cmake ../%{n}-%{realversion} \
   -DCMAKE_INSTALL_PREFIX="%{i}" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -90,6 +85,9 @@ perl -p -i -e "s!:/etc/[^:]*!!g;
 # This is for compatibility with rpm 4.3.3
 perl -p -i -e "s!^.buildroot!#%%buildroot!;
                s!^%%_dbpath.*lib/rpm!%%_dbpath %{instroot}/%{cmsplatf}/var/lib/rpm!;
+%ifos linux
+               s!^(%%_host\s+.*-linux)\$!\1-gnu!;
+%endif
                s!^%%_repackage_dir.*/var/spool/repackage!%%_repackage_dir     %{instroot}/%{cmsplatf}/var/spool/repackage!" %i/lib/rpm/macros
 
 # Removes any reference to /usr/lib/rpm in lib/rpm
