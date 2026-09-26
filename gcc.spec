@@ -15,7 +15,6 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %prep
-
 %setup -T -b 0 -n %{moduleName}
 
 # Filter out private stuff from RPM requires headers.
