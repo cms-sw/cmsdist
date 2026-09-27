@@ -11,6 +11,9 @@ Patch1: onnxruntime/ciso646
 Patch2: onnxruntime/migraphx-plugin-exports
 # fix the MIGraphX EP for C++20: implicit capture of this via [=] is deprecated
 Patch3: onnxruntime/migraphx-cxx20
+# remove the buffer of ones shared by all the sessions of the CUDA plugin EP, broadcasting the Gemm bias directly
+# https://github.com/microsoft/onnxruntime/issues/32847, backport of https://github.com/microsoft/onnxruntime/pull/32852
+Patch4: onnxruntime/cuda-remove-const-ones
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen json
@@ -24,6 +27,7 @@ Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen json
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
