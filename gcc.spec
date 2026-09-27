@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag eda7622e5104c44c8a10cccc758752605431360f
+%define gccTag 7b01f877dd1d113dbaf52af886191317460e07b6
 %define gccBranch releases/gcc-15
 
 %define moduleName %{n}-%{realversion}
@@ -15,7 +15,6 @@ Source0: git+https://github.com/gcc-mirror/%{n}.git?obj=%{gccBranch}/%{gccTag}&e
 %define keep_archives true
 
 %prep
-
 %setup -T -b 0 -n %{moduleName}
 
 # Filter out private stuff from RPM requires headers.
