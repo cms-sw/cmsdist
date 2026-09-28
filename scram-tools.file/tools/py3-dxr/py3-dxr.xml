@@ -1,6 +1,0 @@
-<tool revision="3">
-  <client>
-    <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
-  </client>
-  <runtime name="PATH" value="$TOOL_BASE/bin" type="path"/>
-</tool>
