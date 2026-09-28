@@ -1,10 +1,12 @@
 ### RPM external catch2 3.13.0
 
 Source: https://github.com/catchorg/Catch2/archive/refs/tags/v%{realversion}.tar.gz
+Patch0: catch2-suppress-parentheses-warn
 BuildRequires: cmake gmake
 
 %prep
 %setup -n Catch2-%{realversion}
+%patch0 -p1
 
 %build
 cd %{_builddir}

@@ -5,6 +5,7 @@
     </client>
     # drop flags not supported by llvm
     # -Wno-non-template-friend removed since it's not supported, yet, by llvm.
+    <flags REM_CPPFLAGS="-ftrack-macro-expansion=%"/>
     <flags REM_CXXFLAGS="-Wno-non-template-friend"/>
     <flags REM_CXXFLAGS="-Werror=format-contains-nul"/>
     <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>

@@ -3,6 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
+IOMC-Input=V00-00-01
 RecoTracker-PixelLowPtUtilities=V00-01-00
 L1Trigger-Phase2L1GMT=V00-01-01
 L1TriggerScouting-OnlineProcessing=V00-01-00
@@ -17,7 +18,7 @@ RecoMuon-TrackerSeedGenerator=V00-07-00
 DQM-Integration=V00-18-00
 Geometry-HGCalMapping=V00-07-00
 RecoTracker-MkFit=V00-20-00
-RecoBTag-Combined=V01-33-00
+RecoBTag-Combined=V01-33-01
 RecoEgamma-PhotonIdentification=V01-09-00
 PhysicsTools-NanoAOD=V01-07-00
 Validation-HGCalValidation=V00-09-00
@@ -48,7 +49,7 @@ DataFormats-SiStripCluster=V00-02-00
 L1Trigger-L1THGCal=V01-08-00
 L1Trigger-L1TCalorimeter=V01-06-00
 L1Trigger-TrackTrigger=V00-04-00
-Geometry-TestReference=V00-20-00
+Geometry-TestReference=V00-20-01
 DQM-HcalTasks=V00-01-00
 DataFormats-HLTReco=V00-02-00
 RecoPPS-Local=V00-02-00
