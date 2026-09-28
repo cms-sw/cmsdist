@@ -14,6 +14,8 @@ Patch3: onnxruntime/migraphx-cxx20
 # remove the buffer of ones shared by all the sessions of the CUDA plugin EP, broadcasting the Gemm bias directly
 # https://github.com/microsoft/onnxruntime/issues/32847, backport of https://github.com/microsoft/onnxruntime/pull/32852
 Patch4: onnxruntime/cuda-remove-const-ones
+# let the MIGraphX EP use a HIP stream provided by the user, like the CUDA EP "user_compute_stream" option
+Patch5: onnxruntime/migraphx-user-compute-stream
 
 BuildRequires: cmake ninja
 Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen json
@@ -28,6 +30,7 @@ Requires: protobuf py3-numpy py3-onnx zlib libpng py3-pybind11 re2 eigen json
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 rm -rf ../build; mkdir ../build; cd ../build
