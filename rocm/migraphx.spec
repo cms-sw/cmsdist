@@ -11,6 +11,9 @@ Patch1: patches/migraphx-cxx20-accumulate
 Patch2: patches/migraphx-without-hipblaslt
 # fix building without rocMLIR (MIGRAPHX_ENABLE_MLIR=OFF): add the missing stubs
 Patch3: patches/migraphx-without-mlir
+# give the TensorFlow protobuf messages and files unique names, to avoid clashing with TensorFlow in the global
+# protobuf descriptor pool, from https://github.com/ROCm/AMDMIGraphX/pull/5333
+Patch4: patches/migraphx-tf-proto-names
 BuildRequires: cmake rocm-cmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-comgr
 Requires: miopen rocblas
@@ -22,6 +25,7 @@ Requires: protobuf abseil-cpp json msgpack-cxx sqlite eigen boost zlib
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 # MIGraphX hardcodes -std=c++17, use the same C++ standard as the other CMSSW externals (e.g. abseil);
 # -fno-cxx-modules (see below) is needed because MIGraphX uses "module" as a type name at the start of a line,
 # which C++20 would parse as a module declaration
