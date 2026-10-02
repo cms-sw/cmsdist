@@ -1,6 +1,5 @@
 ## INCLUDE rocm/flags
 ### RPM external rocm-hip %{rocm_version_num}
-## INCLUDE cpp-standard
 ## INITENV SET HIP_PATH %{i}
 ## INITENV SET HIP_CLANG_PATH ${ROCM_LLVM_ROOT}/lib/llvm/bin
 ## INITENV HIP_PLATFORM amd
