@@ -31,11 +31,10 @@
 %define nvcc_visibility_flags --static-global-template-stub=true --device-entity-has-hidden-visibility=true
 
 # parallel device code compilation, integrated with make
-# split-compile=0 tries to automatically divide heavy TUs into multiple parallel compilation units
 # threads=0 uses all available CPU cores for parallel compilation
 # jobserver allows parallel compilation to be integrated with make's jobserver, so that the number of parallel jobs is limited to the number of jobs make is allowed to run in parallel
 %ifarch x86_64
-%define nvcc_flags_parallel_compile --split-compile 0 --threads 0 --jobserver
+%define nvcc_flags_parallel_compile --threads 0 --jobserver
 %else
 %define nvcc_flags_parallel_compile %{nil}
 %endif
