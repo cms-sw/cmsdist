@@ -1,8 +1,8 @@
 diff --git a/src/Makefile b/src/Makefile
-index 8840e88..7f9166f 100644
+index da867b8..f29e9e2 100644
 --- a/src/Makefile
 +++ b/src/Makefile
-@@ -147,7 +147,7 @@ pymod-dist: pacparser.o pacparser.h quickjs/libquickjs.a
+@@ -174,7 +174,7 @@ pymod-dist: pacparser.o pacparser.h quickjs/libquickjs.a
  	$(PYTHON) ../tests/runtests.py
  
  install-pymod: pymod
@@ -10,4 +10,17 @@ index 8840e88..7f9166f 100644
 +	cd pymod && ARCHFLAGS="" $(PYTHON) setup.py install $(EXTRA_ARGS)
  
  clean:
- 	rm -f $(LIBRARY_LINK) $(LIBRARY) pacparser.o pactester pymod/pacparser_o_buildstamp libpacparser.a
+ 	rm -f $(LIBRARY_LINK) $(LIBRARY) pacparser.o pactester pymod/pacparser_o_buildstamp libpacparser.a pac_utils_dump
+diff --git a/tests/runtests.py b/tests/runtests.py
+index 4c55191..7e9c3cc 100644
+--- a/tests/runtests.py
++++ b/tests/runtests.py
+@@ -27,7 +27,7 @@ import sys
+ import tempfile
+ 
+ def module_path(tests_dir):
+-  py_ver = '*'.join([str(x) for x in sys.version_info[0:2]])
++  py_ver = f"{sys.version_info[0]}{sys.version_info[1]}{sys.abiflags}"
+   
+   builddir = os.path.join(tests_dir, '..', 'src', 'pymod', 'build')
+   print('Build dir: %s', builddir)

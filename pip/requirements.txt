@@ -186,7 +186,7 @@ jaraco-context==6.1.2
 # NO_AUTO_UPDATE:2: jaxlib is installed from a prebuilt wheel (see jaxlib.file).
 # 0.9.0.1 publishes no cp314 wheel, so the build picked cp312 and pip refused it
 # with "not a supported wheel on this platform". cp314 wheels start at 0.10.0.
-jax==0.11.0
+jax==0.11.1
 jaxlib==0.11.0
 jedi==0.20.0
 jeepney==0.9.0
