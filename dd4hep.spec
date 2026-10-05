@@ -1,7 +1,7 @@
-### RPM external dd4hep v01-29-00
+### RPM external dd4hep v01-37x
 ## INCLUDE compilation_flags
 
-%define tag 04bb629ddab5344c8df69070c35573f2f8095c69
+%define tag ed75e7e233b068cbe2cd5eb50a82a80da27ad99b
 %define branch master
 %define github_user AIDASoft
 %define keep_archives true
@@ -27,6 +27,7 @@ Requires: root boost geant4
 %prep
 
 %setup -n %{n}-%{realversion}
+sed -i -e 's|SET CMP0167 NEW|SET CMP0167 OLD|' CMakeLists.txt
 
 %build
 

@@ -1,0 +1,13 @@
+diff --git a/source/BVHManager.cpp b/source/BVHManager.cpp
+index a46f998..9e3b11b 100644
+--- a/source/BVHManager.cpp
++++ b/source/BVHManager.cpp
+@@ -325,7 +325,7 @@ private:
+   }
+ 
+ public:
+-  void AddUnsigned(std::uint64_t value, std::size_t bytes = sizeof(value))
++  void AddUnsigned(std::uint64_t value, std::size_t bytes = sizeof(std::uint64_t))
+   {
+     for (std::size_t i = 0; i < bytes; ++i) {
+       AddByte(static_cast<unsigned char>(value & UINT64_C(0xff)));
