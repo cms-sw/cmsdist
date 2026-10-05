@@ -45,6 +45,7 @@ Requires: hipcub
 Requires: rocprim
 Requires: rocthrust
 Requires: miopen
+Requires: migraphx
 Requires: rocrand
 Requires: rocm-comgr
 Requires: origami

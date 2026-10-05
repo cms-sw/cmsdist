@@ -1,0 +1,304 @@
+diff --git a/src/tf/CMakeLists.txt b/src/tf/CMakeLists.txt
+index 3cb070fe6..6b2614818 100644
+--- a/src/tf/CMakeLists.txt
++++ b/src/tf/CMakeLists.txt
+@@ -28,16 +28,16 @@ if(protobuf_FOUND)
+     protobuf_generate(
+         TARGET tf-proto
+         PROTOS
+-            graph.proto
+-            node_def.proto
+-            attr_value.proto
+-            tensor.proto
+-            tensor_shape.proto
+-            resource_handle.proto
+-            types.proto
+-            function.proto
+-            op_def.proto
+-            versions.proto
++            migraphx_tf_graph.proto
++            migraphx_tf_node_def.proto
++            migraphx_tf_attr_value.proto
++            migraphx_tf_tensor.proto
++            migraphx_tf_tensor_shape.proto
++            migraphx_tf_resource_handle.proto
++            migraphx_tf_types.proto
++            migraphx_tf_function.proto
++            migraphx_tf_op_def.proto
++            migraphx_tf_versions.proto
+     )
+     target_include_directories(tf-proto SYSTEM PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+     target_link_libraries(tf-proto PUBLIC protobuf::libprotobuf)
+@@ -45,16 +45,16 @@ else()
+     find_package(Protobuf REQUIRED)
+     protobuf_generate_cpp(
+         PROTO_SRCS PROTO_HDRS
+-        graph.proto
+-        node_def.proto
+-        attr_value.proto
+-        tensor.proto
+-        tensor_shape.proto
+-        resource_handle.proto
+-        types.proto
+-        function.proto
+-        op_def.proto
+-        versions.proto
++        migraphx_tf_graph.proto
++        migraphx_tf_node_def.proto
++        migraphx_tf_attr_value.proto
++        migraphx_tf_tensor.proto
++        migraphx_tf_tensor_shape.proto
++        migraphx_tf_resource_handle.proto
++        migraphx_tf_types.proto
++        migraphx_tf_function.proto
++        migraphx_tf_op_def.proto
++        migraphx_tf_versions.proto
+     )
+     add_library(tf-proto OBJECT ${PROTO_SRCS})
+     target_include_directories(tf-proto SYSTEM PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${PROTOBUF_INCLUDE_DIR})
+diff --git a/src/tf/include/migraphx/tf/tf_parser.hpp b/src/tf/include/migraphx/tf/tf_parser.hpp
+index 99510512e..d738ec7df 100644
+--- a/src/tf/include/migraphx/tf/tf_parser.hpp
++++ b/src/tf/include/migraphx/tf/tf_parser.hpp
+@@ -28,7 +28,7 @@
+ #include <migraphx/program.hpp>
+ #include <google/protobuf/text_format.h>
+ #include <google/protobuf/io/zero_copy_stream_impl.h>
+-#include <graph.pb.h>
++#include <migraphx_tf_graph.pb.h>
+ #include <unordered_map>
+ #include <functional>
+ #include <utility>
+@@ -38,7 +38,7 @@ namespace migraphx {
+ inline namespace MIGRAPHX_INLINE_NS {
+ namespace tf {
+ 
+-// namespace tf = tf_for_migraphx;
++namespace tensorflow = tensorflow_for_migraphx;
+ 
+ struct tf_parser
+ {
+diff --git a/src/tf/attr_value.proto b/src/tf/migraphx_tf_attr_value.proto
+similarity index 94%
+rename from src/tf/attr_value.proto
+rename to src/tf/migraphx_tf_attr_value.proto
+index 76944f77b..0f9c509a9 100644
+--- a/src/tf/attr_value.proto
++++ b/src/tf/migraphx_tf_attr_value.proto
+@@ -1,14 +1,14 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "AttrValueProtos";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "tensor.proto";
+-import "tensor_shape.proto";
+-import "types.proto";
++import "migraphx_tf_tensor.proto";
++import "migraphx_tf_tensor_shape.proto";
++import "migraphx_tf_types.proto";
+ 
+ // Protocol buffer representing the value for an attr used to configure an Op.
+ // Comment indicates the corresponding attr type.  Only the field matching the
+diff --git a/src/tf/function.proto b/src/tf/migraphx_tf_function.proto
+similarity index 96%
+rename from src/tf/function.proto
+rename to src/tf/migraphx_tf_function.proto
+index ce7f8d60e..f4bcb80e1 100644
+--- a/src/tf/function.proto
++++ b/src/tf/migraphx_tf_function.proto
+@@ -1,14 +1,14 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "FunctionProtos";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "attr_value.proto";
+-import "node_def.proto";
+-import "op_def.proto";
++import "migraphx_tf_attr_value.proto";
++import "migraphx_tf_node_def.proto";
++import "migraphx_tf_op_def.proto";
+ 
+ // A library is a set of named functions.
+ message FunctionDefLibrary {
+diff --git a/src/tf/graph.proto b/src/tf/migraphx_tf_graph.proto
+similarity index 93%
+rename from src/tf/graph.proto
+rename to src/tf/migraphx_tf_graph.proto
+index 14d9edfab..5b7274edd 100644
+--- a/src/tf/graph.proto
++++ b/src/tf/migraphx_tf_graph.proto
+@@ -1,14 +1,14 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "GraphProtos";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "node_def.proto";
+-import "function.proto";
+-import "versions.proto";
++import "migraphx_tf_node_def.proto";
++import "migraphx_tf_function.proto";
++import "migraphx_tf_versions.proto";
+ 
+ // Represents the graph of operations
+ message GraphDef {
+diff --git a/src/tf/node_def.proto b/src/tf/migraphx_tf_node_def.proto
+similarity index 97%
+rename from src/tf/node_def.proto
+rename to src/tf/migraphx_tf_node_def.proto
+index a79c0acd7..453c95919 100644
+--- a/src/tf/node_def.proto
++++ b/src/tf/migraphx_tf_node_def.proto
+@@ -1,12 +1,12 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "NodeProto";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "attr_value.proto";
++import "migraphx_tf_attr_value.proto";
+ 
+ message NodeDef {
+   // The name given to this operator. Used for naming inputs,
+diff --git a/src/tf/op_def.proto b/src/tf/migraphx_tf_op_def.proto
+similarity index 98%
+rename from src/tf/op_def.proto
+rename to src/tf/migraphx_tf_op_def.proto
+index 86bea899a..84ebcdda4 100644
+--- a/src/tf/op_def.proto
++++ b/src/tf/migraphx_tf_op_def.proto
+@@ -1,13 +1,13 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "OpDefProtos";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "attr_value.proto";
+-import "types.proto";
++import "migraphx_tf_attr_value.proto";
++import "migraphx_tf_types.proto";
+ 
+ // Defines an operation. A NodeDef in a GraphDef specifies an Op by
+ // using the "op" field which should match the name of a OpDef.
+diff --git a/src/tf/resource_handle.proto b/src/tf/migraphx_tf_resource_handle.proto
+similarity index 96%
+rename from src/tf/resource_handle.proto
+rename to src/tf/migraphx_tf_resource_handle.proto
+index a54d3d906..29717c3bd 100644
+--- a/src/tf/resource_handle.proto
++++ b/src/tf/migraphx_tf_resource_handle.proto
+@@ -1,6 +1,6 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "ResourceHandle";
+ option java_multiple_files = true;
+diff --git a/src/tf/tensor.proto b/src/tf/migraphx_tf_tensor.proto
+similarity index 95%
+rename from src/tf/tensor.proto
+rename to src/tf/migraphx_tf_tensor.proto
+index 5d4d66aed..16ad4ecc9 100644
+--- a/src/tf/tensor.proto
++++ b/src/tf/migraphx_tf_tensor.proto
+@@ -1,14 +1,14 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "TensorProtos";
+ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+-import "resource_handle.proto";
+-import "tensor_shape.proto";
+-import "types.proto";
++import "migraphx_tf_resource_handle.proto";
++import "migraphx_tf_tensor_shape.proto";
++import "migraphx_tf_types.proto";
+ 
+ // Protocol buffer representing a tensor.
+ message TensorProto {
+diff --git a/src/tf/tensor_shape.proto b/src/tf/migraphx_tf_tensor_shape.proto
+similarity index 98%
+rename from src/tf/tensor_shape.proto
+rename to src/tf/migraphx_tf_tensor_shape.proto
+index 286156a01..6067be1a0 100644
+--- a/src/tf/tensor_shape.proto
++++ b/src/tf/migraphx_tf_tensor_shape.proto
+@@ -7,7 +7,7 @@ option java_multiple_files = true;
+ option java_package = "org.tensorflow.framework";
+ option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ 
+ // Dimensions of a tensor.
+ message TensorShapeProto {
+diff --git a/src/tf/types.proto b/src/tf/migraphx_tf_types.proto
+similarity index 98%
+rename from src/tf/types.proto
+rename to src/tf/migraphx_tf_types.proto
+index 03835d1b9..a341bada7 100644
+--- a/src/tf/types.proto
++++ b/src/tf/migraphx_tf_types.proto
+@@ -1,6 +1,6 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "TypesProtos";
+ option java_multiple_files = true;
+diff --git a/src/tf/versions.proto b/src/tf/migraphx_tf_versions.proto
+similarity index 96%
+rename from src/tf/versions.proto
+rename to src/tf/migraphx_tf_versions.proto
+index dd2ec5523..63f620a15 100644
+--- a/src/tf/versions.proto
++++ b/src/tf/migraphx_tf_versions.proto
+@@ -1,6 +1,6 @@
+ syntax = "proto3";
+ 
+-package tensorflow;
++package tensorflow_for_migraphx;
+ option cc_enable_arenas = true;
+ option java_outer_classname = "VersionsProtos";
+ option java_multiple_files = true;
+diff --git a/src/tf/tf_parser.cpp b/src/tf/tf_parser.cpp
+index cec70bf60..37d366f5c 100644
+--- a/src/tf/tf_parser.cpp
++++ b/src/tf/tf_parser.cpp
+@@ -23,7 +23,7 @@
+  */
+ #include <google/protobuf/text_format.h>
+ #include <google/protobuf/io/zero_copy_stream_impl.h>
+-#include <graph.pb.h>
++#include <migraphx_tf_graph.pb.h>
+ #include <iostream>
+ #include <fstream>
+ #include <unordered_map>
