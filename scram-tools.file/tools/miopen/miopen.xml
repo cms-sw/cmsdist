@@ -1,6 +1,7 @@
-<tool revision="1">
+<tool revision="2">
   <client>
     <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
     <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
   </client>
+  <runtime name="MIOPEN_DISABLE_CACHE" value="1"/>
 </tool>
