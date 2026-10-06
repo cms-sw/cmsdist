@@ -69,3 +69,6 @@ cmake --build %{_builddir}/build --parallel %{compiling_processes} --verbose
 
 %install
 cmake --install %{_builddir}/build --verbose
+
+%post
+%{relocateConfig}lib/cmake/migraphx/migraphx-targets.cmake
