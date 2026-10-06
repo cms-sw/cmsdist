@@ -7,6 +7,10 @@ Patch0: madgraph5amcatnlo-config
 Patch1: madgraph5amcatnlo-py39
 #Python 3.12: use of deprecated distutils
 Patch2: madgraph5amcatnlo-py312
+#Python 3.14:
+#   Fix SyntaxWarning.*invalid escape sequence
+#   Python 3.13+ no longer allows exec() to reliably modify the local namespace of an optimized function
+Patch3: madgraph5amcatnlo-py314
 
 Requires: python3 py3-six
 Requires: hepmc
@@ -25,6 +29,7 @@ Requires: collier
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 sed -i -e "s|\${HEPMC_ROOT}|${HEPMC_ROOT}|g" input/mg5_configuration.txt
 sed -i -e "s|\${PYTHIA8_ROOT}|${PYTHIA8_ROOT}|g" input/mg5_configuration.txt
