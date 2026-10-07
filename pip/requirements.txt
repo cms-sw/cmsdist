@@ -137,7 +137,7 @@ funcsigs==1.0.2
 future==1.0.0
 gast==0.7.0
 gitdb==4.0.12
-GitPython==3.1.61
+GitPython==3.2.0
 google-auth==2.57.0
 google-auth-oauthlib==1.4.1
 google-pasta==0.2.0
@@ -209,7 +209,7 @@ jupyter-server==2.21.0
 jupyterlab-server==2.28.0
 jupyter-server-mathjax==0.2.6
 jupyter-server-terminals==0.5.4
-jupyterlab==4.6.3
+jupyterlab==4.6.4
 jupyterlab-widgets==3.0.17
 kaleido==1.4.0
 keras==3.15.1
@@ -283,7 +283,7 @@ orjson==3.12.0
 onnx==1.22.0
 onnxmltools==1.16.0
 onnxconverter-common==1.16.0
-oauthlib==3.3.1
+oauthlib==4.0.0
 optree==0.20.0
 opt-einsum==3.4.0
 overrides==7.7.0
@@ -344,7 +344,7 @@ pyflakes==3.4.0
 pyg-lib==0.7.0
 pyg-lib-cuda==0.7.0
 Pygments==2.21.0
-PyJWT==2.13.0
+PyJWT==2.15.1
 pylint==4.0.8
 pymongo==4.17.0
 pyparsing==3.3.2
@@ -466,7 +466,7 @@ torch-sparse==0.6.18
 torch-sparse-cuda==0.6.18
 torch-sparse-rocm==0.6.18.post6
 torchvision==0.28.0
-tornado==6.5.8
+tornado==6.5.10
 tqdm==4.70.0
 traitlets==5.16.1
 triton==3.8.0
@@ -482,13 +482,13 @@ tzdata==2026.3
 uhi==1.1.1
 uncertainties==3.2.3
 uproot==5.7.6
-urllib3==2.7.0
+urllib3==2.8.0
 uv-build==0.12.8
 vcs-versioning==2.3.1
 vector==1.8.1
 versioneer==0.29
 virtualenv-clone==0.5.7
-virtualenv==21.7.7
+virtualenv==21.14.5
 virtualenvwrapper==6.1.1
 wcwidth==0.8.3
 webdataset==1.0.2
