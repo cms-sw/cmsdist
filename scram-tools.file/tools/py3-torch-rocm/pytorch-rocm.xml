@@ -1,4 +1,4 @@
-<tool revision="3">
+<tool revision="4">
   <client>
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     <environment name="INCLUDE" default="$TOOL_BASE/include/torch/csrc/api/include"/>
@@ -10,6 +10,11 @@
   <runtime name="PYTHON3PATH" value="$PYTHONDIR" type="path"/>
   <use name="pytorch"/>
   <use name="rocm"/>
+  <use name="hipblas-common"/>
+  <use name="hipblas"/>
+  <use name="hipblaslt"/>
+  <use name="hipsolver"/>
+  <use name="hipsparse"/>
   <lib name="torch_hip"/>
   <lib name="c10_hip"/>
 </tool>
