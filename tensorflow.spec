@@ -17,7 +17,7 @@ Source: none
 %install
 mkdir %{i}/lib %{i}/xla-aot-runtime
 rm -rf tensorflow-%{realversion}
-wheel unpack ${%{tf_root}}/tensorflow-%{realversion}*-cp%{cms_python3_major_minor}-cp%{cms_python3_major_minor}-linux_%{_arch}.whl
+wheel unpack ${%{tf_root}}/tensorflow-%{realversion}*.whl
 mv tensorflow-%{realversion}/tensorflow/include %{i}/include
 for l in libtensorflow_cc.so  libtensorflow_framework.so ; do
   mv tensorflow-%{realversion}/tensorflow/${l}.%{tf_major} %{i}/lib

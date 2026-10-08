@@ -1,4 +1,4 @@
-### RPM external pacparser 1.5.0
+### RPM external pacparser 1.5.2
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 Source: https://github.com/manugarg/pacparser/archive/refs/tags/v%{realversion}.tar.gz
 Patch0: patches/pacparser-pymod-install

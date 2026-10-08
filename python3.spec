@@ -4,7 +4,7 @@
 ## INITENV SETV PYTHON3_LIB_SITE_PACKAGES lib/python%{pythonv}/site-packages
 ## INITENV SETV PYTHON3HASHSEED random
 # OS X patches and build fudging stolen from fink
-%define pythonv %(echo %realversion | cut -d. -f 1,2)
+%define pythonv %(echo %realversion | cut -d. -f 1,2)%{python_abiflag}
 %define python_major %(echo %realversion | cut -d. -f 1)
 Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
 BuildRequires: gmake
@@ -38,6 +38,9 @@ done
   --with-system-ffi \
   --without-ensurepip \
   --with-system-expat \
+%if 0%{?cms_python_disable_gil:1}
+  --disable-gil \
+%endif
   LDFLAGS="$LDFLAGS" \
   CPPFLAGS="$CPPFLAGS"
 
@@ -50,7 +53,7 @@ sed -i -e 's|^#!/.*|#!/usr/bin/env python%{pythonv}m|' %{i}/lib/python*/config-*
 
 # is executable, but does not start with she-bang so not valid
 # executable; this avoids problems with rpm 4.8+ find-requires
-find %i -name '*.py' -perm +0111 | while read f; do
+find %i -name '*.py' -perm /0111 | while read f; do
   if head -n1 $f | grep -q '"'; then chmod -x $f; else :; fi
 done
 
