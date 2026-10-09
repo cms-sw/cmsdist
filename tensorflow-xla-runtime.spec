@@ -1,10 +1,11 @@
-### RPM external tensorflow-xla-runtime 2.21.0
+## INCLUDE tensorflow/version
+### RPM external tensorflow-xla-runtime %{tf_version}
 ## INCLUDE cpp-standard
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
 
 Source99: scram-tools.file/tools/eigen/env
-Patch0: tensorflow-xla-runtime-absl
+Patch0: patches/tensorflow-xla-runtime-absl
 Requires: eigen abseil-cpp tensorflow
 BuildRequires: cmake
 
