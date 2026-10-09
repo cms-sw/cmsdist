@@ -1,8 +1,14 @@
+# Common settings 
+%define branch      cms/v%{realversion}
+%define github_user cms-externals
+%define build_type opt
+%define pythonOnly no
+
 ##Tensorflow Common build files
 BuildRequires: bazel java-env
 #Keep all requires in separate file, so that can be included in py-tensorflow too
 ## INCLUDE cpp-standard
-## INCLUDE tensorflow-requires
+## INCLUDE tensorflow/tensorflow-requires
 ## INCLUDE compilation_flags
 ## INCLUDE microarch_flags
 
@@ -19,15 +25,22 @@ BuildRequires: bazel java-env
 %define cms_cxx_standard 20
 %endif
 
-Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Source0: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
 # Add a trailing unreachable statement after the fully-covered switch in
 # xla::cpu::EncodedBufferAllocationInfo::operator BufferAllocationInfo() so that
 # gcc does not fail the header with -Werror=return-type when it is included by
 # downstream CMSSW code (e.g. PhysicsTools/TensorFlowAOT).
-Patch0: tensorflow-tf2xla-return-type
+Patch0: patches/tensorflow-tf2xla-return-type
 
+%define repo_cache %{cmsroot}/tensorflow-repository_cache
 %if "%{?build_type:set}" != "set"
 %define build_type opt
+%endif
+%if "%{?fetch_externals:set}" != "set"
+%define fetch_externals no
+%endif
+%if "%{fetch_externals}" == "yes"
+Source99: https://foo.bar/tensorflow/%{realversion}-%{_arch}?cmsdist-generated=1&cmsdist-expanded-source=1&src=%{branch}/%{tag}&output=/%{fetch_externals_file}
 %endif
 %if "%{?tfversion:set}" != "set"
 %define tfversion %{realversion}
@@ -107,6 +120,7 @@ BAZEL_OPTS="$BAZEL_OPTS --define=zendnn=true --define=build_with_mkl_dnn_only=fa
 %ifarch ppc64le
 BAZEL_OPTS="$BAZEL_OPTS --define tflite_with_xnnpack=false"
 %endif
+BAZEL_OPTS="$BAZEL_OPTS --repository_cache=%{repo_cache}"
 
 %if %{enable_gpu}
 export GCC_HOST_COMPILER_PREFIX=${GCC_ROOT}/bin
@@ -203,29 +217,41 @@ fi
 export PYTHONPATH=$PYTHON3PATH
 
 ./configure
-# build numpy first to fix the pypi_numpy repo
-bazel $BAZEL_OPTS //third_party/py/numpy
-build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
-ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
-
-
-# build tensorflow python targets
-bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
-
-%install
-
-%ifarch x86_64
-%define bazel_dir k8-%{build_type}
+mkdir -p %{repo_cache}
+%if "%{fetch_externals}" == "yes"
+  %fetch_bazel_sources
 %else
-%define bazel_dir %{_arch}-%{build_type}
+  # build numpy first to fix the pypi_numpy repo
+  bazel $BAZEL_OPTS //third_party/py/numpy
+  build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
+  ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
+
+  # build tensorflow python targets
+  bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 %endif
 
-mkdir %{i}/lib-xla-runtime
-find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
-find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
-# TF 2.21 dropped nsync and the standalone TSL mutex lib in favour of abseil
-# synchronisation, so libmutex.pic.a / libnsync_cpp.pic.a no longer exist (and
-# local_tsl was renamed to tsl). Only the ducc FFT runtime libs remain here.
-for lib in libfft.pic.a libfft_wrapper.pic.a ; do
-  test -e %{i}/lib-xla-runtime/${lib}
-done
+%install
+%if "%{fetch_externals}" == "yes"
+  %prepare_upload_sources
+%else
+  %ifarch x86_64
+  %define bazel_dir k8-%{build_type}
+  %else
+  %define bazel_dir %{_arch}-%{build_type}
+  %endif
+
+  mkdir %{i}/lib-xla-runtime
+  find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
+  find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+  # TF 2.21 dropped nsync and the standalone TSL mutex lib in favour of abseil
+  # synchronisation, so libmutex.pic.a / libnsync_cpp.pic.a no longer exist (and
+  # local_tsl was renamed to tsl). Only the ducc FFT runtime libs remain here.
+  for lib in libfft.pic.a libfft_wrapper.pic.a ; do
+    test -e %{i}/lib-xla-runtime/${lib}
+  done
+%endif
+
+%post
+%if "%{fetch_externals}" == "yes"
+  %fetch_cached_sources ${RPM_INSTALL_PREFIX}  
+%endif
