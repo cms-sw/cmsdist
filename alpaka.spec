@@ -1,4 +1,4 @@
-### RPM external alpaka 2.1.1
+### RPM external alpaka 2.2.0
 ## NOCOMPILER
 
 %define git_commit %{realversion}
