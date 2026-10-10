@@ -40,7 +40,7 @@ Patch0: patches/tensorflow-tf2xla-return-type
 %define fetch_externals no
 %endif
 %if "%{fetch_externals}" == "yes"
-Source99: https://foo.bar/tensorflow/%{realversion}-%{_arch}?cmsdist-generated=1&cmsdist-expanded-source=1&src=%{branch}/%{tag}&output=/%{fetch_externals_file}
+Source99: https://cmsrep.cern.ch/download/tensorflow/%{realversion}-%{_arch}?cmsdist-generated=1&cmsdist-expanded-source=1&src=%{branch}/%{tag}&output=/%{fetch_externals_file}
 %endif
 %if "%{?tfversion:set}" != "set"
 %define tfversion %{realversion}
