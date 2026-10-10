@@ -1,16 +1,15 @@
 diff --git a/onnxruntime/core/mlas/lib/platform.cpp b/onnxruntime/core/mlas/lib/platform.cpp
-index 191ee1ab2f..c958e7148a 100644
 --- a/onnxruntime/core/mlas/lib/platform.cpp
 +++ b/onnxruntime/core/mlas/lib/platform.cpp
-@@ -30,6 +30,7 @@ Abstract:
+@@ -30,6 +30,7 @@
  #include <cctype>
  #include <cstdlib>
  #include <mutex>
 +#include <string>
  #include <thread>
  
- #if defined(MLAS_TARGET_POWER)
-@@ -436,8 +437,11 @@ Return Value:
+ #if defined(MLAS_TARGET_RISCV64) && defined(MLAS_USE_RVV) && defined(__linux__)
+@@ -497,8 +498,11 @@
          //
  
          uint64_t xcr0 = MlasReadExtendedControlRegister(_XCR_XFEATURE_ENABLED_MASK);
@@ -23,7 +22,7 @@ index 191ee1ab2f..c958e7148a 100644
  
              this->GemmFloatKernel = MlasGemmFloatKernelAvx;
  
-@@ -471,7 +475,7 @@ Return Value:
+@@ -532,7 +536,7 @@
              __cpuid_count(7, 0, Cpuid7[0], Cpuid7[1], Cpuid7[2], Cpuid7[3]);
  #endif
  
@@ -33,15 +32,23 @@ index 191ee1ab2f..c958e7148a 100644
                  this->Avx2Supported_ = true;
  
 diff --git a/onnxruntime/core/providers/cpu/tensor/scatter.cc b/onnxruntime/core/providers/cpu/tensor/scatter.cc
-index c7a2005924..c938ca9bf0 100644
 --- a/onnxruntime/core/providers/cpu/tensor/scatter.cc
 +++ b/onnxruntime/core/providers/cpu/tensor/scatter.cc
-@@ -326,7 +326,7 @@ Status ScatterData(
-   // and so on
-   std::vector<int64_t> dim_block_size(num_dims);
+@@ -338,7 +338,7 @@
  
--  dim_block_size.back() = 1;
-+  dim_block_size[num_dims-1] = 1;
+   // Compute strides for the input/output tensor
+   std::vector<int64_t> input_strides(num_dims);
+-  input_strides.back() = 1;
++  input_strides[num_dims - 1] = 1;
    if (num_dims > 1) {
-     // We start at num_dims - 2 because we already pre-populated
-     // the last element above
+     for (auto i = int64_t(num_dims - 2); i >= 0; --i) {
+       input_strides[narrow<size_t>(i)] = input_data_shape[SafeInt<size_t>(i) + 1] * input_strides[SafeInt<size_t>(i) + 1];
+@@ -347,7 +347,7 @@
+ 
+   // Compute strides for the updates/indices tensor
+   std::vector<int64_t> upd_strides(num_dims);
+-  upd_strides.back() = 1;
++  upd_strides[num_dims - 1] = 1;
+   if (num_dims > 1) {
+     for (auto i = int64_t(num_dims - 2); i >= 0; --i) {
+       upd_strides[narrow<size_t>(i)] = upd_shape[SafeInt<size_t>(i) + 1] * upd_strides[SafeInt<size_t>(i) + 1];

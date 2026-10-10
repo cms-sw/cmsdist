@@ -1,0 +1,217 @@
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_execution_provider.cc b/onnxruntime/core/providers/migraphx/migraphx_execution_provider.cc
+index 8908013a52..ac0665756a 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_execution_provider.cc
++++ b/onnxruntime/core/providers/migraphx/migraphx_execution_provider.cc
+@@ -162,6 +162,19 @@ MIGraphXExecutionProvider::MIGraphXExecutionProvider(const MIGraphXExecutionProv
+   HIP_CALL_THROW(hipSetDevice(device_id_));
+   HIP_CALL_THROW(hipGetDeviceProperties(&device_prop_, device_id_));
+ 
++  // Use the HIP stream provided by the user, if any, instead of creating new streams.
++  if (info.has_user_compute_stream) {
++    external_stream_ = true;
++    stream_ = static_cast<hipStream_t>(info.user_compute_stream);
++
++    // The user stream must belong to the device used by the execution provider.
++    hipDevice_t stream_device{};
++    HIP_CALL_THROW(hipStreamGetDevice(stream_, &stream_device));
++    ORT_ENFORCE(stream_device == device_id_,
++                "MIGraphX: the user compute stream belongs to device ", stream_device,
++                ", while the execution provider uses device ", device_id_);
++  }
++
+   // Overwrite initialized values with values from environment variables.
+ 
+   LOGS_DEFAULT(WARNING) << "[MIGraphX EP] MIGraphX ENV Override Variables Set:";
+@@ -1622,7 +1635,7 @@ Status MIGraphXExecutionProvider::Compile(const std::vector<FusedNodeAndGraph>&
+ void MIGraphXExecutionProvider::RegisterStreamHandlers(IStreamCommandHandleRegistry& stream_handle_registry,
+                                                        AllocatorMap& allocators) const {
+   auto allocator = allocators[GetOrtDeviceByMemType(OrtMemTypeCPU)];
+-  RegisterMIGraphXStreamHandles(stream_handle_registry, OrtDevice::GPU, allocator, true, stream_, false /*TODO:external_stream_*/);
++  RegisterMIGraphXStreamHandles(stream_handle_registry, OrtDevice::GPU, allocator, true, stream_, external_stream_);
+ }
+ 
+ OrtDevice MIGraphXExecutionProvider::GetOrtDeviceByMemType(OrtMemType mem_type) const {
+@@ -1635,6 +1648,13 @@ OrtDevice MIGraphXExecutionProvider::GetOrtDeviceByMemType(OrtMemType mem_type)
+ }
+ 
+ Status MIGraphXExecutionProvider::Sync() const {
++  if (external_stream_) {
++    // The work is submitted to the user stream, which is not synchronised with the null stream if it was created
++    // with the hipStreamNonBlocking flag.
++    HIP_RETURN_IF_ERROR(hipStreamSynchronize(stream_));
++    return Status::OK();
++  }
++
+   HIP_CALL_THROW(hipStreamSynchronize(static_cast<hipStream_t>(nullptr)));
+ 
+   auto status = hipStreamQuery(stream_);
+@@ -1648,7 +1668,16 @@ Status MIGraphXExecutionProvider::OnRunStart(const onnxruntime::RunOptions& /*ru
+   return Status::OK();
+ }
+ 
+-Status MIGraphXExecutionProvider::OnRunEnd(bool /*sync_stream*/, const onnxruntime::RunOptions& /*run_options*/) {
++Status MIGraphXExecutionProvider::OnRunEnd(bool sync_stream, const onnxruntime::RunOptions& /*run_options*/) {
++  if (external_stream_) {
++    // Synchronise the user stream only if requested: the user may want to keep submitting work to it
++    // asynchronously, e.g. by setting the "disable_synchronize_execution_providers" run option.
++    if (sync_stream) {
++      HIP_RETURN_IF_ERROR(hipStreamSynchronize(stream_));
++    }
++    return Status::OK();
++  }
++
+   auto status = hipStreamQuery(stream_);
+ 
+   if (status != hipSuccess) {
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_execution_provider.h b/onnxruntime/core/providers/migraphx/migraphx_execution_provider.h
+index 99f790b9f9..2600b7c6ef 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_execution_provider.h
++++ b/onnxruntime/core/providers/migraphx/migraphx_execution_provider.h
+@@ -103,7 +103,9 @@ class MIGraphXExecutionProvider : public IExecutionProvider {
+         {std::string{migraphx_provider_option::kGpuExternalAlloc}, MakeStringWithClassicLocale(external_alloc_)},
+         {std::string{migraphx_provider_option::kGpuExternalFree}, MakeStringWithClassicLocale(external_free_)},
+         {std::string{migraphx_provider_option::kGpuExternalEmptyCache}, MakeStringWithClassicLocale(external_empty_cache_)},
+-        {std::string{migraphx_provider_option::kModelCacheDir}, MakeStringWithClassicLocale(model_cache_path_)}};
++        {std::string{migraphx_provider_option::kModelCacheDir}, MakeStringWithClassicLocale(model_cache_path_)},
++        {std::string{migraphx_provider_option::kHasUserComputeStream}, MakeStringWithClassicLocale(external_stream_)},
++        {std::string{migraphx_provider_option::kUserComputeStream}, MakeStringWithClassicLocale(reinterpret_cast<std::uintptr_t>(external_stream_ ? stream_ : nullptr))}};
+   }
+ 
+  private:
+@@ -123,6 +125,7 @@ class MIGraphXExecutionProvider : public IExecutionProvider {
+   migraphx::target t_;
+   std::mutex mgx_mu_;
+   hipStream_t stream_ = nullptr;
++  bool external_stream_ = false;
+   hipDeviceProp_t device_prop_{};
+   bool exhaustive_tune_ = false;
+   mutable std::filesystem::path model_path_{};
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.cc b/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.cc
+index 33ef366eb1..dfab148a10 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.cc
++++ b/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.cc
+@@ -57,6 +57,14 @@ MIGraphXExecutionProviderInfo::MIGraphXExecutionProviderInfo(const ProviderOptio
+                 external_empty_cache = reinterpret_cast<void*>(address);
+                 return Status::OK();
+               })
++          .AddValueParser(
++              migraphx_provider_option::kUserComputeStream,
++              [this](const std::string& value_str) -> Status {
++                std::uintptr_t address;
++                ORT_RETURN_IF_ERROR(ParseStringWithClassicLocale(value_str, address));
++                user_compute_stream = reinterpret_cast<void*>(address);
++                return Status::OK();
++              })
+           .AddValueParser(
+               migraphx_provider_option::kModelCacheDir,
+               [this](const std::string& value_str) -> Status {
+@@ -72,7 +80,11 @@ MIGraphXExecutionProviderInfo::MIGraphXExecutionProviderInfo(const ProviderOptio
+           .AddAssignmentToReference(migraphx_provider_option::kExhaustiveTune, exhaustive_tune)
+           .AddAssignmentToReference(migraphx_provider_option::kMemLimit, mem_limit)
+           .AddAssignmentToEnumReference(migraphx_provider_option::kArenaExtendStrategy, arena_extend_strategy_mapping, arena_extend_strategy)
++          .AddAssignmentToReference(migraphx_provider_option::kHasUserComputeStream, has_user_compute_stream)
+           .Parse(options));
++
++  // a user compute stream is used if and only if one is provided, like in the CUDA execution provider
++  has_user_compute_stream = (user_compute_stream != nullptr);
+ }
+ 
+ MIGraphXExecutionProviderInfo::MIGraphXExecutionProviderInfo(const OrtMIGraphXProviderOptions& options) noexcept
+@@ -101,6 +113,8 @@ ProviderOptions MIGraphXExecutionProviderInfo::ToProviderOptions() const {
+       {std::string{migraphx_provider_option::kGpuExternalFree}, MakeStringWithClassicLocale(external_free)},
+       {std::string{migraphx_provider_option::kGpuExternalEmptyCache}, MakeStringWithClassicLocale(external_empty_cache)},
+       {std::string{migraphx_provider_option::kModelCacheDir}, MakeStringWithClassicLocale(model_cache_dir)},
++      {std::string{migraphx_provider_option::kHasUserComputeStream}, MakeStringWithClassicLocale(has_user_compute_stream)},
++      {std::string{migraphx_provider_option::kUserComputeStream}, MakeStringWithClassicLocale(reinterpret_cast<std::uintptr_t>(user_compute_stream))},
+   };
+ }
+ 
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.h b/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.h
+index 414254aaa2..a6074f4d0a 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.h
++++ b/onnxruntime/core/providers/migraphx/migraphx_execution_provider_info.h
+@@ -34,6 +34,8 @@ constexpr auto kGpuExternalAlloc = "migraphx_external_alloc"sv;
+ constexpr auto kGpuExternalFree = "migraphx_external_free"sv;
+ constexpr auto kGpuExternalEmptyCache = "migraphx_external_empty_cache"sv;
+ constexpr auto kModelCacheDir = "migraphx_model_cache_dir"sv;
++constexpr auto kHasUserComputeStream = "has_user_compute_stream"sv;
++constexpr auto kUserComputeStream = "user_compute_stream"sv;
+ }  // namespace migraphx_provider_option
+ 
+ extern const EnumNameMapping<ArenaExtendStrategy> arena_extend_strategy_mapping;
+@@ -60,6 +62,11 @@ struct MIGraphXExecutionProviderInfo {
+   void* external_free{nullptr};
+   void* external_empty_cache{nullptr};
+ 
++  // HIP stream provided by the user, used by the execution provider instead of creating its own streams.
++  // The stream is not owned by the execution provider, and must remain valid for the lifetime of the session.
++  bool has_user_compute_stream{false};
++  void* user_compute_stream{nullptr};
++
+   bool UseExternalAlloc() const {
+     return external_alloc != nullptr && external_free != nullptr;
+   }
+@@ -85,7 +92,8 @@ struct std::hash<::onnxruntime::MIGraphXExecutionProviderInfo> {
+                   (static_cast<size_t>(info.int8_enable) << 19) ^
+                   (static_cast<size_t>(info.int8_use_native_calibration_table) << 20) ^
+                   (static_cast<size_t>(info.exhaustive_tune) << 21) ^
+-                  (static_cast<size_t>(info.bf16_enable) << 22);
++                  (static_cast<size_t>(info.bf16_enable) << 22) ^
++                  (static_cast<size_t>(info.has_user_compute_stream) << 23);
+ 
+     onnxruntime::HashCombine(data, value);
+ 
+@@ -99,6 +107,7 @@ struct std::hash<::onnxruntime::MIGraphXExecutionProviderInfo> {
+     onnxruntime::HashCombine(reinterpret_cast<size_t>(info.external_alloc), value);
+     onnxruntime::HashCombine(reinterpret_cast<size_t>(info.external_free), value);
+     onnxruntime::HashCombine(reinterpret_cast<size_t>(info.external_empty_cache), value);
++    onnxruntime::HashCombine(reinterpret_cast<size_t>(info.user_compute_stream), value);
+ 
+     // The default memory arena cfg is not used in hashing right now.
+     return value;
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_stream_handle.cc b/onnxruntime/core/providers/migraphx/migraphx_stream_handle.cc
+index f95a9f755a..e7f44b27db 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_stream_handle.cc
++++ b/onnxruntime/core/providers/migraphx/migraphx_stream_handle.cc
+@@ -48,8 +48,10 @@ struct MIGraphXNotification : synchronize::Notification {
+ MIGraphXStream::MIGraphXStream(hipStream_t stream,
+                                const OrtDevice& device,
+                                AllocatorPtr cpu_allocator,
+-                               bool release_cpu_buffer_on_migraphx_stream)
++                               bool release_cpu_buffer_on_migraphx_stream,
++                               bool own_flag)
+     : Stream(stream, device),
++      own_stream_(own_flag),
+       cpu_allocator_(std::move(cpu_allocator)),
+       release_cpu_buffer_on_migraphx_stream_(release_cpu_buffer_on_migraphx_stream) {
+ }
+@@ -169,9 +171,14 @@ void RegisterMIGraphXStreamHandles(IStreamCommandHandleRegistry& stream_handle_r
+     stream_handle_registry.RegisterCreateStreamFn(device_type, [cpu_allocator,
+                                                                 release_cpu_buffer_on_migraphx_stream,
+                                                                 external_stream](const OrtDevice& device) {
+-      return std::make_unique<MIGraphXStream>(external_stream, device, cpu_allocator, release_cpu_buffer_on_migraphx_stream);
++      HIP_CALL_THROW(hipSetDevice(device.Id()));
++      // the external stream is owned by the user: it must not be destroyed or synchronised by the MIGraphXStream
++      return std::make_unique<MIGraphXStream>(external_stream, device, cpu_allocator, release_cpu_buffer_on_migraphx_stream, false);
+     });
+   }
++  // select the device of the stream on every thread that executes the session, not only on the thread that created
++  // the execution provider or the stream
++  stream_handle_registry.RegisterSetDeviceFn(device_type, [](OrtDevice::DeviceId id) { HIP_CALL_THROW(hipSetDevice(id)); });
+ }
+ 
+ }  // namespace onnxruntime
+diff --git a/onnxruntime/core/providers/migraphx/migraphx_stream_handle.h b/onnxruntime/core/providers/migraphx/migraphx_stream_handle.h
+index 132ae5fc09..1457a78a02 100644
+--- a/onnxruntime/core/providers/migraphx/migraphx_stream_handle.h
++++ b/onnxruntime/core/providers/migraphx/migraphx_stream_handle.h
+@@ -16,7 +16,8 @@ struct MIGraphXStream : Stream {
+   MIGraphXStream(hipStream_t stream,
+                  const OrtDevice& device,
+                  AllocatorPtr cpu_allocator,
+-                 bool release_cpu_buffer_on_migraphx_stream);
++                 bool release_cpu_buffer_on_migraphx_stream,
++                 bool own_flag = true);
+ 
+   ~MIGraphXStream() override;
+ 
