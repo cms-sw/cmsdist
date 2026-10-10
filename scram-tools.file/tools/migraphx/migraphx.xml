@@ -1,7 +1,9 @@
-<tool revision="2">
+<tool revision="1">
   <client>
     <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
     <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
   </client>
-  <runtime name="MIOPEN_DISABLE_CACHE" value="1"/>
+  <use name="rocm-hip"/>
+  <use name="rocblas"/>
+  <use name="miopen"/>
 </tool>
