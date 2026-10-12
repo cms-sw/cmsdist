@@ -1,12 +1,17 @@
-<tool revision="3">
+<tool revision="4">
   <lib name="onnxruntime"/>
   <client>
     <environment name="INCLUDE" default="$TOOL_BASE/include"/>
     <environment name="LIBDIR" default="$TOOL_BASE/lib"/>
   </client>
   <use name="protobuf"/>
+%if 0%{!?without_cuda:1}
   <use name="cuda"/>
   <use name="cudnn"/>
+%endif
+%if 0%{!?without_rocm:1}
+  <use name="migraphx"/>
+%endif
   <use name="re2"/>
   <runtime name="MLAS_DYNAMIC_CPU_ARCH" value="2"/>
 </tool>
