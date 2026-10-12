@@ -1,4 +1,4 @@
-### RPM external isal 2.30.0
+### RPM external isal 2.32.1
 
 %define strip_files %i/lib
 %define tag %{realversion}
