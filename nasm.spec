@@ -1,4 +1,4 @@
-### RPM external nasm 3.01
+### RPM external nasm 3.02
 Source: https://www.nasm.us/pub/nasm/releasebuilds/%{realversion}/%{n}-%{realversion}.tar.gz
 BuildRequires: gmake
 
