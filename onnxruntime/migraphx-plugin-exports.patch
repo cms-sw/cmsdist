@@ -1,0 +1,14 @@
+diff --git a/onnxruntime/core/providers/migraphx/version_script.lds b/onnxruntime/core/providers/migraphx/version_script.lds
+--- a/onnxruntime/core/providers/migraphx/version_script.lds
++++ b/onnxruntime/core/providers/migraphx/version_script.lds
+@@ -1,7 +1,9 @@
+ #_init and _fini should be local
+ VERS_1.0 {
+   global:
+-    GetProvider;    
++    GetProvider;
++    CreateEpFactories;
++    ReleaseEpFactory;
+ 
+   # Hide everything else.
+   local:
