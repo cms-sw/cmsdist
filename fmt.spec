@@ -1,5 +1,6 @@
-### RPM external fmt 10.2.1
+### RPM external fmt 12.2.0
 ## INCLUDE compilation_flags
+%define keep_archives true
 Source: https://github.com/fmtlib/fmt/archive/%{realversion}.tar.gz
 BuildRequires: gmake cmake
 

@@ -10,9 +10,8 @@ cmake \
   -S %{_builddir}/%{n}-%{rocm_version} \
   -B %{_builddir}/build \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
-  -DCMAKE_INSTALL_PREFIX=%{i} \
-  -DROCM_VERSION=%{rocm_version_num}
+  -DCMAKE_INSTALL_PREFIX=%{i}
 
-cmake --build %{_builddir}/build --parallel %{makeprocesses} --verbose
+cmake --build %{_builddir}/build --parallel %{compiling_processes} --verbose
 %install
-cmake --install %{_builddir}/build %{makeprocesses} --verbose
+cmake --install %{_builddir}/build --parallel %{compiling_processes} --verbose
