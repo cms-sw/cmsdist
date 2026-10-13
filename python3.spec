@@ -6,7 +6,7 @@
 # OS X patches and build fudging stolen from fink
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 %define python_major %(echo %realversion | cut -d. -f 1)
-Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid
+Requires: expat bz2lib db6 gdbm libffi zlib sqlite xz libuuid zstd
 BuildRequires: gmake
 
 Source: https://www.python.org/ftp/python/%realversion/Python-%realversion.tgz
@@ -25,7 +25,7 @@ export LIBFFI_ROOT
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 LDFLAGS=""
 CPPFLAGS=""
-for d in ${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${LIBUUID_ROOT} ${XZ_ROOT}; do
+for d in ${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${LIBUUID_ROOT} ${XZ_ROOT} ${ZSTD_ROOT}; do
   [ -e $d/lib ]     && LDFLAGS="$LDFLAGS -L$d/lib"
   [ -e $d/lib64 ]   && LDFLAGS="$LDFLAGS -L$d/lib64"
   [ -e $d/include ] && CPPFLAGS="$CPPFLAGS -I$d/include"
