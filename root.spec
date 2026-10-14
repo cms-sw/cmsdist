@@ -1,17 +1,17 @@
-### RPM lcg root 6.36.15
+### RPM lcg root 6.40.05
 ## INITENV +PATH PYTHON3PATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 4fbe34700bb4936e9529d5f88fcc93d6cec115ff
-%define branch cms/v6-36-00-patches/122aa7ce3fa
+%define tag 2808f92b2882db2ed042f8a6f6aa106e47b6eabf
+%define branch cms/v6-40-00-patches/e7691f7fe20
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 BuildRequires: cmake cms-ninja
 
-Requires: gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd json
+Requires: curl gsl libjpeg-turbo libpng libtiff giflib pcre2 python3 fftw3 xz xrootd libxml2 zlib davix tbb OpenBLAS py3-numpy lz4 freetype zstd json
 %{!?without_cuda:Requires: cuda}
 
 %ifos linux
@@ -77,6 +77,7 @@ cmake ../%{n}-%{realversion} \
   -Dfftw3=ON \
   -Dtbb=ON \
   -Dimt=ON \
+  -Dtmva-pymva=ON \
   -DFFTW_INCLUDE_DIR="${FFTW3_ROOT}/include" \
   -DFFTW_LIBRARY="${FFTW3_ROOT}/lib/libfftw3.%{soext}" \
   -Dmathmore=ON \
@@ -197,8 +198,6 @@ rm -rf build
 %post
 %{relocateConfig}bin/root-config
 %{relocateConfig}cmake/ROOTConfig-targets.cmake
-%{relocateConfig}config/Makefile.config
 %{relocateConfig}etc/notebook/jupyter_notebook_config.py
 %{relocateConfig}include/RConfigOptions.h
 %{relocateConfig}include/compiledata.h
-%{relocateConfig}lib/cmake/CppInterOp/CppInterOpConfig.cmake
