@@ -1,4 +1,0 @@
-<tool revision="2">
-  <info url="http://root.cern.ch/root/"/>
-  <lib name="GLEW"/>
-</tool>
