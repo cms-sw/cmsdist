@@ -16,6 +16,15 @@ Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
 %define patchsrc0 cp %{_sourcedir}/FindEigen3.cmake cmake/Modules/
 
 %define PipPreBuild %{expand: %(cat %{_sourcedir}/torch-build-env)}
+%define PipPreInstall \
+  if [ -d "%{i}/bin" ] ; then \
+    if [ "%{n}" != "py3-torch" ] ; then \
+      bin_suffix=$(echo %{n} | sed 's|^py3-torch-||') \
+      for f in $(find %{i}/bin -name '*' -type f ) ; do \
+        mv $f $f-${bin_suffix} \
+      done \
+    fi \
+  fi
 %define PipPostInstall \
   pushd %{i} \
     ln -sf ${PYTHON3_LIB_SITE_PACKAGES}/torch/share share \

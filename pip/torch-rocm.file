@@ -38,6 +38,4 @@ EOF\
     python3 tools/amd_build/build_amd.py; \
   popd
 
-%define PipPreInstall mv  %{i}/bin/torchrun %{i}/bin/torchrun-rocm
-
 ## INCLUDE pip/torch
