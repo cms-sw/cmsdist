@@ -23,7 +23,7 @@ Patch0: patches/pip/pyg-lib
   pushd %{i} \
     mkdir -p include \
     ln -s ../${PYTHON3_LIB_SITE_PACKAGES}/pyg_lib include/pyg_lib \
-    ln -s ../${PYTHON3_LIB_SITE_PACKAGES}/libpyg.so lib/libpyg.so \
+    ln -s ../${PYTHON3_LIB_SITE_PACKAGES}/pyg_lib/libpyg.so lib/libpyg.so \
   popd
 
 ## INCLUDE pip/files/torch-extension-build
