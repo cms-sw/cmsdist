@@ -1,0 +1,11 @@
+<!-- Note: this tool does not enable `-fopenmp`, it only enables linking with the libgomp library.
+     CMSSW externals are always built with GCC, and so link with `libgomp.so` even in clang builds.
+     Adding the `-fopenmp` flag here would make a clang build link `libomp.so`, loading two
+     separate OpenMP runtimes.
+     Adding the `-fopenmp=libgomp` flag for clang would make a clang build link `libgomp.so`, but
+     it would also make clang silently disable OpenMP pragmas, because its code generator does not
+     support the GCC-style implementation.
+     So the only safe option is to only link `libgomp.so`, and keep `-fopenmp` disabled. -->
+<tool revision="1">
+  <lib name="gomp"/>
+</tool>
