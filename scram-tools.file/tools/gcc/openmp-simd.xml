@@ -1,0 +1,5 @@
+<!-- Note: this tool does not enable `-fopenmp`, it only enables `-fopenmp-simd`, which does not
+     need a runtime library. See the explanation in openmp.xml. -->
+<tool revision="1">
+  <flags CXXFLAGS="-fopenmp-simd"/>
+</tool>
