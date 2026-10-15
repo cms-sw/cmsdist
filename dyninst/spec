@@ -3,12 +3,14 @@
 Source0: https://github.com/dyninst/dyninst/archive/refs/tags/v%{realversion}.tar.gz
 Source1: dyninst/DyninstConfig-DyninstTarget.cmake
 Patch0: dyninst/dyninst-pr1880
+Patch1: dyninst/tbb-version
 BuildRequires: gmake cmake libiberty
 Requires: boost tbb
 
 %prep
 %setup -n %{n}-%{realversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf ../build; mkdir ../build ; cd ../build
