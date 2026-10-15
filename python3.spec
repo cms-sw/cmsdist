@@ -70,3 +70,5 @@ echo "       site.addsitedir(p)">> %i/lib/python%{pythonv}/sitecustomize.py
 %{relocateConfig}bin/python*-config
 %{relocateConfig}lib/python*/config-*/Makefile
 %{relocateConfig}lib/python*/_sysconfigdata*.py
+%{relocateConfig}lib/python*/build-details.json
+%{relocateConfig}lib/python*/_sysconfig_*.json
