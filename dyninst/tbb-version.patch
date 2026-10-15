@@ -1,0 +1,12 @@
+diff --git a/common/h/concurrent.h b/common/h/concurrent.h
+index 750be3e..ff14f29 100644
+--- a/common/h/concurrent.h
++++ b/common/h/concurrent.h
+@@ -39,6 +39,7 @@
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/condition_variable.hpp>
+ #include <boost/thread/locks.hpp>
++#include <oneapi/tbb/version.h>
+ #include <tbb/concurrent_hash_map.h>
+ #include <tbb/concurrent_vector.h>
+ #include <tbb/concurrent_queue.h>
