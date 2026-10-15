@@ -8,7 +8,7 @@ Source99: scram-tools.file/tools/eigen/env
 Patch0: patches/pytorch-system-fmt
 Patch1: patches/pytorch-hipblaslt-include
 
-BuildRequires: cmake ninja python-python3 py3-packaging
+BuildRequires: cmake ninja python-python3 py3-packaging py3-scikit-build-core
 Requires: fftw3 eigen fxdiv numactl openmpi protobuf psimd python3 py3-PyYAML abseil-cpp
 Requires: OpenBLAS zlib protobuf fmt py3-pybind11 py3-typing-extensions
 Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
@@ -16,6 +16,15 @@ Requires: py3-filelock py3-fsspec py3-Jinja2 py3-networkx py3-sympy
 %define patchsrc0 cp %{_sourcedir}/FindEigen3.cmake cmake/Modules/
 
 %define PipPreBuild %{expand: %(cat %{_sourcedir}/torch-build-env)}
+%define PipPreInstall \
+  if [ -d "%{i}/bin" ] ; then \
+    if [ "%{n}" != "py3-torch" ] ; then \
+      bin_suffix=$(echo %{n} | sed 's|^py3-torch-||') \
+      for f in $(find %{i}/bin -name '*' -type f ) ; do \
+        mv $f $f-${bin_suffix} \
+      done \
+    fi \
+  fi
 %define PipPostInstall \
   pushd %{i} \
     ln -sf ${PYTHON3_LIB_SITE_PACKAGES}/torch/share share \
