@@ -59,3 +59,6 @@ sed -i -e 's|^#!/.*|#!/usr/bin/env python3|' %{i}/bin/Sherpa3-generate-model
 %{relocateConfig}share/SHERPA-MC3/makelibs
 %{relocateConfig}include/SHERPA-MC3/ATOOLS/Org/CXXFLAGS*.H
 %{relocateConfig}lib/python%{cms_python3_major_minor_version}/site-packages/ufo_interface/parser.py
+%{relocateConfig}share/SHERPA-MC3/SHERPA-MCConfig.cmake
+%relocateConfigAll share/SHERPA-MC3/Examples *.py
+%relocateConfigAll share/SHERPA-MC3/Examples CMakeLists.txt
