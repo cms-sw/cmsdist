@@ -1,0 +1,5 @@
+<tool revision="1">
+  <info url="http://root.cern.ch/root/"/>
+  <lib name="GeomChecker"/>
+  <use name="rootgeom"/>
+</tool>
