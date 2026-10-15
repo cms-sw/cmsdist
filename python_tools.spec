@@ -184,7 +184,7 @@ Requires: py3-smmap
 Requires: py3-zipp
 
 %{!?without_cuda:Requires: py3-pycuda}
-
+%{!?without_rocm:Requires: py3-pymongo}
 Requires: py3-boost-histogram
 Requires: py3-hist
 Requires: py3-histoprint
