@@ -9,6 +9,4 @@ Requires: cuda cudnn
   export nvtx3_dir=${CUDA_ROOT}/include \
   export CUDNN_ROOT=${CUDNN_ROOT}
 
-%define PipPreInstall mv  %{i}/bin/torchrun %{i}/bin/torchrun-cuda
-
 ## INCLUDE pip/torch
