@@ -9,7 +9,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 ## INCLUDE cpp-standard
 
 BuildRequires: cmake gmake
-
+Patch0: geant4-Disable-parallel-voxilisation
 Requires: clhep
 Requires: expat
 Requires: xerces-c
@@ -26,6 +26,7 @@ Requires: zlib
 
 %prep
 %setup -n %{n}.%{realversion}
+%patch0 -p1
 
 %build
 

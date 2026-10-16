@@ -1,0 +1,13 @@
+diff --git a/source/geometry/management/src/G4GeometryManager.cc b/source/geometry/management/src/G4GeometryManager.cc
+index ff3fbb46..8784d7c7 100644
+--- a/source/geometry/management/src/G4GeometryManager.cc
++++ b/source/geometry/management/src/G4GeometryManager.cc
+@@ -73,7 +73,7 @@ std::shared_ptr<G4VoxelisationHelper> G4GeometryManager::fParallelVoxeliser;
+ // Only one instance created by the master thread's G4GeometryManager
+ // Expected Future: data member (when only one instance)
+ 
+-G4bool G4GeometryManager::fParallelVoxelOptimisationRequested = true;
++G4bool G4GeometryManager::fParallelVoxelOptimisationRequested = false;
+ // Records User choice to use parallel voxel optimisation (or not)
+ 
+ G4bool G4GeometryManager::fOptimiseInParallelConfigured = false;
