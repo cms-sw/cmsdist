@@ -1,7 +1,7 @@
 ## INCLUDE rocm/flags
 Requires: xz aotriton rocm-hip rocm-comgr rocr-runtime amdsmi
 Requires: rocrand miopen hiprand rocblas hipblas hipblas-common hipblaslt
-Requires: hipfile hipfft hipsparse rocprim hipcub rocthrust hipsolver rocsolver hipsparselt
+Requires: hipfft hipsparse rocprim hipcub rocthrust hipsolver rocsolver hipsparselt
 Requires: rocprofiler roctracer rccl rocm-core
 Patch99: patches/pytorch-aotriton-install
 
