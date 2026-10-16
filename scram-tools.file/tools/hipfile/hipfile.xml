@@ -1,0 +1,6 @@
+<tool revision="1">
+  <client>
+    <environment name="LIBDIR"    default="$TOOL_BASE/lib"/>
+    <environment name="INCLUDE"   default="$TOOL_BASE/include"/>
+  </client>
+</tool>
