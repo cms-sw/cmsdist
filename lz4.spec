@@ -1,4 +1,4 @@
-### RPM external lz4 1.9.2
+### RPM external lz4 1.10.0
 
 %define github_user lz4
 Source: https://github.com/%{github_user}/%{n}/archive/v%{realversion}.tar.gz
@@ -11,4 +11,3 @@ make %{makeprocesses}
 
 %install
 make PREFIX=%{i} install
-
