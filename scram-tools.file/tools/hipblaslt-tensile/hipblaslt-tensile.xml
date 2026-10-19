@@ -1,0 +1,3 @@
+<tool revision="1">
+  <runtime name="HIPBLASLT_TENSILE_LIBPATH" default="$TOOL_BASE/tensile"/>
+</tool>
