@@ -17,6 +17,7 @@ cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
 
 %build
 cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+ROCM_SKIP_BUILD=false
 %{?ROCMPreBuild:%ROCMPreBuild}
 
 export HIP_DEVICE_LIB_PATH=$ROCM_LLVM_ROOT/amdgcn/bitcode
@@ -36,21 +37,27 @@ CMAKE_ARGS=(
   %{?cmake_args}
 )
 
-cmake "${CMAKE_ARGS[@]}"
+%{?ROCMPreCMakeRun:%ROCMPreCMakeRun}
+if [ "${ROCM_SKIP_BUILD}" != "true" ] ; then
+  cmake "${CMAKE_ARGS[@]}"
+fi
 %{?ROCMPostCMake:%ROCMPostCMake}
 
 %{?ROCMPreMake:%ROCMPreMake}
-make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
+if [ "${ROCM_SKIP_BUILD}" != "true" ] ; then
+  make -C %{_builddir}/build %{makeprocesses} VERBOSE=1
+fi
 %{?ROCMPostMake:%ROCMPostMake}
 
 %{?ROCMPostBuild:%ROCMPostBuild}
 
 %install
 cd %{_builddir}/rocm-libraries/%{rocm_libraries_dir}/%{rocm_project}
+ROCM_SKIP_BUILD=false
 %{?ROCMPreInstall:%ROCMPreInstall}
-
-make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
-
+if [ "${ROCM_SKIP_BUILD}" != "true" ] ; then
+  make -C %{_builddir}/build %{makeprocesses} install VERBOSE=1
+fi
 %{?ROCMPostInstall:%ROCMPostInstall}
 
 %post
