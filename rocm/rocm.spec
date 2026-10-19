@@ -32,7 +32,7 @@ Requires: rocshmem
 Requires: hipblas-common
 Requires: hipblas
 Requires: rocblas
-Requires: hipblaslt
+Requires: hipblaslt hipblaslt-tensile
 Requires: hipsolver
 Requires: rocsolver
 Requires: hipsparse
