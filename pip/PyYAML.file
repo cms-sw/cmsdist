@@ -1,0 +1,6 @@
+Requires: libyaml
+BuildRequires: py3-cython
+%define PipWheelOptions --config-settings="--global-option=--with-libyaml"
+%define PipPreBuild \
+  export CPPFLAGS="-I${LIBYAML_ROOT}/include" \
+  export LDFLAGS="-L${LIBYAML_ROOT}/lib -lyaml"
