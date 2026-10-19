@@ -134,6 +134,8 @@ cmake ../%{n}-%{realversion} \
   -Drfio=OFF \
   -Ddcache=OFF \
 %endif
+  -DX11_ICE_INCLUDE_PATH=IGNORE -DX11_ICE_LIB=IGNORE \
+  -DX11_SM_INCLUDE_PATH=IGNORE -DX11_SM_LIB=IGNORE \
   -DJPEG_INCLUDE_DIR="${LIBJPEG_TURBO_ROOT}/include" \
   -DJPEG_LIBRARY="${LIBJPEG_TURBO_ROOT}/lib64/libjpeg.%{soext}" \
   -DPNG_INCLUDE_DIRS="${LIBPNG_ROOT}/include" \
