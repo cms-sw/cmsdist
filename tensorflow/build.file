@@ -253,5 +253,5 @@ mkdir -p %{repo_cache}
 
 %post
 %if "%{fetch_externals}" == "yes"
-  %fetch_cached_sources ${RPM_INSTALL_PREFIX}  
+  %fetch_cached_sources ${RPM_INSTALL_PREFIX} ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{fetch_externals_file}
 %endif
