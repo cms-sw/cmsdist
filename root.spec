@@ -90,6 +90,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_ftgl=ON \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_openui5=ON \
   -Dbuiltin_nlohmannjson=OFF \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
