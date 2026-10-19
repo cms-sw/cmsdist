@@ -1,6 +1,6 @@
 ## INCLUDE tensorflow/version
 ### RPM external tensorflow-sources-cache %{tf_version}
-
+%define tf_external_source_version 1
 %define fetch_externals yes
 %define fetch_externals_file tensorflow-%{realversion}.txt
 
