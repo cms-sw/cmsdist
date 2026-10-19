@@ -1,15 +1,15 @@
 ## INCLUDE tensorflow/version
 ### RPM external tensorflow-sources-cache %{tf_version}
- 
+%define tf_external_source_version cp312
 %define fetch_externals yes
 %define fetch_externals_file tensorflow-%{realversion}.txt
 
 %define fetch_cached_sources()                                     \
   for item in $(cat %{1}/%{pkgrel}/%{fetch_externals_file}) ; do   \
-    md5=$(echo $item | cut -d: -f1)                                \
-    fmd5=$(echo $item | cut -d: -f2)                               \
     path=$(echo $item | sed 's|^[0-9a-f]*:[0-9a-f]*:||')           \
     if [ ! -e %{1}/${path} ] ; then                                \
+      md5=$(echo $item | cut -d: -f1)                              \
+      fmd5=$(echo $item | cut -d: -f2)                             \
       sha_dir=$(dirname $path)                                     \
       mkdir -p %{1}/${sha_dir}                                     \
       for repo in %{package_repository} ; do                       \
