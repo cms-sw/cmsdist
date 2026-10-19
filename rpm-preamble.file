@@ -491,3 +491,13 @@ fi
       fi \
     fi \
   popd
+
+%define copy_source_to_cache()                                             \
+  if [ -e %{_builddir}/%1 ] ; then                                         \
+    if [ ! -e %{_sourcedir}/%1 ] ; then                                    \
+      chksum_source="%{cmsroot}/SOURCES/cache/$(echo %2 | cut -c1-2)/%2"   \
+      mkdir -p ${chksum_source}                                            \
+      cp %{_builddir}/%1 ${chksum_source}/                                 \
+      ln -s ${chksum_source}/%1 %{_sourcedir}/%1                           \
+    fi                                                                     \
+  fi
