@@ -3,8 +3,8 @@
 ## INITENV SET ROOTSYS %{i}
 ## INCLUDE compilation_flags
 ## INCLUDE cpp-standard
-%define tag 02981698d1769283b457e1c19d0ccc4d845b2d24
-%define branch cms/master/d47d7ded155
+%define tag 55fa8bb58f3af4430d0adeb57f1a17c5e64fe78c
+%define branch cms/master/f2deccf152c
 
 %define github_user cms-sw
 Source: git+https://github.com/%{github_user}/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
@@ -90,6 +90,7 @@ cmake ../%{n}-%{realversion} \
   -Dbuiltin_ftgl=ON \
   -Dbuiltin_gl2ps=ON \
   -Dbuiltin_xxhash=ON \
+  -Dbuiltin_openui5=ON \
   -Dbuiltin_nlohmannjson=OFF \
   -Darrow=OFF \
   -DGSL_ROOT_DIR="${GSL_ROOT}" \
