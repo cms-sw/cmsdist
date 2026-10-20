@@ -5,7 +5,7 @@
 %define fetch_externals_file tensorflow-%{realversion}.txt
 
 %define fetch_cached_sources()                                     \
-  for item in $(cat %{1}/%{pkgrel}/%{fetch_externals_file}) ; do   \
+  for item in $(cat %{2}) ; do                                     \
     path=$(echo $item | sed 's|^[0-9a-f]*:[0-9a-f]*:||')           \
     if [ ! -e %{1}/${path} ] ; then                                \
       md5=$(echo $item | cut -d: -f1)                              \
@@ -24,16 +24,25 @@
     fi                                                             \
   done
 
-%define fetch_bazel_sources                                        \
-  if [ ! -e "%{SOURCE99}" ] ; then                                 \
-    bazel $(echo "$BAZEL_OPTS" | sed -e 's| build | fetch |') //tensorflow/tools/pip_package:wheel \
-    rm -f %{_builddir}/%{fetch_externals_file}                     \
-    touch %{_builddir}/%{fetch_externals_file}                     \
-    for f in $(find %{repo_cache} -name '*' -type f | sed 's|^%{cmsroot}/||' | sort) ; do \
-      md5=$(echo -n $f | md5sum | cut -d' ' -f1)                           \
-      fmd5=$(md5sum %{cmsroot}/$f | cut -d' ' -f1)                         \
-      echo "${md5}:${fmd5}:${f}" >> %{_builddir}/%{fetch_externals_file}   \
-    done                                                                   \
+%define fetch_bazel_sources                                      \
+  if [ -e "%{SOURCE99}" ] ; then                                 \
+    %fetch_cached_sources %{cmsroot} %{SOURCE99}                 \
+  fi                                                             \
+  bazel $(echo "$BAZEL_OPTS" | sed -e 's| build | fetch |') //tensorflow/tools/pip_package:wheel \
+  rm -f %{_builddir}/%{fetch_externals_file}                             \
+  touch %{_builddir}/%{fetch_externals_file}                             \
+  for f in $(find %{repo_cache} -name '*' -type f | sed 's|^%{cmsroot}/||' | sort) ; do \
+    md5=$(echo -n $f | md5sum | cut -d' ' -f1)                           \
+    fmd5=$(md5sum %{cmsroot}/$f | cut -d' ' -f1)                         \
+    echo "${md5}:${fmd5}:${f}" >> %{_builddir}/%{fetch_externals_file}   \
+  done                                                                   \
+  if [ -e "%{SOURCE99}" ] ; then                                         \
+    if ! diff -u %{SOURCE99} %{_builddir}/%{fetch_externals_file} ; then \
+      echo "ERROR: Bazel fetch sources changes w.r.t previous download"  \
+      echo "       Try to understand this change and udd/pdate version"  \
+      echo "       in tf_external_source_version RPM spec micro."        \
+      exit 1                                                             \
+    fi                                                                   \
   fi
 
 %define prepare_upload_sources                                               \
