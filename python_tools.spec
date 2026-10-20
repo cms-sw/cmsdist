@@ -121,7 +121,6 @@ Requires: py3-bokeh
 Requires: py3-numpy
 Requires: py3-sqlalchemy
 Requires: py3-pygithub
-Requires: py3-dxr
 Requires: py3-PyYAML
 Requires: py3-pylint
 Requires: py3-pip
