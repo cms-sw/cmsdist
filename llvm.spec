@@ -1,4 +1,4 @@
-### RPM external llvm 23.1.1
+### RPM external llvm 23.1.3
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/lib64/python%{cms_python3_major_minor_version}/site-packages
 
@@ -6,9 +6,9 @@ BuildRequires: cmake cms-ninja
 Requires: gcc zlib python3 libxml2 zstd libunwind
 %{!?without_cuda:Requires: cuda}
 
-%define llvmCommit a5bb45e1ecdeb5802b016567a6b41bef1390eb17
-%define llvmBranch cms/llvmorg-23.1.1
-%define iwyuCommit cced1904e983d8d13ae7369bc4353a295501389d
+%define llvmCommit a241dacf7844d832e7177b544a08abc7f029ee85
+%define llvmBranch cms/llvmorg-%{realversion}
+%define iwyuCommit c9cbc836a1af631610266c53cf1671b1671a0fdc
 %define iwyuBranch clang_23
 
 Source0: git+https://github.com/cms-externals/llvm-project.git?obj=%{llvmBranch}/%{llvmCommit}&export=llvm-%{realversion}-%{llvmCommit}&module=llvm-%{realversion}-%{llvmCommit}&output=/llvm-%{realversion}-%{llvmCommit}.tgz
