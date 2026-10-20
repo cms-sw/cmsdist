@@ -1,16 +1,14 @@
-### RPM external dyninst 13.0.0
+### RPM external dyninst 13.0.0x
 %define keep_archives true
-Source0: https://github.com/dyninst/dyninst/archive/refs/tags/v%{realversion}.tar.gz
+%define tag f6adfaf155ab0de83f912efb5b8b3a44b14d20c7
+%define branch dyninst_13
+Source0: git+https://github.com/ROCm/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source1: dyninst/DyninstConfig-DyninstTarget.cmake
-Patch0: dyninst/dyninst-pr1880
-Patch1: dyninst/tbb-version
 BuildRequires: gmake cmake libiberty
-Requires: boost tbb
+Requires: boost
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
-%patch1 -p1
 
 %build
 rm -rf ../build; mkdir ../build ; cd ../build
@@ -25,5 +23,6 @@ make %{makeprocesses} VERBOSE=1
 %install
 cd ../build
 make install
+rsync -a ../%{n}-%{realversion}/dyncompat/ %{i}/include/dyncompat/
 test %{i}/lib/cmake/Dyninst/DyninstConfig.cmake
 cat %{_sourcedir}/DyninstConfig-DyninstTarget.cmake >> %{i}/lib/cmake/Dyninst/DyninstConfig.cmake
