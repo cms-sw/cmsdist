@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -60,6 +60,12 @@
+ detect_package_backend()
+ 
+ find_package(ROCmCMakeBuildTools REQUIRED)
++# rocm_add_version_resource() is only available in rocm-cmake newer than the one in TheRock 7.14;
++# it only generates a Windows version resource, so provide a no-op fallback on other platforms
++if(NOT COMMAND rocm_add_version_resource)
++    function(rocm_add_version_resource TARGET NAME DESCRIPTION)
++    endfunction()
++endif()
+ find_package(Threads REQUIRED)
+ 
+ include(CMakeDependentOption)

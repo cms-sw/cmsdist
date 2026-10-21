@@ -4,7 +4,6 @@ Source0: https://github.com/ROCm/llvm-project/archive/refs/tags/therock-%{realve
 BuildRequires: cmake ninja
 Requires: rocm-llvm rocm-core zlib zstd libxml2
 
-
 %prep
 %setup -q -n llvm-project-therock-%{rocm_version_num}
 

@@ -1,8 +1,8 @@
-### RPM lcg SCRAMV1 V3_00_95
+### RPM lcg SCRAMV1 V3_00_97
 ## NOCOMPILER
 ## NO_VERSION_SUFFIX
 
-%define tag 21a9cd17bdeb37d0ad4a42b3bcbbc4597a65aa2a
+%define tag 6c85a8a2ac4a5fc742eb2e8c16f02187f3ed63af
 %define branch SCRAMV3
 %define github_user cms-sw
 %define shared_dir share/%{pkgcategory}/SCRAMV1/%{realversion}

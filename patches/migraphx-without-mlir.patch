@@ -1,0 +1,30 @@
+diff --git a/src/targets/gpu/mlir.cpp b/src/targets/gpu/mlir.cpp
+--- a/src/targets/gpu/mlir.cpp
++++ b/src/targets/gpu/mlir.cpp
+@@ -1431,6 +1431,26 @@
+ {
+     return {};
+ }
++
++// Stubs for the functions used only by the MLIR compilation path,
++// which are otherwise left undefined when building without rocMLIR.
++bool is_module_fusible(const module&, const context&, const value&) { return false; }
++
++void adjust_param_shapes(module&, const std::vector<shape>&) {}
++
++void dump_mlir_to_file(module m, const std::vector<shape>& inputs, const fs::path& location)
++{
++    use(m);
++    use(inputs);
++    use(location);
++}
++
++void dump_mlir_to_mxr(module m, const std::vector<instruction_ref>& inputs, const fs::path& location)
++{
++    use(m);
++    use(inputs);
++    use(location);
++}
+ // NOLINTEND(performance-unnecessary-value-param)
+ 
+ #endif
