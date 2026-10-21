@@ -4,7 +4,7 @@
 ### RPM external hipblaslt-tensile %{rocm_version_num}
 
 %define rocm_project hipblaslt
-%{expand:%(i=80; for t in $(echo "%{rocm_targets}" | tr ';' ' '); do echo "Source${i}: https://cmsrep.cern.ch/cmssw/download/%{rocm_project}/%{rocm_version_num}/%{_arch}?cmsdist-generated=1&output=/tensile-${t}.tar.gz"; i=$((i+1)); done)}
+%{expand:%(i=80; for t in $(echo "%{rocm_targets}" | tr ';' ' '); do echo "Source${i}: https://cmsrep.cern.ch/cmssw/download/%{rocm_project}/%{rocm_version_num}/%{_arch}?cmsdist-generated=1&v=1&output=/tensile-${t}.tar.gz"; i=$((i+1)); done)}
 BuildRequires: py3-joblib py3-msgpack py3-packaging py3-PyYAML
 
 %define set_gpu_archs \
