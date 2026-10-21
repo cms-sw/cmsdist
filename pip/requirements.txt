@@ -75,7 +75,7 @@ correctionlib==2.9.0
 CppHeaderParser==2.7.4
 cramjam==2.14.0
 crashtest==0.4.1
-certifi==2026.7.22
+certifi==2026.10.19
 cffi==2.1.1
 chardet==7.6.0
 cloudpickle==3.1.2
@@ -468,7 +468,7 @@ uhi==1.2.1
 uncertainties==3.2.3
 uproot==5.7.7
 urllib3==2.8.0
-uv-build==0.13.0
+uv-build==0.13.4
 vcs-versioning==2.6.0
 vector==1.9.0
 versioneer==0.29
