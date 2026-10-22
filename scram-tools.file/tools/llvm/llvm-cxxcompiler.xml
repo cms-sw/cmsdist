@@ -11,6 +11,7 @@
     <flags REM_CXXFLAGS="-Werror=maybe-uninitialized"/>
     <flags REM_CXXFLAGS="-Werror=unused-but-set-variable"/>
     <flags REM_CXXFLAGS="-Werror=return-local-addr"/>
+    <flags REM_CXXFLAGS="-fimplicit-constexpr"/>
     <flags REM_CXXFLAGS="-fipa-pta"/>
     <flags REM_CXXFLAGS="-frounding-math"/>
     <flags REM_CXXFLAGS="-mrecip"/>
