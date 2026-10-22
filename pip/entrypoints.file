@@ -1,3 +1,2 @@
-Patch0: patches/pip/entrypoints-flit-core-4
 Requires: py3-flit
 %define PipDownloadSourceType none
