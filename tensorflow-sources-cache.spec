@@ -15,12 +15,12 @@
       mkdir -p %{1}/${sha_dir}                                     \
       urls=""                                                      \
       for mirror in %{source_mirrors} ; do                         \
-        urls="%{mirror}/SOURCES/cache/${ch2}/${md5}/${md5}"        \
+        urls="${urls} ${mirror}/SOURCES/cache/${ch2}/${md5}/${md5}"\
       done                                                         \
       for repo in %{package_repository} ; do                       \
         urls="$urls %{repository_server}/SOURCES/${repo}/${md5}/${md5}" \
       done                                                         \
-      for repo in ${urls} ; do                                     \
+      for url in ${urls} ; do                                      \
         if curl -fL -k -s -o %{1}/${path}.tmp "${url}" ; then      \
           if [ "$(md5sum %{1}/${path}.tmp | cut -d' ' -f1)" = "$fmd5" ] ; then \
             mv %{1}/${path}.tmp %{1}/${path}                       \
