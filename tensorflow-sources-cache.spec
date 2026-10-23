@@ -13,9 +13,12 @@
       fmd5=$(echo $item | cut -d: -f2)                             \
       sha_dir=$(dirname $path)                                     \
       mkdir -p %{1}/${sha_dir}                                     \
-      urls="https://cmsrep.s3.cern.ch/SOURCES/${ch2}/${md5}/${md5}"\
+      urls=""                                                      \
+      for mirror in %{source_mirrors} ; do                         \
+        urls="%{mirror}/SOURCES/cache/${ch2}/${md5}/${md5}"        \
+      done                                                         \
       for repo in %{package_repository} ; do                       \
-        urls="$urls http://cmsrep.cern.ch/cgi-bin/cmspkg/SOURCES/${repo}/${md5}/${md5}" \
+        urls="$urls %{repository_server}/SOURCES/${repo}/${md5}/${md5}" \
       done                                                         \
       for repo in ${urls} ; do                                     \
         if curl -fL -k -s -o %{1}/${path}.tmp "${url}" ; then      \
