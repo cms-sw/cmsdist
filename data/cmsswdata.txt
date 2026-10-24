@@ -3,7 +3,7 @@
 #Once a non-default section is empty then cleanup that section and remove its cmsdist/${PACKAGE_TYPE}.file
 #If there is no customization for the packae then remove its .spec and .file
 [default]
-IOMC-Input=V00-00-01
+IOMC-Input=V00-00-02
 RecoTracker-PixelLowPtUtilities=V00-01-00
 L1Trigger-Phase2L1GMT=V00-01-01
 L1TriggerScouting-OnlineProcessing=V00-01-00
@@ -39,7 +39,7 @@ HeterogeneousCore-SonicTriton=V00-03-00
 RecoMuon-MuonIdentification=V01-16-00
 RecoEgamma-ElectronIdentification=V01-15-00
 SimCalorimetry-EcalEBTrigPrimProducers=V00-02-00
-Configuration-Generator=V01-14-01
+Configuration-Generator=V01-14-02
 L1Trigger-DTTriggerPhase2=V00-04-00
 RecoTracker-FinalTrackSelectors=V01-06-01
 IOPool-Input=V00-05-00
