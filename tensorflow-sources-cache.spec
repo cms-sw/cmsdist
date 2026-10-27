@@ -9,11 +9,19 @@
     path=$(echo $item | sed 's|^[0-9a-f]*:[0-9a-f]*:||')           \
     if [ ! -e %{1}/${path} ] ; then                                \
       md5=$(echo $item | cut -d: -f1)                              \
+      ch2=$(echo ${md5} | cut -c1-2)                               \
       fmd5=$(echo $item | cut -d: -f2)                             \
       sha_dir=$(dirname $path)                                     \
       mkdir -p %{1}/${sha_dir}                                     \
+      urls=""                                                      \
+      for mirror in %{source_mirrors} ; do                         \
+        urls="${urls} ${mirror}/SOURCES/cache/${ch2}/${md5}/${md5}"\
+      done                                                         \
       for repo in %{package_repository} ; do                       \
-        if curl -fL -k -s -o %{1}/${path}.tmp "http://cmsrep.cern.ch/cgi-bin/cmspkg/SOURCES/${repo}/${md5}/${md5}" ; then \
+        urls="$urls %{repository_server}/SOURCES/${repo}/${md5}/${md5}" \
+      done                                                         \
+      for url in ${urls} ; do                                      \
+        if curl -fL -k -s -o %{1}/${path}.tmp "${url}" ; then      \
           if [ "$(md5sum %{1}/${path}.tmp | cut -d' ' -f1)" = "$fmd5" ] ; then \
             mv %{1}/${path}.tmp %{1}/${path}                       \
             break                                                  \
