@@ -100,7 +100,6 @@ Requires: xerces-c
 Requires: dcap
 Requires: frontier_client
 Requires: xrootd
-Requires: xrdcl-record
 Requires: dd4hep
 %{!?without_valgrind:Requires: valgrind}
 Requires: cmsswdata
