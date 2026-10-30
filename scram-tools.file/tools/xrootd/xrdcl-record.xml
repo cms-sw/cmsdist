@@ -1,0 +1,3 @@
+<tool revision="4">
+  <runtime name="XRDCL_RECORDER_PLUGIN" value="$TOOL_BASE/lib64/libXrdClRecorder-6.so"/>
+</tool>
