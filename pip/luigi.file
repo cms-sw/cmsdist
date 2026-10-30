@@ -1,2 +1,9 @@
 BuildRequires: py3-hatchling py3-hatch-fancy-pypi-readme
 Requires: py3-tornado py3-python-daemon py3-python-dateutil py3-tenacity
+
+# 3.8.1 is the latest release and still declares python_requires '<3.14,>=3.10',
+# so pip refuses it with "requires a different Python: 3.14.6 not in
+# '<3.14,>=3.10'". luigi is pure Python; the bound is a declaration, not a
+# technical limit. Drop these overrides once upstream ships a 3.14-capable release.
+%define PipWheelOptions --ignore-requires-python
+%define PipInstallOptions --ignore-requires-python

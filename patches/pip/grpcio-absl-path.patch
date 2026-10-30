@@ -9,5 +9,5 @@ index 7662934..f9eec52 100644
 -        for lib in sorted(pathlib.Path("/usr").glob("lib*/libabsl_*.so"))
 +        for lib in pathlib.Path(os.getenv("ABSEIL_CPP_ROOT")).glob("lib*/libabsl_*.so")
      )
- 
+
  DEFINE_MACROS = (("_WIN32_WINNT", 0x600),)
