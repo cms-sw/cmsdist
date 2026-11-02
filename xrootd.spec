@@ -1,4 +1,4 @@
-### RPM external xrootd 6.0.2
+### RPM external xrootd 6.2.1
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
