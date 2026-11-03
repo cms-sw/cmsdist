@@ -470,7 +470,7 @@ vcs-versioning==2.6.0
 vector==1.9.0
 versioneer==0.29
 virtualenv-clone==0.5.7
-virtualenv==21.14.12
+virtualenv==21.15.2
 virtualenvwrapper==6.1.1
 wcwidth==0.9.3
 webdataset==1.0.2
