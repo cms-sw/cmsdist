@@ -11,7 +11,7 @@ TMPDIR=${USER_CUDA_BASE}/tmp
 DOWNLOAD_DIR=${USER_CUDA_BASE}/download/$(uname -m)
 mkdir -p ${TMPDIR} ${DOWNLOAD_DIR}
 EL_VER=rhel$(cmsos | cut -d_ -f1 | sed 's|[a-z]*||')
-SCRIPT_DIR=$(dirname $0)
+SCRIPT_DIR=$(dirname $0)/../.cms
 args=""
 [ -e ${SCRIPT_DIR}/args.txt ] && args="$(cat ${SCRIPT_DIR}/args.txt)"
 ${SCRIPT_DIR}/install-cuda.py -v $args \
