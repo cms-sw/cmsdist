@@ -99,6 +99,6 @@ done
 
 #Copy binary/utils
 mkdir %i/bin
-rsync -a %{cuda_install_dir}/.cms/ %i/.cms/
+rsync -a --no-group --no-owner %{cuda_install_dir}/.cms/ %i/.cms/
 cp %{_sourcedir}/install-cuda.sh %i/bin/install-cuda.sh
 sed -i -e 's|@CUDA_VERSION@|%{cuda_version}|' %i/bin/install-cuda.sh
