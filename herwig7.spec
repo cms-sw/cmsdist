@@ -31,12 +31,12 @@ autoreconf -fiv
 
 %build
 EX_FLAGS="-fPIC -std=c++%{cms_cxx_standard}"
-%if %{is_debug_build herwig7}
-EX_FLAGS="${EX_FLAGS} -g -O0"
-%endif
 CXX="$(which g++) ${EX_FLAGS}"
 CC="$(which gcc)  ${EX_FLAGS}"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
+%if %{is_debug_build herwig7}
+PLATF_CONF_OPTS="${PLATF_CONF_OPTS} --enable-debug"
+%endif
 FCFLAGS=""
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
 %ifnarch x86_64
