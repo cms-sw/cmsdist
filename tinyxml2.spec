@@ -1,4 +1,4 @@
-### RPM external tinyxml2 6.2.0
+### RPM external tinyxml2 11.0.0
 Source: https://github.com/leethomason/%{n}/archive/%{realversion}.tar.gz
 
 BuildRequires: gmake cmake
