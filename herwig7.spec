@@ -34,8 +34,8 @@ EX_FLAGS="-fPIC -std=c++%{cms_cxx_standard}"
 %if %{is_debug_build herwig7}
 EX_FLAGS="${EX_FLAGS} -g -O0"
 %endif
-CXX="$(which g++)"
-CC="$(which gcc)"
+CXX="$(which g++) ${EX_FLAGS}"
+CC="$(which gcc)  ${EX_FLAGS}"
 PLATF_CONF_OPTS="--enable-shared --disable-static"
 FCFLAGS=""
 if [[ `gcc --version | head -1 | cut -d' ' -f3 | cut -d. -f1,2,3 | tr -d .` -gt 1000 ]] ; then FCFLAGS="-fallow-argument-mismatch" ; fi
@@ -55,7 +55,6 @@ PYTHON=python3 ./configure --prefix=%i \
             ${OPENLOOPS_ROOT+--with-openloops=$OPENLOOPS_ROOT} \
             $PLATF_CONF_OPTS \
             CXX="$CXX" CC="$CC" LDFLAGS="-L${OPENBLAS_ROOT}/lib" \
-            CXXFLAGS="${EX_FLAGS}" CFLAGS="${EX_FLAGS}" \
             FCFLAGS="$FCFLAGS"
 
 %ifarch riscv64
