@@ -1,6 +1,9 @@
 ### RPM external herwig7 7.2.2
 ## INCLUDE cpp-standard
-Source: https://www.hepforge.org/archive/herwig/Herwig-%{realversion}.tar.bz2
+%define tag 22022c47c363d202eb5a6c82768f4eaadd281a6d
+%define branch cms/v%{realversion}
+%define github_user cms-externals
+Source: git+https://github.com/%{github_user}/herwig.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Requires: lhapdf
 Requires: boost
@@ -14,17 +17,9 @@ Requires: madgraph5amcatnlo
 Requires: python3
 %{!?without_openloops:Requires: openloops}
 BuildRequires: autotools
-Patch0: herwig_Matchbox_mg_py3
-Patch1: herwig7-fxfx-fix
-Patch2: LHEEventNumFxFx
-Patch3: herwig_MB
 
 %prep
-%setup -q -n Herwig-%{realversion}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%setup -q -n %{n}-%{realversion}
 
 # Regenerate build scripts
 autoreconf -fiv
