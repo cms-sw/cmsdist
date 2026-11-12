@@ -1,0 +1,6 @@
+#!/bin/bash
+export PYTHONPATH="$PYTHON3PATH${PYTHONPATH:+:$PYTHONPATH}"
+# -P: don't prepend cwd to sys.path. f2py is invoked from inside arbitrary
+# package source trees (e.g. scipy's own "scipy/" dir, which has its own
+# signal/ subpackage); without -P that shadows the stdlib "signal" module.
+exec python3 -P -m numpy.f2py "$@"
