@@ -4,6 +4,7 @@
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 
+
 %define tag v%{realversion}
 %define branch master
 Source: git+https://gitlab.cern.ch/VecGeom/VecGeom.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
