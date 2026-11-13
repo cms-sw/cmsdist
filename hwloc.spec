@@ -1,4 +1,4 @@
-### RPM external hwloc 2.12.2
+### RPM external hwloc 2.14.0
 %define mainversion %(echo %{realversion} | cut -d. -f1-2)
 Source: https://download.open-mpi.org/release/%{n}/v%{mainversion}/%{n}-%{realversion}.tar.bz2
 
