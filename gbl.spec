@@ -1,4 +1,4 @@
-### RPM external gbl V04-00-00
+### RPM external gbl V04-00-07
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 %define tag 6e60cdf1f1a296ce0a4e08833ebbfa58e9ad2787
@@ -11,8 +11,6 @@ Requires: mille
 
 %prep
 %setup -q -n %{n}-%{realversion}
-grep -q 'CMAKE_CXX_STANDARD  *17' cpp/CMakeLists.txt
-sed -i -e 's|CMAKE_CXX_STANDARD  *17|CMAKE_CXX_STANDARD %{cms_cxx_standard}|' cpp/CMakeLists.txt
 
 %build
 rm -rf build
@@ -25,8 +23,8 @@ cmake ../cpp \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
-  -DSUPPORT_ROOT=False \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
+  -DCMAKE_CXX_COMPILER="g++" \
   -DCMAKE_CXX_FLAGS="$CMS_EIGEN_CXX_FLAGS %{selected_microarch}"
 
 make %{makeprocesses} VERBOSE=1
