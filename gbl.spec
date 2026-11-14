@@ -1,8 +1,7 @@
 ### RPM external gbl V04-00-07
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
-%define tag 6e60cdf1f1a296ce0a4e08833ebbfa58e9ad2787
-Source: git+https://gitlab.desy.de/millepede/general-broken-lines.git?obj=main/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: https://gitlab.desy.de/millepede/general-broken-lines/-/archive/%{realversion}/general-broken-lines-%{realversion}.tar.gz
 Source99: scram-tools.file/tools/eigen/env
 
 BuildRequires: cmake
