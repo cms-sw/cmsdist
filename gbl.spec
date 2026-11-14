@@ -9,7 +9,7 @@ Requires: eigen
 Requires: mille
 
 %prep
-%setup -q -n %{n}-%{realversion}
+%setup -q -n general-broken-lines-%{realversion}
 
 %build
 rm -rf build
