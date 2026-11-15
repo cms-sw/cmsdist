@@ -1,4 +1,4 @@
-### RPM external gbl V04-00-07
+### RPM external gbl V04-00-08
 ## INCLUDE cpp-standard
 ## INCLUDE microarch_flags
 Source: https://gitlab.desy.de/millepede/general-broken-lines/-/archive/%{realversion}/general-broken-lines-%{realversion}.tar.gz
