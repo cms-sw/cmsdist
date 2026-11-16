@@ -1,5 +1,5 @@
-### RPM external celeritas 0.7.0-devX
-%define tag 1fb77992ff4a8b6da8cc8d8630df3727a3c33cf3
+### RPM external celeritas 0.7.0
+%define tag 9201fbaa66ec3cf396c412b0f7479ead90d734fe
 %define branch develop
 %define github_user celeritas-project
 Source: git+https://github.com/%{github_user}/celeritas.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
