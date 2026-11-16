@@ -1,6 +1,7 @@
 ## INCLUDE openloops-common
 ### RPM external openloops-process %{openloop_version}
 
+
 ## NOCOMPILER
 ## NO_AUTO_DEPENDENCY
 
