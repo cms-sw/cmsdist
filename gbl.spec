@@ -21,6 +21,7 @@ cmake ../cpp \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_CXX_STANDARD=%{cms_cxx_standard} \
   -DEIGEN3_INCLUDE_DIR=${EIGEN_ROOT}/include/eigen3 \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_COMPILER="g++" \
