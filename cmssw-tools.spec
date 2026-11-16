@@ -10,9 +10,6 @@ Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 %{!?without_acts:Requires: acts actsdata}
-%if %{enable_vecgeom}
-Requires: celeritas
-%endif
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: catch2
