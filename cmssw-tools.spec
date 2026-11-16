@@ -1,4 +1,4 @@
-### RPM cms cmssw-tools 7.0
+### RPM cms cmssw-tools 7.1
 # With cmsBuild, change the above version only when a new tool is added
 
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cms-cat cmssw-osenv cms-git-tools SCRAMV2
@@ -10,9 +10,6 @@ Requires: TOPO
 Requires: CICADA
 Requires: OpenBLAS
 %{!?without_acts:Requires: acts actsdata}
-%if %{enable_vecgeom}
-Requires: celeritas
-%endif
 Requires: crab
 Requires: cmssw-wm-tools
 Requires: catch2
