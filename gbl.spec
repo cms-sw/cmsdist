@@ -34,4 +34,5 @@ cd build
 make install VERBOSE=1
 
 %post
-%{relocateConfig}GBLConfig.cmake
+%{relocateConfig}lib/cmake/GBL/GBLConfig.cmake
+%{relocateConfig}gblsetup.sh
