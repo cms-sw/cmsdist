@@ -9,18 +9,21 @@ Source2: https://cmsrep.cern.ch/cmssw/download/openloops/%{realversion}/%{cmsdis
 Patch0: openloops-urlopen2curl
 
 %prep
+if [ ! -e %{SOURCE2} ] ; then
 %setup -n openloops-%{realversion}
 %patch0 -p1
+else
+mkdir openloops-%{realversion}
+fi
 
 %build
 
 %install
-chksum_source2="SOURCES/cache/$(echo %{cmsdist_chksum_source2} | cut -c1-2)/%{cmsdist_chksum_source2}"
-if [ ! -e %{cmsroot}/${chksum_source2}/%{process_src} ] ; then
+if [ ! -e %{SOURCE2} ] ; then
   cp %{_sourcedir}/openloops-user.coll openloops-user.coll
   python3 pyol/bin/download_process.py $(cat %{_sourcedir}/openloops-user.coll | tr '\n' ' ')
   tar -czf %{process_src} process_src proclib
-  mkdir -p %{cmsroot}/${chksum_source2}
-  mv %{process_src} %{cmsroot}/${chksum_source2}/
+  cp {process_src} %{i}/%{process_src}
+else
+  cp %{SOURCE2} %{i}/%{process_src}
 fi
-cp %{cmsroot}/${chksum_source2}/%{process_src} %{i}/%{process_src}
