@@ -3,6 +3,20 @@
 %define github_user cms-externals
 %define build_type opt
 %define pythonOnly no
+%define fetch_externals_file tensorflow-%{realversion}.txt
+%define tf_externals_python_version 314
+%define fetch_bazel_sources                                              \
+  mkdir -p %{repo_cache}                                                 \
+  bazel $(echo "$BAZEL_OPTS" | sed -e 's| build | fetch |') //tensorflow/tools/pip_package:wheel \
+  find %{repo_cache} -name '*' -type f | sed 's|^%{cmsroot}/||' | sort > %{_builddir}/%{fetch_externals_file} \
+  if [ -e "%{SOURCE99}" ] ; then                                         \
+    if ! diff -u %{SOURCE99} %{_builddir}/%{fetch_externals_file} ; then \
+      echo "ERROR: Bazel fetch sources changes w.r.t previous download"  \
+      echo " Try to understand this change and update src_version string"\
+      echo " in the Source99 to re-create the generated file."           \
+      exit 1                                                             \
+    fi                                                                   \
+  fi
 
 ##Tensorflow Common build files
 BuildRequires: bazel java-env
@@ -26,6 +40,7 @@ BuildRequires: bazel java-env
 %endif
 
 Source0: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}.tgz
+Source99: https://cmsrep.cern.ch/download/tensorflow/%{realversion}-%{_arch}?cmsdist-generated=1&cmsdist-expanded-source=1&cp=%{tf_externals_python_version}&src_version=1&src=%{branch}/%{tag}&output=/%{fetch_externals_file}
 # Add a trailing unreachable statement after the fully-covered switch in
 # xla::cpu::EncodedBufferAllocationInfo::operator BufferAllocationInfo() so that
 # gcc does not fail the header with -Werror=return-type when it is included by
@@ -36,12 +51,6 @@ Patch0: patches/tensorflow-tf2xla-return-type
 %if "%{?build_type:set}" != "set"
 %define build_type opt
 %endif
-%if "%{?fetch_externals:set}" != "set"
-%define fetch_externals no
-%endif
-%if "%{fetch_externals}" == "yes"
-Source99: https://cmsrep.cern.ch/download/tensorflow/%{realversion}-%{_arch}?cmsdist-generated=1&cmsdist-expanded-source=1&v=%{tf_external_source_version}&src=%{branch}/%{tag}&output=/%{fetch_externals_file}
-%endif
 %if "%{?tfversion:set}" != "set"
 %define tfversion %{realversion}
 %endif
@@ -49,7 +58,11 @@ Source99: https://cmsrep.cern.ch/download/tensorflow/%{realversion}-%{_arch}?cms
 %define majorversion %(echo %tfversion | cut -d . -f 1)
 
 %prep
-
+if [ "%{cms_python3_major_minor}" != "%{tf_externals_python_version}" ] ; then
+  echo "ERROR: Build python is %{cms_python3_major_minor} while the tensorflow externals source URL uses %{tf_externals_python_version}"
+  echo "       Please update tf_externals_python_version definition in tensorflow/build.file file to match %{cms_python3_major_minor}"
+  exit 1
+fi
 %setup -q -n tensorflow-%{realversion}
 %patch0 -p1
 sed -i -e 's|lib/python[^/]*/site-packages/|lib/python%{cms_python3_major_minor_version}/site-packages/|'  third_party/systemlibs/pybind11.BUILD
@@ -222,41 +235,31 @@ fi
 export PYTHONPATH=$PYTHON3PATH
 
 ./configure
-mkdir -p %{repo_cache}
-%if "%{fetch_externals}" == "yes"
-  %fetch_bazel_sources
-%else
-  # build numpy first to fix the pypi_numpy repo
-  bazel $BAZEL_OPTS //third_party/py/numpy
-  build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
-  ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
 
-  # build tensorflow python targets
-  bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
-%endif
+# Check fetch and compare with already cached sources
+%fetch_bazel_sources
+
+# build numpy first to fix the pypi_numpy repo
+bazel $BAZEL_OPTS //third_party/py/numpy
+build_dir=$(readlink bazel-out | sed 's|/execroot/org_tensorflow/bazel-out$||')
+ln -s ${PYTHON3_LIB_SITE_PACKAGES} ${build_dir}/external/pypi_numpy/site-packages
+
+# build tensorflow python targets
+bazel $BAZEL_OPTS //tensorflow/tools/pip_package:wheel
 
 %install
-%if "%{fetch_externals}" == "yes"
-  %prepare_upload_sources
+%ifarch x86_64
+%define bazel_dir k8-%{build_type}
 %else
-  %ifarch x86_64
-  %define bazel_dir k8-%{build_type}
-  %else
-  %define bazel_dir %{_arch}-%{build_type}
-  %endif
-
-  mkdir %{i}/lib-xla-runtime
-  find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
-  find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
-  # TF 2.21 dropped nsync and the standalone TSL mutex lib in favour of abseil
-  # synchronisation, so libmutex.pic.a / libnsync_cpp.pic.a no longer exist (and
-  # local_tsl was renamed to tsl). Only the ducc FFT runtime libs remain here.
-  for lib in libfft.pic.a libfft_wrapper.pic.a ; do
-    test -e %{i}/lib-xla-runtime/${lib}
-  done
+%define bazel_dir %{_arch}-%{build_type}
 %endif
 
-%post
-%if "%{fetch_externals}" == "yes"
-  %fetch_cached_sources ${RPM_INSTALL_PREFIX} ${RPM_INSTALL_PREFIX}/%{pkgrel}/%{fetch_externals_file}
-%endif
+mkdir %{i}/lib-xla-runtime
+find bazel-out/%{bazel_dir}/bin -path '*/pip_package/wheel_house/tensorflow-%{realversion}*.whl' | xargs --no-run-if-empty -i cp '{}' %{i}/
+find bazel-out/%{bazel_dir}/bin -path '*/external/ducc/libfft*.pic.a'             | xargs --no-run-if-empty -i cp '{}' %{i}/lib-xla-runtime
+# TF 2.21 dropped nsync and the standalone TSL mutex lib in favour of abseil
+# synchronisation, so libmutex.pic.a / libnsync_cpp.pic.a no longer exist (and
+# local_tsl was renamed to tsl). Only the ducc FFT runtime libs remain here.
+for lib in libfft.pic.a libfft_wrapper.pic.a ; do
+  test -e %{i}/lib-xla-runtime/${lib}
+done
