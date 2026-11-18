@@ -1,6 +1,6 @@
 ### RPM external herwig7 7.2.2
 ## INCLUDE cpp-standard
-%define tag 22022c47c363d202eb5a6c82768f4eaadd281a6d
+%define tag 44bc49f857c8427e950499330726b092c41d87dc
 %define branch cms/v%{realversion}
 %define github_user cms-externals
 Source: git+https://github.com/%{github_user}/herwig.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
