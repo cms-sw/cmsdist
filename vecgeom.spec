@@ -24,7 +24,7 @@ sed -i -e 's|set(VecGeom_VERSION *.*|set(VecGeom_VERSION %{realversion})|' CMake
 %build
 %ifarch x86_64
 %if "%{vecgeom_backend}" == "Vc"
-SEL_ARCH=$(echo '%{selected_microarch}' | sed 's|^-m||')
+SEL_ARCH=$(echo '%{min_microarch}' | sed 's|^-m||')
 VECGEOM_VECTOR_INST="$(grep ' set(VECGEOM_ISAS ' CMakeLists.txt | tr ' ' '\n' | grep -E "^${SEL_ARCH}$")"
 %endif
 %endif

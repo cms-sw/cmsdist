@@ -1,4 +1,6 @@
 %ifarch x86_64
+%define min_microarch_name  x86-64-v2
+%define min_microarch -march=%{min_microarch_name}
 %define default_microarch_name x86-64-v3
 %define default_microarch -march=%{default_microarch_name}
 %if "%{?override_microarch_name:set}" == "set"
@@ -9,6 +11,8 @@
 %define selected_microarch %{default_microarch}
 %endif
 %else
+%define min_microarch_name      %{nil}
+%define min_microarch           %{nil}
 %define default_microarch_name  %{nil}
 %define default_microarch       %{nil}
 %define selected_microarch_name %{nil}
