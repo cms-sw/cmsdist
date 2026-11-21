@@ -1,4 +1,4 @@
-### RPM external gcc 14.3.1
+### RPM external gcc 14.4.1
 ## USE_COMPILER_VERSION
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 # Use the git repository for fetching the sources. This gives us more control while developing
@@ -6,7 +6,7 @@
 # See: https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/?view=log
 
 BuildRequires: gcc-prerequisites
-%define gccTag e02b12e7248f8209ebad35d6df214d3421ed8020
+%define gccTag 88440cad0d38b07c2aad1bb4aaf9ebab89a17cb5
 %define gccBranch releases/gcc-14
 
 %define moduleName %{n}-%{realversion}
@@ -68,6 +68,7 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 %build
+## INCLUDE system_microarch
 %ifarch darwin
   CC='clang'
   CXX='clang++'
@@ -100,11 +101,9 @@ done
 export PATH=%{i}/tmp/sw/bin:$PATH
 
 CONF_GCC_ARCH_SPEC="--enable-frame-pointer"
-%ifarch x86_64
-%if 0%{?rhel} > 9
-CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC --with-arch=x86-64-v3"
-%endif
-%endif
+if [ "%{system_microarch_name}" != "" ] ; then
+  CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC --with-arch=%{system_microarch_name}"
+fi
 %ifarch aarch64
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
                         --enable-threads=posix --enable-initfini-array --disable-libmpx"
