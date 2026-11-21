@@ -15,6 +15,7 @@
 %endif
     <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @GCC_CXXFLAGS@"/>
     <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
+    <flags CXXFLAGS="-fimplicit-constexpr"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
     <flags CXXFLAGS="-Wextra -Wpessimizing-move -Wclass-memaccess"/>
     <flags CXXFLAGS="-Wno-cast-function-type -Wno-unused-but-set-parameter -Wno-ignored-qualifiers -Wno-unused-parameter"/>
