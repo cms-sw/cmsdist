@@ -1,6 +1,6 @@
 ### RPM external acts 46.8.1
 ## INITENV +PATH PYTHON3PATH %{i}/python
-## INCLUDE microarch_flags
+## INCLUDE system_microarch
 ## INCLUDE cuda-flags
 ## INCLUDE rocm/flags
 ## INCLUDE geant4-deps
@@ -66,7 +66,7 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_PREFIX_PATH="%{cmake_prefix_path}" \
   -DCMAKE_CXX_COMPILER="$GCC_ROOT/bin/g++" \
   -DCMAKE_CXX_STANDARD="%{cms_cxx_standard}" \
-  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{?arch_build_flags} %{selected_microarch} %{?lto_build_flags}" \
+  -DCMAKE_CXX_FLAGS="-fPIC $CMS_EIGEN_CXX_FLAGS %{?arch_build_flags} %{system_microarch} %{?lto_build_flags}" \
   -DCMAKE_AR="$GCC_ROOT/bin/gcc-ar" \
   -DCMAKE_RANLIB="$GCC_ROOT/bin/gcc-ranlib" \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
