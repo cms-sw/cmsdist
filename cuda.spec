@@ -1,8 +1,8 @@
-### RPM external cuda 13.4.2
+### RPM external cuda 13.5.0
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 
 %define runpath_opts -m compute-sanitizer -m drivers -m nvvm
-%define driversversion 615.71.09
+%define driversversion 620.70.06
 
 %ifarch x86_64
 Source0: https://developer.download.nvidia.com/compute/cuda/%{realversion}/local_installers/%{n}_%{realversion}_linux.run
@@ -20,12 +20,19 @@ AutoReq: no
 %build
 
 %install
-rm -rf %_builddir/build %_builddir/tmp
+rm -rf %_builddir/build %_builddir/tmp %_builddir/installer
 mkdir %_builddir/build %_builddir/tmp
 
 # extract and repackage the CUDA runtime
 cd %_builddir/
-/bin/sh %{SOURCE0} --silent --override --tmpdir=%_builddir/tmp --installpath=%_builddir/build --toolkit --keep
+/bin/sh %{SOURCE0} --noexec --target %_builddir/installer
+# the installer adds desktop menu entries for Nsight Compute and Nsight Systems
+# under the user's home directory from the password database, and aborts if it
+# is not writable; drop them, as the Nsight tools are not packaged anyway
+sed -i -e '/<desktopFile /d' %_builddir/installer/manifests/*.xml
+cd %_builddir/installer
+TMPDIR=%_builddir/tmp ./cuda-installer --silent --override --installpath=%_builddir/build --toolkit
+cd %_builddir/
 
 # create target directory structure
 mkdir -p %{i}/include
