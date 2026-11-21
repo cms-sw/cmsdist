@@ -68,6 +68,7 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 %build
+## INCLUDE system_microarch
 %ifarch darwin
   CC='clang'
   CXX='clang++'
@@ -100,11 +101,9 @@ done
 export PATH=%{i}/tmp/sw/bin:$PATH
 
 CONF_GCC_ARCH_SPEC="--enable-frame-pointer"
-%ifarch x86_64
-%if 0%{?rhel} > 9
-CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC --with-arch=x86-64-v3"
-%endif
-%endif
+if [ "%{system_microarch_name}" != "" ] ; then
+  CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC --with-arch=%{system_microarch_name}"
+fi
 %ifarch aarch64
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
                         --enable-threads=posix --enable-initfini-array --disable-libmpx"

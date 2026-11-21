@@ -1,0 +1,11 @@
+%ifarch x86_64
+%if 0%{?rhel} <= 9
+%define system_microarch_name x86-64-v2
+%else
+%define system_microarch_name x86-64-v3
+%endif
+%define system_microarch -march=%{system_microarch_name}
+%else
+%define system_microarch_name %{nil}
+%define system_microarch %{nil}
+%endif
