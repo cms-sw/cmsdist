@@ -1,5 +1,5 @@
-### RPM external xpmem v2.6.3-20220308
-%define commit 61c39efdea943ac863037d7e35b236145904e64d
+### RPM external xpmem v2.6.3-20260218
+%define commit 8ef21a81de33397352c9d8973b0d3102c84c139a
 
 BuildRequires: autotools
 Source: https://github.com/hjelmn/%{n}/archive/%{commit}.tar.gz
