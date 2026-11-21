@@ -1,4 +1,4 @@
-### RPM external openmpi 5.0.10
+### RPM external openmpi 5.0.11
 ## INCLUDE openmpi-opt
 ## INITENV SET OPAL_PREFIX %{i}
 ## INITENV SET PMIX_PREFIX %{i}
