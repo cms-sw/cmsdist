@@ -1,0 +1,25 @@
+diff --git a/src/tools/perf/cuda/Makefile.am b/src/tools/perf/cuda/Makefile.am
+index 0b146a5ea..97dfc3526 100644
+--- a/src/tools/perf/cuda/Makefile.am
++++ b/src/tools/perf/cuda/Makefile.am
+@@ -16,7 +16,7 @@ libucx_perftest_cuda_la_SOURCES  = cuda_alloc.c
+ 
+ if HAVE_NVCC
+ 
+-NVCC_EXTRA_FLAGS = $(CUDA_CPPFLAGS)
++NVCC_EXTRA_FLAGS = $(CUDA_CPPFLAGS) $(IBVERBS_CPPFLAGS)
+ 
+ libucx_perftest_cuda_la_LIBADD  += \
+     $(abs_top_builddir)/src/tools/perf/lib/libucxperf.la \
+diff --git a/test/gtest/Makefile.am b/test/gtest/Makefile.am
+index e7da4cf9b..fb3422511 100644
+--- a/test/gtest/Makefile.am
++++ b/test/gtest/Makefile.am
+@@ -285,6 +285,7 @@ gtest_SOURCES += \
+ if HAVE_NVCC
+ NVCC_EXTRA_FLAGS = \
+ 	$(CUDA_CPPFLAGS) \
++	$(IBVERBS_CPPFLAGS) \
+ 	-I$(top_srcdir)/test \
+ 	-I$(top_srcdir)/test/gtest
+ include $(top_srcdir)/config/cuda.am
