@@ -1,0 +1,26 @@
+diff --git a/src/uct/api/device/uct_device_impl.h b/src/uct/api/device/uct_device_impl.h
+index 4a7aac6ba..e1f9aa486 100644
+--- a/src/uct/api/device/uct_device_impl.h
++++ b/src/uct/api/device/uct_device_impl.h
+@@ -13,7 +13,8 @@
+ #include <uct/api/uct_def.h>
+ #include <ucs/sys/device_code.h>
+ 
+-#if (defined(HAVE_CUDA) || \
++#if !defined(__HIPCC__) && \
++    (defined(HAVE_CUDA) || \
+      (!defined(HAVE_CONFIG_H) && __has_include(<uct/cuda/cuda_ipc/cuda_ipc.cuh>) && __has_include(<cuda/atomic>)))
+ #include <uct/cuda/cuda_ipc/cuda_ipc.cuh>
+ #define UCT_CUDA_IPC_SUPPORTED 1
+@@ -21,8 +22,9 @@
+ #define UCT_CUDA_IPC_SUPPORTED 0
+ #endif
+ 
+-#if (defined(HAVE_ROCM) || \
+-    (!defined(HAVE_CONFIG_H) && __has_include(<uct/rocm/ipc/rocm_ipc.h>)))
++#if !defined(__CUDACC__) && \
++    (defined(HAVE_ROCM) || \
++     (!defined(HAVE_CONFIG_H) && __has_include(<uct/rocm/ipc/rocm_ipc.h>)))
+ #include <uct/rocm/ipc/rocm_ipc.h>
+ #define UCT_ROCM_IPC_SUPPORTED 1
+ #else
