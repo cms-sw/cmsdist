@@ -87,6 +87,7 @@ Requires: numactl
 Requires: hwloc
 Requires: rdma-core
 Requires: ucx
+Requires: liburing
 Requires: libfabric
 Requires: openmpi
 Requires: mpich
