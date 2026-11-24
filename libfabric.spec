@@ -1,9 +1,10 @@
-### RPM external libfabric 2.1.0
+### RPM external libfabric 2.7.0
 Source: https://github.com/ofiwg/%{n}/releases/download/v%{realversion}/%{n}-%{realversion}.tar.bz2
 %{!?without_cuda:Requires: cuda gdrcopy}
 %{!?without_rocm:Requires: rocr-runtime}
 BuildRequires: autotools
 Requires: curl
+Requires: liburing
 Requires: numactl
 Requires: rdma-core
 Requires: xpmem
@@ -68,6 +69,7 @@ BuildRequires: autotools
   --with-dlopen \
   --with-gnu-ld \
   --with-curl=DIR \
+  --with-uring=$LIBURING_ROOT \
   --with-numa=$NUMACTL_ROOT
 
   # CFLAGS="-Wno-error=array-bounds"
