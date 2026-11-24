@@ -1,4 +1,4 @@
-### RPM external rdma-core 57.0
+### RPM external rdma-core 66.0
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 
 Source: https://github.com/linux-rdma/%{n}/releases/download/v%{realversion}/rdma-core-%{realversion}.tar.gz
@@ -20,6 +20,7 @@ cmake \
   -DCMAKE_BUILD_TYPE=%{cmake_build_type} \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DCMAKE_INSTALL_RUNDIR=/var/run \
+  -DSYSUSERS_DIR=%{i}/lib/sysusers.d \
   -DENABLE_RESOLVE_NEIGH=FALSE \
   -DENABLE_STATIC=FALSE \
   -DNO_MAN_PAGES=TRUE \
