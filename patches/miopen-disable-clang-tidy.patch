@@ -1,13 +1,13 @@
-diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index d442837..160712e 100644
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
-@@ -874,8 +874,6 @@ endif()
+diff --git a/projects/miopen/src/CMakeLists.txt b/projects/miopen/src/CMakeLists.txt
+index 5ebab8a..a896e67 100644
+--- a/projects/miopen/src/CMakeLists.txt
++++ b/projects/miopen/src/CMakeLists.txt
+@@ -971,8 +971,6 @@ foreach(_miopen_target IN LISTS _MIOPEN_INSTALL_TARGETS)
+     rocm_set_soversion(${_miopen_target} ${MIOpen_SOVERSION})
+ endforeach()
  
- rocm_set_soversion(MIOpen ${MIOpen_SOVERSION})
- 
--clang_tidy_check(MIOpen)
+-clang_tidy_check(${_MIOPEN_IMPL_TARGET})
 -
  if(HAS_LIB_STD_FILESYSTEM)
-     target_link_libraries(MIOpen PRIVATE stdc++fs)
+     target_link_libraries(${_MIOPEN_IMPL_TARGET} PRIVATE stdc++fs)
  endif()
