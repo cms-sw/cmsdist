@@ -1,8 +1,11 @@
-### RPM external ucx 1.21.0
+### RPM external ucx 1.23.0
 ## INCLUDE microarch_flags
 ## INCLUDE cuda-flags
-Source: git+https://github.com/openucx/%{n}.git?obj=master/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
-BuildRequires: autotools
+Source: git+https://github.com/openucx/%{n}.git?obj=v1.23.x/v%{realversion}&export=%{n}-%{realversion}&submodules=1&output=/%{n}-%{realversion}.tgz
+Patch0: ucx-device-impl-cuda-rocm
+Patch1: ucx-nvcc-verbs-include
+BuildRequires: autotools libiberty
+Requires: zlib
 %{!?without_cuda:Requires: cuda gdrcopy}
 Requires: numactl
 Requires: rdma-core
@@ -11,6 +14,8 @@ Requires: xpmem
 
 %prep
 %setup -q -n %{n}-%{realversion}
+%patch0 -p1
+%patch1 -p1
 
 # regenerate the configure files and Makefiles
 ./autogen.sh
@@ -58,6 +63,7 @@ Requires: xpmem
   --with-dm \
   --with-rdmacm=$RDMA_CORE_ROOT \
   --without-knem \
+  --with-bfd=$GCC_ROOT \
   --with-xpmem=$XPMEM_ROOT \
   --without-ugni \
 %ifarch x86_64
@@ -65,9 +71,9 @@ Requires: xpmem
   CXXFLAGS="%{selected_microarch}" \
 %endif
   CPPFLAGS="-I$NUMACTL_ROOT/include%{!?without_rocm: -I$ROCR_RUNTIME_ROOT/include/hsa}" \
-  LDFLAGS="-L$NUMACTL_ROOT/lib%{!?without_rocm: -L$ROCR_RUNTIME_ROOT/lib64}" \
   CFLAGS="-Wno-error=deprecated-openmp" \
-  CXXFLAGS="-Wno-error=deprecated-openmp"
+  CXXFLAGS="-Wno-error=deprecated-openmp" \
+  LDFLAGS="-Wl,--exclude-libs,libbfd.a:libiberty.a:libsframe.a -L$LIBIBERTY_ROOT/lib -L$ZLIB_ROOT/lib -L$NUMACTL_ROOT/lib%{!?without_rocm: -L$ROCR_RUNTIME_ROOT/lib64}"
 
 %build
 make %{makeprocesses} V=1
