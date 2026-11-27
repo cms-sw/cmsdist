@@ -41,15 +41,11 @@ diff --git a/projects/miopen/src/include/miopen/kern_db.hpp b/projects/miopen/sr
 index 37d8781..5c2db74 100644
 --- a/projects/miopen/src/include/miopen/kern_db.hpp
 +++ b/projects/miopen/src/include/miopen/kern_db.hpp
-@@ -128,7 +128,7 @@ public:
-             auto new_md5 = md5(decompressed_blob);
-             if(new_md5 != md5_hash)
-                 MIOPEN_THROW(miopenStatusInternalError, "Possible database corruption");
--            return decompressed_blob;
-+            return std::make_optional(decompressed_blob);
-         }
-         else if(rc == SQLITE_DONE)
-         {
+@@ -149,3 +149,3 @@
+         if(new_md5 != md5_hash)
+             MIOPEN_THROW(miopenStatusInternalError, "Possible database corruption");
+-        return decompressed_blob;
++        return std::make_optional(decompressed_blob);
 diff --git a/projects/miopen/src/include/miopen/sqlite_db.hpp b/projects/miopen/src/include/miopen/sqlite_db.hpp
 index def02dd..7f943d0 100644
 --- a/projects/miopen/src/include/miopen/sqlite_db.hpp
