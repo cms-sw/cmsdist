@@ -21,7 +21,7 @@ BuildRequires: py3-joblib py3-msgpack py3-packaging py3-PyYAML
 
 %define ROCMPostInstall                                                           \
   for t in $(echo "${GPU_ARCHS}" |  tr ';' ' '); do                               \
-    o=$(grep "^${t}:" %{_builddir}/gpu-sources.txt | cut -d: -f1 | sed 's|.*/||') \
+    o=$(grep "^${t}:" %{_builddir}/gpu-sources.txt | cut -d: -f2 | sed 's|.*/||') \
     tar -C %{i}/lib64/hipblaslt/library -czf %{_builddir}/${o} ${t}               \
   done                                                                            \
   rm -rf %{i}                                                                     \

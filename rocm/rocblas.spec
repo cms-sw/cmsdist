@@ -1,6 +1,6 @@
 ## INCLUDE rocm/flags
 ### RPM external rocblas %{rocm_version_num}
-Requires: roctracer hipblaslt hipblas-common python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm rocm-comgr
+Requires: roctracer hipblaslt hipblas-common origami python3 rocr-runtime msgpack-cxx boost rocminfo rocm-llvm rocm-comgr
 %define ROCMExtraSources shared/tensile
-%define cmake_args -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include --rocm-path=$ROCM_LLVM_ROOT/amdgcn/bitcode" -DROCBLAS_ENABLE_CLIENT=OFF -DROCTX_PATH=$ROCTRACER_ROOT/lib64
+%define cmake_args -DCMAKE_CXX_FLAGS="-I$BOOST_ROOT/include --rocm-path=$ROCM_LLVM_ROOT/amdgcn/bitcode" -DROCBLAS_ENABLE_CLIENT=OFF -DROCTX_PATH=$ROCTRACER_ROOT/lib64 -Dorigami_DIR=$ORIGAMI_ROOT/lib/cmake/origami
 ## INCLUDE rocm/libraries-build

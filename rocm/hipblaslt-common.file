@@ -2,6 +2,8 @@
 BuildRequires: rocm-cmake
 Requires: rocm-hip rocm-core rocm-llvm rocr-runtime rocm-smi-lib rocm-comgr
 Requires: stinkytofu origami hipblas-common roctracer rocm-smi-lib msgpack-cxx boost amdsmi python3
+Patch0: patches/hipsparselt-use-installed-stinkytofu
 %define ROCMExtraSources shared/stinkytofu/src/conversion/rocisa
+%define ROCMPostPrep patch -p3 -i %{PATCH0}
 %{!?hipblaslt_enable_device:%define hipblaslt_enable_device OFF}
 %define cmake_args -DHIPBLASLT_ENABLE_THEROCK=ON -DCMAKE_CXX_FLAGS="-I$ROCTRACER_ROOT/include" -DHIPBLASLT_ENABLE_DEVICE=%{hipblaslt_enable_device} -DHIPBLASLT_ENABLE_CLIENT=OFF -DHIPBLASLT_ENABLE_ROCROLLER=OFF -DPython3_ROOT_DIR=$PYTHON3_ROOT

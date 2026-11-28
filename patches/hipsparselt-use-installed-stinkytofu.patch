@@ -1,0 +1,24 @@
+--- a/projects/hipblaslt/tensilelite/rocisa/CMakeLists.txt
++++ b/projects/hipblaslt/tensilelite/rocisa/CMakeLists.txt
+@@ -170,18 +170,9 @@
+         add_subdirectory("${_stinkytofu_src_dir}" stinkytofu EXCLUDE_FROM_ALL)
+         set(_stinkytofu_from_subdirectory TRUE)
+     else()
+-        block(SCOPE_FOR VARIABLES)
+-            set(BUILD_SHARED_LIBS OFF)
+-            set(CMAKE_SKIP_INSTALL_RULES ON)
+-            set(STINKYTOFU_ENABLE_WERROR ON)
+-            if("gfx1250" IN_LIST GPU_TARGETS OR "gfx1250-strict" IN_LIST GPU_TARGETS)
+-                set(STINKYTOFU_BUILD_PYTHON ON)
+-            else()
+-                set(STINKYTOFU_BUILD_PYTHON OFF)
+-            endif()
+-            add_subdirectory("${_stinkytofu_src_dir}" stinkytofu EXCLUDE_FROM_ALL)
+-        endblock()
+-        set(_stinkytofu_from_subdirectory TRUE)
++        # In the ROCm package build, use the separately built stinkytofu RPM.
++        # The source tree is staged only for rocisa's small conversion glue below.
++        find_package(stinkytofu CONFIG REQUIRED)
+     endif()
+ 
+     # A static stinkytofu is linked straight into _rocisa, so none of the runtime-loading
